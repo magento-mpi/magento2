@@ -13,6 +13,8 @@ interface Config
      * Set class relations
      *
      * @param Relations $relations
+     *
+     * @return void
      */
     public function setRelations(Relations $relations);
 
@@ -20,6 +22,8 @@ interface Config
      * Set configuration cache instance
      *
      * @param ConfigCache $cache
+     *
+     * @return void
      */
     public function setCache(ConfigCache $cache);
 
@@ -27,10 +31,9 @@ interface Config
      * Retrieve list of arguments per type
      *
      * @param string $type
-     * @param array $arguments
      * @return array
      */
-    public function getArguments($type, $arguments);
+    public function getArguments($type);
 
     /**
      * Check whether type is shared

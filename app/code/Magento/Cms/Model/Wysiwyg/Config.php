@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Wysiwyg Config for Editor HTML Element
- *
- * @category    Magento
- * @package     Magento_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Cms\Model\Wysiwyg;
 
+/**
+ * Wysiwyg Config for Editor HTML Element
+ */
 class Config extends \Magento\Object
 {
     /**
@@ -25,6 +21,10 @@ class Config extends \Magento\Object
     const WYSIWYG_ENABLED = 'enabled';
     const WYSIWYG_HIDDEN = 'hidden';
     const WYSIWYG_DISABLED = 'disabled';
+
+    /**
+     * Wysiwyg image directory
+     */
     const IMAGE_DIRECTORY = 'wysiwyg';
 
     /**
@@ -52,14 +52,14 @@ class Config extends \Magento\Object
      *
      * @var \Magento\Cms\Helper\Data
      */
-    protected $_cmsData = null;
+    protected $_cmsData;
 
     /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
@@ -133,7 +133,6 @@ class Config extends \Magento\Object
     public function getConfig($data = array())
     {
         $config = new \Magento\Object();
-        $viewUrl = $this->_viewUrl;
 
         $config->setData(array(
             'enabled'                       => $this->isEnabled(),
@@ -145,10 +144,12 @@ class Config extends \Magento\Object
             'translator'                    => $this->_cmsData,
             'encode_directives'             => true,
             'directives_url'                => $this->_backendUrl->getUrl('cms/wysiwyg/directive'),
-            'popup_css'                     =>
-                $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'),
-            'content_css'                   =>
-                $viewUrl->getViewFileUrl('mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'),
+            'popup_css'                     => $this->_viewUrl->getViewFileUrl(
+                'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css'
+            ),
+            'content_css'                   => $this->_viewUrl->getViewFileUrl(
+                'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'
+            ),
             'width'                         => '100%',
             'plugins'                       => array()
         ));

@@ -26,11 +26,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     const DIVIDE_EPSILON = 10000;
 
+    /**
+     * @var string[]
+     */
     protected $_allowedFormats = array(
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_FULL,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
-        \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT
+        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
+        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
+        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+        \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
     );
 
     /**
@@ -53,11 +56,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Locale
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -71,7 +69,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
      */
@@ -79,14 +76,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_appState = $appState;
         $this->_dbCompatibleMode = $dbCompatibleMode;
     }
@@ -97,7 +92,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param   float $value
      * @param   bool $format
      * @param   bool $includeContainer
-     * @return  mixed
+     * @return  float|string
      */
     public function currency($value, $format = true, $includeContainer = true)
     {
@@ -111,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param   int|\Magento\Core\Model\Store $store
      * @param   bool $format
      * @param   bool $includeContainer
-     * @return  mixed
+     * @return  float|string
      */
     public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
@@ -193,8 +188,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Encode the mixed $valueToEncode into the JSON format
      *
      * @param mixed $valueToEncode
-     * @param  boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
-     * @param  array $options Additional options used during encoding
+     * @param boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
+     * @param array $options Additional options used during encoding
      * @return string
      */
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())

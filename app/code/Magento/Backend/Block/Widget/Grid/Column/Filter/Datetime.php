@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 /**
  * Date grid column filter
@@ -16,8 +17,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @todo        date format
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
-
 class Datetime
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
 {
@@ -26,6 +25,9 @@ class Datetime
      */
     const END_OF_DAY_IN_SECONDS = 86399;
 
+    /**
+     * {@inheritdoc}
+     */
     public function getValue($index = null)
     {
         if ($index) {
@@ -43,41 +45,41 @@ class Datetime
 
             //calculate end date considering timezone specification
             $datetimeTo->setTimezone(
-                $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath())
             );
             $datetimeTo->addDay(1)->subSecond(1);
-            $datetimeTo->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
+            $datetimeTo->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
         }
         return $value;
     }
 
-    /*
+    /**
      * Convert given date to default (UTC) timezone
      *
      * @param string $date
      * @param string $locale
-     * @return \Zend_Date
+     * @return \Magento\Stdlib\DateTime\Date|null
      */
     protected function _convertDate($date, $locale)
     {
         if ($this->getColumn()->getFilterTime()) {
             try {
-                $dateObj = $this->getLocale()->date(null, null, $locale, false);
+                $dateObj = $this->getLocaleDate()->date(null, null, $locale, false);
 
                 //set default timezone for store (admin)
                 $dateObj->setTimezone(
-                    $this->_storeConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE)
+                    $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath())
                 );
 
                 //set date with applying timezone of store
                 $dateObj->set(
                     $date,
-                    $this->getLocale()->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
+                    $this->getLocaleDate()->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT),
                     $locale
                 );
 
                 //convert store date to default date in UTC timezone without DST
-                $dateObj->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE);
+                $dateObj->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
 
                 return $dateObj;
             } catch (\Exception $e) {
@@ -95,11 +97,11 @@ class Datetime
     public function getHtml()
     {
         $htmlId = $this->mathRandom->getUniqueHash($this->_getHtmlId());
-        $format = $this->getLocale()->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $timeFormat = '';
 
         if ($this->getColumn()->getFilterTime()) {
-            $timeFormat = $this->getLocale()->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+            $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         }
 
         $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
@@ -113,7 +115,7 @@ class Datetime
                 . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
             . '</div></div>';
         $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'
-            . ' value="' . $this->getLocale()->getLocaleCode() . '"/>';
+            . ' value="' . $this->_localeResolver->getLocaleCode() . '"/>';
         $html .= '<script type="text/javascript">
             (function( $ ) {
                     $("#'.$htmlId.'_range").dateRange({
@@ -146,7 +148,7 @@ class Datetime
             $value = $this->getValue($index);
             if ($value instanceof \Zend_Date) {
                 return $value->toString(
-                    $this->getLocale()->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+                    $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
                 );
             }
             return $value;

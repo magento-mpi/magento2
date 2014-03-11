@@ -117,7 +117,7 @@ return array(
     array('_inludeControllerClass', '', '_includeControllerClass'),
     array('_isApplyDesign', 'Magento\Catalog\Model\Design'),
     array('_isApplyFor', 'Magento\Catalog\Model\Design'),
-    array('_isPositiveDecimalNumber', 'Magento\Shipping\Model\Resource\Carrier\Tablerate'),
+    array('_isPositiveDecimalNumber', 'Magento\OfflineShipping\Model\Resource\Carrier\Tablerate'),
     array('_isRuntimeValidated', 'Magento\ObjectManager\Config\Reader\Dom'),
     array('_loadCache', 'Magento\Backend\Model\Menu\Config'),
     array('_loadCache', 'Magento\Core\Model\Config'),
@@ -135,10 +135,20 @@ return array(
     array('_getAddressForm', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address'),
     array('_parseDescription', 'Magento\Sales\Model\Order\Pdf\Items\AbstractItems'),
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
-    array('_parseXmlTrackingResponse', 'Magento\Usa\Model\Shipping\Carrier\Fedex'),
+    array('_parseXmlTrackingResponse', 'Magento\Fedex\Model\Carrier'),
     array('_prepareCondition', 'Magento\CatalogSearch\Model\Advanced'),
     array('_prepareConfigurableProductData', 'Magento\ImportExport\Model\Export\Entity\Product'),
     array('_prepareConfigurableProductPrice', 'Magento\ImportExport\Model\Export\Entity\Product'),
+    array(
+        '_prepareLastRecurringProfiles()',
+        'Magento\Checkout\Block\Onepage\Success',
+        'Magento\RecurringPayment\Block\Checkout\Onepage\Success::_prepareLastRecurringPayments'
+    ),
+    array(
+        'getProfileUrl()',
+        'Magento\Checkout\Block\Onepage\Success',
+        'Magento\RecurringPayment\Block\Checkout\Onepage\Success::getProfileUrl'
+    ),
     array('_prepareOptionsForCart', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('_preparePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_processItem', 'Magento\Weee\Model\Total\Quote\Weee'),
@@ -153,13 +163,17 @@ return array(
     array('_saveCache', 'Magento\Backend\Model\Menu\Config'),
     array('_saveCache', 'Magento\Core\Model\Config'),
     array('_saveCustomerAfterOrder', 'Magento\Sales\Model\AdminOrder\Create'),
+    array('_getCustomerAddressForm', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveCustomers', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveSectionCache', 'Magento\Core\Model\Config'),
     array('_sendUploadResponse', 'Magento\Backend\Controller\Customer'),
+    array('isInStore', 'Magento\Customer\Model\Customer'),
     array('_sendUploadResponse', 'Magento\Newsletter\Controller\Adminhtml\Subscriber'),
     array('_setAttribteValue'),
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),
+    array('_submitRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote',
+        '\Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'),
     array('_toHtml', 'Magento\Backend\Block\Widget\Container'),
     array('_unhookQueries', 'Magento\Core\Model\Resource\Setup'),
     array('_updateMediaPathUseRewrites', 'Magento\Core\Model\Store', '_getMediaScriptUrl'),
@@ -248,7 +262,7 @@ return array(
     array('chechAllowedExtension'),
     array('checkConfigurableProducts', 'Magento\Eav\Model\Resource\Entity\Attribute\Collection'),
     array('checkDatabase', 'Magento\Install\Model\Installer\Db'),
-    array('checkDateTime', 'Magento\Core\Model\Date'),
+    array('checkDateTime', 'Magento\Stdlib\DateTime\DateTime'),
     array('chooseTemplate', 'Magento\Checkout\Block\Cart'),
     array('cleanCache', 'Magento\Core\Model\Config'),
     array('cleanDbRow', 'Magento\App\Resource'),
@@ -304,7 +318,6 @@ return array(
     array('getAclPrivilegeSet', 'Magento\Admin\Model\Config'),
     array('getAclResourceList', 'Magento\Admin\Model\Config'),
     array('getAclResourceTree', 'Magento\Admin\Model\Config'),
-    array('getAddress', 'Magento\Customer\Block\Form\Register'),
     array('getAddNewButtonHtml', 'Magento\Backend\Block\Catalog\Product'),
     array('getAddNewButtonHtml', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array('getAddToCartItemUrl', 'Magento\Wishlist\Block\Customer\Sidebar'),
@@ -315,11 +328,12 @@ return array(
     array('getAllOrderEntityTypeIds', 'Magento\Rss\Model\Resource\Order'),
     array('getAnonSuffix'),
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
+    array('getAttributes', 'Magento\Customer\Helper\Address'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
     array(
         'getAllStates',
         'Magento\Sales\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\States::toOptionArray()'
+        'Magento\RecurringPayment\Model\States::toOptionArray()'
     ),
     array('getStateLabel', 'Magento\Sales\Model\Recurring\Profile'),
     array('getBaseTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
@@ -360,6 +374,8 @@ return array(
     array('getDirectOutput', 'Magento\Core\Model\Layout'),
     array('getDirectOutput', 'Magento\View\LayoutInterface'),
     array('getDistroServerVars', 'Magento\Core\Model\Config', 'getDistroBaseUrl'),
+    array('getDuplicateButtonHtml', 'Magento\Catalog\Block\Adminhtml\Product\Edit'),
+    array('getElementBackendConfig', 'Magento\Paypal\Helper\Data'),
     array('getElementClass', 'Magento\Core\Model\Layout\Update'),
     array('getEngineFactory', 'Magento\View\Element\Template\Context', 'getEnginePool'),
     array('getEntityIdsToIncrementIds', 'Magento\Rss\Model\Resource\Order'),
@@ -453,8 +469,6 @@ return array(
     array('getPriceFormatted', 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales'),
     array('getPrices', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
     array('getPricesDependingOnTax', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
-    array('getPrimaryBillingAddress', 'Magento\Customer\Block\Address\Book', 'getDefaultBilling'),
-    array('getPrimaryShippingAddress', 'Magento\Customer\Block\Address\Book', 'getDefaultShipping'),
     array('getPrintUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getPrintUrl', 'Magento\Sales\Block\Order\Info'),
     array('getProduct', 'Magento\Catalog\Model\Product\Type\AbstractType'),
@@ -467,6 +481,13 @@ return array(
     array('getQuoteItemOption', 'Magento\Catalog\Model\Product\Option\Type\DefaultType'),
     array('getQuoteOrdersHtml', 'Magento\GoogleAnalytics\Block\Ga'),
     array('getRefererParamName', 'Magento\Backend\Block\Page\Footer'),
+    array(
+        'getRecurringProfileMethods',
+        'Magento\Payment\Helper\Data',
+        'Magento\RecurringPayment\Model\Method\PaymentMethodsList::toOptionArray'
+    ),
+    array('getRecurringPaymentProfiles', 'Magento\Paypal\Model\Express\Checkout'),
+    array('getRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote'),
     array('getRelativePath', 'Magento\Core\Model\Theme\Files'),
     array('getRemoveItemUrl', 'Magento\Wishlist\Block\Customer\Sidebar'),
     array('getReorderUrl', 'Magento\Sales\Block\Order\Info'),
@@ -535,6 +556,7 @@ return array(
         'Magento_Core_Model_Theme::getThemeCollectionOptionArray'
     ),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Address'),
+    array('importCustomerAddress', 'Magento\Sales\Model\Quote\Address'),
     array('getTotalModels', 'Magento\Sales\Model\Quote\Config'),
     array('getTrackId', 'Magento\Shipping\Block\Tracking\Popup'),
     array('getTrackingInfoByOrder', 'Magento\Shipping\Block\Tracking\Popup'),
@@ -557,6 +579,7 @@ return array(
     array('getValidatorData', 'Magento\Core\Model\Session\AbstractSession', 'use _getSessionEnvironment method'),
     array('getValueTable'),
     array('getVarDir', 'Magento\Core\Model\Config', 'Magento_Core_Model_Dir::getDir()'),
+    array('getVatValidationUserMessage', 'Magento\Customer\Helper\Data'),
     array('getViewOrderUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getWatermarkHeigth', '', 'getWatermarkHeight'),
     array('getWebsite', 'Magento\Captcha\Helper\Data'),
@@ -570,6 +593,8 @@ return array(
     array('getXmlConfig','Magento\Persistent\Model\Persistent\Config'),
     array('getXmlElementByType','Magento\Widget\Model\Widget', 'getWidgetByClassType'),
     array('hasItems', 'Magento\Wishlist\Helper\Data'),
+    array('hasRecurringItems', 'Magento\Sales\Model\Quote'),
+    array('hasRecurringItems', 'Magento\Checkout\Block\Onepage\Payment'),
     array('htmlEscape', '', 'escapeHtml'),
     array('imageAction', 'Magento\Catalog\Controller\Product'),
     array('implodeStreetAddress', 'Magento\Customer\Model\Address\AbstractAddress'),
@@ -589,7 +614,7 @@ return array(
     array('isAbsolutePath'),
     array('isAdmin', 'Magento\Core\Model\Store'),
     array('isAllowedGuestCheckout', 'Magento\Sales\Model\Quote'),
-    array('isAutomaticCleaningAvailable', 'Magento\Cache\Backend\Eaccelerator'),
+    array('isApplicableToQuote', 'Magento\Payment\Model\Method\AbstractMethod'),
     array('isCheckoutAvailable', 'Magento\Multishipping\Model\Checkout\Type\Multishipping'),
     array('isDirectOutput', 'Magento\Core\Model\Layout'),
     array('isDirectOutput', 'Magento\View\LayoutInterface'),
@@ -599,6 +624,7 @@ return array(
     array('isLocalConfigLoaded', 'Magento\Core\Model\Config'),
     array('isModuleEnabled', 'Magento\Core\Model\Config', 'Magento_Core_Model_ModuleManager::isEnabled'),
     array('isReadablePopupObject'),
+    array('isRecurring', 'Magento\Catalog\Model\Product::getIsRecurring'),
     array('isStaticFilesSigned', 'Magento\Core\Helper\Data'),
     array('isTemplateAllowedForApplication'),
     array('isThemeCompatible', 'Magento\Core\Model\Design\Package', 'Magento_Core_Model_Theme::isThemeCompatible'),
@@ -638,7 +664,7 @@ return array(
     array('orderedAction', 'Magento\Backend\Controller\Report\Product'),
     array('output', 'Magento_Shell'),
     array('pageHandleExists', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
-    array('parseDateTime', 'Magento\Core\Model\Date'),
+    array('parseDateTime', 'Magento\Stdlib\DateTime\DateTime'),
     array('postDispatchMyAccountSave'),
     array('postDispatchSystemImportExportRun'),
     array('prepareAddressInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -650,6 +676,11 @@ return array(
     array('prepareItemInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('preparePriceAlertData', 'Magento\ProductAlert\Block\Product\View'),
     array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profile'),
+    [
+        'prepareRecurringPaymentProfiles',
+        'Magento\Sales\Model\Quote',
+        '\Magento\RecurringPayment\Model\QuoteImporter::import'
+    ],
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareScheduleInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -773,12 +804,14 @@ return array(
         'Magento_Sales_Model_Observer_Backend_CatalogProductQuote::catalogProductStatusUpdate'
     ),
     array(
-        'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento\RecurringProfile\Model\Observer::addFieldsToProductEditForm'
+        'prepareProductEditFormRecurringProfile',
+        'Magento\Sales\Model\Observer',
+        'Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price\Recurring::getElementHtml'
     ),
     array(
-        'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',
-        'Magento\RecurringProfile\Model\Observer::prepareProductRecurringProfileOptions'
+        'prepareProductRecurringProfileOptions',
+        'Magento\Payment\Model\Observer',
+        'Magento\RecurringPayment\Model\Observer::prepareProductRecurringPaymentOptions'
     ),
     array(
         'restrictAdminBillingAgreementUsage', 'Magento\Sales\Model\Observer',
@@ -825,6 +858,7 @@ return array(
     array('_getSelectedRoles', 'Magento\User\Block\User\Edit\Tab\Roles', 'getSelectedRoles'),
     array('_prepareSelect', 'Magento\Core\Model\Resource\Db\Collection\AbstractCollection'),
     array('_prepareSelect', 'Magento\Data\Collection\Db'),
+    array('_createOrderFromAddress', 'Magento\Checkout\Model\Type\AbstractType'),
     array('castField', 'Magento\Core\Model\Resource\Helper'),
     array('getQueryUsingAnalyticFunction', 'Magento\Core\Model\Resource\Helper'),
     array('limitUnion', 'Magento\Core\Model\Resource\Helper'),
@@ -855,6 +889,9 @@ return array(
     array('_getSessionEnvironment', 'Magento\Core\Model\Session\AbstractSession'),
     array('getValidateHttpUserAgentSkip', 'Magento\Core\Model\Session\AbstractSession'),
     array('addProductAttributes', 'Magento\SalesRule\Model\Observer'),
+    ['addRecurringPaymentProfiles', 'Magento\Paypal\Model\Api\AbstractApi'],
+    array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order\Collection',
+        '\Magento\RecurringPayment\Model\Resource\Order\CollectionFilter::byIds'),
     array('_helper', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('getHelper', 'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'),
     array('getHelper', 'Magento\Cms\Model\Wysiwyg\Images\Storage'),
@@ -967,7 +1004,7 @@ return array(
     array('copyFieldsetToTarget', 'Magento\Core\Helper\Data', 'Magento\Object\Copy::copyFieldsetToTarget'),
     array('formatDate', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatDate'),
     array('formatTime', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatTime'),
-    array('_getConfigTimezone', '\Magento\Core\Model\Date', '\Magento\Core\Model\Locale::getConfigTimezone'),
+    array('_getConfigTimezone', '\Magento\Stdlib\DateTime\DateTime', '\Magento\Core\Model\Locale::getConfigTimezone'),
     array('_filterPostData', '\Magento\Checkout\Controller\Onepage'),
     array('_filterPostData', '\Magento\Customer\Controller\Account'),
     array('_filterPostData', '\Magento\Customer\Controller\Adminhtml\Index'),
@@ -998,8 +1035,8 @@ return array(
         '\Magento\App\Response\RedirectInterface::getRefererUrl'
     ),
     array('_isUrlInternal', '\Magento\Core\Controller\Varien\Action'),
-    array('_filterDateTime', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Filter\DateTime::filter'),
-    array('_filterDates', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Filter\Date::filter'),
+    array('_filterDateTime', '\Magento\Core\Controller\Varien\Action', '\Magento\Stdlib\DateTime\Filter\DateTime::filter'),
+    array('_filterDates', '\Magento\Core\Controller\Varien\Action', '\Magento\Stdlib\DateTime\Filter\Date::filter'),
 
     array('_initDesign', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Model\DesignLoader::load'),
     array('_firePreDispatchEvents', '\Magento\Core\Controller\Varien\Action'),
@@ -1078,15 +1115,12 @@ return array(
     array('getValidator', '\Magento\Core\Model\Session\Context'),
     array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
-
     array('getEventManager', '\Magento\Core\Model\Session\Context'),
     array('getLogger', '\Magento\Core\Model\Session\Context'),
     array('getStoreConfig', '\Magento\Core\Model\Session\Context'),
     array('getStoreManager', '\Magento\Core\Model\Session\Context'),
     array('getRequest', '\Magento\Core\Model\Session\Context'),
-
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
-    array('getMethod', '\Magento\GoogleCheckout\Block\Redirect', 'getFormMethod'),
     array('getCookie', 'Magento\View\Element\Js\Cookie'),
     array('setCopyright', 'Magento\Theme\Block\Html\Footer'),
     array('setLogo', 'Magento\Theme\Block\Html\Header'),
@@ -1166,7 +1200,7 @@ return array(
     array(
         'catalogProductPrepareSave', '\Magento\PricePermissions\Model\Observer',
         '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions::'
-            . 'afterInitialize'
+        . 'afterInitialize'
     ),
     array(
         'getGroupedOptions', '\Magento\Catalog\Helper\Product\Configuration',
@@ -1175,40 +1209,6 @@ return array(
     array('copyInventoryData', 'Magento\CatalogInventory\Model\Observer',
         '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
     ),
-    array('isEnabled', '\Magento\Catalog\Helper\Category\Flat',
-        '\Magento\Catalog\Model\Indexer\Category\Flat\Config::isFlatEnabled'),
-    array('categorySaveAfter', '\Magento\Catalog\Model\Observer'),
-    array('storeDelete', '\Magento\Catalog\Model\Observer'),
-    array('categoryMove', '\Magento\Catalog\Model\Observer'),
-    array('storeGroupSave', '\Magento\Catalog\Model\Observer'),
-    array('catalogProductImportAfter', '\Magento\Catalog\Model\Observer'),
-    array('storeEdit', '\Magento\Catalog\Model\Observer'),
-    array('storeAdd', '\Magento\Catalog\Model\Observer'),
-    array('removeStores', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('deleteStores', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_deleteTable', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('getStoresRootCategories', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('moveold', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_getAttributeTypeValues', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_getAttributeValues', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_prepareDataForAllFields', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_synchronize', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_getStaticColumns', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_getEavColumns', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_getAttributes', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_createTable', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('createTable', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_createTables', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_prepareValuesToInsert', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('_populateFlatTables', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('rebuild', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('isRebuilt', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('isBuilt', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('move', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('synchronize', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('reindexAll', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('getDesignUpdateData', '\Magento\Catalog\Model\Resource\Category\Flat'),
-    array('getUseStoreTables', '\Magento\Catalog\Model\Resource\Category\Flat'),
     ['getTrackingAjaxUrl', 'Magento\Shipping\Helper\Data'],
     ['isFreeMethod', 'Magento\Shipping\Helper\Data'],
     ['_initOrder', 'Magento\Shipping\Controller\Tracking'],
@@ -1230,26 +1230,213 @@ return array(
     [
         'getAllPeriodUnits',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
+        'Magento\RecurringPayment\Model\PeriodUnits::toOptionArray'
     ],
     [
         'getPeriodUnitLabel',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
+        'Magento\RecurringPayment\Model\PeriodUnits::toOptionArray()[\Magento\RecurringPayment\Model\PeriodUnits::DAY]'
     ],
     [
         'getFieldComment',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Block\Fields::getFieldComment',
+        'Magento\RecurringPayment\Block\Fields::getFieldComment',
     ],
     [
         'getFieldLabel',
         'Magento\Payment\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Block\Fields::getFieldLabel',
+        'Magento\RecurringPayment\Block\Fields::getFieldLabel',
     ],
     ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
     ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
+    array('setArguments', 'Magento\ObjectManager\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
+    array('setArguments', 'Magento\ObjectManager\Factory\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
+    array('setArguments', 'Magento\Interception\FactoryDecorator', 'Magento\App\Arguments\ArgumentInterpreter'),
+    array('setObjectManager', 'Magento\ObjectManager\Factory',
+        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'),
+    array('setObjectManager', 'Magento\ObjectManager\Factory\Factory',
+        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'),
+    array('setObjectManager', 'Magento\Interception\FactoryDecorator',
+        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'),
+    array('_processArrayNode', 'Magento\ObjectManager\Config\Mapper\Dom',
+        'Magento\Data\Argument\Interpreter\ArrayType'),
+    array('_processValueNode', 'Magento\ObjectManager\Config\Mapper\Dom',
+        'Magento\Data\Argument\Interpreter\Composite'),
+    array('canSkipFilePublication', 'Magento\View\Publisher'),
+    array('_getExtension', 'Magento\View\Publisher'),
+    array('_buildPublishedFilePath', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface'),
+    array('_buildPublicViewRedundantFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewSufficientFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\FileInterface'),
+    array('cleanAction', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('_isAllowed', 'Magento\PageCache\Controller\Adminhtml\PageCache'),
+    [
+        '_downloadFileAction',
+        'Magento\Sales\Controller\Download',
+        '\Magento\Sales\Model\Download::downloadFile'
+    ],
+    [
+        '_processDatabaseFile',
+        'Magento\Sales\Controller\Download',
+        '\Magento\Sales\Model\Download::_processDatabaseFile'
+    ],
+    [
+        'downloadProfileCustomOptionAction',
+        'Magento\Sales\Controller\Download',
+        '\Magento\RecurringPayment\Controller\Download::downloadProfileCustomOptionAction'
+    ],
+    array('useDbCompatibleMode', 'Magento\Core\Helper\Data'),
+    array('getFlag', 'Magento\Catalog\Helper\Product\Flat'),
+    array('isBuilt', 'Magento\Catalog\Helper\Product\Flat'),
+    array('getIndexerIds', 'Magento\Indexer\Model\Config'),
+    array('refreshEnabledIndex', 'Magento\Catalog\Model\Resource\Product'),
+    array('refreshIndex', 'Magento\Catalog\Model\Resource\Product'),
+    array('getProductStatusEnabled', 'Magento\CatalogInventory\Model\Stock\Status'),
+    array('getProductStatus', 'Magento\CatalogInventory\Model\Stock\Status', 'getProductStockStatus'),
+    array('getProductStatus', 'Magento\Catalog\Model\Resource\Product\Status',
+        'Magento\CatalogInventory\Model\Resource\Stock\Status'),
+    array('updateProductStatus', 'Magento\Catalog\Model\Product\Status'),
+    array('getProductStatus', 'Magento\Catalog\Model\Product\Status'),
+    array('addValueSortToCollection', 'Magento\Catalog\Model\Product\Status',
+        'Magento\CatalogInventory\Model\Resource\Stock\Status'),
+    array('catalogProductStatusUpdate', 'Magento\Sales\Model\Observer\Backend\CatalogProductQuote'),
+    array('applyPermissionsAfterReindex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array(
+        'transitionProductType',
+        'Magento\Catalog\Model\Observer',
+        'Magento\Catalog\Model\Product\TypeTransitionManager::processProduct'
+    ),
+    array(
+        'transitionProductType',
+        'Magento\Downloadable\Model\Observer',
+        'Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin\Downloadable::aroundProcessProduct'
+    ),
+    array(
+        'isUsedBySuperProducts',
+        'Magento\Catalog\Model\Resource\Attribute',
+        'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
+    ),
+    array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
+    array(
+        'canGetRecurringProfileDetails',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::canGetDetails()'
+    ),
+    array(
+        'getRecurringProfileDetails',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::getDetails()'
+    ),
+    array(
+        'submitRecurringProfile',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::submit()'
+    ),
+    array(
+        'validateRecurringProfile',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::validate()'
+    ),
+    array(
+        'updateRecurringProfile',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::update()'
+    ),
+    array(
+        'updateRecurringProfileStatus',
+        'Magento\Paypal\Model\Express',
+        'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
+    ),
+    array(
+        'canGetRecurringProfileDetails',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::canGetDetails()'
+    ),
+    array(
+        'getRecurringProfileDetails',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::getDetails()'
+    ),
+    array(
+        'submitRecurringProfile',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::submit()'
+    ),
+    array(
+        'validateRecurringProfile',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::validate()'
+    ),
+    array(
+        'updateRecurringProfile',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::update()'
+    ),
+    array(
+        'updateRecurringProfileStatus',
+        'Magento\Paypal\Model\Pro',
+        'Magento\PayPalRecurringPayment\Model\Express::updateStatus()'
+    ),
+    array(
+        'setMethodInstance',
+        'Magento\RecurringPayment\Model\RecurringPayment',
+        'Magento\RecurringPayment\Model\RecurringPayment::setManager()'
+    ),
+    array(
+        'getMethodInstance',
+        'Magento\RecurringPayment\Model\RecurringPayment',
+        'Magento\RecurringPayment\Model\RecurringPayment::getManager()'
+    ),
+    array('sendTransactional', 'Magento\Email\Model\Template'),
+    array('_getMail', 'Magento\Email\Model\Template'),
+    array('send', 'Magento\Email\Model\Template'),
+    array('processOrderCreateBefore', 'Magento\GiftCardAccount\Model\Observer'),
+    array('googleCheckoutDiscoutItem', 'Magento\GiftCardAccount\Model\Observer'),
+    array('googlecheckoutCheckoutBefore', 'Magento\GiftWrapping\Model\Observer'),
+    array('injectAnalyticsInGoogleCheckoutLink', 'Magento\GoogleAnalytics\Model\Observer'),
+    ['setDefaultLocale', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['getDefaultLocale', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['setLocale', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['getLocale', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['getLocaleCode', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['setLocaleCode', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['emulate', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['revert', 'Magento\Core\Model\Locale', 'Magento\Locale\Resolver'],
+    ['getTimezone', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::getDefaultTimezone'],
+    ['getDateFormat', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['getDateFormatWithLongYear', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['getTimeFormat', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['getDateTimeFormat', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['date', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['storeDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeDate'],
+    ['storeDate', 'Magento\Stdlib\DateTime\TimezoneInterface', 'Magento\Stdlib\DateTime\TimezoneInterface::scopeDate'],
+    ['utcDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['storeTimeStamp', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::scopeTimeStamp'],
+    ['formatDate', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone'],
+    ['getTranslation', 'Magento\Core\Model\Locale', 'Magento\Stdlib\DateTime\Timezone::_getTranslation'],
+    ['getCurrency', 'Magento\Core\Model\Locale', 'Magento\Locale\Currency'],
+    ['currency', 'Magento\Core\Model\Locale', 'Magento\Locale\Currency::getCurrency'],
+    ['getNumber', 'Magento\Core\Model\Locale', 'Magento\Locale\Format'],
+    ['getJsPriceFormat', 'Magento\Core\Model\Locale', 'Magento\Locale\Format::getPriceFormat'],
+    ['getOptionLocales', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getTranslatedOptionLocales', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getOptionTimezones', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getOptionWeekdays', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getOptionCountries', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getOptionCurrencies', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getTranslationList', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getCountryTranslation', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getCountryTranslationList', 'Magento\Core\Model\Locale', 'Magento\Locale\Lists'],
+    ['getAllowLocales', 'Magento\Core\Model\Locale'],
+    ['getAllowCurrencies', 'Magento\Core\Model\Locale'],
+    ['convertMeasureWeight', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::convertMeasureWeight'],
+    ['convertMeasureDimension', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::convertMeasureDimension'],
+    ['getMeasureWeightName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureWeightName'],
+    ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
+    ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
+    array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
 );

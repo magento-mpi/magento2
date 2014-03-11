@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Block\Adminhtml\Search;
 
 /**
  * Search query relations edit grid
@@ -15,8 +16,6 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Block\Adminhtml\Search;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
@@ -25,7 +24,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_options;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -38,7 +37,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Search\Model\Adminhtml\Search\Grid\Options $options
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
@@ -46,7 +45,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Search\Model\Adminhtml\Search\Grid\Options $options,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
@@ -67,6 +66,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         return $this->_registryManager->registry('current_catalog_search');
     }
 
+    /**
+     * Add column filter to collection
+     *
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for query selected flag
@@ -97,6 +102,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     }
 
     /**
+     * Get queries json
+     *
      * @return string
      */
     public function getQueriesJson()

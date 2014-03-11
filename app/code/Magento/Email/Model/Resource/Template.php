@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Model\Resource;
 
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Template db resource
@@ -16,8 +18,6 @@
  * @package     Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Model\Resource;
-
 class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -38,6 +38,7 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize email template resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +68,7 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check usage of template code in other templates
      *
      * @param \Magento\Email\Model\Template $template
-     * @return boolean
+     * @return bool
      */
     public function checkCodeUsage(\Magento\Email\Model\Template $template)
     {
@@ -96,10 +97,10 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set template type, added at and modified at time
      *
-     * @param \Magento\Email\Model\Template $object
-     * @return \Magento\Email\Model\Resource\Template
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(AbstractModel $object)
     {
         if ($object->isObjectNew()) {
             $object->setCreatedAt($this->dateTime->formatDate(true));

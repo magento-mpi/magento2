@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget;
 
 /**
  * Button widget
@@ -15,12 +16,12 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget;
-
 class Button extends \Magento\Backend\Block\Widget
 {
     /**
      * Define block template
+     *
+     * @return void
      */
     protected function _construct()
     {

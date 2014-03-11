@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Config;
+use Magento\Core\Model\Website;
 
 
 /**
@@ -16,8 +18,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Config;
-
 class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -33,7 +33,7 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Convert array to comma separated value
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Config\Data
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -52,7 +52,7 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set id to object if exists configuration instead of throw exception
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Config\Data
+     * @return $this
      */
     protected function _checkUnique(\Magento\Core\Model\AbstractModel $object)
     {
@@ -78,9 +78,10 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Clear website data
      *
-     * @param $website
+     * @param Website $website
+     * @return void
      */
-    public function clearWebsiteData(\Magento\Core\Model\Website $website)
+    public function clearWebsiteData(Website $website)
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(), array('scope = ?' => 'websites', 'scope_id' => $website->getId())
@@ -92,6 +93,7 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Clear store data
      *
      * @param array $storeIds
+     * @return void
      */
     public function clearStoreData(array $storeIds)
     {

@@ -11,12 +11,12 @@
  */
 namespace Magento\CatalogEvent\Block\Catalog\Product;
 
-class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
+class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -29,19 +29,21 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;
-        parent::__construct($context, $data);
+        parent::__construct($context, $localeResolver, $data);
     }
 
     /**
@@ -80,5 +82,15 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
             && $this->getEvent()
             && $this->getEvent()->canDisplayProductPage()
             && !$this->getProduct()->getEventNoTicker();
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->getProduct()->getIdentities();
     }
 }

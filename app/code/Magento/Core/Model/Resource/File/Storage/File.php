@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\File\Storage;
 
 /**
@@ -72,7 +71,7 @@ class File
      * Clear files and directories in storage
      *
      * @param string $dir
-     * @return \Magento\Core\Model\Resource\File\Storage\File
+     * @return $this
      */
     public function clear($dir = '')
     {

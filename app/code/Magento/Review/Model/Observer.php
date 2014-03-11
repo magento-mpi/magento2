@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Review\Model;
 
 /**
  * Review Observer Model
@@ -16,16 +16,18 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Model;
-
 class Observer
 {
     /**
+     * Review model
+     *
      * @var \Magento\Review\Model\ReviewFactory
      */
     protected $_reviewFactory;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review
      */
     protected $_resourceReview;
@@ -45,7 +47,7 @@ class Observer
      * Add review summary info for tagged product collection
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Review\Model\Observer
+     * @return $this
      */
     public function tagProductCollectionLoadAfter(\Magento\Event\Observer $observer)
     {
@@ -59,7 +61,7 @@ class Observer
      * Cleanup product reviews after product delete
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Review\Model\Observer
+     * @return  $this
      */
     public function processProductAfterDeleteEvent(\Magento\Event\Observer $observer)
     {
@@ -75,7 +77,7 @@ class Observer
      * Append review summary before rendering html
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Review\Model\Observer
+     * @return $this
      */
     public function catalogBlockProductCollectionBeforeToHtml(\Magento\Event\Observer $observer)
     {

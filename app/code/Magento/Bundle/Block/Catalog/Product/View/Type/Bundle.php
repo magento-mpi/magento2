@@ -52,9 +52,14 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $jsonEncoder;
 
     /**
+     * @var \Magento\Locale\FormatInterface
+     */
+    protected $_localeFormat;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -68,15 +73,16 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -90,6 +96,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -97,6 +104,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_productPrice = $productPrice;
         $this->coreData = $coreData;
         $this->jsonEncoder = $jsonEncoder;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -256,7 +264,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'options'       => $options,
             'selected'      => $selected,
             'bundleId'      => $currentProduct->getId(),
-            'priceFormat'   => $this->_locale->getJsPriceFormat(),
+            'priceFormat'   => $this->_localeFormat->getPriceFormat(),
             'basePrice'     => $this->coreData->currency($currentProduct->getPrice(), false, false),
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),

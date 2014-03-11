@@ -34,7 +34,7 @@ class Observer
      * Set hide survey question to session
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Enterprise\Model\Observer
+     * @return $this
      */
     public function setHideSurveyQuestion($observer)
     {

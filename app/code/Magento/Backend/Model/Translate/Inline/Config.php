@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Translate\Inline;
 
 /**
  * Backend Inline Translation config
  */
-namespace Magento\Backend\Model\Translate\Inline;
-
 class Config implements \Magento\Translate\Inline\ConfigInterface
 {
     /**
@@ -38,7 +37,7 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isActive($scope = null)
     {
@@ -46,7 +45,7 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function isDevAllowed($scope = null)
     {

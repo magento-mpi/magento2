@@ -13,6 +13,9 @@ namespace Magento\AdminNotification\Controller\Adminhtml;
 
 class Notification extends \Magento\Backend\App\AbstractAction
 {
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Notifications'));
@@ -26,6 +29,9 @@ class Notification extends \Magento\Backend\App\AbstractAction
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function markAsReadAction()
     {
         $notificationId = (int)$this->getRequest()->getParam('id');
@@ -51,6 +57,8 @@ class Notification extends \Magento\Backend\App\AbstractAction
 
     /**
      * Mark notification as read (AJAX action)
+     *
+     * @return void
      */
     public function ajaxMarkAsReadAction()
     {
@@ -71,6 +79,9 @@ class Notification extends \Magento\Backend\App\AbstractAction
         );
     }
 
+    /**
+     * @return void
+     */
     public function massMarkAsReadAction()
     {
         $ids = $this->getRequest()->getParam('notification');
@@ -99,6 +110,9 @@ class Notification extends \Magento\Backend\App\AbstractAction
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * @return void
+     */
     public function removeAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
@@ -107,7 +121,7 @@ class Notification extends \Magento\Backend\App\AbstractAction
 
             if (!$model->getId()) {
                 $this->_redirect('adminhtml/*/');
-                return ;
+                return;
             }
 
             try {
@@ -131,6 +145,9 @@ class Notification extends \Magento\Backend\App\AbstractAction
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * @return void
+     */
     public function massRemoveAction()
     {
         $ids = $this->getRequest()->getParam('notification');
@@ -156,6 +173,9 @@ class Notification extends \Magento\Backend\App\AbstractAction
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {

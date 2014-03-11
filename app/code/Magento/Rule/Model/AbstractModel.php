@@ -13,6 +13,8 @@
  */
 namespace Magento\Rule\Model;
 
+use Magento\Core\Exception;
+
 abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -70,44 +72,45 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     protected $_formFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Prepare data before saving
      *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
+     * @throws Exception
      */
     protected function _beforeSave()
     {
         // Check if discount amount not negative
         if ($this->hasDiscountAmount()) {
             if ((int)$this->getDiscountAmount() < 0) {
-                throw new \Magento\Core\Exception(__('Invalid discount amount.'));
+                throw new Exception(__('Invalid discount amount.'));
             }
         }
 
@@ -153,8 +156,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Set rule combine conditions model
      *
      * @param \Magento\Rule\Model\Condition\Combine $conditions
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     public function setConditions($conditions)
     {
@@ -192,8 +194,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Set rule actions model
      *
      * @param \Magento\Rule\Model\Action\Collection $actions
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     public function setActions($actions)
     {
@@ -231,8 +232,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Reset rule combine conditions
      *
      * @param null|\Magento\Rule\Model\Condition\Combine $conditions
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     protected function _resetConditions($conditions = null)
     {
@@ -249,8 +249,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Reset rule actions
      *
      * @param null|\Magento\Rule\Model\Action\Collection $actions
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     protected function _resetActions($actions = null)
     {
@@ -280,8 +279,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Initialize rule model data from array
      *
      * @param array $data
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     public function loadPost(array $data)
     {
@@ -302,7 +300,6 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Convert dates into \Zend_Date.
      *
      * @param array $data
-     *
      * @return array
      */
     protected function _convertFlatToRecursive(array $data)
@@ -328,7 +325,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
                  * Convert dates into \Zend_Date
                  */
                 if (in_array($key, array('from_date', 'to_date')) && $value) {
-                    $value = $this->_locale->date(
+                    $value = $this->_localeDate->date(
                         $value,
                         \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                         null,
@@ -346,7 +343,6 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Validate rule conditions to determine if rule can run
      *
      * @param \Magento\Object $object
-     *
      * @return bool
      */
     public function validate(\Magento\Object $object)
@@ -358,8 +354,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Validate rule data
      *
      * @param \Magento\Object $object
-     *
-     * @return bool|array - return true if validation passed successfully. Array with errors description otherwise
+     * @return bool|string[] - return true if validation passed successfully. Array with errors description otherwise
      */
     public function validateData(\Magento\Object $object)
     {
@@ -372,8 +367,8 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
         }
 
         if ($fromDate && $toDate) {
-            $fromDate = new \Zend_Date($fromDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
-            $toDate = new \Zend_Date($toDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+            $fromDate = new \Magento\Stdlib\DateTime\Date($fromDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
+            $toDate = new \Magento\Stdlib\DateTime\Date($toDate, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             if ($fromDate->compare($toDate) === 1) {
                 $result[] = __('End Date must follow Start Date.');
@@ -410,8 +405,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Set is rule can be deleted flag
      *
      * @param bool $value
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     public function setIsDeleteable($value)
     {
@@ -433,8 +427,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
      * Set is readonly flag to rule
      *
      * @param bool $value
-     *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @return $this
      */
     public function setIsReadonly($value)
     {
@@ -460,11 +453,10 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
 
 
     /**
-     * @deprecated since 1.7.0.0
-     *
      * @param string $format
-     *
      * @return string
+     *
+     * @deprecated since 1.7.0.0
      */
     public function asString($format = '')
     {
@@ -472,9 +464,9 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @deprecated since 1.7.0.0
-     *
      * @return string
+     *
+     * @deprecated since 1.7.0.0
      */
     public function asHtml()
     {
@@ -484,11 +476,10 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     /**
      * Returns rule as an array for admin interface
      *
-     * @deprecated since 1.7.0.0
-     *
      * @param array $arrAttributes
-     *
      * @return array
+     *
+     * @deprecated since 1.7.0.0
      */
     public function asArray(array $arrAttributes = array())
     {
@@ -498,9 +489,9 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     /**
      * Combine website ids to string
      *
-     * @deprecated since 1.7.0.0
+     * @return $this
      *
-     * @return \Magento\Rule\Model\AbstractModel
+     * @deprecated since 1.7.0.0
      */
     protected function _prepareWebsiteIds()
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model;
 
 /**
  * EAV Entity Attribute Data Factory
@@ -16,8 +16,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model;
-
 class AttributeDataFactory
 {
     const OUTPUT_FORMAT_JSON    = 'json';

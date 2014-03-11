@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
 /**
  * Form for version edit page
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
-
 class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -35,7 +34,7 @@ class Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
@@ -43,7 +42,7 @@ class Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\VersionsCms\Model\Config $cmsConfig,
@@ -57,7 +56,7 @@ class Form
     /**
      * Preparing from for version page
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -26,25 +26,25 @@ class Item extends \Magento\GoogleShopping\Model\Service
     /**
      * Date
      *
-     * @var \Magento\Core\Model\Date|null
+     * @var \Magento\Stdlib\DateTime\DateTime|null
      */
     protected $_date;
 
     /**
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Gdata\Gshopping\ContentFactory $contentFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
+        \Magento\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Gdata\Gshopping\ContentFactory $contentFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\GoogleShopping\Helper\Data $gsData,
         array $data = array()
     ) {

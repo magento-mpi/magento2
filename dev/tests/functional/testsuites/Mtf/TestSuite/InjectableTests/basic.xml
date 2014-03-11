@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../vendor/magento/mtf/Mtf/TestRunner/etc/testRunner.xsd">
+    <suiteRule>
+        <allow>
+            <namespace>Magento</namespace>
+            <class>Magento\Bundle\Test\TestCase\CreateBundleEntityTest</class>
+            <!--<class>Magento\Catalog\Test\TestCase\Product\CreateSimpleEntityTest</class>-->
+            <!--<class>Magento\User\Test\TestCase\LoginUserTest</class>-->
+            <!--<module>Magento_Cms</module>-->
+            <type>injectable</type>
+        </allow>
+    </suiteRule>
+    <objectRule for="Mtf\TestCase\Functional">
+        <allow>
+            <type>injectable</type>
+        </allow>
+    </objectRule>
+</config>

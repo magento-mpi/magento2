@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Index\Model;
 
 /**
  * Shell model, used to work with indexers via command line
@@ -15,9 +16,7 @@
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Index\Model;
-
-class Shell extends \Magento\Core\Model\AbstractShell
+class Shell extends \Magento\App\AbstractShell
 {
     /**
      * Error status - whether errors have happened
@@ -39,7 +38,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         $entryPoint,
-        \Magento\Index\Model\Indexer $indexer
+        Indexer $indexer
     ) {
         $this->_indexer = $indexer;
         parent::__construct($filesystem, $entryPoint);
@@ -166,8 +165,6 @@ class Shell extends \Magento\Core\Model\AbstractShell
 
     /**
      * Reindexes indexer(s)
-     *
-     * @return $this
      */
     protected function _runReindex()
     {

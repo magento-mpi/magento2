@@ -11,6 +11,8 @@ class Frontend
     implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
 {
     /**
+     * Reward data
+     *
      * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;

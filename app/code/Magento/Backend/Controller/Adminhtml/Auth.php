@@ -7,16 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml;
+
+use Magento\Backend\App\AbstractAction;
 
 /**
  * Auth backend controller
  */
-namespace Magento\Backend\Controller\Adminhtml;
-
-class Auth extends \Magento\Backend\App\AbstractAction
+class Auth extends AbstractAction
 {
     /**
      * Administrator login action
+     *
+     * @return void
      */
     public function loginAction()
     {
@@ -33,6 +36,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Administrator logout action
+     *
+     * @return void
      */
     public function logoutAction()
     {
@@ -43,6 +48,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Denied JSON action
+     *
+     * @return void
      */
     public function deniedJsonAction()
     {
@@ -64,6 +71,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Denied IFrame action
+     *
+     * @return void
      */
     public function deniedIframeAction()
     {
@@ -72,6 +81,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
 
     /**
      * Retrieve response for deniedIframeAction()
+     *
      * @return string
      */
     protected function _getDeniedIframe()
@@ -83,7 +93,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
     /**
      * Check if user has permissions to access this controller
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

@@ -150,10 +150,6 @@ $CONFIG['translates'] = array(
         'app/code/Magento/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
     ),
-    'Magento_GoogleCheckout' => array(
-        'app/code/Magento/GoogleCheckout/',
-        'app/design/frontend/base/default/layout/googlecheckout.xml'
-    ),
     'Magento_GoogleOptimizer' => array(
         'app/code/Magento/GoogleOptimizer/',
         'app/design/frontend/base/default/layout/googleoptimizer.xml',
@@ -220,6 +216,9 @@ $CONFIG['translates'] = array(
     ),
     'Magento_Authorizenet' => array(
         'app/code/Magento/Authorizenet/',
+    ),
+    'Magento_OfflinePayments' => array(
+        'app/code/Magento/OfflinePayments/'
     ),
     'Magento_Payment' => array(
         'app/code/Magento/Payment/',
@@ -300,8 +299,17 @@ $CONFIG['translates'] = array(
     'Magento_Tax' => array(
         'app/code/Magento/Tax/',
     ),
-    'Magento_Usa' => array(
-        'app/code/Magento/Usa/',
+    'Magento_Ups' => array(
+        'app/code/Magento/Ups/',
+    ),
+    'Magento_Usps' => array(
+        'app/code/Magento/Usps/',
+    ),
+    'Magento_Fedex' => array(
+        'app/code/Magento/Fedex/',
+    ),
+    'Magento_Dhl' => array(
+        'app/code/Magento/Dhl/',
     ),
     'Magento_Weee' => array(
         'app/code/Magento/Weee/',
@@ -377,8 +385,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/CustomerSegment/',
         'app/design/adminhtml/default/default/layout/enterprise/customersegment.xml',
     ),
-    'Magento_CustomAttribute' => array(
-        'app/code/Magento/CustomAttribute/',
+    'Magento_CustomAttributeManagement' => array(
+        'app/code/Magento/CustomAttributeManagement/',
     ),
     'Magento_Enterprise' => array(
         'app/code/Magento/Enterprise/',
@@ -437,6 +445,9 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/template/enterprise/pbridge/',
         'app/design/frontend/enterprise/default/layout/pbridge.xml',
         'app/design/frontend/enterprise/default/template/pbridge/'
+    ),
+    'Magento_PbridgePaypal' => array(
+        'app/code/Magento/PbridgePaypal/',
     ),
     'Magento_Pci' => array(
         'app/code/Magento/Pci/',
@@ -555,7 +566,6 @@ $CONFIG['helpers']  = array(
     'giftmessage'       => 'Magento_GiftMessage',
     'googleanalytics'   => 'Magento_GoogleAnalytics',
     'googlebase'        => 'Magento_GoogleBase',
-    'googlecheckout'    => 'Magento_GoogleCheckout',
     'googleoptimizer'   => 'Magento_GoogleOptimizer',
     'googleshopping'    => 'Magento_GoogleShopping',
     'ideal'             => 'Magento_Ideal',
@@ -587,7 +597,6 @@ $CONFIG['helpers']  = array(
     'sitemap'           => 'Magento_Sitemap',
     'strikeiron'        => 'Magento_Strikeiron',
     'tax'               => 'Magento_Tax',
-    'usa'               => 'Magento_Usa',
     'weee'              => 'Magento_Weee',
     'wishlist'          => 'Magento_Wishlist',
     'widget'            => 'Magento_Widget',
@@ -600,7 +609,7 @@ $CONFIG['helpers']  = array(
     'magento_customercustomattributes'           => 'Magento_CustomerCustomAttributes',
     'magento_customerbalance'    => 'Magento_CustomerBalance',
     'magento_customersegment'    => 'Magento_CustomerSegment',
-    'magento_customattribute'                => 'Magento_CustomAttribute',
+    'magento_CustomAttributeManagement'                => 'Magento_CustomAttributeManagement',
     'magento_enterprise'         => 'Magento_Enterprise',
     'magento_giftcard'           => 'Magento_GiftCard',
     'magento_giftcardaccount'    => 'Magento_GiftCardAccount',

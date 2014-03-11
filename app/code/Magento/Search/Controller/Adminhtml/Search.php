@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Controller\Adminhtml;
 
  /**
  * Admin search controller for Ajax Grid in Catalog Search Terms
@@ -15,14 +16,12 @@
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Controller\Adminhtml;
-
 class Search extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -37,12 +36,12 @@ class Search extends \Magento\Backend\App\Action
      * Construct
      *
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -52,6 +51,8 @@ class Search extends \Magento\Backend\App\Action
 
     /**
      * Ajax grid action
+     *
+     * @return void
      */
     public function relatedGridAction()
     {

@@ -11,7 +11,7 @@
  */
 namespace Magento\Wishlist\Block;
 
-class Link extends \Magento\View\Element\Html\Link
+class Link extends \Magento\View\Element\Html\Link implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Template name
@@ -96,7 +96,7 @@ class Link extends \Magento\View\Element\Html\Link
      * Create button label based on wishlist item quantity
      *
      * @param int $count
-     * @return string
+     * @return string|void
      */
     protected function _createCounter($count)
     {
@@ -107,5 +107,22 @@ class Link extends \Magento\View\Element\Html\Link
         } else {
             return;
         }
+    }
+
+    /**
+     * Retrieve block cache tags
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        /** @var $wishlist \Magento\Wishlist\Model\Wishlist */
+        $wishlist = $this->_wishlistHelper->getWishlist();
+        $identities = $wishlist->getIdentities();
+        foreach ($wishlist->getItemCollection() as $item) {
+            /** @var $item \Magento\Wishlist\Model\Item */
+            $identities = array_merge($identities, $item->getProduct()->getIdentities());
+        }
+        return $identities;
     }
 }

@@ -113,6 +113,34 @@ interface AdapterInterface
     public function dropTable($tableName, $schemaName = null);
 
     /**
+     * Create temporary table from DDL object
+     *
+     * @param \Magento\DB\Ddl\Table $table
+     * @throws \Zend_Db_Exception
+     * @return \Zend_Db_Statement_Interface
+     */
+    public function createTemporaryTable(\Magento\DB\Ddl\Table $table);
+
+    /**
+     * Drop temporary table from database
+     *
+     * @param string $tableName
+     * @param string $schemaName
+     * @return boolean
+     */
+    public function dropTemporaryTable($tableName, $schemaName = null);
+
+    /**
+     * Rename several tables
+     *
+     * @param array $tablePairs array('oldName' => 'Name1', 'newName' => 'Name2')
+     *
+     * @return boolean
+     * @throws \Zend_Db_Exception
+     */
+    public function renameTablesBatch(array $tablePairs);
+
+    /**
      * Truncate a table
      *
      * @param string $tableName
@@ -324,7 +352,7 @@ interface AdapterInterface
      * @param string $schemaName
      * @param string $refSchemaName
      * @return \Magento\DB\Adapter\AdapterInterface
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
@@ -617,7 +645,7 @@ interface AdapterInterface
     /**
      * Format Date to internal database date format
      *
-     * @param int|string|Zend_Date $date
+     * @param int|string|\Magento\Stdlib\DateTime\DateInterface $date
      * @param boolean $includeTime
      * @return \Zend_Db_Expr
      */
@@ -932,6 +960,17 @@ interface AdapterInterface
     public function insertFromSelect(\Magento\DB\Select $select, $table, array $fields = array(), $mode = false);
 
     /**
+     * Get insert queries in array for insert by range with step parameter
+     *
+     * @param string $rangeField
+     * @param \Magento\DB\Select $select
+     * @param int $stepCount
+     * @return \Magento\DB\Select[]
+     * @throws \Magento\DB\DBException
+     */
+    public function selectsByRange($rangeField, \Magento\DB\Select $select, $stepCount = 100);
+
+    /**
      * Get update table query using select object for join and update
      *
      * @param \Magento\DB\Select $select
@@ -1024,4 +1063,23 @@ interface AdapterInterface
      * @return mixed
      */
     public function dropTrigger($triggerName, $schemaName = null);
+
+    /**
+     * Retrieve tables list
+     *
+     * @param null|string $likeCondition
+     * @return array
+     */
+    public function getTables($likeCondition = null);
+
+    /**
+     * Generate fragment of SQL, that check value against multiple condition cases
+     * and return different result depends on them
+     *
+     * @param string $valueName Name of value to check
+     * @param array $casesResults Cases and results
+     * @param string $defaultValue value to use if value doesn't confirm to any cases
+     * @return \Zend_Db_Expr
+     */
+    public function getCaseSql($valueName, $casesResults, $defaultValue = null);
 }

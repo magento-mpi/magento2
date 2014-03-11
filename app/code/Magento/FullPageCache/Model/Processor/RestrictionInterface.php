@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Processor;
 
 interface RestrictionInterface
@@ -27,6 +26,8 @@ interface RestrictionInterface
 
     /**
      * Set is denied mode for FPC processors
+     *
+     * @return void
      */
     public function setIsDenied();
 }

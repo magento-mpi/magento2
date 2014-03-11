@@ -7,21 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Resource\Rma\Status\History;
 
 /**
  * RMA entity resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Rma\Status\History;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

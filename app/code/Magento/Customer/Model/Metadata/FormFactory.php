@@ -30,20 +30,26 @@ class FormFactory
      *
      * @param string $entityType
      * @param string $formCode
-     * @param array $attributeValues
+     * @param array $attributeValues Key is attribute code.
      * @param bool $isAjax
+     * @param bool $ignoreInvisible
+     * @param array $filterAttributes
      * @return \Magento\Customer\Model\Metadata\Form
      */
     public function create(
         $entityType,
         $formCode,
-        $attributeValues = [],
-        $isAjax = false
+        array $attributeValues = [],
+        $isAjax = false,
+        $ignoreInvisible = Form::IGNORE_INVISIBLE,
+        $filterAttributes = []
     ) {
         $params = [
             'entityType' => $entityType,
             'formCode' => $formCode,
             'attributeValues' => $attributeValues,
+            'ignoreInvisible' => $ignoreInvisible,
+            'filterAttributes' => $filterAttributes,
             'isAjax' => $isAjax,
         ];
         return $this->_objectManager->create('Magento\Customer\Model\Metadata\Form', $params);

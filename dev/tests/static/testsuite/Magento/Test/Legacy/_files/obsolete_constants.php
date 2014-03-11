@@ -53,24 +53,24 @@ return array(
         'Mage_Core_Model_Resource',
         'Magento_Core_Model_Config_Resource::DEFAULT_WRITE_CONNECTION'
     ),
-    array('DEFAULT_CURRENCY', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
+    array('DEFAULT_CURRENCY', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
     array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App'),
     array('DEFAULT_READ_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_WRITE_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_ERROR_HANDLER', 'Mage'),
-    array('DEFAULT_LOCALE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
+    array('DEFAULT_LOCALE', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_LOCALE'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
-    array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_TIMEZONE', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
     array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
     array('FALLBACK_MAP_DIR', 'Magento\Core\Model\Design\PackageInterface'),
-    array('FORMAT_TYPE_FULL', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL'),
-    array('FORMAT_TYPE_LONG', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG'),
-    array('FORMAT_TYPE_MEDIUM', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM'),
-    array('FORMAT_TYPE_SHORT', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT'),
+    array('FORMAT_TYPE_FULL', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_FULL'),
+    array('FORMAT_TYPE_LONG', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_LONG'),
+    array('FORMAT_TYPE_MEDIUM', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_MEDIUM'),
+    array('FORMAT_TYPE_SHORT', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::FORMAT_TYPE_SHORT'),
     array('GALLERY_IMAGE_TABLE', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media'),
     array('HASH_ALGO'),
     array('INIT_OPTION_DIRS', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_APP_DIRS'),
@@ -99,16 +99,34 @@ return array(
         'Magento_Core_Model_Design_Package::PUBLIC_MODULE_DIR'
     ),
     array(
+        'PUBLIC_MODULE_DIR',
+        'Magento\View\Publisher',
+        'Magento\View\Publisher\FileInterface::PUBLIC_MODULE_DIR'
+    ),
+    array(
         'PUBLIC_THEME_DIR',
         'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::PUBLIC_THEME_DIR'
+    ),
+    array(
+        'PUBLIC_THEME_DIR',
+        'Magento\View\Publisher',
+        'Magento\View\Publisher\FileInterface::PUBLIC_THEME_DIR'
     ),
     array(
         'PUBLIC_VIEW_DIR',
         'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::PUBLIC_VIEW_DIR'
     ),
+    array(
+        'PUBLIC_VIEW_DIR',
+        'Magento\View\Publisher',
+        'Magento\View\Publisher\FileInterface::PUBLIC_VIEW_DIR'
+    ),
     array('REGISTRY_FORM_PARAMS_KEY', null, 'direct value'),
+    array('RULE_PERM_ALLOW', '\Magento\Math\Random'),
+    array('RULE_PERM_DENY', '\Magento\Math\Random'),
+    array('RULE_PERM_INHERIT', '\Magento\Math\Random'),
     array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_GROUP'),
     array('SCOPE_TYPE_STORE', 'Magento\Core\Model\App', 'Magento_Core_Model_StoreManagerInterface::SCOPE_TYPE_STORE'),
     array(
@@ -141,10 +159,10 @@ return array(
     ),
     array(
         'XML_PATH_ALLOW_CURRENCIES',
-        'Magento\Core\Model\Locale',
+        'Magento\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_ALLOW_CURRENCIES'
     ),
-    array('XML_PATH_ALLOW_CODES', 'Magento\Core\Model\LocaleInterface'),
+    array('XML_PATH_ALLOW_CODES', 'Magento\LocaleInterface'),
     array('XML_PATH_ALLOW_DUPLICATION', 'Magento\Core\Model\Design\PackageInterface',
         'Magento_Core_Model_Design_Package::XML_PATH_ALLOW_DUPLICATION'
     ),
@@ -164,15 +182,15 @@ return array(
         'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
-    array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
+    array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Locale'),
     array(
         'XML_PATH_DEFAULT_LOCALE',
-        'Magento\Core\Model\Locale',
+        'Magento\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_LOCALE'
     ),
     array(
         'XML_PATH_DEFAULT_TIMEZONE',
-        'Magento\Core\Model\Locale',
+        'Magento\Locale',
         'Magento_Core_Model_LocaleInterface::XML_PATH_DEFAULT_TIMEZONE'
     ),
     array('XML_PATH_INDEXER_DATA', 'Magento\Index\Model\Process'),
@@ -323,11 +341,16 @@ return array(
     array('CHARS_LOWERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_LOWERS'),
     array('CHARS_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_UPPERS'),
     array('CHARS_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_DIGITS'),
-    array('CHARS_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_SPECIALS'),
-    array('CHARS_PASSWORD_LOWERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_LOWERS'),
-    array('CHARS_PASSWORD_UPPERS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_UPPERS'),
-    array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_DIGITS'),
-    array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data', '\Magento\Math\Random::CHARS_PASSWORD_SPECIALS'),
+    array('CHARS_SPECIALS', '\Magento\Core\Helper\Data'),
+    array('CHARS_SPECIALS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_LOWERS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_LOWERS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_UPPERS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_UPPERS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_DIGITS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_DIGITS', '\Magento\Math\Random'),
+    array('CHARS_PASSWORD_SPECIALS', '\Magento\Core\Helper\Data'),
+    array('CHARS_PASSWORD_SPECIALS', '\Magento\Math\Random'),
     array('XML_NODE_REMOTE_ADDR_HEADERS', '\Magento\Core\Helper\Http'),
     array(
         'XML_PATH_EU_COUNTRIES_LIST',
@@ -485,7 +508,7 @@ return array(
     ),
     array(
         'USE_PARENT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
         'Magento\Catalog\Model\Config\Source\Product\Thumbnail::OPTION_USE_PARENT_IMAGE'
     ),
     array(
@@ -495,8 +518,8 @@ return array(
     ),
     array(
         'CONFIGURABLE_PRODUCT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable::CONFIG_THUMBNAIL_SOURCE'
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable::CONFIG_THUMBNAIL_SOURCE'
     ),
     array(
         'GROUPED_PRODUCT_IMAGE',
@@ -524,7 +547,7 @@ return array(
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
     array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
-    
+
     array('MAX_QTY_VALUE', '\Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE'
     ),
@@ -558,26 +581,32 @@ return array(
     array('GENERATION', '\Magento\Filesystem', '\Magento\App\Filesystem::GENERATION_DIR'),
     array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
     array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
-    ['PERIOD_UNIT_DAY', '\Magento\Payment\Model\Recurring\Profile', '\Magento\RecurringProfile\Model\PeriodUnits::DAY'],
+    array('LAYOUT_NAVIGATION_CLASS_NAME', 'Magento\DesignEditor\Model\State'),
+    array(
+        'TYPE_CONFIGURABLE',
+        '\Magento\Catalog\Model\Product\Type',
+        '\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE'
+    ),
+    ['PERIOD_UNIT_DAY', '\Magento\Payment\Model\Recurring\Profile', '\Magento\RecurringPayment\Model\PeriodUnits::DAY'],
     [
         'PERIOD_UNIT_WEEK',
         '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringProfile\Model\PeriodUnits::WEEK'
+        '\Magento\RecurringPayment\Model\PeriodUnits::WEEK'
     ],
     [
         'PERIOD_UNIT_SEMI_MONTH',
         '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringProfile\Model\PeriodUnits::SEMI_MONTH'
+        '\Magento\RecurringPayment\Model\PeriodUnits::SEMI_MONTH'
     ],
     [
         'PERIOD_UNIT_MONTH',
         '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringProfile\Model\PeriodUnits::MONTH'
+        '\Magento\RecurringPayment\Model\PeriodUnits::MONTH'
     ],
     [
         'PERIOD_UNIT_YEAR',
         '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringProfile\Model\PeriodUnits::YEAR'
+        '\Magento\RecurringPayment\Model\PeriodUnits::YEAR'
     ],
     array('XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY', '\Magento\Catalog\Helper\Category\Flat',
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'),

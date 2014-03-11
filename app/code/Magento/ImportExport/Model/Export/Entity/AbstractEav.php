@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
 
 /**
  * Export EAV entity abstract model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
 abstract class AbstractEav
     extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
@@ -44,28 +43,28 @@ abstract class AbstractEav
     /**
      * Attributes with index (not label) value
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
@@ -74,11 +73,11 @@ abstract class AbstractEav
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
         if (isset($data['entity_type_id'])) {
@@ -121,7 +120,7 @@ abstract class AbstractEav
     /**
      * Initialize attribute option values
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEav
+     * @return $this
      */
     protected function _initAttributeValues()
     {
@@ -184,11 +183,11 @@ abstract class AbstractEav
                         $to   = array_shift($exportFilter[$attributeCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = $this->_locale->date($from, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = $this->_locale->date($to, null, null, false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attributeCode, array('to' => $date, 'date' => true));
                         }
                     }

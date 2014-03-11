@@ -60,13 +60,13 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      */
     protected function _applyConfig()
     {
-        if (empty($this->_config)) {
-            return $this;
-        }
-
         // apply additional options to cURL
         foreach ($this->_options as $option => $value) {
             curl_setopt($this->_getResource(), $option, $value);
+        }
+
+        if (empty($this->_config)) {
+            return $this;
         }
 
         $verifyPeer = isset($this->_config['verifypeer']) ? $this->_config['verifypeer'] : true;
@@ -123,11 +123,12 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
     /**
      * Connect to the remote server
      *
-     * @deprecated since 1.4.0.0-rc1
      * @param string  $host
      * @param int     $port
      * @param boolean $secure
      * @return $this
+     *
+     * @deprecated since 1.4.0.0-rc1
      */
     public function connect($host, $port = 80, $secure = false)
     {

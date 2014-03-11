@@ -13,14 +13,18 @@ namespace Magento\Rma\Block\Form\Renderer;
 /**
  * Rma Item Form Renderer Block for select
  */
-class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
+class Select extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Select
 {
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item form
+     *
      * @var \Magento\Rma\Model\Item\Form
      */
     protected $_itemFormFactory;

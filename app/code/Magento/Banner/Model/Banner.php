@@ -25,7 +25,7 @@
  */
 namespace Magento\Banner\Model;
 
-class Banner extends \Magento\Core\Model\AbstractModel
+class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Representation value of enabled banner
@@ -38,6 +38,12 @@ class Banner extends \Magento\Core\Model\AbstractModel
      *
      */
     const STATUS_DISABLED  = 0;
+
+    /**
+     * Representation value of disabled banner
+     *
+     */
+    const CACHE_TAG  = 'banner';
 
     /**
      * Prefix of model events names
@@ -65,6 +71,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize banner model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -110,7 +117,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
     /**
      * Get all existing banner contents
      *
-     * @return array
+     * @return array|null
      */
     public function getStoreContents()
     {
@@ -125,7 +132,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
      * Get banners ids by catalog rule id
      *
      * @param int $ruleId
-     * @return array
+     * @return array|null
      */
     public function getRelatedBannersByCatalogRuleId($ruleId)
     {
@@ -140,7 +147,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
      * Get banners ids by sales rule id
      *
      * @param int $ruleId
-     * @return array
+     * @return array|null
      */
     public function getRelatedBannersBySalesRuleId($ruleId)
     {
@@ -154,7 +161,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
     /**
      * Save banner content, bind banner to catalog and sales rules after banner save
      *
-     * @return \Magento\Banner\Model\Banner
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -179,7 +186,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
 
     /**
      * Validate some data before saving
-     * @return \Magento\Banner\Model\Banner
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -204,7 +211,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
     /**
      * Collect store ids in which current banner has content
      *
-     * @return array
+     * @return array|null
      */
     public function getStoreIds()
     {
@@ -217,6 +224,7 @@ class Banner extends \Magento\Core\Model\AbstractModel
 
     /**
      * Make types getter always return array
+     *
      * @return array
      */
     public function getTypes()
@@ -232,5 +240,15 @@ class Banner extends \Magento\Core\Model\AbstractModel
         }
         $this->setData('types', $types);
         return $types;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

@@ -27,18 +27,18 @@ class History
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -200,7 +200,7 @@ class History
      *
      * @param string $label
      * @param bool $notified
-     * @param \Zend_Date $created
+     * @param \Magento\Stdlib\DateTime\DateInterface $created
      * @param string $comment
      * @return array
      */
@@ -307,7 +307,7 @@ class History
         $createdAtA = $a['created_at'];
         $createdAtB = $b['created_at'];
 
-        /** @var $createdAta \Zend_Date */
+        /** @var $createdAta \Magento\Stdlib\DateTime\DateInterface */
         if ($createdAtA->getTimestamp() == $createdAtB->getTimestamp()) {
             return 0;
         }

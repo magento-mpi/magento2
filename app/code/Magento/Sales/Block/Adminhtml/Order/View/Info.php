@@ -34,7 +34,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param CustomerMetadataServiceInterface $customerMetadataService
@@ -43,7 +43,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         CustomerMetadataServiceInterface $customerMetadataService,
@@ -160,7 +160,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         $entityType = 'customer';
 
         foreach ($this->_customerMetadataService->getAllCustomerAttributeMetadata($entityType) as $attribute) {
-            /* @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+            /* @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
             if (!$attribute->isVisible() || $attribute->isSystem()) {
                 continue;
             }

@@ -10,11 +10,13 @@
 
 namespace Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners;
 
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Grid
     extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
@@ -28,7 +30,7 @@ class Grid
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param array $data
      */
@@ -37,7 +39,7 @@ class Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         array $data = array()
     ) {
@@ -49,6 +51,7 @@ class Grid
     /**
      * Initialize grid, set promo sales rule grid ID
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,7 +66,7 @@ class Grid
     /**
      * Create grid columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return void
      */
     protected function _prepareColumns()
     {
@@ -78,10 +81,11 @@ class Grid
         parent::_prepareColumns();
     }
 
-    /* Set custom filter for in banner flag
+    /**
+     * Set custom filter for in banner flag
      *
-     * @param string $column
-     * @return \Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -106,7 +110,7 @@ class Grid
     /**
      * Disable massaction functioanality
      *
-     * @return \Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -126,6 +130,7 @@ class Grid
     /**
      * Define row click callback
      *
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -2,19 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Review\Block\Customer;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+
 /**
  * Customer Reviews list block
- *
- * @category   Magento
- * @package    Magento_Review
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 {
@@ -26,6 +23,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $_collection;
 
     /**
+     * Review resource model
+     *
      * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
     protected $_collectionFactory;
@@ -34,6 +33,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
      * @param array $data
      */
@@ -41,15 +42,21 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        parent::__construct(
+            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+        );
         $this->_isScopePrivate = true;
     }
 
     /**
+     * Initialize review collection
+     *
      * @return $this
      */
     protected function _initCollection()
@@ -147,10 +154,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function dateFormat($date)
     {
-        return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
     }
 
     /**
+     * Add review summary
+     *
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()

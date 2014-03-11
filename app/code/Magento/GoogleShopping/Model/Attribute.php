@@ -41,7 +41,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         'use_config_email_template',
         'tier_price',
         'minimal_price',
-        'recurring_profile',
+        'recurring_payment',
         'shipment_type'
     );
 
@@ -75,8 +75,8 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
@@ -86,8 +86,8 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,

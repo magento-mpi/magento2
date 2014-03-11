@@ -1,7 +1,5 @@
 <?php
 /**
- * Product option types mode source
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,14 +7,21 @@
  */
 namespace Magento\Catalog\Model\Config\Source\Product\Options;
 
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+/**
+ * Product option types mode source
+ */
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
+     * Product Option Config
+     *
      * @var \Magento\Catalog\Model\ProductOptions\ConfigInterface
      */
     protected $_productOptionConfig;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      */
     public function __construct(\Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig)
@@ -24,7 +29,9 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
         $this->_productOptionConfig = $productOptionConfig;
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         $groups = array(

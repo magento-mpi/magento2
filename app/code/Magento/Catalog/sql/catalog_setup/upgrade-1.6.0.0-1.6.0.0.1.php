@@ -14,7 +14,6 @@ $installer = $this;
 $productTypes = array(
     \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
     \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
-    \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
     \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
 );
 $productTypes = join(',', $productTypes);

@@ -14,8 +14,6 @@ use \Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 /**
  * Review Product Collection
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
@@ -49,11 +47,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_storesIds           = array();
 
     /**
+     * Rating model
+     *
      * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
+     * Rating option vote model
+     *
      * @var \Magento\Rating\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
@@ -70,11 +72,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
@@ -95,11 +97,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
@@ -120,11 +122,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $universalFactory,
             $storeManager,
             $catalogData,
-            $catalogProductFlat,
+            $catalogProductFlatState,
             $coreStoreConfig,
             $productOptionFactory,
             $catalogUrl,
-            $locale,
+            $localeDate,
             $customerSession,
             $dateTime,
             $connection
@@ -133,6 +135,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
     /**
      * Define module
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -143,7 +147,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * init select
+     * Initialize select
      *
      * @return $this
      */
@@ -209,7 +213,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Applies all store filters in one place to prevent multiple joins in select
      *
-     * @param null|Zend_Db_Select $select
+     * @param null|\Zend_Db_Select $select
      * @return $this
      */
     protected function _applyStoresFilterToSelect(\Zend_Db_Select $select = null)

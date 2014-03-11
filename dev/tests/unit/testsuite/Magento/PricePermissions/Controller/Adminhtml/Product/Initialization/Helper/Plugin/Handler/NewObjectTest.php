@@ -43,7 +43,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product',
             array('__wakeup', 'setIsRecurring', 'isObjectNew', 'getTypeId', 'getPriceType', 'setPrice',
-                'setGiftcardAmounts', 'unsRecurringProfile', 'setMsrpEnabled', 'setMsrpDisplayActualPriceType'
+                'setGiftcardAmounts', 'unsRecurringPayment', 'setMsrpEnabled', 'setMsrpDisplayActualPriceType'
             ),
             array(), '', false
         );
@@ -71,8 +71,6 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
 
         $this->productMock->expects($this->never())->method('setPrice');
 
-        $this->productMock->expects($this->once())->method('setIsRecurring')->with(false);
-        $this->productMock->expects($this->once())->method('unsRecurringProfile');
         $this->productMock->expects($this->once())->method('setMsrpEnabled')
             ->with(\Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG);
         $this->productMock->expects($this->once())->method('setMsrpDisplayActualPriceType')
@@ -104,8 +102,6 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->productMock->expects($this->once())->method('setIsRecurring')->with(false);
-        $this->productMock->expects($this->once())->method('unsRecurringProfile');
         $this->productMock->expects($this->once())->method('setMsrpEnabled')
             ->with(\Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG);
         $this->productMock->expects($this->once())->method('setMsrpDisplayActualPriceType')
@@ -124,8 +120,6 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
 
         $this->productMock->expects($this->never())->method('setGiftcardAmounts');
 
-        $this->productMock->expects($this->once())->method('setIsRecurring')->with(false);
-        $this->productMock->expects($this->once())->method('unsRecurringProfile');
         $this->productMock->expects($this->once())->method('setMsrpEnabled')
             ->with(\Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG);
         $this->productMock->expects($this->once())->method('setMsrpDisplayActualPriceType')

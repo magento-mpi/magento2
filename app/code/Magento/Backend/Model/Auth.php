@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model;
 
 /**
  * Backend Auth model
  */
-namespace Magento\Backend\Model;
-
 class Auth
 {
     /**
@@ -77,7 +76,7 @@ class Auth
      * Set auth storage if it is instance of \Magento\Backend\Model\Auth\StorageInterface
      *
      * @param \Magento\Backend\Model\Auth\StorageInterface $storage
-     * @return \Magento\Backend\Model\Auth
+     * @return $this
      * @throw \Magento\Backend\Model\Auth\Exception if $storage is not correct
      */
     public function setAuthStorage($storage)
@@ -126,7 +125,7 @@ class Auth
     /**
      * Return credential storage object
      *
-     * @return null | \Magento\Backend\Model\Auth\Credential\StorageInterface
+     * @return null|\Magento\Backend\Model\Auth\Credential\StorageInterface
      */
     public function getCredentialStorage()
     {
@@ -138,6 +137,7 @@ class Auth
      *
      * @param string $username
      * @param string $password
+     * @return void
      * @throws \Exception|\Magento\Backend\Model\Auth\Plugin\Exception
      */
     public function login($username, $password)
@@ -192,7 +192,7 @@ class Auth
     /**
      * Check if current user is logged in
      *
-     * @return boolean
+     * @return bool
      */
     public function isLoggedIn()
     {
@@ -202,10 +202,10 @@ class Auth
     /**
      * Throws specific Backend Authentication \Exception
      *
-     * @static
      * @param string $msg
      * @param string $code
      * @throws \Magento\Backend\Model\Auth\Exception
+     * @static
      */
     public static function throwException($msg = null, $code = null)
     {

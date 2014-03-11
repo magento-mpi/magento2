@@ -18,25 +18,29 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
-class Front extends \Magento\Backend\Block\Widget\Form\Generic
+use Magento\Backend\Block\Widget\Form;
+use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Model\Config\Source\Yesno;
+
+class Front extends Generic
 {
     /**
-     * @var \Magento\Backend\Model\Config\Source\Yesno
+     * @var Yesno
      */
     protected $_yesNo;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
+     * @param Yesno $yesNo
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Backend\Model\Config\Source\Yesno $yesNo,
+        Yesno $yesNo,
         array $data = array()
     ) {
         $this->_yesNo = $yesNo;
@@ -44,7 +48,7 @@ class Front extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @return $this
      */
     protected function _prepareForm()

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation;
 
 /**
  * Operation resource model
@@ -15,14 +16,13 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource collection model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -35,7 +35,7 @@ class Collection
     /**
      * Call afterLoad method for each item
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {

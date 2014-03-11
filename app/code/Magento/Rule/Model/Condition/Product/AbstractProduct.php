@@ -72,12 +72,18 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     protected $_attrSetCollection;
 
     /**
+     * @var \Magento\Locale\FormatInterface
+     */
+    protected $_localeFormat;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      */
     public function __construct(
@@ -87,6 +93,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
@@ -94,6 +101,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
         $this->_product = $product;
         $this->_productResource = $productResource;
         $this->_attrSetCollection = $attrSetCollection;
+        $this->_localeFormat = $localeFormat;
         parent::__construct($context, $data);
     }
 
@@ -136,7 +144,8 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Add special attributes
      *
-     * @param array $attributes
+     * @param array &$attributes
+     * @return void
      */
     protected function _addSpecialAttributes(array &$attributes)
     {
@@ -147,7 +156,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Load attribute options
      *
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -178,7 +187,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      *  'value_select_options' - normal select array: array(array('value' => $value, 'label' => $label), ...)
      *  'value_option' - hashed array: array($value => $label, ...),
      *
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     protected function _prepareValueOptions()
     {
@@ -233,7 +242,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Retrieve value by option
      *
-     * @param mixed $option
+     * @param string|null $option
      * @return string
      */
     public function getValueOption($option = null)
@@ -293,7 +302,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * Collect validated attributes
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function collectValidatedAttributes($productCollection)
     {
@@ -447,7 +456,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * Load array
      *
      * @param array $arr
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Product
+     * @return $this
      */
     public function loadArray($arr)
     {
@@ -464,17 +473,17 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
 
                     $tmp = array();
                     foreach (explode(',', $arr['value']) as $value) {
-                        $tmp[] = $this->_locale->getNumber($value);
+                        $tmp[] = $this->_localeFormat->getNumber($value);
                     }
                     $arr['value'] =  implode(',', $tmp);
                 } else {
-                    $arr['value'] =  $this->_locale->getNumber($arr['value']);
+                    $arr['value'] =  $this->_localeFormat->getNumber($arr['value']);
                 }
             } else {
                 $arr['value'] = false;
             }
             $arr['is_value_parsed'] = isset($arr['is_value_parsed'])
-                ? $this->_locale->getNumber($arr['is_value_parsed']) : false;
+                ? $this->_localeFormat->getNumber($arr['is_value_parsed']) : false;
         }
 
         return parent::loadArray($arr);

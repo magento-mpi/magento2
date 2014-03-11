@@ -32,7 +32,6 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\PaypalExpress\CheckoutOnepageTest');
         // Onepage Checkout
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\OnepageTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
         // Multishipping
         $suite->addTestSuite('Magento\Multishipping\Test\TestCase\MultishippingTest');

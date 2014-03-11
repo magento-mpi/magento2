@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Dashboard\Tab\Products;
 
 /**
  * Adminhtml dashboard most viewed products grid
@@ -15,9 +16,6 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\Dashboard\Tab\Products;
-
 class Viewed extends \Magento\Backend\Block\Dashboard\Grid
 {
     /**
@@ -41,12 +39,18 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('productsReviewedGrid');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareCollection()
     {
         if ($this->getParam('website')) {
@@ -69,6 +73,9 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
         return parent::_prepareCollection();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
@@ -101,6 +108,9 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
         return parent::_prepareColumns();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRowUrl($row)
     {
         $params = array('id'=>$row->getId());

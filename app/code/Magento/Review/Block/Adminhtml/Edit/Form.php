@@ -23,23 +23,29 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_reviewData = null;
 
     /**
+     * Customer model factory
+     *
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
 
     /**
+     * Catalog product factory
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
+     * Core system store model
+     *
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -49,7 +55,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -65,6 +71,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
+     * Prepare edit review form
+     *
      * @return $this
      */
     protected function _prepareForm()

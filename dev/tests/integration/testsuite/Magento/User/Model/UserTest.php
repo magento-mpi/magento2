@@ -168,23 +168,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
             $this->_model->getCollection());
     }
 
-    public function testSendPasswordResetConfirmationEmail()
-    {
-        /** @var $config \Magento\Backend\App\ConfigInterface */
-        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\App\ConfigInterface');
-        $mailer = $this->getMock('Magento\Email\Model\Template\Mailer', array(), array(
-            $this->getMock('Magento\Email\Model\TemplateFactory', array(), array(), '', false)
-        ));
-        $mailer->expects($this->once())
-            ->method('setTemplateId')
-            ->with($config->getValue(\Magento\User\Model\User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
-        $mailer->expects($this->once())
-            ->method('send');
-        $this->_model->setMailer($mailer);
-        $this->_model->sendPasswordResetConfirmationEmail();
-    }
-
     public function testGetName()
     {
         $this->_model->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
@@ -313,6 +296,36 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setSomething('some_value'); // force model change
         $this->_model->save();
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testBeforeSavePasswordHash()
+    {
+        $this->_model->setUsername('john.doe')
+            ->setFirstname('John')
+            ->setLastname('Doe')
+            ->setEmail('jdoe@gmail.com')
+            ->setPassword('123123q')
+        ;
+        $this->_model->save();
+        $this->assertNotContains('123123q', $this->_model->getPassword(), 'Password is expected to be hashed');
+        $this->assertRegExp(
+            '/^[0-9a-f]+:[0-9a-zA-Z]{32}$/',
+            $this->_model->getPassword(),
+            'Salt is expected to be saved along with the password'
+        );
+
+        /** @var \Magento\User\Model\User $model */
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\User\Model\User');
+        $model->load($this->_model->getId());
+        $this->assertEquals(
+            $this->_model->getPassword(),
+            $model->getPassword(),
+            'Password data has been corrupted during saving'
+        );
     }
 
     /**

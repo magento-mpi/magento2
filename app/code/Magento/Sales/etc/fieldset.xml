@@ -309,8 +309,8 @@
                 <aspect name="to_order_address" />
                 <aspect name="to_customer_address" />
             </field>
-            <field name="street_full">
-                <aspect name="to_order_address" targetField="street" />
+            <field name="street">
+                <aspect name="to_order_address" />
             </field>
             <field name="street">
                 <aspect name="to_customer_address" />
@@ -486,9 +486,6 @@
             <field name="is_nominal">
                 <aspect name="to_order_item" />
             </field>
-            <field name="free_shipping">
-                <aspect name="to_order_item" />
-            </field>
         </fieldset>
         <fieldset id="sales_convert_order">
             <field name="customer_id">
@@ -654,8 +651,8 @@
             <field name="company">
                 <aspect name="to_quote_address" />
             </field>
-            <field name="street_full">
-                <aspect name="to_quote_address" targetField="street" />
+            <field name="street">
+                <aspect name="to_quote_address" />
             </field>
             <field name="city">
                 <aspect name="to_quote_address" />
@@ -792,9 +789,6 @@
                 <aspect name="to_cm_item" />
                 <aspect name="to_quote_item" />
             </field>
-            <field name="free_shipping">
-                <aspect name="to_quote_item" />
-            </field>
         </fieldset>
         <fieldset id="customer_account">
             <field name="id">
@@ -838,8 +832,8 @@
             <field name="id">
                 <aspect name="to_quote_address" targetField="customer_address_id" />
             </field>
-            <field name="parent_id">
-                <aspect name="to_quote_address" targetField="customer_id" />
+            <field name="customer_id">
+                <aspect name="to_quote_address" />
             </field>
             <field name="prefix">
                 <aspect name="to_quote_address" />
@@ -859,8 +853,8 @@
             <field name="company">
                 <aspect name="to_quote_address" />
             </field>
-            <field name="street_full">
-                <aspect name="to_quote_address" targetField="street" />
+            <field name="street">
+                <aspect name="to_quote_address" />
             </field>
             <field name="city">
                 <aspect name="to_quote_address" />

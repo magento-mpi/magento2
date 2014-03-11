@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Model\Source;
 
-class Position implements \Magento\Core\Model\Option\ArrayInterface
+class Position implements \Magento\Option\ArrayInterface
 {
 
     /**

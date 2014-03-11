@@ -51,12 +51,6 @@ $installer->getConnection()->createTable($table);
 
 $tableAdmins     = $installer->getTable('admin_user');
 
-$installer->getConnection()->changeColumn($tableAdmins, 'password', 'password', array(
-    'type'      => \Magento\DB\Ddl\Table::TYPE_TEXT,
-    'length'    => 100,
-    'comment'   => 'User Password'
-));
-
 $installer->getConnection()->addColumn($tableAdmins, 'failures_num', array(
     'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
     'nullable'  => true,

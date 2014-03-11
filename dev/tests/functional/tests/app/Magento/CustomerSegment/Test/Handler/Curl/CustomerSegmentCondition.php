@@ -12,7 +12,7 @@
 
 namespace Magento\CustomerSegment\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
@@ -23,10 +23,10 @@ class CustomerSegmentCondition {
     /**
      * Prepare POST data for creating customer request
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return array
      */
-    protected function _prepareData(Fixture $fixture)
+    protected function _prepareData(FixtureInterface $fixture)
     {
         $data = $fixture->getData('fields');
         foreach ($data as $key => $values) {
@@ -57,10 +57,10 @@ class CustomerSegmentCondition {
     /**
      * Post request for creating customer in backend
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $params = $this->_prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'customersegment/index/save/active_tab/conditions_section';

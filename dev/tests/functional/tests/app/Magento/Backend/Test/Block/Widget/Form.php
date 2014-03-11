@@ -13,7 +13,7 @@
 namespace Magento\Backend\Test\Block\Widget;
 
 use Mtf\Factory\Factory;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element\Locator;
 use Mtf\Block\Form as FormInstance;
 
@@ -98,10 +98,10 @@ class Form extends FormInstance
     /**
      * Update the root form
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return Form
      */
-    public function update(Fixture $fixture)
+    public function update(FixtureInterface $fixture)
     {
         $this->fill($fixture);
         return $this;
@@ -122,10 +122,10 @@ class Form extends FormInstance
     /**
      * Save the form
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return Form
      */
-    public function save(Fixture $fixture = null)
+    public function save(FixtureInterface $fixture = null)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
         $this->waitForElement();
@@ -171,10 +171,10 @@ class Form extends FormInstance
     /**
      * Delete current form item
      *
-     * @param Fixture $fixture
+     * @param FixtureInterface $fixture
      * @return Form
      */
-    public function delete(Fixture $fixture = null)
+    public function delete(FixtureInterface $fixture = null)
     {
         $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_CSS)->click();
         return $this;

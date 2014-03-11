@@ -13,7 +13,7 @@
 namespace Magento\Catalog\Test\Handler\Curl;
 
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
@@ -63,10 +63,11 @@ class CreateConfigurable extends Curl
         unset($baseData['configurable_attributes_data']);
         unset($baseData['variations-matrix']);
         foreach ($baseData as $key => $field) {
+            $fieldName = isset($field['input_name']) ? $field['input_name'] : $key;
             if (isset ($field['input_value'])) {
-                $curlData[$key] = $field['input_value'];
-            } else if (isset($field['value'])) {
-                $curlData[$key] = $field['value'];
+                $curlData[$fieldName] = $field['input_value'];
+            } elseif (isset($field['value'])) {
+                $curlData[$fieldName] = $field['value'];
             }
         }
 
@@ -148,15 +149,15 @@ class CreateConfigurable extends Curl
     /**
      * Create configurable product
      *
-     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      * @throws \Exception
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $url = $_ENV['app_backend_url']
             . 'catalog/product/save/'
-            . $fixture->getUrlParams('create_url_params') . '/popup/1/';
+            . $fixture->getUrlParams('create_url_params') . '/popup/1/back/edit';
         $params = $this->_prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);

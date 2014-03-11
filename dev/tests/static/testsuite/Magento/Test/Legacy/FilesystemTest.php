@@ -40,6 +40,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         return array(
             'Relocated to pub/errors' => array('errors'),
             'Eliminated with Magento_Compiler' => array('includes'),
+            'Eliminated with Magento_GoogleCheckout' => array('lib/googlecheckout'),
             'Relocated to pub/lib' => array('js'),
             'Relocated to pub/media' => array('media'),
             'Eliminated as not needed' => array('pkginfo'),

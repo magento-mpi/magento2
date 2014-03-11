@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Captcha\Model;
 
 /**
@@ -52,7 +51,7 @@ class Cron
      * @param \Magento\Core\Model\StoreManager $storeManager
      */
     public function __construct(
-        \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,
+        Resource\LogFactory $resLogFactory,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Captcha\Helper\Adminhtml\Data $adminHelper,
         \Magento\App\Filesystem $filesystem,
@@ -96,7 +95,7 @@ class Cron
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Core\Model\Website|null $website
      * @param \Magento\Core\Model\Store|null $store
-     * @return \Magento\Captcha\Model\Observer
+     * @return void
      */
     protected function _deleteExpiredImagesForWebsite(
         \Magento\Captcha\Helper\Data $helper,

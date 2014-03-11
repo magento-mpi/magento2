@@ -31,7 +31,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->productTypeConfig = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
-        $this->registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->view = $helper->getObject('Magento\Catalog\Block\Product\View', array(
                 'productTypeConfig' => $this->productTypeConfig,
                 'registry' => $this->registryMock
@@ -54,5 +54,22 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->with('id')
             ->will($this->returnValue(true));
         $this->assertEquals(false, $this->view->shouldRenderQuantity());
+    }
+
+    public function testGetIdentities()
+    {
+        $productTags = array('catalog_product_1');
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $product->expects($this->once())
+            ->method('getIdentities')
+            ->will($this->returnValue($productTags));
+        $this->registryMock->expects($this->any())
+            ->method('registry')
+            ->with('product')
+            ->will($this->returnValue($product));
+        $this->assertEquals(
+            $productTags,
+            $this->view->getIdentities()
+        );
     }
 }

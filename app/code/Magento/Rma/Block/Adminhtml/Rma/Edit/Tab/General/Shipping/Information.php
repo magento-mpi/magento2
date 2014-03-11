@@ -7,21 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
 /**
  * Shipment Information block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
-
 class Information
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Packaging
 {
     /**
      * Constructor
+     *
+     * @return void
      */
     public function _construct()
     {

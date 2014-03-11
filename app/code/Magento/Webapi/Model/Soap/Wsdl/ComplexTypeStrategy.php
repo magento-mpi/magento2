@@ -132,6 +132,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @param array $parameterData
      * @param string $parameterType
      * @param array $callInfo
+     * @return void
      */
     protected function _processParameter(\DOMElement $element, $isRequired, $parameterData, $parameterType, $callInfo)
     {
@@ -152,6 +153,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      *
      * @param string $type
      * @param array $callInfo
+     * @return void
      */
     protected function _processArrayParameter($type, $callInfo = array())
     {
@@ -179,8 +181,9 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
     /**
      * Revert required call info data if needed.
      *
-     * @param boolean $isRequired
-     * @param array $callInfo
+     * @param bool $isRequired
+     * @param array &$callInfo
+     * @return void
      */
     protected function _revertRequiredCallInfo($isRequired, &$callInfo)
     {
@@ -206,6 +209,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @param string $documentation parameter documentation string
      * @param string|null $default
      * @param array $callInfo
+     * @return void
      */
     public function addAnnotation(\DOMElement $element, $documentation, $default = null, $callInfo = array())
     {
@@ -274,6 +278,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @param string $elementType
      * @param string $documentation
      * @param \DOMElement $appInfoNode
+     * @return void
      */
     protected function _processElementType($elementType, $documentation, \DOMElement $appInfoNode)
     {
@@ -298,6 +303,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @param string $elementType
      * @param string $default
      * @param \DOMElement $appInfoNode
+     * @return void
      */
     protected function _processDefaultValueAnnotation($elementType, $default, \DOMElement $appInfoNode)
     {
@@ -330,9 +336,10 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
     /**
      * Check if there is given annotation in documentation, and if not - create an empty one.
      *
-     * @param $annotation
-     * @param $documentation
+     * @param string $annotation
+     * @param string $documentation
      * @param \DOMElement $appInfoNode
+     * @return void
      */
     protected function _processRequiredAnnotation($annotation, $documentation, \DOMElement $appInfoNode)
     {
@@ -346,7 +353,8 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * Process 'callInfo' appinfo tag.
      *
      * @param \DOMElement $appInfoNode
-     * @param $callInfo
+     * @param array $callInfo
+     * @return void
      */
     protected function _processCallInfo(\DOMElement $appInfoNode, $callInfo)
     {
@@ -378,7 +386,8 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * Process 'docInstructions' appinfo tag.
      *
      * @param \DOMElement $appInfoNode
-     * @param $tagValue
+     * @param string $tagValue
+     * @return void
      */
     protected function _processDocInstructions(\DOMElement $appInfoNode, $tagValue)
     {
@@ -396,7 +405,8 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * Process 'seeLink' appinfo tag.
      *
      * @param \DOMElement $appInfoNode
-     * @param $tagValue
+     * @param string $tagValue
+     * @return void
      */
     protected function _processSeeLink(\DOMElement $appInfoNode, $tagValue)
     {
@@ -421,8 +431,9 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
     /**
      * Delete callName if it's already defined in some direction group.
      *
-     * @param $callInfo
-     * @param $callName
+     * @param array &$callInfo
+     * @param string $callName
+     * @return void
      */
     protected function _overrideCallInfoName(&$callInfo, $callName)
     {

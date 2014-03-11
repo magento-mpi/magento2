@@ -31,6 +31,7 @@ abstract class AbstractDirector
      * @param array $config
      * @param \Magento\Backend\Model\Menu\Builder $builder
      * @param \Magento\Logger $logger
+     * @return void
      */
     abstract public function direct(
         array $config, \Magento\Backend\Model\Menu\Builder $builder, \Magento\Logger $logger

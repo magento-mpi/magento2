@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block\Order;
 
 /**
  * Review form block
  */
-namespace Magento\Rss\Block\Order;
-
 class Status extends \Magento\View\Element\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -34,14 +33,14 @@ class Status extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Rss\Model\Resource\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Rss\Model\Resource\OrderFactory $orderFactory,
         array $data = array()
@@ -52,6 +51,9 @@ class Status extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         /*
@@ -61,6 +63,9 @@ class Status extends \Magento\View\Element\Template
         $this->setCacheLifetime(600);
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         /** @var $rssObj \Magento\Rss\Model\Rss */
@@ -85,13 +90,13 @@ class Status extends \Magento\View\Element\Template
                 $urlAppend = 'view';
                 $type = $result['entity_type_code'];
                 if ($type && $type != 'order') {
-                   $urlAppend = $type;
+                    $urlAppend = $type;
                 }
                 $type  = __(ucwords($type));
                 $title = __('Details for %1 #%2', $type, $result['increment_id']);
                 $description = '<p>'
-                    . __('Notified Date: %1<br/>',$this->formatDate($result['created_at']))
-                    . __('Comment: %1<br/>',$result['comment'])
+                    . __('Notified Date: %1<br/>', $this->formatDate($result['created_at']))
+                    . __('Comment: %1<br/>', $result['comment'])
                     . '</p>';
                 $url = $this->_urlBuilder->getUrl('sales/order/' . $urlAppend, array('order_id' => $order->getId()));
                 $rssObj->_addEntry(array(
@@ -102,7 +107,7 @@ class Status extends \Magento\View\Element\Template
             }
         }
         $title = __('Order #%1 created at %2', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
-        $url = $this->_urlBuilder->getUrl('sales/order/view',array('order_id' => $order->getId()));
+        $url = $this->_urlBuilder->getUrl('sales/order/view', array('order_id' => $order->getId()));
         $description = '<p>'
             . __('Current Status: %1<br/>', $order->getStatusLabel())
             . __('Total: %1<br/>', $order->formatPrice($order->getGrandTotal()))

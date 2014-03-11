@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource;
 
 /**
  * Log Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model\Resource;
-
 class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -28,7 +26,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -39,13 +37,13 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Stdlib\DateTime $dateTime
     ) {
@@ -58,6 +56,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init Resource model and connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,7 +67,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Clean logs
      *
      * @param \Magento\Log\Model\Log $object
-     * @return \Magento\Log\Model\Resource\Log
+     * @return $this
      */
     public function clean(\Magento\Log\Model\Log $object)
     {
@@ -85,7 +84,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Clean visitors table
      *
      * @param int $time
-     * @return \Magento\Log\Model\Resource\Log
+     * @return $this
      */
     protected function _cleanVisitors($time)
     {
@@ -134,7 +133,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Clean customer table
      *
      * @param int $time
-     * @return \Magento\Log\Model\Resource\Log
+     * @return $this
      */
     protected function _cleanCustomers($time)
     {
@@ -231,7 +230,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Clean url table
      *
-     * @return \Magento\Log\Model\Resource\Log
+     * @return $this
      */
     protected function _cleanUrls()
     {

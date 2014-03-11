@@ -7,16 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Enterprise Persistent System Config Option Customer Segmentation admin frontend model
  *
  */
-namespace Magento\PersistentHistory\Block\Adminhtml\System\Config;
-
 class Customer extends \Magento\Backend\Block\System\Config\Form\Field
 {
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    public function render(AbstractElement $element)
     {
         $elementId = $element->getHtmlId();
         $optionShoppingCartId = str_replace('/', '_', \Magento\Persistent\Helper\Data::XML_PATH_PERSIST_SHOPPING_CART);
@@ -25,8 +30,7 @@ class Customer extends \Magento\Backend\Block\System\Config\Form\Field
         $addInheritCheckbox = false;
         if ($element->getCanUseWebsiteValue()) {
             $addInheritCheckbox = true;
-        }
-        elseif ($element->getCanUseDefaultValue()) {
+        } elseif ($element->getCanUseDefaultValue()) {
             $addInheritCheckbox = true;
         }
 

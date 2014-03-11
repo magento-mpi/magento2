@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerBalance\Model\Resource\Balance\History;
 
 /**
  * Balance history collection
@@ -16,14 +16,12 @@
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerBalance\Model\Resource\Balance\History;
-
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -36,7 +34,7 @@ class Collection
     /**
      * Instantiate select joined to balance
      *
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\History\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -53,8 +51,8 @@ class Collection
     /**
      * Filter collection by specified websites
      *
-     * @param array|int $websiteIds
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\History\Collection
+     * @param string $websiteIds
+     * @return $this
      */
     public function addWebsitesFilter($websiteIds)
     {
@@ -65,9 +63,9 @@ class Collection
     /**
      * Retrieve history data
      *
-     * @param  string $customerId
+     * @param string $customerId
      * @param string|null $websiteId
-     * @return \Magento\CustomerBalance\Model\Resource\Balance\History\Collection
+     * @return $this
      */
     public function loadHistoryData($customerId, $websiteId = null)
     {

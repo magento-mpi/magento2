@@ -32,8 +32,8 @@ class ClassReflector
     /**
      * Reflect methods in given class and set retrieved data into reader.
      *
-     * @param array $methods
      * @param string $className
+     * @param array $methods
      * @return array <pre>array(
      *     $firstMethod => array(
      *         'documentation' => $methodDocumentation,
@@ -103,7 +103,7 @@ class ClassReflector
             }
             $methodData['interface']['in']['parameters'][$parameter->getName()] = $parameterData;
         }
-        if ($prototype->getReturnType() != 'void') {
+        if ($prototype->getReturnType() != 'void' && $prototype->getReturnType() != 'null') {
             $methodData['interface']['out']['parameters']['result'] = array(
                 'type' => $this->_typeProcessor->process($prototype->getReturnType()),
                 'documentation' => $prototype->getReturnValue()->getDescription(),

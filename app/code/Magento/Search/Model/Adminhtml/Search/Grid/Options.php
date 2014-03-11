@@ -9,7 +9,7 @@
  */
 namespace Magento\Search\Model\Adminhtml\Search\Grid;
 
-class Options implements \Magento\Core\Model\Option\ArrayInterface
+class Options implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\App\RequestInterface
@@ -17,23 +17,23 @@ class Options implements \Magento\Core\Model\Option\ArrayInterface
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
     /**
-     * \Magento\Search\Model\Resource\Recommendations
+     * @var \Magento\Search\Model\Resource\Recommendations $_searchResourceModel
      */
     protected $_searchResourceModel;
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Search\Model\Resource\Recommendations $searchResourceModel
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Search\Model\Resource\Recommendations $searchResourceModel
     ) {
         $this->_request = $request;
@@ -42,9 +42,7 @@ class Options implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Retrieve selected related queries from grid
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

@@ -35,8 +35,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'context'                 => $objectManager->get('Magento\Core\Model\Context'),
-            'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
+            'context'                 => $objectManager->get('Magento\Model\Context'),
+            'registry'                => $objectManager->get('Magento\Registry'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
             'url'                     => $objectManager->get('Magento\Url'),
@@ -49,7 +49,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
             'sidResolver'             => $objectManager->get('Magento\Session\SidResolverInterface'),
             'cookie'                  => $objectManager->get('Magento\Stdlib\Cookie'),
-            'response'                => $objectManager->get('\Magento\App\Response\Http'),
+            'httpContext'             => $objectManager->get('Magento\App\Http\Context'),
         );
 
         return $this->getMock(
@@ -361,7 +361,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $params = $this->_modelParams;
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Context', array('appState' => $appStateMock));
+            ->create('Magento\Model\Context', array('appState' => $appStateMock));
 
         $model = $this->getMock('Magento\Core\Model\Store', array('getConfig'), $params);
 

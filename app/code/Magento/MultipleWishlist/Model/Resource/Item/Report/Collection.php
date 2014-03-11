@@ -11,6 +11,8 @@
  */
 namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
 
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -77,6 +79,8 @@ class Collection
 
     /**
      * Init model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +90,7 @@ class Collection
     /**
      * Add customer information to collection items
      *
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     protected function _addCustomerInfo()
     {
@@ -143,9 +147,10 @@ class Collection
     /**
      * Join customer attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
+     * @return void
      */
-    protected function _joinCustomerAttibute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
+    protected function _joinCustomerAttibute(AbstractAttribute $attribute)
     {
         $adapter = $this->getSelect()->getAdapter();
         $tableName = $adapter->getTableName('at_' . $attribute->getName());
@@ -168,7 +173,7 @@ class Collection
      * Filter collection by store ids
      *
      * @param array $storeIds
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     public function filterByStoreIds(array $storeIds)
     {
@@ -179,7 +184,7 @@ class Collection
     /**
      * Add product information to collection
      *
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     protected function _addProductInfo()
     {
@@ -200,7 +205,7 @@ class Collection
     /**
      * Add selected data
      *
-     * @return \Magento\MultipleWishlist\Model\Resource\Item\Report\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -230,6 +235,8 @@ class Collection
 
     /**
      * Add product info to collection
+     *
+     * @return void
      */
     protected function _afterLoad()
     {

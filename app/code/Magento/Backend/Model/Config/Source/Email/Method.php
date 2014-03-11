@@ -18,8 +18,11 @@
  */
 namespace Magento\Backend\Model\Config\Source\Email;
 
-class Method implements \Magento\Core\Model\Option\ArrayInterface
+class Method implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         $options    = array(

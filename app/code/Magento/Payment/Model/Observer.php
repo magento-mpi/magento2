@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model;
 
 /**
  * Payment Observer
  */
-namespace Magento\Payment\Model;
-
 class Observer
 {
     /**
@@ -50,7 +49,7 @@ class Observer
      * Set forced canCreditmemo flag
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Payment\Model\Observer
+     * @return $this
      */
     public function salesOrderBeforeSave($observer)
     {
@@ -77,23 +76,8 @@ class Observer
     }
 
     /**
-     * Sets current instructions for bank transfer account
-     *
      * @param \Magento\Event\Observer $observer
      * @return void
-     */
-    public function beforeOrderPaymentSave(\Magento\Event\Observer $observer)
-    {
-        /** @var \Magento\Sales\Model\Order\Payment $payment */
-        $payment = $observer->getEvent()->getPayment();
-        if($payment->getMethod() === \Magento\Payment\Model\Method\Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
-            $payment->setAdditionalInformation('instructions',
-                $payment->getMethodInstance()->getInstructions());
-        }
-    }
-
-    /**
-     * @param \Magento\Event\Observer $observer
      */
     public function updateOrderStatusForPaymentMethods(\Magento\Event\Observer $observer)
     {

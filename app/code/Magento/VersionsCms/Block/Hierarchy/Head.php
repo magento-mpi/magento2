@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Block\Hierarchy;
 
 /**
  * Cms Hierarchy Head Block
@@ -15,17 +15,15 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Block\Hierarchy;
-
 class Head extends \Magento\View\Element\AbstractBlock
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * @var \Magento\VersionsCms\Helper\Hierarchy|null
      */
@@ -34,13 +32,13 @@ class Head extends \Magento\View\Element\AbstractBlock
     /**
      * @param \Magento\View\Element\Context $context
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Context $context,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -50,7 +48,7 @@ class Head extends \Magento\View\Element\AbstractBlock
     /**
      * Prepare Global Layout
      *
-     * @return \Magento\VersionsCms\Block\Hierarchy\Head
+     * @return $this
      */
     protected function _prepareLayout()
     {

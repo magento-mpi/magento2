@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource\Page\Revision;
 
 /**
  * Cms page revision collection
  */
-namespace Magento\VersionsCms\Model\Resource\Page\Revision;
-
 class Collection
     extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,7 +31,7 @@ class Collection
      * Columns which should be joined determined by parameter $cols.
      *
      * @param mixed $cols
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision\Collection
+     * @return $this
      */
     public function joinVersions($cols = '')
     {
@@ -69,7 +69,7 @@ class Collection
      * Parameter $version can be int or object.
      *
      * @param int|\Magento\VersionsCms\Model\Page\Version $version
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision\Collection
+     * @return $this
      */
     public function addVersionFilter($version)
     {
@@ -90,7 +90,7 @@ class Collection
      * Add order by revision number in specified direction.
      *
      * @param string $dir
-     * @return \Magento\VersionsCms\Model\Resource\Page\Revision\Collection
+     * @return $this
      */
     public function addNumberSort($dir = \Magento\DB\Select::SQL_DESC)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
 
 /**
  * Newsletter queue edit form
@@ -15,9 +16,6 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -37,7 +35,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Newsletter\Model\QueueFactory $queueFactory
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -46,7 +44,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\QueueFactory $queueFactory,
         \Magento\Core\Model\System\Store $systemStore,
@@ -64,13 +62,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Form can be run from newsletter template grid by option "Queue newsletter"
      * or from  newsletter queue grid by edit option.
      *
-     * @param void
-     * @return \Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
         /* @var $queue \Magento\Newsletter\Model\Queue */
-        $queue = $this->_queueFactory->create();
+        $queue = $this->getQueue();
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -80,8 +77,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'class'    =>  'fieldset-wide'
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
-        $timeFormat = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+        $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
 
         if ($queue->getQueueStatus() == \Magento\Newsletter\Model\Queue::STATUS_NEVER) {
             $fieldset->addField('date', 'date', array(
@@ -136,7 +133,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($queue->getQueueStartAt()) {
             $form->getElement('date')->setValue(
-                $this->_locale->date($queue->getQueueStartAt(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                $this->_localeDate->date($queue->getQueueStartAt(), \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
         }
 
@@ -230,5 +227,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->setForm($form);
         return $this;
+    }
+
+    /**
+     * Retrieve queue object
+     *
+     * @return \Magento\Newsletter\Model\Queue
+     */
+    protected function getQueue()
+    {
+        $queue = $this->_coreRegistry->registry('current_queue');
+        if (!$queue) {
+            $queue = $this->_queueFactory->create();
+        }
+        return $queue;
     }
 }

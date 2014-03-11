@@ -18,29 +18,41 @@ class Calendar extends \Magento\View\Element\Template
     /**
      * Date model
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
+     * JSON Encoder
+     *
      * @var \Magento\Json\EncoderInterface
      */
     protected $encoder;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Json\EncoderInterface $encoder
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Json\EncoderInterface $encoder,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_date = $date;
         $this->encoder = $encoder;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context, $data);
     }
 
@@ -51,7 +63,7 @@ class Calendar extends \Magento\View\Element\Template
      */
     protected function _toHtml()
     {
-        $localeCode = $this->_locale->getLocaleCode();
+        $localeCode = $this->_localeResolver->getLocaleCode();
 
         // get days names
         $days = \Zend_Locale_Data::getList($localeCode, 'days');
@@ -85,12 +97,14 @@ class Calendar extends \Magento\View\Element\Template
         $this->assign(
             'defaultFormat',
             $this->encoder->encode(
-                $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM)
+                $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM)
             )
         );
         $this->assign(
             'toolTipFormat',
-            $this->encoder->encode($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG))
+            $this->encoder->encode($this->_localeDate->getDateFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG
+            ))
         );
 
         // get days and months for en_US locale - calendar will parse exactly in this locale
@@ -108,7 +122,7 @@ class Calendar extends \Magento\View\Element\Template
     /**
      * Return offset of current timezone with GMT in seconds
      *
-     * @return integer
+     * @return int
      */
     public function getTimezoneOffsetSeconds()
     {
@@ -118,11 +132,11 @@ class Calendar extends \Magento\View\Element\Template
     /**
      * Getter for store timestamp based on store timezone settings
      *
-     * @param mixed $store
+     * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @return int
      */
     public function getStoreTimestamp($store = null)
     {
-        return $this->_locale->storeTimeStamp($store);
+        return $this->_localeDate->scopeTimeStamp($store);
     }
 }

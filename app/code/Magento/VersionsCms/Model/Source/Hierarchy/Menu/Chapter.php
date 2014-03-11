@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
 /**
  * CMS Hierarchy Menu source model for Chapter/Section options
@@ -15,9 +15,7 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
-
-class Chapter implements \Magento\Core\Model\Option\ArrayInterface
+class Chapter implements \Magento\Option\ArrayInterface
 {
     /**
      * Return options for Chapter/Section meta links

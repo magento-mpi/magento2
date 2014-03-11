@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Model\Rule\Options;
 
 /**
  * Statuses option array
@@ -15,11 +16,8 @@
  * @package    Magento_TargetRule
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Model\Rule\Options;
-
-class Applies implements \Magento\Core\Model\Option\ArrayInterface
+class Applies implements \Magento\Option\ArrayInterface
 {
-
     /**
      * Target Rule model
      *
@@ -28,7 +26,7 @@ class Applies implements \Magento\Core\Model\Option\ArrayInterface
     protected $_targetRuleModel;
 
     /**
-     * @param \Magento\TargetRule\Model\Rule
+     * @param \Magento\TargetRule\Model\Rule $targetRuleModel
      */
     public function __construct(\Magento\TargetRule\Model\Rule $targetRuleModel)
     {
@@ -37,7 +35,7 @@ class Applies implements \Magento\Core\Model\Option\ArrayInterface
 
     /**
      * Return statuses array
-     * 
+     *
      * @return array
      */
     public function toOptionArray()

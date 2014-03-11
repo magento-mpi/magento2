@@ -28,19 +28,19 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Cache\FrontendInterface $attributeLabelCache
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Cache\FrontendInterface $attributeLabelCache,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_attributeLabelCache = $attributeLabelCache;
@@ -61,6 +61,9 @@ class Attribute extends \Magento\Backend\App\Action
         return parent::dispatch($request);
     }
 
+    /**
+     * @return $this
+     */
     protected function _initAction()
     {
         $this->_title->add(__('Product Attributes'));
@@ -93,6 +96,9 @@ class Attribute extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_initAction()
@@ -102,11 +108,17 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
@@ -155,9 +167,11 @@ class Attribute extends \Magento\Backend\App\Action
             ->setIsPopup((bool)$this->getRequest()->getParam('popup'));
 
         $this->_view->renderLayout();
-
     }
 
+    /**
+     * @return void
+     */
     public function validateAction()
     {
         $response = new \Magento\Object();
@@ -225,6 +239,9 @@ class Attribute extends \Magento\Backend\App\Action
         return $code;
     }
 
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
@@ -329,7 +346,6 @@ class Attribute extends \Magento\Backend\App\Action
             }
 
             $data += array(
-                'is_configurable' => 0,
                 'is_filterable' => 0,
                 'is_filterable_in_search' => 0,
                 'apply_to' => array(),
@@ -407,6 +423,9 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_redirect('catalog/*/');
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
@@ -437,17 +456,6 @@ class Attribute extends \Magento\Backend\App\Action
         }
         $this->messageManager->addError(__('We can\'t find an attribute to delete.'));
         $this->_redirect('catalog/*/');
-    }
-
-    /**
-     * Search for attributes by part of attribute's label in admin store
-     */
-    public function suggestConfigurableAttributesAction()
-    {
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
-                ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
-        ));
     }
 
     /**

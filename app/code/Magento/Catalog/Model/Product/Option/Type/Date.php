@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Option\Type;
 
 /**
  * Catalog product option date type
@@ -15,44 +16,40 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Option\Type;
-
 class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
-     * @var mixed
+     * @var string
      */
     protected $_formattedOptionValue = null;
 
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         array $data = array()
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
     }
 
     /**
      * Validate user input for option
      *
-     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function validateUserValue($values)
     {
@@ -112,8 +109,8 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Prepare option value for cart
      *
+     * @return string|null Prepared option value
      * @throws \Magento\Core\Exception
-     * @return mixed Prepared option value
      */
     public function prepareForCart()
     {
@@ -130,8 +127,8 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             if ($this->_dateExists()) {
                 if ($this->useCalendar()) {
-                    $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-                    $timestamp += $this->_locale->date($value['date'], $format, null, false)->getTimestamp();
+                    $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+                    $timestamp += $this->_localeDate->date($value['date'], $format, null, false)->getTimestamp();
                 } else {
                     $timestamp += mktime(0, 0, 0, $value['month'], $value['day'], $value['year']);
                 }
@@ -153,7 +150,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                 $timestamp += 60 * 60 * $value['hour'] + 60 * $value['minute'];
             }
 
-            $date = new \Zend_Date($timestamp);
+            $date = new \Magento\Stdlib\DateTime\Date($timestamp);
             $result = $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
             // Save date in internal format to avoid locale date bugs
@@ -177,15 +174,15 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             $option = $this->getOption();
             if ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE) {
-                $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
-                $result = $this->_locale->date($optionValue, \Zend_Date::ISO_8601, null, false)
+                $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+                $result = $this->_localeDate->date($optionValue, \Zend_Date::ISO_8601, null, false)
                     ->toString($format);
             } elseif ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME) {
-                $format = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-                $result = $this->_locale
+                $format = $this->_localeDate->getDateTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+                $result = $this->_localeDate
                     ->date($optionValue, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT, null, false)->toString($format);
             } elseif ($this->getOption()->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME) {
-                $date = new \Zend_Date($optionValue);
+                $date = new \Magento\Stdlib\DateTime\Date($optionValue);
                 $result = date($this->is24hTimeFormat() ? 'H:i' : 'h:i a', $date->getTimestamp());
             } else {
                 $result = $optionValue;
@@ -231,7 +228,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             return null;
         }
 
-        $date = new \Zend_Date($timestamp);
+        $date = new \Magento\Stdlib\DateTime\Date($timestamp);
         return $date->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
     }
 
@@ -239,7 +236,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Prepare option value for info buy request
      *
      * @param string $optionValue
-     * @return mixed
+     * @return array
      */
     public function prepareOptionValueForRequest($optionValue)
     {
@@ -280,7 +277,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Year range start
      *
-     * @return mixed
+     * @return string|false
      */
     public function getYearStart()
     {
@@ -295,7 +292,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Year range end
      *
-     * @return mixed
+     * @return string|false
      */
     public function getYearEnd()
     {
@@ -311,7 +308,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Save internal value of option in infoBuy_request
      *
      * @param string $internalValue Datetime value in internal format
-     * @return \Magento\Catalog\Model\Product\Option\Type\Date
+     * @return void
      */
     protected function _setInternalInRequest($internalValue)
     {

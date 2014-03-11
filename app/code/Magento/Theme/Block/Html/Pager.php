@@ -58,7 +58,7 @@ class Pager extends \Magento\View\Element\Template
     protected $_showPerPage = true;
 
     /**
-     * @var null
+     * @var int
      */
     protected $_limit;
 
@@ -104,6 +104,8 @@ class Pager extends \Magento\View\Element\Template
 
     /**
      * Set pager data
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -151,7 +153,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for limit items per page
      *
      * @param int $limit
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setLimit($limit)
     {
@@ -163,7 +165,7 @@ class Pager extends \Magento\View\Element\Template
      * Set collection for pagination
      *
      * @param  \Magento\Data\Collection $collection
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setCollection($collection)
     {
@@ -188,7 +190,7 @@ class Pager extends \Magento\View\Element\Template
 
     /**
      * @param string $varName
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setPageVarName($varName)
     {
@@ -206,7 +208,7 @@ class Pager extends \Magento\View\Element\Template
 
     /**
      * @param bool $varName
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setShowPerPage($varName)
     {
@@ -229,7 +231,7 @@ class Pager extends \Magento\View\Element\Template
      * Set the name for pager limit data
      *
      * @param string $varName
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setLimitVarName($varName)
     {
@@ -251,6 +253,7 @@ class Pager extends \Magento\View\Element\Template
      * Set pager limit
      *
      * @param array $limits
+     * @return void
      */
     public function setAvailableLimit(array $limits)
     {
@@ -481,7 +484,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Return page number of Previous jump
      *
-     * @return int
+     * @return int|null
      */
     public function getPreviousJumpPage()
     {
@@ -510,7 +513,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Return page number of Next jump
      *
-     * @return int
+     * @return int|null
      */
     public function getNextJumpPage()
     {
@@ -560,7 +563,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for $_frameLength
      *
      * @param int $frame
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setFrameLength($frame)
     {
@@ -580,7 +583,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for $_jump
      *
      * @param int $jump
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setJump($jump)
     {
@@ -636,7 +639,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Initialize frame data, such as frame start, frame start etc.
      *
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     protected function _initFrame()
     {
@@ -676,7 +679,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for flag _frameInitialized
      *
      * @param bool $flag
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     protected function _setFrameInitialized($flag)
     {
@@ -687,7 +690,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Check if frame data was initialized
      *
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return bool
      */
     public function isFrameInitialized()
     {
@@ -718,7 +721,7 @@ class Pager extends \Magento\View\Element\Template
      * Set whether output of the pager is mandatory
      *
      * @param bool $isRequired
-     * @return \Magento\Theme\Block\Html\Pager
+     * @return $this
      */
     public function setIsOutputRequired($isRequired)
     {

@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Import;
+
+use Magento\ImportExport\Model\Import\AbstractSource;
 
 /**
  * Import entity abstract model
@@ -105,7 +106,7 @@ abstract class AbstractEntity
     /**
      * Notice messages
      *
-     * @var array
+     * @var string[]
      */
     protected $_notices = array();
 
@@ -133,14 +134,14 @@ abstract class AbstractEntity
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(self::COLUMN_ACTION);
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
@@ -179,7 +180,7 @@ abstract class AbstractEntity
     /**
      * Source model
      *
-     * @var \Magento\ImportExport\Model\Import\AbstractSource
+     * @var AbstractSource
      */
     protected $_source;
 
@@ -193,7 +194,7 @@ abstract class AbstractEntity
     /**
      * List of available behaviors
      *
-     * @var array
+     * @var string[]
      */
     protected $_availableBehaviors = array(
         \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
@@ -302,7 +303,7 @@ abstract class AbstractEntity
     /**
      * Validate data rows and save bunches to DB
      *
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     protected function _saveValidatedBunches()
     {
@@ -362,7 +363,7 @@ abstract class AbstractEntity
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
      * @param string $columnName OPTIONAL Column name
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function addRowError($errorCode, $errorRowNum, $columnName = null)
     {
@@ -379,7 +380,7 @@ abstract class AbstractEntity
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -486,7 +487,7 @@ abstract class AbstractEntity
     /**
      * Returns model notices
      *
-     * @return array
+     * @return string[]
      */
     public function getNotices()
     {
@@ -516,8 +517,8 @@ abstract class AbstractEntity
     /**
      * Source object getter
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\AbstractSource
+     * @return AbstractSource
+     * @throws \Magento\Core\Exception
      */
     public function getSource()
     {
@@ -555,7 +556,7 @@ abstract class AbstractEntity
      * @param array $attributeParams Attribute params
      * @param array $rowData Row data
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     public function isAttributeValid($attributeCode, array $attributeParams, array $rowData, $rowNumber)
     {
@@ -641,7 +642,7 @@ abstract class AbstractEntity
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     abstract public function validateRow(array $rowData, $rowNumber);
 
@@ -649,7 +650,7 @@ abstract class AbstractEntity
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -660,10 +661,10 @@ abstract class AbstractEntity
     /**
      * Source model setter
      *
-     * @param \Magento\ImportExport\Model\Import\AbstractSource $source
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @param AbstractSource $source
+     * @return $this
      */
-    public function setSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
+    public function setSource(AbstractSource $source)
     {
         $this->_source = $source;
         $this->_dataValidated = false;
@@ -674,8 +675,8 @@ abstract class AbstractEntity
     /**
      * Validate data
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function validateData()
     {

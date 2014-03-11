@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 class View extends \Magento\App\View
@@ -55,4 +54,13 @@ class View extends \Magento\App\View
         return $this;
     }
 
+    /**
+     * Returns is layout loaded
+     *
+     * @return bool
+     */
+    public function isLayoutLoaded()
+    {
+        return $this->_isLayoutLoaded;
+    }
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Checkout\Model\Resource;
 
 /**
  * Resource Model for Checkout Agreement
@@ -16,8 +16,6 @@
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Model\Resource;
-
 class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -38,6 +36,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -48,7 +47,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method to run before save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -69,7 +68,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method to run after save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -90,7 +89,7 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method to run after load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -109,8 +108,8 @@ class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get load select
      *
      * @param string $field
-     * @param value $value
-     * @param \Magento\Object $object
+     * @param mixed $value
+     * @param \Magento\Core\Model\AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)

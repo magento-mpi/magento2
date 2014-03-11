@@ -57,7 +57,7 @@ class Customers extends GridExtended
     /**
      * Instantiate and prepare collection
      *
-     * @return Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -69,7 +69,7 @@ class Customers extends GridExtended
     /**
      * Prepare columns for grid
      *
-     * @return GridExtended
+     * @return $this
      */
     protected function _prepareColumns()
     {

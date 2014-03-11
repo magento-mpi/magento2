@@ -90,7 +90,6 @@ class Area
     protected $_logger;
 
     /**
-     * @param \Magento\Logger $logger
      * Core design
      *
      * @var \Magento\Core\Model\Design
@@ -103,6 +102,11 @@ class Area
     protected $_storeManager;
 
     /**
+     * @var Area\DesignExceptions
+     */
+    protected $_designExceptions;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\TranslateInterface $translator
@@ -112,6 +116,7 @@ class Area
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Area\DesignExceptions $designExceptions
      * @param string $areaCode
      */
     public function __construct(
@@ -124,6 +129,7 @@ class Area
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Design $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        Area\DesignExceptions $designExceptions,
         $areaCode
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -136,13 +142,14 @@ class Area
         $this->_logger = $logger;
         $this->_design = $design;
         $this->_storeManager = $storeManager;
+        $this->_designExceptions = $designExceptions;
     }
 
     /**
      * Load area data
      *
      * @param   string|null $part
-     * @return  \Magento\Core\Model\App\Area
+     * @return  $this
      */
     public function load($part=null)
     {
@@ -160,6 +167,7 @@ class Area
      * Detect and apply design for the area
      *
      * @param \Magento\App\RequestInterface $request
+     * @return void
      */
     public function detectDesign($request = null)
     {
@@ -181,21 +189,11 @@ class Area
      */
     protected function _applyUserAgentDesignException($request)
     {
-        $userAgent = $request->getServer('HTTP_USER_AGENT');
-        if (empty($userAgent)) {
-            return false;
-        }
         try {
-            $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
-            if (!$expressions) {
-                return false;
-            }
-            $expressions = unserialize($expressions);
-            foreach ($expressions as $rule) {
-                if (preg_match($rule['regexp'], $userAgent)) {
-                    $this->_getDesign()->setDesignTheme($rule['value']);
-                    return true;
-                }
+            $theme = $this->_designExceptions->getThemeForUserAgent($request);
+            if (false !== $theme) {
+                $this->_getDesign()->setDesignTheme($theme);
+                return true;
             }
         } catch (\Exception $e) {
             $this->_logger->logException($e);
@@ -215,7 +213,7 @@ class Area
      * Loading part of area
      *
      * @param   string $part
-     * @return  \Magento\Core\Model\App\Area
+     * @return  $this
      */
     protected function _loadPart($part)
     {
@@ -242,6 +240,8 @@ class Area
 
     /**
      * Load area configuration
+     *
+     * @return void
      */
     protected function _initConfig()
     {
@@ -251,7 +251,7 @@ class Area
     /**
      * Initialize translate object.
      *
-     * @return \Magento\Core\Model\App\Area
+     * @return $this
      */
     protected function _initTranslate()
     {
@@ -270,6 +270,9 @@ class Area
         return $this;
     }
 
+    /**
+     * @return void
+     */
     protected function _initDesign()
     {
         $this->_getDesign()->setArea($this->_code)->setDefaultDesignTheme();

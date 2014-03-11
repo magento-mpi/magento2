@@ -14,7 +14,7 @@ interface ConfigInterface
     /**
      * Get placeholders config by block instance name
      *
-     * @param $name
+     * @param string $name
      * @return array
      */
     public function getPlaceholders($name);

@@ -2,21 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Checkout\Block\Onepage;
 
 /**
  * One page checkout success page
- *
- * @category   Magento
- * @package    Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage;
-
 class Success extends \Magento\View\Element\Template
 {
     /**
@@ -35,16 +28,6 @@ class Success extends \Magento\View\Element\Template
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Sales\Model\Billing\AgreementFactory
-     */
-    protected $_agreementFactory;
-
-    /**
-     * @var \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory
-     */
-    protected $_recurringProfileCollectionFactory;
-
-    /**
      * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
@@ -54,8 +37,6 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
-     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
@@ -64,8 +45,6 @@ class Success extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
@@ -73,8 +52,6 @@ class Success extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_orderFactory = $orderFactory;
-        $this->_agreementFactory = $agreementFactory;
-        $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_isScopePrivate = true;
     }
@@ -90,29 +67,30 @@ class Success extends \Magento\View\Element\Template
     }
 
     /**
-     * Getter for recurring profile view page
+     * Render additional order information lines and return result html
      *
-     * @param $profile
      * @return string
      */
-    public function getProfileUrl(\Magento\Object $profile)
+    public function getAdditionalInfoHtml()
     {
-        return $this->getUrl('sales/recurringProfile/view', array('profile' => $profile->getId()));
+        return $this->_layout->renderElement('order.success.additional.info');
     }
 
     /**
      * Initialize data and prepare it for output
+     *
+     * @return string
      */
     protected function _beforeToHtml()
     {
         $this->_prepareLastOrder();
-        $this->_prepareLastBillingAgreement();
-        $this->_prepareLastRecurringProfiles();
         return parent::_beforeToHtml();
     }
 
     /**
      * Get last order ID from session, fetch it and check whether it can be viewed, printed etc
+     *
+     * @return void
      */
     protected function _prepareLastOrder()
     {
@@ -129,48 +107,6 @@ class Success extends \Magento\View\Element\Template
                     'can_view_order'  => $this->_customerSession->isLoggedIn() && $isVisible,
                     'order_id'  => $order->getIncrementId(),
                 ));
-            }
-        }
-    }
-
-    /**
-     * Prepare billing agreement data from an identifier in the session
-     */
-    protected function _prepareLastBillingAgreement()
-    {
-        $agreementId = $this->_checkoutSession->getLastBillingAgreementId();
-        $customerId = $this->_customerSession->getCustomerId();
-        if ($agreementId && $customerId) {
-            $agreement = $this->_agreementFactory->create()->load($agreementId);
-            if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
-                $this->addData(array(
-                    'agreement_ref_id' => $agreement->getReferenceId(),
-                    'agreement_url' => $this->getUrl('sales/billing_agreement/view',
-                        array('agreement' => $agreementId)
-                    ),
-                ));
-            }
-        }
-    }
-
-    /**
-     * Prepare recurring payment profiles from the session
-     */
-    protected function _prepareLastRecurringProfiles()
-    {
-        $profileIds = $this->_checkoutSession->getLastRecurringProfileIds();
-        if ($profileIds && is_array($profileIds)) {
-            $collection = $this->_recurringProfileCollectionFactory->create()
-                ->addFieldToFilter('profile_id', array('in' => $profileIds));
-            $profiles = array();
-            foreach ($collection as $profile) {
-                $profiles[] = $profile;
-            }
-            if ($profiles) {
-                $this->setRecurringProfiles($profiles);
-                if ($this->_customerSession->isLoggedIn()) {
-                    $this->setCanViewProfiles(true);
-                }
             }
         }
     }

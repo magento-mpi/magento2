@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Translate\Inline;
 
 /**
  * Backend Inline Translation config factory
  */
-namespace Magento\Backend\Model\Translate\Inline;
-
 class ConfigFactory extends \Magento\Translate\Inline\ConfigFactory
 {
     /**

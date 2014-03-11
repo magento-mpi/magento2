@@ -13,6 +13,11 @@ namespace Magento\Rma\Block\Returns;
 use Magento\Rma\Model\Item;
 use Magento\Rma\Model\Rma;
 
+/**
+ * Class View
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class View extends \Magento\Rma\Block\Form
 {
     /**
@@ -32,43 +37,65 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Customer data
      *
-     * @var \Magento\Customer\Helper\Data
+     * @var \Magento\Customer\Helper\View
      */
-    protected $_customerData = null;
+    protected $_customerView = null;
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Rma item collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
+     * Rma status history collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory
      */
     protected $_historiesFactory;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Eav model form factory
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
 
     /**
+     * Customer session model
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
+     * @var \Magent\Service\Customer\V1\Data\Customer
+     */
+    protected $customerData;
+
+    /**
+     * Eav configuration model
+     *
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
@@ -83,10 +110,13 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Helper\Data $customerData
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Helper\View $customerView
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -98,23 +128,30 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Helper\Data $customerData,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Helper\View $customerView,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
-        $this->_customerData = $customerData;
-        $this->_rmaData = $rmaData;
-        $this->_coreRegistry = $registry;
+        $this->_eavConfig = $eavConfig;
         $this->_itemsFactory = $itemsFactory;
         $this->_historiesFactory = $historiesFactory;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         $this->_customerSession = $customerSession;
-        $this->_eavConfig = $eavConfig;
+        $this->_customerAccountService = $customerAccountService;
+        $this->_customerView = $customerView;
+        $this->_rmaData = $rmaData;
+        $this->_coreRegistry = $registry;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
+    /**
+     * Initialize rma return
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -151,7 +188,7 @@ class View extends \Magento\Rma\Block\Form
         $collection = $this->_itemsFactory->create();
         $collection->addFilter('rma_entity_id', $this->getRma()->getEntityId());
         foreach ($collection as $item) {
-            foreach ($item->getData() as $attributeCode=>$value) {
+            foreach (array_keys($item->getData()) as $attributeCode) {
                 $array[] = $attributeCode;
             }
             break;
@@ -180,7 +217,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Gets values for each visible attribute
      *
-     * $excludeAttr is optional array of attribute codes to
+     * Parameter $excludeAttr is optional array of attribute codes to
      * exclude them from additional data array
      *
      * @param string[] $excludeAttr
@@ -249,7 +286,8 @@ class View extends \Magento\Rma\Block\Form
      * @param null|int $itemId
      * @return array
      */
-    public function getRealValueAttributes($itemId = null) {
+    public function getRealValueAttributes($itemId = null)
+    {
         if (empty($this->_realValueAttributes)) {
             $this->_realValueAttributes = $this->_getAdditionalData();
         }
@@ -292,6 +330,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get sales order view url
+     *
      * @param Rma $rma
      * @return string
      */
@@ -301,6 +341,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get rma returns back url
+     *
      * @return string
      */
     public function getBackUrl()
@@ -313,6 +355,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get return address
+     *
      * @return string
      */
     public function getAddress()
@@ -321,6 +365,8 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get add comment submit url
+     *
      * @return string
      */
     public function getSubmitUrl()
@@ -329,12 +375,14 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * Get customer name
+     *
      * @return string
      */
     public function getCustomerName()
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return $this->_customerData->getCustomerName();
+            return $this->_customerView->getCustomerName($this->getCustomerData());
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
@@ -357,13 +405,26 @@ class View extends \Magento\Rma\Block\Form
     }
 
     /**
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
+     * @throws \Magento\Exception\NoSuchEntityException
+     */
+    public function getCustomerData()
+    {
+        if (empty($this->customerData)) {
+            $customerId = $this->_customerSession->getCustomerId();
+            $this->customerData = $this->_customerAccountService->getCustomer($customerId);
+        }
+        return $this->customerData;
+    }
+
+    /**
      * Get html data of tracking info block. Namely list of rows in table
      *
      * @return string
      */
     public function getTrackingInfo()
     {
-       return $this->getBlockHtml('rma.returns.tracking');
+        return $this->getBlockHtml('rma.returns.tracking');
     }
 
     /**

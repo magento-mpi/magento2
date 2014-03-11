@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Dashboard;
 
 /**
  * Adminhtml dashboard bottom tabs
@@ -15,14 +16,16 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\Dashboard;
-
 class Grids extends \Magento\Backend\Block\Widget\Tabs
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::widget/tabshoriz.phtml';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -42,7 +45,7 @@ class Grids extends \Magento\Backend\Block\Widget\Tabs
      *     2) specify url (BE CAREFUL)
      *     3) specify class 'ajax'
      *
-     * @return \Magento\Backend\Block\Dashboard\Grids
+     * @return $this
      */
     protected function _prepareLayout()
     {

@@ -14,13 +14,17 @@ namespace Magento\View\Design\Theme\Customization;
 class FileServiceFactory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\View\Design\Theme\Customization\ConfigInterface $config
+     * @param ConfigInterface $config
      */
     public function __construct(\Magento\ObjectManager $objectManager, ConfigInterface $config)
     {
@@ -31,7 +35,7 @@ class FileServiceFactory
     /**
      * Create new instance
      *
-     * @param $type
+     * @param string $type
      * @param array $data
      * @return \Magento\View\Design\Theme\Customization\FileInterface
      * @throws \InvalidArgumentException

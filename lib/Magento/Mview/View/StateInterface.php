@@ -29,7 +29,7 @@ interface StateInterface
      * Fill object with state data by view ID
      *
      * @param string $viewId
-     * @return \Magento\Mview\View\StateInterface
+     * @return $this
      */
     public function loadByView($viewId);
 
@@ -111,7 +111,7 @@ interface StateInterface
     /**
      * Set state updated time
      *
-     * @param string|int|\Zend_Date $updated
+     * @param string|int|\Magento\Stdlib\DateTime\DateInterface $updated
      * @return \Magento\Mview\View\StateInterface
      */
     public function setUpdated($updated);

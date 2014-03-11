@@ -15,14 +15,14 @@ use Magento\Rma\Model\Rma as ModelRma;
 /**
  * RMA shipping resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Shipping extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct() {
         $this->_init('magento_rma_shipping_label', 'entity_id');

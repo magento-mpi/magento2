@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Model;
 
 /**
  * Pbridge observer
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Model;
-
 class Observer
 {
     /**
+     * Cache type configuration
+     *
      * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
@@ -70,7 +68,7 @@ class Observer
      * Check payment methods availability
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
+     * @return $this
      */
     public function isPaymentMethodAvailable(\Magento\Event\Observer $observer)
     {
@@ -90,7 +88,7 @@ class Observer
     /**
      * Update Payment Profiles functionality switcher
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
+     * @return $this
      */
     public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
     {
@@ -120,12 +118,12 @@ class Observer
      * Return system config value by key for specified payment method
      *
      * @param string $key
-     * @param \Magento\Payment\Model\Method\AbstractMethod $method
+     * @param \Magento\Payment\Model\MethodInterface $method
      * @param int $storeId
      *
      * @return string
      */
-    protected function _getMethodConfigData($key, \Magento\Payment\Model\Method\AbstractMethod $method, $storeId = null)
+    protected function _getMethodConfigData($key, \Magento\Payment\Model\MethodInterface $method, $storeId = null)
     {
         if (!$method->getCode()) {
             return null;

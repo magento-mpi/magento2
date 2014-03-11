@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Paypal\Model\Resource\Report;
 
 /**
  * Report settlement resource model
  */
-namespace Magento\Paypal\Model\Resource\Report;
-
 class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -23,15 +22,15 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_rowsTable;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Core\Model\Date $coreDate)
+    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime\DateTime $coreDate)
     {
         $this->_coreDate = $coreDate;
         parent::__construct($resource);
@@ -39,6 +38,8 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Init main table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -50,7 +51,7 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save report rows collected in settlement model
      *
      * @param \Magento\Core\Model\AbstractModel|\Magento\Paypal\Model\Report\Settlement $object
-     * @return \Magento\Paypal\Model\Resource\Report\Settlement
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -68,10 +69,10 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
                     /**
                      * Converting dates
                      */
-                    $completionDate = new \Zend_Date($rows[$key]['transaction_completion_date']);
+                    $completionDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_completion_date']);
                     $rows[$key]['transaction_completion_date'] = $this->_coreDate
                         ->date(null, $completionDate->getTimestamp());
-                    $initiationDate = new \Zend_Date($rows[$key]['transaction_initiation_date']);
+                    $initiationDate = new \Magento\Stdlib\DateTime\Date($rows[$key]['transaction_initiation_date']);
                     $rows[$key]['transaction_initiation_date'] = $this->_coreDate
                         ->date(null, $initiationDate->getTimestamp());
                     /*
@@ -101,7 +102,7 @@ class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Paypal\Model\Report\Settlement $report
      * @param string $accountId
      * @param string $reportDate
-     * @return \Magento\Paypal\Model\Resource\Report\Settlement
+     * @return $this
      */
     public function loadByAccountAndDate(\Magento\Paypal\Model\Report\Settlement $report, $accountId, $reportDate)
     {

@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Menu\Builder\Command;
 
 /**
  * Builder command to add menu items
  */
-namespace Magento\Backend\Model\Menu\Builder\Command;
-
 class Add extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
 {
     /**
      * List of params that command requires for execution
      *
-     * @var array
+     * @var string[]
      */
     protected $_requiredParams = array(
         "id",
@@ -31,7 +30,7 @@ class Add extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
      * Add command as last in the list of callbacks
      *
      * @param \Magento\Backend\Model\Menu\Builder\AbstractCommand $command
-     * @return \Magento\Backend\Model\Menu\Builder\AbstractCommand
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function chain(\Magento\Backend\Model\Menu\Builder\AbstractCommand $command)

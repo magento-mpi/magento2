@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype;
 
 /**
  * Validator for check input type value
@@ -15,8 +16,6 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype;
-
 class Validator extends \Zend_Validate_InArray
 {
 
@@ -51,7 +50,7 @@ class Validator extends \Zend_Validate_InArray
     /**
      * Initialize message templates with translating
      *
-     * @return \Magento\Core\Model\File\Validator\AvailablePath
+     * @return $this
      */
     protected function _initMessageTemplates()
     {
@@ -68,7 +67,7 @@ class Validator extends \Zend_Validate_InArray
      * Add input type to haystack
      *
      * @param string $type
-     * @return \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator
+     * @return $this
      */
     public function addInputType($type)
     {

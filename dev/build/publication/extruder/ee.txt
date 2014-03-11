@@ -98,6 +98,8 @@ dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Logging
 app/code/Magento/Pbridge
 dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
+app/code/Magento/PbridgePaypal
+dev/tests/unit/testsuite/Magento/PbridgePaypal
 app/code/Magento/Pci
 dev/tests/integration/testsuite/Magento/Pci
 dev/tests/unit/testsuite/Magento/Pci
@@ -124,7 +126,7 @@ app/code/Magento/TargetRule
 dev/tests/integration/testsuite/Magento/TargetRule
 app/code/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/WebsiteRestriction
-app/code/Magento/CustomAttribute
+app/code/Magento/CustomAttributeManagement
 app/code/Magento/AdvancedCheckout
 dev/tests/unit/testsuite/Magento/AdvancedCheckout
 dev/tests/integration/testsuite/Magento/AdvancedCheckout

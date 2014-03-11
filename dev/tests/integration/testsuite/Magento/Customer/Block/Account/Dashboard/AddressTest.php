@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\TestFramework\Helper\Bootstrap;
+
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -18,11 +21,16 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Customer\Model\Session */
     protected $_customerSession;
 
+    /**
+     * @var \Magento\Module\Manager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
-        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Customer\Model\Session');
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
+        $this->_block = $this->objectManager->get('Magento\View\LayoutInterface')
             ->createBlock(
                 'Magento\Customer\Block\Account\Dashboard\Address',
                 '',
@@ -40,9 +48,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerServiceInterface')
-            ->getCustomer(1);
+        /** @var CustomerAccountServiceInterface $customerAccountService */
+        $customerAccountService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customer = $customerAccountService->getCustomer(1);
 
         $this->_customerSession->setCustomerId(1);
         $object = $this->_block->getCustomer();
@@ -51,7 +60,17 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomerMissingCustomer()
     {
-        $this->assertNull($this->_block->getCustomer());
+        $moduleManager = $this->objectManager->get('Magento\Module\Manager');
+        if ($moduleManager->isEnabled('Magento_PageCache')) {
+            $customerDataBuilder = $this->objectManager
+                ->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+            $customerData = $customerDataBuilder
+                ->setGroupId($this->_customerSession->getCustomerGroupId())->create();
+            $this->assertEquals($customerData, $this->_block->getCustomer());
+        } else {
+            $this->assertNull($this->_block->getCustomer());
+        }
+
     }
 
     /**
@@ -62,6 +81,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrimaryShippingAddressHtml($customerId, $expected)
     {
+        // todo: this test is sensitive to caching impact
+
         if (!empty($customerId)) {
             $this->_customerSession->setCustomerId($customerId);
         }
@@ -71,12 +92,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryShippingAddressHtmlDataProvider()
     {
+        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
+                  . "\nUnited States<br/>\nT: 3468676\n\n";
+
         return [
             '0' => [0, 'You have not set a default shipping address.'],
-            '1' => [
-                1,
-                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"
-            ],
+            '1' => [1, $expected],
             '5' => [5, 'You have not set a default shipping address.'],
         ];
     }
@@ -98,12 +119,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryBillingAddressHtmlDataProvider()
     {
+        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
+                  . "\nUnited States<br/>\nT: 3468676\n\n";
         return [
             '0' => [0, 'You have not set a default billing address.'],
-            '1' => [
-                1,
-                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"
-            ],
+            '1' => [1, $expected],
             '5' => [5, 'You have not set a default billing address.'],
         ];
     }

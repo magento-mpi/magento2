@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Integration\Service;
 
 use Magento\Oauth\OauthInterface;
@@ -25,28 +24,44 @@ use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
  */
 class OauthV1 implements OauthV1Interface
 {
-    /** @var  \Magento\Core\Model\StoreManagerInterface */
+    /**
+     * @var  \Magento\Core\Model\StoreManagerInterface
+     */
     protected $_storeManager;
 
-    /** @var  ConsumerFactory */
+    /**
+     * @var  ConsumerFactory
+     */
     protected $_consumerFactory;
 
-    /** @var  TokenFactory */
+    /**
+     * @var  TokenFactory
+     */
     protected $_tokenFactory;
 
-    /** @var  IntegrationOauthHelper */
+    /**
+     * @var  IntegrationOauthHelper
+     */
     protected $_dataHelper;
 
-    /** @var  \Magento\HTTP\ZendClient */
+    /**
+     * @var  \Magento\HTTP\ZendClient
+     */
     protected $_httpClient;
 
-    /** @var \Magento\Logger */
+    /**
+     * @var \Magento\Logger
+     */
     protected $_logger;
 
-    /** @var OauthHelper */
+    /**
+     * @var OauthHelper
+     */
     protected $_oauthHelper;
 
-    /** @var TokenProvider */
+    /**
+     * @var TokenProvider
+     */
     protected $_tokenProvider;
 
     /**

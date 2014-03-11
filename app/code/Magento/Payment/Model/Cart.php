@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Model;
 
 /**
  * Provide methods for collecting cart items information of specific sales model entity
  */
-namespace Magento\Payment\Model;
-
 class Cart
 {
     /**#@+
@@ -100,6 +99,7 @@ class Cart
      * Add amount to existing tax amount
      *
      * @param float $taxAmount
+     * @return void
      */
     public function addTax($taxAmount)
     {
@@ -110,6 +110,7 @@ class Cart
      * Set tax. Old value will be overwritten
      *
      * @param float $taxAmount
+     * @return void
      */
     public function setTax($taxAmount)
     {
@@ -130,6 +131,7 @@ class Cart
      * Add amount to existing discount amount
      *
      * @param float $discountAmount
+     * @return void
      */
     public function addDiscount($discountAmount)
     {
@@ -140,6 +142,7 @@ class Cart
      * Set discount. Old value will be overwritten
      *
      * @param float $discountAmount
+     * @return void
      */
     public function setDiscount($discountAmount)
     {
@@ -160,6 +163,7 @@ class Cart
      * Add amount to existing shipping amount
      *
      * @param float $shippingAmount
+     * @return void
      */
     public function addShipping($shippingAmount)
     {
@@ -170,6 +174,7 @@ class Cart
      * Set shipping. Old value will be overwritten
      *
      * @param float $shippingAmount
+     * @return void
      */
     public function setShipping($shippingAmount)
     {
@@ -190,6 +195,7 @@ class Cart
      * Add amount to existing subtotal amount
      *
      * @param float $subtotalAmount
+     * @return void
      */
     public function addSubtotal($subtotalAmount)
     {
@@ -213,6 +219,7 @@ class Cart
      * @param int $qty
      * @param float $amount
      * @param string|null $identifier
+     * @return void
      */
     public function addCustomItem($name, $qty, $amount, $identifier = null)
     {
@@ -244,6 +251,8 @@ class Cart
 
     /**
      * Specify that shipping should be transferred as cart item
+     *
+     * @return void
      */
     public function setTransferShippingAsItem()
     {
@@ -252,6 +261,8 @@ class Cart
 
     /**
      * Specify that discount should be transferred as cart item
+     *
+     * @return void
      */
     public function setTransferDiscountAsItem()
     {
@@ -260,6 +271,8 @@ class Cart
 
     /**
      * Collect all items, discounts, taxes, shipping to cart
+     *
+     * @return void
      */
     protected function _collectItemsAndAmounts()
     {
@@ -282,6 +295,8 @@ class Cart
 
     /**
      * Import items from sales model
+     *
+     * @return void
      */
     protected function _importItemsFromSalesModel()
     {
@@ -304,6 +319,8 @@ class Cart
 
     /**
      * Calculate subtotal from custom items
+     *
+     * @return void
      */
     protected function _calculateCustomItemsSubtotal()
     {
@@ -325,6 +342,7 @@ class Cart
     /**
      * @param string $flagType
      * @param bool $value
+     * @return void
      */
     protected function _setTransferFlag($flagType, $value)
     {
@@ -335,6 +353,7 @@ class Cart
     /**
      * @param string $amountType
      * @param float $amount
+     * @return void
      */
     protected function _setAmount($amountType, $amount)
     {
@@ -344,6 +363,7 @@ class Cart
     /**
      * @param string $amountType
      * @param float $amount
+     * @return void
      */
     protected function _addAmount($amountType, $amount)
     {
@@ -354,7 +374,7 @@ class Cart
      * Get amount of specified type
      *
      * @param string $amountType
-     * @return mixed
+     * @return float
      */
     protected function _getAmount($amountType)
     {
@@ -387,6 +407,8 @@ class Cart
 
     /**
      * Set all amount types to zero
+     *
+     * @return void
      */
     protected function _resetAmounts()
     {

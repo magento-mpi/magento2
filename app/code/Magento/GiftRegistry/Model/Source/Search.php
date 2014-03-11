@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Model\Source;
 
-class Search implements \Magento\Core\Model\Option\ArrayInterface
+class Search implements \Magento\Option\ArrayInterface
 {
     /**
      * Quick search form types

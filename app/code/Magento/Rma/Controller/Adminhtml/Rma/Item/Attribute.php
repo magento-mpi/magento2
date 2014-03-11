@@ -22,17 +22,17 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -196,8 +196,8 @@ class Attribute extends \Magento\Backend\App\Action
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper Magento\CustomAttribute\Helper\Data */
-            $helper = $this->_objectManager->get('Magento\CustomAttribute\Helper\Data');
+            /* @var $helper \Magento\CustomAttributeManagement\Helper\Data */
+            $helper = $this->_objectManager->get('Magento\CustomAttributeManagement\Helper\Data');
 
             try {
                 $data = $helper->filterPostData($data);

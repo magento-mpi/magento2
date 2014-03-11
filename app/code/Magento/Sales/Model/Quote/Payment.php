@@ -35,12 +35,6 @@
  * @method \Magento\Sales\Model\Quote\Payment setCcSsStartMonth(int $value)
  * @method int getCcSsStartYear()
  * @method \Magento\Sales\Model\Quote\Payment setCcSsStartYear(int $value)
- * @method string getPaypalCorrelationId()
- * @method \Magento\Sales\Model\Quote\Payment setPaypalCorrelationId(string $value)
- * @method string getPaypalPayerId()
- * @method \Magento\Sales\Model\Quote\Payment setPaypalPayerId(string $value)
- * @method string getPaypalPayerStatus()
- * @method \Magento\Sales\Model\Quote\Payment setPaypalPayerStatus(string $value)
  * @method string getPoNumber()
  * @method \Magento\Sales\Model\Quote\Payment setPoNumber(string $value)
  * @method string getAdditionalData()
@@ -60,6 +54,44 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_eventObject = 'payment';
 
     protected $_quote;
+
+    /**
+     * @var \Magento\Payment\Model\Checks\SpecificationFactory
+     */
+    protected $methodSpecificationFactory;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->methodSpecificationFactory = $methodSpecificationFactory;
+        parent::__construct(
+            $context,
+            $registry,
+            $paymentData,
+            $encryptor,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+
+    }
 
     /**
      * Initialize resource model
@@ -122,7 +154,8 @@ class Payment extends \Magento\Payment\Model\Info
         $this->getQuote()->collectTotals();
 
         if (!$method->isAvailable($this->getQuote())
-            || !$method->isApplicableToQuote($this->getQuote(), $data->getChecks())
+            || !$this->methodSpecificationFactory->create($data->getChecks())
+                ->isApplicable($method, $this->getQuote())
         ) {
             throw new \Magento\Core\Exception(__('The requested Payment Method is not available.'));
         }
@@ -185,7 +218,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * Retrieve payment method model object
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      */
     public function getMethodInstance()
     {

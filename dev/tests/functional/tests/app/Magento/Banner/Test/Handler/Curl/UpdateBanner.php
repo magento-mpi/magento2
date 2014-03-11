@@ -12,7 +12,7 @@
 
 namespace Magento\Banner\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlTransport;
 
 /**
@@ -25,11 +25,11 @@ class UpdateBanner extends CreateBanner
     /**
      * Post request for updating banner
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @throws \Exception
      * @return null|string banner_id
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $response = $this->postRequest($fixture);
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {

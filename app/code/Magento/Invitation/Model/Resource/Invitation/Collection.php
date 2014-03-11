@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Invitation\Model\Resource\Invitation;
 
 /**
  * Invitation collection
@@ -16,8 +16,6 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Invitation\Model\Resource\Invitation;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -35,6 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Intialize collection
      *
+     * @return void
      */
     protected function _construct()
     {

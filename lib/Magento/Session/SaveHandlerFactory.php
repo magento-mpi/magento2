@@ -21,16 +21,22 @@ class SaveHandlerFactory
     const PHP_NATIVE_HANDLER = 'Magento\Session\SaveHandler\Native';
 
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $objectManager;
 
     /**
+     * Handlers
+     *
      * @var array
      */
     protected $handlers = array();
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $objectManger
      * @param array $handlers
      */

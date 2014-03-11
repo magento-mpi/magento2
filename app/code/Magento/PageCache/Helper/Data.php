@@ -13,46 +13,57 @@
  *
  * @category    Magento
  * @package     Magento_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\PageCache\Helper;
 
 /**
- * Class Data
- * @package Magento\PageCache\Helper
+ * Helper for Page Cache module
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
+    /**
+     * Constructor
+     *
+     * @param \Magento\Theme\Model\Layout\Config $config
+     * @param \Magento\App\View                  $view
+     */
+    public function __construct(
+        \Magento\Theme\Model\Layout\Config $config,
+        \Magento\App\View $view
+    ) {
+        $this->view = $view;
+        $this->config = $config;
+    }
+
     /**
      * Private caching time one year
      */
     const PRIVATE_MAX_AGE_CACHE = 31536000;
 
     /**
-     * XML path to value for public max-age parameter
+     * Retrieve url
+     *
+     * @param string $route
+     * @param array $params
+     * @return string
      */
-    const PUBLIC_MAX_AGE_PATH = 'system/headers/public-max-age';
-
-    /**
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $config;
-
-    /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\ConfigInterface $config
-     */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\App\ConfigInterface $config)
+    public function getUrl($route, array $params = array())
     {
-        parent::__construct($context);
-        $this->config = $config;
+        return $this->_getUrl($route, $params);
     }
 
     /**
-     * @return mixed
+     * Get handles applied for current page
+     *
+     * @return array
      */
-    public function getPublicMaxAgeCache()
+    public function getActualHandles()
     {
-        return $this->config->getValue(self::PUBLIC_MAX_AGE_PATH);
+        $handlesPage = $this->view->getLayout()->getUpdate()->getHandles();
+        $handlesConfig = $this->config->getPageLayoutHandles();
+        $appliedHandles = array_intersect($handlesPage, $handlesConfig);
+        $resultHandles = array_merge(['default'], array_values($appliedHandles));
+
+        return $resultHandles;
     }
 }

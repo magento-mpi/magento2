@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Captcha\Model\Resource;
 
 /**
  * Log Attempts resource
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Captcha\Model\Resource;
-
 class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -32,7 +29,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core Date
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -43,12 +40,12 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Date $coreDate,        
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
         $this->_coreDate = $coreDate;
@@ -59,6 +56,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -69,7 +67,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save or Update count Attempts
      *
      * @param string|null $login
-     * @return \Magento\Captcha\Model\Resource\Log
+     * @return $this
      */
     public function logAttempt($login)
     {
@@ -101,7 +99,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete User attempts by login
      *
      * @param string $login
-     * @return \Magento\Captcha\Model\Resource\Log
+     * @return $this
      */
     public function deleteUserAttempts($login)
     {

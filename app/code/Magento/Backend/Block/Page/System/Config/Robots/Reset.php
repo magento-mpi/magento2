@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Page\System\Config\Robots;
 
 /**
  * "Reset to Defaults" button renderer
@@ -15,8 +16,6 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Page\System\Config\Robots;
-
 class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
@@ -45,8 +44,10 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
         parent::__construct($context, $data);
     }
 
-    /*
+    /**
      * Set template
+     *
+     * @return void
      */
     protected function _construct()
     {

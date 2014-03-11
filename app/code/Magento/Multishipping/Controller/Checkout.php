@@ -2,25 +2,42 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Controller;
+
+use Magento\App\RequestInterface;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
 
 /**
  * Multishipping checkout controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
-
 class Checkout extends \Magento\Checkout\Controller\Action
+    implements  \Magento\Checkout\Controller\Express\RedirectLoginInterface
 {
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerMetadataService $customerMetadataService
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        CustomerAccountService $customerAccountService,
+        CustomerMetadataService $customerMetadataService
+    ) {
+        parent::__construct(
+            $context,
+            $customerSession,
+            $customerAccountService,
+            $customerMetadataService
+        );
+    }
+
     /**
      * Retrieve checkout model
      *
@@ -62,17 +79,6 @@ class Checkout extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession
-    ) {
-        parent::__construct($context, $customerSession);
-    }
-
-    /**
      * Dispatch request
      *
      * @param RequestInterface $request
@@ -110,7 +116,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
                 $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             }
 
-            if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->isMultishippingCheckoutAvailable()) {
+            if (!$this->_objectManager->get('Magento\Multishipping\Helper\Data')->isMultishippingCheckoutAvailable()) {
                 $error = $this->_getCheckout()->getMinimumAmountError();
                 $this->messageManager->addError($error);
                 $this->getResponse()->setRedirect($this->_getHelper()->getCartUrl());
@@ -355,7 +361,6 @@ class Checkout extends \Magento\Checkout\Controller\Action
         }
 
         $this->_getState()->setActiveStep(State::STEP_BILLING);
-
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
@@ -398,10 +403,12 @@ class Checkout extends \Magento\Checkout\Controller\Action
 
         try {
             $payment = $this->getRequest()->getPost('payment', array());
-            $payment['checks'] = \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
-                | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
-                | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
-                | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL;
+            $payment['checks'] = [
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
+            ];
             $this->_getCheckout()->setPaymentMethod($payment);
 
             $this->_getState()->setCompleteStep(State::STEP_BILLING);
@@ -500,23 +507,39 @@ class Checkout extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * Redirect to login page
-     *
+     * Returns before_auth_url redirect parameter for customer session
+     * @return string
      */
-    public function redirectLogin()
+    public function getCustomerBeforeAuthUrl()
     {
-        $this->_actionFlag->set('', 'no-dispatch', true);
-        $url = $this->_objectManager->create('Magento\UrlInterface')
+        return $this->_objectManager->create('Magento\UrlInterface')
             ->getUrl('*/*', array('_secure' => true));
-        $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($url);
+    }
 
-        $this->getResponse()->setRedirect(
-            $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
-                $this->_getHelper()->getMSLoginUrl(),
-                array('context' => 'checkout')
-            )
-        );
+    /**
+     * Returns a list of action flags [flag_key] => boolean
+     * @return array
+     */
+    public function getActionFlagList()
+    {
+        return array('redirectLogin' => true);
+    }
 
-        $this->_actionFlag->set('', 'redirectLogin', true);
+    /**
+     * Returns login url parameter for redirect
+     * @return string
+     */
+    public function getLoginUrl()
+    {
+        return $this->_getHelper()->getMSLoginUrl();
+    }
+
+    /**
+     * Returns action name which requires redirect
+     * @return string
+     */
+    public function getRedirectActionName()
+    {
+        return 'index';
     }
 }

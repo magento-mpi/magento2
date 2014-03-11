@@ -7,6 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml;
+
+use Magento\Backend\App\Action;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\Product;
+use Magento\Core\Exception;
+use Magento\Core\Model\Url\Rewrite;
 
 /**
  * URL rewrite adminhtml controller
@@ -15,9 +22,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Controller\Adminhtml;
-
-class Urlrewrite extends \Magento\Backend\App\Action
+class Urlrewrite extends Action
 {
     const ID_MODE = 'id';
     const PRODUCT_MODE = 'product';
@@ -25,12 +30,12 @@ class Urlrewrite extends \Magento\Backend\App\Action
     const CMS_PAGE_MODE = 'cms_page';
 
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var Product
      */
     private $_product;
 
     /**
-     * @var \Magento\Catalog\Model\Category
+     * @var Category
      */
     private $_category;
 
@@ -40,12 +45,14 @@ class Urlrewrite extends \Magento\Backend\App\Action
     private $_cmsPage;
 
     /**
-     * @var \Magento\Core\Model\Url\Rewrite
+     * @var Rewrite
      */
     private $_urlRewrite;
 
     /**
      * Show URL rewrites index page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -58,6 +65,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
     /**
      * Show urlrewrite edit/create page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -137,6 +146,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
     /**
      * Ajax products grid action
+     *
+     * @return void
      */
     public function productGridAction()
     {
@@ -147,6 +158,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
     /**
      * Ajax categories tree loader action
+     *
+     * @return void
      */
     public function categoriesJsonAction()
     {
@@ -159,6 +172,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
     /**
      * Ajax CMS pages grid action
+     *
+     * @return void
      */
     public function cmsPageGridAction()
     {
@@ -169,6 +184,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
     /**
      * Urlrewrite save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -177,7 +194,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
             $session = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
                 // set basic urlrewrite data
-                /** @var $model \Magento\Core\Model\Url\Rewrite */
+                /** @var $model Rewrite */
                 $model = $this->_getUrlRewrite();
 
                 // Validate request path
@@ -208,7 +225,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The URL Rewrite has been saved.'));
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $session->setUrlrewriteData($data);
             } catch (\Exception $e) {
@@ -222,7 +239,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Call before save urlrewrite handlers
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param Rewrite $model
+     * @return void
      */
     protected function _onUrlRewriteSaveBefore($model)
     {
@@ -233,7 +251,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Call after save urlrewrite handlers
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param Rewrite $model
+     * @return void
      */
     protected function _onUrlRewriteSaveAfter($model)
     {
@@ -243,7 +262,9 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Override urlrewrite data, basing on current category and product
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param Rewrite $model
+     * @return void
+     * @throws Exception
      */
     protected function _handleCatalogUrlRewrite($model)
     {
@@ -261,14 +282,14 @@ class Urlrewrite extends \Magento\Backend\App\Action
             if ($this->_objectManager->get('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
                 /** @var $rewriteResource \Magento\Catalog\Model\Resource\Url */
                 $rewriteResource = $this->_objectManager->create('Magento\Catalog\Model\Resource\Url');
-                /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
+                /** @var $rewrite Rewrite */
                 $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
                 if (!$rewrite) {
                     if ($product) {
-                        throw new \Magento\Core\Exception(
+                        throw new Exception(
                             __('Chosen product does not associated with the chosen store or category.'));
                     } else {
-                        throw new \Magento\Core\Exception(
+                        throw new Exception(
                             __('Chosen category does not associated with the chosen store.')
                         );
                     }
@@ -286,12 +307,12 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Get product instance applicable for generatePath
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
-     * @return \Magento\Catalog\Model\Product|null
+     * @param Rewrite $model
+     * @return Product|null
      */
     private function _getInitializedProduct($model)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
+        /** @var $product Product */
         $product = $this->_getProduct();
         if ($product->getId()) {
             $model->setProductId($product->getId());
@@ -305,12 +326,12 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Get category instance applicable for generatePath
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
-     * @return \Magento\Catalog\Model\Category|null
+     * @param Rewrite $model
+     * @return Category|null
      */
     private function _getInitializedCategory($model)
     {
-        /** @var $category \Magento\Catalog\Model\Category */
+        /** @var $category Category */
         $category = $this->_getCategory();
         if ($category->getId()) {
             $model->setCategoryId($category->getId());
@@ -323,7 +344,9 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Override URL rewrite data, basing on current CMS page
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param Rewrite $model
+     * @return void
+     * @throws Exception
      */
     private function _handleCmsPageUrlRewrite($model)
     {
@@ -343,10 +366,10 @@ class Urlrewrite extends \Magento\Backend\App\Action
         if ($this->_objectManager->get('Magento\Core\Helper\Url\Rewrite')->hasRedirectOptions($model)) {
             /** @var $rewriteResource \Magento\Catalog\Model\Resource\Url */
             $rewriteResource = $this->_objectManager->create('Magento\Catalog\Model\Resource\Url');
-            /** @var $rewrite \Magento\Core\Model\Url\Rewrite */
+            /** @var $rewrite Rewrite */
             $rewrite = $rewriteResource->getRewriteByIdPath($idPath, $model->getStoreId());
             if (!$rewrite) {
-                throw new \Magento\Core\Exception(__('Chosen cms page does not associated with the chosen store.'));
+                throw new Exception(__('Chosen cms page does not associated with the chosen store.'));
             } elseif ($rewrite->getId() && $rewrite->getId() != $model->getId()) {
                 $model->setTargetPath($rewrite->getRequestPath());
                 $generateTarget = false;
@@ -361,7 +384,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Save CMS page URL rewrite additional information
      *
-     * @param \Magento\Core\Model\Url\Rewrite $model
+     * @param Rewrite $model
+     * @return void
      */
     private function _handleCmsPageUrlRewriteSave($model)
     {
@@ -383,6 +407,8 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
     /**
      * URL rewrite delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -412,7 +438,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Get Category from request
      *
-     * @return \Magento\Catalog\Model\Category
+     * @return Category
      */
     private function _getCategory()
     {
@@ -434,7 +460,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Get Product from request
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     private function _getProduct()
     {
@@ -482,7 +508,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     /**
      * Get URL rewrite from request
      *
-     * @return \Magento\Core\Model\Url\Rewrite
+     * @return Rewrite
      */
     private function _getUrlRewrite()
     {

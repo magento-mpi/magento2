@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Newsletter\Model\Resource;
 
 /**
  * Newsletter subscriber resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model\Resource;
-
 class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -51,7 +49,7 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Date
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -64,12 +62,12 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Math\Random $mathRandom
     ) {
         $this->_date = $date;
@@ -81,6 +79,7 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Initialize resource model
      * Get tablename from config
      *
+     * @return void
      */
     protected function _construct()
     {

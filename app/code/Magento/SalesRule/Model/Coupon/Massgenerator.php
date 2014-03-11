@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\SalesRule\Model\Coupon;
 
 /**
  * SalesRule Mass Coupon Generator
@@ -18,8 +18,6 @@
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Model\Coupon;
-
 class Massgenerator extends \Magento\Core\Model\AbstractModel
     implements \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
 {
@@ -43,7 +41,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     protected $_salesRuleCoupon = null;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -58,22 +56,22 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -88,6 +86,8 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -145,7 +145,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      * Generate Coupons Pool
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\SalesRule\Model\Coupon\Massgenerator
+     * @return $this
      */
     public function generatePool()
     {

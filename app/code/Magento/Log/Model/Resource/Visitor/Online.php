@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource\Visitor;
 
 /**
  * Log Prepare Online visitors resource 
@@ -16,20 +16,18 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model\Resource\Visitor;
-
 class Online extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\Core\Model\Date $date)
+    public function __construct(\Magento\App\Resource $resource, \Magento\Stdlib\DateTime\DateTime $date)
     {
         $this->_date = $date;
         parent::__construct($resource);
@@ -38,6 +36,7 @@ class Online extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection and define resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -48,7 +47,8 @@ class Online extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Prepare online visitors for collection
      *
      * @param \Magento\Log\Model\Visitor\Online $object
-     * @return \Magento\Log\Model\Resource\Visitor\Online
+     * @return $this
+     * @throws \Exception
      */
     public function prepare(\Magento\Log\Model\Visitor\Online $object)
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 /**
  * Cms Page Edit Hierarchy Tab Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
-
 class Hierarchy
     extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -34,7 +33,7 @@ class Hierarchy
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -58,7 +57,7 @@ class Hierarchy
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory
      * @param array $data
      */
@@ -67,7 +66,7 @@ class Hierarchy
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory,
         array $data = array()
     ) {
@@ -104,7 +103,8 @@ class Hierarchy
      *
      * @return array
      */
-    public function getNodes() {
+    public function getNodes()
+    {
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
@@ -182,7 +182,7 @@ class Hierarchy
      * Forced nodes setter
      *
      * @param array $nodes New nodes array
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Hierarchy
+     * @return $this
      */
     public function setNodes($nodes)
     {

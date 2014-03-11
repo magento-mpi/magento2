@@ -161,8 +161,8 @@ class ShippingCarrierTest extends Functional
             array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE_1', 'address_DE', 'usd_chf_rate_0_9'),
-            array('shipping_carrier_dhlint_uk', 'dhlint_uk', 'customer_UK_1', 'address_UK_2', 'usd_gbp_rate_0_6')
+            array('shipping_carrier_dhl_eu', 'dhl_eu', 'customer_DE_1', 'address_DE', 'usd_chf_rate_0_9'),
+            array('shipping_carrier_dhl_uk', 'dhl_uk', 'customer_UK_1', 'address_UK_2', 'usd_gbp_rate_0_6')
         );
     }
 

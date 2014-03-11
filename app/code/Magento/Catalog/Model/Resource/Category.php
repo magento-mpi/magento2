@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Resource;
 
-class Category extends \Magento\Catalog\Model\Resource\AbstractResource
+class Category extends AbstractResource
 {
     /**
      * Category tree object
@@ -75,7 +75,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -91,7 +91,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -105,7 +105,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
             $resource,
             $eavConfig,
             $attrSetEntity,
-            $locale,
+            $localeFormat,
             $resourceHelper,
             $universalFactory,
             $storeManager,
@@ -127,7 +127,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * Set store Id
      *
      * @param integer $storeId
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -168,7 +168,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * delete child categories
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     protected function _beforeDelete(\Magento\Object $object)
     {
@@ -192,7 +192,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * Delete children categories of specific category
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     public function deleteChildren(\Magento\Object $object)
     {
@@ -225,7 +225,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * prepare path and increment children count for parent categories
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     protected function _beforeSave(\Magento\Object $object)
     {
@@ -265,7 +265,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * save related products ids and update path value
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     protected function _afterSave(\Magento\Object $object)
     {
@@ -285,7 +285,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * Update path field
      *
      * @param \Magento\Catalog\Model\Category $object
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     protected function _savePath($object)
     {
@@ -295,6 +295,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
                 array('path' => $object->getPath()),
                 array('entity_id = ?' => $object->getId())
             );
+            $object->unsetData('path_ids');
         }
         return $this;
     }
@@ -330,7 +331,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * Save category products relation
      *
      * @param \Magento\Catalog\Model\Category $category
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     protected function _saveCategoryProducts($category)
     {
@@ -631,7 +632,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * Return parent categories of category
      *
      * @param \Magento\Catalog\Model\Category $category
-     * @return array
+     * @return \Magento\Object[]
      */
     public function getParentCategories($category)
     {
@@ -807,7 +808,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Category $category
      * @param \Magento\Catalog\Model\Category $newParent
      * @param null|int $afterCategoryId
-     * @return \Magento\Catalog\Model\Resource\Category
+     * @return $this
      */
     public function changeParent(\Magento\Catalog\Model\Category $category, \Magento\Catalog\Model\Category $newParent,
         $afterCategoryId = null
@@ -868,6 +869,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
 
         // Update category object to new data
         $category->addData($data);
+        $category->unsetData('path_ids');
 
         return $this;
     }

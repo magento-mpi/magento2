@@ -10,6 +10,8 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
+use Magento\Shipping\Model\Carrier\Source\GenericInterface;
+
 /**
  * Shipment packaging
  */
@@ -30,52 +32,46 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_rmaData = null;
 
     /**
-     * Usa data
-     *
-     * @var \Magento\Usa\Helper\Data
-     */
-    protected $_usaData = null;
-    
-    /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
+     * Sales order factory
+     *
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory
+     * Source size model
+     *
+     * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
-    protected $_sizeFactory;
+    protected $_sourceSizeModel;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory
+     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Usa\Helper\Data $usaData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory,
+        GenericInterface $sourceSizeModel,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        $this->_usaData = $usaData;
         $this->_rmaData = $rmaData;
         $this->_orderFactory = $orderFactory;
-        $this->_sizeFactory = $sizeFactory;
+        $this->_sourceSizeModel = $sourceSizeModel;
         parent::__construct($context, $data);
     }
 
@@ -209,22 +205,6 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return girth status
-     *
-     * @return bool
-     */
-    public function isGirthEnabled()
-    {
-        $code       = $this->getRequest()->getParam('method');
-        $girth      = false;
-        if (!empty($code)) {
-            $girth = ($this->_usaData->displayGirthValue($code) && $this->isGirthAllowed()) ? 1 : 0;
-        }
-
-        return $girth;
-    }
-
-    /**
      * Return content types of package
      *
      * @return array
@@ -275,15 +255,13 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Return shipping carrier usps source sizes
+     * Get source size model
      *
      * @return array
      */
-    public function getShippingCarrierUspsSourceSize()
+    public function getSourceSizeModel()
     {
-        /** @var $size \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size */
-        $size = $this->_sizeFactory->create();
-        return $size->toOptionArray();
+        return $this->_sourceSizeModel->toOptionArray();
     }
 
     /**
@@ -293,38 +271,6 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function checkSizeAndGirthParameter()
     {
-        $storeId = $this->getRma()->getStoreId();
-        $code    = $this->getRequest()->getParam('method');
-        $carrier = $this->_rmaData->getCarrier($code, $storeId);
-
-        $girthEnabled   = false;
-        $sizeEnabled    = false;
-        $regular        = $this->getShippingCarrierUspsSourceSize();
-        if ($carrier && isset($regular[0]['value'])) {
-            if ($regular[0]['value'] == \Magento\Usa\Model\Shipping\Carrier\Usps::SIZE_LARGE
-                && in_array(
-                    key($this->getContainers()),
-                    array(
-                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
-                        \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
-                    )
-                )
-            ) {
-                $girthEnabled = true;
-            }
-
-            if (in_array(
-                key($this->getContainers()),
-                array(
-                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_NONRECTANGULAR,
-                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_RECTANGULAR,
-                    \Magento\Usa\Model\Shipping\Carrier\Usps::CONTAINER_VARIABLE,
-                )
-            )) {
-                $sizeEnabled = true;
-            }
-        }
-
-        return array($girthEnabled, $sizeEnabled);
+        return array(false, false);
     }
 }

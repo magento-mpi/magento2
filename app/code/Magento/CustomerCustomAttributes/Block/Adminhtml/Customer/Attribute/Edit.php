@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
 
 /**
  * Customer Attributes Edit container
@@ -16,26 +16,24 @@
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
-
 class Edit
     extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -55,6 +53,7 @@ class Edit
     /**
      * Initialize Customer Address Attribute Edit Container
      *
+     * @return void
      */
     protected function _construct()
     {

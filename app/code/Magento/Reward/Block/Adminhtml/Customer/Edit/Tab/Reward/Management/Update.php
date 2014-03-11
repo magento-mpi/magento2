@@ -7,35 +7,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
 
 /**
  * Reward update points form
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
-
 class Update
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
+     * Core system store model
+     *
      * @var \Magento\Core\Model\System\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\StoreFactory $storeFactory,
         array $data = array()

@@ -8,19 +8,17 @@
  * @license     {license_link}
  */
 
-/**
- * Price Permissions Observer
- *
- * @category    Magento
- * @package     Magento_PricePermissions
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
 use Magento\Event\Observer as EventObserver;
 use Magento\Backend\Block\Widget\Grid;
 
+/**
+ * Price Permissions Observer
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Observer
 {
     /**
@@ -78,12 +76,10 @@ class Observer
         '_setCanEditReadPriceFalse' => array(
             'catalog.product.edit.tab.downloadable.links',
             'adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
-        '_setTabEditReadFalse' => array('product_tabs'),
         '_setOptionsEditReadFalse' => array('admin.product.options'),
         '_setCanEditReadDefaultPrice' => array('adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
         '_setCanEditReadChildBlock' => array('adminhtml.catalog.product.edit.tab.bundle.option'),
-        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes'),
-        '_setFormElementAttributes' => array('catalog.product.edit.tab.super.config.simple')
+        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes')
     );
 
     /**
@@ -96,16 +92,20 @@ class Observer
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Backend authorization session
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
+     * Catalog product model
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
@@ -119,7 +119,7 @@ class Observer
 
     /**
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -128,7 +128,7 @@ class Observer
      */
     public function __construct(
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -255,22 +255,6 @@ class Observer
     }
 
     /**
-     * Set edit and read tab to false
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setTabEditReadFalse($block)
-    {
-        if (!$this->_canEditProductPrice) {
-            $block->setTabData('configurable', 'can_edit_price', false);
-        }
-        if (!$this->_canReadProductPrice) {
-            $block->setTabData('configurable', 'can_read_price', false);
-        }
-    }
-
-    /**
      * Set edit and read price in child block to false
      *
      * @param Template $block
@@ -323,28 +307,6 @@ class Observer
             $block->setCanEditPrice(false);
             if (!is_null($selectionTemplateBlock)) {
                 $selectionTemplateBlock->setCanEditPrice(false);
-            }
-        }
-    }
-
-    /**
-     * Set form element value and readonly
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setFormElementAttributes($block)
-    {
-        // Handle quick creation of simple product in configurable product
-        /** @var $form \Magento\Data\Form */
-        $form = $block->getForm();
-        if (!is_null($form)) {
-            if (!$this->_canEditProductStatus) {
-                $statusElement = $form->getElement('simple_product_status');
-                if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
-                    $statusElement->setReadonly(true, true);
-                }
             }
         }
     }
@@ -412,12 +374,12 @@ class Observer
      */
     public function viewBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\View\Element\AbstractBlock */
+        /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle product Recurring Profile tab
-            case 'adminhtml_recurring_profile_edit_form' :
+            // Handle product Recurring Payment tab
+            case 'adminhtml_recurring_payment_edit_form' :
                 if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
                     if (!$this->_canReadProductPrice) {
                         $block->setProductEntity($this->_productFactory->create());
@@ -427,13 +389,13 @@ class Observer
                     $block->setIsReadonly(true);
                 }
                 break;
-            case 'adminhtml_recurring_profile_edit_form_dependence' :
+            case 'adminhtml_recurring_payment_edit_form_dependence' :
                 if (!$this->_canEditProductPrice) {
                     $block->addConfigOptions(array('can_edit_price' => false));
                     if (!$this->_canReadProductPrice) {
                         $dependenceValue = ($this->_coreRegistry->registry('product')->getIsRecurring()) ? '0' : '1';
                         // Override previous dependence value
-                        $block->addFieldDependence('product[recurring_profile]', 'product[is_recurring]',
+                        $block->addFieldDependence('product[recurring_payment]', 'product[is_recurring]',
                             $dependenceValue);
                     }
                 }
@@ -446,7 +408,6 @@ class Observer
                 break;
         }
     }
-
 
     /**
      * Handle catalog_product_load_after event
@@ -497,7 +458,7 @@ class Observer
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
         if ($product->isObjectNew() && !$this->_canEditProductStatus) {
-            $product->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         }
     }
 
@@ -517,7 +478,7 @@ class Observer
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+                    $statusElement->setValue(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     $statusElement->setReadonly(true, true);
                 }
             }
@@ -636,9 +597,9 @@ class Observer
             }
 
             if (!$this->_canEditProductPrice) {
-                // Handle Recurring Profile tab
-                if ($form->getElement('recurring_profile')) {
-                    $form->getElement('recurring_profile')->setReadonly(true, true)->getForm()
+                // Handle Recurring Payment tab
+                if ($form->getElement('recurring_payment')) {
+                    $form->getElement('recurring_payment')->setReadonly(true, true)->getForm()
                         ->setReadonly(true, true);
                 }
             }

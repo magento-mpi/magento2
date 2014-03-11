@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
 
 /**
  * TargetRule Action Product Price (percentage) Condition Model
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_TargetRule
  */
-namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
-
 class Price
     extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
 {
@@ -27,6 +25,7 @@ class Price
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      */
     public function __construct(
@@ -36,9 +35,12 @@ class Price
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array()
     ) {
-        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $context, $backendData, $config, $product, $productResource, $attrSetCollection, $localeFormat, $data
+        );
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
         $this->setValue(100);
     }
@@ -62,7 +64,7 @@ class Price
     /**
      * Set operator options
      *
-     * @return \Magento\TargetRule\Model\Actions\Condition\Product\Special\Price
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -88,7 +90,7 @@ class Price
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\TargetRule\Model\Index $object
-     * @param array $bind
+     * @param array &$bind
      * @return \Zend_Db_Expr
      */
     public function getConditionForCollection($collection, $object, &$bind)

@@ -2,23 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer;
 
 /**
  * Adminhtml customers wishlist grid item renderer for name/options cell
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer;
-
-class Item
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Catalog product configuration
@@ -33,6 +25,8 @@ class Item
     protected $_productConfigPool;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $productConfigPool
@@ -83,10 +77,9 @@ class Item
         return $this->_productConfigPool->get($helperName);
     }
 
-    /*
+    /**
      * Returns product associated with this block
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
     public function getProduct()
@@ -110,21 +103,19 @@ class Item
     /**
      * Returns formatted option value for an item
      *
-     * @param \Magento\Wishlist\Item\Option
+     * @param \Magento\Wishlist\Model\Item\Option $option
      * @return array
      */
     protected function getFormattedOptionValue($option)
     {
-        $params = array(
-            'max_length' => 55
-        );
+        $params = ['max_length' => 55];
         return $this->_productConfig->getFormattedOptionValue($option, $params);
     }
 
-    /*
+    /**
      * Renders item product name and its configuration
      *
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface|\Magento\Object $item
      * @return string
      */
     public function render(\Magento\Object $item)

@@ -16,6 +16,8 @@ class Reasonselect
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
 {
     /**
+     * Ram item form
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;

@@ -7,7 +7,9 @@
  */
 namespace Magento\Webapi\Model\Rest;
 
+use Magento\Webapi\Controller\Rest\Router\Route;
 use \Magento\Webapi\Model\Config\Converter;
+use Magento\Webapi\Model\Config as ModelConfig;
 
 /**
  * Webapi Config Model for Rest.
@@ -33,18 +35,18 @@ class Config
     const KEY_ACL_RESOURCES = 'resources';
     /*#@-*/
 
-    /** @var \Magento\Webapi\Model\Config  */
+    /** @var ModelConfig */
     protected $_config;
 
     /** @var \Magento\Controller\Router\Route\Factory */
     protected $_routeFactory;
 
     /**
-     * @param \Magento\Webapi\Model\Config
+     * @param ModelConfig $config
      * @param \Magento\Controller\Router\Route\Factory $routeFactory
      */
     public function __construct(
-        \Magento\Webapi\Model\Config $config,
+        ModelConfig $config,
         \Magento\Controller\Router\Route\Factory $routeFactory
     ) {
         $this->_config = $config;
@@ -68,7 +70,7 @@ class Config
         /** @var $route \Magento\Webapi\Controller\Rest\Router\Route */
         $route = $this->_routeFactory->createRoute(
             'Magento\Webapi\Controller\Rest\Router\Route',
-            strtolower($routeData[self::KEY_ROUTE_PATH])
+            $this->_formatRoutePath($routeData[self::KEY_ROUTE_PATH])
         );
 
         $route->setServiceClass($routeData[self::KEY_CLASS])
@@ -76,6 +78,22 @@ class Config
             ->setSecure($routeData[self::KEY_IS_SECURE])
             ->setAclResources($routeData[self::KEY_ACL_RESOURCES]);
         return $route;
+    }
+
+    /**
+     * Lowercase all parts of the given route path except for the path parameters.
+     *
+     * @param string $routePath The route path (e.g. '/V1/Categories/:categoryId')
+     * @return string The modified route path (e.g. '/v1/categories/:categoryId')
+     */
+    protected function _formatRoutePath($routePath)
+    {
+        $routePathParts = explode('/', $routePath);
+        $pathParts = [];
+        foreach ($routePathParts as $pathPart) {
+            $pathParts[] = (substr($pathPart, 0, 1) === ":") ? $pathPart : strtolower($pathPart);
+        }
+        return implode('/', $pathParts);
     }
 
     /**
@@ -98,7 +116,7 @@ class Config
      * Generate the list of available REST routes. Current HTTP method is taken into account.
      *
      * @param \Magento\Webapi\Controller\Rest\Request $request
-     * @return array
+     * @return Route[]
      * @throws \Magento\Webapi\Exception
      */
     public function getRestRoutes(\Magento\Webapi\Controller\Rest\Request $request)

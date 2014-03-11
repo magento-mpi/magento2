@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Locale;
 
 /**
  * Locale manager model
@@ -15,8 +16,6 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Locale;
-
 class Manager
 {
     /**
@@ -55,7 +54,7 @@ class Manager
      * Switch backend locale according to locale code
      *
      * @param string $localeCode
-     * @return \Magento\Backend\Model\Locale\Manager
+     * @return $this
      */
     public function switchBackendInterfaceLocale($localeCode)
     {
@@ -77,7 +76,7 @@ class Manager
      */
     public function getUserInterfaceLocale()
     {
-        $interfaceLocale = \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE;
+        $interfaceLocale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
 
         $userData = $this->_authSession->getUser();
         if ($userData && $userData->getInterfaceLocale()) {

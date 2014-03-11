@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Block\Cart;
 
 class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
@@ -77,7 +74,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -123,7 +120,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Get Carrier Name
      *
      * @param string $carrierCode
-     * @return mixed
+     * @return string
      */
     public function getCarrierName($carrierCode)
     {
@@ -200,20 +197,17 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCityActive()
     {
-        return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
+        return false;
     }
 
     /**
-     * Show State in Shipping Estimation
+     * Show State in Shipping Estimation. Result updated using plugins
      *
      * @return bool
      */
     public function getStateActive()
     {
-        return (bool)$this->_storeConfig->getConfig('carriers/dhl/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/tablerate/active')
-            || (bool)$this->_storeConfig->getConfig('carriers/dhlint/active');
+        return false;
     }
 
     /**

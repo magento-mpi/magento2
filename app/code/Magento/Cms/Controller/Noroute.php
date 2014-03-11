@@ -12,6 +12,8 @@ class Noroute extends \Magento\App\Action\Action
 {
     /**
      * Render CMS 404 Not found page
+     *
+     * @return void
      */
     public function indexAction()
     {

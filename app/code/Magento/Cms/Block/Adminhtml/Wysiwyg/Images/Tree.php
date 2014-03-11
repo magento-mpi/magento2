@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 
 /**
  * Directory tree renderer for Cms Wysiwyg Images
@@ -15,14 +16,12 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
-
 class Tree extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -36,13 +35,13 @@ class Tree extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -115,6 +114,7 @@ class Tree extends \Magento\Backend\Block\Template
 
     /**
      * Get tree widget options
+     *
      * @return array
      */
     public function getTreeWidgetOptions()

@@ -30,16 +30,16 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_countryTable;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -48,16 +48,18 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**
      * Define main, country, locale region name tables
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -73,12 +75,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize select object
      *
-     * @return \Magento\Directory\Model\Resource\Region\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
         parent::_initSelect();
-        $locale = $this->_locale->getLocaleCode();
+        $locale = $this->_localeResolver->getLocaleCode();
 
         $this->addBindParam(':region_locale', $locale);
         $this->getSelect()->joinLeft(
@@ -93,7 +95,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter by country_id
      *
      * @param string|array $countryId
-     * @return \Magento\Directory\Model\Resource\Region\Collection
+     * @return $this
      */
     public function addCountryFilter($countryId)
     {
@@ -111,7 +113,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter by country code (ISO 3)
      *
      * @param string $countryCode
-     * @return \Magento\Directory\Model\Resource\Region\Collection
+     * @return $this
      */
     public function addCountryCodeFilter($countryCode)
     {
@@ -129,7 +131,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter by Region code
      *
      * @param string|array $regionCode
-     * @return \Magento\Directory\Model\Resource\Region\Collection
+     * @return $this
      */
     public function addRegionCodeFilter($regionCode)
     {
@@ -147,7 +149,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter by region name
      *
      * @param string|array $regionName
-     * @return \Magento\Directory\Model\Resource\Region\Collection
+     * @return $this
      */
     public function addRegionNameFilter($regionName)
     {
@@ -165,7 +167,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter region by its code or name
      *
      * @param string|array $region
-     * @return \Magento\Directory\Model\Resource\Region\Collection
+     * @return $this
      */
     public function addRegionCodeOrNameFilter($region)
     {

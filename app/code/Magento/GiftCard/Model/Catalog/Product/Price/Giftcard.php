@@ -34,19 +34,19 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;
-        parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
+        parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager);
     }
 
 

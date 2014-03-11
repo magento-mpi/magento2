@@ -7,20 +7,18 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\SalesArchive\Model\Observer">
-        <param name="config">
-            <instance type="Magento\SalesArchive\Model\Config\Proxy" />
-        </param>
-        <param name="backendData">
-            <instance type="Magento\Backend\Helper\Data\Proxy" />
-        </param>
+        <arguments>
+            <argument name="config" xsi:type="object">Magento\SalesArchive\Model\Config\Proxy</argument>
+            <argument name="backendData" xsi:type="object">Magento\Backend\Helper\Data\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="salesarchive_setup"><value>Magento\SalesArchive\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="salesarchive_setup" xsi:type="string">Magento\SalesArchive\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

@@ -19,8 +19,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento\Core\Model\Context',
-        'Magento\Core\Model\Registry',
+        'Magento\Model\Context',
+        'Magento\Registry',
         'Magento\App\Filesystem',
         'Magento\View\Url',
         'Magento\View\FileSystem',
@@ -45,38 +45,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $event = new \Magento\Event(array('order' => $order));
         $observer = new \Magento\Event\Observer(array('event' => $event));
 
-        $emailTemplateMock = $this->getMock(
-            'Magento\Email\Model\Template',
-            array('_getMail'),
-            array(
-                $objectManager->get('Magento\Core\Model\Context'),
-                $objectManager->get('Magento\View\DesignInterface'),
-                $objectManager->get('Magento\Core\Model\Registry'),
-                $objectManager->get('Magento\Core\Model\App\Emulation'),
-                $objectManager->get('Magento\Core\Model\StoreManager'),
-                $objectManager->get('Magento\App\Filesystem'),
-                $objectManager->get('Magento\View\Url'),
-                $objectManager->get('Magento\View\FileSystem'),
-                $objectManager->get('Magento\Core\Model\Store\Config'),
-                $objectManager->get('Magento\App\ConfigInterface'),
-                $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Email\Model\Template\Config'),
-            )
-        );
-        $emailTemplateMock->expects($this->once())
-            ->method('_getMail')
-            ->will($this->returnValue($this->getMock('Zend_Mail', array('send'), array('utf-8'))));
-
         /** @var $model \Magento\GiftCard\Model\Observer */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftCard\Model\Observer', array(
-                'data' => array('email_template_model' => $emailTemplateMock)
-            ));
+            ->create('Magento\GiftCard\Model\Observer');
         $model->generateGiftCardAccounts($observer);
-        $this->assertEquals(
-            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1),
-            $emailTemplateMock->getDesignConfig()->getData()
-        );
 
         $this->_checkOrderItemProductOptions($order, false);
     }

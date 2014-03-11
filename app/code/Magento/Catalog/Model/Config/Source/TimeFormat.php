@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Config\Source;
 
-class TimeFormat implements \Magento\Core\Model\Option\ArrayInterface
+class TimeFormat implements \Magento\Option\ArrayInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function toOptionArray()
     {
         return array(

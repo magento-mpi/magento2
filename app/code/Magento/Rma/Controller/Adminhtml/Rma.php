@@ -18,41 +18,57 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
+     * Application filesystem
+     *
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
+     * Read directory
+     *
      * @var \Magento\Filesystem\Directory\Read
      */
     protected $readDirectory;
 
     /**
+     * Http response file factory
+     *
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
+     * Shipping carrier helper
+     *
+     * @var \Magento\Shipping\Helper\Carrier
+     */
+    protected $carrierHelper;
+
+    /**
      * @param Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\App\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filesystem = $filesystem;
         $this->readDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
+        $this->carrierHelper = $carrierHelper;
         parent::__construct($context);
     }
 
@@ -257,8 +273,8 @@ class Rma extends \Magento\Backend\App\Action
     protected function _prepareNewRmaInstanceData(array $saveRequest)
     {
         $order = $this->_coreRegistry->registry('current_order');
-        /** @var $dateModel \Magento\Core\Model\Date */
-        $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+        /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+        $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
         $rmaData = array(
             'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested' => $dateModel->gmtDate(),
@@ -284,8 +300,8 @@ class Rma extends \Magento\Backend\App\Action
     {
         if (!empty($saveRequest['comment']['comment'])) {
             $visible = isset($saveRequest['comment']['is_visible_on_front']);
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
             $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
             $statusHistory->setRmaEntityId($rma->getId())
@@ -437,7 +453,8 @@ class Rma extends \Magento\Backend\App\Action
      *
      * @return void
      */
-    public function closeAction(){
+    public function closeAction()
+    {
         $entityId = $this->getRequest()->getParam('entity_id');
         if ($entityId) {
             $entityId = intval($entityId);
@@ -502,8 +519,8 @@ class Rma extends \Magento\Backend\App\Action
             if (!$comment) {
                 throw new \Magento\Core\Exception(__('Please enter a valid message.'));
             }
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             /** @var $history \Magento\Rma\Model\Rma\Status\History */
             $history = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
             $history->setRmaEntityId((int)$rma->getId())
@@ -612,7 +629,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Generate PDF form of RMA
      *
-     * @return void
+     * @return void|\Magento\App\ResponseInterface
      */
     public function printAction()
     {
@@ -621,8 +638,8 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $rmaModel \Magento\Rma\Model\Rma */
             $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma')->load($rmaId);
             if ($rmaModel) {
-                /** @var $dateModel \Magento\Core\Model\Date */
-                $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+                /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+                $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
                 /** @var $pdfModel \Magento\Rma\Model\Pdf\Rma */
                 $pdfModel = $this->_objectManager->create('Magento\Rma\Model\Pdf\Rma');
                 $pdf = $pdfModel->getPdf(array($rmaModel));
@@ -964,7 +981,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Shows available shipping methods
      *
-     * @return \Zend_Controller_Response_Abstract
+     * @return void|\Zend_Controller_Response_Abstract
      * @throws \Magento\Core\Exception
      */
     public function pslAction()
@@ -1214,8 +1231,8 @@ class Rma extends \Magento\Backend\App\Action
                 $shipment->save();
 
                 $carrierCode = $carrier->getCarrierCode();
-                $carrierTitle = $this->_objectManager->get('Magento\Core\Model\Store\Config')
-                    ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+                $carrierTitle = $this->carrierHelper
+                    ->getCarrierConfigValue($carrierCode, 'title', $shipment->getStoreId());
                 if ($trackingNumbers) {
                     /** @var $shippingResource \Magento\Rma\Model\Resource\Shipping */
                     $shippingResource = $this->_objectManager->create('Magento\Rma\Model\Resource\Shipping');
@@ -1242,7 +1259,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\Backend\App\Action
+     * @return void|\Magento\Backend\App\Action
      * @throws \Magento\Core\Exception
      */
     public function printLabelAction()
@@ -1287,7 +1304,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Create pdf document with information about packages
      *
-     * @return void
+     * @return void|\Magento\App\ResponseInterface
      */
     public function printPackageAction()
     {
@@ -1305,8 +1322,8 @@ class Rma extends \Magento\Backend\App\Action
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shipment);
-            /** @var $dateModel \Magento\Core\Model\Date */
-            $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+            /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+            $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
             return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),

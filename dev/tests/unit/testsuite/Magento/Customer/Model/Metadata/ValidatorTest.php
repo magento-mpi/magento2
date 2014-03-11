@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Model\Metadata;
 
+use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
+
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Validator */
@@ -29,7 +31,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateDataWithNoDataModel()
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->attrDataFactoryMock
@@ -51,7 +53,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValidWithNoModel()
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $this->attrDataFactoryMock
@@ -60,7 +62,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->setAttributes([$attribute]);
         $this->validator->setEntityType('ENTITY_TYPE');
         $this->validator->setData(['something']);
-        $this->assertTrue($this->validator->isValid('entity'));
+        $this->assertTrue($this->validator->isValid(['entity']));
         $this->validator->setData([]);
         $this->assertTrue($this->validator->isValid(new \Magento\Object([])));
     }
@@ -71,14 +73,15 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValid($isValid)
     {
+        $data = ['something'];
         $attribute = $this->getMockAttribute();
         $this->mockDataModel($isValid, $attribute);
         $this->validator->setAttributes([$attribute]);
         $this->validator->setEntityType('ENTITY_TYPE');
-        $this->validator->setData(['something']);
-        $this->assertEquals($isValid, $this->validator->isValid('ENTITY'));
+        $this->validator->setData($data);
+        $this->assertEquals($isValid, $this->validator->isValid(['ENTITY']));
         $this->validator->setData([]);
-        $this->assertEquals($isValid, $this->validator->isValid(new \Magento\Object([])));
+        $this->assertEquals($isValid, $this->validator->isValid(new \Magento\Object($data)));
     }
 
     public function trueFalseDataProvider()
@@ -87,11 +90,11 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return \PHPUnit_Framework_MockObject_MockObject | AttributeMetadata
      */
     protected function getMockAttribute()
     {
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup', 'getAttributeCode', 'getDataModel'])
             ->getMock();
@@ -105,11 +108,11 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool                                                   $isValid
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param bool $isValid
+     * @param AttributeMetadata $attribute
      * @return void
      */
-    protected function mockDataModel($isValid, \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute)
+    protected function mockDataModel($isValid, AttributeMetadata $attribute)
     {
         $dataModel = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Form\Text')
             ->disableOriginalConstructor()
@@ -122,10 +125,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo($attribute),
-                $this->equalTo('ENTITY_TYPE'),
-                $this->equalTo(null)
+                $this->equalTo(null),
+                $this->equalTo('ENTITY_TYPE')
             )
             ->will($this->returnValue($dataModel));
     }
 }
- 

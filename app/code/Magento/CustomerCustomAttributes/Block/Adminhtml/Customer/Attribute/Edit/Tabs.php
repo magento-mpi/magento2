@@ -24,6 +24,7 @@ class Tabs
     /**
      * Initialize edit tabs
      *
+     * @return void
      */
     protected function _construct()
     {

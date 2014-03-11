@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Mview\View\State;
 
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection

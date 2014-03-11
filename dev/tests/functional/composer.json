@@ -6,7 +6,7 @@
         }
     ],
     "require": {
-        "magento/mtf": "dev-master",
+        "magento/mtf": "dev-MAGETWO-12043",
         "php": ">=5.4.0",
         "phpunit/phpunit": ">=3.7",
         "phpunit/phpunit-selenium": ">=1.2",
@@ -14,6 +14,8 @@
     },
     "autoload": {
         "psr-0": {
+            "Mtf\\": "lib",
+            "Magento\\": "",
             "": ["testsuites", "generated", "lib", "tests/app", "tests/design"]
         }
     }

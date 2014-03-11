@@ -82,8 +82,8 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_indexer;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -91,8 +91,8 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -220,8 +220,6 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
                 if ($event->getEntity() == \Magento\App\Config\ValueInterface::ENTITY) {
                     $configData = $event->getDataObject();
                     if ($configData->getPath() == \Magento\CatalogInventory\Helper\Data::XML_PATH_SHOW_OUT_OF_STOCK) {
-                        $this->_indexer->getProcessByCode('catalog_product_price')
-                            ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
                         $this->_indexer->getProcessByCode('catalog_product_attribute')
                             ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
                     }

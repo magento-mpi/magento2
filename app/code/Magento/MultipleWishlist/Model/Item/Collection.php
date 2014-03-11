@@ -18,7 +18,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -30,7 +30,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\App\Resource $coreResource
@@ -41,9 +41,9 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\Wishlist\Model\Resource\Item $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -54,7 +54,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\App\Resource $coreResource,
@@ -65,7 +65,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\Wishlist\Model\Resource\Item $resource,
         \Magento\App\State $appState,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         $connection = null
     ) {
         $this->_coreRegistry = $coreRegistry;

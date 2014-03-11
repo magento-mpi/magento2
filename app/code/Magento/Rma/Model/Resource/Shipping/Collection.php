@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Resource\Shipping;
 
 /**
  * RMA shipping collection
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Shipping;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

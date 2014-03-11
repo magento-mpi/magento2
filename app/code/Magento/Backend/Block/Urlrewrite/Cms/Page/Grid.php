@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Urlrewrite\Cms\Page;
 
 /**
  * CMS pages grid for URL rewrites
@@ -15,12 +16,12 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Urlrewrite\Cms\Page;
-
 class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
 {
     /**
      * Constructor
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -31,7 +32,7 @@ class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
     /**
      * Disable massaction
      *
-     * @return \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -41,7 +42,7 @@ class Grid extends \Magento\Cms\Block\Adminhtml\Page\Grid
     /**
      * Prepare columns layout
      *
-     * @return \Magento\Backend\Block\Urlrewrite\Cms\Page\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

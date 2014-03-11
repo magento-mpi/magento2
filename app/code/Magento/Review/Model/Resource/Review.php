@@ -70,35 +70,43 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
     private $_deleteCache   = array();
 
     /**
-     * @var \Magento\Core\Model\Date
+     * Core date model
+     *
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Rating model
+     *
      * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
+     * Rating resource model
+     *
      * @var \Magento\Rating\Model\Resource\Rating\Option
      */
     protected $_ratingOptions;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Date $date,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Rating\Model\Resource\Rating\Option $ratingOptions
@@ -114,6 +122,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table. Define other tables name
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -196,7 +205,6 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
             $detail['review_id']  = $object->getId();
             $adapter->insert($this->_reviewDetailTable, $detail);
         }
-
 
         /**
          * save stores
@@ -454,7 +462,7 @@ class Review extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Better to call this method in transaction, because operation performed on two separated tables
      *
      * @param int $productId
-     * @return \Magento\Review\Model\Resource\Review
+     * @return $this
      */
     public function deleteReviewsByProductId($productId)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Controller\Adminhtml\Email;
 
 /**
  * System Template admin controller
@@ -15,24 +16,22 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Controller\Adminhtml\Email;
-
 class Template extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -128,7 +127,7 @@ class Template extends \Magento\Backend\App\Action
                 ->setTemplateCode($request->getParam('template_code'))
                 ->setTemplateText($request->getParam('template_text'))
                 ->setTemplateStyles($request->getParam('template_styles'))
-                ->setModifiedAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate())
+                ->setModifiedAt($this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate())
                 ->setOrigTemplateCode($request->getParam('orig_template_code'))
                 ->setOrigTemplateVariables($request->getParam('orig_template_variables'));
 
@@ -137,7 +136,7 @@ class Template extends \Magento\Backend\App\Action
             }
 
             if ($request->getParam('_change_type_flag')) {
-                $template->setTemplateType(\Magento\Email\Model\Template::TYPE_TEXT);
+                $template->setTemplateType(\Magento\App\TemplateTypesInterface::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 

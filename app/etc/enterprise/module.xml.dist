@@ -18,7 +18,7 @@
     <module name="Magento_CustomerCustomAttributes" active="true" />
     <module name="Magento_CustomerBalance" active="true" />
     <module name="Magento_CustomerSegment" active="true" />
-    <module name="Magento_CustomAttribute" active="true" />
+    <module name="Magento_CustomAttributeManagement" active="true" />
     <module name="Magento_Enterprise" active="true" />
     <module name="Magento_GiftCard" active="true" />
     <module name="Magento_GiftCardAccount" active="true" />
@@ -41,4 +41,5 @@
     <module name="Magento_TargetRule" active="true" />
     <module name="Magento_WebsiteRestriction" active="true" />
     <module name="Magento_MultipleWishlist" active="true" />
+    <module name="Magento_PbridgePaypal" active="true" />
 </config>

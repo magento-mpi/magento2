@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource\Translate;
 
 /**
  * String translate resource model
@@ -16,14 +16,13 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource\Translate;
 
 class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -32,16 +31,16 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_storeManager = $storeManager;
     }
 
@@ -60,7 +59,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\AbstractModel $object
      * @param String $value
      * @param String $field
-     * @return array
+     * @return array|$this
      */
     public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
@@ -96,7 +95,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      * After translation loading
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     public function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -113,7 +112,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Before save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Translate\String
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -136,7 +135,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      * After save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Translate\String
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -183,12 +182,12 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $string
      * @param string $locale
      * @param int|null $storeId
-     * @return \Magento\Core\Model\Resource\Translate\String
+     * @return $this
      */
     public function deleteTranslate($string, $locale = null, $storeId = null)
     {
         if (is_null($locale)) {
-            $locale = $this->_locale->getLocaleCode();
+            $locale = $this->_localeResolver->getLocaleCode();
         }
 
         $where = array(
@@ -214,7 +213,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param String $translate
      * @param String $locale
      * @param int|null $storeId
-     * @return \Magento\Core\Model\Resource\Translate\String
+     * @return $this
      */
     public function saveTranslate($string, $translate, $locale = null, $storeId = null)
     {
@@ -222,7 +221,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         $table = $this->getMainTable();
 
         if (is_null($locale)) {
-            $locale = $this->_locale->getLocaleCode();
+            $locale = $this->_localeResolver->getLocaleCode();
         }
 
         if (is_null($storeId)) {

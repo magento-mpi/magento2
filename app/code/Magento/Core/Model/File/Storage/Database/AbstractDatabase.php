@@ -32,7 +32,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
     /**
      * Date model
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -42,10 +42,10 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
     protected $_app;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -53,10 +53,10 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -104,7 +104,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data storage
      *
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @return $this
      */
     public function prepareStorage()
     {
@@ -116,8 +116,8 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
     /**
      * Specify connection name
      *
-     * @param  $connectionName
-     * @return \Magento\Core\Model\File\Storage\Database
+     * @param  string $connectionName
+     * @return $this
      */
     public function setConnectionName($connectionName)
     {

@@ -1029,8 +1029,8 @@
                 });
                 return result;
             }, function() {
-                return $.mage.__("Maximum length of this field must be equal or less than %s symbols.")
-                    .replace('%s', this.attrLength);
+                return $.mage.__("Maximum length of this field must be equal or less than %1 symbols.")
+                    .replace('%1', this.attrLength);
             }
         ],
         'required-entry': [

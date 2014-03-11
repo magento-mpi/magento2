@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
  *
@@ -16,30 +17,29 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
 {
     /**
      * Date model
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Date $date
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Stdlib\DateTime\DateTime $date
     ) {
         $this->_date = $date;
-        parent::__construct($logger, $locale);
+        parent::__construct($logger, $localeDate);
     }
 
     /**
@@ -56,19 +56,19 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
             return false;
         }
         if ($startDate == '' && $object->getSpecialPrice()) {
-            $startDate = $this->_locale->date();
+            $startDate = $this->_localeDate->date();
         }
 
         return $startDate;
     }
 
-   /**
-    * Before save hook.
-    * Prepare attribute value for save
-    *
-    * @param \Magento\Object $object
-    * @return \Magento\Catalog\Model\Product\Attribute\Backend\Startdate
-    */
+    /**
+     * Before save hook.
+     * Prepare attribute value for save
+     *
+     * @param \Magento\Object $object
+     * @return $this
+     */
     public function beforeSave($object)
     {
         $startDate = $this->_getValueForSave($object);
@@ -81,14 +81,14 @@ class Startdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
         return $this;
     }
 
-   /**
-    * Product from date attribute validate function.
-    * In case invalid data throws exception.
-    *
-    * @param \Magento\Object $object
-    * @throws \Magento\Eav\Model\Entity\Attribute\Exception
-    * @return bool
-    */
+    /**
+     * Product from date attribute validate function.
+     * In case invalid data throws exception.
+     *
+     * @param \Magento\Object $object
+     * @throws \Magento\Eav\Model\Entity\Attribute\Exception
+     * @return bool
+     */
     public function validate($object)
     {
         $attr      = $this->getAttribute();

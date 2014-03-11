@@ -13,19 +13,21 @@ namespace Magento\Rma\Block\Returns\Tracking;
 class Package extends \Magento\Shipping\Block\Tracking\Popup
 {
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
@@ -36,6 +38,8 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

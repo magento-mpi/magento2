@@ -7,19 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Block\Adminhtml\Product;
 
 /**
  * Adminhtml product grid block
  *
- * @category   Magento
- * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Block\Adminhtml\Product;
-
 class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 {
     /**
+     * Website collection
+     *
      * @var \Magento\Core\Model\Resource\Website\CollectionFactory
      */
     protected $_websitesFactory;
@@ -31,7 +30,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Type $type
-     * @param \Magento\Catalog\Model\Product\Status $status
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $status
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory
@@ -46,7 +45,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Type $type,
-        \Magento\Catalog\Model\Product\Status $status,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $status,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Resource\Website\CollectionFactory $websitesFactory,
@@ -67,6 +66,11 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         );
     }
 
+    /**
+     * Initialize review
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -75,6 +79,8 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     }
 
     /**
+     * Prepare product review grid
+     *
      * @return void
      */
     protected function _prepareColumns()
@@ -121,7 +127,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',
-                'source'    => 'Magento\Catalog\Model\Product\Status',
+                'source'    => 'Magento\Catalog\Model\Product\Attribute\Source\Status',
                 'options'   => $this->_status->getOptionArray(),
         ));
 
@@ -142,6 +148,8 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     }
 
     /**
+     * Get catalog product grid url
+     *
      * @return string
      */
     public function getGridUrl()
@@ -150,6 +158,9 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     }
 
     /**
+     * Get catalog product row url
+     *
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)
@@ -158,6 +169,8 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     }
 
     /**
+     * Prepare mass action
+     *
      * @return $this
      */
     protected function _prepareMassaction()

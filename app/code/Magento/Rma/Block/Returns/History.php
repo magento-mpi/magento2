@@ -13,11 +13,15 @@ namespace Magento\Rma\Block\Returns;
 class History extends \Magento\View\Element\Template
 {
     /**
+     * Rma grid collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Customer session model
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -40,6 +44,11 @@ class History extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * Initialize rma history content
+     *
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -53,6 +62,8 @@ class History extends \Magento\View\Element\Template
     }
 
     /**
+     * Prepare rma returns history layout
+     *
      * @return $this
      */
     protected function _prepareLayout()
@@ -68,6 +79,8 @@ class History extends \Magento\View\Element\Template
     }
 
     /**
+     * Get rma pager html
+     *
      * @return string
      */
     public function getPagerHtml()
@@ -76,6 +89,9 @@ class History extends \Magento\View\Element\Template
     }
 
     /**
+     * Get rma view url
+     *
+     * @param \Magento\Object $return
      * @return string
      */
     public function getViewUrl($return)
@@ -84,6 +100,8 @@ class History extends \Magento\View\Element\Template
     }
 
     /**
+     * Get customer account back url
+     *
      * @return string
      */
     public function getBackUrl()

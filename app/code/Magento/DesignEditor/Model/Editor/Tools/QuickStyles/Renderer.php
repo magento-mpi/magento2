@@ -48,7 +48,7 @@ class Renderer
      * Render CSS recursively
      *
      * @param array $data
-     * @param string $content
+     * @param string &$content
      * @return $this
      */
     protected function _rendererCssRecursively($data, &$content)

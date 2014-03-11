@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
 
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Order address type condition
@@ -16,10 +19,7 @@
  * @package     Magento_CustomerSegment
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
-
-class Type
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Type extends AbstractCondition
 {
     /**
      * Condition Input Type
@@ -46,7 +46,7 @@ class Type
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -69,7 +69,7 @@ class Type
     /**
      * Initialize value select options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Type
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -105,8 +105,8 @@ class Type
     /**
      * Get condition query for order address attribute
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

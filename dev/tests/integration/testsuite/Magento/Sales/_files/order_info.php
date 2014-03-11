@@ -27,7 +27,7 @@ $product->setTypeId('virtual')
         'is_in_stock' => 100,
     ))
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
     ->save();
 $product->load(1);
 
@@ -70,7 +70,7 @@ $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     array('quote' => $quote)
 );
 $service->setOrderData(array('increment_id' => '100000001'));
-$service->submitAll();
+$service->submitAllWithDataObject();
 
 $order = $service->getOrder();
 $order->save();

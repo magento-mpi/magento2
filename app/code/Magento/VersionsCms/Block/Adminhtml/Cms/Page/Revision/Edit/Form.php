@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
 
 /**
  * Form for revision edit page
@@ -16,15 +16,12 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Preparing from for revision page
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

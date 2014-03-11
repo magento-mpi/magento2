@@ -1,6 +1,6 @@
 <?php
 /**
- * End-to-end scenarios without 3-rd party solutions (L3 plan)
+ * End-to-end scenarios without 3-rd party solutions
  *
  * {license_notice}
  *
@@ -27,6 +27,7 @@ class EndToEndTests
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\EditConfigurableTest');
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
         // Gift Card
@@ -41,6 +42,10 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
+
+        // Shopping Cart
+        // Simple product with recurring payment
+        $suite->addTestSuite('Magento\RecurringPayment\Test\TestCase\RecurringPaymentTest');
 
         // Product search
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
@@ -81,6 +86,12 @@ class EndToEndTests
 
         // Cms
         $suite->addTestSuite('Magento\Cms\Test\TestCase\CreatePageTest');
+
+        // Layered navigation
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
+
+        // Assign products to a category
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\AssignProductTest');
 
         return $suite;
     }

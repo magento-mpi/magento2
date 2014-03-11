@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\App\Action\Plugin;
 
 class Design
@@ -43,21 +42,26 @@ class Design
     /**
      * Initialize design
      *
-     * @param array $arguments
-     * @return array
+     * @param \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision $subject
+     * @param \Magento\App\RequestInterface $request
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeDispatch(array $arguments = array())
-    {
+    public function beforeDispatch(
+        \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision $subject, \Magento\App\RequestInterface $request
+    ) {
         if ($this->_request->getActionName() == 'drop') {
             $this->_appState->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));
         } else {
             $this->_designLoader->load();
         }
-        return $arguments;
     }
 
     /**
      * Callback for init design from outside (need to substitute area code)
+     *
+     * @return void
      */
     public function emulateDesignCallback()
     {

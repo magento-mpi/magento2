@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity;
+
+use Magento\ImportExport\Model\Export\Adapter\AbstractAdapter;
 
 /**
  * Export entity abstract model
@@ -15,8 +18,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Entity;
-
 abstract class AbstractEntity
 {
     /**
@@ -44,7 +45,7 @@ abstract class AbstractEntity
     /**
      * Array of attributes codes which are disabled for export.
      *
-     * @var array
+     * @var string[]
      */
     protected $_disabledAttrs = array();
 
@@ -86,7 +87,7 @@ abstract class AbstractEntity
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
@@ -107,14 +108,14 @@ abstract class AbstractEntity
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array();
 
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
@@ -135,14 +136,14 @@ abstract class AbstractEntity
     /**
      * Source model.
      *
-     * @var \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @var AbstractAdapter
      */
     protected $_writer;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -150,18 +151,18 @@ abstract class AbstractEntity
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
         $entityCode = $this->getEntityTypeCode();
         $this->_entityTypeId = $config->getEntityType($entityCode)->getEntityTypeId();
@@ -171,7 +172,7 @@ abstract class AbstractEntity
     /**
      * Initialize stores hash.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     protected function _initStores()
     {
@@ -186,7 +187,7 @@ abstract class AbstractEntity
     /**
      * Get header columns
      *
-     * @return array
+     * @return string[]
      */
     abstract protected function _getHeaderColumns();
 
@@ -227,7 +228,7 @@ abstract class AbstractEntity
     /**
      * Initialize attribute option values.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     protected function _initAttrValues()
     {
@@ -274,11 +275,11 @@ abstract class AbstractEntity
                         $to   = array_shift($exportFilter[$attrCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = $this->_locale->date($from,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = $this->_locale->date($to,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_localeDate->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('to' => $date, 'date' => true));
                         }
                     }
@@ -476,8 +477,8 @@ abstract class AbstractEntity
     /**
      * Inner writer object getter.
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @return AbstractAdapter
+     * @throws \Magento\Core\Exception
      */
     public function getWriter()
     {
@@ -491,7 +492,7 @@ abstract class AbstractEntity
      * Set parameters.
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -503,10 +504,10 @@ abstract class AbstractEntity
     /**
      * Writer model setter.
      *
-     * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @param AbstractAdapter $writer
+     * @return $this
      */
-    public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
+    public function setWriter(AbstractAdapter $writer)
     {
         $this->_writer = $writer;
 

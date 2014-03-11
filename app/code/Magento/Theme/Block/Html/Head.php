@@ -62,12 +62,18 @@ class Head extends \Magento\View\Element\Template
     protected $_fileStorageDatabase;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\View\Asset\MergeService $assetMergeService
      * @param \Magento\View\Asset\MinifyService $assetMinifyService
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -77,6 +83,7 @@ class Head extends \Magento\View\Element\Template
         \Magento\View\Asset\GroupedCollection $assets,
         \Magento\View\Asset\MergeService $assetMergeService,
         \Magento\View\Asset\MinifyService $assetMinifyService,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -85,13 +92,14 @@ class Head extends \Magento\View\Element\Template
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $assets;
+        $this->_localeResolver = $localeResolver;
     }
     /**
      * Add RSS element to HEAD entity
      *
      * @param string $title
      * @param string $href
-     * @return \Magento\Theme\Block\Html\Head
+     * @return $this
      */
     public function addRss($title, $href)
     {
@@ -107,10 +115,10 @@ class Head extends \Magento\View\Element\Template
     }
 
     /**
+     * Render HTML for the added head items
+     *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
-     * Render HTML for the added head items
      *
      * @return string
      */
@@ -275,7 +283,7 @@ class Head extends \Magento\View\Element\Template
     /**
      * Same as getTitle(), but return only first item from chunk for backend pages
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function getShortTitle()
     {
@@ -403,6 +411,6 @@ class Head extends \Magento\View\Element\Template
      */
     public function getLocale()
     {
-        return substr($this->_locale->getLocaleCode(), 0, 2);
+        return substr($this->_localeResolver->getLocaleCode(), 0, 2);
     }
 }

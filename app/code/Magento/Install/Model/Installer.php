@@ -129,7 +129,9 @@ class Installer extends \Magento\Object
      */
     protected $_session;
 
-    /** @var \Magento\App\Resource */
+    /**
+     * @var \Magento\App\Resource
+     */
     protected $_resource;
 
     /**
@@ -148,6 +150,31 @@ class Installer extends \Magento\Object
      * @var \Magento\App\Arguments
      */
     protected $_arguments;
+
+    /**
+     * @var \Magento\Module\ModuleListInterface
+     */
+    protected $moduleList;
+
+    /**
+     * @var \Magento\Module\DependencyManagerInterface
+     */
+    protected $dependencyManager;
+
+    /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @param \Magento\App\ReinitableConfigInterface $config
@@ -169,6 +196,11 @@ class Installer extends \Magento\Object
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param \Magento\Module\DependencyManagerInterface $dependencyManager
+     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -191,6 +223,11 @@ class Installer extends \Magento\Object
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\App\Resource $resource,
+        \Magento\Module\ModuleListInterface $moduleList,
+        \Magento\Module\DependencyManagerInterface $dependencyManager,
+        \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -201,7 +238,6 @@ class Installer extends \Magento\Object
         $this->_setupFactory = $setupFactory;
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
-        parent::__construct($data);
         $this->_arguments = $arguments;
         $this->_app = $app;
         $this->_appState = $appState;
@@ -213,6 +249,12 @@ class Installer extends \Magento\Object
         $this->_installerConfig = $installerConfig;
         $this->_session = $session;
         $this->_resource = $resource;
+        $this->moduleList = $moduleList;
+        $this->dependencyManager = $dependencyManager;
+        $this->messageManager = $messageManager;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
+        parent::__construct($data);
     }
 
     /**
@@ -242,7 +284,7 @@ class Installer extends \Magento\Object
      * Set data model to store data between installation steps
      *
      * @param \Magento\Object $model
-     * @return \Magento\Install\Model\Installer
+     * @return $this
      */
     public function setDataModel($model)
     {
@@ -275,6 +317,7 @@ class Installer extends \Magento\Object
     public function checkServer()
     {
         try {
+            $this->checkExtensionsLoaded();
             $this->_filesystem->install();
             $result = true;
         } catch (\Exception $e) {
@@ -299,10 +342,27 @@ class Installer extends \Magento\Object
     }
 
     /**
+     * Check all necessary extensions are loaded and available
+     *
+     * @throws \Exception
+     */
+    protected function checkExtensionsLoaded()
+    {
+        try {
+            foreach ($this->moduleList->getModules() as $moduleData) {
+                $this->dependencyManager->checkModuleDependencies($moduleData);
+            }
+        } catch (\Exception $exception) {
+            $this->messageManager->addError($exception->getMessage());
+            throw new \Exception($exception->getMessage());
+        }
+    }
+
+    /**
      * Installation config data
      *
      * @param   array $data
-     * @return  \Magento\Install\Model\Installer
+     * @return  $this
      */
     public function installConfig($data)
     {
@@ -325,7 +385,7 @@ class Installer extends \Magento\Object
     /**
      * Database installation
      *
-     * @return \Magento\Install\Model\Installer
+     * @return $this
      */
     public function installDb()
     {
@@ -373,11 +433,12 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $setupModel->setConfigData($this->_localeResolver->getDefaultLocalePath(),
                 $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $setupModel->setConfigData(
+                $this->_localeDate->getDefaultTimezonePath(),
                 $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
@@ -401,6 +462,7 @@ class Installer extends \Magento\Object
      *
      * @param \Magento\Core\Model\Resource\Setup $setupModel
      * @param string $orderIncrementPrefix
+     * @return void
      */
     protected function _setOrderIncrementPrefix(\Magento\Core\Model\Resource\Setup $setupModel, $orderIncrementPrefix)
     {
@@ -419,6 +481,7 @@ class Installer extends \Magento\Object
      * Create an admin user
      *
      * @param array $data
+     * @return void
      */
     public function createAdministrator($data)
     {
@@ -440,7 +503,7 @@ class Installer extends \Magento\Object
      * Install encryption key into the application, generate and return a random one, if no value is specified
      *
      * @param string $key
-     * @return \Magento\Install\Model\Installer
+     * @return $this
      */
     public function installEncryptionKey($key)
     {
@@ -483,6 +546,8 @@ class Installer extends \Magento\Object
 
     /**
      * Store install date and set application into installed state
+     *
+     * @return void
      */
     protected function _setAppInstalled()
     {
@@ -493,6 +558,8 @@ class Installer extends \Magento\Object
 
     /**
      * Ensure changes in the configuration, if any, take effect
+     *
+     * @return void
      */
     protected function _refreshConfig()
     {

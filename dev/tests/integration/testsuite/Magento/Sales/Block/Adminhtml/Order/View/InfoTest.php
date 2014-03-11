@@ -14,7 +14,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\View;
 class InfoTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * Value for the user defined custom attribute, which is created by attribute_user_defined.php fixture.
+     * Value for the user defined custom attribute, which is created by attribute_user_defined_customer.php fixture.
      */
     const ORDER_USER_DEFINED_ATTRIBUTE_VALUE = 'custom_attr_value';
 
@@ -78,11 +78,11 @@ class InfoTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @param array $additionalOrderData
-     * @return \Magento\Core\Model\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected function _putOrderIntoRegistry(array $additionalOrderData = [])
     {
-        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
+        $registry = $this->getMockBuilder('Magento\Registry')
             ->disableOriginalConstructor()
             ->getMock();
 

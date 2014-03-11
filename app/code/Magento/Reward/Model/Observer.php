@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model;
 
 /**
  * Reward observer
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model;
-
 class Observer
 {
     /**
@@ -35,39 +31,54 @@ class Observer
     protected $_coreData = null;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
+     * Core model store configuration
+     *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
+     * Reward history collection
+     *
      * @var \Magento\Reward\Model\Resource\Reward\History\CollectionFactory
      */
     protected $_historyCollectionFactory;
 
     /**
+     * Reward history factory
+     *
      * @var \Magento\Reward\Model\Resource\Reward\HistoryFactory
      */
     protected $_historyItemFactory;
 
     /**
+     * Reward factory
      * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_rewardResourceFactory;
 
     /**
+     * Reward rate factory
      * @var \Magento\Reward\Model\Reward\RateFactory
      */
     protected $_rateFactory;
+
+    /** @var \Magento\Customer\Model\Converter */
+    protected $_customerConverter;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -93,7 +104,8 @@ class Observer
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
-        \Magento\Reward\Model\Reward\RateFactory $rateFactory
+        \Magento\Reward\Model\Reward\RateFactory $rateFactory,
+        \Magento\Customer\Model\Converter $customerConverter
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -106,13 +118,14 @@ class Observer
         $this->_historyItemFactory = $historyItemFactory;
         $this->_rewardResourceFactory = $rewardResourceFactory;
         $this->_rateFactory = $rateFactory;
+        $this->_customerConverter = $customerConverter;
     }
 
     /**
      * Update reward points for customer, send notification
      *
      * @param \Magento\Event\Observer $observer
-     * @return $this
+     * @return $this|void
      */
     public function saveRewardPoints($observer)
     {
@@ -123,7 +136,7 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var $customer \Magento\Customer\Model\Customer */
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {
@@ -133,15 +146,16 @@ class Observer
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
+            $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_getRewardModel();
-            $reward->setCustomer($customer)
+            $reward->setCustomer($customerModel)
                 ->setWebsiteId($this->_storeManager->getStore($data['store_id'])->getWebsiteId())
                 ->loadByCustomer();
 
             $reward->addData($data);
             $reward->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
-                ->setActionEntity($customer)
+                ->setActionEntity($customerModel)
                 ->updateRewardPoints();
         }
         return $this;
@@ -151,27 +165,40 @@ class Observer
      * Update reward notifications for customer
      *
      * @param \Magento\Event\Observer $observer
-     * @return $this|null
+     * @return $this
      */
     public function saveRewardNotifications($observer)
     {
         if (!$this->_rewardData->isEnabled()) {
-            return;
+            return $this;
         }
 
         $request = $observer->getEvent()->getRequest();
-        $customer = $observer->getEvent()->getCustomer();
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customer */
+        $customerBuilder = $observer->getEvent()->getCustomer();
+
+        /*
+         * Customer builder was passed to event in order to provide possibility to observer to change
+         * the data of the Customer Data Object.
+         * Now we're constructing the Customer object from the builder in order to read the data
+         * and populate Builder back with it.
+         */
+        $customer = $customerBuilder->create();
+        $customerBuilder->populate($customer);
 
         $data = $request->getPost('reward');
-        $subscribeByDefault = (int)$this->_rewardData
-            ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
-        if ($customer->isObjectNew()) {
+        // If new customer
+        if (!$customer->getId()) {
+            $subscribeByDefault = (int)$this->_rewardData
+                ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
             $data['reward_update_notification']  = $subscribeByDefault;
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customer->setRewardUpdateNotification(!empty($data['reward_update_notification']) ? 1 : 0);
-        $customer->setRewardWarningNotification(!empty($data['reward_warning_notification']) ? 1 : 0);
+        $customerBuilder->setCustomAttribute('reward_update_notification',
+            (empty($data['reward_update_notification']) ? 0 : 1));
+        $customerBuilder->setCustomAttribute('reward_warning_notification',
+            (empty($data['reward_warning_notification']) ? 0 : 1));
 
         return $this;
     }
@@ -321,7 +348,11 @@ class Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    __('The customer earned %1 for this order.', $this->_rewardData->formatReward($reward->getPointsDelta()))
+                    __(
+                        'The customer earned %1 for this order.',
+                        $this->_rewardData->formatReward($reward->getPointsDelta()
+                        )
+                    )
                 )->save();
             }
         }
@@ -350,7 +381,7 @@ class Observer
     }
 
     /**
-     * Update inviter points balance after referral's order completed
+     * Update invitation points balance after referral's order completed
      *
      * @param \Magento\Event\Observer $observer
      * @return $this
@@ -384,7 +415,7 @@ class Observer
      * Set flag to reset reward points totals
      *
      * @param \Magento\Event\Observer $observer
-     * @@return $this
+     * @return $this
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
@@ -521,20 +552,19 @@ class Observer
         return $this;
     }
 
-
     /**
      * Revert authorized reward points amount for order
      *
-     * @param   \Magento\Sales\Model\Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return $this
      */
     protected function _revertRewardPointsForOrder(\Magento\Sales\Model\Order $order)
     {
-        if (!$order->getCustomer()->getId()) {
+        if (!$order->getCustomerId()) {
             return $this;
         }
         $this->_getRewardModel()
-            ->setCustomerId($order->getCustomer()->getId())
+            ->setCustomerId($order->getCustomerId())
             ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
             ->setPointsDelta($order->getRewardPointsBalance())
             ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REVERT)
@@ -547,7 +577,7 @@ class Observer
     /**
      * Revert reward points if order was not placed
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function revertRewardPoints(\Magento\Event\Observer $observer)
@@ -564,7 +594,7 @@ class Observer
     /**
      * Revert authorized reward points amounts for all orders
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function revertRewardPointsForAllOrders(\Magento\Event\Observer $observer)
@@ -930,7 +960,7 @@ class Observer
     }
 
     /**
-     * Add reward amount to PayPal discount total
+     * Add reward amount to payment discount total
      *
      * @param \Magento\Event\Observer $observer
      * @return void
@@ -971,6 +1001,8 @@ class Observer
     }
 
     /**
+     * Get reward model
+     *
      * @return \Magento\Reward\Model\Reward
      */
     protected function _getRewardModel()

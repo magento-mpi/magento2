@@ -38,9 +38,16 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_rmaEav;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -51,10 +58,11 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -68,15 +76,17 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
         $this->_storeManager = $storeManager;
+        $this->_localeResolver = $localeResolver;
 
         parent::__construct(
             $paymentData,
@@ -87,7 +97,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
-            $locale,
+            $localeDate,
             $data
         );
     }
@@ -115,7 +125,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
-            $this->locale->emulate($storeId);
+            $this->_localeResolver->emulate($storeId);
             $this->_storeManager->setCurrentStore($storeId);
         }
 
@@ -151,7 +161,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $page->drawText(
             __('Return Date: ') .
-                $this->locale->formatDate($rma->getDateRequested(), 'medium', false),
+                $this->_localeDate->formatDate($rma->getDateRequested(), 'medium', false),
             35,
             $this->y - 50,
             'UTF-8'
@@ -165,7 +175,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $text = __('Order Date: ');
-        $text .= $this->locale->formatDate(
+        $text .= $this->_localeDate->formatDate(
             $rma->getOrder()->getCreatedAtStoreDate(),
             'medium',
             false
@@ -245,7 +255,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
 
         if ($storeId) {
-            $this->locale->revert();
+            $this->_localeResolver->revert();
         }
 
         $this->_afterGetPdf();

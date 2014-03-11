@@ -64,7 +64,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     protected $_helper;
 
     /**
-     * @param Store\StorageFactory $factory
+     * @param \Magento\Core\Model\Store\StorageFactory $factory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Helper\Data $helper
      * @param string $scopeCode
@@ -103,9 +103,9 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve application store object without Store_Exception
      *
-     * @param string|int|\Magento\Core\Model\Store $storeId
+     * @param string|int|Store $storeId
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getSafeStore($storeId = null)
     {
@@ -125,6 +125,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      * Set current default store
      *
      * @param string $store
+     * @return void
      */
     public function setCurrentStore($store)
     {
@@ -133,6 +134,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     }
 
     /**
+     * @return void
      * @throws \Magento\Core\Model\Store\Exception
      */
     public function throwStoreException()
@@ -144,6 +146,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      * Allow or disallow single store mode
      *
      * @param bool $value
+     * @return void
      */
     public function setIsSingleStoreModeAllowed($value)
     {
@@ -174,8 +177,8 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return \Magento\Core\Model\Store
+     * @param null|string|bool|int|Store $storeId
+     * @return Store
      * @throws \Magento\Core\Model\Store\Exception
      */
     public function getStore($storeId = null)
@@ -188,7 +191,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store[]
+     * @return Store[]
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -198,8 +201,8 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\Core\Model\Website
+     * @param null|bool|int|string|Website $websiteId
+     * @return Website
      * @throws \Magento\Core\Exception
      */
     public function getWebsite($websiteId = null)
@@ -212,7 +215,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return \Magento\Core\Model\Website[]
+     * @return Website[]
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -221,6 +224,8 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
 
     /**
      * Reinitialize store list
+     *
+     * @return void
      */
     public function reinitStores()
     {
@@ -230,7 +235,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getDefaultStoreView()
     {
@@ -266,7 +271,8 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @param null|bool|int|string|Website $websiteId
+     * @return void
      */
     public function clearWebsiteCache($websiteId = null)
     {
@@ -276,7 +282,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Get either default or any store view
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return Store|null
      */
     public function getAnyStoreView()
     {

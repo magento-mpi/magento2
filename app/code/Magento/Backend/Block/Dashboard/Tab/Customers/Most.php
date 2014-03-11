@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Dashboard\Tab\Customers;
 
 /**
  * Adminhtml dashboard most active buyers
@@ -15,9 +16,6 @@
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Backend\Block\Dashboard\Tab\Customers;
-
 class Most extends \Magento\Backend\Block\Dashboard\Grid
 {
     /**
@@ -41,12 +39,18 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('customersMostGrid');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create();
@@ -76,6 +80,9 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
         return parent::_prepareCollection();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
@@ -118,6 +125,9 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
         return parent::_prepareColumns();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('customer/index/edit', array('id'=>$row->getCustomerId()));

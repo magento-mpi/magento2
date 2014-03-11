@@ -22,8 +22,8 @@ use Magento\Catalog\Model\Resource\Eav\Attribute;
 use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
 use Magento\CatalogSearch\Model\Fulltext as ModelFulltext;
 use Magento\CatalogSearch\Model\Resource\Indexer\Fulltext as IndexerFulltext;
-use Magento\Core\Model\Context;
-use Magento\Core\Model\Registry;
+use Magento\Model\Context;
+use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\Store\Group;
@@ -479,7 +479,7 @@ class Fulltext extends AbstractIndexer
             }
             if (isset($data['catalogsearch_status'])) {
                 $status = $data['catalogsearch_status'];
-                if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
+                if ($status == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
                     $this->_getIndexer()
                         ->rebuildIndex(null, $productIds);
                 } else {

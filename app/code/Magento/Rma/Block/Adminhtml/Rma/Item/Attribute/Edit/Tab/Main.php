@@ -20,31 +20,31 @@ class Main
     /**
      * Rma eav
      *
-     * @var \Magento\CustomAttribute\Helper\Data
+     * @var \Magento\CustomAttributeManagement\Helper\Data
      */
     protected $_attributeHelper = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
+     * @param \Magento\CustomAttributeManagement\Helper\Data $attributeHelper
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\CustomAttribute\Helper\Data $attributeHelper,
+        \Magento\CustomAttributeManagement\Helper\Data $attributeHelper,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {
@@ -301,7 +301,7 @@ class Main
     /**
      * Can show tab in tabs
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -311,7 +311,7 @@ class Main
     /**
      * Tab is hidden
      *
-     * @return false
+     * @return bool
      */
     public function isHidden()
     {

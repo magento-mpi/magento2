@@ -98,8 +98,13 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var \Magento\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -110,15 +115,16 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string[] $ignoredUserAgents
+     * @param array $ignoredUserAgents
      * @param array $ignores
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -129,6 +135,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Module\Manager $moduleManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
@@ -146,6 +153,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         $this->_remoteAddress = $remoteAddress;
         $this->_serverAddress = $serverAddress;
         $this->dateTime = $dateTime;
+        $this->moduleManager = $moduleManager;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_ignores = $ignores;
@@ -153,6 +161,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
 
     /**
      * Object initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -162,6 +172,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
             if (in_array($userAgent, $this->_ignoredUserAgents)) {
                 $this->_skipRequestLogging = true;
             }
+        }
+        if ($this->moduleManager->isEnabled('Magento_PageCache')) {
+            $this->_skipRequestLogging = true;
         }
     }
 
@@ -178,7 +191,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize visitor information from server data
      *
-     * @return \Magento\Log\Model\Visitor
+     * @return $this
      */
     public function initServerData()
     {

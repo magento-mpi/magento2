@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Controller\Adminhtml\System;
+
+use Magento\App\ResponseInterface;
 
 /**
  * System Configuration controller
  */
-namespace Magento\Backend\Controller\Adminhtml\System;
-
-class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
+class Config extends AbstractConfig
 {
     /**
      * @var \Magento\App\Response\Http\FileFactory
@@ -45,6 +46,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * Index action
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -54,6 +56,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     /**
      * Edit configuration section
      *
+     * @return void
      */
     public function editAction()
     {
@@ -85,6 +88,8 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Save fieldset state through AJAX
+     *
+     * @return void
      */
     public function stateAction()
     {
@@ -97,25 +102,5 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             $this->_saveState($configState);
             $this->getResponse()->setBody('success');
         }
-    }
-
-    /**
-     * Export shipping table rates in csv format
-     */
-    public function exportTableratesAction()
-    {
-        $fileName = 'tablerates.csv';
-        /** @var $gridBlock \Magento\Shipping\Block\Adminhtml\Carrier\Tablerate\Grid */
-        $gridBlock = $this->_view->getLayout()
-            ->createBlock('Magento\Shipping\Block\Adminhtml\Carrier\Tablerate\Grid');
-        $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
-        if ($this->getRequest()->getParam('conditionName')) {
-            $conditionName = $this->getRequest()->getParam('conditionName');
-        } else {
-            $conditionName = $website->getConfig('carriers/tablerate/condition_name');
-        }
-        $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
-        $content = $gridBlock->getCsvFile();
-        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 }

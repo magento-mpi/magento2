@@ -18,9 +18,12 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         parent::setUp();
 
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $session = Bootstrap::getObjectManager()
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
-        $session->login('customer@example.com', 'password');
+        $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\CustomerAccountService');
+        $customer = $service->authenticate('customer@example.com', 'password');
+        $session->setCustomerDataAsLoggedIn($customer);
     }
 
     /**
@@ -84,7 +87,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         );
         /** @var \Magento\Customer\Service\V1\CustomerAddressService $addressService */
         $addressService = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\CustomerAddressService');
-        $address = $addressService->getAddressById(2);
+        $address = $addressService->getAddress(2);
 
         $this->assertEquals('UA', $address->getCountryId());
         $this->assertEquals('Kyiv', $address->getCity());

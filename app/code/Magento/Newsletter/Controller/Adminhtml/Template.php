@@ -21,16 +21,16 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -183,7 +183,7 @@ class Template extends \Magento\Backend\App\Action
                 ->setTemplateSenderName($request->getParam('sender_name'))
                 ->setTemplateText($request->getParam('text'))
                 ->setTemplateStyles($request->getParam('styles'))
-                ->setModifiedAt($this->_objectManager->get('Magento\Core\Model\Date')->gmtDate());
+                ->setModifiedAt($this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate());
 
             if (!$template->getId()) {
                 $template->setTemplateType(\Magento\Newsletter\Model\Template::TYPE_HTML);

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
 use \Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
@@ -29,7 +28,7 @@ class Tokens extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set form id prefix, declare fields for integration consumer modal
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

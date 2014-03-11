@@ -18,17 +18,17 @@ class Returns extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
@@ -93,8 +93,8 @@ class Returns extends \Magento\App\Action\Action
             return;
         }
 
-        /** @var \Magento\Core\Model\Date $coreDate */
-        $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
+        /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
+        $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
         if ($this->_canViewOrder($order)) {
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
@@ -296,8 +296,8 @@ class Returns extends \Magento\App\Action\Action
                 $comment    = trim(strip_tags($comment));
 
                 if (!empty($comment)) {
-                    /** @var $dateModel \Magento\Core\Model\Date */
-                    $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
+                    /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
+                    $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
                     /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
                     $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
                     $result = $statusHistory
@@ -331,7 +331,7 @@ class Returns extends \Magento\App\Action\Action
         }
         return;
     }
-    
+
     /**
      * Add Tracking Number action
      *

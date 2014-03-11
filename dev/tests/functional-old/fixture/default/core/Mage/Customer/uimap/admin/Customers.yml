@@ -243,11 +243,11 @@ edit_customer:
                         # need to edit
                 -
                     recuring_profiles:
-                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_profile']
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_recurring_payment']
                         fieldsets:
                             -
                                 product_review_grid:
-                                    xpath: //div[@id='customer_edit_tab_recurring_profile']
+                                    xpath: //div[@id='customer_edit_tab_recurring_payment']
                                     buttons:
                                         reset_filter: //button[span='Reset Filter']
                                         search: //button[span='Search']

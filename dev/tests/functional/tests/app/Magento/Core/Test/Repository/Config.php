@@ -35,7 +35,7 @@ class Config extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -72,8 +72,8 @@ class Config extends AbstractRepository
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
-        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEU();
-        $this->_data['shipping_carrier_dhlint_uk'] = $this->_getShippingCarrierDhlIntUK();
+        $this->_data['shipping_carrier_dhl_eu'] = $this->_getShippingCarrierDhlEU();
+        $this->_data['shipping_carrier_dhl_uk'] = $this->_getShippingCarrierDhlUK();
         $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
@@ -81,6 +81,9 @@ class Config extends AbstractRepository
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
+        $this->_data['enable_product_flat'] = $this->_getProductFlatEnabled();
+        $this->_data['disable_product_flat'] = $this->_getProductFlatDisabled();
+        $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -91,6 +94,9 @@ class Config extends AbstractRepository
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
         //Currency Setup
         $this->_data['allowed_currencies'] = $this->_getAllowedCurrencies();
+        // Startup Page
+        $this->_data['startup_page_dashboard'] = $this->_getStartupPage('Magento_Backend::dashboard');
+        $this->_data['startup_page_products'] = $this->_getStartupPage('Magento_Catalog::catalog_products');
     }
 
     /**
@@ -242,7 +248,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntEU()
+    protected function _getShippingCarrierDhlEU()
     {
         return array(
             'data' => array(
@@ -252,7 +258,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'dhlint' => array(
+                            'dhl' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::YES_VALUE
@@ -333,7 +339,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntUK()
+    protected function _getShippingCarrierDhlUK()
     {
         return array(
             'data' => array(
@@ -343,7 +349,7 @@ class Config extends AbstractRepository
                         'website' => null,
                         'store' => null,
                         'groups' => array(
-                            'dhlint' => array(
+                            'dhl' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::YES_VALUE
@@ -640,13 +646,6 @@ class Config extends AbstractRepository
                                 )
                             ),
                             'dhl' => array(
-                                'fields' => array(
-                                    'active' => array( //Enabled for Checkout
-                                        'value' => self::NO_VALUE
-                                    )
-                                )
-                            ),
-                            'dhlint' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
                                         'value' => self::NO_VALUE
@@ -1119,10 +1118,10 @@ class Config extends AbstractRepository
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'rlpayflowlinknew'
+                                                                'value' => 'mpiteamlink'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'rlpayflowlinknew'
+                                                                'value' => 'mpiteamlink'
                                                             ),
                                                             'pwd' => array( // API Password
                                                                 'value' => 'Temp1234'
@@ -1969,6 +1968,98 @@ class Config extends AbstractRepository
     }
 
     /**
+     * Enable product flat
+     *
+     * @return array
+     */
+    protected function _getProductFlatEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'frontend' => array( //Frontend
+                                'fields' => array(
+                                    'flat_catalog_product' => array( //Enabled
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable product flat
+     *
+     * @return array
+     */
+    protected function _getProductFlatDisabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'frontend' => array( //Frontend
+                                'fields' => array(
+                                    'flat_catalog_product' => array( //Disabled
+                                        'value' => self::NO_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Setup manual price layered navigation via Mysql
+     *
+     * @return array
+     */
+    protected function _getManualPriceLayeredNavigationMysql()
+    {
+        $config  =  array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'layered_navigation' => array(
+                                'fields' => array(
+                                    'price_range_calculation' => array(
+                                        'value' => 'manual' // Price Navigation Step Calculation
+                                    ),
+                                    'price_range_step' => array(
+                                        'value' => '10' // Default Price Navigation Step
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        return array_replace_recursive($this->_getMysqlSearchEnabled(), $config);
+    }
+
+    /**
      * Enable 'Display out of Stock' option for catalog
      *
      * @return array
@@ -1994,6 +2085,37 @@ class Config extends AbstractRepository
                     ),
                 ),
             ),
+        );
+    }
+
+    /**
+     * Change Startup Page for admin user
+     *
+     * @param string $page
+     *
+     * @return array
+     */
+    protected function _getStartupPage($page)
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'admin' => array(
+                        'section' => 'admin',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'startup' => array(
+                                'fields' => array(
+                                    'menu_item_id' => array(
+                                        'value' => $page
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         );
     }
 }

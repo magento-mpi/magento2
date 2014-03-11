@@ -16,6 +16,7 @@ namespace Magento\Catalog\Block\Product;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
+    implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default value for products count that will be shown
@@ -25,7 +26,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Products count
      *
-     * @var null
+     * @var int
      */
     protected $_productsCount;
 
@@ -53,7 +54,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -67,13 +68,13 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -152,11 +153,11 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     protected function _getProductCollection()
     {
-        $todayStartOfDayDate  = $this->_locale->date()
+        $todayStartOfDayDate  = $this->_localeDate->date()
             ->setTime('00:00:00')
             ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $todayEndOfDayDate  = $this->_locale->date()
+        $todayEndOfDayDate  = $this->_localeDate->date()
             ->setTime('23:59:59')
             ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
@@ -203,8 +204,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Set how much product should be displayed at once.
      *
-     * @param $count
-     * @return \Magento\Catalog\Block\Product\NewProduct
+     * @param int $count
+     * @return $this
      */
     public function setProductsCount($count)
     {
@@ -223,5 +224,15 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
             $this->_productsCount = self::DEFAULT_PRODUCTS_COUNT;
         }
         return $this->_productsCount;
+    }
+
+    /**
+     * Return identifiers for produced content
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Catalog\Model\Product::CACHE_TAG);
     }
 }

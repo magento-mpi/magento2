@@ -11,7 +11,7 @@ namespace Magento\SalesArchive\Model\System\Config\Backend;
 
 class Active
     extends \Magento\Backend\Model\Config\Backend\Cache
-    implements \Magento\Backend\Model\Config\CommentInterface
+    implements \Magento\Backend\Model\Config\CommentInterface, \Magento\Object\IdentityInterface
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -24,8 +24,8 @@ class Active
     protected $_orderCollection;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\SalesArchive\Model\Archive $archive
@@ -35,8 +35,8 @@ class Active
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\SalesArchive\Model\Archive $archive,
@@ -62,6 +62,7 @@ class Active
     /**
      * Clean cache, value was changed
      *
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -87,5 +88,15 @@ class Active
             }
         }
         return '';
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(\Magento\Backend\Block\Menu::CACHE_TAGS);
     }
 }

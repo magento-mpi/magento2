@@ -34,6 +34,8 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
+     * Get header html
+     *
      * @return string
      */
     public function getHeaderHtml()

@@ -12,7 +12,6 @@
 namespace Magento\Paypal\Test\Block;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class MainPanel
@@ -27,14 +26,13 @@ class MainPanel extends Form
      *
      * @var string
      */
-    protected $callbackLink = '//a[contains(@class, "confidential")]';
+    protected $callbackLink = '[name="merchant_return_link"]';
 
     /**
      * Go back to storefront
-     *
      */
     public function clickReturnLink()
     {
-        $this->_rootElement->find($this->callbackLink, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->callbackLink)->click();
     }
 }

@@ -10,18 +10,18 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use Magento\Customer\Service\V1\Data\CustomerBuilder as CustomerDataObjectBuilder;
 
 /**
  * Customer Model converter.
  *
- * Converts a Customer Model to a DTO or vice versa.
+ * Converts a Customer Model to a Data Object or vice versa.
  */
 class Converter
 {
     /**
-     * @var CustomerDtoBuilder
+     * @var CustomerDataObjectBuilder
      */
     protected $_customerBuilder;
 
@@ -32,9 +32,9 @@ class Converter
 
     /**
      * @param CustomerFactory $customerFactory
-     * @param CustomerDtoBuilder $customerBuilder
+     * @param CustomerDataObjectBuilder $customerBuilder
      */
-    public function __construct(CustomerDtoBuilder $customerBuilder, CustomerFactory $customerFactory)
+    public function __construct(CustomerDataObjectBuilder $customerBuilder, CustomerFactory $customerFactory)
     {
         $this->_customerBuilder = $customerBuilder;
         $this->_customerFactory = $customerFactory;
@@ -44,12 +44,12 @@ class Converter
      * Convert a customer model to a customer entity
      *
      * @param Customer $customerModel
-     * @return CustomerDto
+     * @return CustomerDataObject
      */
     public function createCustomerFromModel(Customer $customerModel)
     {
         $customerBuilder = $this->_populateBuilderWithAttributes($customerModel);
-        $customerBuilder->setCustomerId($customerModel->getId());
+        $customerBuilder->setId($customerModel->getId());
         $customerBuilder->setFirstname($customerModel->getFirstname());
         $customerBuilder->setLastname($customerModel->getLastname());
         $customerBuilder->setEmail($customerModel->getEmail());
@@ -58,6 +58,8 @@ class Converter
 
 
     /**
+     * Retrieve customer model by his ID.
+     *
      * @param int $customerId
      * @throws NoSuchEntityException If customer with customerId is not found.
      * @return Customer
@@ -74,18 +76,39 @@ class Converter
         }
     }
 
+    /**
+     * Retrieve customer model by his email.
+     *
+     * @param string $customerEmail
+     * @param int $websiteId
+     * @throws NoSuchEntityException If customer with the specified customer email not found.
+     * @return Customer
+     */
+    public function getCustomerModelByEmail($customerEmail, $websiteId = null)
+    {
+        $customer = $this->_customerFactory->create();
+        if (isset($websiteId)) {
+            $customer->setWebsiteId($websiteId);
+        }
+        $customer->loadByEmail($customerEmail);
+        if (!$customer->getId()) {
+            throw new NoSuchEntityException('email', $customerEmail);
+        } else {
+            return $customer;
+        }
+    }
 
     /**
      * Creates a customer model from a customer entity.
      *
-     * @param CustomerDto $customer
+     * @param CustomerDataObject $customer
      * @return Customer
      */
-    public function createCustomerModel(CustomerDto $customer)
+    public function createCustomerModel(CustomerDataObject $customer)
     {
         $customerModel = $this->_customerFactory->create();
 
-        $attributes = $customer->getAttributes();
+        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customer);
         foreach ($attributes as $attributeCode => $attributeValue) {
             // avoid setting password through set attribute
             if ($attributeCode == 'password') {
@@ -95,36 +118,64 @@ class Converter
             }
         }
 
-        $customerId = $customer->getCustomerId();
+        $customerId = $customer->getId();
         if ($customerId) {
             $customerModel->setId($customerId);
         }
 
         // Need to use attribute set or future updates can cause data loss
         if (!$customerModel->getAttributeSetId()) {
-            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::CUSTOMER_ATTRIBUTE_SET_ID);
-            return $customerModel;
+            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
         }
 
         return $customerModel;
     }
 
     /**
+     * Update customer model with the data from the data object
+     *
+     * @param Customer $customerModel
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
+     * @return void
+     */
+    public function updateCustomerModel(
+        \Magento\Customer\Model\Customer $customerModel,
+        \Magento\Customer\Service\V1\Data\Customer $customerData
+    ) {
+        $attributes = \Magento\Service\DataObjectConverter::toFlatArray($customerData);
+        foreach ($attributes as $attributeCode => $attributeValue) {
+            $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
+        }
+        $customerId = $customerData->getId();
+        if ($customerId) {
+            $customerModel->setId($customerId);
+        }
+        // Need to use attribute set or future calls to customerModel::save can cause data loss
+        if (!$customerModel->getAttributeSetId()) {
+            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
+        }
+    }
+
+    /**
      * Loads the values from a customer model
      *
      * @param Customer $customerModel
-     * @return CustomerDtoBuilder
+     * @return CustomerDataObjectBuilder
      */
     protected function _populateBuilderWithAttributes(Customer $customerModel)
     {
         $attributes = [];
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
-            $value = $customerModel->getData($attrCode);
-            if (null == $value) {
+            $value = $customerModel->getDataUsingMethod($attrCode);
+            if (null === $value) {
                 continue;
             }
-            $attributes[$attrCode] = $value;
+            if ($attrCode == 'entity_id') {
+                $attributes[\Magento\Customer\Service\V1\Data\Customer::ID] = $value;
+            } else {
+                $attributes[$attrCode] = $value;
+            }
         }
 
         return $this->_customerBuilder->populateWithArray($attributes);

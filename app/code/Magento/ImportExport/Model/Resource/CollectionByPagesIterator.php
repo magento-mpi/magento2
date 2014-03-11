@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Resource;
 
 /**
  * Collection by pages iterator
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Resource;
-
 class CollectionByPagesIterator
 {
     /**
@@ -25,6 +24,7 @@ class CollectionByPagesIterator
      * @param \Magento\Data\Collection\Db $collection Collection to load page by page
      * @param int $pageSize Number of items to fetch from db in one query
      * @param array $callbacks Array of callbacks which should be applied to each collection item
+     * @return void
      */
     public function iterate(\Magento\Data\Collection\Db $collection, $pageSize, array $callbacks)
     {

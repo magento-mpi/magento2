@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
 /**
  * Shopping Cart Price Rule General Information Tab
@@ -15,8 +16,6 @@
  * @package Magento_Adminhtml
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
-
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -38,7 +37,7 @@ class Main
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\SalesRule\Model\RuleFactory $salesRule
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
@@ -47,7 +46,7 @@ class Main
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\SalesRule\Model\RuleFactory $salesRule,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
@@ -61,9 +60,7 @@ class Main
     }
 
     /**
-     * Prepare content for tab
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -71,9 +68,7 @@ class Main
     }
 
     /**
-     * Prepare title for tab
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -81,9 +76,7 @@ class Main
     }
 
     /**
-     * Returns status flag about this tab can be showed or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -91,15 +84,18 @@ class Main
     }
 
     /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return true
+     * {@inheritdoc}
      */
     public function isHidden()
     {
         return false;
     }
 
+    /**
+     * Prepare form before rendering HTML
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_promo_quote_rule');
@@ -228,7 +224,7 @@ class Main
             'label' => __('Uses per Customer'),
         ));
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'   => 'from_date',
             'label'  => __('From Date'),

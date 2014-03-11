@@ -12,17 +12,24 @@ use Magento\Integration\Controller\Adminhtml\Integration as IntegrationControlle
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     protected $_registry;
 
+    /**
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Registry $registry
+     */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Registry $registry
     ) {
         $this->_registry = $registry;
         parent::__construct($context);
     }
 
+    /**
+     * @return array
+     */
     public function getSelectedResources()
     {
         $selectedResourceIds = array();
@@ -65,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $className
      * @param bool $preserveVersion Should version be preserved during class name conversion into service name
-     * @return array
+     * @return string[]
      * @throws \InvalidArgumentException When class is not valid API service.
      */
     public function getServiceNameParts($className, $preserveVersion = false)
@@ -91,12 +98,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Convert DTO getter name into field name.
+     * Convert Data Object getter name into field name.
      *
      * @param string $getterName
      * @return string
      */
-    public function dtoGetterNameToFieldName($getterName)
+    public function dataObjectGetterNameToFieldName($getterName)
     {
         if ((strpos($getterName, 'get') === 0)) {
             /** Remove 'get' prefix and make the first letter lower case */
@@ -109,12 +116,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Convert DTO field name into setter name.
+     * Convert Data Object field name into setter name.
      *
      * @param string $fieldName
      * @return string
      */
-    public function dtoFieldNameToSetterName($fieldName)
+    public function dataObjectFieldNameToSetterName($fieldName)
     {
         return 'set' . ucfirst($fieldName);
     }

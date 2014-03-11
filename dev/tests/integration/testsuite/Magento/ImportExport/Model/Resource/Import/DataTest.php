@@ -39,7 +39,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $expectedBunches = $objectManager->get('Magento\Core\Model\Registry')
+        $expectedBunches = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Import_Data');
 
         $this->assertEquals($expectedBunches[0]['entity'], $this->_model->getUniqueColumnData('entity'));
@@ -63,7 +63,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $expectedBunches = $objectManager->get('Magento\Core\Model\Registry')
+        $expectedBunches = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Import_Data');
 
         $this->assertEquals($expectedBunches[0]['behavior'], $this->_model->getBehavior());
@@ -77,7 +77,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $expectedBunches = $objectManager->get('Magento\Core\Model\Registry')
+        $expectedBunches = $objectManager->get('Magento\Registry')
             ->registry('_fixture/Magento_ImportExport_Import_Data');
 
         $this->assertEquals($expectedBunches[0]['entity'], $this->_model->getEntityTypeCode());

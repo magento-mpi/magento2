@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\File\Storage\Directory;
 
 /**
@@ -26,7 +25,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
     /**
      * Create database scheme for storing files
      *
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function createDatabaseScheme()
     {
@@ -75,7 +74,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      *
      * @param  \Magento\Core\Model\File\Storage\Directory\Database $object
      * @param  string $path
-     * @return \Magento\Core\Model\Resource\File\Storage\Directory\Database
+     * @return $this
      */
     public function loadByPath(\Magento\Core\Model\File\Storage\Directory\Database $object, $path)
     {
@@ -131,7 +130,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
     /**
      * Delete all directories from storage
      *
-     * @return \Magento\Core\Model\Resource\File\Storage\Database
+     * @return $this
      */
     public function clearDirectories()
     {
@@ -146,7 +145,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      *
      * @param int $offset
      * @param int $count
-     * @return mixed
+     * @return array
      */
     public function exportDirectories($offset, $count = 100)
     {
@@ -167,7 +166,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      * Return directory file listing
      *
      * @param string $directory
-     * @return mixed
+     * @return array
      */
     public function getSubdirectories($directory)
     {
@@ -190,6 +189,7 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
      *
      * @param string $name
      * @param string $path
+     * @return void
      */
     public function deleteDirectory($name, $path)
     {

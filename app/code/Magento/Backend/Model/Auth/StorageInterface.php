@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Model\Auth;
 
 /**
  * Backend Auth Storage interface
  */
-namespace Magento\Backend\Model\Auth;
-
 interface StorageInterface
 {
     /**
      * Perform login specific actions
      *
+     * @return $this
      * @abstract
      */
     public function processLogin();
@@ -26,6 +25,7 @@ interface StorageInterface
     /**
      * Perform login specific actions
      *
+     * @return $this
      * @abstract
      */
     public function processLogout();

@@ -9,9 +9,10 @@
 namespace Magento\Customer\Block\Adminhtml\Group;
 
 use Magento\Backend\App\Area\FrontNameResolver;
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
 
@@ -22,15 +23,24 @@ use Magento\TestFramework\TestCase\AbstractController;
  */
 class EditTest extends AbstractController
 {
-    /** @var \Magento\View\LayoutInterface */
+    /**
+     * @var \Magento\View\LayoutInterface
+     */
     private $layout;
 
-    /** @var \Magento\Customer\Service\V1\CustomerGroupService */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerGroupService
+     */
     private $customerGroupService;
 
-    /** @var \Magento\Core\Model\Registry */
+    /**
+     * @var \Magento\Registry
+     */
     private $registry;
 
+    /**
+     * Execute per test initialization.
+     */
     public function setUp()
     {
         parent::setUp();
@@ -38,23 +48,27 @@ class EditTest extends AbstractController
             'Magento\Core\Model\Layout',
             ['area' => FrontNameResolver::AREA_CODE]
         );
-        $this->customerGroupService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerGroupService'
-        );
-
-        $this->registry = Bootstrap::getObjectManager()->get('Magento\Core\Model\Registry');
+        $this->customerGroupService = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\CustomerGroupService');
+        $this->registry = Bootstrap::getObjectManager()->get('Magento\Registry');
     }
 
+    /**
+     * Execute per test cleanup.
+     */
     public function tearDown()
     {
-        $this->registry->unregister('current_group');
+        $this->registry->unregister(RegistryConstants::CURRENT_GROUP_ID);
     }
 
+    /**
+     * Verify that the Delete button does not exist for the default group.
+     */
     public function testDeleteButtonNotExistInDefaultGroup()
     {
-        $customerGroup = $this->customerGroupService->getDefaultGroup(0);
-        $this->registry->register('current_group', $customerGroup);
-        $this->getRequest()->setParam('id', $customerGroup->getId());
+        $groupId = $this->customerGroupService->getDefaultGroup(0)->getId();
+        $this->registry->register(RegistryConstants::CURRENT_GROUP_ID, $groupId);
+        $this->getRequest()->setParam('id', $groupId);
 
         /** @var $block Edit */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'block');
@@ -68,17 +82,12 @@ class EditTest extends AbstractController
      */
     public function testDeleteButtonExistInCustomGroup()
     {
-        $searchCriteria = new SearchCriteria([
-            'filters' => [new Filter([
-                'field'             => 'customer_group_code',
-                'value'             => 'custom_group',
-                'condition_type'    => 'or',
-            ])]
-        ]);
+        $searchCriteria = (new SearchCriteriaBuilder())
+            ->addFilter((new FilterBuilder())->setField('code')->setValue('custom_group')->create())->create();
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];
         $this->getRequest()->setParam('id', $customerGroup->getId());
-        $this->registry->register('current_group', $customerGroup);
+        $this->registry->register(RegistryConstants::CURRENT_GROUP_ID, $customerGroup->getId());
 
         /** @var $block Edit */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'block');

@@ -7,20 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdminGws\Helper;
 
 /**
  * Admin GWS helper
  *
  */
-namespace Magento\AdminGws\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Transform comma-separeated ids string into array
      *
      * @param mixed $ids
-     * @return mixed
+     * @param string $separator
+     * @return array
      */
     public function explodeIds($ids, $separator = ',')
     {

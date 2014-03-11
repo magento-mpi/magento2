@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Model\System\Config\Backend;
 
 /**
  * Cache cleaner backend model
  *
  */
-namespace Magento\Rss\Model\System\Config\Backend;
-
 class Links extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -22,8 +21,8 @@ class Links extends \Magento\Core\Model\Config\Value
     protected $_cacheTypeList;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
@@ -32,8 +31,8 @@ class Links extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
@@ -48,6 +47,7 @@ class Links extends \Magento\Core\Model\Config\Value
     /**
      * Invalidate cache type, when value was changed
      *
+     * @return void
      */
     protected function _afterSave()
     {

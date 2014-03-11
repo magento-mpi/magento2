@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Config\Form\Field\FieldArray;
 
 /**
  * Backend system config array field renderer
@@ -15,10 +16,7 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\System\Config\Form\Field\FieldArray;
-
-abstract class AbstractFieldArray
-    extends \Magento\Backend\Block\System\Config\Form\Field
+abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Grid columns
@@ -55,11 +53,15 @@ abstract class AbstractFieldArray
      */
     protected $_isPreparedToRender = false;
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Backend::system/config/form/field/array.phtml';
 
     /**
      * Check if columns are defined, set template
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -67,7 +69,7 @@ abstract class AbstractFieldArray
             $this->_addButtonLabel = __('Add');
         }
         parent::_construct();
-        
+
     }
 
     /**
@@ -75,6 +77,7 @@ abstract class AbstractFieldArray
      *
      * @param string $name
      * @param array $params
+     * @return void
      */
     public function addColumn($name, $params)
     {
@@ -95,8 +98,8 @@ abstract class AbstractFieldArray
      *
      * @param array $params
      * @param string $paramName
-     * @param mixed $defaultValue
-     * @return mixed
+     * @param string|bool $defaultValue
+     * @return string|bool
      */
     protected function _getParam($params, $paramName, $defaultValue = null)
     {
@@ -120,7 +123,8 @@ abstract class AbstractFieldArray
     /**
      * Prepare existing row data object
      *
-     * @param \Magento\Object
+     * @param \Magento\Object $row
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _prepareArrayRow(\Magento\Object $row)
@@ -188,6 +192,7 @@ abstract class AbstractFieldArray
      *
      * @param string $columnName
      * @return string
+     * @throws \Exception
      */
     public function renderCellTemplate($columnName)
     {
@@ -214,6 +219,8 @@ abstract class AbstractFieldArray
 
     /**
      * Prepare to render
+     *
+     * @return void
      */
     protected function _prepareToRender()
     {
@@ -224,6 +231,7 @@ abstract class AbstractFieldArray
      * Render block HTML
      *
      * @return string
+     * @throws \Exception
      */
     protected function _toHtml()
     {

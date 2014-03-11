@@ -51,7 +51,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue($paypalConfigMock));
 
-        $billingAgreementMock = $this->getMockBuilder('\Magento\Sales\Model\Billing\Agreement')
+        $billingAgreementMock = $this->getMockBuilder('\Magento\Paypal\Model\Billing\Agreement')
             ->disableOriginalConstructor()
             ->setMethods(array('load', '__wakeup'))
             ->getMock();
@@ -59,7 +59,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue($billingAgreementMock));
 
-        $agreementFactoryMock = $this->getMockBuilder('\Magento\Sales\Model\Billing\AgreementFactory')
+        $agreementFactoryMock = $this->getMockBuilder('\Magento\Paypal\Model\Billing\AgreementFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();

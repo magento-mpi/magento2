@@ -7,25 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Payment\Block;
 
 /**
  * Payment method form base block
  */
-namespace Magento\Payment\Block;
-
 class Form extends \Magento\View\Element\Template
 {
     /**
      * Retrieve payment method model
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return \Magento\Payment\Model\MethodInterface
      * @throws \Magento\Core\Exception
      */
     public function getMethod()
     {
         $method = $this->getData('method');
 
-        if (!($method instanceof \Magento\Payment\Model\Method\AbstractMethod)) {
+        if (!($method instanceof \Magento\Payment\Model\MethodInterface)) {
             throw new \Magento\Core\Exception(__('We cannot retrieve the payment method model object.'));
         }
         return $method;
@@ -50,15 +49,5 @@ class Form extends \Magento\View\Element\Template
     public function getInfoData($field)
     {
         return $this->escapeHtml($this->getMethod()->getInfoInstance()->getData($field));
-    }
-
-    /**
-     * Check whether current payment method can create billing agreement
-     *
-     * @return bool
-     */
-    public function canCreateBillingAgreement()
-    {
-        return $this->getMethod()->canCreateBillingAgreement();
     }
 }

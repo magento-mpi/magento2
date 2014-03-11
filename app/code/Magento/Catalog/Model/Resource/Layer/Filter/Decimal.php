@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Layer\Filter;
 
 /**
  * Catalog Layer Decimal attribute Filter Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Layer\Filter;
-
 class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table name
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -35,7 +34,7 @@ class Decimal extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Layer\Filter\Decimal $filter
      * @param float $range
      * @param int $index
-     * @return \Magento\Catalog\Model\Resource\Layer\Filter\Decimal
+     * @return $this
      */
     public function applyFilterToCollection($filter, $range, $index)
     {

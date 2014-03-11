@@ -16,16 +16,22 @@ namespace Magento\Rma\Model\Rma\Status;
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Rma factory
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
+     * Rma configuration
+     *
      * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
@@ -36,37 +42,41 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * Mail transport builder
+     *
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * Core date model
+     *
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\TranslateInterface $translate,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
-        \Magento\Core\Model\Date $date,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -75,13 +85,15 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->_rmaFactory = $rmaFactory;
         $this->_rmaConfig = $rmaConfig;
         $this->_translate = $translate;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_date = $date;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -175,15 +187,8 @@ class History extends \Magento\Core\Model\AbstractModel
         $comment = $this->getComment();
 
         $this->_translate->setTranslateInline(false);
-        /** @var $mailTemplate \Magento\Email\Model\Template */
-        $mailTemplate = $this->_templateFactory->create();
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
-        if ($copyTo && $copyMethod == 'bcc') {
-            foreach ($copyTo as $email) {
-                $mailTemplate->addBcc($email);
-            }
-        }
 
         if ($isGuestAvailable && $order->getCustomerIsGuest()) {
             $template = $this->_rmaConfig->getGuestTemplate();
@@ -200,22 +205,29 @@ class History extends \Magento\Core\Model\AbstractModel
             }
         }
 
+        $bcc = array();
+        if ($copyTo && $copyMethod == 'bcc') {
+            $bcc = $copyTo;
+        }
+
         foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->getStoreId()
-            ))
-                ->sendTransactional(
-                    $template,
-                    $this->_rmaConfig->getIdentity(),
-                    $recipient['email'],
-                    $recipient['name'],
-                    array(
-                        'rma'       => $this->getRma(),
-                        'order'     => $this->getRma()->getOrder(),
-                        'comment'   => $comment
-                    )
-                );
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier($template)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->getStoreId()
+                ))
+                ->setTemplateVars(array(
+                    'rma'       => $this->getRma(),
+                    'order'     => $this->getRma()->getOrder(),
+                    'comment'   => $comment
+                ))
+                ->setFrom($this->_rmaConfig->getIdentity())
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
+
+            $transport->sendMessage();
         }
         $this->setEmailSent(true);
         $this->_translate->setTranslateInline(true);

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\User\Model\Resource\User\Locked;
 
 /**
  * Admin user collection
@@ -16,14 +16,13 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource\User\Locked;
-
 class Collection extends \Magento\User\Model\Resource\User\Collection
 {
     /**
      * Collection Init Select
      *
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @return $this
      */
     protected function _initSelect()
     {

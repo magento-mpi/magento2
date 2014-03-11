@@ -7,14 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\AbstractCondition;
 
 /**
  * Order address attribute condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Order\Address;
-
-class Attributes
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Attributes extends AbstractCondition
 {
     /**
      * Array of Customer Address attributes used for customer segment
@@ -65,7 +66,7 @@ class Attributes
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
-     * @return array
+     * @return string[]
      */
     public function getMatchedEvents()
     {
@@ -97,7 +98,7 @@ class Attributes
     /**
      * Load attribute options
      *
-     * @return \Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -215,8 +216,8 @@ class Attributes
     /**
      * Get condition query for order address attribute
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

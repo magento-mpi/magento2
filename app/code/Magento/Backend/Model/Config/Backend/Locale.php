@@ -21,11 +21,6 @@ class Locale extends \Magento\Core\Model\Config\Value
     protected $_configsFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\Website\Factory
      */
     protected $_websiteFactory;
@@ -36,14 +31,19 @@ class Locale extends \Magento\Core\Model\Config\Value
     protected $_storeFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -51,27 +51,27 @@ class Locale extends \Magento\Core\Model\Config\Value
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Website\Factory $websiteFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_configsFactory = $configsFactory;
-        $this->_locale = $locale;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeFactory = $storeFactory;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**
-     * @return \Magento\Backend\Model\Config\Backend\Locale
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _afterSave()
@@ -89,7 +89,7 @@ class Locale extends \Magento\Core\Model\Config\Value
 
             if (preg_match('/(base|default)$/', $data->getPath(), $match)) {
                 if (!in_array($data->getValue(), $values)) {
-                    $currencyName = $this->_locale->currency($data->getValue())->getName();
+                    $currencyName = $this->_localeCurrency->getCurrency($data->getValue())->getName();
                     if ($match[1] == 'base') {
                         $fieldName = __('Base currency');
                     } else {

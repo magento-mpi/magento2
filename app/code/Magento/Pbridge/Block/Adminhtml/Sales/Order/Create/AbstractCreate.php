@@ -2,19 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * Paypal Direct payment block
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
@@ -22,11 +11,11 @@ class AbstractCreate
     extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
     /**
-     * Paypal payment code
+     * Payment code
      *
      * @var string
      */
-    protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_DIRECT;
+    protected $_code;
 
     /**
      * Adminhtml template for payment form block
@@ -64,6 +53,8 @@ class AbstractCreate
     protected $_adminhtmlSessionQuote;
 
     /**
+     * Configuration interface
+     *
      * @var \Magento\App\ConfigInterface
      */
     protected $_config;

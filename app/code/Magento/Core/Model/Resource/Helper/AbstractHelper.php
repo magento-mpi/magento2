@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model\Resource\Helper;
 
 /**
  * Abstract resource helper class
  */
-namespace Magento\Core\Model\Resource\Helper;
-
 abstract class AbstractHelper
 {
     /**

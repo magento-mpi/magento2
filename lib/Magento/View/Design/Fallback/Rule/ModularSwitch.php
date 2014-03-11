@@ -16,16 +16,22 @@ namespace Magento\View\Design\Fallback\Rule;
 class ModularSwitch implements RuleInterface
 {
     /**
+     * Rule non-modular
+     *
      * @var RuleInterface
      */
     protected $ruleNonModular;
 
     /**
+     * Rule modular
+     *
      * @var RuleInterface
      */
     protected $ruleModular;
 
     /**
+     * Constructor
+     *
      * @param RuleInterface $ruleNonModular
      * @param RuleInterface $ruleModular
      */

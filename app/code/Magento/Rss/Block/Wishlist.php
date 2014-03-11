@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rss\Block;
 
 /**
  * Customer Shared Wishlist Rss Block
@@ -15,8 +16,6 @@
  * @package    Magento_Rss
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rss\Block;
-
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
     /**
@@ -61,7 +60,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
@@ -79,13 +78,13 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
@@ -279,6 +278,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param string $type Catalog Product Type
      * @param string $block Block Type
      * @param string $template Template
+     * @return void
      */
     public function addPriceBlockType($type, $block = '', $template = '')
     {

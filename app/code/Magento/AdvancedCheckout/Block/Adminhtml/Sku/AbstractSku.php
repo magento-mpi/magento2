@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
+
+use Magento\View\Element\Template;
 
 /**
  * Admin Checkout main form container
@@ -20,10 +23,6 @@
  * @package     Magento_AdvancedCheckout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
-
-use Magento\View\Element\Template;
-
 abstract class AbstractSku extends \Magento\Backend\Block\Template
 {
     /**
@@ -31,6 +30,9 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
      */
     const LIST_TYPE = 'add_by_sku';
 
+    /**
+     * @var string
+     */
     protected $_template = 'sku/add.phtml';
 
     /**
@@ -55,6 +57,8 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
 
     /**
      * Initialize SKU container
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,7 +72,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
     /**
      * Define ADD and DEL buttons
      *
-     * @return \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
+     * @return $this
      */
     protected function _prepareLayout()
     {

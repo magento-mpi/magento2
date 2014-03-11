@@ -19,16 +19,21 @@ use Magento\ObjectManager;
 class BlockPool
 {
     /**
+     * Block factory
      * @var \Magento\View\Element\BlockFactory
      */
     protected $blockFactory;
 
     /**
+     * Blocks
+     *
      * @var array
      */
     protected $blocks = array();
 
     /**
+     * Constructor
+     *
      * @param ObjectManager $objectManager
      * @param BlockFactory $blockFactory
      */
@@ -39,6 +44,8 @@ class BlockPool
     }
 
     /**
+     * Add a block
+     *
      * @param string $name
      * @param string $class
      * @param array $arguments [optional]
@@ -59,8 +66,10 @@ class BlockPool
     }
 
     /**
+     * Get blocks
+     *
      * @param string $name
-     * @return BlockInterface | null
+     * @return BlockInterface|null
      */
     public function get($name = null)
     {

@@ -16,7 +16,9 @@ namespace Magento\Centinel\Block\Adminhtml;
 class Validation extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
-     * construct
+     * Construct
+     *
+     * @return void
      */
     protected function _construct()
     {

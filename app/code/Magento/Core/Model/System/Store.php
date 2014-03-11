@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\System;
 
 /**
  * Core System Store Model
@@ -16,8 +16,6 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\System;
-
 class Store extends \Magento\Object
 {
 
@@ -60,7 +58,6 @@ class Store extends \Magento\Object
      * Load Website, Group and Store collections
      *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @return \Magento\Core\Model\System\Store
      */
     public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
     {
@@ -71,7 +68,7 @@ class Store extends \Magento\Object
     /**
      * Load/Reload Website collection
      *
-     * @return array
+     * @return $this
      */
     protected function _loadWebsiteCollection()
     {
@@ -82,7 +79,7 @@ class Store extends \Magento\Object
     /**
      * Load/Reload Group collection
      *
-     * @return array
+     * @return $this
      */
     protected function _loadGroupCollection()
     {
@@ -98,7 +95,7 @@ class Store extends \Magento\Object
     /**
      * Load/Reload Store collection
      *
-     * @return array
+     * @return $this
      */
     protected function _loadStoreCollection()
     {
@@ -316,8 +313,8 @@ class Store extends \Magento\Object
     /**
      * Retrieve Website name by Id
      *
-     * @param int websiteId
-     * @return string
+     * @param int $websiteId
+     * @return string|null
      */
     public function getWebsiteName($websiteId)
     {
@@ -332,8 +329,8 @@ class Store extends \Magento\Object
     /**
      * Retrieve Group name by Id
      *
-     * @param int groupId
-     * @return string
+     * @param int $groupId
+     * @return string|null
      */
     public function getGroupName($groupId)
     {
@@ -349,7 +346,7 @@ class Store extends \Magento\Object
      * Retrieve Store name by Id
      *
      * @param int $storeId
-     * @return string
+     * @return string|null
      */
     public function getStoreName($storeId)
     {
@@ -363,8 +360,8 @@ class Store extends \Magento\Object
      * Retrieve store name with website and website store
      *
      * @param  int $storeId
-     * @return \Magento\Core\Model\Store
-     **/
+     * @return \Magento\Core\Model\Store|null
+     */
     public function getStoreData($storeId)
     {
         if (isset($this->_storeCollection[$storeId])) {
@@ -378,7 +375,7 @@ class Store extends \Magento\Object
      *
      * @param  int $storeId
      * @return string
-     **/
+     */
     public function getStoreNameWithWebsite($storeId)
     {
         $name = '';
@@ -435,7 +432,7 @@ class Store extends \Magento\Object
      * Allowed types: website, group, store or null for all
      *
      * @param string $type
-     * @return \Magento\Core\Model\System\Store
+     * @return $this
      */
     public function reload($type = null)
     {
@@ -467,7 +464,7 @@ class Store extends \Magento\Object
      *
      * @param  int $storeId
      * @return string
-     **/
+     */
     public function getStoreNamePath($storeId)
     {
         $name = '';
@@ -492,7 +489,7 @@ class Store extends \Magento\Object
      * Specify whether to show admin-scope options
      *
      * @param bool $value
-     * @return \Magento\Core\Model\System\Store
+     * @return $this
      */
     public function setIsAdminScopeAllowed($value)
     {

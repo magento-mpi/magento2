@@ -25,7 +25,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     const XML_PATH_SECTION_RMA       = 'sales/magento_rma/';
     const XML_PATH_ENABLED           = 'sales/magento_rma/enabled';
     const XML_PATH_USE_STORE_ADDRESS = 'sales/magento_rma/use_store_address';
-     /**
+    /**
      * Rma Instance
      *
      * @var \Magento\Rma\Model\Rma
@@ -47,34 +47,44 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_order;
 
     /**
+     * Rma shipping collection
+     *
      * @var \Magento\Rma\Model\Resource\Shipping\Collection
      */
     protected $_trackingNumbers;
 
     /**
+     * Rma shipping model
+     *
      * @var \Magento\Rma\Model\Shipping
      */
     protected $_shippingLabel;
 
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $locale;
+    protected $_localeDate;
 
     /**
+     * Core session model
+     *
      * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * Mail transport builder
+     *
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\TranslateInterface
@@ -82,111 +92,151 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Eav configuration model
+     *
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
+     * Rma configuration model
+     *
      * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_rmaItemFactory;
 
     /**
+     * Rma item attribute status factory
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_attrSourceFactory;
 
     /**
+     * Rma grid factory
+     *
      * @var \Magento\Rma\Model\GridFactory
      */
     protected $_rmaGridFactory;
 
     /**
+     * Rma status history factory
+     *
      * @var \Magento\Rma\Model\Rma\Status\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
+     * Rma source status factory
+     *
      * @var \Magento\Rma\Model\Rma\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\Resource\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item collection factory
+     *
      * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
+     * Rma shipping collection factory
+     *
      * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
      */
     protected $_rmaShippingFactory;
 
     /**
+     * Sales quote factory
+     *
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
+     * Sales quote address rate factory
+     *
      * @var \Magento\Sales\Model\Quote\Address\RateFactory
      */
     protected $_quoteRateFactory;
 
     /**
+     * Sales quote item factory
+     *
      * @var \Magento\Sales\Model\Quote\ItemFactory
      */
     protected $_quoteItemFactory;
 
     /**
+     * Sales order factory
+     *
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
+     * Sales order item collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
+     * Sales quote address rate request factory
+     *
      * @var \Magento\Sales\Model\Quote\Address\RateRequestFactory
      */
     protected $_rateRequestFactory;
 
     /**
+     * Shipping factory
+     *
      * @var \Magento\Shipping\Model\ShippingFactory
      */
     protected $_shippingFactory;
 
     /**
+     * Escaper
+     *
      * @var \Magento\Escaper
      */
     protected $_escaper;
 
     /**
+     * Message manager
+     *
      * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -208,17 +258,17 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Session $session,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
@@ -240,14 +290,14 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_session = $session;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_translate = $translate;
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -268,13 +318,15 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_shippingFactory = $shippingFactory;
         $this->_escaper = $escaper;
-        $this->locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->messageManager = $messageManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -499,15 +551,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         $this->_translate->setTranslateInline(false);
-        $mailTemplate = $this->_templateFactory->create();
-        /* @var $mailTemplate \Magento\Email\Model\Template */
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
-        if ($copyTo && $copyMethod == 'bcc') {
-            foreach ($copyTo as $email) {
-                $mailTemplate->addBcc($email);
-            }
-        }
 
         if ($this->getOrder()->getCustomerIsGuest()) {
             $template = $this->_rmaConfig->getGuestTemplate();
@@ -525,9 +570,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
         );
         if ($this->getCustomerCustomEmail()) {
             $sendTo[] = array(
-                            'email' => $this->getCustomerCustomEmail(),
-                            'name'  => $customerName
-                        );
+                'email' => $this->getCustomerCustomEmail(),
+                'name'  => $customerName
+            );
         }
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
@@ -542,25 +587,33 @@ class Rma extends \Magento\Core\Model\AbstractModel
             'html', array(), $this->getStoreId()
         );
 
-        foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->getStoreId()
-            ))
-                ->sendTransactional(
-                    $template,
-                    $this->_rmaConfig->getIdentity(),
-                    $recipient['email'],
-                    $recipient['name'],
-                    array(
-                        'rma'               => $this,
-                        'order'             => $this->getOrder(),
-                        'return_address'    => $returnAddress,
-                        //We cannot use $this->_items as items collection, because some items might not be loaded now
-                        'item_collection'   => $this->getItemsForDisplay(),
-                    )
-                );
+        $bcc = array();
+        if ($copyTo && $copyMethod == 'bcc') {
+            $bcc = $copyTo;
         }
+
+        foreach ($sendTo as $recipient) {
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier($template)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->getStoreId()
+                ))
+                ->setTemplateVars(array(
+                    'rma'               => $this,
+                    'order'             => $this->getOrder(),
+                    'return_address'    => $returnAddress,
+                    //We cannot use $this->_items as items collection, because some items might not be loaded now
+                    'item_collection'   => $this->getItemsForDisplay(),
+                ))
+                ->setFrom($this->_rmaConfig->getIdentity())
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
+
+            $transport->sendMessage();
+        }
+
         $this->setEmailSent(true);
         $this->_translate->setTranslateInline(true);
 
@@ -570,7 +623,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Prepares Item's data
      *
-     * @param  $item
+     * @param array $item
      * @return array
      */
     protected function _preparePost($item)
@@ -951,7 +1004,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      */
     public function getCreatedAtFormated($format)
     {
-        return $this->locale->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_localeDate->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**

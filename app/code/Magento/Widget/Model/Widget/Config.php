@@ -106,7 +106,7 @@ class Config
     /**
      * Encode list of widget types into query param
      *
-     * @param array $widgets List of widgets
+     * @param string[]|string $widgets List of widgets
      * @return string Query param value
      */
     public function encodeWidgetsToQuery($widgets)
@@ -120,7 +120,7 @@ class Config
      * Decode URL query param and return list of widgets
      *
      * @param string $queryParam Query param value to decode
-     * @return array Array of widget types
+     * @return string[] Array of widget types
      */
     public function decodeWidgetsFromQuery($queryParam)
     {

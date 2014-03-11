@@ -156,15 +156,17 @@ class Request
     /**
      * Retrieve protocol parameters from query string
      *
-     * @param array $protocolParams
+     * @param array &$protocolParams
      * @param array $queryString
      * @return void
      */
     protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
     {
-        foreach ($queryString as $queryParamName => $queryParamValue) {
-            if ($this->_isProtocolParameter($queryParamName)) {
-                $protocolParams[$queryParamName] = $queryParamValue;
+        if (is_array($queryString)) {
+            foreach ($queryString as $queryParamName => $queryParamValue) {
+                if ($this->_isProtocolParameter($queryParamName)) {
+                    $protocolParams[$queryParamName] = $queryParamValue;
+                }
             }
         }
     }
@@ -184,7 +186,7 @@ class Request
      * Process header parameters for Oauth
      *
      * @param string $authHeaderValue
-     * @param array $protocolParams
+     * @param array &$protocolParams
      * @return void
      */
     protected function _processHeader($authHeaderValue, &$protocolParams)
@@ -208,7 +210,7 @@ class Request
     /**
      * Process query string for Oauth
      *
-     * @param array $protocolParams
+     * @param array &$protocolParams
      * @param string $queryString
      * @return void
      */

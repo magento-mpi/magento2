@@ -10,6 +10,8 @@
 
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
+use Magento\Sales\Model\Quote\Address;
+
 class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -43,6 +45,9 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * Class constructor
+     *
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(\Magento\Tax\Model\Calculation $calculation, \Magento\Tax\Model\Config $taxConfig)
     {
@@ -54,10 +59,10 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Collect totals information about shipping
      *
-     * @param   \Magento\Sales\Model\Quote\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address\Total\Shipping
+     * @param   Address $address
+     * @return  $this
      */
-    public function collect(\Magento\Sales\Model\Quote\Address $address)
+    public function collect(Address $address)
     {
         parent::collect($address);
         $calc               = $this->_calculator;

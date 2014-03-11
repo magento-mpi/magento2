@@ -69,6 +69,8 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -124,7 +126,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * Set validate rules
      *
      * @param array|string $rules
-     * @return \Magento\Rma\Model\Attribute
+     * @return $this
      */
     public function setValidateRules($rules)
     {

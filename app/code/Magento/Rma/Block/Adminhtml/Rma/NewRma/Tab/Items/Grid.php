@@ -34,11 +34,13 @@ class Grid
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
+     * Rma item collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
      */
     protected $_collectionFactory;
@@ -48,7 +50,7 @@ class Grid
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -56,7 +58,7 @@ class Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
@@ -67,6 +69,8 @@ class Grid
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     public function _construct()
     {

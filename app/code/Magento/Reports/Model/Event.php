@@ -41,7 +41,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     const EVENT_WISHLIST_SHARE  = 6;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
@@ -51,18 +51,18 @@ class Event extends \Magento\Core\Model\AbstractModel
     protected $_eventTypeFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

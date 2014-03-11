@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Log\Model;
 
 /**
  * Log Aggregation Model
@@ -18,8 +19,6 @@
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
 class Aggregation extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -35,16 +34,16 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -56,6 +55,8 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -64,6 +65,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
 
     /**
      * Run action
+     *
      * @return void
      */
     public function run()
@@ -78,7 +80,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
      * Remove empty records before $lastDate
      *
      * @param  string $lastDate
-     * @return void
+     * @return null|void
      */
     private function _removeEmpty($lastDate)
     {

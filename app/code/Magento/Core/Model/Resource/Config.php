@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource;
 
 /**
  * Core Resource Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -36,7 +34,7 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $value
      * @param string $scope
      * @param int $scopeId
-     * @return \Magento\Core\Model\Resource\Config
+     * @return $this
      */
     public function saveConfig($path, $value, $scope, $scopeId)
     {
@@ -70,7 +68,7 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $path
      * @param string $scope
      * @param int $scopeId
-     * @return \Magento\Core\Model\Resource\Config
+     * @return $this
      */
     public function deleteConfig($path, $scope, $scopeId)
     {

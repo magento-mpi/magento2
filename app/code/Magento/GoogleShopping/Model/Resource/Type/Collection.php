@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Resource\Type;
 
 /**
  * GoogleShopping Item Types collection
@@ -15,11 +16,11 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Resource\Type;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Type', 'Magento\GoogleShopping\Model\Resource\Type');
@@ -28,7 +29,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Init collection select
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -52,7 +53,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add total count of Items for each type
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     public function addItemsCount()
     {
@@ -69,7 +70,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add country ISO filter to collection
      *
      * @param string $iso Two-letter country ISO code
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     public function addCountryFilter($iso)
     {
@@ -80,7 +81,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join Attribute Set data
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     protected function _joinAttributeSet()
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Config\Source;
 
 /**
@@ -15,7 +14,7 @@ namespace Magento\Catalog\Model\Config\Source;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Category implements \Magento\Core\Model\Option\ArrayInterface
+class Category implements \Magento\Option\ArrayInterface
 {
     /**
      * Category collection factory
@@ -35,6 +34,12 @@ class Category implements \Magento\Core\Model\Option\ArrayInterface
         $this->_categoryCollectionFactory = $categoryCollectionFactory;
     }
 
+    /**
+     * Return option array
+     *
+     * @param bool $addEmpty
+     * @return array
+     */
     public function toOptionArray($addEmpty = true)
     {
         /** @var \Magento\Catalog\Model\Resource\Category\Collection $collection */

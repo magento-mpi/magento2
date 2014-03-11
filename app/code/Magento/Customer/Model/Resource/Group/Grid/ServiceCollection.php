@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer group collection
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,43 +7,38 @@
  */
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\Filter;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Core\Model\EntityFactory;
+use Magento\Customer\Model\Resource\AbstractServiceCollection;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 
-class ServiceCollection extends \Magento\Data\Collection
+/**
+ * Customer group collection backed by services
+ */
+class ServiceCollection extends AbstractServiceCollection
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
+     * @var CustomerGroupServiceInterface
      */
     protected $groupService;
 
-    /**
-     * @var \Magento\Customer\Service\V1\Dto\FilterBuilder
-     */
-    protected $filterBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder
-     */
-    protected $searchCriteriaBuilder;
-
-    /**
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param EntityFactory $entityFactory
+     * @param FilterBuilder $filterBuilder
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param CustomerGroupServiceInterface $groupService
      */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder,
-        \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
+        EntityFactory $entityFactory,
+        FilterBuilder $filterBuilder,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        CustomerGroupServiceInterface $groupService
     ) {
-        parent::__construct($entityFactory);
+        parent::__construct($entityFactory, $filterBuilder, $searchCriteriaBuilder);
         $this->groupService = $groupService;
-        $this->filterBuilder = $filterBuilder;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
     }
 
     /**
@@ -53,7 +46,7 @@ class ServiceCollection extends \Magento\Data\Collection
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  \Magento\Data\Collection
+     * @return \Magento\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -65,34 +58,11 @@ class ServiceCollection extends \Magento\Data\Collection
             $groups = $searchResults->getItems();
             foreach ($groups as $group) {
                 $groupItem = new \Magento\Object();
-                $groupItem->addData($group->__toArray());
+                $groupItem->addData(\Magento\Service\DataObjectConverter::toFlatArray($group));
                 $this->_addItem($groupItem);
             }
             $this->_setIsLoaded();
         }
         return $this;
-    }
-
-    public function addFieldToFilter($field, $condition)
-    {
-        // TODO this is broken until the Widget/Grid can be re-written not to have db logic in it
-        return $this;
-    }
-
-    protected function getSearchCriteria()
-    {
-        foreach ($this->_filters as $filter) {
-            $this->filerBuilder->setField($filter['field'])
-                ->setValue($filter['value'])
-                ->setConditionType($filter['type']);
-            $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
-        }
-        foreach ($this->_orders as $field => $direction) {
-            $this->searchCriteriaBuilder->addSortOrder(
-                $field, $direction == 'ASC' ? SearchCriteria::SORT_ASC : SearchCriteria::SORT_DESC);
-        }
-        $this->searchCriteriaBuilder->setCurrentPage($this->_curPage);
-        $this->searchCriteriaBuilder->setPageSize($this->_pageSize);
-        return $this->searchCriteriaBuilder->create();
     }
 }

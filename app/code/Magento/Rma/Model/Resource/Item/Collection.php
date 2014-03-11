@@ -7,21 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Rma\Model\Resource\Item;
 
 /**
  * RMA entity collection
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Item;
-
 class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +30,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      * Add rma filter
      *
      * @param int $rmaEntityId
-     * @return \Magento\Rma\Model\Resource\Item\Collection
+     * @return $this
      */
     public function setOrderFilter($rmaEntityId)
     {

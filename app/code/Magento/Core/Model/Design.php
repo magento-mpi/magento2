@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
+
+use Magento\Core\Model\Resource\AbstractResource;
 
 /**
  * Design settings change model
@@ -24,7 +25,7 @@ namespace Magento\Core\Model;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends \Magento\Core\Model\AbstractModel
+class Design extends AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag
@@ -48,9 +49,9 @@ class Design extends \Magento\Core\Model\AbstractModel
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -58,30 +59,32 @@ class Design extends \Magento\Core\Model\AbstractModel
     protected $_dateTime;
 
     /**
-     * @param Context $context
-     * @param Registry $registry
-     * @param LocaleInterface $locale
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param Resource\AbstractResource $resource
+     * @param AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -93,12 +96,12 @@ class Design extends \Magento\Core\Model\AbstractModel
      *
      * @param string $storeId
      * @param string|null $date
-     * @return \Magento\Core\Model\Design
+     * @return $this
      */
     public function loadChange($storeId, $date = null)
     {
         if (is_null($date)) {
-            $date = $this->_dateTime->formatDate($this->_locale->storeTimeStamp($storeId), false);
+            $date = $this->_dateTime->formatDate($this->_localeDate->scopeTimeStamp($storeId), false);
         }
 
         $changeCacheId = 'design_change_' . md5($storeId . $date);
@@ -124,7 +127,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      * Apply design change from self data into specified design package instance
      *
      * @param \Magento\View\DesignInterface $packageInto
-     * @return \Magento\Core\Model\Design
+     * @return $this
      */
     public function changeDesign(\Magento\View\DesignInterface $packageInto)
     {
@@ -133,5 +136,15 @@ class Design extends \Magento\Core\Model\AbstractModel
             $packageInto->setDesignTheme($design);
         }
         return $this;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }

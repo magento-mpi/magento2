@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout\Block\Adminhtml;
 
 /**
@@ -18,7 +17,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -28,22 +27,33 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\Locale\CurrencyInterface
+     */
+    protected $_localeCurrency;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
+        $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -62,7 +72,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Prepare layout, create buttons
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -128,7 +138,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Return current customer from regisrty
+     * Return current customer from registry
      *
      * @return \Magento\Customer\Model\Customer
      */
@@ -138,7 +148,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Return current store from regisrty
+     * Return current store from registry
      *
      * @return \Magento\Core\Model\Store
      */
@@ -164,6 +174,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Return URL to controller action
      *
+     * @param string $action
      * @return string
      */
     public function getActionUrl($action)
@@ -191,6 +202,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
         return $this->getUrl('checkout/*/loadBlock');
     }
 
+    /**
+     * @return string
+     */
     public function getOrderDataJson()
     {
         $actionUrls = array(
@@ -214,14 +228,14 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Retrieve curency name by code
+     * Retrieve currency name by code
      *
      * @param   string $code
      * @return  string
      */
     public function getCurrencySymbol($code)
     {
-        $currency = $this->_locale->currency($code);
+        $currency = $this->_localeCurrency->getCurrency($code);
         return $currency->getSymbol() ? $currency->getSymbol() : $currency->getShortName();
     }
 

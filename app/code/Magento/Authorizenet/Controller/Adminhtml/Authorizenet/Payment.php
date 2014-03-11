@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet;
 
 /**
  * Authorize Payment Controller
  *
- * @category   Magento
- * @package    Magento_Authorizenet
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet;
-
 class Payment extends \Magento\Backend\App\Action
 {
     /**
@@ -38,9 +35,10 @@ class Payment extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
-
     /**
-     * Cancel active partail authorizations
+     * Cancel active partial authorizations
+     *
+     * @return void
      */
     public function cancelAction()
     {

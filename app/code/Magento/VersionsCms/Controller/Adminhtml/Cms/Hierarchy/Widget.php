@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 
 /**
  * Admihtml Widget Controller for Hierarchy Node Link plugin
@@ -15,12 +15,12 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
-
 class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Chooser Source action
+     *
+     * @return void
      */
     public function chooserAction()
     {

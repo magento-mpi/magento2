@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
 
 /**
  * Reward points balance grid
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -37,16 +33,20 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
+     * Reward collection
+     *
      * @var \Magento\Reward\Model\Resource\Reward\CollectionFactory
      */
     protected $_rewardsFactory;
 
     /**
+     * Reward website factory
+     *
      * @var \Magento\Reward\Model\Source\WebsiteFactory
      */
     protected $_websitesFactory;
@@ -55,7 +55,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory
      * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param array $data
@@ -64,7 +64,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         array $data = array()
@@ -79,6 +79,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -24,7 +24,7 @@ class Settings
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -35,14 +35,14 @@ class Settings
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
@@ -51,6 +51,9 @@ class Settings
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -110,7 +113,7 @@ class Settings
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Settings
+     * @return $this
      */
     protected function _prepareForm()
     {

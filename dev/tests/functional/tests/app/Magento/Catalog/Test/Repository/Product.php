@@ -24,7 +24,7 @@ class Product extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -36,6 +36,23 @@ class Product extends AbstractRepository
         $this->_data[$type]['data']['category_name'] = '%category::getCategoryName%';
         $this->_data[$type]['data']['category_id'] = '%category::getCategoryId%';
         $this->_data[$type . '_edit_required_fields'] = $this->resetRequiredFields($type);
+        $this->_data['price_massaction'] = $this->_getMassActionPrice();
+    }
+
+    /**
+     * Retrieve product price for mass action
+     *
+     * @return array
+     */
+    protected function _getMassActionPrice()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'price' => array('value' => '1.99', 'group' => 'attributes_update_tabs_attributes')
+                )
+            )
+        );
     }
 
     /**

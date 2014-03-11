@@ -33,7 +33,6 @@ class CloseOrderTest extends Functional
      */
     public function testCloseOrder(OrderCheckout $fixture)
     {
-        $this->markTestSkipped('MAGETWO-20052');
         $fixture->persist();
 
         //Data
@@ -90,14 +89,14 @@ class CloseOrderTest extends Functional
         $tabsWidget = $orderPage->getFormTabsBlock();
 
         //Verification on invoice tab
-        $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
+        $tabsWidget->openTab('invoices');
         $this->assertContains(
             $orderPage->getInvoicesGrid()->getInvoiceAmount(),
             $grandTotal
         );
 
         //Verification on transaction tab
-        $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
+        $tabsWidget->openTab('transactions');
         $this->assertContains(
             $orderPage->getTransactionsGrid()->getTransactionType(),
             'Capture'

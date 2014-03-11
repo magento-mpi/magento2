@@ -2,19 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Dummy layout argument updater model
  */
-namespace Magento\Core\Model;
-
-class LayoutArgumentSimpleUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+class LayoutArgumentSimpleUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Update specified argument

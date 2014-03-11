@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sendfriend\Model\Resource;
 
 /**
  * SendFriend Log Resource Model
@@ -16,13 +16,12 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sendfriend\Model\Resource;
-
 class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,7 +61,7 @@ class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $ip
      * @param int $startTime
      * @param int $websiteId
-     * @return \Magento\Sendfriend\Model\Resource\Sendfriend
+     * @return $this
      */
     public function addSendItem($ip, $startTime, $websiteId)
     {
@@ -81,7 +80,7 @@ class Sendfriend extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete Old logs
      *
      * @param int $time
-     * @return \Magento\Sendfriend\Model\Resource\Sendfriend
+     * @return $this
      */
     public function deleteLogsBefore($time)
     {

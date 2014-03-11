@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_GiftRegistry
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Gift registry resource setup
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\GiftRegistry\Model\Resource;
 
@@ -26,7 +17,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_typeFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
@@ -36,7 +27,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
@@ -46,6 +37,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $connectionName = ''
     ) {
         $this->_typeFactory = $typeFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
+        parent::__construct(
+            $context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName
+        );
     }
 }

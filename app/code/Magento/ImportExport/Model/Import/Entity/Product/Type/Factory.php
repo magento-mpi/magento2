@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
 
 /**
  * Import product type factory
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
-
 class Factory
 {
     /**

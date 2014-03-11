@@ -29,16 +29,14 @@ class Search extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * Customer session
@@ -100,7 +98,7 @@ class Search extends \Magento\App\Action\Action
      * Construct
      *
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\MultipleWishlist\Model\SearchFactory $searchFactory
@@ -109,11 +107,11 @@ class Search extends \Magento\App\Action\Action
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\MultipleWishlist\Model\SearchFactory $searchFactory,
@@ -122,7 +120,7 @@ class Search extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_itemFactory = $itemFactory;
@@ -133,7 +131,7 @@ class Search extends \Magento\App\Action\Action
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCart = $checkoutCart;
         $this->_customerSession = $customerSession;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context);
     }
 
@@ -147,7 +145,7 @@ class Search extends \Magento\App\Action\Action
     {
         if (!$this->_localFilter) {
             $this->_localFilter = new \Zend_Filter_LocalizedToNormalized(
-                array('locale' => $this->_locale->getLocaleCode())
+                array('locale' => $this->_localeResolver->getLocaleCode())
             );
         }
         $qty = $this->_localFilter->filter($qty);
@@ -174,6 +172,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -189,6 +189,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * Wishlist search action
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function resultsAction()
@@ -238,6 +239,7 @@ class Search extends \Magento\App\Action\Action
     /**
      * View customer wishlist
      *
+     * @return void
      * @throws NotFoundException
      */
     public function viewAction()
@@ -266,6 +268,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Add wishlist item to cart
+     *
+     * @return void
      */
     public function addtocartAction()
     {

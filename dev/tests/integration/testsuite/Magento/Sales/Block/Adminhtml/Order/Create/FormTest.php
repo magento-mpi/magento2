@@ -20,6 +20,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form */
     protected $_orderCreateBlock;
 
+    /** @var \Magento\ObjectManager */
+    protected $_objectManager;
+
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
      */
@@ -80,13 +83,13 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 {"{$addressIds[0]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
                         "country_id":"US",
-                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
-                        "region_id":false,"postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
+                        "region":"Alabama","region_id":1,
+                        "postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
                  "{$addressIds[1]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
                         "country_id":"US",
-                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
-                        "region_id":false,"postcode":"47676","telephone":"3234676","fax":false,"vat_id":false}
+                        "region":"Alabama","region_id":1,
+                        "postcode":"47676","telephone":"3234676","fax":false,"vat_id":false}
                  },
              "store_id":1,"currency_symbol":"$","shipping_method_reseted":true,"payment_method":null
          }
@@ -97,23 +100,23 @@ ORDER_DATA_JSON;
 
     private function setUpMockAddress()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
-        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
-        $addressDto1 = $addressBuilder->setId(1)
+        $addressData1 = $addressBuilder->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
             ->setRegion(
-                new V1\Dto\Region([
+                new V1\Data\Region((new V1\Data\RegionBuilder())->populateWithArray([
                     'region_code' => 'AL',
                     'region' => 'Alabama',
                     'region_id' => 1
-                ])
+                ]))
             )
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
@@ -122,18 +125,18 @@ ORDER_DATA_JSON;
             ->setLastname('Smith')
             ->create();
 
-        $addressDto2 = $addressBuilder->setId(2)
+        $addressData2 = $addressBuilder->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion(
-                new V1\Dto\Region([
+                new V1\Data\Region((new V1\Data\RegionBuilder())->populateWithArray([
                     'region_code' => 'AL',
                     'region' => 'Alabama',
                     'region_id' => 1
-                ])
+                ]))
             )
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
@@ -142,6 +145,6 @@ ORDER_DATA_JSON;
             ->setLastname('Smith')
             ->create();
 
-        return $addressService->saveAddresses(1, [$addressDto1, $addressDto2]);
+        return $addressService->saveAddresses(1, [$addressData1, $addressData2]);
     }
 }

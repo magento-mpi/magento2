@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
 /**
  * Country grid filter
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
-
 class Country
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
@@ -37,6 +36,9 @@ class Country
         parent::__construct($context, $resourceHelper, $data);
     }
 
+    /**
+     * @return array
+     */
     protected function _getOptions()
     {
         $options = $this->_directoriesFactory->create()->load()->toOptionArray(false);

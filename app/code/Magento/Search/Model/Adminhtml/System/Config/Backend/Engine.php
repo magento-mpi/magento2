@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
 
 /**
  * Catalog search backend model
@@ -16,8 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Adminhtml\System\Config\Backend;
-
 class Engine extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -26,8 +24,8 @@ class Engine extends \Magento\Core\Model\Config\Value
     protected $_indexer;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Index\Model\Indexer $indexer
@@ -36,8 +34,8 @@ class Engine extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Index\Model\Indexer $indexer,
@@ -53,7 +51,7 @@ class Engine extends \Magento\Core\Model\Config\Value
      * After save call
      * Invalidate catalog search index if engine was changed
      *
-     * @return \Magento\Search\Model\Adminhtml\System\Config\Backend\Engine
+     * @return $this
      */
     protected function _afterSave()
     {

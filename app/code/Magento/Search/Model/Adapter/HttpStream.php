@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adapter;
 
 /**
@@ -43,12 +42,14 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogInventory\Helper\Data $ctlgInventData
      * @param array $options
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -63,9 +64,11 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Locale\ResolverInterface $localeResolver,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogInventory\Helper\Data $ctlgInventData,
         array $options = array()
     ) {
@@ -73,7 +76,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         parent::__construct(
             $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
             $logger, $storeManager, $cache, $eavConfig, $searchFactory, $clientHelper, $registry,
-            $coreStoreConfig, $dateTime, $options
+            $coreStoreConfig, $dateTime, $localeResolver, $localeDate, $options
         );
     }
 
@@ -282,10 +285,9 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     /**
      * Retrieve attribute solr field name
      *
-     * @param   \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
-     * @param   string $target - default|sort|nav
-     *
-     * @return  string|bool
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
+     * @param string $target - default|sort|nav
+     * @return string|bool
      */
     public function getSearchEngineFieldName($attribute, $target = 'default')
     {

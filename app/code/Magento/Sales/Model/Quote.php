@@ -2,11 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Sales\Model;
+
+use Magento\Sales\Model\Quote\Address;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
+use \Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Quote model
@@ -18,106 +23,102 @@
  *  sales_quote_delete_before
  *  sales_quote_delete_after
  *
- * @method \Magento\Sales\Model\Resource\Quote _getResource()
- * @method \Magento\Sales\Model\Resource\Quote getResource()
- * @method \Magento\Sales\Model\Quote setStoreId(int $value)
+ * @method Quote setStoreId(int $value)
  * @method string getCreatedAt()
- * @method \Magento\Sales\Model\Quote setCreatedAt(string $value)
+ * @method Quote setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method \Magento\Sales\Model\Quote setUpdatedAt(string $value)
+ * @method Quote setUpdatedAt(string $value)
  * @method string getConvertedAt()
- * @method \Magento\Sales\Model\Quote setConvertedAt(string $value)
+ * @method Quote setConvertedAt(string $value)
  * @method int getIsActive()
- * @method \Magento\Sales\Model\Quote setIsActive(int $value)
- * @method \Magento\Sales\Model\Quote setIsVirtual(int $value)
+ * @method Quote setIsActive(int $value)
+ * @method Quote setIsVirtual(int $value)
  * @method int getIsMultiShipping()
- * @method \Magento\Sales\Model\Quote setIsMultiShipping(int $value)
+ * @method Quote setIsMultiShipping(int $value)
  * @method int getItemsCount()
- * @method \Magento\Sales\Model\Quote setItemsCount(int $value)
+ * @method Quote setItemsCount(int $value)
  * @method float getItemsQty()
- * @method \Magento\Sales\Model\Quote setItemsQty(float $value)
+ * @method Quote setItemsQty(float $value)
  * @method int getOrigOrderId()
- * @method \Magento\Sales\Model\Quote setOrigOrderId(int $value)
+ * @method Quote setOrigOrderId(int $value)
  * @method float getStoreToBaseRate()
- * @method \Magento\Sales\Model\Quote setStoreToBaseRate(float $value)
+ * @method Quote setStoreToBaseRate(float $value)
  * @method float getStoreToQuoteRate()
- * @method \Magento\Sales\Model\Quote setStoreToQuoteRate(float $value)
+ * @method Quote setStoreToQuoteRate(float $value)
  * @method string getBaseCurrencyCode()
- * @method \Magento\Sales\Model\Quote setBaseCurrencyCode(string $value)
+ * @method Quote setBaseCurrencyCode(string $value)
  * @method string getStoreCurrencyCode()
- * @method \Magento\Sales\Model\Quote setStoreCurrencyCode(string $value)
+ * @method Quote setStoreCurrencyCode(string $value)
  * @method string getQuoteCurrencyCode()
- * @method \Magento\Sales\Model\Quote setQuoteCurrencyCode(string $value)
+ * @method Quote setQuoteCurrencyCode(string $value)
  * @method float getGrandTotal()
- * @method \Magento\Sales\Model\Quote setGrandTotal(float $value)
+ * @method Quote setGrandTotal(float $value)
  * @method float getBaseGrandTotal()
- * @method \Magento\Sales\Model\Quote setBaseGrandTotal(float $value)
- * @method \Magento\Sales\Model\Quote setCheckoutMethod(string $value)
+ * @method Quote setBaseGrandTotal(float $value)
+ * @method Quote setCheckoutMethod(string $value)
  * @method int getCustomerId()
- * @method \Magento\Sales\Model\Quote setCustomerId(int $value)
- * @method \Magento\Sales\Model\Quote setCustomerTaxClassId(int $value)
- * @method \Magento\Sales\Model\Quote setCustomerGroupId(int $value)
+ * @method Quote setCustomerId(int $value)
+ * @method Quote setCustomerTaxClassId(int $value)
+ * @method Quote setCustomerGroupId(int $value)
  * @method string getCustomerEmail()
- * @method \Magento\Sales\Model\Quote setCustomerEmail(string $value)
+ * @method Quote setCustomerEmail(string $value)
  * @method string getCustomerPrefix()
- * @method \Magento\Sales\Model\Quote setCustomerPrefix(string $value)
+ * @method Quote setCustomerPrefix(string $value)
  * @method string getCustomerFirstname()
- * @method \Magento\Sales\Model\Quote setCustomerFirstname(string $value)
+ * @method Quote setCustomerFirstname(string $value)
  * @method string getCustomerMiddlename()
- * @method \Magento\Sales\Model\Quote setCustomerMiddlename(string $value)
+ * @method Quote setCustomerMiddlename(string $value)
  * @method string getCustomerLastname()
- * @method \Magento\Sales\Model\Quote setCustomerLastname(string $value)
+ * @method Quote setCustomerLastname(string $value)
  * @method string getCustomerSuffix()
- * @method \Magento\Sales\Model\Quote setCustomerSuffix(string $value)
+ * @method Quote setCustomerSuffix(string $value)
  * @method string getCustomerDob()
- * @method \Magento\Sales\Model\Quote setCustomerDob(string $value)
+ * @method Quote setCustomerDob(string $value)
  * @method string getCustomerNote()
- * @method \Magento\Sales\Model\Quote setCustomerNote(string $value)
+ * @method Quote setCustomerNote(string $value)
  * @method int getCustomerNoteNotify()
- * @method \Magento\Sales\Model\Quote setCustomerNoteNotify(int $value)
+ * @method Quote setCustomerNoteNotify(int $value)
  * @method int getCustomerIsGuest()
- * @method \Magento\Sales\Model\Quote setCustomerIsGuest(int $value)
+ * @method Quote setCustomerIsGuest(int $value)
  * @method string getRemoteIp()
- * @method \Magento\Sales\Model\Quote setRemoteIp(string $value)
+ * @method Quote setRemoteIp(string $value)
  * @method string getAppliedRuleIds()
- * @method \Magento\Sales\Model\Quote setAppliedRuleIds(string $value)
+ * @method Quote setAppliedRuleIds(string $value)
  * @method string getReservedOrderId()
- * @method \Magento\Sales\Model\Quote setReservedOrderId(string $value)
+ * @method Quote setReservedOrderId(string $value)
  * @method string getPasswordHash()
- * @method \Magento\Sales\Model\Quote setPasswordHash(string $value)
+ * @method Quote setPasswordHash(string $value)
  * @method string getCouponCode()
- * @method \Magento\Sales\Model\Quote setCouponCode(string $value)
+ * @method Quote setCouponCode(string $value)
  * @method string getGlobalCurrencyCode()
- * @method \Magento\Sales\Model\Quote setGlobalCurrencyCode(string $value)
+ * @method Quote setGlobalCurrencyCode(string $value)
  * @method float getBaseToGlobalRate()
- * @method \Magento\Sales\Model\Quote setBaseToGlobalRate(float $value)
+ * @method Quote setBaseToGlobalRate(float $value)
  * @method float getBaseToQuoteRate()
- * @method \Magento\Sales\Model\Quote setBaseToQuoteRate(float $value)
+ * @method Quote setBaseToQuoteRate(float $value)
  * @method string getCustomerTaxvat()
- * @method \Magento\Sales\Model\Quote setCustomerTaxvat(string $value)
+ * @method Quote setCustomerTaxvat(string $value)
  * @method string getCustomerGender()
- * @method \Magento\Sales\Model\Quote setCustomerGender(string $value)
+ * @method Quote setCustomerGender(string $value)
  * @method float getSubtotal()
- * @method \Magento\Sales\Model\Quote setSubtotal(float $value)
+ * @method Quote setSubtotal(float $value)
  * @method float getBaseSubtotal()
- * @method \Magento\Sales\Model\Quote setBaseSubtotal(float $value)
+ * @method Quote setBaseSubtotal(float $value)
  * @method float getSubtotalWithDiscount()
- * @method \Magento\Sales\Model\Quote setSubtotalWithDiscount(float $value)
+ * @method Quote setSubtotalWithDiscount(float $value)
  * @method float getBaseSubtotalWithDiscount()
- * @method \Magento\Sales\Model\Quote setBaseSubtotalWithDiscount(float $value)
+ * @method Quote setBaseSubtotalWithDiscount(float $value)
  * @method int getIsChanged()
- * @method \Magento\Sales\Model\Quote setIsChanged(int $value)
+ * @method Quote setIsChanged(int $value)
  * @method int getTriggerRecollect()
- * @method \Magento\Sales\Model\Quote setTriggerRecollect(int $value)
+ * @method Quote setTriggerRecollect(int $value)
  * @method string getExtShippingInfo()
- * @method \Magento\Sales\Model\Quote setExtShippingInfo(string $value)
+ * @method Quote setExtShippingInfo(string $value)
  * @method int getGiftMessageId()
- * @method \Magento\Sales\Model\Quote setGiftMessageId(int $value)
+ * @method Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
- * @method \Magento\Sales\Model\Quote setIsPersistent(bool $value)
+ * @method Quote setIsPersistent(bool $value)
  */
-namespace Magento\Sales\Model;
-
 class Quote extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -219,9 +220,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var CustomerGroupServiceInterface
      */
-    protected $_customerGroupFactory;
+    protected $_customerGroupService;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
@@ -259,18 +260,27 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_quotePaymentCollectionFactory;
 
     /**
-     * @var \Magento\RecurringProfile\Model\Profile
-     */
-    protected $_recurringProfileFactory;
-
-    /**
      * @var \Magento\Object\Copy
      */
     protected $_objectCopyService;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var CustomerDataObject
+     */
+    protected $_customerData;
+
+    /** @var \Magento\Customer\Model\Converter */
+    protected $_converter;
+
+    /** @var \Magento\Customer\Service\V1\CustomerAddressService */
+    protected $_addressService;
+
+    /** @var \Magento\Customer\Model\Address\Converter */
+    protected $_addressConverter;
+
+    /**
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -278,7 +288,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\GroupFactory $customerGroupFactory
+     * @param CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Message\Factory $messageFactory
@@ -286,15 +296,17 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
      * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
-     * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
      * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Customer\Model\Converter $converter
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
@@ -302,7 +314,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\App\ConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\GroupFactory $customerGroupFactory,
+        CustomerGroupServiceInterface $customerGroupService,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollectionFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Message\Factory $messageFactory,
@@ -310,8 +322,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
-        \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory,
         \Magento\Object\Copy $objectCopyService,
+        \Magento\Customer\Model\Converter $converter,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
+        \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -323,7 +337,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_config = $config;
         $this->_quoteAddressFactory = $quoteAddressFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_customerGroupFactory = $customerGroupFactory;
+        $this->_customerGroupService = $customerGroupService;
         $this->_quoteItemCollectionFactory = $quoteItemCollectionFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->messageFactory = $messageFactory;
@@ -331,8 +345,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_quotePaymentFactory = $quotePaymentFactory;
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
-        $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_objectCopyService = $objectCopyService;
+        $this->_converter = $converter;
+        $this->_addressService = $addressService;
+        $this->_addressConverter = $addressConverter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -370,8 +386,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Declare quote store model
      *
-     * @param   \Magento\Core\Model\Store $store
-     * @return  \Magento\Sales\Model\Quote
+     * @param \Magento\Core\Model\Store $store
+     * @return $this
      */
     public function setStore(\Magento\Core\Model\Store $store)
     {
@@ -400,7 +416,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -453,7 +469,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Save related items
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -477,10 +493,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Loading quote data by customer
      *
      * @param \Magento\Customer\Model\Customer|int $customer
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function loadByCustomer($customer)
     {
+        /* @TODO: remove this if after external usages of loadByCustomer are refactored in MAGETWO-19935 */
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customerId = $customer->getId();
         } else {
@@ -495,7 +512,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Loading only active quote
      *
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function loadActive($quoteId)
     {
@@ -508,7 +525,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Loading quote by identifier
      *
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function loadByIdWithoutStore($quoteId)
     {
@@ -520,46 +537,62 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   \Magento\Customer\Model\Customer $customer
-     * @return  \Magento\Sales\Model\Quote
+     * @param   CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @return $this
      */
-    public function assignCustomer(\Magento\Customer\Model\Customer $customer)
+    public function assignCustomer($customer)
     {
+        /* @TODO: refactor input type hint after external usages of assignCustomer are refactored in MAGETWO-19930 */
         return $this->assignCustomerWithAddressChange($customer);
     }
 
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  \Magento\Customer\Model\Customer    $customer
-     * @param  \Magento\Sales\Model\Quote\Address  $billingAddress
-     * @param  \Magento\Sales\Model\Quote\Address  $shippingAddress
-     * @return \Magento\Sales\Model\Quote
+     * @param  CustomerDataObject|\Magento\Customer\Model\Customer $customer
+     * @param  Address $billingAddress Quote billing address
+     * @param  Address $shippingAddress Quote shipping address
+     * @return $this
      */
     public function assignCustomerWithAddressChange(
-        \Magento\Customer\Model\Customer    $customer,
-        \Magento\Sales\Model\Quote\Address  $billingAddress  = null,
-        \Magento\Sales\Model\Quote\Address  $shippingAddress = null
+        $customer,
+        Address $billingAddress = null,
+        Address $shippingAddress = null
     ) {
+        /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19930 */
+        if ($customer instanceof \Magento\Customer\Model\Customer) {
+            $customer = $this->_converter->createCustomerFromModel($customer);
+        }
+        /** @var CustomerDataObject $customer */
         if ($customer->getId()) {
-            $this->setCustomer($customer);
+            $this->setCustomerData($customer);
 
             if (null !== $billingAddress) {
                 $this->setBillingAddress($billingAddress);
             } else {
-                $defaultBillingAddress = $customer->getDefaultBillingAddress();
-                if ($defaultBillingAddress && $defaultBillingAddress->getId()) {
-                    $billingAddress = $this->_quoteAddressFactory->create()
-                        ->importCustomerAddress($defaultBillingAddress);
+                try {
+                    $defaultBillingAddress = $this->_addressService->getDefaultBillingAddress($customer->getId());
+                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    /** Address does not exist */
+                }
+                if (isset($defaultBillingAddress)) {
+                    /** @var \Magento\Sales\Model\Quote\Address $billingAddress */
+                    $billingAddress = $this->_quoteAddressFactory->create();
+                    $billingAddress->importCustomerAddressData($defaultBillingAddress);
                     $this->setBillingAddress($billingAddress);
                 }
             }
 
             if (null === $shippingAddress) {
-                $defaultShippingAddress = $customer->getDefaultShippingAddress();
-                if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
-                    $shippingAddress = $this->_quoteAddressFactory->create()
-                        ->importCustomerAddress($defaultShippingAddress);
+                try {
+                    $defaultShippingAddress = $this->_addressService->getDefaultShippingAddress($customer->getId());
+                } catch (\Magento\Exception\NoSuchEntityException $e) {
+                    /** Address does not exist */
+                }
+                if (isset($defaultShippingAddress)) {
+                    /** @var \Magento\Sales\Model\Quote\Address $shippingAddress */
+                    $shippingAddress = $this->_quoteAddressFactory->create();
+                    $shippingAddress->importCustomerAddressData($defaultShippingAddress);
                 } else {
                     $shippingAddress = $this->_quoteAddressFactory->create();
                 }
@@ -574,10 +607,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Define customer object
      *
      * @param   \Magento\Customer\Model\Customer $customer
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
+        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
         $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
@@ -591,6 +625,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomer()
     {
+        /**
+         * @TODO: Remove the method after all external usages are refactored in MAGETWO-19930
+         * _customer and _customerFactory variables should be eliminated as well
+         */
         if (null === $this->_customer) {
             $this->_customer = $this->_customerFactory->create();
             $customerId = $this->getCustomerId();
@@ -605,6 +643,102 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Retrieve customer data object
+     *
+     * @return CustomerDataObject
+     */
+    public function getCustomerData()
+    {
+        /* @TODO: remove this code in favor of setCustomerData usage MAGETWO-19930 */
+        $customerModel = $this->getCustomer();
+        return $this->_converter->createCustomerFromModel($customerModel);
+    }
+
+    /**
+     * Set customer data object
+     *
+     * @param CustomerDataObject $customerData
+     * @return $this
+     */
+    public function setCustomerData(CustomerDataObject $customerData)
+    {
+        /* @TODO: remove model usage in favor of Data Object in scope of MAGETWO-19930 */
+        $customer = $this->_customerFactory->create();
+        $customer->setData(\Magento\Service\DataObjectConverter::toFlatArray($customerData));
+        $customer->setId($customerData->getId());
+        $this->setCustomer($customer);
+        return $this;
+    }
+
+    /**
+     * Substitute customer addresses
+     *
+     * @param AddressDataObject[] $addresses
+     * @return $this
+     */
+    public function setCustomerAddressData(array $addresses)
+    {
+        $this->getCustomer()->getAddressesCollection()->removeAllItems();
+        foreach ($addresses as $address) {
+            $this->addCustomerAddressData($address);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add address to the customer, created out of a Data Object
+     *
+     * TODO refactor in scope of MAGETWO-19930
+     *
+     * @param AddressDataObject $address
+     * @return $this
+     */
+    public function addCustomerAddressData(AddressDataObject $address)
+    {
+        $this->getCustomer()->addAddress($this->_addressConverter->createAddressModel($address));
+
+        return $this;
+    }
+
+    /**
+     * Get Data Object addresses of the customer
+     *
+     * TODO: Refactor to use addressDataObject property is used insead of customer model MAGETWO-19930
+     *
+     * @return AddressDataObject[]
+     */
+    public function getCustomerAddressData()
+    {
+        $customer = $this->getCustomerData();
+        $addresses = $this->getCustomer()->getAddresses();
+        $addressDataObjects = [];
+        foreach ($addresses as $address) {
+            $addressDataObjects[] = $this->_addressConverter->createAddressFromModel(
+                $address,
+                $customer->getDefaultBilling(),
+                $customer->getDefaultShipping()
+            );
+        }
+        return $addressDataObjects;
+    }
+
+    /**
+     * Update customer data object
+     *
+     * @param CustomerDataObject $customerData
+     * @return $this
+     */
+    public function updateCustomerData(CustomerDataObject $customerData)
+    {
+        $customer = $this->getCustomer();
+        /* @TODO: remove this code in favor of customer Data Object usage MAGETWO-19930 */
+        $this->_converter->updateCustomerModel($customer, $customerData);
+        $this->setCustomer($customer);
+        return $this;
+    }
+
+    /**
      * Retrieve customer group id
      *
      * @return int
@@ -614,13 +748,15 @@ class Quote extends \Magento\Core\Model\AbstractModel
         if ($this->hasData('customer_group_id')) {
             return $this->getData('customer_group_id');
         } elseif ($this->getCustomerId()) {
-            return $this->getCustomer()->getGroupId();
+            return $this->getCustomerData()->getGroupId();
         } else {
-            return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
+            return CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
         }
     }
 
     /**
+     * Get customer tax class ID.
+     *
      * @return string
      */
     public function getCustomerTaxClassId()
@@ -630,9 +766,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
          * we need to retrieve from db every time to get the correct tax class
          */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
-        $classId = $this->_customerGroupFactory->create()->getTaxClassId($this->getCustomerGroupId());
-        $this->setCustomerTaxClassId($classId);
-        //}
+        $groupId = $this->getCustomerGroupId();
+        if (!is_null($groupId)) {
+            $taxClassId = $this->_customerGroupService->getGroup($this->getCustomerGroupId())->getTaxClassId();
+            $this->setCustomerTaxClassId($taxClassId);
+        }
 
         return $this->getData('customer_tax_class_id');
     }
@@ -661,7 +799,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Retrieve quote address by type
      *
      * @param   string $type
-     * @return  \Magento\Sales\Model\Quote\Address
+     * @return  Address
      */
     protected function _getAddressByType($type)
     {
@@ -679,21 +817,21 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve quote billing address
      *
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return Address
      */
     public function getBillingAddress()
     {
-        return $this->_getAddressByType(\Magento\Sales\Model\Quote\Address::TYPE_BILLING);
+        return $this->_getAddressByType(Address::TYPE_BILLING);
     }
 
     /**
      * Retrieve quote shipping address
      *
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return Address
      */
     public function getShippingAddress()
     {
-        return $this->_getAddressByType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING);
+        return $this->_getAddressByType(Address::TYPE_SHIPPING);
     }
 
     /**
@@ -703,7 +841,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $addresses = array();
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING
+            if ($address->getAddressType() == Address::TYPE_SHIPPING
                 && !$address->isDeleted()
             ) {
                 $addresses[] = $address;
@@ -729,7 +867,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      *
      * @param int $addressId
-     * @return \Magento\Sales\Model\Quote\Address
+     * @return Address
      */
     public function getAddressById($addressId)
     {
@@ -756,13 +894,16 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Get quote address by customer address ID.
+     *
      * @param int|string $addressId
-     * @return bool
+     * @return \Magento\Sales\Model\Quote\Address|bool
      */
     public function getShippingAddressByCustomerAddressId($addressId)
     {
+        /** @var \Magento\Sales\Model\Quote\Address $address */
         foreach ($this->getAddressesCollection() as $address) {
-            if (!$address->isDeleted() && $address->getAddressType() == \Magento\Sales\Model\Quote\Address::TYPE_SHIPPING
+            if (!$address->isDeleted() && $address->getAddressType() == Address::TYPE_SHIPPING
                 && $address->getCustomerAddressId() == $addressId
             ) {
                 return $address;
@@ -789,7 +930,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Leave no more than one billing and one shipping address, fill them with default data
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeAllAddresses()
     {
@@ -824,10 +965,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return $this
      */
-    public function addAddress(\Magento\Sales\Model\Quote\Address $address)
+    public function addAddress(Address $address)
     {
         $address->setQuote($this);
         if (!$address->getId()) {
@@ -837,17 +978,17 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote
+     * @param Address $address
+     * @return $this
      */
-    public function setBillingAddress(\Magento\Sales\Model\Quote\Address $address)
+    public function setBillingAddress(Address $address)
     {
         $old = $this->getBillingAddress();
 
         if (!empty($old)) {
             $old->addData($address->getData());
         } else {
-            $this->addAddress($address->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_BILLING));
+            $this->addAddress($address->setAddressType(Address::TYPE_BILLING));
         }
         return $this;
     }
@@ -855,29 +996,29 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Set shipping address
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote
+     * @param Address $address
+     * @return $this
      */
-    public function setShippingAddress(\Magento\Sales\Model\Quote\Address $address)
+    public function setShippingAddress(Address $address)
     {
         if ($this->getIsMultiShipping()) {
-            $this->addAddress($address->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
+            $this->addAddress($address->setAddressType(Address::TYPE_SHIPPING));
         } else {
             $old = $this->getShippingAddress();
             if (!empty($old)) {
                 $old->addData($address->getData());
             } else {
-                $this->addAddress($address->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
+                $this->addAddress($address->setAddressType(Address::TYPE_SHIPPING));
             }
         }
         return $this;
     }
 
     /**
-     * @param \Magento\Sales\Model\Quote\Address $address
+     * @param Address $address
      * @return $this
      */
-    public function addShippingAddress(\Magento\Sales\Model\Quote\Address $address)
+    public function addShippingAddress(Address $address)
     {
         $this->setShippingAddress($address);
         return $this;
@@ -920,7 +1061,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Get array of all items what can be display directly
      *
-     * @return array
+     * @return \Magento\Sales\Model\Quote\Item[]
      */
     public function getAllVisibleItems()
     {
@@ -992,7 +1133,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Delete quote item. If it does not have identifier then it will be only removed from collection
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function deleteItem(\Magento\Sales\Model\Quote\Item $item)
     {
@@ -1022,7 +1163,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Remove quote item by item identifier
      *
      * @param   int $itemId
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeItem($itemId)
     {
@@ -1055,7 +1196,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Mark all quote items as deleted (empty quote)
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeAllItems()
     {
@@ -1073,7 +1214,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Adding new item to quote
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function addItem(\Magento\Sales\Model\Quote\Item $item)
@@ -1481,7 +1622,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Collect totals
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function collectTotals()
     {
@@ -1542,7 +1683,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Collect items qty
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _collectItemsQtys()
     {
@@ -1608,7 +1749,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
         $sortedTotals = array();
         foreach ($this->getBillingAddress()->getTotalCollector()->getRetrievers() as $total) {
-            /* @var $total \Magento\Sales\Model\Quote\Address\Total\AbstractTotal */
+            /* @var $total Address\Total\AbstractTotal */
             if (isset($totals[$total->getCode()])) {
                 $sortedTotals[$total->getCode()] = $totals[$total->getCode()];
             }
@@ -1677,7 +1818,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Sets flag, whether this quote has some error associated with it.
      *
      * @param bool $flag
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _setHasError($flag)
     {
@@ -1691,7 +1832,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * It's recommended to use addErrorInfo() instead - to be able to remove error statuses later.
      *
      * @param bool $flag
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      * @see addErrorInfo()
      */
     public function setHasError($flag)
@@ -1708,7 +1849,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Clears list of errors, associated with this quote.
      * Also automatically removes error-flag from oneself.
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _clearErrorInfo()
     {
@@ -1726,7 +1867,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
      * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)
     {
@@ -1751,7 +1892,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @param string $type An internal error type ('error', 'qty', etc.), passed then to adding messages routine
      * @param array $params
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeErrorInfosByParams($type, $params)
     {
@@ -1794,7 +1935,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @param string $type
      * @param string $text
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeMessageByText($type, $text)
     {
@@ -1823,7 +1964,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Generate new increment order id and associate it with current quote
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function reserveOrderId()
     {
@@ -1869,7 +2010,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             } else {
                 $baseTotal = 0;
                 foreach ($addresses as $address) {
-                    /* @var $address \Magento\Sales\Model\Quote\Address */
+                    /* @var $address Address */
                     $baseTotal += $address->getBaseSubtotalWithDiscount();
                 }
                 if ($baseTotal < $minAmount) {
@@ -1878,7 +2019,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         } else {
             foreach ($addresses as $address) {
-                /* @var $address \Magento\Sales\Model\Quote\Address */
+                /* @var $address Address */
                 if (!$address->validateMinimumAmount()) {
                     return false;
                 }
@@ -1942,10 +2083,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Merge quotes
      *
-     * @param   \Magento\Sales\Model\Quote $quote
-     * @return  \Magento\Sales\Model\Quote
+     * @param   Quote $quote
+     * @return $this
      */
-    public function merge(\Magento\Sales\Model\Quote $quote)
+    public function merge(Quote $quote)
     {
         $this->_eventManager->dispatch($this->_eventPrefix . '_merge_before', array(
             $this->_eventObject => $this,
@@ -1996,21 +2137,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Whether there are recurring items
-     *
-     * @return bool
-     */
-    public function hasRecurringItems()
-    {
-        foreach ($this->getAllVisibleItems() as $item) {
-            if ($item->getProduct() && $item->getProduct()->isRecurring()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Getter whether quote has nominal items
      * Can bypass treating virtual items as nominal
      *
@@ -2046,33 +2172,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Create recurring payment profiles basing on the current items
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function prepareRecurringPaymentProfiles()
-    {
-        if (!$this->getTotalsCollectedFlag()) {
-            // Whoops! Make sure nominal totals must be calculated here.
-            throw new \Exception('Quote totals must be collected before this operation.');
-        }
-
-        $result = array();
-        foreach ($this->getAllVisibleItems() as $item) {
-            $product = $item->getProduct();
-            if (is_object($product) && ($product->isRecurring())
-                && $profile = $this->_recurringProfileFactory->create()->importProduct($product)
-            ) {
-                $profile->importQuote($this);
-                $profile->importQuoteItem($item);
-                $result[] = $profile;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * @return $this
      */
     protected function _validateCouponCode()
@@ -2098,7 +2197,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Trigger collect totals after loading, if required
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -2110,7 +2209,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Return quote checkout method code
+     * Return checkout method code
      *
      * @param boolean $originalMethod if true return defined method from beginning
      * @return string
@@ -2126,7 +2225,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Prevent quote from saving
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function preventSaving()
     {
@@ -2137,7 +2236,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Save quote with prevention checking
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function save()
     {

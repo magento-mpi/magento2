@@ -7,26 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Model\Action;
 
 /**
  * Reward action for updating balance by salesrule
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Action;
-
 class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
 {
-     /**
+    /**
      * Quote instance, required for estimating checkout reward (rule defined static value)
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var \Magento\Sales\Model\Quote|null
      */
     protected $_quote = null;
 
     /**
+     * Reward factory
+     *
      * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_rewardFactory;
@@ -47,7 +46,8 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
      * @param int $websiteId
      * @return int
      */
-    public function getPoints($websiteId) {
+    public function getPoints($websiteId)
+    {
         $pointsDelta = 0;
         if ($this->_quote) {
             // known issue: no support for multishipping quote // copied  comment, not checked
@@ -67,7 +67,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
      * Quote setter
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Reward\Model\Action\OrderExtra
+     * @return $this
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -101,7 +101,7 @@ class Salesrule extends \Magento\Reward\Model\Action\AbstractAction
      * Setter for $_entity and add some extra data to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {

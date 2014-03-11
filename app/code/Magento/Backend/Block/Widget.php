@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block;
 
 /**
  * Base widget class
@@ -15,14 +16,13 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  *
- */
-namespace Magento\Backend\Block;
-
-/**
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Widget extends \Magento\Backend\Block\Template
 {
+    /**
+     * @return string
+     */
     public function getId()
     {
         if (null === $this->getData('id')) {
@@ -42,6 +42,9 @@ class Widget extends \Magento\Backend\Block\Template
         return "{$this->getId()}_{$suffix}";
     }
 
+    /**
+     * @return string
+     */
     public function getHtmlId()
     {
         return $this->getId();
@@ -61,6 +64,12 @@ class Widget extends \Magento\Backend\Block\Template
         return $this->getUrl('*/*/*', $params);
     }
 
+    /**
+     * @param string $label
+     * @param string|null $title
+     * @param string|null $link
+     * @return void
+     */
     protected function _addBreadcrumb($label, $title=null, $link=null)
     {
         $this->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
@@ -90,6 +99,9 @@ class Widget extends \Magento\Backend\Block\Template
             ->toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getGlobalIcon()
     {
         return '<img src="' . $this->getViewFileUrl('images/fam_link.gif')

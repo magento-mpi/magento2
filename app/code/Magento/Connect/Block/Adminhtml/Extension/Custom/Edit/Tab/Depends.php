@@ -24,7 +24,7 @@ class Depends
     /**
      * Prepare Dependencies Form before rendering HTML
      *
-     * @return \Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\Package
+     * @return $this
      */
     protected function _prepareForm()
     {

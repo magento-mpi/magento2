@@ -5,24 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml\Order;
 
 /**
  * Adminhtml shipment packaging
  */
-
-namespace Magento\Shipping\Block\Adminhtml\Order;
-
 class Packaging extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size
+     * Source size model
+     *
+     * @var \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
     protected $_sourceSizeModel;
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -39,16 +39,16 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Shipping\Model\Carrier\Source\GenericInterface $sourceSizeModel,
+        \Magento\Registry $coreRegistry,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
@@ -233,8 +233,8 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Get item of shipment by its id
      *
-     * @param  $itemId
-     * @param  $itemsOf
+     * @param string $itemId
+     * @param string $itemsOf
      * @return \Magento\Object
      */
     public function getShipmentItem($itemId, $itemsOf)
@@ -308,12 +308,24 @@ class Packaging extends \Magento\Backend\Block\Template
 
     /**
      * Check whether girth is allowed for current carrier
+     *
+     * @return bool
      */
     public function isGirthAllowed()
     {
         $order = $this->getShipment()->getOrder();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         return $carrier->isGirthAllowed($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
+    }
+
+    /**
+     * Is display girth value
+     *
+     * @return bool
+     */
+    public function isDisplayGirthValue()
+    {
+        return false;
     }
 
     /**
@@ -389,9 +401,9 @@ class Packaging extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Get Usps source size model
+     * Get source size model
      *
-     * @return \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size
+     * @return \Magento\Shipping\Model\Carrier\Source\GenericInterface
      */
     public function getSourceSizeModel()
     {

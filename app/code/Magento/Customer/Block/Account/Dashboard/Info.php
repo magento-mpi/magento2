@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
@@ -24,43 +25,37 @@ class Info extends \Magento\View\Element\Template
     protected $_subscription;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
 
+    /** @var \Magento\Customer\Helper\View */
+    protected $_helperView;
+
     /**
-     * @var CustomerMetadataServiceInterface
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
      */
-    protected $_metadataService;
-
-    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $_customerService;
+    protected $customerCurrentService;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param CustomerMetadataServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Helper\View $helperView
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        CustomerMetadataServiceInterface $metadataService,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Helper\View $helperView,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
-        $this->_customerService = $customerService;
-        $this->_metadataService = $metadataService;
-        $this->_subscriberFactory = $subscriberFactory;
+        $this->customerCurrentService   = $customerCurrentService;
+        $this->_subscriberFactory       = $subscriberFactory;
+        $this->_helperView = $helperView;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -68,12 +63,12 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
         try {
-            return $this->_customerService->getCustomer($this->_customerSession->getId());
+            return $this->customerCurrentService->getCustomer();
         } catch (NoSuchEntityException $e) {
             return null;
         }
@@ -86,25 +81,7 @@ class Info extends \Magento\View\Element\Template
      */
     public function getName()
     {
-        $name = '';
-
-        $customer = $this->getCustomer();
-
-        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->isVisible()
-            && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
-        }
-        $name .= $customer->getFirstname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->isVisible()
-            && $customer->getMiddlename()) {
-            $name .= ' ' . $customer->getMiddlename();
-        }
-        $name .=  ' ' . $customer->getLastname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->isVisible()
-            && $customer->getSuffix()) {
-            $name .= ' ' . $customer->getSuffix();
-        }
-        return $name;
+        return $this->_helperView->getCustomerName($this->getCustomer());
     }
 
     public function getChangePasswordUrl()
@@ -133,6 +110,8 @@ class Info extends \Magento\View\Element\Template
      * Gets Customer subscription status
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsSubscribed()
     {
@@ -140,9 +119,9 @@ class Info extends \Magento\View\Element\Template
     }
 
     /**
-     *  Newsletter module availability
+     * Newsletter module availability
      *
-     *  @return	  boolean
+     * @return bool
      */
     public function isNewsletterEnabled()
     {

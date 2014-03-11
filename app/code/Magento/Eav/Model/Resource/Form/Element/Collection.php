@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Form\Element;
 
 /**
  * Eav Form Element Resource Collection
@@ -16,8 +16,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Form\Element;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -34,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add Form Type filter to collection
      *
      * @param \Magento\Eav\Model\Form\Type|int $type
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     public function addTypeFilter($type)
     {
@@ -49,7 +47,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add Form Fieldset filter to collection
      *
      * @param \Magento\Eav\Model\Form\Fieldset|int $fieldset
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     public function addFieldsetFilter($fieldset)
     {
@@ -65,7 +63,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|int $attribute
      *
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     public function addAttributeFilter($attribute)
     {
@@ -79,7 +77,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set order by element sort order
      *
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     public function setSortOrder()
     {
@@ -91,7 +89,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join attribute data
      *
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     protected function _joinAttributeData()
     {
@@ -109,7 +107,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     public function load($printQuery = false, $logQuery = false)
     {

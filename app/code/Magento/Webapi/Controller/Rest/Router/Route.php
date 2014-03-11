@@ -27,7 +27,7 @@ class Route extends \Zend_Controller_Router_Route
      * Set service class.
      *
      * @param string $serviceClass
-     * @return \Magento\Webapi\Controller\Rest\Router\Route
+     * @return $this
      */
     public function setServiceClass($serviceClass)
     {
@@ -49,7 +49,7 @@ class Route extends \Zend_Controller_Router_Route
      * Set service method name.
      *
      * @param string $serviceMethod
-     * @return \Magento\Webapi\Controller\Rest\Router\Route
+     * @return $this
      */
     public function setServiceMethod($serviceMethod)
     {
@@ -71,7 +71,7 @@ class Route extends \Zend_Controller_Router_Route
      * Set if the route is secure
      *
      * @param boolean $secure
-     * @return \Magento\Webapi\Controller\Rest\Router\Route
+     * @return $this
      */
     public function setSecure($secure)
     {
@@ -93,6 +93,7 @@ class Route extends \Zend_Controller_Router_Route
      * Set ACL resources list.
      *
      * @param array $aclResources
+     * @return void
      */
     public function setAclResources($aclResources)
     {

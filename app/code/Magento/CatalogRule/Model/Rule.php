@@ -152,10 +152,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory
@@ -173,10 +173,10 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
@@ -205,7 +205,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->_cacheTypesList = $cacheTypesList;
         $this->_relatedCacheTypes = $relatedCacheTypes;
         $this->dateTime = $dateTime;
-        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -373,20 +373,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     {
         $this->_getResource()->applyAllRulesForDateRange(null, null, $product);
         $this->_invalidateCache();
-
-        if ($product instanceof Product) {
-            $productId = $product->getId();
-        } else {
-            $productId = $product;
-        }
-
-        if ($productId) {
-            $this->_indexer->processEntityAction(
-                new \Magento\Object(array('id' => $productId)),
-                Product::ENTITY,
-                \Magento\Catalog\Model\Product\Indexer\Price::EVENT_TYPE_REINDEX_PRICE
-            );
-        }
     }
 
     /**
@@ -407,7 +393,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         } else {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = $this->_locale->storeTimeStamp($storeId);
+        $dateTs     = $this->_localeDate->scopeTimeStamp($storeId);
         $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {

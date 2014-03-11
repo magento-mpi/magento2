@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
+
+use Magento\Customer\Model\Customer;
+use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 
 /**
  * Customer address attributes conditions combine
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
 
-class Address
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Address extends AbstractCombine
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -83,8 +85,8 @@ class Address
     /**
      * Prepare base condition select which related with current condition combine
      *
-     * @param $customer
-     * @param $website
+     * @param Customer|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)

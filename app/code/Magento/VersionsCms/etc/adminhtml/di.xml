@@ -7,14 +7,14 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Cms\Model\Page">
         <plugin name="versionscms_cms_page_plugin" type="Magento\VersionsCms\Model\Plugin\CmsPage"/>
     </type>
     <type name="Magento\VersionsCms\Model\Backend\Observer">
-        <param name="authorization">
-            <instance type="Magento\Authorization\Proxy" />
-        </param>
+        <arguments>
+            <argument name="authorization" xsi:type="object">Magento\Authorization\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision">
         <plugin name="designLoader" type="Magento\VersionsCms\App\Action\Plugin\Design" />

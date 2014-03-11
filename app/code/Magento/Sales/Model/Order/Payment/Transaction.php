@@ -140,26 +140,26 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Core\Model\DateFactory
+     * @var \Magento\Stdlib\DateTime\DateTimeFactory
      */
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Core\Model\DateFactory $dateFactory
+     * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Core\Model\DateFactory $dateFactory,
+        \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

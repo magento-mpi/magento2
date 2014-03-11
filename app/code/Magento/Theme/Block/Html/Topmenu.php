@@ -11,8 +11,15 @@ namespace Magento\Theme\Block\Html;
 /**
  * Html page top menu block
  */
-class Topmenu extends \Magento\View\Element\Template
+class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
+    /**
+     * Cache identities
+     *
+     * @var array
+     */
+    protected $identities = array();
+
     /**
      * Top menu data tree
      *
@@ -22,6 +29,8 @@ class Topmenu extends \Magento\View\Element\Template
 
     /**
      * Init top menu tree structure
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -40,6 +49,7 @@ class Topmenu extends \Magento\View\Element\Template
     {
         $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_before', array(
             'menu' => $this->_menu,
+            'block' => $this
         ));
 
         $this->_menu->setOutermostClass($outermostClass);
@@ -79,7 +89,7 @@ class Topmenu extends \Magento\View\Element\Template
      *
      * @param \Magento\Backend\Model\Menu $items
      * @param int $limit
-     * @return array
+     * @return array|void
      *
      * @todo: Add Depth Level limit, and better logic for columns
      */
@@ -282,5 +292,25 @@ class Topmenu extends \Magento\View\Element\Template
         }
 
         return $classes;
+    }
+
+    /**
+     * Add identity
+     *
+     * @param $identity
+     */
+    public function addIdentity($identity)
+    {
+        $this->identities[] = $identity;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return $this->identities;
     }
 }

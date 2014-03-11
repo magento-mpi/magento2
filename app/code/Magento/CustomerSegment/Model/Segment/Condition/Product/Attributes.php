@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
+
+use Zend_Db_Expr;
 
 /**
  * Product attribute value condition
  */
-namespace Magento\CustomerSegment\Model\Segment\Condition\Product;
-
 class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
@@ -35,6 +36,7 @@ class Attributes
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param array $data
      */
@@ -45,17 +47,21 @@ class Attributes
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         array $data = array()
     ) {
         $this->_resourceSegment = $resourceSegment;
-        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
+        parent::__construct(
+            $context, $backendData, $config, $product, $productResource, $attrSetCollection, $localeFormat, $data
+        );
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
         $this->setValue(null);
     }
 
     /**
      * Customize default operator input by type mapper for some types
+     *
      * @return array
      */
     public function getDefaultOperatorInputByType()
@@ -156,7 +162,7 @@ class Attributes
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
+     * @param int|Zend_Db_Expr $website
      * @return string
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)
