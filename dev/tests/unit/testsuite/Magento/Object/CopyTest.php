@@ -154,13 +154,13 @@ class CopyTest extends \PHPUnit_Framework_TestCase
             $this->copy->copyFieldsetToTarget('fieldset', 'aspect', $this->sourceMock, $target));
     }
 
-    public function testGetDataFromFieldsetWhenSourceInvalid()
+    public function testGetDataFromFieldsetWhenSourceIsInvalid()
     {
         $this->fieldsetConfigMock->expects($this->never())->method('getFieldset');
         $this->assertNull($this->copy->getDataFromFieldset('fieldset', 'aspect', 'source'));
     }
 
-    public function testGetCopyFieldsetToTargetWhenFieldsetIsNotExists()
+    public function testGetDataFromFieldsetWhenFieldsetDoesNotExist()
     {
         $this->fieldsetConfigMock
             ->expects($this->once())
@@ -173,7 +173,7 @@ class CopyTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->copy->getDataFromFieldset('fieldset', 'aspect', $this->sourceMock));
     }
 
-    public function testGetCopyFieldsetWhenFieldExists()
+    public function testGetDataFromFieldsetWhenFieldExists()
     {
         $fields['code']['aspect'] = 'value';
         $this->fieldsetConfigMock
@@ -192,7 +192,7 @@ class CopyTest extends \PHPUnit_Framework_TestCase
     }
 
 
-    public function testGetCopyFieldsetWhenFieldNotExists()
+    public function testGetDataFromFieldsetWhenFieldDoesNotExists()
     {
         $fields['code']['aspect'] = array();
         $this->fieldsetConfigMock
