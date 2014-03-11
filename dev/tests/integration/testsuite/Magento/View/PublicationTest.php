@@ -284,40 +284,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Publication of CSS files located in the theme (development mode)
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
-     */
-    public function testPublishCssFileFromTheme()
-    {
-        $this->_initTestTheme();
-        $expectedFiles = array(
-            'css/file.css',
-            'recursive.css',
-            'recursive.gif',
-            'css/deep/recursive.css',
-            'recursive2.gif',
-            'css/body.gif',
-            'css/1.gif',
-            'h1.gif',
-            'images/h2.gif',
-            'Namespace_Module/absolute_valid_module.gif',
-            'Magento_Theme/favicon.ico', // non-fixture file from real module
-        );
-        $publishedDir = $this->appFilesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR)
-            . '/frontend/vendor_default/en_US';
-        $this->assertFileNotExists($publishedDir, 'Please verify isolation from previous test(s).');
-        $this->fileResolver->getPublicViewFile('css/file.css', array(
-            'theme'   => 'vendor_default',
-            'locale'  => 'en_US'
-        ));
-        foreach ($expectedFiles as $file) {
-            $this->assertFileExists("{$publishedDir}/{$file}");
-        }
-        $this->assertFileNotExists("{$publishedDir}/absolute.gif");
-    }
-
-    /**
      * Publication of CSS files located in the module
      *
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
