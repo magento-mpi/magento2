@@ -289,32 +289,31 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
      * @dataProvider publishCssFileFromModuleDataProvider
      */
-    public function testPublishCssFileFromModule(
-        $cssViewFile, $designParams, $expectedCssFile, $expectedCssContent, $expectedRelatedFiles
-    ) {
+    public function testPublishCssFileFromModule($cssViewFile, $designParams, $expectedCssFile, $expectedCssContent)
+    {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $this->fileResolver->getPublicViewFile($cssViewFile, $designParams);
 
-        $expectedCssFile = $this->appFilesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR)
-            . '/' . $expectedCssFile;
-        $this->assertFileExists($expectedCssFile);
-        $actualCssContent = file_get_contents($expectedCssFile);
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+            ->getMode();
+        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
+            $this->assertFileNotExists($cssViewFile, "View resources must not be published in 'developer' mode");
+        } else {
+            $expectedCssFile = $this->appFilesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR)
+                . '/' . $expectedCssFile;
+            $this->assertFileExists($expectedCssFile);
+            $actualCssContent = file_get_contents($expectedCssFile);
 
-        $this->assertNotRegExp(
-            '/url\(.*?' . preg_quote(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, '/') . '.*?\)/',
-            $actualCssContent,
-            'Published CSS file must not contain scope separators in URLs.'
-        );
+            $this->assertNotRegExp(
+                '/url\(.*?' . preg_quote(\Magento\View\Asset\FileId::FILE_ID_SEPARATOR, '/') . '.*?\)/',
+                $actualCssContent,
+                'Published CSS file must not contain scope separators in URLs.'
+            );
 
-        foreach ($expectedCssContent as $expectedCssSubstring) {
-            $this->assertContains($expectedCssSubstring, $actualCssContent);
-        }
-
-        foreach ($expectedRelatedFiles as $expectedFile) {
-            $expectedFile = $this->appFilesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR)
-                . '/' . $expectedFile;
-            $this->assertFileExists($expectedFile);
+            foreach ($expectedCssContent as $expectedCssSubstring) {
+                $this->assertContains($expectedCssSubstring, $actualCssContent);
+            }
         }
     }
 
@@ -336,9 +335,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 array(
                     'url(../../Magento_Backend/images/gallery-image-base-label.png)',
                 ),
-                array(
-                    'adminhtml/magento_backend/en_US/Magento_Backend/images/gallery-image-base-label.png',
-                ),
             ),
             'adminhtml' => array(
                 'Magento_Paypal::styles.css',
@@ -352,10 +348,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 array(
                     'url(images/paypal-logo.png)',
                     'url(images/pp-allinone.png)',
-                ),
-                array(
-                    'adminhtml/vendor_test/en_US/Magento_Paypal/images/paypal-logo.png',
-                    'adminhtml/vendor_test/en_US/Magento_Paypal/images/pp-allinone.png',
                 ),
             ),
         );
@@ -556,7 +548,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     public function testCssWithBase64Data()
     {
         $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-                    ->getMode();
+            ->getMode();
         if ($mode == \Magento\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in non-developer mode only');
         }
