@@ -55,7 +55,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         array $routers = array(),
         $matchedValue = null
     ) {
-        $this->markTestIncomplete('Neet to mock Iterator');
+//        $this->markTestIncomplete('Neet to mock Iterator');
         $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
 
         $this->_model->match($request);
@@ -118,34 +118,34 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         $infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
 
         $routers = array(
-//            'not vde request' => array(
-//                '$request' => $this->getMock(
-//                        'Magento\App\Request\Http', array('_isFrontArea'), array(
-//                            $routerListMock, $infoProcessorMock, $notVdeUrl
-//                        )
-//                    ),
-//                '$isVde'           => false,
-//                '$isLoggedIn'      => true,
-//            ),
-//            'not logged as admin' => array(
-//                '$request' => $this->getMock(
-//                        'Magento\App\Request\Http',
-//                        array('_isFrontArea'),
-//                        array($routerListMock, $infoProcessorMock, $uri)
-//                    ),
-//                '$isVde'           => true,
-//                '$isLoggedIn'      => false,
-//            ),
-//            'no matched routers' => array(
-//                '$request' => $this->getMock(
-//                        'Magento\App\Request\Http',
-//                        array('_isFrontArea'),
-//                        array($routerListMock, $infoProcessorMock, $uri)
-//                    ),
-//                '$isVde'           => true,
-//                '$isLoggedIn'      => true,
-//                '$routers'         => $excludedRouters
-//            ),
+            'not vde request' => array(
+                '$request' => $this->getMock(
+                        'Magento\App\Request\Http', array('_isFrontArea'), array(
+                            $routerListMock, $infoProcessorMock, $notVdeUrl
+                        )
+                    ),
+                '$isVde'           => false,
+                '$isLoggedIn'      => true,
+            ),
+            'not logged as admin' => array(
+                '$request' => $this->getMock(
+                        'Magento\App\Request\Http',
+                        array('_isFrontArea'),
+                        array($routerListMock, $infoProcessorMock, $uri)
+                    ),
+                '$isVde'           => true,
+                '$isLoggedIn'      => false,
+            ),
+            'no matched routers' => array(
+                '$request' => $this->getMock(
+                        'Magento\App\Request\Http',
+                        array('_isFrontArea'),
+                        array($routerListMock, $infoProcessorMock, $uri)
+                    ),
+                '$isVde'           => true,
+                '$isLoggedIn'      => true,
+                '$routers'         => $excludedRouters
+            ),
             'matched routers' => array(
                 '$request'         => $matchedRequest,
                 '$isVde'           => true,
@@ -183,23 +183,13 @@ class StandardTest extends \PHPUnit_Framework_TestCase
                 'key',
                 'valid',
                 'rewind'
-            ), array(), '', false
+            ), array(
+                'routerList' => $routers
+            ), '', false
         );
-        $routerListMock = $this->mockIterator($routerListMock, $routers);
-//        if (array_key_exists('matched', $routers)) {
-//            $routerListMock->expects($this->any())
-//                ->method('rewind')
-//                ->will($this->returnValue($routers));
-//            $i = 0;
-//            foreach ($routers as $router)
-//            {
-//                $routerListMock->expects($this->at($i))
-//                    ->method('key')
-//                    ->will($this->returnValue($router));
-//                $i++;
-//            }
-//            unset($i);
-//        }
+        if (array_key_exists('matched', $routers)) {
+            $routerListMock = $this->mockIterator($routerListMock, $routers, true);
+        }
 
         if ($isVde && $isLoggedIn) {
             $rewriteServiceMock->expects($this->once())
@@ -264,71 +254,35 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         return $stateModel;
     }
 
-    public function mockIterator(\PHPUnit_Framework_MockObject_MockObject $iteratorMock, array $items)
+    public function mockIterator(
+        \PHPUnit_Framework_MockObject_MockObject $iteratorMock,
+        array $items,
+        $includeCallsToKey = true)
     {
-        $iteratorData = new \stdClass();
-        $iteratorData->array = $items;
-        $iteratorData->position = 0;
-
-        $iteratorMock->expects($this->any())
-            ->method('rewind')
-            ->will(
-                $this->returnCallback(
-                    function() use ($iteratorData) {
-                        $iteratorData->position = 0;
-                    }
-                )
-            );
-
-        $iteratorMock->expects($this->any())
-            ->method('current')
-            ->will(
-                $this->returnCallback(
-                    function() use ($iteratorData) {
-                        return $iteratorData->array[$iteratorData->position];
-                    }
-                )
-            );
-
-        $iteratorMock->expects($this->any())
-            ->method('key')
-            ->will(
-                $this->returnCallback(
-                    function() use ($iteratorData) {
-                        return $iteratorData->position;
-                    }
-                )
-            );
-
-        $iteratorMock->expects($this->any())
-            ->method('next')
-            ->will(
-                $this->returnCallback(
-                    function() use ($iteratorData) {
-                        $iteratorData->position++;
-                    }
-                )
-            );
-
-        $iteratorMock->expects($this->any())
-            ->method('valid')
-            ->will(
-                $this->returnCallback(
-                    function() use ($iteratorData) {
-                        return isset($iteratorData->array[$iteratorData->position]);
-                    }
-                )
-            );
-
-        $iteratorMock->expects($this->any())
-            ->method('count')
-            ->will(
-                $this->returnCallback(
-                    function() use ($iteratorData) {
-                        return sizeof($iteratorData->array);
-                    }
-                )
-            );
+        $iteratorMock->expects($this->at(0))
+            ->method('rewind');
+        $i = 0;
+        foreach ($items as $key => $value)
+        {
+            $iteratorMock->expects($this->at($i))
+                ->method('valid')
+                ->will($this->returnValue(true));
+            $iteratorMock->expects($this->at($i))
+                ->method('current')
+                ->will($this->returnValue($value));
+            if ($includeCallsToKey) {
+                $iteratorMock->expects($this->at($i))
+                    ->method('key')
+                    ->will($this->returnValue($key));
+            }
+            $iteratorMock->expects($this->at($i))
+                ->method('next')
+                ->will($this->returnValue($value));
+            $iteratorMock->expects($this->at($i))
+                ->method('valid')
+                ->will($this->returnValue(false));
+            $i++;
+        }
 
         return $iteratorMock;
     }
