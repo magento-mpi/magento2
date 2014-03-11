@@ -22,17 +22,17 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     public function testGenerate()
     {
-
+        require_once __DIR__ . '/_files/Sample.php';
         $model = $this->getMock('\Magento\ObjectManager\Code\Generator\Proxy',
             array('_validateData'),
-            array('Exception', null, $this->ioObjectMock, null, null)
+            array('\Magento\ObjectManager\Code\Generator\Sample', null, $this->ioObjectMock, null, null)
         );
-        $exceptionProxyCode = file_get_contents(__DIR__ . '/fixture/ExceptionProxy.txt');
+        $sampleProxyCode = file_get_contents(__DIR__ . '/_files/Sample_Proxy.txt');
         
         $this->ioObjectMock->expects($this->once())->method('getResultFileName')
-            ->with('Exception_Proxy')->will($this->returnValue('sample_file.php'));
+            ->with('\Magento\ObjectManager\Code\Generator\Sample_Proxy')->will($this->returnValue('sample_file.php'));
         $this->ioObjectMock->expects($this->once())->method('writeResultFile')
-            ->with('sample_file.php', $exceptionProxyCode);
+            ->with('sample_file.php', $sampleProxyCode);
 
         $model->expects($this->once())->method('_validateData')->will($this->returnValue(true));
         $this->assertTrue($model->generate());

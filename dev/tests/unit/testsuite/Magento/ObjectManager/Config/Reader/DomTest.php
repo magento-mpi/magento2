@@ -23,12 +23,13 @@ class DomTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $schemaLocator;
+    protected $schemaLocatorMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $validationState;
+    protected $validationStateMock;
+
     /**
      * @var \Magento\ObjectManager\Config\Reader\Dom
      */
@@ -36,16 +37,28 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fileResolverMock = $this->getMock('\Magento\Config\FileResolverInterface', array(), array(), '', false);
+        $this->fileResolverMock = $this->getMock('\Magento\Config\FileResolverInterface');
         $this->converterMock = $this->getMock('\Magento\ObjectManager\Config\Mapper\Dom', array(), array(), '', false);
-        $this->schemaLocator = $this->getMock('\Magento\ObjectManager\Config\SchemaLocator', array(), array(), '', false);
-        $this->validationState = $this->getMock('\Magento\Config\ValidationStateInterface', array(), array(), '', false);
+        $this->schemaLocatorMock = $this->getMock(
+            '\Magento\ObjectManager\Config\SchemaLocator',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->validationStateMock = $this->getMock(
+            '\Magento\Config\ValidationStateInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->model = new \Magento\ObjectManager\Config\Reader\Dom(
             $this->fileResolverMock,
             $this->converterMock,
-            $this->schemaLocator,
-            $this->validationState,
+            $this->schemaLocatorMock,
+            $this->validationStateMock,
             'filename.xml',
             array(),
             '\Magento\ObjectManager\Config\Reader\MergerMock'
@@ -53,7 +66,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check of _createConfigMerger() method via read()
+     * @covers _createConfigMerger()
      */
     public function testRead()
     {
@@ -72,6 +85,7 @@ class MergerMock extends \PHPUnit_Framework_TestCase
      * @param array $idAttributes
      * @param string $typeAttribute
      * @param $perFileSchema
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct($initialContents, $idAttributes, $typeAttribute, $perFileSchema)
     {
@@ -84,6 +98,7 @@ class MergerMock extends \PHPUnit_Framework_TestCase
      * @param $schemaFile
      * @param $errors
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function validate($schemaFile, $errors)
     {

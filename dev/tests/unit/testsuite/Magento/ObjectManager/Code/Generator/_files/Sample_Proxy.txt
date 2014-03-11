@@ -1,7 +1,9 @@
+namespace \Magento\ObjectManager\Code\Generator;
+
 /**
- * Proxy class for \Exception
+ * Proxy class for \Magento\ObjectManager\Code\Generator\Sample
  */
-class Exception_Proxy extends \Exception
+class Sample_Proxy extends \Magento\ObjectManager\Code\Generator\Sample
 {
     /**
      * Object Manager instance
@@ -20,7 +22,7 @@ class Exception_Proxy extends \Exception
     /**
      * Proxied instance
      *
-     * @var \Exception
+     * @var \Magento\ObjectManager\Code\Generator\Sample
      */
     protected $_subject = null;
 
@@ -38,7 +40,7 @@ class Exception_Proxy extends \Exception
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Exception', $shared = true)
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\ObjectManager\Code\Generator\Sample', $shared = true)
     {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
@@ -72,7 +74,7 @@ class Exception_Proxy extends \Exception
     /**
      * Get proxied instance
      *
-     * @return \Exception
+     * @return \Magento\ObjectManager\Code\Generator\Sample
      */
     protected function _getSubject()
     {
@@ -87,8 +89,16 @@ class Exception_Proxy extends \Exception
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function setMessages(array $messages)
     {
-        return $this->_getSubject()->__toString();
+        return $this->_getSubject()->setMessages($messages);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMessages()
+    {
+        return $this->_getSubject()->getMessages();
     }
 }

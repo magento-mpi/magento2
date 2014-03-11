@@ -13,7 +13,7 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $fsDriverMock;
+    protected $filesystemDriverMock;
 
     /**
      * @var \Magento\ObjectManager\DefinitionFactory
@@ -23,30 +23,18 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $sampleContent = 'a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}';
+    protected $sampleContent;
 
     protected function setUp()
     {
-        $this->fsDriverMock = $this->getMock('Magento\Filesystem\Driver\File', array(), array(), '', false);
+        $this->sampleContent = serialize(array(1, 2, 3));
+        $this->filesystemDriverMock = $this->getMock('Magento\Filesystem\Driver\File', array(), array(), '', false);
         $this->model = new \Magento\ObjectManager\DefinitionFactory(
-            $this->fsDriverMock,
+            $this->filesystemDriverMock,
             'DefinitionDir',
             'GenerationDir',
             'serialized'
         );
-    }
-
-    /**
-     * @param string $fileContent
-     * @param string $expectedModel
-     * @dataProvider createClassDefinitionProvider
-     */
-    public function testCreateClassDefinitionFromArrayAndFile($fileContent, $expectedModel)
-    {
-        $this->fsDriverMock->expects($this->once())->method('isReadable')->will($this->returnValue(true));
-        $this->fsDriverMock->expects($this->once())->method('fileGetContents')
-            ->will($this->returnValue($fileContent));
-        $this->assertInstanceOf($expectedModel, $this->model->createClassDefinition(null));
     }
 
     public function createClassDefinitionProvider()
@@ -75,20 +63,20 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
      * @param string $path
      * @param string $callMethod
      * @param string $expectedClass
-     * @dataProvider createPluginsAndRelationsReadableProvider
+     * @dataProvider createPluginsAndRelationsReadableDataProvider
      */
     public function testCreatePluginsAndRelationsReadable($path, $callMethod, $expectedClass)
     {
-        $this->fsDriverMock->expects($this->once())->method('isReadable')
+        $this->filesystemDriverMock->expects($this->once())->method('isReadable')
             ->with($path)
             ->will($this->returnValue(true));
-        $this->fsDriverMock->expects($this->once())->method('fileGetContents')
+        $this->filesystemDriverMock->expects($this->once())->method('fileGetContents')
             ->with($path)
             ->will($this->returnValue($this->sampleContent));
         $this->assertInstanceOf($expectedClass, $this->model->$callMethod());
     }
 
-    public function createPluginsAndRelationsReadableProvider()
+    public function createPluginsAndRelationsReadableDataProvider()
     {
         return array(
             'relations' => array(
@@ -108,17 +96,17 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
      * @param string $path
      * @param string $callMethod
      * @param string $expectedClass
-     * @dataProvider createPluginsAndRelationsNotReadableProvider
+     * @dataProvider createPluginsAndRelationsNotReadableDataProvider
      */
-    public function testCreateRelationsNotReadable($path, $callMethod, $expectedClass)
+    public function testCreatePluginsAndRelationsNotReadable($path, $callMethod, $expectedClass)
     {
-        $this->fsDriverMock->expects($this->once())->method('isReadable')
+        $this->filesystemDriverMock->expects($this->once())->method('isReadable')
             ->with($path)
             ->will($this->returnValue(false));
         $this->assertInstanceOf($expectedClass, $this->model->$callMethod());
     }
 
-    public function createPluginsAndRelationsNotReadableProvider()
+    public function createPluginsAndRelationsNotReadableDataProvider()
     {
         return array(
             'relations' => array(
