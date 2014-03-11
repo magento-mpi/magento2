@@ -10,9 +10,10 @@
 
 namespace Magento\Sales\Model\Quote;
 
-use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
-use Magento\Customer\Service\V1\Dto\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\AddressBuilder as CustomerAddressBuilder;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 /**
  * Sales Quote address model
@@ -211,7 +212,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_itemCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterface
+     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory
      */
     protected $_rateCollector;
 
@@ -257,7 +258,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory
      * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory
-     * @param \Magento\Sales\Model\Quote\Address\RateCollectorInterface $rateCollector
+     * @param \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollector
      * @param \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory
      * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory
@@ -284,7 +285,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory,
-        \Magento\Sales\Model\Quote\Address\RateCollectorInterface $rateCollector,
+        \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollector,
         \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory,
@@ -402,7 +403,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected function _isDefaultShippingNullOrSameAsBillingAddress()
     {
         $customerData = $this->getQuote()->getCustomerData();
-        $customerId = $customerData->getCustomerId();
+        $customerId = $customerData->getId();
         $defaultBillingAddress = null;
         $defaultShippingAddress = null;
 
@@ -462,43 +463,17 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Import quote address data from customer address object
+     * Import quote address data from customer address Data Object.
      *
-     * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
-     * @param \Magento\Customer\Model\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return \Magento\Sales\Model\Quote\Address
      */
-    public function importCustomerAddress(\Magento\Customer\Model\Address $address)
-    {
-        /**
-         * TODO: Remove this method when all dependencies are refactored to use
-         * importCustomerAddressData() - MAGETWO-20858
-         */
-        $this->_objectCopyService->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
-        $email = null;
-        if ($address->hasEmail()) {
-            $email = $address->getEmail();
-        } elseif ($address->getCustomer()) {
-            $email = $address->getCustomer()->getEmail();
-        }
-        if ($email) {
-            $this->setEmail($email);
-        }
-        return $this;
-    }
-
-    /**
-     * Import quote address data from customer address DTO.
-     *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
-     * @return \Magento\Sales\Model\Quote\Address
-     */
-    public function importCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $address)
+    public function importCustomerAddressData(\Magento\Customer\Service\V1\Data\Address $address)
     {
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            $address->getAttributes(),
+            AddressConverter::toFlatArray($address),
             $this
         );
         $region = $this->getRegion();
@@ -534,9 +509,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Export data to customer address DTO.
+     * Export data to customer address Data Object.
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Data\Address
      */
     public function exportCustomerAddressData()
     {
@@ -1104,7 +1079,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
         $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
 
-        $result = $this->_rateCollector->collectRates($request)->getResult();
+        $result = $this->_rateCollector->create()->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {
@@ -1418,10 +1393,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Keep customer address
      * @todo refactor in scope of MAGETWO-20857
      *
-     * @param AddressDto $address
+     * @param AddressDataObject $address
      * @return $this
      */
-    public function setCustomerAddressData(AddressDto $address)
+    public function setCustomerAddressData(AddressDataObject $address)
     {
         return $this->setCustomerAddress($this->addressConverter->createAddressModel($address));
     }
@@ -1430,7 +1405,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Get previously set customer address
      * @todo refactor in scope of MAGETWO-20857
      *
-     * @return AddressDto|null
+     * @return AddressDataObject|null
      */
     public function getCustomerAddressData()
     {

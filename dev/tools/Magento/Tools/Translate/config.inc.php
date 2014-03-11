@@ -150,10 +150,6 @@ $CONFIG['translates'] = array(
         'app/code/Magento/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
     ),
-    'Magento_GoogleCheckout' => array(
-        'app/code/Magento/GoogleCheckout/',
-        'app/design/frontend/base/default/layout/googlecheckout.xml'
-    ),
     'Magento_GoogleOptimizer' => array(
         'app/code/Magento/GoogleOptimizer/',
         'app/design/frontend/base/default/layout/googleoptimizer.xml',
@@ -389,8 +385,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/CustomerSegment/',
         'app/design/adminhtml/default/default/layout/enterprise/customersegment.xml',
     ),
-    'Magento_CustomAttribute' => array(
-        'app/code/Magento/CustomAttribute/',
+    'Magento_CustomAttributeManagement' => array(
+        'app/code/Magento/CustomAttributeManagement/',
     ),
     'Magento_Enterprise' => array(
         'app/code/Magento/Enterprise/',
@@ -570,7 +566,6 @@ $CONFIG['helpers']  = array(
     'giftmessage'       => 'Magento_GiftMessage',
     'googleanalytics'   => 'Magento_GoogleAnalytics',
     'googlebase'        => 'Magento_GoogleBase',
-    'googlecheckout'    => 'Magento_GoogleCheckout',
     'googleoptimizer'   => 'Magento_GoogleOptimizer',
     'googleshopping'    => 'Magento_GoogleShopping',
     'ideal'             => 'Magento_Ideal',
@@ -614,7 +609,7 @@ $CONFIG['helpers']  = array(
     'magento_customercustomattributes'           => 'Magento_CustomerCustomAttributes',
     'magento_customerbalance'    => 'Magento_CustomerBalance',
     'magento_customersegment'    => 'Magento_CustomerSegment',
-    'magento_customattribute'                => 'Magento_CustomAttribute',
+    'magento_CustomAttributeManagement'                => 'Magento_CustomAttributeManagement',
     'magento_enterprise'         => 'Magento_Enterprise',
     'magento_giftcard'           => 'Magento_GiftCard',
     'magento_giftcardaccount'    => 'Magento_GiftCardAccount',

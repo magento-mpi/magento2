@@ -295,6 +295,7 @@ class Category extends AbstractResource
                 array('path' => $object->getPath()),
                 array('entity_id = ?' => $object->getId())
             );
+            $object->unsetData('path_ids');
         }
         return $this;
     }

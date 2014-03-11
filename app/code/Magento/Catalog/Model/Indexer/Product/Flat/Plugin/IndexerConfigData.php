@@ -53,7 +53,7 @@ class IndexerConfigData
             } elseif ($path) {
                 list($firstKey, ) = explode('/', $path);
                 if ($firstKey == $indexerId) {
-                    $data = $default ?: null;
+                    $data = $default;
                 }
             }
         }

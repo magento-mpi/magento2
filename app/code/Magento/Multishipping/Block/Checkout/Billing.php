@@ -37,6 +37,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
@@ -45,6 +46,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
@@ -53,7 +55,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
         $this->paymentSpecification = $paymentSpecification;
-        parent::__construct($context, $paymentHelper, $data);
+        parent::__construct($context, $paymentHelper, $methodSpecificationFactory, $data);
         $this->_isScopePrivate = true;
     }
 

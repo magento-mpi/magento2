@@ -9,7 +9,6 @@ namespace Magento\Multishipping\Controller;
 
 use Magento\App\RequestInterface;
 use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
-use Magento\Customer\Service\V1\CustomerServiceInterface as CustomerService;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
 
@@ -22,21 +21,18 @@ class Checkout extends \Magento\Checkout\Controller\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param CustomerService $customerService
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        CustomerService $customerService,
         CustomerAccountService $customerAccountService,
         CustomerMetadataService $customerMetadataService
     ) {
         parent::__construct(
             $context,
             $customerSession,
-            $customerService,
             $customerAccountService,
             $customerMetadataService
         );
@@ -407,10 +403,12 @@ class Checkout extends \Magento\Checkout\Controller\Action
 
         try {
             $payment = $this->getRequest()->getPost('payment', array());
-            $payment['checks'] = \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
-                | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
-                | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
-                | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL;
+            $payment['checks'] = [
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+                \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
+            ];
             $this->_getCheckout()->setPaymentMethod($payment);
 
             $this->_getState()->setCompleteStep(State::STEP_BILLING);
