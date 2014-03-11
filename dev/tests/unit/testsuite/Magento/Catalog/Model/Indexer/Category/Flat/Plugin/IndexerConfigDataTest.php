@@ -108,7 +108,7 @@ class IndexerConfigDataTest extends \PHPUnit_Framework_TestCase
             array(
                 false,
                 'catalog_category_flat',
-                array(),
+                null,
                 $flatIndexerData,
                 null,
             ),
