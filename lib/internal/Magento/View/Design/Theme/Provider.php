@@ -41,6 +41,8 @@ class Provider
     }
 
     /**
+     * Get theme model by theme path and area code
+     *
      * @param string $themePath
      * @param string $areaCode
      * @return \Magento\View\Design\ThemeInterface

@@ -15,12 +15,12 @@ class Service
     /**
      * @var \Magento\UrlInterface
      */
-    protected $baseUrl;
+    private $baseUrl;
 
     /**
      * @var \Magento\View\Asset\PathGenerator
      */
-    protected $pathGenerator;
+    private $pathGenerator;
 
     /**
      * @var \Magento\View\DesignInterface
@@ -130,6 +130,11 @@ class Service
     }
 
     /**
+     * Create instance of a local asset
+     *
+     * The asset is merely a value object that doesn't know whether the resources it refers to actually exist or not.
+     * The asset object is immutable by design.
+     *
      * @param string $fileId
      * @param array $params
      * @return FileId
@@ -156,11 +161,8 @@ class Service
     /**
      * Create a file asset value object
      *
-     * $filePath is an invariant path of the file relative to directory or a base URL
-     * $sourcePath is an absolute path in file system where its contents may be read
-     *
-     * @param string $filePath
-     * @param string $sourcePath
+     * @param string $filePath Invariant path of the file relative to directory or a base URL
+     * @param string $sourcePath Absolute path in file system where its contents may be read
      * @param string|null $baseUrl
      * @return File
      */
