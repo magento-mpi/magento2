@@ -48,7 +48,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $pathPattern = implode('/', array('frontend', '*', 'theme.xml'));
         $this->_model->addTargetPattern($pathPattern);
-        $this->assertEquals(8, count($this->_model));
+        $this->assertEquals(7, count($this->_model));
     }
 
     /**
