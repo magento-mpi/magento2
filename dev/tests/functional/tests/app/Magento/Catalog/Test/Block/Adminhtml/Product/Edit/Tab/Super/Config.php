@@ -46,6 +46,27 @@ class Config extends Tab
     protected $attribute = '//div[*/*/span="%s"]';
 
     /**
+     * Magento loader
+     *
+     * @var string
+     */
+    protected $loader = '[data-role=loader]';
+
+    /**
+     * Attribute Opened
+     *
+     * @var string
+     */
+    protected $attributeOpen = './/*[@class = "title active"]/span[text()="%attributeLabel%"]';
+
+    /**
+     * Attribute tab
+     *
+     * @var string
+     */
+    protected $attributeTab = '//*[@data-role="configurable-attribute"]//*[text()="%attributeTab%"]';
+
+    /**
      * Get attribute block
      *
      * @param $attributeName
@@ -77,7 +98,15 @@ class Config extends Tab
      */
     public function generateVariations()
     {
-        $this->_rootElement->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $browser = $this->_rootElement;
+        $browser->find($this->generateVariations, Locator::SELECTOR_CSS)->click();
+        $loaderSelector = $this->loader;
+        $browser->waitUntil(
+            function () use ($browser, $loaderSelector) {
+                $loaderElement = $browser->find($loaderSelector);
+                return $loaderElement->isVisible() == false ? true : null;
+            }
+        );
     }
 
     /**
@@ -132,13 +161,23 @@ class Config extends Tab
     private function selectAttribute($attributeName)
     {
         // TODO should be removed after suggest widget implementation as typified element
-        $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
-        $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
-        $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
-        $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
-            Locator::SELECTOR_XPATH);
-        if ($attribute->isVisible()) {
-            $attribute->click();
+        $attributeFieldSet = $this->_rootElement
+            ->find(str_replace('%attributeLabel%', $attributeName, $this->attributeOpen), Locator::SELECTOR_XPATH);
+        $attributeVisible = $this->_rootElement
+            ->find(str_replace('%attributeTab%', $attributeName, $this->attributeTab), Locator::SELECTOR_XPATH);
+        if ($attributeVisible->isVisible()) {
+            if (!$attributeFieldSet->isVisible()) {
+                $attributeVisible->click();
+            }
+        } else {
+            $this->_rootElement->find('#configurable-attribute-selector')->setValue($attributeName);
+            $attributeListLocation = '#variations-search-field .mage-suggest-dropdown';
+            $this->waitForElementVisible($attributeListLocation, Locator::SELECTOR_CSS);
+            $attribute = $this->_rootElement->find("//div[@class='mage-suggest-dropdown']//a[text()='$attributeName']",
+                Locator::SELECTOR_XPATH);
+            if ($attribute->isVisible()) {
+                $attribute->click();
+            }
         }
     }
 }
