@@ -74,6 +74,8 @@
   * Utilized a random salt of default length for admin users and frontend customers
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
+* Bug fixes:
+  * Fixed tool for publication static view files for 'production' mode
 
 2.0.0.0-dev67
 =============
