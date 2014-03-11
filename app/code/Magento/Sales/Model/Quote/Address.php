@@ -212,7 +212,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_itemCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterface
+     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory
      */
     protected $_rateCollector;
 
@@ -258,7 +258,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory
      * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory
-     * @param \Magento\Sales\Model\Quote\Address\RateCollectorInterface $rateCollector
+     * @param \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollector
      * @param \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory
      * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory
@@ -285,7 +285,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory,
-        \Magento\Sales\Model\Quote\Address\RateCollectorInterface $rateCollector,
+        \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollector,
         \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory,
@@ -1079,7 +1079,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
         $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
 
-        $result = $this->_rateCollector->collectRates($request)->getResult();
+        $result = $this->_rateCollector->create()->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {

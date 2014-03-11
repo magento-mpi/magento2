@@ -221,21 +221,6 @@ class Observer
     }
 
     /**
-     * Clear gift wrapping and printed card if customer uses GoogleCheckout payment method
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function googlecheckoutCheckoutBefore(\Magento\Event\Observer $observer)
-    {
-        $quote = $observer->getEvent()->getQuote();
-        foreach ($quote->getAllItems() as $item) {
-            $item->setGwId(false);
-        }
-        $quote->setGwAddCard(false);
-        $quote->setGwId(false);
-    }
-
-    /**
      * Import giftwrapping data from order to quote
      *
      * @param \Magento\Event\Observer $observer

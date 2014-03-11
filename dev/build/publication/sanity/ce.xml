@@ -74,6 +74,10 @@
         <word>TargetRule</word>
         <word>VersionsCms</word>
         <word>WebsiteRestriction</word>
+        <!-- Removed modules -->
+        <word>Magento/GoogleCheckout</word>
+        <word>Magento\GoogleCheckout</word>
+        <word>Magento_GoogleCheckout</word>
     </words>
     <whitelist>
         <item>
