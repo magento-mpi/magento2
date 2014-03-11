@@ -33,8 +33,6 @@ class CustomerGroupServiceTest extends WebapiAbstract
      */
     public function setUp()
     {
-        $this->_markTestAsRestOnly();
-
         $objectManager = Bootstrap::getObjectManager();
         $this->groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
     }
@@ -263,11 +261,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->_markTestAsRestOnly();
 
         $groupId = $this->createGroup(
-            new CustomerGroup((new CustomerGroupBuilder())->populateWithArray([
+            (new CustomerGroupBuilder())->populateWithArray([
                 'id' => null,
                 'code' => 'New Group REST',
                 'tax_class_id' => 4
-            ]))
+            ])->create()
         );
 
         $serviceInfo = [
@@ -335,11 +333,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->_markTestAsSoapOnly();
 
         $groupId = $this->createGroup(
-            new CustomerGroup([
-                'id' => null,
-                'code' => 'New Group SOAP',
-                'tax_class_id' => 4
-            ])
+            (new CustomerGroupBuilder())->populateWithArray([
+                    'id' => null,
+                    'code' => 'New Group SOAP',
+                    'tax_class_id' => 4
+                ])->create()
         );
 
         $serviceInfo = [
@@ -372,11 +370,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
     public function testDeleteGroupExists()
     {
         $groupId = $this->createGroup(
-            new CustomerGroup((new CustomerGroupBuilder())->populateWithArray([
+            (new CustomerGroupBuilder())->populateWithArray([
                 'id' => null,
                 'code' => 'Delete Group',
                 'tax_class_id' => 4
-            ]))
+            ])->create()
         );
 
         $serviceInfo = [
