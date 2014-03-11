@@ -86,6 +86,7 @@ class ThemeDeployment
      * @param string|null $configForbidden
      * @param bool $isDryRun
      * @throws \Magento\Exception
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Url\CssResolver $cssUrlResolver,
@@ -206,7 +207,10 @@ class ThemeDeployment
                 [$this->preProcessor, 'process'],
                 [$fileObject, $this->tmpDirectory]
             );
-            $fileSource = $fileObject->getSourcePath();
+
+            if ($fileObject->getSourcePath()) {
+                $fileSource = $fileObject->getSourcePath();
+            }
 
             if (isset($this->_forbidden[$extension])) {
                 continue;
