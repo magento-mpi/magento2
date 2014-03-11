@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Webapi/etc/webapi.xsd">
     <service class="\Magento\TestModule1\Service\V1\AllSoapAndRestInterface" baseUrl="/V1/testmodule1">
         <rest-route httpMethod="GET" method="item" resources="Magento_Test1::resource1">/:id</rest-route>
     </service>

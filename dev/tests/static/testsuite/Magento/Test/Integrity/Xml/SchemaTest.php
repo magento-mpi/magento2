@@ -33,7 +33,7 @@ have a xsi:noNamespaceSchemaLocation attribute defined with a relative path.  E.
 xsi:noNamespaceSchemaLocation="../../../lib/Magento/Framework/etc/something.xsd"
             ');
 
-        $schemaFile = dirname($filename).$schemaLocations[1];
+        $schemaFile = dirname($filename).'/'.$schemaLocations[1];
 
         $this->assertTrue(file_exists($schemaFile), "$filename refers to an invalid schema $schemaFile.");
 
@@ -54,7 +54,7 @@ xsi:noNamespaceSchemaLocation="../../../lib/Magento/Framework/etc/something.xsd"
     {
         $codeXml = $this->_getFiles(BP . '/app/code/Magento', '*.xml');
         $codeXml = array_filter($codeXml, function ($item) {
-            return strpos($item, "dhl/international/countries.xml") == FALSE;
+            return strpos($item, "Dhl/etc/countries.xml") == FALSE;
         });
         $designXml = $this->_getFiles(BP . '/app/design', '*.xml');
         $libXml = $this->_getFiles(BP . '/lib/Magento', '*.xml');

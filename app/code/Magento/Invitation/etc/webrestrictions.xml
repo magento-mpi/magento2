@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../WebsiteRestriction/etc/webrestrictions.xsd">
     <action path="magento_invitation_customer_account_create" type="generic"/>
     <action path="magento_invitation_customer_account_createpost" type="generic" />
 </config>

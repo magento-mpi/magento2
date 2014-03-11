@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../FullPageCache/etc/placeholders.xsd">
     <placeholder name="last_viewed_products" code="VIEWED_PRODUCTS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Viewedproducts" />
         <block instance="Magento\Reports\Block\Product\Viewed" />

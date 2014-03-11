@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="tag_tag_product_collection_load_after">
         <observer name="review" instance="Magento\Review\Model\Observer" method="tagProductCollectionLoadAfter" shared="false" />
     </event>

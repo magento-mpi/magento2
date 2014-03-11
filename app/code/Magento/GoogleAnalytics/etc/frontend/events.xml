@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="checkout_onepage_controller_success_action">
         <observer name="googleanalytics_order_success" instance="Magento\GoogleAnalytics\Model\Observer" method="setGoogleAnalyticsOnOrderSuccessPageView" />
     </event>
