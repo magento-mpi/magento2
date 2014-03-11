@@ -15,7 +15,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * CreateRecurringPayment request map
      *
-     * @var array
+     * @var string[]
      */
     protected $_createRecurringPaymentRequest = array(
         'TOKEN', 'SUBSCRIBERNAME', 'PROFILESTARTDATE', 'PROFILEREFERENCE', 'DESC', 'MAXFAILEDPAYMENTS', 'AUTOBILLAMT',
@@ -26,7 +26,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * CreateRecurringPayment response map
      *
-     * @var array
+     * @var string[]
      */
     protected $_createRecurringPaymentResponse = array(
         'PROFILEID', 'PROFILESTATUS'
@@ -35,21 +35,21 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * Request/response for ManageRecurringPaymentStatus map
      *
-     * @var array
+     * @var string[]
      */
     protected $_manageRecurringPaymentStatusRequest = array('PROFILEID', 'ACTION');
 
     /**
      * Request for GetRecurringPaymentDetails
      *
-     * @var array
+     * @var string[]
      */
     protected $_getRecurringPaymentDetailsRequest = array('PROFILEID');
 
     /**
      * Response for GetRecurringPaymentDetails
      *
-     * @var array
+     * @var string[]
      */
     protected $_getRecurringPaymentDetailsResponse = array('STATUS', /* TODO: lot of other stuff */);
 
@@ -92,6 +92,9 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * SetExpressCheckout call
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
      * TODO: put together style and giropay settings
      */
@@ -133,6 +136,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * GetExpressCheckoutDetails call
+     *
+     * @return void
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_GetExpressCheckoutDetails
      */
     function callGetExpressCheckoutDetails()
@@ -146,6 +151,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * DoExpressCheckout call
+     *
+     * @return void
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_DoExpressCheckoutPayment
      */
     public function callDoExpressCheckoutPayment()
@@ -167,6 +174,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * CreateRecurringPayment call
+     *
+     * @return void
      */
     public function callCreateRecurringPayment()
     {
@@ -179,6 +188,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     /**
      * ManageRecurringPaymentStatus call
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function callManageRecurringPaymentStatus()
@@ -204,6 +214,9 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
     /**
      * GetRecurringPaymentDetails call
+     *
+     * @param \Magento\Object $result
+     * @return void
      */
     public function callGetRecurringPaymentDetails(\Magento\Object $result)
     {
@@ -238,6 +251,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      *
      * @param string $value
      * @param \Magento\Object $result
+     * @return void
      */
     protected function _analyzeRecurringPaymentStatus($value, \Magento\Object $result)
     {

@@ -7,6 +7,9 @@
  */
 namespace Magento\PayPalRecurringPayment\Model;
 
+use Exception;
+use \Magento\Core\Exception as CoreException;
+
 /**
  * PayPal Recurring Instant Payment Notification processor model
  */
@@ -45,7 +48,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
     /**
      * Get ipn data, send verification to PayPal, run corresponding handler
      *
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
     public function processIpnRequest()
     {
@@ -55,7 +59,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             $this->_getConfig();
             $this->_postBack();
             $this->_processRecurringPayment();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->_addDebugData('exception', $e->getMessage());
             $this->_debug();
             throw $e;
@@ -67,7 +71,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
      * Get config with the method code and store id
      *
      * @return \Magento\Paypal\Model\Config
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _getConfig()
     {
@@ -76,7 +80,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
         $parameters = array('params' => array($methodCode, $recurringPayment->getStoreId()));
         $this->_config = $this->_configFactory->create($parameters);
         if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
-            throw new \Exception(sprintf('Method "%s" is not available.', $methodCode));
+            throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
         }
         return $this->_config;
     }
@@ -85,14 +89,14 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
      * Load recurring payment
      *
      * @return \Magento\RecurringPayment\Model\Payment
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _getRecurringPayment()
     {
         $referenceId = $this->getRequestData('rp_invoice_id');
         $this->_recurringPayment = $this->_recurringPaymentFactory->create()->loadByInternalReferenceId($referenceId);
         if (!$this->_recurringPayment->getId()) {
-            throw new \Exception(
+            throw new Exception(
                 sprintf('Wrong recurring payment INTERNAL_REFERENCE_ID: "%s".', $referenceId)
             );
         }
@@ -101,6 +105,10 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
 
     /**
      * Process notification from recurring payments
+     *
+     * @return void
+     * @throws CoreException
+     * @throws Exception
      */
     protected function _processRecurringPayment()
     {
@@ -109,7 +117,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             // handle payment_status
             $paymentStatus = $this->_filterPaymentStatus($this->getRequestData('payment_status'));
             if ($paymentStatus != \Magento\Paypal\Model\Info::PAYMENTSTATUS_COMPLETED) {
-                throw new \Exception("Cannot handle payment status '{$paymentStatus}'.");
+                throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
             // Register recurring payment notification, create and process order
             $price = $this->getRequestData('mc_gross') - $this->getRequestData('tax')
@@ -145,7 +153,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
                     ->setIsCustomerNotified(true)
                     ->save();
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
             //TODO: add to payment comments
             //$comment->save();
