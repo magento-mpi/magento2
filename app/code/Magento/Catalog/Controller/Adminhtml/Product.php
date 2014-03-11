@@ -23,6 +23,11 @@ use Magento\Catalog\Model\Product\Validator;
 class Product extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
+     */
+    protected $_productPriceIndexerProcessor;
+
+    /**
      * Array of actions which can be processed without secret key validation
      *
      * @var array
@@ -81,6 +86,7 @@ class Product extends \Magento\Backend\App\Action
      * @param Product\Builder $productBuilder
      * @param Validator $productValidator
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
+     * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -91,13 +97,15 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Catalog\Model\Product\Copier $productCopier,
         Product\Builder $productBuilder,
         Validator $productValidator,
-        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
+        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager,
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
     ) {
         $this->stockFilter = $stockFilter;
         $this->initializationHelper = $initializationHelper;
         $this->registry = $registry;
         $this->_dateFilter = $dateFilter;
         $this->productCopier = $productCopier;
+        $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         $this->productBuilder = $productBuilder;
         $this->productValidator = $productValidator;
         $this->productTypeManager = $productTypeManager;
@@ -691,6 +699,8 @@ class Product extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(
                 __('A total of %1 record(s) have been updated.', count($productIds))
             );
+
+            $this->_productPriceIndexerProcessor->reindexList($productIds);
         } catch (\Magento\Core\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Magento\Core\Exception $e) {

@@ -27,7 +27,7 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Service\V1\CustomerAccountService');
         $customer = $service->authenticate('customer@example.com', 'password');
-        $session->setCustomerDtoAsLoggedIn($customer);
+        $session->setCustomerDataAsLoggedIn($customer);
 
         $utility = new \Magento\Core\Utility\Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/../../_files/magento_customerbalance_info_index.xml',

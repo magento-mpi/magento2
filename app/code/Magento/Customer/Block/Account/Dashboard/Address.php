@@ -9,7 +9,9 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 
 class Address extends \Magento\View\Element\Template
 {
@@ -52,7 +54,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
@@ -131,14 +133,14 @@ class Address extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     protected function _getAddressHtml($address)
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->renderArray($address->getAttributes());
+        return $renderer->renderArray(AddressConverter::toFlatArray($address));
     }
 }
 

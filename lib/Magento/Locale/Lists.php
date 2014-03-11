@@ -269,7 +269,16 @@ class Lists implements \Magento\Locale\ListsInterface
      */
     public function getCountryTranslation($value)
     {
-        return $this->_localeResolver->getLocale()
-            ->getTranslation($value, 'country', $this->_localeResolver->getLocale());
+        $locale = $this->_localeResolver->getLocale();
+        return $locale->getTranslation($value, 'country', $locale);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCountryTranslationList()
+    {
+        $locale = $this->_localeResolver->getLocale();
+        return $locale->getTranslationList('territory', $locale, 2);
     }
 }

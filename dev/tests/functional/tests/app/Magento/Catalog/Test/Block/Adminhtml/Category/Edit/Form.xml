@@ -36,4 +36,15 @@
             </include_in_menu>
         </fields>
     </display_setting>
+    <custom_design>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#category_info_tabs_group_6</selector>
+        <strategy>css selector</strategy>
+        <wrapper>general</wrapper>
+    </custom_design>
+    <category_products>
+        <class>\Magento\Backend\Test\Block\Widget\Tab</class>
+        <selector>#category_info_tabs_products</selector>
+        <strategy>css selector</strategy>
+    </category_products>
 </tabs>
