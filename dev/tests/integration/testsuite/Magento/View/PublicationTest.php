@@ -287,12 +287,11 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      * Publication of CSS files located in the module
      *
      * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
      * @dataProvider publishCssFileFromModuleDataProvider
      */
     public function testPublishCssFileFromModule($cssViewFile, $designParams, $expectedCssFile, $expectedCssContent)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $this->fileResolver->getPublicViewFile($cssViewFile, $designParams);
 
         $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
@@ -351,90 +350,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
         );
-    }
-
-    /**
-     * Test that modified CSS file and changed resources are re-published in developer mode
-     *
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Core/_files/media_for_change.php
-     */
-    public function testPublishResourcesAndCssWhenChangedCssDevMode()
-    {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->getMode();
-        if ($mode != \Magento\App\State::MODE_DEVELOPER) {
-            $this->markTestSkipped('Valid in developer mode only');
-        }
-        $this->_testPublishResourcesAndCssWhenChangedCss(true);
-    }
-
-    /**
-     * Test that modified CSS file and changed resources are not re-published in usual mode
-     *
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Core/_files/media_for_change.php
-     */
-    public function testNotPublishResourcesAndCssWhenChangedCssUsualMode()
-    {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->getMode();
-        if ($mode == \Magento\App\State::MODE_DEVELOPER) {
-            $this->markTestSkipped('Valid in non-developer mode only');
-        }
-        $this->_testPublishResourcesAndCssWhenChangedCss(false);
-    }
-
-    /**
-     * Tests what happens when CSS file and its resources are changed - whether they are re-published or not
-     *
-     * @param bool $expectedPublished
-     */
-    protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
-    {
-        $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
-
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-
-        $model = $objectManager->get('Magento\View\DesignInterface');
-        $model->setDesignTheme('test_default');
-
-        $fileResolver = $objectManager->create('Magento\View\FileResolver');
-
-        $themePath = $model->getDesignTheme()->getFullPath();
-
-        $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
-        $publishedPath = $this->appFilesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . "/$themePath/en_US/";
-
-        $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
-
-        //It's added to make 'mtime' really different for source and origin files
-        sleep(1);
-
-        // Change main file and referenced files - everything changed and referenced must appear
-        file_put_contents(
-            $fixtureViewPath . 'style.css',
-            'div {background: url(images/rectangle.gif);}',
-            FILE_APPEND
-        );
-        file_put_contents(
-            $fixtureViewPath . 'sub.css',
-            '.sub2 {border: 1px solid magenta}',
-            FILE_APPEND
-        );
-        $fileResolver->getPublicViewFile('style.css', array('locale' => 'en_US'));
-
-        $assertFileComparison = $expectedPublished ? 'assertFileEquals' : 'assertFileNotEquals';
-        $this->$assertFileComparison($fixtureViewPath . 'style.css', $publishedPath . 'style.css');
-        $this->$assertFileComparison($fixtureViewPath . 'sub.css', $publishedPath . 'sub.css');
-        if ($expectedPublished) {
-            $this->assertFileEquals(
-                $fixtureViewPath . 'images/rectangle.gif', $publishedPath . 'images/rectangle.gif'
-            );
-        } else {
-            $this->assertFileNotExists($publishedPath . 'images/rectangle.gif');
-        }
     }
 
     /**
