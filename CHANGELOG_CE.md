@@ -37,6 +37,7 @@
   * Fixed ability to edit Product Template (MAGETWO-21757)
   * Fixed duplicated shipping method options (MAGETWO-20055)
   * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
+  * Fixed static view files publication tool used for 'production' mode
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
@@ -74,8 +75,6 @@
   * Utilized a random salt of default length for admin users and frontend customers
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
-* Bug fixes:
-  * Fixed tool for publication static view files for 'production' mode
 
 2.0.0.0-dev67
 =============
