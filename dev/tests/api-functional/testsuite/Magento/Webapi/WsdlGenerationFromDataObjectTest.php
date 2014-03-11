@@ -576,7 +576,7 @@ GENERIC_FAULT_IN_MESSAGES;
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
-        <xsd:element name="Parameters" type="tns:ArrayOfGenericFaultParameter">
+        <xsd:element name="Parameters" type="tns:ArrayOfGenericFaultParameter" minOccurs="0">
             <xsd:annotation>
                 <xsd:documentation>Additional exception parameters.</xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
