@@ -13,7 +13,7 @@
  */
 ?>
 <div class="giftcardaccount">
-    <span id="gc-please-wait" class="load indicator" style="display:none;">
+    <span id="gc-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Please wait, loading...') ?>">
         <span><?php echo __('Please wait, loading...') ?></span>
     </span>
     <form class="form giftcard redeem" id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </fieldset>
-        <div class="actions">
+        <div class="actions toolbar">
             <?php if ($this->canRedeem()): ?>
             <div class="primary">
                 <button class="action redeem" type="submit" value="<?php echo __('Redeem Gift Card') ?>"><span><?php echo __('Redeem Gift Card') ?></span></button>
