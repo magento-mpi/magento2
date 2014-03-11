@@ -23,9 +23,9 @@ class Minifier
     private $rootDirectory;
 
     /**
-     * @var string directory name where minified files are saved
+     * @var string Directory name where minified files are saved, relative to static view directory
      */
-    private $directoryName;
+    private $targetDirRelView;
 
     /**
      * @var Read
@@ -35,17 +35,17 @@ class Minifier
     /**
      * @param \Magento\Code\Minifier\StrategyInterface $strategy
      * @param \Magento\App\Filesystem $filesystem
-     * @param string $directoryName
+     * @param string $targetDirRelView
      */
     public function __construct(
         \Magento\Code\Minifier\StrategyInterface $strategy,
         \Magento\App\Filesystem $filesystem,
-        $directoryName
+        $targetDirRelView
     ) {
         $this->_strategy = $strategy;
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->staticViewDir = $filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        $this->directoryName = $directoryName;
+        $this->targetDirRelView = $targetDirRelView;
     }
 
     /**
@@ -62,16 +62,16 @@ class Minifier
         }
 
         // Has .min file in the same directory
-        $originalFileRelative = $this->rootDirectory->getRelativePath($originalFile);
-        $minifiedFileRelative = $this->_findOriginalMinifiedFile($originalFileRelative);
-        if ($minifiedFileRelative) {
-            return $this->rootDirectory->getAbsolutePath($minifiedFileRelative);
+        $originalFileRelRoot = $this->rootDirectory->getRelativePath($originalFile);
+        $minifiedFileRelRoot = $this->_findOriginalMinifiedFile($originalFileRelRoot);
+        if ($minifiedFileRelRoot) {
+            return $this->rootDirectory->getAbsolutePath($minifiedFileRelRoot);
         }
 
         // Minify the file
-        $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
-        $this->_strategy->minifyFile($originalFileRelative, $this->staticViewDir->getRelativePath($minifiedFile));
-        return $minifiedFile;
+        $minifiedFileRelView = $this->targetDirRelView . '/' . $this->_generateMinifiedFileName($originalFile);
+        $this->_strategy->minifyFile($originalFileRelRoot, $minifiedFileRelView);
+        return $this->staticViewDir->getAbsolutePath($minifiedFileRelView);
     }
 
     /**
