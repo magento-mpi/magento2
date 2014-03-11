@@ -300,7 +300,7 @@
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="themes" xsi:type="array">
-                <item name="frontend" xsi:type="string">magento_plushe</item>
+                <item name="frontend" xsi:type="string">magento_blank</item>
                 <item name="adminhtml" xsi:type="string">magento_backend</item>
                 <item name="install" xsi:type="string">magento_basic</item>
             </argument>

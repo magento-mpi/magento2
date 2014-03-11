@@ -9,7 +9,7 @@
  */
 ?>
 <script id="add-recipient-tmpl" type="text/x-jQuery-tmpl">
-    <span class="action remove" id="btn-remove${_index_}"><?php echo __('Remove Email') ?></span>
+    <span class="action remove" id="btn-remove${_index_}"><span><?php echo __('Remove recipient') ?></span></span>
 
     <div class="field firstname required">
         <label for="recipients-name${_index_}" class="label"><span><?php echo __('First Name:') ?></span></label>
@@ -58,14 +58,7 @@
         <legend class="legend"><span><?php echo __('Recipient:') ?></span></legend>
     </fieldset>
 
-    <div class="actions">
-        <div class="secondary">
-            <span id="max-recipient-message" style="display: none;">
-                <?php if ($this->getRecipientsLimit()): ?>
-                    <?php echo __('Maximum %1 email addresses.', $this->getRecipientsLimit()) ?>
-                <?php endif; ?>
-            </span>
-        </div>
+    <div class="actions toolbar">
         <div class="primary">
             <?php if ($this->getRecipientsLimit()): ?>
                 <button type="button" id="add-recipient-button" class="action secondary add">
@@ -76,10 +69,17 @@
                 <span><?php echo __('Share Gift Registry') ?></span>
             </button>
         </div>
+        <div class="secondary">
+            <span id="max-recipient-message" style="display: none;">
+                <?php if ($this->getRecipientsLimit()): ?>
+                    <?php echo __('Maximum %1 email addresses.', $this->getRecipientsLimit()) ?>
+                <?php endif; ?>
+            </span>
+        </div>
     </div>
 </form>
 
-<div class="actions">
+<div class="actions toolbar">
     <div class="secondary">
         <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
     </div>

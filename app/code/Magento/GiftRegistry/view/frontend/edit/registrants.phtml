@@ -12,7 +12,7 @@
 <script id="template-registrant" type="text/x-jQuery-tmpl">
     <input name="registrant[${_index_}][person_id]" value="" id="registrant:person_id${_index_}" type="hidden" />
 
-    <span class="action remove" id="btn-remove${_index_}"><?php echo __('Remove') ?></span>
+    <span class="action remove" id="btn-remove${_index_}"><span><?php echo __('Remove recipients') ?></span></span>
 
     <div class="field firstname required">
         <label for="registrant:firstname${_index_}" class="label"><span><?php echo __('First Name:') ?></span></label>
@@ -45,29 +45,26 @@
     <?php endforeach; ?>
 </script>
 
-
-<fieldset class="fieldset recipients">
+<fieldset class="fieldset recipients" id="registrant-container">
     <legend class="legend"><span><?php echo __('Recipients Information') ?></span></legend>
-
-    <div id="registrant-container"></div>
-
-    <div class="actions">
-        <div class="secondary">
-            <span id="max-registrant-message" style="display:none;">
-                <?php if ($this->getMaxRegistrant()): ?>
-                    <?php echo __('Maximum %1 recipients.', $this->getMaxRegistrant()) ?>
-                <?php endif; ?>
-            </span>
-        </div>
-        <div class="primary">
-            <?php if ($this->getMaxRegistrant() > 1): ?>
-                <button type="button" id="add-registrant-button" class="action secondary add">
-                    <span><?php echo __('Add Recipient') ?></span>
-                </button>
-            <?php endif; ?>
-        </div>
-    </div>
 </fieldset>
+
+<div class="actions toolbar">
+    <div class="secondary">
+        <span id="max-registrant-message" style="display:none;">
+            <?php if ($this->getMaxRegistrant()): ?>
+                <?php echo __('Maximum %1 recipients.', $this->getMaxRegistrant()) ?>
+            <?php endif; ?>
+        </span>
+    </div>
+    <div class="primary">
+        <?php if ($this->getMaxRegistrant() > 1): ?>
+            <button type="button" id="add-registrant-button" class="action secondary add">
+                <span><?php echo __('Add Recipient') ?></span>
+            </button>
+        <?php endif; ?>
+    </div>
+</div>
 
 <script type="text/javascript">
     head.js("<?php echo $this->getViewFileUrl('jquery/jquery.tmpl.min.js')?>",
