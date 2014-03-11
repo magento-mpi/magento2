@@ -73,7 +73,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @return Address[]
+     * @return \Magento\Sales\Model\Quote\Address[]
      */
     public function getAddresses()
     {
