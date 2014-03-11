@@ -50,6 +50,7 @@
   * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110) 
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
   * Eliminate dependencies to Customer Models/Blocks from Sales Module
+  * Renamed RecurringProfile to RecurringPayment module (MAGETWO-21456)
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor
