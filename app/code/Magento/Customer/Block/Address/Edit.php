@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Block\Address;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Exception\NoSuchEntityException;
@@ -109,7 +110,7 @@ class Edit extends \Magento\Directory\Block\Data
         // Init address object
         if ($addressId = $this->getRequest()->getParam('id')) {
             try {
-                $this->_address = $this->_addressService->getAddressById($addressId);
+                $this->_address = $this->_addressService->getAddress($addressId);
             } catch (NoSuchEntityException $e) {
                 // something went wrong, but we are ignore it for now
             }

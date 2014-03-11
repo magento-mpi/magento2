@@ -13,6 +13,8 @@ namespace Magento\Customer\Service\V1\Data;
 class Filter extends \Magento\Service\Data\AbstractObject
 {
     /**
+     * Get field
+     *
      * @return string
      */
     public function getField()
@@ -21,6 +23,8 @@ class Filter extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get value
+     *
      * @return string | string[]
      */
     public function getValue()
@@ -29,6 +33,8 @@ class Filter extends \Magento\Service\Data\AbstractObject
     }
 
     /**
+     * Get condition type
+     *
      * @return string
      */
     public function getConditionType()

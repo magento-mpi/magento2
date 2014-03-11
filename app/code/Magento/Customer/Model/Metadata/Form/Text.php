@@ -74,12 +74,12 @@ class Text extends AbstractData
         $length = $this->_string->strlen(trim($value));
 
         $validateRules = $attribute->getValidationRules();
-        if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']) {
-            $v = $validateRules['min_text_length'];
+        if (!empty($validateRules['min_text_length']) && $length < $validateRules['min_text_length']->getValue()) {
+            $v = $validateRules['min_text_length']->getValue();
             $errors[] = __('"%1" length must be equal or greater than %2 characters.', $label, $v);
         }
-        if (!empty($validateRules['max_text_length']) && $length > $validateRules['max_text_length']) {
-            $v = $validateRules['max_text_length'];
+        if (!empty($validateRules['max_text_length']) && $length > $validateRules['max_text_length']->getValue()) {
+            $v = $validateRules['max_text_length']->getValue();
             $errors[] = __('"%1" length must be equal or less than %2 characters.', $label, $v);
         }
 

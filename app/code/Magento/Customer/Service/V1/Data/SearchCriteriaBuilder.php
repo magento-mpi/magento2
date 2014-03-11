@@ -26,11 +26,12 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
         return parent::create();
     }
     /**
-     * @param Filter $filter
+     * Add filter
      *
-     * @return SearchCriteriaBuilder
+     * @param \Magento\Customer\Service\V1\Data\Filter $filter
+     * @return $this
      */
-    public function addFilter(Filter $filter)
+    public function addFilter(\Magento\Customer\Service\V1\Data\Filter $filter)
     {
         $this->getFilterGroup()->addFilter($filter);
         return $this;
@@ -39,7 +40,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     /**
      * Add an OR grouping of filters to this SearchCriteria.
      *
-     * @param Filter[] $filters
+     * @param \Magento\Customer\Service\V1\Data\Filter[] $filters
      * @return $this
      */
     public function addOrGroup($filters)
@@ -53,7 +54,9 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @return Search\AndGroupBuilder
+     * Get filter group
+     *
+     * @return \Magento\Customer\Service\V1\Data\Search\AndGroupBuilder
      */
     private function getFilterGroup()
     {
@@ -64,10 +67,11 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Add sort order
+     *
      * @param string $field
      * @param int $direction
-     *
-     * @return SearchCriteriaBuilder
+     * @return $this
      */
     public function addSortOrder($field, $direction)
     {
@@ -80,9 +84,10 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param int $pageSize
+     * Set page size
      *
-     * @return SearchCriteriaBuilder
+     * @param int $pageSize
+     * @return $this
      */
     public function setPageSize($pageSize)
     {
@@ -90,9 +95,10 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param int $currentPage
+     * Set current page
      *
-     * @return SearchCriteriaBuilder
+     * @param int $currentPage
+     * @return $this
      */
     public function setCurrentPage($currentPage)
     {

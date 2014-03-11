@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,9 +7,9 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
-
+/**
+ * Interface CustomerGroupServiceInterface
+ */
 interface CustomerGroupServiceInterface
 {
     const NOT_LOGGED_IN_ID          = 0;
@@ -27,52 +25,61 @@ interface CustomerGroupServiceInterface
      * @param boolean $includeNotLoggedIn
      * @param int $taxClassId
      *
-     * @return Data\CustomerGroup[]
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup[]
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null);
 
     /**
-     * @param Data\SearchCriteria $searchCriteria
-     * @throws InputException if there is a problem with the input
-     * @return Data\SearchResults containing Data\CustomerGroup objects
+     * Search groups
+     *
+     * @param \Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria
+     * @throws \Magento\Exception\InputException If there is a problem with the input
+     * @return \Magento\Customer\Service\V1\Data\SearchResults containing Data\CustomerGroup objects
      */
-    public function searchGroups(Data\SearchCriteria $searchCriteria);
+    public function searchGroups(\Magento\Customer\Service\V1\Data\SearchCriteria $searchCriteria);
 
     /**
      * Get a customer group by group ID.
      *
      * @param int $groupId
-     * @throws NoSuchEntityException if $groupId is not found
-     * @return Data\CustomerGroup
+     * @throws \Magento\Exception\NoSuchEntityException If $groupId is not found
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup
      */
     public function getGroup($groupId);
 
     /**
+     * Get default group
+     *
      * @param int $storeId
-     * @throws NoSuchEntityException if default group for $storeId is not found
-     * @return Data\CustomerGroup
+     * @throws \Magento\Exception\NoSuchEntityException If default group for $storeId is not found
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup
      */
     public function getDefaultGroup($storeId);
 
     /**
-     * @param int $groupId
+     * Check if the group can be deleted
      *
-     * @return boolean true, if this group can be deleted
+     * @param int $groupId
+     * @return bool true, if this group can be deleted
      */
     public function canDelete($groupId);
 
     /**
-     * @param Data\CustomerGroup $group
-     * @throws \Exception if something goes wrong during save
+     * Save group
+     *
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
+     * @throws \Exception If something goes wrong during save
      * @return int customer group ID
      */
-    public function saveGroup(Data\CustomerGroup $group);
+    public function saveGroup(\Magento\Customer\Service\V1\Data\CustomerGroup $group);
 
     /**
+     * Delete group
+     *
      * @param int $groupId
-     * @throws NoSuchEntityException if $groupId is not found
-     * @throws \Exception if something goes wrong during delete
-     * @return void
+     * @throws \Magento\Exception\NoSuchEntityException If $groupId is not found
+     * @throws \Exception If something goes wrong during delete
+     * @return bool True if the group was deleted
      */
     public function deleteGroup($groupId);
 }

@@ -15,9 +15,10 @@ namespace Magento\Customer\Service\V1\Data;
 class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
-     * @param string $id
+     * Set id
      *
-     * @return CustomerGroupBuilder
+     * @param string $id
+     * @return $this
      */
     public function setId($id)
     {
@@ -25,9 +26,10 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * @param string $code
+     * Set code
      *
-     * @return CustomerGroupBuilder
+     * @param string $code
+     * @return $this
      */
     public function setCode($code)
     {
@@ -35,9 +37,10 @@ class CustomerGroupBuilder extends \Magento\Service\Data\AbstractObjectBuilder
     }
 
     /**
-     * @param string $taxClassId
+     * Set tax class id
      *
-     * @return CustomerGroupBuilder
+     * @param string $taxClassId
+     * @return $this
      */
     public function setTaxClassId($taxClassId)
     {

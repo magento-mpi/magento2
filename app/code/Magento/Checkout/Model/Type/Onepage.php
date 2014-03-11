@@ -21,7 +21,6 @@ use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 
 class Onepage
@@ -117,11 +116,6 @@ class Onepage
      */
     protected $messageManager;
 
-    /**
-     * @var CustomerAccountServiceInterface
-     */
-    protected $_accountService;
-
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
@@ -134,11 +128,11 @@ class Onepage
     /** @var \Magento\Math\Random */
     protected $mathRandom;
 
-    /** @var CustomerServiceInterface */
-    protected $_customerService;
-
     /** @var CustomerAddressServiceInterface */
     protected $_customerAddressService;
+
+    /** @var CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -162,7 +156,6 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
@@ -181,14 +174,13 @@ class Onepage
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
-        CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        CustomerServiceInterface $customerService,
-        CustomerAddressServiceInterface $customerAddressService
+        CustomerAddressServiceInterface $customerAddressService,
+        CustomerAccountServiceInterface $accountService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -205,14 +197,13 @@ class Onepage
         $this->_orderFactory = $orderFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->messageManager = $messageManager;
-        $this->_accountService = $accountService;
         $this->_formFactory = $formFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
-        $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
+        $this->_customerAccountService = $accountService;
     }
 
     /**
@@ -357,7 +348,7 @@ class Onepage
 
         if (!empty($customerAddressId)) {
             try {
-                $customerAddress = $this->_customerAddressService->getAddressById($customerAddressId);
+                $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (Exception $e) {
                 /** Address does not exist */
             }
@@ -411,7 +402,9 @@ class Onepage
             if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
                 return array(
                     'error' => 1,
+                    // @codingStandardsIgnoreStart
                     'message' => __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.')
+                    // @codingStandardsIgnoreEnd
                 );
             }
         }
@@ -534,12 +527,9 @@ class Onepage
 
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
-        $result = $this->_accountService->validateCustomerData($customer, $attributes);
+        $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
         if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
+            return $result;
         }
 
         // copy customer/guest email to address
@@ -582,7 +572,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             $addressData = null;
             try {
-                $addressData = $this->_customerAddressService->getAddressById($customerAddressId);
+                $addressData = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (NoSuchEntityException $e) {
                 // do nothing if customer is not found by id
             }
@@ -755,7 +745,7 @@ class Onepage
             ->create();
 
         if ($shipping) {
-            if( !$shipping->getSameAsBilling()) {
+            if (!$shipping->getSameAsBilling()) {
                 $customerShippingData = $shipping->exportCustomerAddressData();
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
@@ -799,7 +789,7 @@ class Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->_customerService->getCustomer($this->getCustomerSession()->getCustomerId());
+        $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
             $billingAddress = $billing->exportCustomerAddressData();
             $billing->setCustomerAddressData($billingAddress);
@@ -838,11 +828,13 @@ class Onepage
     protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getId());
+        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
+                // @codingStandardsIgnoreStart
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
+                // @codingStandardsIgnoreEnd
             );
         } else {
             $this->getCustomerSession()->loginById($customer->getId());
@@ -930,13 +922,7 @@ class Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        try {
-            $this->_customerService->getCustomerByEmail($email, $websiteId);
-            return true;
-        } catch (\Exception $e) {
-            /** Customer email does not exist */
-            return false;
-        }
+        return !$this->_customerAccountService->isEmailAvailable($email, $websiteId);
     }
 
     /**

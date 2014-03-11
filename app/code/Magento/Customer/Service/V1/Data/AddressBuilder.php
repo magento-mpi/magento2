@@ -18,7 +18,11 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  */
 class AddressBuilder extends AbstractObjectBuilder
 {
-    /** @var RegionBuilder */
+    /**
+     * Region builder
+     *
+     * @var \Magento\Customer\Service\V1\Data\RegionBuilder
+     */
     protected $_regionBuilder;
 
     /** @var CustomerMetadataServiceInterface */
@@ -39,6 +43,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set id
+     *
      * @param int $id
      * @return $this
      */
@@ -48,7 +54,9 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param boolean $defaultShipping
+     * Set if the address is default shipping address
+     *
+     * @param bool $defaultShipping
      * @return $this
      */
     public function setDefaultShipping($defaultShipping)
@@ -57,7 +65,9 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param boolean $defaultBilling
+     * Set if the address is default billing address
+     *
+     * @param bool $defaultBilling
      * @return $this
      */
     public function setDefaultBilling($defaultBilling)
@@ -100,15 +110,19 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param Region $region
+     * Set region
+     *
+     * @param \Magento\Customer\Service\V1\Data\Region $region
      * @return $this
      */
-    public function setRegion(Region $region)
+    public function setRegion(\Magento\Customer\Service\V1\Data\Region $region)
     {
         return $this->_set(Address::KEY_REGION, $region);
     }
 
     /**
+     * Set country id
+     *
      * @param int $countryId
      * @return $this
      */
@@ -118,7 +132,9 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * @param \string[] $street
+     * Set street
+     *
+     * @param string[] $street
      * @return $this
      */
     public function setStreet($street)
@@ -127,6 +143,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set company
+     *
      * @param string $company
      * @return $this
      */
@@ -136,6 +154,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set telephone number
+     *
      * @param string $telephone
      * @return $this
      */
@@ -145,6 +165,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set fax number
+     *
      * @param string $fax
      * @return $this
      */
@@ -154,6 +176,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set postcode
+     *
      * @param string $postcode
      * @return $this
      */
@@ -163,6 +187,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set city name
+     *
      * @param string $city
      * @return $this
      */
@@ -172,6 +198,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set first name
+     *
      * @param string $firstname
      * @return $this
      */
@@ -181,6 +209,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set last name
+     *
      * @param string $lastname
      * @return $this
      */
@@ -190,6 +220,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set middle name
+     *
      * @param string $middlename
      * @return $this
      */
@@ -199,6 +231,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set prefix
+     *
      * @param string $prefix
      * @return $this
      */
@@ -208,6 +242,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set suffix
+     *
      * @param string $suffix
      * @return $this
      */
@@ -217,6 +253,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set Vat id
+     *
      * @param string $vatId
      * @return $this
      */
@@ -226,6 +264,8 @@ class AddressBuilder extends AbstractObjectBuilder
     }
 
     /**
+     * Set customer id
+     *
      * @param string $customerId
      * @return $this
      */

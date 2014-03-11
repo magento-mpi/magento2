@@ -1,7 +1,5 @@
 <?php
 /**
- * Builder for the Eav Attribute Metadata Service Data Object
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,18 +7,45 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+/**
+ * Class AttributeMetadataBuilder
+ */
 class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**
-     * Initializes builder.
+     * Option builder
+     *
+     * @var \Magento\Customer\Service\V1\Data\Eav\OptionBuilder
      */
-    public function __construct()
-    {
+    protected $_optionBuilder;
+
+    /**
+     * Validation rule builder
+     *
+     * @var \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder
+     */
+    protected $_validationRuleBuilder;
+
+    /**
+     * Initializes builder.
+     *
+     * @param \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder
+     * @param \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
+     */
+    public function __construct(
+        \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder,
+        \Magento\Customer\Service\V1\Data\Eav\ValidationRuleBuilder $validationRuleBuilder
+    ) {
         parent::__construct();
-        $this->_data[AttributeMetadata::OPTIONS] = array();
+        $this->_optionBuilder = $optionBuilder;
+        $this->_validationRuleBuilder = $validationRuleBuilder;
+        $this->_data[AttributeMetadata::OPTIONS] = [];
+        $this->_data[AttributeMetadata::VALIDATION_RULES] = [];
     }
 
     /**
+     * Set attribute code
+     *
      * @param string $attributeCode
      * @return $this
      */
@@ -30,6 +55,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set front end input
+     *
      * @param string $frontendInput
      * @return $this
      */
@@ -39,6 +66,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set input filter
+     *
      * @param string $inputFilter
      * @return $this
      */
@@ -48,6 +77,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set store label
+     *
      * @param string $storeLabel
      * @return $this
      */
@@ -57,7 +88,9 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
-     * @param string $validationRules
+     * Set validation rules
+     *
+     * @param \Magento\Customer\Service\V1\Data\Eav\ValidationRule[] $validationRules
      * @return $this
      */
     public function setValidationRules($validationRules)
@@ -66,6 +99,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set options
+     * 
      * @param \Magento\Customer\Service\V1\Data\Eav\Option[] $options
      * @return $this
      */
@@ -75,7 +110,9 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
-     * @param boolean $visible
+     * Set visible
+     *
+     * @param bool $visible
      * @return $this
      */
     public function setVisible($visible)
@@ -84,7 +121,9 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
-     * @param boolean $required
+     * Set required
+     *
+     * @param bool $required
      * @return $this
      */
     public function setRequired($required)
@@ -94,6 +133,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
 
 
     /**
+     * Set multiline count
+     *
      * @param int $count
      * @return $this
      */
@@ -103,6 +144,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set data model
+     *
      * @param string $dataModel
      * @return $this
      */
@@ -112,6 +155,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set frontend class
+     *
      * @param string $frontendClass
      * @return $this
      */
@@ -121,6 +166,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set is user defined
+     *
      * @param bool $isUserDefined
      * @return $this
      */
@@ -130,6 +177,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set sort order
+     *
      * @param int $sortOrder
      * @return $this
      */
@@ -139,6 +188,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set front end label
+     *
      * @param string $frontendLabel
      * @return $this
      */
@@ -148,6 +199,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set is system
+     *
      * @param bool $isSystem
      * @return $this
      */
@@ -157,6 +210,8 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     }
 
     /**
+     * Set note
+     *
      * @param string $note
      * @return $this
      */
@@ -172,5 +227,31 @@ class AttributeMetadataBuilder extends \Magento\Service\Data\AbstractObjectBuild
     public function setBackendType($backendType)
     {
         return $this->_set(AttributeMetadata::BACKEND_TYPE, $backendType);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _setDataValues(array $data)
+    {
+        if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
+            $options = [];
+            if (is_array($data[AttributeMetadata::OPTIONS])) {
+                foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
+                    $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
+                }
+            }
+            $validationRules = [];
+            if (is_array($data[AttributeMetadata::VALIDATION_RULES])) {
+                foreach ($data[AttributeMetadata::VALIDATION_RULES] as $key => $value) {
+                    $validationRules[$key] = $this->_validationRuleBuilder->populateWithArray($value)->create();
+                }
+            }
+
+            $data[AttributeMetadata::OPTIONS] = $options;
+            $data[AttributeMetadata::VALIDATION_RULES] = $validationRules;
+        }
+
+        return parent::_setDataValues($data);
     }
 }

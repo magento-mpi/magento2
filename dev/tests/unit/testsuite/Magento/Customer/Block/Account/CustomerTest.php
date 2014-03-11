@@ -22,7 +22,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $customerServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerServiceInterface')
+        $customerServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerAccountServiceInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $customerServiceMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customer));

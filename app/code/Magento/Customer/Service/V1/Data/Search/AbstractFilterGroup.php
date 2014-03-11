@@ -28,7 +28,9 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     }
 
     /**
-     * {@inheritdoc}
+     * Returns a list of filters in this group
+     *
+     * @return \Magento\Customer\Service\V1\Data\Filter[]
      */
     public function getFilters()
     {
@@ -37,7 +39,9 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     }
 
     /**
-     * {@inheritdoc}
+     * Returns a list of filter groups in this group
+     *
+     * @return \Magento\Customer\Service\V1\Data\Search\FilterGroupInterface[]
      */
     public function getGroups()
     {
@@ -46,7 +50,9 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the grouping type such as 'OR' or 'AND'.
+     *
+     * @return string
      */
     public abstract function getGroupType();
 }

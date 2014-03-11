@@ -12,7 +12,6 @@ use Magento\Core\Model\Store;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
 use \Magento\Exception\NoSuchEntityException;
@@ -99,11 +98,6 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_classesFactory;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var GroupServiceInterface
      */
     protected $_groupService;
@@ -128,7 +122,6 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory
      * @param \Magento\Tax\Model\Resource\Calculation $resource
-     * @param CustomerServiceInterface $customerService
      * @param AddressServiceInterface $addressService
      * @param GroupServiceInterface $groupService
      * @param \Magento\Customer\Model\Converter $converter
@@ -146,7 +139,6 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Tax\Model\Resource\TaxClass\CollectionFactory $classesFactory,
         \Magento\Tax\Model\Resource\Calculation $resource,
-        CustomerServiceInterface $customerService,
         AddressServiceInterface $addressService,
         GroupServiceInterface $groupService,
         \Magento\Customer\Model\Converter $converter,
@@ -160,7 +152,6 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         $this->_customerSession = $customerSession;
         $this->_customerFactory = $customerFactory;
         $this->_classesFactory = $classesFactory;
-        $this->_customerService = $customerService;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
         $this->_converter = $converter;

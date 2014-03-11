@@ -1,7 +1,5 @@
 <?php
 /**
- * Eav Attribute Metadata
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+/**
+ * Class AttributeMetadata
+ */
 class AttributeMetadata extends \Magento\Service\Data\AbstractObject
 {
     /**#@+
@@ -25,7 +26,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     const MULTILINE_COUNT = 'multiline_count';
     const DATA_MODEL = 'data_model';
     const IS_USER_DEFINED = 'is_user_defined';
-    const FRONTEND_CLASS = 'front_end_class';
+    const FRONTEND_CLASS = 'frontend_class';
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
@@ -76,7 +77,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     /**
      * Retrieve validation rules.
      *
-     * @return string
+     * @return \Magento\Customer\Service\V1\Data\Eav\ValidationRule[]
      */
     public function getValidationRules()
     {
@@ -96,7 +97,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     /**
      * Whether attribute is visible on frontend.
      *
-     * @return boolean
+     * @return bool
      */
     public function isVisible()
     {
@@ -106,7 +107,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     /**
      * Whether attribute is required.
      *
-     * @return boolean
+     * @return bool
      */
     public function isRequired()
     {
@@ -126,7 +127,7 @@ class AttributeMetadata extends \Magento\Service\Data\AbstractObject
     /**
      * Return options of the attribute (key => value pairs for select)
      *
-     * @return Option[]
+     * @return \Magento\Customer\Service\V1\Data\Eav\Option[]
      */
     public function getOptions()
     {
