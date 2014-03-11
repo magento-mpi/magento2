@@ -8,7 +8,6 @@
 namespace Magento\PayPalRecurringPayment\Model;
 
 use Exception;
-use \Magento\Core\Exception as CoreException;
 
 /**
  * PayPal Recurring Instant Payment Notification processor model
@@ -107,7 +106,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
      * Process notification from recurring payments
      *
      * @return void
-     * @throws CoreException
+     * @throws \Magento\Core\Exception
      * @throws Exception
      */
     protected function _processRecurringPayment()
@@ -153,7 +152,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
                     ->setIsCustomerNotified(true)
                     ->save();
             }
-        } catch (CoreException $e) {
+        } catch (\Magento\Core\Exception $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
             //TODO: add to payment comments
             //$comment->save();

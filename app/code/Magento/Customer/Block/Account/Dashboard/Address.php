@@ -54,7 +54,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {

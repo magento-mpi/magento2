@@ -420,9 +420,9 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
      * $addressData = \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address);
      * $formattedAddress = $renderer->renderArray($addressData);
      *
-     * @deprecated
      * @param string $type
-     * @return string
+     * @return string|null
+     * @deprecated
      */
     public function format($type)
     {
