@@ -33,7 +33,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Catalog\Helper\Product\Compare'),
             $objectManager->get('Magento\Theme\Helper\Layout'),
             $objectManager->get('Magento\Catalog\Helper\Image'),
-            $objectManager->get('Magento\Customer\Model\Session'),
+            $objectManager->get('Magento\App\Http\Context'),
             $objectManager->get('Magento\Catalog\Model\ProductFactory'),
         ));
     }
