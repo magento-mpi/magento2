@@ -1071,4 +1071,15 @@ interface AdapterInterface
      * @return array
      */
     public function getTables($likeCondition = null);
+
+    /**
+     * Generate fragment of SQL, that check value against multiple condition cases
+     * and return different result depends on them
+     *
+     * @param string $valueName Name of value to check
+     * @param array $casesResults Cases and results
+     * @param string $defaultValue value to use if value doesn't confirm to any cases
+     * @return \Zend_Db_Expr
+     */
+    public function getCaseSql($valueName, $casesResults, $defaultValue = null);
 }

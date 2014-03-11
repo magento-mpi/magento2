@@ -404,8 +404,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
             ->setName($product->getName())
             ->setWeight($this->getProduct()->getWeight())
             ->setTaxClassId($product->getTaxClassId())
-            ->setBaseCost($product->getCost())
-            ->setIsRecurring($product->getIsRecurring());
+            ->setBaseCost($product->getCost());
 
         if ($product->getStockItem()) {
             $this->setIsQtyDecimal($product->getStockItem()->getIsQtyDecimal());

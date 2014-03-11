@@ -89,6 +89,7 @@ class Observer
         $this->_localeResolver = $localeResolver;
         $this->_collectionFactory = $collectionFactory;
         $this->messageManager = $messageManager;
+        $this->_localeDate = $localeDate;
     }
 
     /**

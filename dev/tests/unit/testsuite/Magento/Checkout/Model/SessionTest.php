@@ -124,6 +124,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testClearHelperData($paramToClear)
     {
         $storage = new \Magento\Session\Storage('default', array($paramToClear => 'test_data'));
+        /** @var \Magento\Checkout\Model\Session $session */
         $session = $this->_helper->getObject(
             'Magento\Checkout\Model\Session',
             array('storage' => $storage)
@@ -142,7 +143,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             array('redirect_url'),
             array('last_order_id'),
             array('last_real_order_id'),
-            array('last_recurring_profile_ids'),
             array('additional_messages')
         );
     }

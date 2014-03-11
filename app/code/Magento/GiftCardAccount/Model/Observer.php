@@ -113,31 +113,6 @@ class Observer
     }
 
     /**
-     * Process order place before
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return void
-     */
-    public function processOrderCreateBefore(\Magento\Event\Observer $observer)
-    {
-        $quote = $observer->getEvent()->getQuote();
-        $cards = $this->_giftCAHelper->getCards($quote);
-
-        if (is_array($cards)) {
-            foreach ($cards as $card) {
-                /** @var $giftCardAccount \Magento\GiftCardAccount\Model\Giftcardaccount */
-                $giftCardAccount = $this->_giftCAFactory->create();
-                $giftCardAccount->load($card['i']);
-                try {
-                    $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
-                } catch (\Magento\Core\Exception $e) {
-                    $quote->setErrorMessage($e->getMessage());
-                }
-            }
-        }
-    }
-
-    /**
      * Charge specified Gift Card (using code)
      * used for event: magento_giftcardaccount_charge_by_code
      *
@@ -322,13 +297,12 @@ class Observer
         if (!$quote->getGiftCardAccountApplied()) {
             return;
         }
-        // disable all payment methods and enable only Zero Subtotal Checkout and Google Checkout
+        // disable all payment methods and enable only Zero Subtotal Checkout
         if ($quote->getBaseGrandTotal() == 0 && (float)$quote->getGiftCardsAmountUsed()) {
             $paymentMethod = $observer->getEvent()->getMethodInstance()->getCode();
             $result = $observer->getEvent()->getResult();
-            // allow customer to place order via google checkout even if grand total is zero
-            $result->isAvailable = ($paymentMethod === 'free' || $paymentMethod === 'googlecheckout')
-                && empty($result->isDeniedInConfig);
+            // allow customer to place order if grand total is zero
+            $result->isAvailable = ($paymentMethod === 'free') && empty($result->isDeniedInConfig);
         }
     }
 
@@ -442,22 +416,6 @@ class Observer
         if ($order->getGiftCardsInvoiced() - $order->getGiftCardsRefunded() >= 0.0001) {
             $order->setForcedCanCreditmemo(true);
         }
-
-        return $this;
-    }
-
-    /**
-     * Updating price for Google Checkout internal discount item.
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return $this
-     */
-    public function googleCheckoutDiscoutItem(\Magento\Event\Observer $observer)
-    {
-        $quote = $observer->getEvent()->getQuote();
-        $discountItem = $observer->getEvent()->getDiscountItem();
-        // discount price is negative value
-        $discountItem->setPrice($discountItem->getPrice() - $quote->getBaseGiftCardsAmountUsed());
 
         return $this;
     }

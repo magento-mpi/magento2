@@ -84,7 +84,9 @@ class State extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * {@inheritdoc}
+     * Processing object before save data
+     *
+     * @return $this
      */
     protected function _beforeSave()
     {

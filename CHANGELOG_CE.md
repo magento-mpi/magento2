@@ -33,6 +33,11 @@
   * Fixed debug section in the developer settings
   * Fixed unreliable implementation of fetching authorization header via SOAP
   * Fixed WSDL generation error reporting issues
+  * Fixed correct order Recurring Profile tab in Account Customer on frontend (MAGETWO-20706)
+  * Fixed displaying an image on recurring profile page (MAGETWO-21375)
+  * Fixed ability to edit Product Template (MAGETWO-21757)
+  * Fixed duplicated shipping method options (MAGETWO-20055)
+  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
@@ -44,8 +49,10 @@
   * Fedex Shipping Carrier Module introduced
   * UPS Shipping Carrier Module introduced
   * USPS Shipping Carrier Module introduced
+  * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110) 
+  * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
   * Eliminate dependencies to Customer Models/Blocks from Sales Module
-  * Resolved dependencies of Sales module on RecurringProfile module
+  * Renamed RecurringProfile to RecurringPayment module (MAGETWO-21456)
   * Resolved dependencies between Email Templates functionality and other modules
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor

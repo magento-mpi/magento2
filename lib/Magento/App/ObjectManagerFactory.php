@@ -24,7 +24,7 @@ class ObjectManagerFactory
      *
      * @var string
      */
-    protected $_locatorClassName = '\Magento\ObjectManager\ObjectManager';
+    protected $_locatorClassName = 'Magento\ObjectManager\ObjectManager';
 
     /**
      * Config class name
