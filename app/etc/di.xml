@@ -310,7 +310,7 @@
     </type>
     <type name="Magento\Mview\View">
         <arguments>
-            <argument name="state" xsi:type="object" shared="false">Magento\Core\Model\Mview\View\State</argument>
+            <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Mview\View\State</argument>
             <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\Changelog</argument>
         </arguments>
     </type>

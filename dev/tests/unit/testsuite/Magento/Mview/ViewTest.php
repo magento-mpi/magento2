@@ -25,7 +25,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $actionFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Mview\View\State
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Indexer\Model\Mview\View\State
      */
     protected $stateMock;
 
@@ -48,7 +48,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             'Magento\Mview\ActionFactory', array('get'), array(), '', false
         );
         $this->stateMock = $this->getMock(
-            'Magento\Core\Model\Mview\View\State',
+            'Magento\Indexer\Model\Mview\View\State',
             array('getViewId', 'loadByView', 'getVersionId', 'setVersionId',
                 'getStatus', 'setStatus', 'getMode', 'setMode', 'save', '__wakeup'),
             array(),

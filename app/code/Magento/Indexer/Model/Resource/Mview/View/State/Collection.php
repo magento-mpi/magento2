@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Mview\View\State;
+namespace Magento\Indexer\Model\Resource\Mview\View\State;
 
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
     implements \Magento\Mview\View\State\CollectionInterface
@@ -15,6 +15,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Mview\View\State', 'Magento\Core\Model\Resource\Mview\View\State');
+        $this->_init('Magento\Indexer\Model\Mview\View\State', 'Magento\Indexer\Model\Resource\Mview\View\State');
     }
 }
