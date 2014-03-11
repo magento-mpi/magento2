@@ -170,7 +170,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * #param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService

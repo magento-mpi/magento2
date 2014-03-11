@@ -80,7 +80,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      */
     public function __construct(

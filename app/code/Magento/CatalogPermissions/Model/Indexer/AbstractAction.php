@@ -384,6 +384,7 @@ abstract class AbstractAction
      * Prepare grants for certain category path
      *
      * @param string $path
+     * @return void
      */
     protected function prepareCategoryInheritance($path)
     {

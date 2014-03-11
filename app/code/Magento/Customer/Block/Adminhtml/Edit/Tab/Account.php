@@ -351,7 +351,7 @@ class Account extends GenericMetadata
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param \Magento\Customer\Service\V1\Data\Customer $customerDataObject
-     * @returns string[] Values to set on the form
+     * @return string[] Values to set on the form
      */
     protected function _addEditCustomerFormFields($form, $fieldset, $customerDataObject)
     {
