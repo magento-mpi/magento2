@@ -505,4 +505,19 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $this->_updateAppConfig($configPath, $origValue, true, true);
         }
     }
+
+    /**
+     * Transform an array. Convert all camelCase keys to snake_case.
+     *
+     * @param array $objectData An array of data.
+     * @return array The array with all camelCase keys converted to snake_case.
+     */
+    protected function decamelize($objectData)
+    {
+        $data = [];
+        foreach ($objectData as $key => $value) {
+            $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
+        }
+        return $data;
+    }
 }

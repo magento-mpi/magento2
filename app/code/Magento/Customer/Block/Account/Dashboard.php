@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -31,9 +31,9 @@ class Dashboard extends \Magento\View\Element\Template
     protected $_subscriberFactory;
 
     /**
-     * @var CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
      * @var CustomerAddressServiceInterface
@@ -46,7 +46,7 @@ class Dashboard extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerService
      * @param CustomerAddressServiceInterface $addressService
      * @param array $data
      */
@@ -54,13 +54,13 @@ class Dashboard extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_subscriberFactory = $subscriberFactory;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_addressService = $addressService;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -69,11 +69,11 @@ class Dashboard extends \Magento\View\Element\Template
     /**
      * Return the Customer given the customer Id stored in the session.
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
-        return $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+        return $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
     }
 
     /**
@@ -99,7 +99,7 @@ class Dashboard extends \Magento\View\Element\Template
     /**
      * Retrieve the Url for editing the specified address.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
     public function getAddressEditUrl($address)
@@ -179,12 +179,12 @@ class Dashboard extends \Magento\View\Element\Template
     /**
      * Retrieve the customer's primary addresses (i.e. default billing and shipping).
      *
-     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
+     * @return \Magento\Customer\Service\V1\Data\Address[]|bool
      */
     public function getPrimaryAddresses()
     {
         $addresses = [];
-        $customerId = $this->getCustomer()->getCustomerId();
+        $customerId = $this->getCustomer()->getId();
 
         if ($defaultBilling = $this->_addressService->getDefaultBillingAddress($customerId)) {
             $addresses[] = $defaultBilling;

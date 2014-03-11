@@ -17,6 +17,6 @@
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Form\Renderer\Fieldset;
 
 class Element
-    extends \Magento\CustomAttribute\Block\Adminhtml\Form\Renderer\Fieldset\Element
+    extends \Magento\CustomAttributeManagement\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
 }

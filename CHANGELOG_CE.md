@@ -15,6 +15,8 @@
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
   * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
   * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
+  * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
+  * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
 * Fixed bugs:
   * Fixed transaction rollback in fetchNewIncrementId on exception
   * Fixed category saveing when it has more than 1000 products
@@ -25,6 +27,11 @@
   * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
   * Fixed ability to reset password for customer from backend (MAGETWO-20164)
   * Fixed ability to download backup (MAGETWO-21353)
+  * Fixed possibility of XSS injection in the Integration re-authorization flow
+  * Fixed cancellation of the Billing Agreement from backend
+  * Fixed debug section in the developer settings
+  * Fixed unreliable implementation of fetching authorization header via SOAP
+  * Fixed WSDL generation error reporting issues
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
@@ -36,13 +43,25 @@
   * Fedex Shipping Carrier Module introduced
   * UPS Shipping Carrier Module introduced
   * USPS Shipping Carrier Module introduced
+  * Eliminate dependencies to Customer Models/Blocks from Sales Module
+  * Resolved dependencies of Sales module on RecurringProfile module
+  * Resolved dependencies between Email Templates functionality and other modules
+  * Core module lib-only depended components moved to library
+  * CSS url resolving logic moved from publisher to separate css pre-processor
+  * View publisher re-factored
 * Framework Improvements:
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
-  * Added static integrity test for plugin inteface validation
+  * Added static integrity test for plugin interface validation
   * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
+  * Added restrictions on the data populated to the Service Data Object
+  * Renamed Data Transfer Object to the Service Data Object
 * Customer Service usage:
   * Customer module blocks and controllers refactoring to use customer service layer
+  * Tax module refactoring to use customer service layer
+  * Refactored Customer module Adminhtml internal controllers and helper to use customer services
+  * Added and updated customer service APIs
+  * Exposed customer services as REST APIs
 * Security:
   * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
   * Utilized a random salt of default length for admin users and frontend customers

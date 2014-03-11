@@ -12,6 +12,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\Data\AddressConverter;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -24,7 +25,7 @@ class View
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $_customer;
 
@@ -46,11 +47,6 @@ class View
     protected $_modelVisitor;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_accountService;
@@ -66,7 +62,7 @@ class View
     protected $_groupService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
     /**
@@ -86,11 +82,10 @@ class View
     
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Registry $registry
@@ -102,11 +97,10 @@ class View
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Registry $registry,
@@ -116,7 +110,6 @@ class View
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
-        $this->_customerService = $customerService;
         $this->_accountService = $accountService;
         $this->_addressService = $addressService;
         $this->_groupService = $groupService;
@@ -128,7 +121,7 @@ class View
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer()
     {
@@ -150,7 +143,7 @@ class View
 
     /**
      * @param int $groupId
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|null
+     * @return \Magento\Customer\Service\V1\Data\CustomerGroup|null
      */
     private function getGroup($groupId)
     {
@@ -169,7 +162,7 @@ class View
     {
         $customer = $this->getCustomer();
 
-        if ($groupId = ($customer->getCustomerId() ? $customer->getGroupId() : null)) {
+        if ($groupId = ($customer->getId() ? $customer->getGroupId() : null)) {
             if ($group = $this->getGroup($groupId)) {
                 return $group->getCode();
             }
@@ -255,7 +248,7 @@ class View
     {
         $date = $this->getCustomerLog()->getLoginAtTimestamp();
         if ($date) {
-            $date = $this->_localeDate->storeDate(
+            $date = $this->_localeDate->scopeDate(
                 $this->getCustomer()->getStoreId(),
                 $date,
                 true
@@ -327,12 +320,12 @@ class View
     public function getBillingAddressHtml()
     {
         try {
-            $address = $this->_addressService->getAddressById($this->getCustomer()->getDefaultBilling());
+            $address = $this->_addressService->getAddress($this->getCustomer()->getDefaultBilling());
         } catch (NoSuchEntityException $e) {
             return __('The customer does not have default billing address.');
         }
         return $this->_addressHelper->getFormatTypeRenderer('html')->renderArray(
-            $address->getAttributes()
+            AddressConverter::toFlatArray($address)
         );
     }
 

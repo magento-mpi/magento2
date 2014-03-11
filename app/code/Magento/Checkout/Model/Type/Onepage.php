@@ -13,15 +13,14 @@
  */
 namespace Magento\Checkout\Model\Type;
 
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Address as AddressDto;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Service\V1\Data\Address as AddressDataObject;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Model\Metadata\Form;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadata;
 
 class Onepage
@@ -117,11 +116,6 @@ class Onepage
      */
     protected $messageManager;
 
-    /**
-     * @var CustomerAccountServiceInterface
-     */
-    protected $_accountService;
-
     /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_formFactory;
 
@@ -134,11 +128,11 @@ class Onepage
     /** @var \Magento\Math\Random */
     protected $mathRandom;
 
-    /** @var CustomerServiceInterface */
-    protected $_customerService;
-
     /** @var CustomerAddressServiceInterface */
     protected $_customerAddressService;
+
+    /** @var CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -162,7 +156,6 @@ class Onepage
      * @param AddressBuilder $addressBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
@@ -181,14 +174,13 @@ class Onepage
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
-        CustomerAccountServiceInterface $accountService,
         \Magento\Customer\Model\Metadata\FormFactory $formFactory,
         CustomerBuilder $customerBuilder,
         AddressBuilder $addressBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        CustomerServiceInterface $customerService,
-        CustomerAddressServiceInterface $customerAddressService
+        CustomerAddressServiceInterface $customerAddressService,
+        CustomerAccountServiceInterface $accountService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -205,14 +197,13 @@ class Onepage
         $this->_orderFactory = $orderFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->messageManager = $messageManager;
-        $this->_accountService = $accountService;
         $this->_formFactory = $formFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_addressBuilder = $addressBuilder;
         $this->mathRandom = $mathRandom;
         $this->_encryptor = $encryptor;
-        $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
+        $this->_customerAccountService = $accountService;
     }
 
     /**
@@ -287,7 +278,7 @@ class Onepage
         * want to load the correct customer information by assigning to address
         * instead of just loading from sales/quote_address
         */
-        $customer = $customerSession->getCustomerData();
+        $customer = $customerSession->getCustomerDataObject();
         if ($customer) {
             $quote->assignCustomer($customer);
         }
@@ -357,7 +348,7 @@ class Onepage
 
         if (!empty($customerAddressId)) {
             try {
-                $customerAddress = $this->_customerAddressService->getAddressById($customerAddressId);
+                $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (Exception $e) {
                 /** Address does not exist */
             }
@@ -411,7 +402,9 @@ class Onepage
             if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
                 return array(
                     'error' => 1,
+                    // @codingStandardsIgnoreStart
                     'message' => __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.')
+                    // @codingStandardsIgnoreEnd
                 );
             }
         }
@@ -483,7 +476,7 @@ class Onepage
         $quote = $this->getQuote();
         $isCustomerNew = !$quote->getCustomerId();
         $customer = $quote->getCustomerData();
-        $customerData = $customer->__toArray();
+        $customerData = \Magento\Service\DataObjectConverter::toFlatArray($customer);
 
         /** @var Form $customerForm */
         $customerForm = $this->_formFactory->create(
@@ -534,19 +527,21 @@ class Onepage
 
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
-        $result = $this->_accountService->validateCustomerData($customer, $attributes);
+        $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
         if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
+            return $result;
         }
 
         // copy customer/guest email to address
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer->__toArray(), $quote);
+        $this->_objectCopyService->copyFieldsetToTarget(
+            'customer_account',
+            'to_quote',
+            \Magento\Service\DataObjectConverter::toFlatArray($customer),
+            $quote
+        );
 
         return true;
     }
@@ -577,7 +572,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             $addressData = null;
             try {
-                $addressData = $this->_customerAddressService->getAddressById($customerAddressId);
+                $addressData = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (NoSuchEntityException $e) {
                 // do nothing if customer is not found by id
             }
@@ -742,25 +737,18 @@ class Onepage
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
         $customerData = $quote->getCustomerData();
-        // Need to set proper attribute id or future updates will cause data loss.
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
-            $customerData,
-            [CustomerMetadata::ATTRIBUTE_SET_ID_CUSTOMER => 1]
-        );
-
         $customerBillingData = $billing->exportCustomerAddressData();
-        $customerBillingData = $this->_addressBuilder->mergeDtoWithArray(
-            $customerBillingData,
-            [AddressDto::KEY_DEFAULT_BILLING => true]
-        );
+        $customerBillingData = $this->_addressBuilder->populate($customerBillingData)
+            ->setDefaultBilling(true)
+            ->create();
 
         if ($shipping) {
-            if( !$shipping->getSameAsBilling()) {
+            if (!$shipping->getSameAsBilling()) {
                 $customerShippingData = $shipping->exportCustomerAddressData();
                 $customerShippingData = $this->_addressBuilder->populate($customerShippingData)
                     ->setDefaultShipping(true)->create();
-                $shipping->setCustomerAddress($customerShippingData);
-                // Add shipping address to quote since customer DTO does not hold address information
+                $shipping->setCustomerAddressData($customerShippingData);
+                // Add shipping address to quote since customer Data Object does not hold address information
                 $quote->addCustomerAddressData($customerShippingData);
             } else {
                 $shipping->setCustomerAddressData($customerBillingData);
@@ -778,13 +766,13 @@ class Onepage
             'to_customer',
             $quote
         );
-        $customerData = $this->_customerBuilder->mergeDtoWithArray(
+        $customerData = $this->_customerBuilder->mergeDataObjectWithArray(
             $customerData,
             $dataArray
         );
         $quote->setCustomerData($customerData)
             ->setCustomerId(true); // TODO : Eventually need to remove this legacy hack
-        // Add billing address to quote since customer DTO does not hold address information
+        // Add billing address to quote since customer Data Object does not hold address information
         $quote->addCustomerAddressData($customerBillingData);
     }
 
@@ -799,7 +787,7 @@ class Onepage
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->_customerService->getCustomer($this->getCustomerSession()->getCustomerId());
+        $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
             $billingAddress = $billing->exportCustomerAddressData();
             $billing->setCustomerAddressData($billingAddress);
@@ -823,8 +811,9 @@ class Onepage
         }
 
         if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
-            $shippingAddress = $this->_addressBuilder
-                ->mergeDtoWithArray($shippingAddress, [AddressDto::KEY_DEFAULT_SHIPPING => true]);
+            $shippingAddress = $this->_addressBuilder->populate($shippingAddress)
+                ->setDefaultShipping(true)
+                ->create();
             $quote->addCustomerAddressData($shippingAddress);
         }
     }
@@ -837,14 +826,16 @@ class Onepage
     protected function _involveNewCustomer()
     {
         $customer = $this->getQuote()->getCustomerData();
-        $confirmationStatus = $this->_accountService->getConfirmationStatus($customer->getCustomerId());
+        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
+                // @codingStandardsIgnoreStart
                 __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
+                // @codingStandardsIgnoreEnd
             );
         } else {
-            $this->getCustomerSession()->loginById($customer->getCustomerId());
+            $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;
     }
@@ -873,7 +864,7 @@ class Onepage
 
         /** @var \Magento\Sales\Model\Service\Quote $quoteService */
         $quoteService = $this->_serviceQuoteFactory->create(['quote' => $this->getQuote()]);
-        $quoteService->submitAllWithDto();
+        $quoteService->submitAllWithDataObject();
 
         if ($isNewCustomer) {
             try {
@@ -929,13 +920,7 @@ class Onepage
      */
     protected function _customerEmailExists($email, $websiteId = null)
     {
-        try {
-            $this->_customerService->getCustomerByEmail($email, $websiteId);
-            return true;
-        } catch (\Exception $e) {
-            /** Customer email does not exist */
-            return false;
-        }
+        return !$this->_customerAccountService->isEmailAvailable($email, $websiteId);
     }
 
     /**
