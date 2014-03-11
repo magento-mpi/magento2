@@ -35,6 +35,11 @@ class Product extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     */
+    protected $currentCustomer;
+
+    /**
      * Generic session
      *
      * @var \Magento\Session\Generic
@@ -108,6 +113,7 @@ class Product extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -123,6 +129,7 @@ class Product extends \Magento\App\Action\Action
         \Magento\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Logger $logger,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -137,6 +144,7 @@ class Product extends \Magento\App\Action\Action
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         $this->_reviewSession = $reviewSession;
         $this->_categoryFactory = $categoryFactory;
         $this->_logger = $logger;
@@ -303,7 +311,7 @@ class Product extends \Magento\App\Action\Action
                     $review->setEntityId($review->getEntityIdByCode(Review::ENTITY_PRODUCT_CODE))
                         ->setEntityPkValue($product->getId())
                         ->setStatusId(Review::STATUS_PENDING)
-                        ->setCustomerId($this->_customerSession->getCustomerId())
+                        ->setCustomerId($this->currentCustomer->getCustomerId())
                         ->setStoreId($this->_storeManager->getStore()->getId())
                         ->setStores(array($this->_storeManager->getStore()->getId()))
                         ->save();
@@ -312,7 +320,7 @@ class Product extends \Magento\App\Action\Action
                         $this->_ratingFactory->create()
                         ->setRatingId($ratingId)
                         ->setReviewId($review->getId())
-                        ->setCustomerId($this->_customerSession->getCustomerId())
+                        ->setCustomerId($this->currentCustomer->getCustomerId())
                         ->addOptionVote($optionId, $product->getId());
                     }
 

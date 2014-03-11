@@ -1,0 +1,41 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea('adminhtml');
+
+require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
+require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
+
+$review = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Review\Model\Review',
+    ['data' => [
+        'customer_id' => $customer->getId(),
+        'title' => 'Review Summary',
+        'detail' => 'Review text',
+        'nickname' => 'Nickname',
+    ]]
+);
+
+$review
+    ->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::ENTITY_PRODUCT_CODE))
+    ->setEntityPkValue($product->getId())
+    ->setStatusId(\Magento\Review\Model\Review::STATUS_PENDING)
+    ->setStoreId(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getId()
+    )
+    ->setStores([
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->getId()
+    ])
+    ->save();
+
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Registry')->register(
+    'review_data',
+    $review
+);

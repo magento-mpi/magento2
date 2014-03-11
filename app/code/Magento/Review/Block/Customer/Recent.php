@@ -39,25 +39,24 @@ class Recent extends \Magento\View\Element\Template
     protected $_collectionFactory;
 
     /**
-     * Customer session model
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -91,7 +90,7 @@ class Recent extends \Magento\View\Element\Template
         $this->_collection = $this->_collectionFactory->create();
         $this->_collection
             ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->addCustomerFilter($this->_customerSession->getCustomerId())
+            ->addCustomerFilter($this->currentCustomer->getCustomerId())
             ->setDateOrder()
             ->setPageSize(5)
             ->load()

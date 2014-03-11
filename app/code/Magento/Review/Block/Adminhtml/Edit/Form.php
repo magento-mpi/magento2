@@ -23,11 +23,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_reviewData = null;
 
     /**
-     * Customer model factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
      */
-    protected $_customerFactory;
+    protected $customerAccount;
 
     /**
      * Catalog product factory
@@ -48,7 +46,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Review\Helper\Data $reviewData
      * @param array $data
@@ -58,13 +56,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Review\Helper\Data $reviewData,
         array $data = array()
     ) {
         $this->_reviewData = $reviewData;
-        $this->_customerFactory = $customerFactory;
+        $this->customerAccount = $customerAccount;
         $this->_productFactory = $productFactory;
         $this->_systemStore = $systemStore;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -79,7 +77,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $review = $this->_coreRegistry->registry('review_data');
         $product = $this->_productFactory->create()->load($review->getEntityPkValue());
-        $customer = $this->_customerFactory->create()->load($review->getCustomerId());
+        $customer = $this->customerAccount->getCustomer($review->getCustomerId());
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
