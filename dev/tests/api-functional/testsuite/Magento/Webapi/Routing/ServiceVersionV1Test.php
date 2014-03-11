@@ -52,9 +52,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Item'
             )
         );
-        $requestData = array('id' => $itemId);
+        $requestData = array('itemId' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
+        $this->assertEquals('testProduct1', $item['name'], 'Item was retrieved unsuccessfully');
     }
 
     /**
@@ -64,11 +64,11 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     {
         $itemArr = array(
             array(
-                'id' => 1,
+                'item_id' => 1,
                 'name' => 'testProduct1'
             ),
             array(
-                'id' => 2,
+                'item_id' => 2,
                 'name' => 'testProduct2'
             )
         );
@@ -82,7 +82,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Items'
             )
         );
-        $item = $this->_webApiCall($serviceInfo);
+        $item = $this->toSnakeCase($this->_webApiCall($serviceInfo));
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
     }
 
@@ -154,7 +154,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Update'
             )
         );
-        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName']];
+        $requestData = ['item' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
@@ -175,7 +175,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Delete'
             )
         );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
+        $requestData = array('itemId' => $itemId, 'name' => 'testName');
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 }

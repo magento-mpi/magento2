@@ -9,6 +9,7 @@
 namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
@@ -154,19 +155,22 @@ class Handler
      *
      * This method processes all nested Data Objects recursively.
      *
-     * @param object $dataObject
+     * @param AbstractObject $dataObject
      * @return \stdClass
      * @throws \InvalidArgumentException
      */
-    protected function _unpackDataObject($dataObject)
+    protected function _unpackDataObject(AbstractObject $dataObject)
     {
-        if (!$this->_isDataObject($dataObject)) {
-            throw new \InvalidArgumentException("Object is expected to implement __toArray() method.");
-        }
         return $this->_unpackArray($dataObject->__toArray());
     }
 
-    protected function _unpackArray($dataArray)
+    /**
+     * Unpack as an array and convert keys to camelCase to match property names in WSDL
+     *
+     * @param array $dataArray
+     * @return \stdClass
+     */
+    protected function _unpackArray(array $dataArray)
     {
         $response = new \stdClass();
         foreach ($dataArray as $fieldName => $fieldValue) {
@@ -190,7 +194,7 @@ class Handler
      */
     protected function _isDataObject($var)
     {
-        return (is_object($var) && method_exists($var, '__toArray'));
+        return $var instanceof AbstractObject;
     }
 
     /**

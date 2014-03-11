@@ -9,7 +9,6 @@ namespace Magento\Webapi;
 
 use Magento\Customer\Service\V1\Data\Address;
 use Magento\Customer\Service\V1\Data\Customer;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 
@@ -54,7 +53,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             "attributeCode" => $attributeCode
         ];
 
-        $attributeMetadata = $this->decamelize($this->_webapiCall($serviceInfo, $requestData));
+        $attributeMetadata = $this->toSnakeCase($this->_webapiCall($serviceInfo, $requestData));
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -167,7 +166,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $requestData = ['attributeCode' => $attributeCode];
-        $attributeMetadata = $this->decamelize($this->_webApiCall($serviceInfo, $requestData));
+        $attributeMetadata = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
 
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
@@ -207,7 +206,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $attributeMetadata = array_map(
             function ($array) {
-                return $this->decamelize($array);
+                return $this->toSnakeCase($array);
             }, $this->_webApiCall($serviceInfo)
         );
 
@@ -242,7 +241,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $requestData = ['attributeCode' => $attributeCode];
-        $attributeMetadata = $this->decamelize($this->_webApiCall($serviceInfo, $requestData));
+        $attributeMetadata = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
 
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
@@ -279,7 +278,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $attributeMetadata = array_map(
             function ($array) {
-                return $this->decamelize($array);
+                return $this->toSnakeCase($array);
             }, $this->_webApiCall($serviceInfo)
         );
 

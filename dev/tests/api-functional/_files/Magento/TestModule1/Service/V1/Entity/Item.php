@@ -13,9 +13,9 @@ class Item extends \Magento\Service\Data\AbstractObject
     /**
      * @return int
      */
-    public function getId()
+    public function getItemId()
     {
-        return $this->_data['id'];
+        return $this->_data['item_id'];
     }
 
     /**
