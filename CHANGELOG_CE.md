@@ -36,6 +36,7 @@
   * Fixed displaying an image on recurring profile page (MAGETWO-21375)
   * Fixed ability to edit Product Template (MAGETWO-21757)
   * Fixed duplicated shipping method options (MAGETWO-20055)
+  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
