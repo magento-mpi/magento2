@@ -65,6 +65,13 @@ class ProductForm extends FormTabs
     protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
 
     /**
+     * Category name selector
+     *
+     * @var string
+     */
+    protected $categoryName = '//*[contains(@class, "mage-suggest-choice")]/*[text()="%categoryName%"]';
+
+    /**
      * 'Advanced Settings' tab
      *
      * @var string
@@ -127,20 +134,24 @@ class ProductForm extends FormTabs
      * Select category
      *
      * @param FixtureInterface $fixture
+     * @return void
      */
     protected function fillCategory(FixtureInterface $fixture)
     {
         // TODO should be removed after suggest widget implementation as typified element
-
         $categoryName = $this->category
             ? $this->category->getCategoryName()
             : ($fixture->getCategoryName() ? $fixture->getCategoryName() : '');
 
-        if ($categoryName) {
+        if (!$categoryName) {
+            return;
+        }
+        $category = $this->_rootElement->find(
+            str_replace('%categoryName%', $categoryName, $this->categoryName), Locator::SELECTOR_XPATH
+        );
+        if (!$category->isVisible()) {
             $this->fillCategoryField(
-                $categoryName,
-                'category_ids-suggest',
-                '//*[@id="attribute-category_ids-container"]'
+                $categoryName, 'category_ids-suggest', '//*[@id="attribute-category_ids-container"]'
             );
         }
     }

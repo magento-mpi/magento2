@@ -154,7 +154,7 @@ class ConfigurableProduct extends Product
     public function persist()
     {
         $id = Factory::getApp()->magentoCatalogCreateConfigurable($this);
-        $this->_data['fields']['id']['value'] = $id;
+        $this->_data['id']['value'] = $id;
 
         return $this;
     }
@@ -272,6 +272,10 @@ class ConfigurableProduct extends Product
                                 )
                             ),
                             'value' => array(
+                                'display' => array(
+                                    'value' => 'Yes',
+                                    'input' => 'checkbox'
+                                ),
                                 'name' => array(
                                     'value' => 'Variation 0-%isolation%'
                                 ),
@@ -290,6 +294,10 @@ class ConfigurableProduct extends Product
                                 )
                             ),
                             'value' => array(
+                                'display' => array(
+                                    'value' => 'Yes',
+                                    'input' => 'checkbox'
+                                ),
                                 'name' => array(
                                     'value' => 'Variation 1-%isolation%'
                                 ),
@@ -370,5 +378,20 @@ class ConfigurableProduct extends Product
             }
         }
         return $price;
+    }
+
+    /**
+     * Prepare edit configurable product data
+     *
+     * @return $this
+     */
+    public function getEditData()
+    {
+        $data = $this->getData();
+        $this->switchData('edit_configurable');
+        $editData = $this->getData();
+        $data['fields']['variations-matrix'] = $editData['fields']['variations-matrix'];
+        $this->_data = array_replace_recursive($data, $editData);
+        return $this;
     }
 }
