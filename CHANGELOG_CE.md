@@ -32,6 +32,7 @@
   * Fixed debug section in the developer settings
   * Fixed unreliable implementation of fetching authorization header via SOAP
   * Fixed WSDL generation error reporting issues
+  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
