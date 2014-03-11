@@ -386,7 +386,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $itemsToLoad = array();
 
             $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
-
+            $quote = $this->_checkoutSession->getQuote();
             foreach ($failedItems as $item) {
                 if (is_null($this->_items) && !in_array($item['code'], $this->_failedTemplateStatusCodes)) {
                     $id = $item['item']['id'];
@@ -413,7 +413,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if ($ids) {
                 $collection->addIdFilter($ids);
 
-                $quote = $this->_checkoutSession->getQuote();
                 $emptyQuoteItem = $this->_quoteItemFactory->create();
 
                 /** @var $itemProduct \Magento\Catalog\Model\Product */
