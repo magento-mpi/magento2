@@ -671,11 +671,13 @@ class Onepage
             $quote->getShippingAddress()->setCollectShippingRates(true);
         }
 
-        $data['checks'] = \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT
-            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
-            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
-            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
-            | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL;
+        $data['checks'] = [
+            \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
+            \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
+            \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
+            \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+            \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
+        ];
 
         $payment = $quote->getPayment();
         $payment->importData($data);

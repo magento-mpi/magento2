@@ -475,14 +475,14 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     }
 
     /**
-     * <p>"Store" column is not displayed on the Recurring Profiles(beta) page</p>
+     * <p>"Store" column is not displayed on the Recurring Payments(beta) page</p>
      *
      * @test
      * @TestLinkId TL-MAGE-6272
      */
-    public function verificationRecurringProfiles()
+    public function verificationRecurringPayments()
     {
-        $this->navigate('manage_sales_recurring_profile');
+        $this->navigate('manage_sales_recurring_payment');
         $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store'),
             'There is "Store" column on the page');
     }
