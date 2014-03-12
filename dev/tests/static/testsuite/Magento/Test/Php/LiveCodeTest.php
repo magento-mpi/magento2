@@ -37,6 +37,11 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     protected static $blackList = array();
 
+    /**
+     * Setup basics for all tests
+     *
+     * @return void
+     */
     public static function setUpBeforeClass()
     {
         self::$reportDir = Utility\Files::init()->getPathToSource()
@@ -47,6 +52,12 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         self::setupFileLists();
     }
 
+    /**
+     * Helper method to setup the black and white lists
+     *
+     * @param string $type
+     * @return void
+     */
     public static function setupFileLists($type = '')
     {
         if ($type != '' && !preg_match('/\/$/', $type)) {
@@ -57,7 +68,10 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Run the PSR2 code sniffs on the code
+     *
      * @TODO: combine with testCodeStyle
+     * @return void
      */
     public function testCodeStylePsr2()
     {
@@ -88,6 +102,11 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Run the magento specific coding standards on the code
+     *
+     * @return void
+     */
     public function testCodeStyle()
     {
         $reportFile = self::$reportDir . '/phpcs_report.xml';
@@ -109,6 +128,12 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Run the annotations sniffs on the code
+     *
+     * @return void
+     * @todo Combine with normal code style at some point.
+     */
     public function testAnnotationStandard()
     {
         $reportFile = self::$reportDir . '/phpcs_annotations_report.xml';
@@ -123,8 +148,11 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
         self::setupFileLists('phpcs');
-        $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php', 'phtml'), $warningSeverity);
-        $this->markTestIncomplete("PHP Code Sniffer has found $result error(s): See detailed report in $reportFile");
+        // Scan for error amount
+        $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), 0);
+        // Rescan to generate report with warnings.
+        $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $warningSeverity);
+        // Fail if there are errors in report.
         $this->assertEquals(
             0,
             $result,
@@ -132,6 +160,11 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Run mess detector on code
+     *
+     * @return void
+     */
     public function testCodeMess()
     {
         $reportFile = self::$reportDir . '/phpmd_report.xml';
@@ -152,6 +185,11 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Run copy paste detector on code
+     *
+     * @return void
+     */
     public function testCopyPaste()
     {
         $reportFile = self::$reportDir . '/phpcpd_report.xml';

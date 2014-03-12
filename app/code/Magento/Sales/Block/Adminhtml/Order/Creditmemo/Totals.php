@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo;
+
+use Magento\Sales\Model\Order\Creditmemo;
 
 /**
  * Adminhtml order creditmemo totals block
@@ -15,12 +18,20 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo;
-
 class Totals extends \Magento\Sales\Block\Adminhtml\Totals
 {
+    /**
+     * Creditmemo
+     *
+     * @var Creditmemo|null
+     */
     protected $_creditmemo;
 
+    /**
+     * Retrieve creditmemo model instance
+     *
+     * @return Creditmemo
+     */
     public function getCreditmemo()
     {
         if ($this->_creditmemo === null) {
@@ -35,6 +46,11 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals
         return $this->_creditmemo;
     }
 
+    /**
+     * Get source
+     *
+     * @return Creditmemo|null
+     */
     public function getSource()
     {
         return $this->getCreditmemo();
@@ -43,7 +59,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals
     /**
      * Initialize creditmemo totals array
      *
-     * @return \Magento\Sales\Block\Order\Totals
+     * @return $this
      */
     protected function _initTotals()
     {

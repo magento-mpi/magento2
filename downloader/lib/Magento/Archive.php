@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
 /**
  * Class to work with archives
@@ -15,11 +16,8 @@
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento;
-
 class Archive
 {
-
     /**
     * Archiver is used for compress.
     */
@@ -100,7 +98,7 @@ class Archive
     *
     * @param string $source
     * @param string $destination
-    * @param boolean $skipRoot skip first level parent
+    * @param bool $skipRoot skip first level parent
     * @return string Path to file
     */
     public function pack($source, $destination='packed.tgz', $skipRoot=false)
@@ -123,15 +121,16 @@ class Archive
     }
 
     /**
-    * Unpack file from archivers are parsed from extension.
-    * If $tillTar == true unpack file from archivers till
-    * meet TAR archiver.
-    *
-    * @param string $source
-    * @param string $destination
-    * @param boolean $tillTar
-    * @return string Path to file
-    */
+     * Unpack file from archivers are parsed from extension.
+     * If $tillTar == true unpack file from archivers till
+     * meet TAR archiver.
+     *
+     * @param string $source
+     * @param string $destination
+     * @param bool $tillTar
+     * @param bool $clearInterm
+     * @return string Path to file
+     */
     public function unpack($source, $destination='.', $tillTar=false, $clearInterm = true)
     {
         $archivers = $this->_getArchivers($source);
@@ -180,7 +179,7 @@ class Archive
     * Check file is archive.
     *
     * @param string $file
-    * @return boolean
+    * @return bool
     */
     public function isArchive($file)
     {
@@ -195,7 +194,7 @@ class Archive
     * Check file is TAR.
     *
     * @param mixed $file
-    * @return boolean
+    * @return bool
     */
     public function isTar($file)
     {

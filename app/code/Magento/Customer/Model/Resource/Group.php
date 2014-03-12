@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource;
 
 /**
  * Customer group resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource;
-
 class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -49,6 +47,8 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,7 +58,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\Customer\Model\Resource\Group
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -75,8 +75,8 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check if group uses as default
      *
      * @param  \Magento\Core\Model\AbstractModel $group
+     * @return $this
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _beforeDelete(\Magento\Core\Model\AbstractModel $group)
     {
@@ -90,7 +90,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Method set default group id to the customers collection
      *
      * @param \Magento\Core\Model\AbstractModel $group
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
     {

@@ -5,15 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Catalog Event Abstract event block
- */
-
 namespace Magento\CatalogEvent\Block\Event;
 
 use Magento\View\Element\Template;
 
+/**
+ * Catalog Event Abstract event block
+ */
 abstract class AbstractEvent extends \Magento\View\Element\Template
 {
     /**
@@ -42,6 +40,9 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
         $this->_localeResolver = $localeResolver;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

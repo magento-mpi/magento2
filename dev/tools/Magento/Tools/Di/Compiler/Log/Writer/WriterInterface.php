@@ -13,6 +13,7 @@ interface WriterInterface
      * Output log data
      *
      * @param array $data
+     * @return void
      */
     public function write(array $data);
 }

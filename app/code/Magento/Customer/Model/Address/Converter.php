@@ -88,7 +88,7 @@ class Converter
      *
      * @param AddressModel $addressModel
      * @param Address $address
-     * return null
+     * @return void
      */
     public function updateAddressModel(AddressModel $addressModel, Address $address)
     {

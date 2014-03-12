@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader\Model;
 
 /**
  * Class session
@@ -15,8 +16,6 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader\Model;
-
 class Session extends \Magento\Downloader\Model
 {
     /**
@@ -57,6 +56,7 @@ class Session extends \Magento\Downloader\Model
      *
      * @param string $key
      * @param mixed $value
+     * @return $this
      */
     public function set($key, $value)
     {
@@ -66,6 +66,8 @@ class Session extends \Magento\Downloader\Model
 
     /**
      * Authentication to downloader
+     *
+     * @return $this
      */
     public function authenticate()
     {
@@ -165,7 +167,7 @@ class Session extends \Magento\Downloader\Model
      *
      * @param string $type
      * @param string $msg
-     * @param string $clear
+     * @param string|bool $clear
      * @return \Magento\Downloader\Model\Session
      */
     public function addMessage($type, $msg, $clear = false)
@@ -179,7 +181,7 @@ class Session extends \Magento\Downloader\Model
     /**
      * Retrieve messages from cache
      *
-     * @param boolean $clear
+     * @param bool $clear
      * @return mixed
      */
     public function getMessages($clear = true)

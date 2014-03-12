@@ -184,7 +184,7 @@ class Account extends \Magento\App\Action\Action
     /**
      * Get list of actions that are allowed for not authorized users
      *
-     * @return array
+     * @return string[]
      */
     protected function _getAllowedActions()
     {
@@ -224,6 +224,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Default customer account page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -235,6 +237,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Customer login form page
+     *
+     * @return void
      */
     public function loginAction()
     {
@@ -250,6 +254,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Login post action
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function loginPostAction()
@@ -298,6 +304,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Define target URL and redirect customer after logging in
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _loginPostRedirect()
@@ -346,6 +354,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Customer logout action
+     *
+     * @return void
      */
     public function logoutAction()
     {
@@ -359,6 +369,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Logout success page
+     *
+     * @return void
      */
     public function logoutSuccessAction()
     {
@@ -368,6 +380,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Customer register form page
+     *
+     * @return void
      */
     public function createAction()
     {
@@ -383,6 +397,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Create customer account action
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function createPostAction()
@@ -550,6 +566,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Adds a welcome message to the session
+     *
+     * @return void
      */
     protected function _addWelcomeMessage()
     {
@@ -579,9 +597,9 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * load customer by id (try/catch in case if it throws exceptions)
+     * Load customer by id (try/catch in case if it throws exceptions)
      *
-     * @param $customerId
+     * @param int $customerId
      * @return \Magento\Customer\Service\V1\Data\Customer
      * @throws \Exception
      */
@@ -598,6 +616,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Confirm customer account by id and confirmation key
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function confirmAction()
@@ -646,6 +666,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Send confirmation link to specified email
+     *
+     * @return void
      */
     public function confirmationAction()
     {
@@ -690,6 +712,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Forgot customer password page
+     *
+     * @return void
      */
     public function forgotPasswordAction()
     {
@@ -706,6 +730,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Forgot customer password action
+     *
+     * @return void
      */
     public function forgotPasswordPostAction()
     {
@@ -752,6 +778,7 @@ class Account extends \Magento\App\Action\Action
      *
      * User is redirected on this action when he clicks on the corresponding link in password reset confirmation email
      *
+     * @return void
      */
     public function resetPasswordAction()
     {
@@ -760,6 +787,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Resetting password handler
+     *
+     * @return void
      */
     public function createPasswordAction()
     {
@@ -784,6 +813,7 @@ class Account extends \Magento\App\Action\Action
      *
      * Used to handle data received from reset forgotten password form
      *
+     * @return void
      */
     public function resetPasswordPostAction()
     {
@@ -828,6 +858,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Forgot customer account information page
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -855,6 +887,8 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * Change customer password action
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function editPostAction()

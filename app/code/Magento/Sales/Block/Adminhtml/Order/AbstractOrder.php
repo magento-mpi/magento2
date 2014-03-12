@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order;
+
+use Magento\Sales\Model\Order;
 
 /**
  * Adminhtml order abstract block
@@ -15,8 +18,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order;
-
 class AbstractOrder extends \Magento\Backend\Block\Widget
 {
     /**
@@ -27,6 +28,8 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * Admin helper
+     *
      * @var \Magento\Sales\Helper\Admin
      */
     protected $_adminHelper;
@@ -51,7 +54,8 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
     /**
      * Retrieve available order
      *
-     * @return \Magento\Sales\Model\Order
+     * @return Order
+     * @throws \Magento\Core\Exception
      */
     public function getOrder()
     {
@@ -67,6 +71,11 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
     }
 
+    /**
+     * Get price data object
+     *
+     * @return Order|mixed
+     */
     public function getPriceDataObject()
     {
         $obj = $this->getData('price_data_object');
@@ -76,11 +85,28 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         return $obj;
     }
 
+    /**
+     * Display price attribute
+     *
+     * @param string $code
+     * @param bool $strong
+     * @param string $separator
+     * @return string
+     */
     public function displayPriceAttribute($code, $strong = false, $separator = '<br/>')
     {
         return $this->_adminHelper->displayPriceAttribute($this->getPriceDataObject(), $code, $strong, $separator);
     }
 
+    /**
+     * Display prices
+     *
+     * @param float $basePrice
+     * @param float $price
+     * @param bool $strong
+     * @param string $separator
+     * @return string
+     */
     public function displayPrices($basePrice, $price, $strong = false, $separator = '<br/>')
     {
         return $this->_adminHelper->displayPrices($this->getPriceDataObject(), $basePrice, $price, $strong, $separator);
@@ -106,11 +132,10 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         return array();
     }
 
-
     /**
      * Retrieve subtotal price include tax html formated content
      *
-     * @param \Magento\Object $item
+     * @param \Magento\Object $order
      * @return string
      */
     public function displayShippingPriceInclTax($order)

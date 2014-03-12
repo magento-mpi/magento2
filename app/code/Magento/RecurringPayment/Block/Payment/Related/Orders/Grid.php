@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\Related\Orders;
 
 /**
@@ -61,6 +60,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
      * Prepare related orders collection
      *
      * @param array|string $fieldsToSelect
+     * @return void
      */
     protected function _prepareRelatedOrders($fieldsToSelect = '*')
     {

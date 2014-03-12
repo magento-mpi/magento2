@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code;
 
 /**
@@ -17,6 +16,7 @@ interface ParserInterface
      * Parse by parser options
      *
      * @param array $parseOptions
+     * @return array
      */
     public function parse(array $parseOptions);
 

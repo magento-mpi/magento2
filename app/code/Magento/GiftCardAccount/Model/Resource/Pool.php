@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCardAccount\Model\Resource;
 
 /**
  * GiftCard pool resource model
@@ -16,13 +16,12 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model\Resource;
-
 class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
 {
     /**
      * Define main table and primary key field
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,6 +32,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
      * Save some code
      *
      * @param string $code
+     * @return void
      */
     public function saveCode($code)
     {

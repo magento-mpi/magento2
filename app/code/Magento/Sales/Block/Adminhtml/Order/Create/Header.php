@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -18,7 +17,11 @@ class Header extends AbstractCreate
     /** @var CustomerAccountServiceInterface */
     protected $_customerAccountService;
 
-    /** @var \Magento\Customer\Helper\View */
+    /**
+     * Customer view helper
+     *
+     * @var \Magento\Customer\Helper\View
+     */
     protected $_customerViewHelper;
 
     /**

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Dictionary\Loader\File;
 
 use Magento\Tools\I18n\Code\Dictionary\Loader\FileInterface;
@@ -40,7 +39,7 @@ abstract class AbstractFile implements FileInterface
     /**
      * Loader construct
      *
-     * @param \Magento\Tools\I18n\Code\Factory $factory
+     * @param Factory $factory
      */
     public function __construct(Factory $factory)
     {
@@ -75,6 +74,7 @@ abstract class AbstractFile implements FileInterface
      * Init file handler
      *
      * @param string $file
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function _openFile($file)
@@ -93,6 +93,8 @@ abstract class AbstractFile implements FileInterface
 
     /**
      * Close file handler
+     *
+     * @return void
      */
     protected function _closeFile()
     {

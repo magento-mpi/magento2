@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Service;
 
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
@@ -137,8 +136,8 @@ class Quote
     /**
      * Quote convertor declaration
      *
-     * @param   \Magento\Sales\Model\Convert\Quote $convertor
-     * @return  \Magento\Sales\Model\Service\Quote
+     * @param \Magento\Sales\Model\Convert\Quote $convertor
+     * @return $this
      */
     public function setConvertor(\Magento\Sales\Model\Convert\Quote $convertor)
     {
@@ -160,7 +159,7 @@ class Quote
      * Specify additional order data
      *
      * @param array $data
-     * @return \Magento\Sales\Model\Service\Quote
+     * @return $this
      */
     public function setOrderData(array $data)
     {
@@ -171,9 +170,9 @@ class Quote
     /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
-     * @deprecated in favor of submitOrderWithDataObject which is using Service Layer
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
+     * @deprecated in favor of submitOrderWithDataObject which is using Service Layer
      */
     public function submitOrder()
     {
@@ -435,7 +434,7 @@ class Quote
     /**
      * Submit nominal items
      *
-     * @return array
+     * @return void
      */
     public function submitNominalItems()
     {
@@ -449,6 +448,8 @@ class Quote
      * Submit all available items
      * All created items will be set to the object
      *
+     * @return void
+     * @throws \Exception
      * @deprecated in favor of submitAllWithDataObject which is using Service Layer
      */
     public function submitAll()
@@ -475,8 +476,8 @@ class Quote
      * Submit all available items
      * All created items will be set to the object
      *
-     * @throws \Exception
      * @return void
+     * @throws \Exception
      */
     public function submitAllWithDataObject()
     {
@@ -511,7 +512,7 @@ class Quote
     /**
      * Inactivate quote
      *
-     * @return \Magento\Sales\Model\Service\Quote
+     * @return $this
      */
     protected function _inactivateQuote()
     {
@@ -524,7 +525,7 @@ class Quote
     /**
      * Validate quote data before converting to order
      *
-     * @return \Magento\Sales\Model\Service\Quote
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _validate()
@@ -560,6 +561,8 @@ class Quote
 
     /**
      * Get rid of all nominal items
+     *
+     * @return void
      */
     protected function _deleteNominalItems()
     {

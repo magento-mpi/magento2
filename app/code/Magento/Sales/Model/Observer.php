@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model;
 
 /**
  * Sales observer
  */
-namespace Magento\Sales\Model;
-
 class Observer
 {
     /**
@@ -136,7 +135,7 @@ class Observer
      * Clean expired quotes (cron process)
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function cleanExpiredQuotes($schedule)
     {
@@ -176,7 +175,7 @@ class Observer
      * Set expire quotes additional fields to filter
      *
      * @param array $fields
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function setExpireQuotesAdditionalFilterFields(array $fields)
     {
@@ -188,7 +187,7 @@ class Observer
      * Refresh sales order report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportOrderData($schedule)
     {
@@ -204,7 +203,7 @@ class Observer
      * Refresh sales invoiced report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportInvoicedData($schedule)
     {
@@ -220,7 +219,7 @@ class Observer
      * Refresh sales refunded report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportRefundedData($schedule)
     {
@@ -236,7 +235,7 @@ class Observer
      * Refresh bestsellers report statistics for last day
      *
      * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
     public function aggregateSalesReportBestsellersData($schedule)
     {
@@ -252,6 +251,7 @@ class Observer
      * Set Quote information about MSRP price enabled
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setQuoteCanApplyMsrp(\Magento\Event\Observer $observer)
     {
@@ -275,7 +275,7 @@ class Observer
      * Add VAT validation request date and identifier to order comments
      *
      * @param \Magento\Event\Observer $observer
-     * @return null
+     * @return void
      */
     public function addVatRequestParamsOrderComment(\Magento\Event\Observer $observer)
     {
@@ -325,6 +325,7 @@ class Observer
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function restoreQuoteCustomerGroupId($observer)
     {

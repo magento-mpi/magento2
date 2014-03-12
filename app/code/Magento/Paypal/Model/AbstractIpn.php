@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model;
 
 class AbstractIpn
@@ -79,6 +78,7 @@ class AbstractIpn
     /**
      * Post back to PayPal to check whether this request is a valid one
      *
+     * @return void
      * @throws \Exception
      */
     protected function _postBack()
@@ -136,6 +136,8 @@ class AbstractIpn
 
     /**
      * Log debug data to file
+     *
+     * @return void
      */
     protected function _debug()
     {
@@ -148,8 +150,8 @@ class AbstractIpn
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param array|string $value
      * @return $this
      */
     protected function _addDebugData($key, $value)

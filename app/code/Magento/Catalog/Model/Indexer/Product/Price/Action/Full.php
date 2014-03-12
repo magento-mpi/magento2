@@ -21,6 +21,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
      * Execute Full reindex
      *
      * @param array|int|null $ids
+     * @return void
      * @throws \Magento\Catalog\Exception
      */
     public function execute($ids = null)

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
@@ -48,6 +47,9 @@ class Name extends AbstractWidget
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();

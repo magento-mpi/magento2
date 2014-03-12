@@ -7,21 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Renderer;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
- * REgion field renderer
+ * Region field renderer
  *
  * @category   Magento
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Renderer;
-
 class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Country region collections
      *
+     * Structure:
      * array(
      *      [$countryId] => \Magento\Data\Collection\Db
      * )
@@ -57,7 +59,11 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
         $this->_escaper = $escaper;
     }
 
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    public function render(AbstractElement $element)
     {
         $countryId = false;
         $isRegionRequired = false;

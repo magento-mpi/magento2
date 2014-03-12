@@ -48,6 +48,7 @@ class Processor
      * Run Row reindex
      *
      * @param int $id
+     * @return void
      */
     public function reindexRow($id)
     {
@@ -61,6 +62,7 @@ class Processor
      * Run List reindex
      *
      * @param int[] $ids
+     * @return void
      */
     public function reindexList($ids)
     {
@@ -72,6 +74,8 @@ class Processor
 
     /**
      * Run Full reindex
+     *
+     * @return void
      */
     public function reindexAll()
     {
@@ -80,6 +84,8 @@ class Processor
 
     /**
      * Mark Product price indexer as invalid
+     *
+     * @return void
      */
     public function markIndexerAsInvalid()
     {

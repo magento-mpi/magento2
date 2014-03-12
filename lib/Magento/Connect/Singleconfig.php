@@ -67,7 +67,7 @@ class Singleconfig
     public function getValidUri($str)
     {
         $data = parse_url($str);
-        if(isset($data['path'])) {
+        if (isset($data['path'])) {
             return $data['path'];
         }
         return false;
@@ -109,7 +109,7 @@ class Singleconfig
     public function __construct($file = "cache.cfg")
     {
         $this->setEmptyConfig();
-        if($file) {
+        if ($file) {
             $this->_readFilename = $file;
             $this->load();
         }
@@ -124,50 +124,50 @@ class Singleconfig
      */
     public function load($file = false)
     {
-        if(false === $file) {
+        if (false === $file) {
             $file = $this->_readFilename;
         }
-        if(false === $file) {
+        if (false === $file) {
             return;
         }
 
-        if(!file_exists($file)) {
+        if (!file_exists($file)) {
             $this->save($file);
             return;
         }
 
-        if(!is_readable($file)) {
+        if (!is_readable($file)) {
             return $this->doError("File is not readable: '{$file}'");
         }
 
         $this->_readFilename = $file;
 
         $data = @file_get_contents($file);
-        if(false === $data) {
+        if (false === $data) {
             return $this->doError("Cannot get file contents: '{$file}'");
         }
 
-        if(!$this->_debug) {
+        if (!$this->_debug) {
             $data = @gzuncompress($data);
-            if(false === $data) {
+            if (false === $data) {
                 return $this->doError("Cannot unpack gzipped data in file contents: '{$file}'");
             }
         }
         $data = @unserialize($data);
-        if(unserialize(false) === $data) {
+        if (unserialize(false) === $data) {
             return $this->doError("Cannot unserialize data in file contents: '{$file}'");
         }
 
 
         $validData = true;
-        foreach(array_keys($this->_data) as $k) {
-            if(!isset($data[$k])) {
+        foreach (array_keys($this->_data) as $k) {
+            if (!isset($data[$k])) {
                 $validData = false;
             } else {
                 $this->_data[$k] = $data[$k];
             }
         }
-        if($validData) {
+        if ($validData) {
             $this->_data = $data;
         } else {
             $this->save();
@@ -176,23 +176,24 @@ class Singleconfig
 
     /**
      * Save contents
+     *
      * @param string|false $file
      * @return void
      */
     public function save($file = false)
     {
-        if(false === $file) {
+        if (false === $file) {
             $file = $this->_readFilename;
         }
-        if(false === $file) {
+        if (false === $file) {
             return;
         }
         $data = @serialize($this->_data);
-        if(!$this->_debug) {
+        if (!$this->_debug) {
             $data = @gzcompress($data);
         }
         $res = @file_put_contents($file, $data);
-        if(!$res) {
+        if (!$res) {
             $this->doError("Cannot save: '{$file}'");
         }
     }
@@ -216,13 +217,13 @@ class Singleconfig
      */
     public function isChannel($chanName)
     {
-        if($this->isChannelName($chanName)) {
+        if ($this->isChannelName($chanName)) {
             return true;
         }
-        if($this->isChannelUri($chanName)) {
+        if ($this->isChannelUri($chanName)) {
             return true;
         }
-        if($this->isChannelAlias($chanName)) {
+        if ($this->isChannelAlias($chanName)) {
             return true;
         }
         return false;
@@ -231,16 +232,16 @@ class Singleconfig
     /**
      * Get channel
      * @param string $chanName
-     * @return array
+     * @return array|void
      */
     public function getChannel($chanName)
     {
-        if($this->isChannelAlias($chanName)) {
+        if ($this->isChannelAlias($chanName)) {
             $chanName = $this->getChannelNameByAlias($chanName);
-        } elseif($this->isChannelUri($chanName)) {
+        } elseif ($this->isChannelUri($chanName)) {
             $chanName = $this->getChannelUriRecord($chanName);
         }
-        if($this->isChannelName($chanName)) {
+        if ($this->isChannelName($chanName)) {
             return $this->_data[self::K_CHAN][$chanName];
         }
     }
@@ -359,7 +360,7 @@ class Singleconfig
      */
     protected function setPackageRecord($chanName, $packageName, $data, $oneField = null)
     {
-        if(null === $oneField) {
+        if (null === $oneField) {
             $this->_data[self::K_CHAN][$chanName][self::K_PACK][$packageName] = $data;
         } else {
             $this->_data[self::K_CHAN][$chanName][self::K_PACK][$packageName][$oneField] = $data;
@@ -386,7 +387,7 @@ class Singleconfig
      */
     protected function fetchPackage($chanName, $packageName, $field = null)
     {
-        if(null === $field) {
+        if (null === $field) {
             return $this->_data[self::K_CHAN][$chanName][self::K_PACK][$packageName];
         } else {
             return $this->_data[self::K_CHAN][$chanName][self::K_PACK][$packageName][$field];
@@ -444,7 +445,7 @@ class Singleconfig
     {
         $keys = array_keys($this->_data[self::K_CHAN_ALIAS]);
         foreach ($keys as $key) {
-            if($this->_data[self::K_CHAN_ALIAS][$key] == $chanName) {
+            if ($this->_data[self::K_CHAN_ALIAS][$key] == $chanName) {
                 unset($this->_data[self::K_CHAN_ALIAS][$key]);
             }
         }
@@ -458,11 +459,11 @@ class Singleconfig
      */
     public function addChannelAlias($chanName, $alias)
     {
-        if($this->isChannelName($alias)) {
+        if ($this->isChannelName($alias)) {
             return $this->doError("Alias '{$alias}' is existant channel name!");
         }
 
-        if(!$this->isChannelName($chanName)) {
+        if (!$this->isChannelName($chanName)) {
             return $this->doError("Channel '{$chanName}' doesn't exist");
         }
         $this->setChannelAlias($alias, $chanName);
@@ -480,13 +481,13 @@ class Singleconfig
      */
     public function addChannel($chanName, $uri, $data = array())
     {
-        if($this->isChannelName($chanName)) {
+        if ($this->isChannelName($chanName)) {
             return $this->doError("Channel '{$chanName}' already exist!");
         }
-        if($this->isChannelUri($uri)) {
+        if ($this->isChannelUri($uri)) {
             return $this->doError("Channel with uri= '{$uri}' already exist!");
         }
-        if($this->isChannelAlias($chanName)) {
+        if ($this->isChannelAlias($chanName)) {
             $this->unsetChannelAlias($chanName);
         }
         $uri = $this->formatUri($uri);
@@ -504,18 +505,18 @@ class Singleconfig
      */
     public function deleteChannel($chanName)
     {
-        if($this->isChannelName($chanName)) {
+        if ($this->isChannelName($chanName)) {
             $record = $this->getChannelRecord($chanName);
             $this->unsetChannelUriRecord($record[self::K_URI]);
             $this->unsetChannelRecord($chanName);
             $this->clearAliases($chanName);
-        } elseif($this->isChannelUri($chanName)) {
+        } elseif ($this->isChannelUri($chanName)) {
             $uri = $chanName;
             $chanName = $this->getChannelUriRecord($uri);
             $this->unsetChannelUriRecord($uri);
             $this->unsetChannelRecord($chanName);
             $this->clearAliases($chanName);
-        } elseif($this->isChannelAlias($chanName)) {
+        } elseif ($this->isChannelAlias($chanName)) {
             $this->unsetChannelAlias($chanName);
         } else {
             return $this->doError("'{$chanName}' was not found in aliases, channel names, channel uris");
@@ -533,7 +534,7 @@ class Singleconfig
     public function chanName($chanName)
     {
         $channelData = $this->getChannel($chanName);
-        if(!$channelData) {
+        if (!$channelData) {
             return $this->doError("Channel '{$chanName}' doesn't exist");
         }
         return $channelData[self::K_NAME];
@@ -546,7 +547,7 @@ class Singleconfig
     public function chanUrl($chan)
     {
         $channelData = $this->getChannel($chan);
-        if(!$channelData) {
+        if (!$channelData) {
             return $this->doError("Channel '{$chan}' doesn't exist");
         }
         return $channelData[self::K_URI];
@@ -596,12 +597,12 @@ class Singleconfig
      * Get package
      * @param string $chanName
      * @param string $package
-     * @return void
+     * @return array|null
      */
     public function getPackage($chanName, $package)
     {
         $chanName = $this->chanName($chanName);
-        if($this->hasPackageRecord($chanName, $package)) {
+        if ($this->hasPackageRecord($chanName, $package)) {
             return $this->fetchPackage($chanName, $package);
         }
         return null;
@@ -616,7 +617,7 @@ class Singleconfig
     public function getPackageObject($chanName, $package)
     {
         $chanName = $this->chanName($chanName);
-        if($this->hasPackageRecord($chanName, $package)) {
+        if ($this->hasPackageRecord($chanName, $package)) {
             $data = $this->fetchPackage($chanName, $package);
             return new Package($data[self::K_XML]);
         }
@@ -634,7 +635,7 @@ class Singleconfig
     {
         $chanName = $this->chanName($chanName);
         $data = $this->getPackage($chanName, $package);
-        if(null === $data) {
+        if (null === $data) {
             return false;
         }
         $installedVersion = $data[self::K_VER];
@@ -649,12 +650,12 @@ class Singleconfig
      */
     public function versionInRange($version, $versionMin = false, $versionMax = false)
     {
-        if(false === $versionMin) {
+        if (false === $versionMin) {
             $minOk = true;
         } else {
             $minOk = version_compare($version, $versionMin, ">=");
         }
-        if(false === $versionMax) {
+        if (false === $versionMax) {
             $maxOk = true;
         } else {
             $maxOk = version_compare($version, $versionMax, "<=");
@@ -671,13 +672,13 @@ class Singleconfig
      */
     public function hasVersionRangeIntersect($min1, $max1, $min2, $max2)
     {
-        if(version_compare($min1, $min2, ">") && version_compare($max1, $max2, ">")) {
+        if (version_compare($min1, $min2, ">") && version_compare($max1, $max2, ">")) {
             return false;
-        } elseif(version_compare($min1, $min2, "<") && version_compare($max1, $max2, "<")) {
+        } elseif (version_compare($min1, $min2, "<") && version_compare($max1, $max2, "<")) {
             return false;
-        } elseif(version_compare($min1, $min2, ">=") && version_compare($max1, $max2, "<=")) {
+        } elseif (version_compare($min1, $min2, ">=") && version_compare($max1, $max2, "<=")) {
             return true;
-        } elseif(version_compare($min1, $min2, "<=") && version_compare($max1, $max2, ">=")) {
+        } elseif (version_compare($min1, $min2, "<=") && version_compare($max1, $max2, ">=")) {
            return true;
         }
         return false;
@@ -711,7 +712,7 @@ class Singleconfig
      */
     public function compareStabilities($s1, $s2)
     {
-        if(!$this->_validator) {
+        if (!$this->_validator) {
             $this->_validator = new Validator();
         }
         return $this->_validator->compareStabilities($s1, $s2);
@@ -726,15 +727,15 @@ class Singleconfig
      */
     public function detectVersionFromRestArray($restData, $argVersionMin = false, $argVersionMax = false, $preferredStability = 'devel')
     {
-        if(!is_array($restData)) {
+        if (!is_array($restData)) {
             return false;
         }
 
-        foreach($restData as $vData) {
+        foreach ($restData as $vData) {
             $stability = trim($vData['s']);
             $version = trim($vData['v']);
             $goodStability = $this->compareStabilities($stability, $preferredStability) >= 0;
-            if($goodStability && $this->versionInRange($version, $argVersionMin, $argVersionMax)) {
+            if ($goodStability && $this->versionInRange($version, $argVersionMin, $argVersionMax)) {
                 return $version;
             }
         }
@@ -750,7 +751,7 @@ class Singleconfig
     public function setPackageDependencies($chanName, $package, $data)
     {
         $chanName = $this->chanName($chanName);
-        if($this->hasPackageRecord($chanName, $package)) {
+        if ($this->hasPackageRecord($chanName, $package)) {
             $this->setPackageRecord($chanName, $package, $data, self::K_PACK_DEPS);
             $this->save();
             return true;
@@ -766,7 +767,7 @@ class Singleconfig
     public function getPackageDependencies($chanName, $package)
     {
         $chanName = $this->chanName($chanName);
-        if($this->hasPackageRecord($chanName, $package)) {
+        if ($this->hasPackageRecord($chanName, $package)) {
             return $this->fetchPackage($chanName, $package, self::K_PACK_DEPS);
         }
         return false;
@@ -781,7 +782,7 @@ class Singleconfig
     public function setDependencyInfo($chanName, $package, $data)
     {
         $chanName = $this->chanName($chanName);
-        if($this->hasPackageRecord($chanName, $package)) {
+        if ($this->hasPackageRecord($chanName, $package)) {
             $this->setPackageRecord($chanName, $package, $data, self::K_DEPS);
             $this->save();
             return true;
@@ -797,7 +798,7 @@ class Singleconfig
     public function getDependencyInfo($chanName, $package)
     {
         $chanName = $this->chanName($chanName);
-        if($this->hasPackageRecord($chanName, $package)) {
+        if ($this->hasPackageRecord($chanName, $package)) {
             return $this->fetchPackage($chanName, $package, self::K_DEPS);
         }
         return false;
@@ -817,11 +818,11 @@ class Singleconfig
      */
     public function getPackagesData($channel = false)
     {
-        if(false == $channel) {
+        if (false == $channel) {
             return $this->_data[self::K_CHAN];
         }
 
-        if(!$this->isChannel($channel)) {
+        if (!$this->isChannel($channel)) {
             return array();
         }
         return $this->getChannel($channel);
@@ -835,8 +836,8 @@ class Singleconfig
      */
     public function specifiedInDependencyList($deps, $chanName, $packageName)
     {
-        foreach($deps as $dep) {
-            if($chanName == $dep['channel'] && $packageName == $dep['name']) {
+        foreach ($deps as $dep) {
+            if ($chanName == $dep['channel'] && $packageName == $dep['name']) {
                 return true;
             }
         }
@@ -852,13 +853,13 @@ class Singleconfig
     public function requiredByOtherPackages($chanName, $packageName, $excludeList = array())
     {
         $out = array();
-        foreach($this->_data[self::K_CHAN] as $channel=>$data) {
-            foreach($data[self::K_PACK] as $package) {
-                if($this->specifiedInDependencyList($excludeList, $channel, $package['name'])) {
+        foreach ($this->_data[self::K_CHAN] as $channel=>$data) {
+            foreach ($data[self::K_PACK] as $package) {
+                if ($this->specifiedInDependencyList($excludeList, $channel, $package['name'])) {
                     continue;
                 }
                 $deps = $package[self::K_PACK_DEPS];
-                if($this->specifiedInDependencyList($deps, $chanName, $packageName)) {
+                if ($this->specifiedInDependencyList($deps, $chanName, $packageName)) {
                     $out[] = array('channel'=>$channel, 'name' =>$package['name'], 'version'=>$package['version']);
                 }
             }
@@ -872,19 +873,19 @@ class Singleconfig
      */
     public function getInstalledPackages($chanName = false)
     {
-        if(false == $chanName) {
+        if (false == $chanName) {
             $data = $this->getChannelNames();
-        } elseif($this->isChannel($chanName)) {
+        } elseif ($this->isChannel($chanName)) {
             $tmp = $this->getChannel($chanName);
             $data = array($tmp[self::K_NAME]);
         }
         $out = array();
-        foreach( $data as $chanName) {
+        foreach ( $data as $chanName) {
             $channel = $this->getChannel($chanName);
             $out[$chanName] = array();
-            foreach($channel[self::K_PACK] as $package=>$data) {
+            foreach ($channel[self::K_PACK] as $package=>$data) {
                 $out[$chanName][$package] = array();
-                foreach(array(self::K_VER, self::K_STATE) as $k) {
+                foreach (array(self::K_VER, self::K_STATE) as $k) {
                     $out[$chanName][$package][$k] = $data[$k];
                 }
             }
@@ -906,18 +907,18 @@ class Singleconfig
     public function hasConflicts($chanName, $packageName, $version)
     {
         $conflicts = array();
-        foreach($this->_data[self::K_CHAN] as $channel=>$data) {
-            foreach($data[self::K_PACK] as $package) {
-                if($channel != $chanName) {
+        foreach ($this->_data[self::K_CHAN] as $channel=>$data) {
+            foreach ($data[self::K_PACK] as $package) {
+                if ($channel != $chanName) {
                     continue;
                 }
                 $deps = $package[self::K_PACK_DEPS];
-                foreach($deps as $dep) {
-                    if($dep['name'] != $packageName) {
+                foreach ($deps as $dep) {
+                    if ($dep['name'] != $packageName) {
                         continue;
                     }
 
-                    if(!$this->versionInRange($version, $dep['min'], $dep['max'])) {
+                    if (!$this->versionInRange($version, $dep['min'], $dep['max'])) {
                         //var_dump($version, $dep['min'], $dep['max']);
                         $conflicts[] = $channel . "/". $package['name'] ." ". $package['version'];
                     }

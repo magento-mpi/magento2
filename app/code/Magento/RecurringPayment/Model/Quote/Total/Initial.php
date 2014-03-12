@@ -20,6 +20,10 @@ class Initial
      * @var string
      */
     protected $_itemRowTotalKey = 'recurring_initial_fee';
+
+    /**
+     * @var string
+     */
     protected $_paymentDataKey = 'init_amount';
 
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
@@ -75,7 +74,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare edit form
      *
-     * @return \Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

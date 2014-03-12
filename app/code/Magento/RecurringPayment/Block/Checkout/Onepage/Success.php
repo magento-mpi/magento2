@@ -50,7 +50,7 @@ class Success extends \Magento\View\Element\Template
     /**
      * Getter for recurring payment view page
      *
-     * @param $payment
+     * @param \Magento\Object $payment
      * @return string
      */
     public function getPaymentUrl(\Magento\Object $payment)
@@ -71,6 +71,8 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * Prepare recurring payments from the session
+     *
+     * @return void
      */
     protected function _prepareLastRecurringPayments()
     {

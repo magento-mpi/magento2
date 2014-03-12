@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
 
 class Edit
@@ -36,6 +35,8 @@ class Edit
 
     /**
      * Initialize form
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -11,9 +11,16 @@ namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo\Create;
 
 class Adjustments extends \Magento\Backend\Block\Template
 {
+    /**
+     * Source object
+     *
+     * @var \Magento\Object
+     */
     protected $_source;
 
     /**
+     * Tax config
+     *
      * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;
@@ -35,7 +42,7 @@ class Adjustments extends \Magento\Backend\Block\Template
     /**
      * Initialize creditmemo agjustment totals
      *
-     * @return \Magento\Tax\Block\Sales\Order\Tax
+     * @return $this
      */
     public function initTotals()
     {
@@ -52,6 +59,11 @@ class Adjustments extends \Magento\Backend\Block\Template
         return $this;
     }
 
+    /**
+     * Get source object
+     *
+     * @return \Magento\Object
+     */
     public function getSource()
     {
         return $this->_source;
@@ -59,6 +71,7 @@ class Adjustments extends \Magento\Backend\Block\Template
 
     /**
      * Get credit memo shipping amount depend on configuration settings
+     *
      * @return float
      */
     public function getShippingAmount()
@@ -74,6 +87,7 @@ class Adjustments extends \Magento\Backend\Block\Template
 
     /**
      * Get label for shipping total based on configuration settings
+     *
      * @return string
      */
     public function getShippingLabel()

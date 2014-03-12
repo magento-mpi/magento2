@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View;
 
 /**
  * Edit order giftmessage block
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View;
-
 class Giftmessage extends \Magento\Backend\Block\Widget
 {
     /**
@@ -34,11 +33,15 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * Message factory
+     *
      * @var \Magento\GiftMessage\Model\MessageFactory
      */
     protected $_messageFactory;
 
     /**
+     * Message helper
+     *
      * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_messageHelper;
@@ -80,6 +83,11 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     protected $_giftMessage;
 
+    /**
+     * Before rendering html, but after trying to load cache
+     *
+     * @return void
+     */
     protected function _beforeToHtml()
     {
         if ($this->getParentBlock() && ($order = $this->getOrder())) {
@@ -91,7 +99,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Prepares layout of block
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -121,7 +129,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      * Set entity for form
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     public function setEntity(\Magento\Object $entity)
     {
@@ -203,7 +211,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Retrieve real html id for field
      *
-     * @param string $name
+     * @param string $id
      * @return string
      */
     public function getFieldId($id)
@@ -224,7 +232,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -257,6 +265,11 @@ class Giftmessage extends \Magento\Backend\Block\Widget
         return $this->_giftMessage;
     }
 
+    /**
+     * Get save url
+     *
+     * @return string
+     */
     public function getSaveUrl()
     {
         return $this->getUrl('sales/order_view_giftmessage/save',
@@ -281,7 +294,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     /**
      * Indicates that block can display giftmessages form
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayGiftmessage()
     {

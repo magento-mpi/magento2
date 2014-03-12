@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -158,8 +157,8 @@ class Messages extends Template
     /**
      * Adding new message to message collection
      *
-     * @param   \Magento\Message\AbstractMessage $message
-     * @return  $this
+     * @param \Magento\Message\MessageInterface $message
+     * @return $this
      */
     public function addMessage(\Magento\Message\AbstractMessage $message)
     {

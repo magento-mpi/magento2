@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringPayment\Model\Quote\Total;
 
 /**
  * Total model for recurring payment trial payment
  */
-namespace Magento\RecurringPayment\Model\Quote\Total;
-
 class Trial
     extends \Magento\RecurringPayment\Model\Quote\Total\AbstractRecurring
 {
@@ -20,6 +19,10 @@ class Trial
      * @var string
      */
     protected $_itemRowTotalKey = 'recurring_trial_payment';
+
+    /**
+     * @var string
+     */
     protected $_paymentDataKey = 'trial_billing_amount';
 
     /**
@@ -35,9 +38,10 @@ class Trial
     /**
      * Prevent compounding nominal subtotal in case if the trial payment exists
      *
-     * @see \Magento\Sales\Model\Quote\Address\Total\Nominal\Subtotal
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
+     * @return void
+     * @see \Magento\Sales\Model\Quote\Address\Total\Nominal\Subtotal
      */
     protected function _afterCollectSuccess($address, $item)
     {

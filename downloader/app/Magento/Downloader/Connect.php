@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloader;
 
 error_reporting(E_ALL & ~E_NOTICE);
@@ -261,7 +260,7 @@ class Connect
     /**
      * Set remote Config by URI
      *
-     * @param $uri
+     * @param string $uri
      * @return \Magento\Downloader\Connect
      */
     public function setRemoteConfig($uri)

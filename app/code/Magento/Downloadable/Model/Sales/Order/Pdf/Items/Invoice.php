@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
 
 /**
@@ -66,6 +65,8 @@ class Invoice extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstract
 
     /**
      * Draw item line
+     *
+     * @return void
      */
     public function draw()
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Tax\Model\Resource;
 
 /**
  * Tax Setup Resource Model
  */
-namespace Magento\Tax\Model\Resource;
-
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
@@ -27,7 +26,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
     /**
      * @param \Magento\Eav\Model\Entity\Setup\Context $context
-     * @param $resourceName
+     * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\App\ConfigInterface $config
