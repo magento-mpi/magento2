@@ -29,7 +29,7 @@ class Tax extends \Magento\Backend\App\Action
         $responseContent = '';
         try {
             $classData = array(
-                'class_id' => (int)$this->getRequest()->getPost('class_id') ?: null,
+                'class_id' => (int)$this->getRequest()->getPost('class_id') ?: null, // keep null for new tax classes
                 'class_type' => $this->_processClassType((string)$this->getRequest()->getPost('class_type')),
                 'class_name' => $this->_processClassName((string)$this->getRequest()->getPost('class_name'))
             );

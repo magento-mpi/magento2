@@ -137,7 +137,7 @@ class History extends \Magento\View\Element\Template
      */
     public function getExplanation(\Magento\Reward\Model\Reward\History $item)
     {
-        return '';
+        return ''; // TODO
     }
 
     /**

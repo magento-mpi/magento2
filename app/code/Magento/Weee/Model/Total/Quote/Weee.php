@@ -138,6 +138,9 @@ class Weee extends \Magento\Tax\Model\Sales\Total\Quote\Tax
                 'amount' => $value,
                 'row_amount' => $rowValue,
                 'base_row_amount' => $baseRowValue,
+                /**
+                 * Tax value can't be presented as include/exclude tax
+                 */
                 'base_amount_incl_tax' => $baseValue,
                 'amount_incl_tax' => $value,
                 'row_amount_incl_tax' => $rowValue,

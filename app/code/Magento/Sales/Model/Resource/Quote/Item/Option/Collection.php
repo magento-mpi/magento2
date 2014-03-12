@@ -83,6 +83,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if (empty($item)) {
             $this->_totalRecords = 0;
             $this->_setIsLoaded(true);
+            //$this->addFieldToFilter('item_id', '');
         } elseif (is_array($item)) {
             $this->addFieldToFilter('item_id', array('in' => $item));
         } elseif ($item instanceof Item) {

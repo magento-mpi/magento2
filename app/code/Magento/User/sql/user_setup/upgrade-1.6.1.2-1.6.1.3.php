@@ -19,6 +19,10 @@ $condition = $connection->prepareSqlCondition(
     array(
         array('like' => '%xmlconnect%'),
         array(
+            /**
+             * Include both old and new identifiers, as depending on install or upgrade process there can be
+             * either first or second in the database
+             */
             'in' => array(
                 'admin/system/convert/gui',
                 'Magento_Adminhtml::gui',

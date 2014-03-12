@@ -165,6 +165,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
                 $flag,
                 $this->getAddress(),
                 null,
+                //We should send exact quote store to prevent fetching default config for admin store.
                 $this->getAddress()->getQuote()->getStore()
             ),
             true

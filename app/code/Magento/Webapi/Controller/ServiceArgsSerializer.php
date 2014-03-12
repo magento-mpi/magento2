@@ -76,7 +76,7 @@ class ServiceArgsSerializer
                 }
                 $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
-                $inputData[] = $param->getDefaultValue();
+                $inputData[] = $param->getDefaultValue();                   // not set, so use default
             }
         }
 

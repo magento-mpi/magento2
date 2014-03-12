@@ -385,7 +385,7 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = $this->_getReadAdapter()->select()->from(
             array('main_table' => $resource->getMainTable()),
             'entity_id'
-        )->joinInner(
+        )->joinInner( // Filter by archived order
             array('order_archive' => $this->getArchiveEntityTable('order')),
             'main_table.order_id = order_archive.entity_id',
             array()

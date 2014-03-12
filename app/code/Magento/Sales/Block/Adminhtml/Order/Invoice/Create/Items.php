@@ -65,7 +65,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
             /**
              * @see bug #14839
              */
-            if ($item->getQty()) {
+            if ($item->getQty()/* || $this->getSource()->getData('base_grand_total')*/) {
                 $this->_disableSubmitButton = false;
                 $_submitButtonClass = '';
                 break;

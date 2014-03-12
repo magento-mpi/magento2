@@ -407,7 +407,7 @@ class Payment extends \Magento\Payment\Model\Info
         if (is_null($invoice)) {
             $invoice = $this->_invoice();
             $this->setCreatedInvoice($invoice);
-            return $this;
+            return $this; // @see Invoice::capture()
         }
         $amountToCapture = $this->_formatAmount($invoice->getBaseGrandTotal());
         $order = $this->getOrder();
@@ -1025,6 +1025,7 @@ class Payment extends \Magento\Payment\Model\Info
                         $transactionId
                     );
                 } else {
+                    // notification mechanism is responsible to update the payment object first
                 }
                 if ($this->getIsTransactionApproved()) {
                     $result = true;
@@ -1298,6 +1299,7 @@ class Payment extends \Magento\Payment\Model\Info
             $this->getOrder()->addRelatedObject($transaction);
             if ($salesDocument && $salesDocument instanceof \Magento\Sales\Model\AbstractModel) {
                 $salesDocument->setTransactionId($transactionId);
+                // TODO: linking transaction with the sales document
             }
 
             // link with parent transaction

@@ -103,12 +103,15 @@ class Menu extends \Magento\View\Element\Template
             'start',
             'value',
             'compact',
+            // %attrs
             'id',
             'class',
             'style',
             'title',
+            // %coreattrs
             'lang',
             'dir',
+            // %i18n
             'onclick',
             'ondblclick',
             'onmousedown',
@@ -119,6 +122,7 @@ class Menu extends \Magento\View\Element\Template
             'onkeypress',
             'onkeydown',
             'onkeyup'
+            // %events
         );
         $this->_allowedLinkAttributes = array(
             'charset',
@@ -133,12 +137,15 @@ class Menu extends \Magento\View\Element\Template
             'tabindex',
             'onfocus',
             'onblur',
+            // %attrs
             'id',
             'class',
             'style',
             'title',
+            // %coreattrs
             'lang',
             'dir',
+            // %i18n
             'onclick',
             'ondblclick',
             'onmousedown',
@@ -149,14 +156,17 @@ class Menu extends \Magento\View\Element\Template
             'onkeypress',
             'onkeydown',
             'onkeyup'
+            // %events
         );
         $this->_allowedSpanAttributes = array(
             'id',
             'class',
             'style',
             'title',
+            // %coreattrs
             'lang',
             'dir',
+            // %i18n
             'onclick',
             'ondblclick',
             'onmousedown',
@@ -167,6 +177,7 @@ class Menu extends \Magento\View\Element\Template
             'onkeypress',
             'onkeydown',
             'onkeyup'
+            // %events
         );
     }
 

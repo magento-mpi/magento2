@@ -94,7 +94,7 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
                 $this->_totalQtyFactory->create()->getNewChildSelectOptions(),
                 $this->_virtualFactory->create()->getNewChildSelectOptions(),
                 $this->_amountFactory->create()->getNewChildSelectOptions(),
-                array(
+                array( // subselection combo
                     'value' => 'Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
                     'label' => __('Items Subselection')
                 )

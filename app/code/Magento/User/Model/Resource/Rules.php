@@ -89,7 +89,7 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($postedResources) {
                 $row = array(
                     'resource_id' => $this->_rootResource->getId(),
-                    'privileges' => '',
+                    'privileges' => '', // not used yet
                     'role_id' => $roleId,
                     'permission' => 'allow'
                 );

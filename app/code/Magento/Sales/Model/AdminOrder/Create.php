@@ -1595,6 +1595,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             /** Create a new customer record if it is not available in the specified store */
             $customerDataObject = $this->_customerBuilder->populate(
                 $customerDataObject
+            /** Unset customer ID to ensure that new customer will be created */
             )->setId(
                 null
             )->setStoreId(
@@ -1673,6 +1674,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             try {
                 $billingAddressDataObject = $this->_customerAddressService->getDefaultBillingAddress($customerId);
             } catch (\Exception $e) {
+                /** Billing address does not exist. */
             }
             $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling();
             if (isset($billingAddressDataObject) && $isShippingAsBilling) {

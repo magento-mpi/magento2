@@ -114,7 +114,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             ) {
                 $this->_addButton(
                     'capture',
-                    array(
+                    array( // capture?
                         'label' => __('Credit Memo'),
                         'class' => 'go',
                         'onclick' => 'setLocation(\'' . $this->getCreditMemoUrl() . '\')'

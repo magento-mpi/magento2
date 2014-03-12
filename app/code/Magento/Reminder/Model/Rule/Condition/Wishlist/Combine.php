@@ -61,7 +61,7 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
                 $this->_getRecursiveChildSelectOption(),
                 $this->_sharingFactory->create()->getNewChildSelectOptions(),
                 $this->_quantityFactory->create()->getNewChildSelectOptions(),
-                array(
+                array( // subselection combo
                     'value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
                     'label' => __('Items Subselection')
                 )

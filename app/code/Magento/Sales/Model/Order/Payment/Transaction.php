@@ -1,4 +1,4 @@
-<?php
+/<?php
 /**
  * {license_notice}
  *
@@ -424,6 +424,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
             }
             return true;
         } catch (\Magento\Core\Exception $e) {
+            // jam all logical exceptions, fallback to false
         }
         return false;
     }

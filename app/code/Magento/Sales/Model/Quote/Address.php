@@ -672,7 +672,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $this->setData('cached_items_nominal', $nominalItems);
             $this->setData('cached_items_nonnominal', $nonNominalItems);
 
-            $this->_nominalOnly = $wasNominal;
+            $this->_nominalOnly = $wasNominal; // Restore original value before we changed it
         }
 
         $items = $this->getData($key);

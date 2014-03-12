@@ -600,7 +600,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
 
         if ($params['10_action'] == '4') {
             $params['10_action'] = 'Shop';
-            $serviceCode = null;
+            $serviceCode = null; // Service code is not relevant when we're asking ALL possible services' rates
         } else {
             $params['10_action'] = 'Rate';
             $serviceCode = $rowRequest->getProduct() ? $rowRequest->getProduct() : '';
@@ -1341,8 +1341,8 @@ XMLAuth;
             'ULE'
         ) &&
             $request->getShipperAddressCountryCode() == self::USA_COUNTRY_ID &&
-            ($request->getRecipientAddressCountryCode() == 'CA' ||
-            $request->getRecipientAddressCountryCode() == 'PR')
+            ($request->getRecipientAddressCountryCode() == 'CA' || //Canada
+            $request->getRecipientAddressCountryCode() == 'PR') //Puerto Rico
         ) {
             $invoiceLineTotalPart = $shipmentPart->addChild('InvoiceLineTotal');
             $invoiceLineTotalPart->addChild('CurrencyCode', $request->getBaseCurrencyCode());
@@ -1525,10 +1525,15 @@ XMLAuth;
 
         if ($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID ||
             $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID ||
-            $countryShipper == self::MEXICO_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID && $method == '11'
+            $countryShipper == self::MEXICO_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID &&
+            $method == '11' // UPS Standard
         ) {
             $containerTypes = array();
-            if ($method == '07' || $method == '08' || $method == '65') {
+            if (
+                $method == '07' // Worldwide Express
+                || $method == '08' // Worldwide Expedited
+                || $method == '65' // Worldwide Saver
+            ) {
                 // Worldwide Expedited
                 if ($method != '08') {
                     $containerTypes = array(
@@ -1548,9 +1553,9 @@ XMLAuth;
             return array('00' => __('Customer Packaging')) + $containerTypes;
         } elseif ($countryShipper == self::USA_COUNTRY_ID &&
             $countryRecipient == self::PUERTORICO_COUNTRY_ID &&
-            ($method == '03' ||
-            $method == '02' ||
-            $method == '01')
+            ($method == '03' || // UPS Ground
+            $method == '02' || // UPS Second Day Air
+            $method == '01') // UPS Next Day Air
         ) {
             // Container types should be the same as for domestic
             $params->setCountryRecipient(self::USA_COUNTRY_ID);

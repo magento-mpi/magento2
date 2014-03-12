@@ -464,11 +464,13 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                     try {
                         $defaultBilling = $this->_addressService->getDefaultBillingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
+                        /** Address does not exist */
                     }
 
                     try {
                         $defaultShipping = $this->_addressService->getDefaultShippingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
+                        /** Address does not exist */
                     }
 
                     if ($basedOn == 'billing' && $defaultBilling && $defaultBilling->getCountryId()) {

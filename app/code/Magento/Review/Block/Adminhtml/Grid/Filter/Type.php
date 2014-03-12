@@ -48,4 +48,4 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
             return 3;
         }
     }
-}
+}// Class \Magento\Review\Block\Adminhtml\Grid\Filter\Type END

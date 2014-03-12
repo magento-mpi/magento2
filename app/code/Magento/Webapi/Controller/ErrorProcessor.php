@@ -153,6 +153,7 @@ class ErrorProcessor
         $exceptionClass = get_class($exception);
         $reportId = uniqid("webapi-");
         $exceptionForLog = new $exceptionClass(
+            /** Trace is added separately by logException. */
             "Report ID: {$reportId}; Message: {$exception->getMessage()}",
             $exception->getCode()
         );

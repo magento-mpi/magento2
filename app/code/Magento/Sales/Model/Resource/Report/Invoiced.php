@@ -92,6 +92,7 @@ class Invoiced extends AbstractReport
                 )
             );
             $columns = array(
+                // convert dates from UTC to current admin timezone
                 'period' => $periodExpr,
                 'store_id' => 'order_table.store_id',
                 'order_status' => 'order_table.status',

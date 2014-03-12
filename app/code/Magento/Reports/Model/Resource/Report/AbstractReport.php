@@ -265,7 +265,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
         $whereCondition = implode(' OR ', $whereCondition);
         if ($whereCondition == '') {
-            $whereCondition = '1=0';
+            $whereCondition = '1=0';  // FALSE condition!
         }
 
         return $whereCondition;

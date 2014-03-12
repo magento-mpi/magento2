@@ -252,7 +252,7 @@ class Calculation extends \Magento\Core\Model\Resource\Db\AbstractDb
         $productClassId = $request->getProductClassId();
         $ids = is_array($productClassId) ? $productClassId : array($productClassId);
         foreach ($ids as $key => $val) {
-            $ids[$key] = (int)$val;
+            $ids[$key] = (int)$val; // Make it integer for equal cache keys even in case of null/false/0 values
         }
         $ids = array_unique($ids);
         sort($ids);

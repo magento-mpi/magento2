@@ -227,7 +227,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                 $hashedOptions = array();
                 foreach ($selectOptions as $option) {
                     if (is_array($option['value'])) {
-                        continue;
+                        continue; // We cannot use array as index
                     }
                     $hashedOptions[$option['value']] = $option['label'];
                 }

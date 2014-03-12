@@ -11,10 +11,10 @@ namespace Magento\Reports\Model\Grouped;
 
 use Magento\Data\Collection\Db;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Data\Collection //\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * Column name for group by clause 
+     * Column name for group by clause
      *
      * @var string
      */

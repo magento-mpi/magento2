@@ -84,6 +84,7 @@ class Createdat extends \Magento\Sales\Model\Resource\Report\AbstractReport
             );
             // Columns list
             $columns = array(
+                // convert dates from UTC to current admin timezone
                 'period' => $periodExpr,
                 'store_id' => 'o.store_id',
                 'order_status' => 'o.status',

@@ -16,7 +16,7 @@ namespace Magento\Sales\Block\Adminhtml\Order;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Totals extends \Magento\Sales\Block\Adminhtml\Totals
+class Totals extends \Magento\Sales\Block\Adminhtml\Totals//\Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * Initialize order totals array

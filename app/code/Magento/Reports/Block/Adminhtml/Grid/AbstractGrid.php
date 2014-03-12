@@ -154,7 +154,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
                 }
                 if (!$filterData->hasData($filterFieldId) || $filterData->getData($filterFieldId) != $filterFieldValue
                 ) {
-                    return $this;
+                    return $this;  // don't add column
                 }
             }
         }

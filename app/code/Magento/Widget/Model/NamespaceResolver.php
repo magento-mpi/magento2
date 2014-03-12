@@ -62,7 +62,7 @@ class NamespaceResolver
                 $defaultNamespaceFlag = true;
                 $defaultNS = $namespaceName . '_' . $name[0];
                 if (isset($namespace[$defaultNS])) {
-                    return $asFullModuleName ? $namespace[$defaultNS] : $name[0];
+                    return $asFullModuleName ? $namespace[$defaultNS] : $name[0]; // return omitted as well
                 }
             }
             // assume namespace is qualified

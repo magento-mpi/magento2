@@ -36,8 +36,14 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array('value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist', 'label' => __('Wish List')),
-            array('value' => 'Magento\Reminder\Model\Rule\Condition\Cart', 'label' => __('Shopping Cart'))
+            array( // customer wishlist combo
+                'value' => 'Magento\Reminder\Model\Rule\Condition\Wishlist',
+                'label' => __('Wish List')),
+
+            array( // customer shopping cart combo
+                'value' => 'Magento\Reminder\Model\Rule\Condition\Cart',
+                'label' => __('Shopping Cart')),
+
         );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

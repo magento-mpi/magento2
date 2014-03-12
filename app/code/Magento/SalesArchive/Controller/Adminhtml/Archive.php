@@ -195,6 +195,7 @@ class Archive extends \Magento\Backend\App\Action
                 __('We removed %1 order(s) from the archive.', $removedFromArchiveCount)
             );
         } else {
+            // selected orders is not available for removing from archive
         }
         $this->_redirect('adminhtml/*/orders');
     }

@@ -834,7 +834,7 @@ class Observer
                 true
             )->addNotificationSentFlag(
                 false
-            )->addCustomerInfo()->setPageSize(
+            )->addCustomerInfo()->setPageSize( // limit queues for each website
                 20
             )->setCurPage(
                 1

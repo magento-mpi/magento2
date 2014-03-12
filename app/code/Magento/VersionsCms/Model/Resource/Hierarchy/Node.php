@@ -580,7 +580,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $xpath = explode('/', $object->getXpath());
         if (!$this->_treeIsBrief) {
-            array_pop($xpath);
+            array_pop($xpath); //remove self node
         }
         $parentIds = array();
         $useUp = $up > 0;
@@ -715,8 +715,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
         $values = is_array($values) ? $values : array($values);
 
         $parentIds = preg_split('/\/{1}/', $object->getXpath(), 0, PREG_SPLIT_NO_EMPTY);
-        array_pop($parentIds);
-        //remove self node
+        array_pop($parentIds); //remove self node
         $select = $this->_getLoadSelectWithoutWhere()->where(
             $this->getMainTable() . '.node_id IN (?)',
             $parentIds

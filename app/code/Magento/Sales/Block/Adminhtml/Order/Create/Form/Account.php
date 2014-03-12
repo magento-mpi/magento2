@@ -138,6 +138,7 @@ class Account extends AbstractForm
         try {
             $customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
         } catch (\Exception $e) {
+            /** If customer does not exist do nothing. */
         }
         $data = isset($customer) ? \Magento\Service\DataObjectConverter::toFlatArray($customer) : array();
         foreach ($this->getQuote()->getData() as $key => $value) {

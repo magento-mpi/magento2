@@ -90,7 +90,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         $product->setQuoteItemQty(
             $object->getQty()
         )->setQuoteItemPrice(
-            $object->getPrice()
+            $object->getPrice() // possible bug: need to use $object->getBasePrice()
         )->setQuoteItemRowTotal(
             $object->getBaseRowTotal()
         );

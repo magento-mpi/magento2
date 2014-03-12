@@ -36,6 +36,7 @@ class Balance extends \Magento\Backend\Block\Template
     protected function _prepareLayout()
     {
         if (!$this->_authorization->isAllowed(\Magento\Reward\Helper\Data::XML_PATH_PERMISSION_BALANCE)) {
+            // unset template to get empty output
         } else {
             $grid = $this->getLayout()->createBlock(
                 'Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid'

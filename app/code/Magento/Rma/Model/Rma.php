@@ -592,6 +592,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                     'rma' => $this,
                     'order' => $this->getOrder(),
                     'return_address' => $returnAddress,
+                    //We cannot use $this->_items as items collection, because some items might not be loaded now
                     'item_collection' => $this->getItemsForDisplay()
                 )
             )->setFrom(

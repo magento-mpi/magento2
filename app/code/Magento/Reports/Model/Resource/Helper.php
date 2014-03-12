@@ -80,7 +80,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper implements \Magento\Rep
         );
 
         if ($type == 'day') {
-            $columns['id'] = 't.id';
+            $columns['id'] = 't.id';  // to speed-up insert on duplicate key update
         }
 
         $cols = array_keys($columns);

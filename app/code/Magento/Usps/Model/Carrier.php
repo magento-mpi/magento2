@@ -759,6 +759,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                 'INT_26' => 'Priority Express',
                 'INT_27' => 'Priority Express'
             ),
+            // Added because USPS has different services but with same CLASSID value, which is "0"
             'method_to_code' => array(
                 'First-Class Mail Large Envelope' => '0_FCLE',
                 'First-Class Mail Letter' => '0_FCL',

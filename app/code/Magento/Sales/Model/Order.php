@@ -1275,9 +1275,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 $status = $this->getConfig()->getStateDefaultStatus($state);
             }
             $this->setStatus($status);
-            $history = $this->addStatusHistoryComment($comment, false);
-            // no sense to set $status again
-            $history->setIsCustomerNotified($isCustomerNotified);
+            $history = $this->addStatusHistoryComment($comment, false); // no sense to set $status again
+            $history->setIsCustomerNotified($isCustomerNotified); // for backwards compatibility
         }
         return $this;
     }
@@ -1795,6 +1794,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             $products
         )->setVisibility(
             $this->_productVisibility->getVisibleInSiteIds()
+        /* Price data is added to consider item stock status using price index */
         )->addPriceData()->setPageSize(
             $limit
         )->load();
@@ -2496,7 +2496,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         $storeId = $this->getStoreId();
         if (is_null($storeId)) {
-            return $this->getStoreName(1);
+            return $this->getStoreName(1); // 0 - website name, 1 - store group name, 2 - store name
         }
         return $this->getStore()->getGroup()->getName();
     }
