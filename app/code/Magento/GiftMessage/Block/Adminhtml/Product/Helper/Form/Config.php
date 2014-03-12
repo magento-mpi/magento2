@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form;
 
 /**
  * Adminhtml additional helper block for product configuration
@@ -15,8 +16,6 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form;
-
 class Config
     extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
 {
@@ -48,7 +47,7 @@ class Config
     /**
      * Get config value data
      *
-     * @return mixed
+     * @return string|null
      */
     protected function _getValueFromConfig()
     {

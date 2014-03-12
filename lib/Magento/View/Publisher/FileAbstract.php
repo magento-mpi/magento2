@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Publisher;
 
 use Magento\Filesystem\Directory\WriteInterface;
@@ -312,7 +311,7 @@ abstract class FileAbstract implements FileInterface
     }
 
     /**
-     * return void
+     * @return void
      */
     public function __wakeup()
     {

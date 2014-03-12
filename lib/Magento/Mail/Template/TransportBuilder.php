@@ -210,7 +210,7 @@ class TransportBuilder
      */
     protected function reset()
     {
-        $this->message = $this->objectManager->create('\Magento\Mail\Message');
+        $this->message = $this->objectManager->create('Magento\Mail\Message');
         $this->templateIdentifier = null;
         $this->templateVars = null;
         $this->templateOptions = null;

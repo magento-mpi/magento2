@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\Acl\Db;
 
 class Writer
@@ -39,8 +38,9 @@ class Writer
     /**
      * Update records in database
      *
-     * @param $oldKey
-     * @param $newKey
+     * @param string $oldKey
+     * @param string $newKey
+     * @return void
      */
     public function update($oldKey, $newKey)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer\Edit;
 
 /**
  * Customer giftregistry list block
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Customer\Edit;
-
 abstract class AbstractEdit extends \Magento\Directory\Block\Data
 {
     /**
@@ -100,7 +99,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -170,7 +169,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     /**
      * Return array of attribute groups for using as options
      *
-     * @return array
+     * @return mixed
      */
     public function getAttributeGroups()
     {
@@ -200,10 +199,10 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     /**
      * JS Calendar html
      *
-     * @param string $name   - DOM name
-     * @param string $id     - DOM id
+     * @param string $name - DOM name
+     * @param string $id - DOM id
      * @param string $value
-     * @param string $formatType  - full|long|medium|short
+     * @param bool|string $formatType - full|long|medium|short
      * @param string $class
      *
      * @return string
@@ -228,6 +227,11 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     /**
      * Select element for choosing attribute group
      *
+     * @param string $options
+     * @param string $name
+     * @param string $id
+     * @param bool $value
+     * @param string $class
      * @return string
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
@@ -414,11 +418,14 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
 
     /**
      * Return region select html element
+     *
      * @param string $name
      * @param string $id
      * @param string $value
      * @param string $class
      * @param string $params additional params
+     * @param string $default
+     * @return string
      */
     public function getRegionHtmlSelectEmpty($name, $id, $value = '', $class = '', $params = '', $default = '')
     {

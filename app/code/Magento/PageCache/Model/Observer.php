@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model;
 
 /**
@@ -107,12 +106,13 @@ class Observer
      * of incoming object and asks to clean cache.
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function invalidateCache(\Magento\Event\Observer $observer)
     {
         $object = $observer->getEvent()->getObject();
-        if($object instanceof \Magento\Object\IdentityInterface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+        if ($object instanceof \Magento\Object\IdentityInterface) {
+            if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
                 $this->_cache->clean($object->getIdentities());
             }
         }
@@ -122,10 +122,11 @@ class Observer
      * Flash Built-In cache
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function flushAllCache(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN) {
             $this->_cache->clean();
         }
     }

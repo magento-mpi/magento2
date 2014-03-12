@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Reorder\Renderer;
 
 /**
  * Adminhtml alert queue grid block action item renderer
@@ -15,9 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Reorder\Renderer;
-
 class Action
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
@@ -49,6 +47,10 @@ class Action
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $this->_actions = array();
@@ -66,6 +68,12 @@ class Action
         return $this->_actionsToHtml();
     }
 
+    /**
+     * Get escaped value
+     *
+     * @param string $value
+     * @return string
+     */
     protected function _getEscapedValue($value)
     {
         return addcslashes(htmlspecialchars($value), '\\\'');

@@ -11,6 +11,8 @@ interface StorageInterface extends \Magento\Core\Model\Store\ListInterface
 {
     /**
      * Initialize current application store
+     *
+     * @return void
      */
     public function initCurrentStore();
 }

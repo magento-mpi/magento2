@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model\Indexer;
 
 /**
@@ -84,6 +83,11 @@ class State extends \Magento\Core\Model\AbstractModel
         return parent::setStatus($status);
     }
 
+    /**
+     * Processing object before save data
+     *
+     * @return $this
+     */
     protected function _beforeSave()
     {
         $this->setUpdated(time());

@@ -1,0 +1,54 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.order.details {
+    .clearfix();
+    ul.items {
+        .clearfix();
+        &:extend(.reset-list all);
+        clear: both;
+        margin-bottom: @indent-base;
+        .item {
+            float: left;
+            margin-left: 15px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    .order.status {
+        display: inline-block;
+        .heading(h2);
+        margin-top: 0;
+    }
+    .order.date {
+        margin-bottom: @indent-base;
+    }
+    .order.toolbar {
+        float: right;
+        .action {
+            margin-left: 15px;
+            &:first-child {
+                margin-left: 0;
+            }
+        }
+    }
+    .order.subtitle.caption,
+    .order.title  {
+        strong {
+            .heading(h3);
+        }
+        .action {
+            margin-left: 15px;
+        }
+        margin-bottom: @indent-base;
+    }
+    .block {
+        &:extend(.blocks-2columns all);
+    }
+}

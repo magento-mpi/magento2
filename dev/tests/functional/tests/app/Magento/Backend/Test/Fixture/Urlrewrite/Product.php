@@ -53,7 +53,7 @@ class Product extends DataFixture
     public function getRewrittenRequestPath()
     {
         $categoryPath = str_replace(' ', '-', strtolower($this->product->getCategoryName()));
-        return $categoryPath . '/' . $this->product->getProductUrl() . '-custom-redirect.html';
+        return $categoryPath . '/' . $this->product->getUrlKey() . '-custom-redirect.html';
     }
 
     /**
@@ -64,7 +64,7 @@ class Product extends DataFixture
     public function getOriginalRequestPath()
     {
         $categoryPath = str_replace(' ', '-', strtolower($this->product->getCategoryName()));
-        return $categoryPath . '/' . $this->product->getProductUrl() . '.html';
+        return $categoryPath . '/' . $this->product->getUrlKey() . '.html';
     }
 
     /**

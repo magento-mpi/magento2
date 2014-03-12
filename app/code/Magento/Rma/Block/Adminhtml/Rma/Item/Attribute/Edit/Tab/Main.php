@@ -20,7 +20,7 @@ class Main
     /**
      * Rma eav
      *
-     * @var \Magento\CustomAttribute\Helper\Data
+     * @var \Magento\CustomAttributeManagement\Helper\Data
      */
     protected $_attributeHelper = null;
 
@@ -32,7 +32,7 @@ class Main
      * @param \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
+     * @param \Magento\CustomAttributeManagement\Helper\Data $attributeHelper
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
@@ -44,7 +44,7 @@ class Main
         \Magento\Backend\Model\Config\Source\YesnoFactory $yesnoFactory,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory $inputTypeFactory,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\CustomAttribute\Helper\Data $attributeHelper,
+        \Magento\CustomAttributeManagement\Helper\Data $attributeHelper,
         \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {

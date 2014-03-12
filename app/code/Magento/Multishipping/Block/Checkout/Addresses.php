@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Multishipping\Block\Checkout;
 
 /**
  * Multishipping checkout choose item addresses block
@@ -15,8 +16,6 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Multishipping\Block\Checkout;
-
 class Addresses extends \Magento\Sales\Block\Items\AbstractItems
 {
     /**
@@ -84,7 +83,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     /**
      * Retrieve HTML for addresses dropdown
      *
-     * @param $item
+     * @param mixed $item
      * @param int $index
      * @return string
      */
@@ -130,7 +129,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param $item
+     * @param mixed $item
      * @return string
      */
     public function getItemUrl($item)
@@ -139,7 +138,7 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @param $item
+     * @param mixed $item
      * @return string
      */
     public function getItemDeleteUrl($item)

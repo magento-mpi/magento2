@@ -89,6 +89,7 @@ class Observer
         $this->_localeResolver = $localeResolver;
         $this->_collectionFactory = $collectionFactory;
         $this->messageManager = $messageManager;
+        $this->_localeDate = $localeDate;
     }
 
     /**
@@ -206,6 +207,7 @@ class Observer
      *
      * @param \Magento\Rule\Model\Condition\Combine $combine
      * @param string $attributeCode
+     * @return void
      */
     protected function _removeAttributeFromConditions($combine, $attributeCode)
     {

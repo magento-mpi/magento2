@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page_types>
+    <type id="sales_recurringpayment_index" label="Recurring Payment"/>
+    <type id="sales_recurringpayment_view" label="Recurring Payment View"/>
+</page_types>

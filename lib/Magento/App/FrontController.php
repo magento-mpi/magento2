@@ -1,6 +1,6 @@
 <?php
 /**
- * Front controller responsible for dispatcing application requests
+ * Front controller responsible for dispatching application requests
  *
  * {license_notice}
  *
@@ -12,7 +12,7 @@ namespace Magento\App;
 class FrontController implements FrontControllerInterface
 {
     /**
-     * @var \Magento\App\RouterInterface[]
+     * @var RouterList
      */
     protected $_routerList;
 

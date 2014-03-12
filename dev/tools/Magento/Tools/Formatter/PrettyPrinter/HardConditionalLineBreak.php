@@ -16,10 +16,14 @@ class HardConditionalLineBreak extends HardLineBreak implements LineCondition
 {
     /**
      * This member holds the condition string used for validating the hard return.
+     *
      * @var LineBreakCondition $condition
      */
     protected $condition;
 
+    /**
+     * @param LineBreakCondition $condition
+     */
     public function __construct(LineBreakCondition $condition)
     {
         $this->condition = $condition;
@@ -28,9 +32,10 @@ class HardConditionalLineBreak extends HardLineBreak implements LineCondition
     /**
      * This method checks the current condition for the next token being added to the line and
      * determines if the current token should be removed.
-     * @param array $tokens Array of existing tokens
+     *
+     * @param array &$tokens Array of existing tokens
      * @param string $nextToken String containing the next token being added to the line.
-     * @return mixed|string
+     * @return mixed
      */
     public function processToken(array &$tokens, $nextToken)
     {

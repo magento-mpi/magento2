@@ -69,6 +69,7 @@ class FlatTableBuilder
      * @param string $valueFieldSuffix
      * @param string $tableDropSuffix
      * @param bool $fillTmpTables
+     * @return void
      */
     public function build($storeId, $changedIds, $valueFieldSuffix, $tableDropSuffix, $fillTmpTables)
     {
@@ -96,6 +97,7 @@ class FlatTableBuilder
      * Prepare flat table for store
      *
      * @param int|string $storeId
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _createTemporaryFlatTable($storeId)
@@ -187,6 +189,7 @@ class FlatTableBuilder
      * @param array $tables
      * @param int|string $storeId
      * @param string $valueFieldSuffix
+     * @return void
      */
     protected function _fillTemporaryFlatTable(array $tables, $storeId, $valueFieldSuffix)
     {
@@ -274,6 +277,7 @@ class FlatTableBuilder
      * @param array $changedIds
      * @param int|string $storeId
      * @param string $valueFieldSuffix
+     * @return void
      */
     protected function _updateTemporaryTableByStoreValues(array $tables, array $changedIds, $storeId, $valueFieldSuffix)
     {

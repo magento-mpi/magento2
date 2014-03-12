@@ -52,16 +52,44 @@ class Attribute extends Block
     protected $include = '[data-column=include ] [type=checkbox]';
 
     /**
+     * Attribute option Label
+     *
+     * @var string
+     */
+    protected $labelValue = 'input[class=required-entry][name*=value]';
+
+    /**
+     * Attribute option row
+     *
+     * @var string
+     */
+    protected $attributeRow = '//*[@data-role="options"]/tr[%row%]';
+
+    /**
+     * Add option selector
+     *
+     * @var string
+     */
+    protected $addOption = '[data-action="add-option"]';
+
+    /**
      * Fill in data to attribute options
      *
      * @param array $fields
      */
     public function fillAttributeOptions(array $fields)
     {
+        $row = 0;
         foreach ($fields as $field) {
             if (isset($field['option_label']['value'])) {
                 $optionRow = $this->getOptionRow($field['option_label']['value']);
-
+                if (!$optionRow->isVisible()) {
+                    $this->_rootElement->find($this->addOption)->click();
+                    $optionRow = $this->getOptionNewRow($row);
+                    if (isset($field['option_label']['value'])) {
+                        $optionRow->find($this->labelValue)->setValue($field['option_label']['value']);
+                    }
+                }
                 if (isset($field['pricing_value']['value'])) {
                     $optionRow->find($this->pricingValue, Locator::SELECTOR_CSS)
                         ->setValue($field['pricing_value']['value']);
@@ -73,6 +101,7 @@ class Attribute extends Block
                 $optionRow->find($this->include, Locator::SELECTOR_CSS, 'checkbox')
                     ->setValue($field['include']['value']);
             }
+            ++$row;
         }
     }
 
@@ -85,5 +114,16 @@ class Attribute extends Block
     protected function getOptionRow($optionLabel)
     {
         return $this->_rootElement->find('//tr[td="' . $optionLabel . '"]', Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Get option new row
+     *
+     * @param int $row
+     * @return Element
+     */
+    protected function getOptionNewRow($row)
+    {
+        return $this->_rootElement->find(str_replace('%row%', $row, $this->attributeRow), Locator::SELECTOR_XPATH);
     }
 }

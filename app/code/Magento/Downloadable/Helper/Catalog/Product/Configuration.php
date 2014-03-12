@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Helper\Catalog\Product;
 
 /**
  * Helper for fetching properties by product configurational item
@@ -15,8 +16,6 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Helper\Catalog\Product;
-
 class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {

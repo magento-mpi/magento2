@@ -1,0 +1,33 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+
+.form.send.friend {
+    .action.delete {
+        &:extend(.action-remove all);
+    }
+    .actions.toolbar {
+        margin-top: @indent-s-base;
+    }
+    .recipients {
+        .title {
+            .heading(h3);
+            margin-left: @form-field-type-inline-label-width;
+        }
+        .message {
+            margin-left: @form-field-type-inline-label-width;
+        }
+    }
+}
+
+.action.mailto.friend {
+    .icon-font(
+        @_icon-font-content: @icon-envelope,
+        @_icon-font-size: 28px
+    );
+}

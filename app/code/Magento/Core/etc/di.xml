@@ -72,6 +72,7 @@
         <arguments>
             <argument name="templateFileName" xsi:type="string">Magento_Core::translate_inline.phtml</argument>
             <argument name="translatorRoute" xsi:type="string">core/ajax/translate</argument>
+            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\App\DefaultPath\DefaultPath">
@@ -299,7 +300,7 @@
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="themes" xsi:type="array">
-                <item name="frontend" xsi:type="string">magento_plushe</item>
+                <item name="frontend" xsi:type="string">magento_blank</item>
                 <item name="adminhtml" xsi:type="string">magento_backend</item>
                 <item name="install" xsi:type="string">magento_basic</item>
             </argument>

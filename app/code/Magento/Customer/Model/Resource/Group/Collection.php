@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Resource\Group;
 
 /**
  * Customer group collection
@@ -16,12 +16,12 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Resource\Group;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set ignore ID filter
      *
      * @param array $indexes
-     * @return \Magento\Customer\Model\Resource\Group\Collection
+     * @return $this
      */
     public function setIgnoreIdFilter($indexes)
     {
@@ -45,7 +45,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set real groups filter
      *
-     * @return \Magento\Customer\Model\Resource\Group\Collection
+     * @return $this
      */
     public function setRealGroupsFilter()
     {
@@ -55,7 +55,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add tax class
      *
-     * @return \Magento\Customer\Model\Resource\Group\Collection
+     * @return $this
      */
     public function addTaxClass()
     {

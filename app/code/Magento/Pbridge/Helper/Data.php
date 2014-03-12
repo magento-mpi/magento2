@@ -413,6 +413,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Prepare cart line items
      *
      * @param \Magento\Payment\Model\Cart $cart
+     * @return array
      */
     protected function _prepareCart(\Magento\Payment\Model\Cart $cart)
     {

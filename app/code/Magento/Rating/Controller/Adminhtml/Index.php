@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Admin ratings controller
- */
 namespace Magento\Rating\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
+/**
+ * Admin ratings controller
+ */
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -36,6 +35,9 @@ class Index extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->_initEnityId();
@@ -47,6 +49,9 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function editAction()
     {
         $this->_initEnityId();
@@ -67,6 +72,9 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newAction()
     {
         $this->_forward('edit');
@@ -74,6 +82,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Save rating
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -130,6 +140,9 @@ class Index extends \Magento\Backend\App\Action
         $this->_redirect('rating/*/');
     }
 
+    /**
+     * @return void
+     */
     public function deleteAction()
     {
         if ($this->getRequest()->getParam('id') > 0) {
@@ -148,6 +161,9 @@ class Index extends \Magento\Backend\App\Action
         $this->_redirect('rating/*/');
     }
 
+    /**
+     * @return void
+     */
     protected function _initEnityId()
     {
         $this->_title->add(__('Ratings'));
@@ -157,6 +173,9 @@ class Index extends \Magento\Backend\App\Action
         );
     }
 
+    /**
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Rating::ratings');

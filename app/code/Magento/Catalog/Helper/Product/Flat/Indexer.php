@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper\Product\Flat;
 
 /**
  * Catalog Product Flat Indexer Helper
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Catalog
  */
-namespace Magento\Catalog\Helper\Product\Flat;
-
 class Indexer extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -490,6 +489,8 @@ class Indexer extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Delete all product flat tables for not existing stores
+     *
+     * @return void
      */
     public function deleteAbandonedStoreFlatTables()
     {

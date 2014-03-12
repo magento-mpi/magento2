@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
 /**
  * Product inventory data
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
-
 class Inventory extends \Magento\Backend\Block\Widget
 {
     /**
@@ -115,6 +114,10 @@ class Inventory extends \Magento\Backend\Block\Widget
         return $this->getProduct()->getStockItem();
     }
 
+    /**
+     * @param string $field
+     * @return string|null
+     */
     public function getFieldValue($field)
     {
         if ($this->getStockItem()) {

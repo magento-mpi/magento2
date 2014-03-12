@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect\Frontend;
 
 /**
  * CLI Frontend implementation
@@ -15,21 +16,19 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Connect\Frontend;
-
-class CLI
-extends \Magento\Connect\Frontend
+class CLI extends \Magento\Connect\Frontend
 {
 
     /**
      * Collected output
+     *
      * @var array
      */
     protected $_output = array();
 
     /**
      * Output error
+     *
      * @param string $command
      * @param string $message
      * @return void
@@ -41,9 +40,9 @@ extends \Magento\Connect\Frontend
         $this->writeln("$command: $message");
     }
 
-
     /**
      * Output config help
+     *
      * @param array $data
      * @return void
      */
@@ -57,7 +56,6 @@ extends \Magento\Connect\Frontend
             }
         }
     }
-
 
     /**
      * Output info
@@ -74,7 +72,10 @@ extends \Magento\Connect\Frontend
         }
     }
 
-
+    /**
+     * @param string $type
+     * @return string
+     */
     public function detectMethodByType($type)
     {
         $defaultMethod = "output";
@@ -101,7 +102,10 @@ extends \Magento\Connect\Frontend
         return $defaultMethod;
     }
 
-
+    /**
+     * @param array $data
+     * @return void
+     */
     public function outputDeleted($data)
     {
         if(!count($data['data'])) {
@@ -113,6 +117,10 @@ extends \Magento\Connect\Frontend
         }
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
     public function outputListChannels($data)
     {
         $this->writeln($data['title']);
@@ -164,7 +172,8 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output package dependencies
-     * @param $data
+     *
+     * @param array $data
      * @return void
      */
     public function outputPackageDeps($data)
@@ -178,7 +187,8 @@ extends \Magento\Connect\Frontend
 
     /**
      * Output package prepare
-     * @param $data
+     *
+     * @param array $data
      * @return void
      */
     public function outputPackagePrepare($data)
@@ -192,8 +202,9 @@ extends \Magento\Connect\Frontend
 
     /**
      * Ouptut channel packages
-     * @param $data
-     * @return unknown_type
+     *
+     * @param array $data
+     * @return void
      */
     public function outputChannelsPackages($data)
     {
@@ -213,14 +224,12 @@ extends \Magento\Connect\Frontend
         }
     }
 
-
     /**
      * Make output
      *
      * @param array $data
      * @return void
      */
-
     public function output($data)
     {
         $capture = $this->isCapture();
@@ -242,7 +251,6 @@ extends \Magento\Connect\Frontend
             $this->writeln($data);
         }
     }
-
 
     /**
      * Detailed package info
@@ -371,9 +379,9 @@ extends \Magento\Connect\Frontend
 
 
     /**
-     * get output, clear if needed
+     * Get output, clear if needed
      *
-     * @param bool $clearPrevoius optional, true by default
+     * @param bool $clearPrevious optional, true by default
      * @return array
      */
     public function getOutput($clearPrevious = true)

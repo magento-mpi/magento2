@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview;
 
 interface ProcessorInterface
@@ -14,6 +13,7 @@ interface ProcessorInterface
      * Materialize all views by group (all views if empty)
      *
      * @param string $group
+     * @return void
      */
     public function update($group = '');
 
@@ -21,6 +21,7 @@ interface ProcessorInterface
      * Clear all views' changelogs by group (all views if empty)
      *
      * @param string $group
+     * @return void
      */
     public function clearChangelog($group = '');
 }

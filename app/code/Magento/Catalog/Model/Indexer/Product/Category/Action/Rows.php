@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Category\Action;
 
 class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction
@@ -38,6 +37,8 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
 
     /**
      * Remove index entries before reindexation
+     *
+     * @return void
      */
     protected function removeEntries()
     {

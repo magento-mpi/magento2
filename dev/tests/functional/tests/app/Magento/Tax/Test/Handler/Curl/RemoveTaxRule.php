@@ -11,7 +11,7 @@
 
 namespace Magento\Tax\Test\Handler\Curl;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
@@ -38,10 +38,10 @@ class RemoveTaxRule extends Curl
     /**
      * Entry point for handler
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $this->_taxRuleGridUrl = $_ENV['app_backend_url'] . 'tax/rule/index/';
         $curl = $this->_getCurl($this->_taxRuleGridUrl);

@@ -15,12 +15,12 @@
             }}'>
         <input id="customer_sku_csv" type="file" data-reset="true"
             name="<?php echo \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE ?>"/>
+        <button type="button" class="action reset" data-mage-init='{"fieldsetResetControl":{}}'><span><?php echo __('Reset')?></span></button>
         <input type="hidden" value="0" data-reset="true"
             name="<?php echo \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG ?>" />
         <div class="note">
             <p><?php echo __('File extensions allowed: .csv'); ?></p>
             <p><?php echo __('File must contain two columns, with "sku" and "qty" in the header row.'); ?></p>
         </div>
-        <button type="button" class="action reset" data-mage-init='{"fieldsetResetControl":{}}'><span><?php echo __('Reset')?></span></button>
     </div>
 </div>

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview;
 
 class View extends \Magento\Object implements ViewInterface
@@ -190,6 +189,7 @@ class View extends \Magento\Object implements ViewInterface
     /**
      * Materialize view by IDs in changelog
      *
+     * @return void
      * @throws \Exception
      */
     public function update()
@@ -231,6 +231,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Suspend view updates and set version ID to changelog's end
+     *
+     * @return void
      */
     public function suspend()
     {
@@ -244,6 +246,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Resume view updates
+     *
+     * @return void
      */
     public function resume()
     {
@@ -256,6 +260,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Clear precessed changelog entries
+     *
+     * @return void
      */
     public function clearChangelog()
     {
