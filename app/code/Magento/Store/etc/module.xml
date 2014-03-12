@@ -8,11 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Service" version="1.0.0.0" active="true">
-        <sequence>
-            <module name="Magento_Core"/>
-            <module name="Magento_Store"/>
-        </sequence>
+    <module name="Magento_Store" version="2.0.0.0" active="true">
         <depends>
             <module name="Magento_Core"/>
         </depends>
