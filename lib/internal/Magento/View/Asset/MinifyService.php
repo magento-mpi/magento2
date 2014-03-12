@@ -37,9 +37,9 @@ class MinifyService
     /**
      * Minfiers
      *
-     * @var \Magento\Code\Minifier[]
+     * @var \Magento\Code\Minifier\StrategyInterface[]
      */
-    protected $minifiers = array();
+    protected $strategies = array();
 
     /**
      * Applicaiton State
@@ -92,7 +92,7 @@ class MinifyService
                 $asset = $this->objectManager
                     ->create('Magento\View\Asset\Minified', array(
                         'asset' => $asset,
-                        'minifier' => $this->getMinifier($contentType)
+                        'strategy' => $this->getStrategy($contentType)
                     ));
             }
             $resultAssets[] = $asset;
@@ -101,14 +101,14 @@ class MinifyService
     }
 
     /**
-     * Get minifier object configured with specified content type
+     * Get minification strategy object configured with specified content type
      *
      * @param string $contentType
-     * @return \Magento\Code\Minifier
+     * @return \Magento\Code\Minifier\StrategyInterface
      */
-    protected function getMinifier($contentType)
+    protected function getStrategy($contentType)
     {
-        if (!isset($this->minifiers[$contentType])) {
+        if (!isset($this->strategies[$contentType])) {
             $adapter = $this->getAdapter($contentType);
             $strategyParams = array(
                 'adapter' => $adapter,
@@ -122,14 +122,9 @@ class MinifyService
                         ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
             }
 
-            $this->minifiers[$contentType] = $this->objectManager->create('Magento\Code\Minifier',
-                array(
-                    'strategy' => $strategy,
-                    'targetDirRelView' => self::getRelativeDir()
-                )
-            );
+            $this->strategies[$contentType] = $strategy;
         }
-        return $this->minifiers[$contentType];
+        return $this->strategies[$contentType];
     }
 
     /**
@@ -164,15 +159,5 @@ class MinifyService
 
         $adapter = $this->objectManager->create($adapterClass);
         return $adapter;
-    }
-
-    /**
-     * Returns directory for storing minified files relative to STATIC_VIEW_DIR
-     *
-     * @return string
-     */
-    public static function getRelativeDir()
-    {
-        return \Magento\App\Filesystem\DirectoryList::CACHE_VIEW_REL_DIR . '/minified';
     }
 }

@@ -10,24 +10,28 @@ namespace Magento\View\Asset;
 
 class MinifiedTest extends \PHPUnit_Framework_TestCase
 {
-    const ORIG_FILE = '/home/htdocs/some/dir/original.js';
-    const MINIFIED_FILE = '/home/htdocs/static_dir/minified/original.min.js';
-    const ORIG_HASMINIFIED_FILE = '/home/htdocs/some/other/dir/original.js';
-    const ORIG_PREMINIFIED_FILE = '/home/htdocs/some/other/dir/original.min.js';
-
-
     const STATIC_BASE_URL = 'http://localhost/static_dir/';
+    const STATIC_PATH = '/home/htdocs/static_dir';
 
-    const ORIG_URL = 'http://localhost/static_dir/some/dir/original.js';
-    const MINIFIED_URL = 'http://localhost/static_dir/minified/original.min.js';
-    const ORIG_HASMINIFIED_URL = 'http://localhost/static_dir/some/other/dir/original.js';
-    const ORIG_PREMINIFIED_URL = 'http://localhost/static_dir/some/other/dir/original.min.js';
+    const ORIG_PREMINIFIED_FILE = '/home/htdocs/some/other/dir/original.min.js';
+    const ORIG_PREMINIFIED_RELPATH = 'other/dir/original.min.js';
+    const ORIG_PREMINIFIED_URL = 'http://localhost/static_dir/other/dir/original.min.js';
+    const ORIG_PREMINIFIED_ROOT_RELPATH = 'some/other/dir/original.min.js';
 
-    const ORIG_RELPATH = 'some/dir/original.js';
-    const MINIFIED_RELPATH = 'minified/original.min.js';
-    const ORIG_HASMINIFIED_RELPATH = 'some/other/dir/original.js';
-    const ORIG_PREMINIFIED_RELPATH = 'some/other/dir/original.min.js';
+    const ORIG_HASMINIFIED_FILE = '/home/htdocs/some/other/dir/original.js';
+    const ORIG_HASMINIFIED_RELPATH = 'other/dir/original.js';
+    const ORIG_HASMINIFIED_URL = 'http://localhost/static_dir/other/dir/original.js';
+    const ORIG_HASMINIFIED_ROOT_RELPATH = 'some/other/dir/original.js';
 
+    const ORIG_FILE = '/home/htdocs/some/dir/original.js';
+    const ORIG_RELPATH = 'dir/original.js';
+    const ORIG_URL = 'http://localhost/static_dir/dir/original.js';
+    const ORIG_ROOT_RELPATH = 'some/dir/original.js';
+    const ORIG_FILE_MINIFIED_TRY = '/home/htdocs/some/dir/original.min.js';
+    const ORIG_FILE_MINIFIED_TRY_ROOT_RELPATH = 'some/dir/original.min.js';
+    const MINIFIED_URL_PATTERN = 'http://localhost/static_dir/_cache/minified/%s_original.min.js';
+    const MINIFIED_FILE_PATTERN = '/home/htdocs/static_dir/_cache/minified/%s_original.min.js';
+    const MINIFIED_RELPATH_PATTERN = '_cache/minified/%s_original.min.js';
 
     /**
      * @var \Magento\View\Asset\LocalInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -35,9 +39,9 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     protected $_asset;
 
     /**
-     * @var \Magento\Code\Minifier|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Code\Minifier\StrategyInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_minifier;
+    protected $_strategy;
 
     /**
      * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
@@ -48,6 +52,11 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_staticViewDir;
+
+    /**
+     * @var \Magento\Filesystem\Directory\ReadInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_rootDir;
 
     /**
      * @var \Magento\Url|\PHPUnit_Framework_MockObject_MockObject
@@ -67,26 +76,31 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->_minifier = $this->getMock('\Magento\Code\Minifier', array('getMinifiedFile'), array(), '', false);
+        $this->_strategy = $this->getMock('\Magento\Code\Minifier\StrategyInterface', array(),
+            array(), '', false);
         $this->_logger = $this->getMock('\Magento\Logger', array(), array(), '', false);
         $this->_baseUrl = $this->getMock('\Magento\Url', array(), array(), '', false);
         $this->_staticViewDir = $this->getMock('\Magento\Filesystem\Directory\ReadInterface', array(), array(), '',
+            false);
+        $this->_rootDir = $this->getMock('\Magento\Filesystem\Directory\ReadInterface', array(), array(), '',
             false);
 
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(\Magento\App\Filesystem::STATIC_VIEW_DIR)
-            ->will($this->returnValue($this->_staticViewDir));
+            ->will($this->returnValueMap([
+                [\Magento\App\Filesystem::STATIC_VIEW_DIR, $this->_staticViewDir],
+                [\Magento\App\Filesystem::ROOT_DIR, $this->_rootDir],
+            ]));
 
-        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_minifier, $this->_logger,
+        $this->_model = new \Magento\View\Asset\Minified($this->_asset, $this->_strategy, $this->_logger,
             $filesystem, $this->_baseUrl);
     }
 
     protected function tearDown()
     {
         $this->_asset = null;
-        $this->_minifier = null;
+        $this->_strategy = null;
         $this->_logger = null;
         $this->_staticViewDir = null;
         $this->_baseUrl = null;
@@ -96,13 +110,13 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $originalFile
      * @param string $expectedUrl
+     * @param string $expectedFileToMinify
      * @dataProvider getUrlDataProvider
      */
-    public function testGetUrl($originalFile, $expectedUrl)
+    public function testGetUrl($originalFile, $expectedUrl, $expectedFileToMinify = null)
     {
-        $this->_prepareProcessMock($originalFile);
-        $this->assertSame($expectedUrl, $this->_model->getUrl());
-        $this->assertSame($expectedUrl, $this->_model->getUrl());
+        $this->_prepareProcessMock($originalFile, $expectedFileToMinify);
+        $this->assertStringMatchesFormat($expectedUrl, $this->_model->getUrl());
     }
 
     /**
@@ -121,7 +135,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ),
             'needs minification' => array(
                 self::ORIG_FILE,
-                self::MINIFIED_URL,
+                self::MINIFIED_URL_PATTERN,
             ),
         );
     }
@@ -134,8 +148,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     public function testGetSourceFile($originalFile, $expectedSourceFile)
     {
         $this->_prepareProcessMock($originalFile);
-        $this->assertSame($expectedSourceFile, $this->_model->getSourceFile());
-        $this->assertSame($expectedSourceFile, $this->_model->getSourceFile());
+        $this->assertStringMatchesFormat($expectedSourceFile, $this->_model->getSourceFile());
     }
 
     /**
@@ -154,7 +167,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ),
             'needs minification' => array(
                 self::ORIG_FILE,
-                self::MINIFIED_FILE,
+                self::MINIFIED_FILE_PATTERN,
             ),
         );
     }
@@ -167,8 +180,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     public function testGetRelativePath($originalFile, $expectedPath)
     {
         $this->_prepareProcessMock($originalFile);
-        $this->assertSame($expectedPath, $this->_model->getRelativePath());
-        $this->assertSame($expectedPath, $this->_model->getRelativePath());
+        $this->assertStringMatchesFormat($expectedPath, $this->_model->getRelativePath());
     }
 
     /**
@@ -187,7 +199,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ),
             'needs minification' => array(
                 self::ORIG_FILE,
-                self::MINIFIED_RELPATH,
+                self::MINIFIED_RELPATH_PATTERN,
             ),
         );
     }
@@ -195,38 +207,64 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
     /**
      * Prepare mocked system to be used in tests
      *
-     * @param $originalFile
+     * @param string $originalFile
+     * @throws \Exception
      */
     protected function _prepareProcessMock($originalFile)
     {
-        $this->_asset->expects($this->once())
+        switch ($originalFile) {
+            case self::ORIG_PREMINIFIED_FILE:
+                $relPath = self::ORIG_PREMINIFIED_RELPATH;
+                $url = self::ORIG_PREMINIFIED_URL;
+                break;
+            case self::ORIG_HASMINIFIED_FILE:
+                $relPath = self::ORIG_HASMINIFIED_RELPATH;
+                $url = self::ORIG_HASMINIFIED_URL;
+                break;
+            case self::ORIG_FILE:
+                $relPath = self::ORIG_RELPATH;
+                $url = self::ORIG_URL;
+                break;
+            default:
+                throw new \Exception("Invalid original file to setup the environment: {$originalFile}");
+        }
+        $this->_asset->expects($this->atLeastOnce())
             ->method('getSourceFile')
             ->will($this->returnValue($originalFile));
-
-        $url = ($originalFile == self::ORIG_FILE) ? self::ORIG_URL : self::ORIG_PREMINIFIED_URL;
+        $this->_asset->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnValue($relPath));
         $this->_asset->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue($url));
 
-        $relPath = ($originalFile == self::ORIG_FILE) ? self::ORIG_RELPATH : self::ORIG_PREMINIFIED_RELPATH;
-        $this->_asset->expects($this->any())
+        $this->_rootDir->expects($this->any())
             ->method('getRelativePath')
-            ->will($this->returnValue($relPath));
-
-        $this->_minifier->expects($this->once())
-            ->method('getMinifiedFile')
             ->will($this->returnValueMap([
-                [self::ORIG_FILE, self::MINIFIED_FILE],
-                [self::ORIG_HASMINIFIED_FILE, self::ORIG_PREMINIFIED_FILE],
-                [self::ORIG_PREMINIFIED_FILE, self::ORIG_PREMINIFIED_FILE],
+                [self::ORIG_PREMINIFIED_FILE, self::ORIG_PREMINIFIED_ROOT_RELPATH],
+                [self::ORIG_HASMINIFIED_FILE, self::ORIG_HASMINIFIED_ROOT_RELPATH],
+                [self::ORIG_FILE, self::ORIG_ROOT_RELPATH],
+                [self::ORIG_FILE_MINIFIED_TRY, self::ORIG_FILE_MINIFIED_TRY_ROOT_RELPATH],
             ]));
+        $this->_rootDir->expects($this->any())
+            ->method('isExist')
+            ->will($this->returnValueMap([
+                [self::ORIG_PREMINIFIED_ROOT_RELPATH, $originalFile == self::ORIG_HASMINIFIED_FILE],
+                [self::ORIG_FILE_MINIFIED_TRY_ROOT_RELPATH, false],
+            ]));
+
+        if ($originalFile == self::ORIG_FILE) {
+            $this->_strategy->expects($this->once())
+                ->method('minifyFile')
+                ->with(self::ORIG_ROOT_RELPATH);
+        } else {
+            $this->_strategy->expects($this->never())
+                ->method('minifyFile');
+        }
 
         $this->_staticViewDir->expects($this->any())
-            ->method('getRelativePath')
-            ->will($this->returnValueMap([
-                [self::ORIG_FILE, self::ORIG_RELPATH],
-                [self::MINIFIED_FILE, self::MINIFIED_RELPATH],
-            ]));
+            ->method('getAbsolutePath')
+            ->will($this->returnCallback(function($relPath) {return self::STATIC_PATH . '/' . $relPath;}));
 
         $this->_baseUrl->expects($this->any())
             ->method('getBaseUrl')
@@ -236,7 +274,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessException()
     {
-        $this->_asset->expects($this->once())
+        $this->_asset->expects($this->atLeastOnce())
             ->method('getSourceFile')
             ->will($this->returnValue(self::ORIG_FILE));
         $this->_asset->expects($this->once())
@@ -246,9 +284,8 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
             ->method('getRelativePath')
             ->will($this->returnValue(self::ORIG_RELPATH));
 
-        $this->_minifier->expects($this->once())
-            ->method('getMinifiedFile')
-            ->with(self::ORIG_FILE)
+        $this->_strategy->expects($this->once())
+            ->method('minifyFile')
             ->will($this->throwException(new \Exception('Error')));
 
         $this->assertSame(self::ORIG_URL, $this->_model->getUrl());
