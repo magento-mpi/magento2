@@ -44,7 +44,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'configDataResource'      => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
             'filesystem'              => $objectManager->get('Magento\App\Filesystem'),
             'coreStoreConfig'         => $objectManager->get('Magento\Core\Model\Store\Config'),
-            'coreConfig'              => $objectManager->get('Magento\App\ReinitableConfigInterface'),
+            'coreConfig'              => $objectManager->get('Magento\App\Config\ReinitableConfigInterface'),
             'resource'                => $objectManager->get('Magento\Core\Model\Resource\Store'),
             'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
             'sidResolver'             => $objectManager->get('Magento\Session\SidResolverInterface'),

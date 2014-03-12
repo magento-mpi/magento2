@@ -90,7 +90,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_fieldFactoryMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Field\Factory',
             array(), array(), '', false, false
         );
-        $this->_coreConfigMock = $this->getMock('Magento\App\ConfigInterface',
+        $this->_coreConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface',
             array(), array(), '', false, false
         );
 

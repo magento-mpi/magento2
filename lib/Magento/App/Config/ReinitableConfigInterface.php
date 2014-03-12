@@ -8,14 +8,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\App;
+namespace Magento\App\Config;
 
-interface ReinitableConfigInterface extends \Magento\App\ConfigInterface
+interface ReinitableConfigInterface extends \Magento\App\Config\MutableScopeConfigInterface
 {
     /**
      * Reinitialize config object
      *
-     * @return \Magento\App\ReinitableConfigInterface
+     * @return \Magento\App\Config\ReinitableConfigInterface
      */
     public function reinit();
 }

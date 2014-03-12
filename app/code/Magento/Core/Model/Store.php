@@ -265,7 +265,7 @@ class Store extends AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\App\ReinitableConfigInterface
+     * @var \Magento\App\Config\ReinitableConfigInterface
      */
     protected $_config;
 
@@ -296,7 +296,7 @@ class Store extends AbstractModel
      * @param Resource\Config\Data $configDataResource
      * @param \Magento\App\Filesystem $filesystem
      * @param Store\Config $coreStoreConfig
-     * @param \Magento\App\ReinitableConfigInterface $coreConfig
+     * @param \Magento\App\Config\ReinitableConfigInterface $coreConfig
      * @param Resource\Store $resource
      * @param StoreManagerInterface $storeManager
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -316,7 +316,7 @@ class Store extends AbstractModel
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ReinitableConfigInterface $coreConfig,
+        \Magento\App\Config\ReinitableConfigInterface $coreConfig,
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,
@@ -369,7 +369,7 @@ class Store extends AbstractModel
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\App\ReinitableConfigInterface');
+            ->get('Magento\App\Config\ReinitableConfigInterface');
         $this->_cookie = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Stdlib\Cookie');
     }

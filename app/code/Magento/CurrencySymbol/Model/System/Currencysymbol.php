@@ -99,7 +99,7 @@ class Currencysymbol
     protected $_locale;
 
     /**
-     * @var \Magento\App\ReinitableConfigInterface
+     * @var \Magento\App\Config\ReinitableConfigInterface
      */
     protected $_coreConfig;
 
@@ -112,7 +112,7 @@ class Currencysymbol
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\ReinitableConfigInterface $coreConfig
+     * @param \Magento\App\Config\ReinitableConfigInterface $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -122,7 +122,7 @@ class Currencysymbol
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ReinitableConfigInterface $coreConfig,
+        \Magento\App\Config\ReinitableConfigInterface $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

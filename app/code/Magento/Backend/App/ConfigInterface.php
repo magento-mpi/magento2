@@ -31,11 +31,6 @@ interface ConfigInterface
     public function setValue($path, $value);
 
     /**
-     * Reinitialize config object
-     */
-    public function reinit();
-
-    /**
      * Retrieve config flag
      *
      * @param string $path

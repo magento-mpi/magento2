@@ -1918,7 +1918,7 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
-    array('Magento\Core\Model\ConfigInterface', 'Magento\App\ConfigInterface'),
+    array('Magento\Core\Model\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
     array(
         'Magento\Catalog\Model\Product\Attribute\Backend\Recurring',
@@ -2230,4 +2230,5 @@ return array(
     ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    array('Magento\App\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
 );

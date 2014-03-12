@@ -66,12 +66,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->model->setValue($path, $value);
     }
 
-    public function testReinit()
-    {
-        $this->sectionPool->expects($this->once())->method('clean');
-        $this->model->reinit();
-    }
-
     /**
      * @param mixed $configValue
      * @param bool $expectedResult

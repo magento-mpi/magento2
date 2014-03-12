@@ -69,7 +69,7 @@ class TranslitTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterConfigured()
     {
-        $config = $this->getMockBuilder('Magento\App\ConfigInterface')
+        $config = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getValue', 'setValue', 'isSetFlag'])
             ->getMock();

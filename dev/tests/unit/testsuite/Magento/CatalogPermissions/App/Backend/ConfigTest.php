@@ -21,7 +21,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testMethods($method, $configMethod, $path, $value, $configValue)
     {
         $configMock = $this->getMockForAbstractClass(
-            'Magento\App\ConfigInterface'
+            'Magento\App\Config\ScopeConfigInterface'
         );
         $configMock->expects($this->once())
             ->method($configMethod)

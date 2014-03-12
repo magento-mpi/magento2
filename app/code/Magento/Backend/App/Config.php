@@ -51,16 +51,6 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Reinitialize configuration
-     *
-     * @return void
-     */
-    public function reinit()
-    {
-        $this->_scopePool->clean();
-    }
-
-    /**
      * Retrieve config flag
      *
      * @param string $path

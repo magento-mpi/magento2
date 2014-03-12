@@ -71,7 +71,7 @@ class App implements \Magento\AppInterface
     /**
      * Application configuration object
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -126,7 +126,7 @@ class App implements \Magento\AppInterface
     protected $_configScope;
 
     /**
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -134,7 +134,7 @@ class App implements \Magento\AppInterface
      * @param \Magento\Config\Scope $configScope
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\App\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
@@ -247,7 +247,7 @@ class App implements \Magento\AppInterface
     /**
      * Retrieve configuration object
      *
-     * @return \Magento\App\ConfigInterface
+     * @return \Magento\App\Config\ScopeConfigInterface
      */
     public function getConfig()
     {

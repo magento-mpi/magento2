@@ -16,7 +16,7 @@ class Baseurl
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -31,13 +31,13 @@ class Baseurl
     protected $_configValueFactory;
 
     /**
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory

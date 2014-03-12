@@ -16,13 +16,13 @@ namespace Magento\PageCache\Block\System\Config\Form\Field;
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $config;
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         array $data = array()
     ){
         $this->config = $config;

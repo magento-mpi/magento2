@@ -82,7 +82,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('create'), array(), '', false
         );
         $this->_appConfigMock = $this->getMock(
-            'Magento\App\ConfigInterface',
+            'Magento\App\Config\ScopeConfigInterface',
             array(), array(), '', false
         );
         $this->_configLoaderMock = $this->getMock(

@@ -26,7 +26,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $configMock;
 
@@ -49,7 +49,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->configMock = $this->getMockForAbstractClass(
-            'Magento\App\ConfigInterface',
+            'Magento\App\Config\ScopeConfigInterface',
             [],
             '',
             false,
