@@ -11,6 +11,23 @@ namespace Magento\Catalog\Model\Layer\Search;
 
 class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Category\FilterableAttributeList
 {
+    /**
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer\Search $layer
+     */
+    public function __construct(
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer\Search $layer
+    ) {
+        parent::__construct($collectionFactory, $storeManager, $layer);
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Resource\Attribute\Collection $collection
+     * @return \Magento\Catalog\Model\Resource\Attribute\Collection
+     */
     protected function _prepareAttributeCollection($collection)
     {
         $collection->addIsFilterableInSearchFilter()

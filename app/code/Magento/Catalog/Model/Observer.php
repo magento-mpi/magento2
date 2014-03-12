@@ -87,7 +87,7 @@ class Observer
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -100,7 +100,7 @@ class Observer
         \Magento\Catalog\Model\Resource\Category $categoryResource,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,

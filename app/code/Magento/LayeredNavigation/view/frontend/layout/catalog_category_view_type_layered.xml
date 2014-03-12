@@ -9,8 +9,8 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="left">
-        <block class="Magento\LayeredNavigation\Block\Navigation" name="catalog.leftnav" before="-" template="layer/view.phtml">
-            <block class="Magento\LayeredNavigation\Block\Navigation\State" name="catalog.navigation.state" as="state" />
+        <block class="categoryLayeredNavigationBlock" name="catalog.leftnav" before="-" template="layer/view.phtml">
+            <block class="categoryLayeredNavigationStateBlock" name="catalog.navigation.state" as="state" />
             <block class="Magento\LayeredNavigation\Block\Navigation\FilterRenderer" name="catalog.navigation.renderer" as="renderer" template="layer/filter.phtml"/>
         </block>
     </referenceContainer>

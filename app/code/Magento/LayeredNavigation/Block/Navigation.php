@@ -104,7 +104,7 @@ class Navigation extends \Magento\View\Element\Template
     protected function _prepareLayout()
     {
         $this->renderer = $this->getChildBlock('renderer');
-        foreach ($this->filterList->getFilters() as $filter) {
+        foreach ($this->filterList->getFilters($this->_catalogLayer) as $filter) {
             $filter->apply($this->getRequest());
         }
         $this->getLayer()->apply();
@@ -138,7 +138,7 @@ class Navigation extends \Magento\View\Element\Template
      */
     public function getFilters()
     {
-        return $this->filterList->getFilters();
+        return $this->filterList->getFilters($this->_catalogLayer);
     }
 
     /**

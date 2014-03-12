@@ -19,4 +19,9 @@
             <argument name="sessionName" xsi:type="string">frontend</argument>
         </arguments>
     </virtualType>
+    <virtualType name="searchResultListProduct" type="Magento\Catalog\Block\Product\ListProduct">
+        <arguments>
+            <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
+        </arguments>
+    </virtualType>
 </config>

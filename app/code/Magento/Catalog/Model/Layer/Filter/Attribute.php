@@ -37,7 +37,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
      * @param \Magento\Stdlib\String $string
      * @param array $data
@@ -45,14 +45,14 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_resource = $filterAttributeFactory->create();
         $this->string = $string;
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'attribute';
     }
 

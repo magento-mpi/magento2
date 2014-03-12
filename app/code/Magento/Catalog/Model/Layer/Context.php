@@ -61,6 +61,6 @@ class Context implements ContextInterface
      */
     public function getCollectionFilter()
     {
-        return $this->stateKey;
+        return $this->collectionFilter;
     }
 } 

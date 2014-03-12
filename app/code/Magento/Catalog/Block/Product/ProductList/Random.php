@@ -44,7 +44,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param array $data
@@ -65,7 +65,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         array $data = array(),

@@ -70,7 +70,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
@@ -80,7 +80,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
@@ -91,7 +91,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_customerSession = $customerSession;
         $this->_priceAlgorithm = $priceAlgorithm;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'price';
     }
 

@@ -34,19 +34,19 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         array $data = array()
     ) {
         $this->_resource = $filterDecimalFactory->create();
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'decimal';
     }
 
@@ -68,7 +68,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     public function apply(\Zend_Controller_Request_Abstract $request)
     {
-        parent::apply($request, $filterBlock);
+        parent::apply($request);
 
         /**
          * Filter must be string: $index, $range

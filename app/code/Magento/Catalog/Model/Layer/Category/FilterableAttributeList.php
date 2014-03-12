@@ -25,6 +25,11 @@ class FilterableAttributeList implements FilterableAttributeListInterface
     protected $storeManager;
 
     /**
+     * @var \Magento\Catalog\Model\Layer\Category
+     */
+    protected $layer;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer

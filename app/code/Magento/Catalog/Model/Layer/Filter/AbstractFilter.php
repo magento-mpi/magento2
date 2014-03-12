@@ -58,18 +58,18 @@ abstract class AbstractFilter extends \Magento\Object
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer $layer
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer $layer,
         array $data = array()
     ) {
         $this->_filterItemFactory = $filterItemFactory;
         $this->_storeManager = $storeManager;
-        $this->_catalogLayer = $catalogLayer;
+        $this->_catalogLayer = $layer;
         parent::__construct($data);
     }
 

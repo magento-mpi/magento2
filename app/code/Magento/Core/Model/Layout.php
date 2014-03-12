@@ -1372,7 +1372,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             try {
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             } catch (\ReflectionException $e) {
-                echo "ddd";
+                echo $e->getMessage();
                 // incorrect class name
             }
         }

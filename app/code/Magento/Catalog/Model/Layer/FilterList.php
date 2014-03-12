@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\Layer;
 
-use Magento\Catalog\Model\Layer\Category\FilterableAttributeList;
+use Magento\Catalog\Model\Layer\FilterableAttributeListInterface;
 use Magento\Catalog\Model\Layer\Filter;
 
 class FilterList
@@ -26,14 +26,14 @@ class FilterList
     protected $objectManager;
 
     /**
-     * @var FilterableAttributeList
+     * @var FilterableAttributeListInterface
      */
     protected $filterableAttributes;
 
     /**
      * @var string[]
      */
-    protected $filters = array(
+    protected $filterTypes = array(
         self::CATEGORY_FILTER  => 'Magento\Catalog\Model\Layer\Filter\Category',
         self::ATTRIBUTE_FILTER => 'Magento\Catalog\Model\Layer\Filter\Attribute',
         self::PRICE_FILTER     => 'Magento\Catalog\Model\Layer\Filter\Price',
@@ -41,57 +41,67 @@ class FilterList
     );
 
     /**
+     * @var \Magento\Catalog\Model\Layer\Filter\AbstractFilter[]
+     */
+    protected $filters = array();
+
+    /**
      * @param \Magento\ObjectManager $objectManager
-     * @param FilterableAttributeList $filterableAttributes
+     * @param FilterableAttributeListInterface $filterableAttributes
      * @param array $filters
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        FilterableAttributeList $filterableAttributes,
+        FilterableAttributeListInterface $filterableAttributes,
         array $filters = array()
     ) {
         $this->objectManager = $objectManager;
         $this->filterableAttributes = $filterableAttributes;
 
         /** Override default filter type models */
-        $this->filters = array_merge($this->filters, $filters);
+        $this->filterTypes = array_merge($this->filterTypes, $filters);
     }
 
     /**
-     * Get filters list
+     * Retrieve list of filters
      *
-     * @return \Magento\Catalog\Model\Layer\Filter\AbstractFilter[]
+     * @param $layer
+     * @return array|Filter\AbstractFilter[]
      */
-    public function getFilters()
+    public function getFilters(\Magento\Catalog\Model\Layer $layer)
     {
-        $filters = array(
-            $this->objectManager->create($this->filters[self::CATEGORY_FILTER]),
-        );
-        foreach ($this->filterableAttributes->getList() as $attibute) {
-            $filters[] = $this->createAttributeFilter($attibute);
+        if (!count($this->filters)) {
+            $this->filters = array(
+                $this->objectManager->create($this->filterTypes[self::CATEGORY_FILTER], array('layer' => $layer)),
+            );
+            foreach ($this->filterableAttributes->getList() as $attibute) {
+                $this->filters[] = $this->createAttributeFilter($attibute, $layer);
+            }
         }
-        return $filters;
+        return $this->filters;
     }
 
     /**
-     * Create filter model
+     * Create filter
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return \Magento\Catalog\Model\Layer\Filter\FilterInterface
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @return mixed
      */
-    protected function createAttributeFilter(\Magento\Catalog\Model\Resource\Eav\Attribute $attribute)
-    {
-        $filterClassName = $this->filters[self::ATTRIBUTE_FILTER];
+    protected function createAttributeFilter(
+        \Magento\Catalog\Model\Resource\Eav\Attribute $attribute, \Magento\Catalog\Model\Layer $layer
+    ) {
+        $filterClassName = $this->filterTypes[self::ATTRIBUTE_FILTER];
 
         if ($attribute->getAttributeCode() == 'price') {
-            $filterClassName = $this->filters[self::PRICE_FILTER];
+            $filterClassName = $this->filterTypes[self::PRICE_FILTER];
         } elseif ($attribute->getBackendType() == 'decimal') {
-            $filterClassName = $this->filters[self::DECIMAL_FILTER];
+            $filterClassName = $this->filterTypes[self::DECIMAL_FILTER];
         }
 
         $filter = $this->objectManager->create(
             $filterClassName,
-            array('data' => array('attribute_model' => $attribute))
+            array('data' => array('attribute_model' => $attribute), 'layer' => $layer)
         );
         return $filter;
     }

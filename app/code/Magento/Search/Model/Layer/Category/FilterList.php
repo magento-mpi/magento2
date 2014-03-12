@@ -30,23 +30,30 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
     ) {
         $this->helper = $helper;
         if ($helper->getIsEngineAvailableForNavigation()) {
-            $this->filters[self::CATEGORY_FILTER]  = 'Magento\Search\Model\Catalog\Layer\Filter\Category';
-            $this->filters[self::ATTRIBUTE_FILTER] = 'Magento\Search\Model\Catalog\Layer\Filter\Attribute';
-            $this->filters[self::PRICE_FILTER]     = 'Magento\Search\Model\Catalog\Layer\Filter\Price';
-            $this->filters[self::DECIMAL_FILTER]   = 'Magento\Search\Model\Catalog\Layer\Filter\Decimal';
+            $this->filterTypes[self::CATEGORY_FILTER]  = 'Magento\Search\Model\Catalog\Layer\Filter\Category';
+            $this->filterTypes[self::ATTRIBUTE_FILTER] = 'Magento\Search\Model\Catalog\Layer\Filter\Attribute';
+            $this->filterTypes[self::PRICE_FILTER]     = 'Magento\Search\Model\Catalog\Layer\Filter\Price';
+            $this->filterTypes[self::DECIMAL_FILTER]   = 'Magento\Search\Model\Catalog\Layer\Filter\Decimal';
         }
         parent::__construct($objectManager, $filterableAttributes, $filters);
     }
 
-
-    public function getFilters()
+    /**
+     * Retrieve list of filters
+     *
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @return array|\Magento\Catalog\Model\Layer\Filter\AbstractFilter[]
+     */
+    public function getFilters(\Magento\Catalog\Model\Layer $layer)
     {
-        $filters = parent::getFilters();
-        if ($this->helper->isThirdPartSearchEngine() && $this->helper->getIsEngineAvailableForNavigation()) {
-            foreach ($filters as $filter) {
-                $filter->addFacetCondition();
+        if (!count($this->filters)) {
+            $filters = parent::getFilters($layer);
+            if ($this->helper->isThirdPartSearchEngine() && $this->helper->getIsEngineAvailableForNavigation()) {
+                foreach ($filters as $filter) {
+                    $filter->addFacetCondition();
+                }
             }
         }
-        return $filters;
+        return $this->filters;
     }
 }

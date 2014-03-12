@@ -36,7 +36,7 @@ class Layer extends \Magento\Object
      *
      * @var \Magento\Registry
      */
-    protected $_coreRegistry = null;
+    protected $registry = null;
 
     /**
      * Store manager
@@ -89,27 +89,23 @@ class Layer extends \Magento\Object
     protected $collectionFilter;
 
     /**
+     * @param Layer\ContextInterface $context
      * @param Layer\StateFactory $layerStateFactory
      * @param CategoryFactory $categoryFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Catalog\Model\Layer\Category\ItemCollectionProvider $collectionProvider
-     * @param \Magento\Catalog\Model\Layer\Category\StateKey $stateKey
-     * @param \Magento\Catalog\Model\Layer\Category\CollectionFilter $collectionFilter
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Catalog\Model\Layer\ContextInterface $context,
         \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Registry $coreRegistry,
-        Layer\Category\ItemCollectionProvider $collectionProvider,
-        Layer\Category\StateKey $stateKey,
-        Layer\Category\CollectionFilter $collectionFilter,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_layerStateFactory = $layerStateFactory;
@@ -117,10 +113,10 @@ class Layer extends \Magento\Object
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         $this->_catalogProduct = $catalogProduct;
         $this->_storeManager = $storeManager;
-        $this->_coreRegistry = $coreRegistry;
-        $this->collectionProvider = $collectionProvider;
-        $this->stateKey = $stateKey;
-        $this->collectionFilter = $collectionFilter;
+        $this->registry = $registry;
+        $this->collectionProvider = $context->getCollectionProvider();
+        $this->stateKey = $context->getStateKey();
+        $this->collectionFilter = $context->getCollectionFilter();
         parent::__construct($data);
     }
 
@@ -195,7 +191,7 @@ class Layer extends \Magento\Object
     {
         $category = $this->getData('current_category');
         if (is_null($category)) {
-            $category = $this->_coreRegistry->registry('current_category');
+            $category = $this->registry->registry('current_category');
             if ($category) {
                 $this->setData('current_category', $category);
             } else {
