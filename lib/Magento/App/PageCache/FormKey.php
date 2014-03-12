@@ -14,12 +14,12 @@ namespace Magento\App\PageCache;
  *
  * @package Magento\App\PageCache
  */
-class Version
+class FormKey
 {
     /**
      * Name of cookie that holds private content version
      */
-    const COOKIE_NAME = 'private_content_version';
+    const COOKIE_NAME = 'form_key';
 
     /**
      * Ten years cookie period
@@ -34,46 +34,21 @@ class Version
     protected $cookie;
 
     /**
-     * Request
-     *
-     * @var \Magento\App\Request\Http
-     */
-    protected $request;
-
-    /**
      * @param \Magento\Stdlib\Cookie $cookie
-     * @param \Magento\App\Request\Http $request
      */
     public function __construct(
-        \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\Request\Http $request
+        \Magento\Stdlib\Cookie $cookie
     ) {
         $this->cookie = $cookie;
-        $this->request = $request;
     }
 
     /**
-     * Generate unique version identifier
+     * Get form key cookie
      *
      * @return string
      */
-    protected function generateValue()
+    public function get()
     {
-        return md5(rand() . time());
-    }
-
-    /**
-     * Handle private content version cookie
-     * Set cookie if it is not set.
-     * Increment version on post requests.
-     * In all other cases do nothing.
-     *
-     * @return void
-     */
-    public function process()
-    {
-        if ($this->request->isPost()) {
-            $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
-        }
+        return $this->cookie->get(self::COOKIE_NAME);
     }
 }

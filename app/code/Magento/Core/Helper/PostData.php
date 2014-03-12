@@ -43,9 +43,6 @@ class PostData extends \Magento\App\Helper\AbstractHelper
      */
     public function getPostData($url, array $data = array())
     {
-        if (!isset($data['form_key'])) {
-            $data['form_key'] = $this->_formKey->getFormKey();
-        }
         if (!isset($data[\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED])) {
             $data[\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl();
         }

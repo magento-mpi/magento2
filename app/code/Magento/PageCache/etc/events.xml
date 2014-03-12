@@ -52,7 +52,12 @@
     </event>
     <event name="model_save_commit_after">
         <observer name="flush_cache_after_model_save"
-            instance="Magento\PageCache\Model\Observer"
-            method="flushCacheByTags" />
+                  instance="Magento\PageCache\Model\Observer"
+                  method="flushCacheByTags" />
+    </event>
+    <event name="controller_action_predispatch">
+        <observer name="register_from_key"
+                  instance="Magento\PageCache\Model\Observer"
+                  method="registerFormKeyFromCookie" />
     </event>
 </config>
