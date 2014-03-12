@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@
  * This class is responsible for parsing content and applying necessary html element
  * wrapping and client scripts for inline translation.
  */
-namespace Magento\Core\Model\Translate\Inline;
+namespace Magento\Translate\Model\Inline;
 
 class Parser implements \Magento\Translate\Inline\ParserInterface
 {
@@ -104,7 +102,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     );
 
     /**
-     * @var \Magento\Core\Model\Resource\Translate\StringFactory
+     * @var \Magento\Translate\Model\Resource\StringFactory
      */
     protected $_resourceFactory;
 
@@ -136,7 +134,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Initialize base inline translation model
      *
-     * @param \Magento\Core\Model\Resource\Translate\StringFactory $resource
+     * @param \Magento\Translate\Model\Resource\StringFactory $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Zend_Filter_Interface $inputFilter
      * @param \Magento\App\State $appState
@@ -144,7 +142,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
      * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Translate\StringFactory $resource,
+        \Magento\Translate\Model\Resource\StringFactory $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Zend_Filter_Interface $inputFilter,
         \Magento\App\State $appState,
@@ -178,7 +176,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
         /** @var $validStoreId int */
         $validStoreId = $this->_storeManager->getStore()->getId();
 
-        /** @var $resource \Magento\Core\Model\Resource\Translate\String */
+        /** @var $resource \Magento\Translate\Model\Resource\String */
         $resource = $this->_resourceFactory->create();
         foreach ($translateParams as $param) {
             if ($this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {

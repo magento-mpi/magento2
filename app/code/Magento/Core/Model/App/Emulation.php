@@ -30,11 +30,6 @@ class Emulation extends \Magento\Object
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Helper\Translate
-     */
-    protected $_helperTranslate;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -61,7 +56,6 @@ class Emulation extends \Magento\Object
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -72,7 +66,6 @@ class Emulation extends \Magento\Object
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Design $design,
         \Magento\TranslateInterface $translate,
-        \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Translate\Inline\ConfigFactory $configFactory,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -84,7 +77,6 @@ class Emulation extends \Magento\Object
         $this->_viewDesign = $viewDesign;
         $this->_design = $design;
         $this->_translate = $translate;
-        $this->_helperTranslate = $helperTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_configFactory = $configFactory;
     }

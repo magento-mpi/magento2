@@ -107,9 +107,9 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         // ensure string translation is cached
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
 
-        /** @var \Magento\Core\Model\Resource\Translate\String $translateString */
+        /** @var \Magento\Translate\Model\Resource\String $translateString */
         $translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Translate\String');
+            ->create('Magento\Translate\Model\Resource\Translate\String');
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);

@@ -2,13 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Translate\Inline;
+namespace Magento\Translate\Model\Inline;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +21,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($result));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $config = $objectManager->getObject(
-            '\Magento\Core\Model\Translate\Inline\Config',
+            '\Magento\Translate\Model\Inline\Config',
             array(
                 'coreStoreConfig' => $coreStoreConfig
             )

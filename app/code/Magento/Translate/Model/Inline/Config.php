@@ -12,7 +12,7 @@
 /**
  * Inline Translation config
  */
-namespace Magento\Core\Model\Translate\Inline;
+namespace Magento\Translate\Model\Inline;
 
 class Config implements \Magento\Translate\Inline\ConfigInterface
 {

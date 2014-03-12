@@ -2,20 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Translate\Model\Resource;
 
-/**
- * Translation resource model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
 {
     /**

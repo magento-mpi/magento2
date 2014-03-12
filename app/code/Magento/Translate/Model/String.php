@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,20 +9,16 @@
 /**
  * String translation model
  *
- * @method \Magento\Core\Model\Resource\Translate\String _getResource()
- * @method \Magento\Core\Model\Resource\Translate\String getResource()
+ * @method \Magento\Translate\Model\Resource\String _getResource()
+ * @method \Magento\Translate\Model\Resource\String getResource()
  * @method int getStoreId()
- * @method \Magento\Core\Model\Translate\String setStoreId(int $value)
+ * @method \Magento\Translate\Model\String setStoreId(int $value)
  * @method string getTranslate()
- * @method \Magento\Core\Model\Translate\String setTranslate(string $value)
+ * @method \Magento\Translate\Model\String setTranslate(string $value)
  * @method string getLocale()
- * @method \Magento\Core\Model\Translate\String setLocale(string $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method \Magento\Translate\Model\String setLocale(string $value)
  */
-namespace Magento\Core\Model\Translate;
+namespace Magento\Translate\Model;
 
 class String extends \Magento\Core\Model\AbstractModel
 {
@@ -33,7 +27,7 @@ class String extends \Magento\Core\Model\AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Resource\Translate\String');
+        $this->_init('Magento\Translate\Model\Resource\String');
     }
 
     /**

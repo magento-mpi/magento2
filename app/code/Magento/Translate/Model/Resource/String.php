@@ -2,20 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Translate;
-
-/**
- * String translate resource model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+namespace Magento\Translate\Model\Resource;
 
 class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 {

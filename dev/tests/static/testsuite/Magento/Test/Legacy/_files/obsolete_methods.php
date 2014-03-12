@@ -279,7 +279,7 @@ return array(
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
     array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
-    array('composeLocaleHierarchy', 'Magento\Core\Helper\Translate'),
+    array('composeLocaleHierarchy', 'Magento\Translate\Helper\Data'),
     array('convertOldTaxData', 'Magento\Tax\Model\Resource\Setup'),
     array('convertOldTreeToNew', 'Magento\Catalog\Model\Resource\Setup'),
     array('copyFieldset', 'Magento\Core\Helper\Data', 'copyFieldsetToTarget'),

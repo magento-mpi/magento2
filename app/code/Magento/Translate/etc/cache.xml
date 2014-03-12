@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="translate" translate="label,description" instance="Magento\App\Cache\Type\Translate">
+        <label>Translations</label>
+        <description>Translation files.</description>
+    </type>
+</config>

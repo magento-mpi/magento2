@@ -2,18 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Core translate helper
- */
-namespace Magento\Core\Helper;
+namespace Magento\Translate\Helper;
 
-class Translate extends \Magento\App\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Design package instance

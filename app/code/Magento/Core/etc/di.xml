@@ -40,9 +40,6 @@
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
-    <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
-    <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Core\Model\Translate\Inline\Config" />
-    <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Core\Model\Translate\Inline\Parser" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
@@ -58,7 +55,6 @@
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
-    <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
     <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
     <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
@@ -69,13 +65,6 @@
     <preference for="Magento\Stdlib\DateTime\DateInterface" type="Magento\Stdlib\DateTime\Date" />
     <preference for="Magento\Locale\ScopeConfigInterface" type="Magento\Core\Model\Store\Config" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
-    <type name="Magento\Translate\Inline">
-        <arguments>
-            <argument name="templateFileName" xsi:type="string">Magento_Core::translate_inline.phtml</argument>
-            <argument name="translatorRoute" xsi:type="string">core/ajax/translate</argument>
-            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\App\DefaultPath\DefaultPath">
         <arguments>
             <argument name="parts" xsi:type="array">
@@ -236,11 +225,6 @@
     <type name="Magento\Phrase\Renderer\Translate">
         <arguments>
             <argument name="translator" xsi:type="object">Magento\Translate</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Model\Translate\Inline\Parser">
-        <arguments>
-            <argument name="inputFilter" xsi:type="object">Magento\Filter\Input\MaliciousCode</argument>
         </arguments>
     </type>
     <type name="Magento\App\Config\ScopePool">
