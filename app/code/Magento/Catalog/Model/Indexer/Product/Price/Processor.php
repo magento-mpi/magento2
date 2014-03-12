@@ -18,17 +18,17 @@ class Processor
     const INDEXER_ID = 'catalog_product_price';
 
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $_indexer;
 
     /**
-     * @param \Magento\Indexer\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      */
     public function __construct(
-       \Magento\Indexer\Model\Indexer $indexer
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory
     ) {
-        $this->_indexer = $indexer;
+        $this->_indexer = $indexerFactory->create();
     }
 
     /**
