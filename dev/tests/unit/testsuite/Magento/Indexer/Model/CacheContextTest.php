@@ -12,7 +12,7 @@ namespace Magento\Indexer\Model;
 class CacheContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\Indexer\Context
+     * @var \Magento\Indexer\Model\CacheContext
      */
     protected $context;
 
