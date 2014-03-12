@@ -84,11 +84,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'output' => 'test output html'
         ]);
 
-//        $path = 'system/full_page_cache/caching_application';
-//        $value = \Magento\PageCache\Model\Config::BUILT_IN;
-//        $appConfigMock = new \Magento\App\Config('default');
-//        $appConfigMock->setValue($path, $value);
-
         $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
     }
 
@@ -100,8 +95,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @param string $expectedOutput
      * @dataProvider processLayoutRenderDataProvider
      */
-    public function testProcessLayoutRenderElement($cacheState, $varnishIsEnabled, $scopeIsPrivate, $blockTtl, $expectedOutput)
-    {
+    public function testProcessLayoutRenderElement(
+        $cacheState,
+        $varnishIsEnabled,
+        $scopeIsPrivate,
+        $blockTtl,
+        $expectedOutput
+    ) {
         $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
         $this->_observerMock->expects($this->once())
             ->method('getEvent')

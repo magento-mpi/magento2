@@ -30,12 +30,12 @@ class RefreshPlugin
 
     /**
      * @param \Magento\Indexer\Model\ActionInterface $subject
-     * @param array $arguments
+     * @param array $ids
      * @return array
      */
-    public function beforeExecute(\Magento\Indexer\Model\ActionInterface $subject, $arguments)
+    public function beforeExecute(\Magento\Indexer\Model\ActionInterface $subject, $ids)
     {
-        $this->context->registerEntities(\Magento\Catalog\Model\Category::CACHE_TAG, $arguments);
-        return $arguments;
+        $this->context->registerEntities(\Magento\Catalog\Model\Category::CACHE_TAG, $ids);
+        return array($ids);
     }
 }

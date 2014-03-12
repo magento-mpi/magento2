@@ -58,7 +58,13 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
         $this->versionMock = $this->getMock('Magento\App\PageCache\Version', array(), array(), '', false);
         $this->stateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->frontControllerMock = $this->getMock('Magento\App\FrontControllerInterface', array(), array(), '', false);
+        $this->frontControllerMock = $this->getMock(
+            'Magento\App\FrontControllerInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $response = $this->responseMock;
