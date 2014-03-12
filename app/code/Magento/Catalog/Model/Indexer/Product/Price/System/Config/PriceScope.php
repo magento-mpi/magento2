@@ -55,6 +55,8 @@ class PriceScope extends \Magento\Core\Model\Config\Value
 
     /**
      * Process product price scope change
+     *
+     * @return void
      */
     public function processValue()
     {

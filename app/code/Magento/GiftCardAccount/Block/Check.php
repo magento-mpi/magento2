@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCardAccount\Block;
 
 /**
  * Check result block for a Giftcardaccount
  */
-namespace Magento\GiftCardAccount\Block;
-
 class Check extends \Magento\View\Element\Template
 {
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
 
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -44,6 +43,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Set default sort
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -57,7 +58,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -73,7 +74,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -137,6 +138,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

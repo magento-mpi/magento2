@@ -38,6 +38,8 @@ abstract class AbstractPlugin
 
     /**
      * Invalidate indexer
+     *
+     * @return void
      */
     protected function invalidateIndexer()
     {

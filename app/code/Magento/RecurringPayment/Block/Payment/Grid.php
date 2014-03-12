@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment;
 
 /**
@@ -60,6 +59,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
      * Instantiate payments collection
      *
      * @param array|int|string $fields
+     * @return void
      */
     protected function _preparePayments($fields = '*')
     {

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Block\Catalog\Product;
+
+use Magento\Downloadable\Model\Resource\Sample;
 
 /**
  * Downloadable Product Samples part block
@@ -15,8 +18,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Block\Catalog\Product;
-
 class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -41,6 +42,10 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
             ->getSamples($this->getProduct());
     }
 
+    /**
+     * @param Sample $sample
+     * @return string
+     */
     public function getSampleUrl($sample)
     {
         return $this->getUrl('downloadable/download/sample', array('sample_id' => $sample->getId()));

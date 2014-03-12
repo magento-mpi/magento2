@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
@@ -37,6 +36,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -45,6 +47,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setTitle(__('Gift Card Account'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->addTab('info', array(

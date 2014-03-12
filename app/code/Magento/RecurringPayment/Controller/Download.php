@@ -9,9 +9,15 @@ namespace Magento\RecurringPayment\Controller;
 
 class Download extends \Magento\App\Action\Action
 {
-    /** @var \Magento\Sales\Model\Download */
+    /**
+     * @var \Magento\Sales\Model\Download
+     */
     protected $download;
 
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\Sales\Model\Download $download
+     */
     public function __construct(\Magento\App\Action\Context $context, \Magento\Sales\Model\Download $download)
     {
         parent::__construct($context);
@@ -20,6 +26,8 @@ class Download extends \Magento\App\Action\Action
 
     /**
      * Payment custom options download action
+     *
+     * @return void
      */
     public function downloadPaymentCustomOptionAction()
     {

@@ -44,6 +44,7 @@ class Price implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Ac
      * Execute materialization on ids entities
      *
      * @param int[] $ids
+     * @return void
      */
     public function execute($ids)
     {
@@ -52,6 +53,8 @@ class Price implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Ac
 
     /**
      * Execute full indexation
+     *
+     * @return void
      */
     public function executeFull()
     {
@@ -62,6 +65,7 @@ class Price implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Ac
      * Execute partial indexation by ID list
      *
      * @param int[] $ids
+     * @return void
      */
     public function executeList($ids)
     {
@@ -72,6 +76,7 @@ class Price implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Ac
      * Execute partial indexation by ID
      *
      * @param int $id
+     * @return void
      */
     public function executeRow($id)
     {

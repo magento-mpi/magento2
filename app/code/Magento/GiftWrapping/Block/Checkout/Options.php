@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Checkout;
 
 /**
  * Gift wrapping checkout process options block
@@ -15,8 +16,6 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Block\Checkout;
-
 class Options extends \Magento\View\Element\Template
 {
     /**
@@ -135,7 +134,7 @@ class Options extends \Magento\View\Element\Template
      * Calculate including tax price
      *
      * @param \Magento\Object $item
-     * @param mixed $basePrice
+     * @param float $basePrice
      * @param \Magento\Sales\Model\Quote\Address $shippingAddress
      * @param bool $includeTax
      * @return string
@@ -214,7 +213,7 @@ class Options extends \Magento\View\Element\Template
      *
      * @param array $items
      * @param \Magento\Sales\Model\Quote\Address $shippingAddress
-     * @param array $data
+     * @param array &$data
      * @return array
      */
     protected function _processItems($items, $shippingAddress, &$data)

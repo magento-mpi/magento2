@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\Config\Argument;
 
 use Magento\ObjectManager;
@@ -40,6 +39,7 @@ class ObjectFactory
      * Assign object manager instance
      *
      * @param ObjectManager $objectManager
+     * @return void
      */
     public function setObjectManager(ObjectManager $objectManager)
     {

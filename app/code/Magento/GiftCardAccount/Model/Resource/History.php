@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCardAccount\Model\Resource;
 
 /**
  * GiftCard account history serource model
@@ -15,8 +16,6 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model\Resource;
-
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -37,6 +36,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table and primary key field
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,7 +47,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Setting "updated_at" date before saving
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\GiftCardAccount\Model\Resource\History
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {

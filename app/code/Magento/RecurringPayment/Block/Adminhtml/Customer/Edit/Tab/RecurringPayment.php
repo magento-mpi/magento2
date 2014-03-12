@@ -5,10 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Adminhtml customer recurring payments tab
- */
 namespace Magento\RecurringPayment\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
@@ -16,12 +12,15 @@ use Magento\Customer\Controller\RegistryConstants;
 use Magento\RecurringPayment\Block\Adminhtml\Payment\Grid as PaymentGrid;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 
+/**
+ * Adminhtml customer recurring profiles tab
+ */
 class RecurringPayment extends PaymentGrid implements TabInterface
 {
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -76,6 +75,7 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     /**
      * Disable filters and paging
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -106,7 +106,7 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     /**
      * Can show tab in tabs
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -116,7 +116,7 @@ class RecurringPayment extends PaymentGrid implements TabInterface
     /**
      * Tab is hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {

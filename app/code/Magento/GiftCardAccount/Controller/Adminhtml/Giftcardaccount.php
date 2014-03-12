@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
+use Magento\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Giftcardaccount extends \Magento\Backend\App\Action
@@ -58,6 +58,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Default action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -83,6 +85,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Create new Gift Card Account
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -92,6 +96,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Edit GiftCardAccount
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -130,6 +136,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -216,6 +224,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -249,6 +259,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Render GCA grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -258,6 +270,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Generate code pool
+     *
+     * @return void
      */
     public function generateAction()
     {
@@ -285,6 +299,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Render GCA history grid
+     *
+     * @return void
      */
     public function gridHistoryAction()
     {
@@ -323,6 +339,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Export GCA grid to MSXML
+     *
+     * @return ResponseInterface
      */
     public function exportMsxmlAction()
     {
@@ -339,6 +357,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Export GCA grid to CSV
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -355,6 +375,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
     /**
      * Delete gift card accounts specified using grid massaction
+     *
+     * @return void
      */
     public function massDeleteAction()
     {
@@ -381,7 +403,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     /**
      * Filtering posted data. Converting localized data if needed
      *
-     * @param array
+     * @param array $data
      * @return array
      */
     protected function _filterPostData($data)
@@ -394,6 +416,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      * Setter for code pool status message flag
      *
      * @param bool $isShow
+     * @return void
      */
     public function setShowCodePoolStatusMessage($isShow)
     {

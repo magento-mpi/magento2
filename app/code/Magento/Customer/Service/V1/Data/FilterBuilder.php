@@ -31,7 +31,7 @@ class FilterBuilder extends AbstractObjectBuilder
     /**
      * Set value
      *
-     * @param string | string[] $value
+     * @param string|string[] $value
      * @return $this
      */
     public function setValue($value)

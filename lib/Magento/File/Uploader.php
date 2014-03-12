@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\File;
 
 /**
  * File upload class
@@ -18,9 +19,6 @@
  * @package    Magento_File
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\File;
-
 class Uploader
 {
     /**
@@ -247,7 +245,7 @@ class Uploader
      *
      * @param string $tmpPath
      * @param string $destPath
-     * @return bool
+     * @return bool|void
      */
     protected function _moveFile($tmpPath, $destPath)
     {
@@ -345,7 +343,7 @@ class Uploader
     /**
      * Convert filename to lowercase in case of case-insensitive file names
      *
-     * @param string
+     * @param string $fileName
      * @return string
      */
     public function correctFileNameCase($fileName)

@@ -17,6 +17,7 @@ class UseStatement extends AbstractStatement
 {
     /**
      * This method constructs a new statement based on the specified use clause.
+     *
      * @param PHPParser_Node_Stmt_Use $node
      */
     public function __construct(PHPParser_Node_Stmt_Use $node)
@@ -26,6 +27,7 @@ class UseStatement extends AbstractStatement
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -48,6 +50,9 @@ class UseStatement extends AbstractStatement
         return $treeNode;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isTrimComments()
     {
         return true;

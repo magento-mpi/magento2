@@ -125,6 +125,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
+     * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
      */
     public function __construct(
         \Magento\App\Helper\Context $context,

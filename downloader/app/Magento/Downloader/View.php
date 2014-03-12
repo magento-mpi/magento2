@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader;
 
 /**
  * Class for viewer
@@ -15,8 +16,6 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader;
-
 class View
 {
     /**
@@ -117,6 +116,7 @@ class View
      * Retrieve link for header menu
      *
      * @param mixed $action
+     * @return string
      */
     public function getNavLinkParams($action)
     {

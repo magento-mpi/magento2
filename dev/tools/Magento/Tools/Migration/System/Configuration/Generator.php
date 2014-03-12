@@ -7,24 +7,26 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\Tools\Migration\System\Configuration;
+
+use Magento\Tools\Migration\System\Configuration\AbstractLogger;
+use Magento\Tools\Migration\System\Configuration\Formatter;
+use Magento\Tools\Migration\System\FileManager;
 
 class Generator
 {
     /**
-     * @var \Magento\Tools\Migration\System\FileManager
+     * @var FileManager
      */
     protected $_fileManager;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\Formatter
+     * @var Formatter
      */
     protected $_xmlFormatter;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\AbstractLogger
+     * @var AbstractLogger
      */
     protected $_logger;
 
@@ -36,14 +38,19 @@ class Generator
     protected $_basePath;
 
     /**
-     * @var \Magento\Tools\Migration\System\Configuration\AbstractLogger
+     * @var AbstractLogger
      */
     protected $_fileSchemaPath;
 
+    /**
+     * @param Formatter $xmlFormatter
+     * @param FileManager $fileManager
+     * @param AbstractLogger $logger
+     */
     public function __construct(
-        \Magento\Tools\Migration\System\Configuration\Formatter $xmlFormatter,
-        \Magento\Tools\Migration\System\FileManager $fileManager,
-        \Magento\Tools\Migration\System\Configuration\AbstractLogger $logger
+        Formatter $xmlFormatter,
+        FileManager $fileManager,
+        AbstractLogger $logger
     ) {
         $this->_fileManager = $fileManager;
         $this->_xmlFormatter = $xmlFormatter;
@@ -60,6 +67,7 @@ class Generator
      *
      * @param string $fileName
      * @param array $configuration
+     * @return void
      */
     public function createConfiguration($fileName, array $configuration)
     {
@@ -67,12 +75,12 @@ class Generator
         if (@!$domDocument->schemaValidate($this->_fileSchemaPath)) {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
-                \Magento\Tools\Migration\System\Configuration\AbstractLogger::FILE_KEY_INVALID
+                AbstractLogger::FILE_KEY_INVALID
             );
         } else {
             $this->_logger->add(
                 $this->_removeBasePath($fileName),
-                \Magento\Tools\Migration\System\Configuration\AbstractLogger::FILE_KEY_VALID
+                AbstractLogger::FILE_KEY_VALID
             );
         }
 
@@ -175,7 +183,7 @@ class Generator
     /**
      * Get new path to system configuration file
      *
-     * @param $fileName
+     * @param string $fileName
      * @return string
      */
     protected function _getPathToSave($fileName)
@@ -186,7 +194,7 @@ class Generator
     /**
      * Remove path to magento application
      *
-     * @param $filename
+     * @param string $filename
      * @return string
      */
     protected function _removeBasePath($filename)

@@ -9,13 +9,24 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 class LineBreakCondition
 {
+    /**
+     * @var null|string
+     */
     protected $condition;
 
+    /**
+     * @param string $condition
+     */
     public function __construct($condition = null)
     {
         $this->condition = $condition;
     }
 
+    /**
+     * @param array &$tokens
+     * @param string|CallLineBreak $nextToken
+     * @return string|LineBreak
+     */
     public function process(&$tokens, $nextToken)
     {
         $token = $nextToken;

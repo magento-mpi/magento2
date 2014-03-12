@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\System\Config;
 
 /**
@@ -63,6 +62,8 @@ class Mode extends \Magento\Core\Model\Config\Value
 
     /**
      * Process flat enabled mode change
+     *
+     * @return void
      */
     public function processValue()
     {

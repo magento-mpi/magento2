@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Helper;
 
 /**
  * Bundle helper
@@ -15,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**

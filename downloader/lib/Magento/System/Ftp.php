@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\System;
 
 /**
  * Class to work with remote FTP server
@@ -15,11 +16,8 @@
  * @package     Magento_System
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\System;
-
 class Ftp
 {
-
     /**
      * Connection object
      *
@@ -44,7 +42,7 @@ class Ftp
      * ftp_mkdir wrapper
      *
      * @param string $name
-     * @return unknown_type
+     * @return string the newly created directory name on success or <b>FALSE</b> on error.
      */
     public function mdkir($name)
     {
@@ -85,8 +83,8 @@ class Ftp
      *
      * @param string $login
      * @param string $password
-     * @throws \Exception on invalid login credentials
      * @return bool
+     * @throws \Exception On invalid login credentials
      */
     public function login($login = "anonymous", $password = "")
     {
@@ -116,7 +114,6 @@ class Ftp
         }
         return $data;
     }
-
     /**
      * Connect to server using connect string
      * Connection string: ftp://user:pass@server:port/path
@@ -124,6 +121,8 @@ class Ftp
      *
      * @param string $string
      * @param int $timeout
+     * @return void
+     * @throws \Exception
      */
     public function connect($string, $timeout = 900)
     {
@@ -298,9 +297,9 @@ class Ftp
     /**
      * ftp_chmod wrapper
      *
-     * @param $mode
-     * @param $remoteFile
-     * @return bool
+     * @param int $mode
+     * @param string $remoteFile
+     * @return int The new file permissions on success or <b>FALSE</b> on error.
      */
     public function chmod($mode, $remoteFile)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCardAccount\Model;
 
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\Giftcardaccount _getResource()
@@ -32,8 +33,6 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model;
-
 class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_DISABLED = 0;
@@ -47,8 +46,16 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     const REDEEMABLE     = 1;
     const NOT_REDEEMABLE = 0;
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'magento_giftcardaccount';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'giftcardaccount';
+
     /**
      * Giftcard code that was requested for load
      *
@@ -185,6 +192,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         $this->_localeDate = $localeDate;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\Giftcardaccount');
@@ -193,7 +203,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel|void
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -253,6 +263,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         }
     }
 
+    /**
+     * @return $this
+     */
     protected function _afterSave()
     {
         if ($this->getIsNew()) {
@@ -281,7 +294,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * Load gift card account model using specified code
      *
      * @param string $code
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      */
     public function loadByCode($code)
     {
@@ -296,7 +309,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      *
      * @param bool $saveQuote
      * @param \Magento\Sales\Model\Quote|null $quote
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function addToCart($saveQuote = true, $quote = null)
@@ -337,7 +350,8 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      *
      * @param bool $saveQuote
      * @param \Magento\Sales\Model\Quote|null $quote
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this|void
+     * @throws \Magento\Core\Exception
      */
     public function removeFromCart($saveQuote = true, $quote = null)
     {
@@ -448,7 +462,8 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Reduce Gift Card Account balance by specified amount
      *
-     * @param decimal $amount
+     * @param float $amount
+     * @return $this
      */
     public function charge($amount)
     {
@@ -465,7 +480,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * Revert amount to gift card balance if order was not placed
      *
      * @param   float $amount
-     * @return  \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return  $this
      */
     public function revert($amount)
     {
@@ -483,7 +498,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Set state text on after load
      *
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      */
     public function _afterLoad()
     {
@@ -523,7 +538,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      *
      * @param array $ids
      * @param int $state
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      */
     public function updateState($ids, $state)
     {
@@ -537,7 +552,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * Redeem gift card (-gca balance, +cb balance)
      *
      * @param int $customerId
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function redeem($customerId = null)
@@ -573,6 +588,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function sendEmail()
     {
         $recipientName = $this->getRecipientName();
@@ -642,9 +660,10 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Obscure real exception message to prevent brute force attacks
      *
-     * @throws \Magento\Core\Exception
      * @param string $realMessage
      * @param string $fakeMessage
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _throwException($realMessage, $fakeMessage = '')
     {

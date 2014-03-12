@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Creditmemo\Comment;
 
 /**
  * Flat sales order creditmemo comments collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Creditmemo\Comment;
-
-class Collection
-    extends \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
+class Collection extends \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,6 +35,7 @@ class Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -49,7 +47,7 @@ class Collection
      * Set creditmemo filter
      *
      * @param int $creditmemoId
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection
+     * @return $this
      */
     public function setCreditmemoFilter($creditmemoId)
     {

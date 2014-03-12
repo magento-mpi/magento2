@@ -44,6 +44,10 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     */
     public function getIsSubscribed()
     {
         return $this->getSubscriptionObject()->isSubscribed();

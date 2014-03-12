@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\MultipleWishlist\Model;
 
 /**
  * Enterprise wishlist item
@@ -15,12 +16,12 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\MultipleWishlist\Model;
-
 class Item extends \Magento\Wishlist\Model\Item
 {
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

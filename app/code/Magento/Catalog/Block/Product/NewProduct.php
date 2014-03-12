@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 /**
@@ -112,6 +111,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * Initialize block's cache
+     *
+     * @return void
      */
     protected function _construct()
     {

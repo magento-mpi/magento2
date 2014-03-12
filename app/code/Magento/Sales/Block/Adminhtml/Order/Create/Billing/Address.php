@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Billing;
 
 /**
  * Adminhtml sales order create billing address block
@@ -16,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Billing;
-
 class Address
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
 {
@@ -44,7 +42,7 @@ class Address
     /**
      * Prepare Form and add elements to form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Billing\Address
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -71,7 +69,7 @@ class Address
     /**
      * Return customer address id
      *
-     * @return int|boolean
+     * @return int|bool
      */
     public function getAddressId()
     {

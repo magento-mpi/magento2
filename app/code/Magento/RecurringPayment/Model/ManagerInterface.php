@@ -19,6 +19,7 @@ interface ManagerInterface
      * Validate data
      *
      * @param RecurringPayment $payment
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validate(RecurringPayment $payment);
@@ -28,6 +29,7 @@ interface ManagerInterface
      *
      * @param RecurringPayment $payment
      * @param PaymentInfo $paymentInfo
+     * @return void
      */
     public function submit(RecurringPayment $payment, PaymentInfo $paymentInfo);
 
@@ -36,6 +38,7 @@ interface ManagerInterface
      *
      * @param string $referenceId
      * @param \Magento\Object $result
+     * @return void
      */
     public function getDetails($referenceId, Object $result);
 
@@ -50,6 +53,7 @@ interface ManagerInterface
      * Update data
      *
      * @param RecurringPayment $payment
+     * @return void
      */
     public function update(RecurringPayment $payment);
 
@@ -57,6 +61,7 @@ interface ManagerInterface
      * Manage status
      *
      * @param RecurringPayment $payment
+     * @return void
      */
     public function updateStatus(RecurringPayment $payment);
 

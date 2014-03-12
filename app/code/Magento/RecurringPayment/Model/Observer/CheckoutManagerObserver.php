@@ -40,6 +40,7 @@ class CheckoutManagerObserver
      * Submit recurring payments
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function submitRecurringPayments($observer)
@@ -55,6 +56,8 @@ class CheckoutManagerObserver
 
     /**
      * Add recurring payment ids to session
+     *
+     * @return void
      */
     public function addRecurringPaymentIdsToSession()
     {

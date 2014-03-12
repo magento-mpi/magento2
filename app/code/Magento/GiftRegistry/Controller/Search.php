@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Gift registry frontend search controller
- */
 namespace Magento\GiftRegistry\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
+/**
+ * Gift registry frontend search controller
+ */
 class Search extends \Magento\App\Action\Action
 {
     /**
@@ -193,9 +192,10 @@ class Search extends \Magento\App\Action\Action
     /**
      * Convert dates in array from localized to internal format
      *
-     * @param   array $array
-     * @param   array $dateFields
-     * @return  array
+     * @param array $array
+     * @param string[] $dateFields
+     * @param string $format
+     * @return array
      */
     protected function _filterInputDates($array, $dateFields, $format = null)
     {
@@ -225,6 +225,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -239,6 +241,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function resultsAction()
     {
@@ -271,6 +275,8 @@ class Search extends \Magento\App\Action\Action
 
     /**
      * Load type specific advanced search attributes
+     *
+     * @return void
      */
     public function advancedAction()
     {

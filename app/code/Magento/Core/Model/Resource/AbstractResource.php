@@ -43,6 +43,8 @@ abstract class AbstractResource
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     abstract protected function _construct();
 

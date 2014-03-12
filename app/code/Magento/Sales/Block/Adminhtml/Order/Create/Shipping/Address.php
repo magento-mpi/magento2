@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Shipping;
 
 /**
  * Adminhtml sales order create shipping address block
@@ -16,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Shipping;
-
 class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
 {
     /**
@@ -43,7 +41,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     /**
      * Prepare Form and add elements to form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Address
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -60,7 +58,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     /**
      * Return is shipping address flag
      *
-     * @return boolean
+     * @return true
      */
     public function getIsShipping()
     {
@@ -70,7 +68,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     /**
      * Same as billing address flag
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsAsBilling()
     {
@@ -100,7 +98,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     /**
      * Return customer address id
      *
-     * @return int|boolean
+     * @return int|bool
      */
     public function getAddressId()
     {
@@ -126,7 +124,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * Return is address disabled flag
      * Return true is the quote is virtual
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsDisabled()
     {

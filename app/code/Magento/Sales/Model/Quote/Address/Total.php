@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Quote\Address;
 
 class Total extends \Magento\Object
@@ -17,7 +15,7 @@ class Total extends \Magento\Object
      * Merge numeric total values
      *
      * @param \Magento\Sales\Model\Quote\Address\Total $total
-     * @return \Magento\Sales\Model\Quote\Address\Total
+     * @return $this
      */
     public function merge(\Magento\Sales\Model\Quote\Address\Total $total)
     {

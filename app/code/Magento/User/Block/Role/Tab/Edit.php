@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\Role\Tab;
 
 /**
@@ -120,6 +119,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
 /**
  * Logger model
  */
-namespace Magento;
-
 class Logger
 {
     /**#@+
@@ -100,6 +99,7 @@ class Logger
      * @param string $message
      * @param int $level
      * @param string $loggerKey
+     * @return void
      */
     public function log($message, $level = \Zend_Log::DEBUG, $loggerKey = self::LOGGER_SYSTEM)
     {
@@ -120,6 +120,7 @@ class Logger
      * @param string $message
      * @param int $level
      * @param string $file
+     * @return void
      */
     public function logFile($message, $level = \Zend_Log::DEBUG, $file = '')
     {
@@ -142,6 +143,7 @@ class Logger
      *
      * @param string $message
      * @param string $loggerKey
+     * @return void
      */
     public function logDebug($message, $loggerKey = self::LOGGER_SYSTEM)
     {
@@ -152,6 +154,7 @@ class Logger
      * Log an exception
      *
      * @param \Exception $e
+     * @return void
      */
     public function logException(\Exception $e)
     {

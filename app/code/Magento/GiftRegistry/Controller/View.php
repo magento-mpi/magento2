@@ -7,15 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Gift registry frontend controller
- */
 namespace Magento\GiftRegistry\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
+/**
+ * Gift registry frontend controller
+ */
 class View extends \Magento\App\Action\Action
 {
     /**
@@ -54,6 +53,8 @@ class View extends \Magento\App\Action\Action
 
     /**
      * View giftregistry list in 'My Account' section
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -81,6 +82,8 @@ class View extends \Magento\App\Action\Action
 
     /**
      * Add specified gift registry items to quote
+     *
+     * @return void
      */
     public function addToCartAction()
     {

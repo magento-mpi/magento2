@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -99,7 +98,7 @@ class Account extends GenericMetadata
     /**
      * Initialize form
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Account
+     * @return $this
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -257,6 +256,7 @@ class Account extends GenericMetadata
      * Make sendemail or sendmail_store_id disabled if website_id has an empty value
      *
      * @param \Magento\Data\Form $form
+     * @return void
      */
     protected function _disableSendEmailStoreForEmptyWebsite(\Magento\Data\Form $form)
     {
@@ -291,6 +291,7 @@ class Account extends GenericMetadata
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
+     * @return void
      */
     protected function _addNewCustomerFormFields($form, $fieldset)
     {
@@ -350,7 +351,7 @@ class Account extends GenericMetadata
      * @param \Magento\Data\Form $form
      * @param \Magento\Data\Form\Element\Fieldset $fieldset
      * @param \Magento\Customer\Service\V1\Data\Customer $customerDataObject
-     * @returns string[] Values to set on the form
+     * @return string[] Values to set on the form
      */
     protected function _addEditCustomerFormFields($form, $fieldset, $customerDataObject)
     {

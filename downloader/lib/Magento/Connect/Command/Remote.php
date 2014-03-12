@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Command;
 
 final class Remote
 extends \Magento\Connect\Command
 {
-
     /**
      * List-upgrades callback
      * @param srting $command
@@ -59,13 +57,12 @@ extends \Magento\Connect\Command
         }
     }
 
-
     /**
      * List available
-     * @param $command
-     * @param $options
-     * @param $params
-     * @return unknown_type
+     * @param string $command
+     * @param array $options
+     * @param string[] $params
+     * @return void
      */
 
     public function doListAvailable($command, $options, $params)
@@ -209,9 +206,4 @@ extends \Magento\Connect\Command
              $this->doError($command, $e->getMessage());
         }
     }
-
-
-
-
-
 }

@@ -3,6 +3,9 @@
   * Content invalidation
   * Added Edge side includes(ESI) supporting
   * Added Built-in caching application
+* Themes update:
+  * LESS styles library added in pub/lib/css/
+  * New Blank theme set as default
 * GitHub requests:
   * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
   * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
@@ -17,6 +20,7 @@
   * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
+  * [#499] (https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
 * Fixed bugs:
   * Fixed transaction rollback in fetchNewIncrementId on exception
   * Fixed category saveing when it has more than 1000 products
@@ -37,6 +41,8 @@
   * Fixed ability to edit Product Template (MAGETWO-21757)
   * Fixed duplicated shipping method options (MAGETWO-20055)
   * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
+  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
+  * Fixed JS/CSS merging functionality (MAGETWO-21924)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
@@ -63,6 +69,7 @@
   * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
+  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
 * Customer Service usage:
   * Customer module blocks and controllers refactoring to use customer service layer
   * Tax module refactoring to use customer service layer
@@ -74,6 +81,7 @@
   * Utilized a random salt of default length for admin users and frontend customers
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
+* Updated various PHPDoc with the parameter and return types
 
 2.0.0.0-dev67
 =============

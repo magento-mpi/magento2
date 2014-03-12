@@ -5,8 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Model;
+
+use Exception;
 
 /**
  * PayPal Instant Payment Notification processor model
@@ -14,7 +15,7 @@ namespace Magento\Paypal\Model;
 class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 {
     /**
-     * @param \Magento\Sales\Model\Order
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -54,7 +55,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
     /**
      * Get ipn data, send verification to PayPal, run corresponding handler
      *
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
     public function processIpnRequest()
     {
@@ -64,7 +66,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
             $this->_getConfig();
             $this->_postBack();
             $this->_processOrder();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->_addDebugData('exception', $e->getMessage());
             $this->_debug();
             throw $e;
@@ -76,7 +78,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
      * Get config with the method code and store id and validate
      *
      * @return \Magento\Paypal\Model\Config
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _getConfig()
     {
@@ -85,7 +87,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
         $parameters = array('params' => array($methodCode, $order->getStoreId()));
         $this->_config = $this->_configFactory->create($parameters);
         if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
-            throw new \Exception(sprintf('Method "%s" is not available.', $methodCode));
+            throw new Exception(sprintf('Method "%s" is not available.', $methodCode));
         }
         /** @link https://cms.paypal.com/cgi-bin/marketingweb?cmd=_render-content&content_ID=developer/e_howto_admin_IPNIntro */
         // verify merchant email intended to receive notification
@@ -95,7 +97,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
         }
         $receiver = $this->getRequestData('business') ? : $this->getRequestData('receiver_email');
         if (strtolower($merchantEmail) != strtolower($receiver)) {
-            throw new \Exception(
+            throw new Exception(
                 sprintf('The requested %s and configured %s merchant emails do not match.', $receiver, $merchantEmail)
             );
         }
@@ -107,14 +109,14 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
      * Load order
      *
      * @return \Magento\Sales\Model\Order
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _getOrder()
     {
         $incrementId = $this->getRequestData('invoice');
         $this->_order = $this->_orderFactory->create()->loadByIncrementId($incrementId);
         if (!$this->_order->getId()) {
-            throw new \Exception(sprintf('Wrong order ID: "%s".', $incrementId));
+            throw new Exception(sprintf('Wrong order ID: "%s".', $incrementId));
         }
         return $this->_order;
     }
@@ -123,6 +125,9 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
      * IPN workflow implementation
      * Everything should be added to order comments. In positive processing cases customer will get email notifications.
      * Admin will be notified on errors.
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _processOrder()
     {
@@ -153,6 +158,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process dispute notification
+     *
+     * @return void
      */
     protected function _registerDispute()
     {
@@ -175,6 +182,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process adjustment notification
+     *
+     * @return void
      */
     protected function _registerAdjustment()
     {
@@ -195,6 +204,10 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process regular IPN notifications
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     protected function _registerTransaction()
     {
@@ -235,7 +248,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
                     $this->_registerPaymentVoid();
                     break;
                 default:
-                    throw new \Exception("Cannot handle payment status '{$paymentStatus}'.");
+                    throw new Exception("Cannot handle payment status '{$paymentStatus}'.");
             }
         } catch (\Magento\Core\Exception $e) {
             $comment = $this->_createIpnComment(__('Note: %1', $e->getMessage()), true);
@@ -246,6 +259,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process completed payment (either full or partial)
+     *
+     * @return void
      */
     protected function _registerPaymentCapture()
     {
@@ -275,6 +290,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process denied payment notification
+     *
+     * @return void
      */
     protected function _registerPaymentDenial()
     {
@@ -289,6 +306,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Treat failed payment as order cancellation
+     *
+     * @return void
      */
     protected function _registerPaymentFailure()
     {
@@ -299,7 +318,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
     /**
      * Process payment pending notification
      *
-     * @throws \Exception
+     * @return void
+     * @throws Exception
      */
     public function _registerPaymentPending()
     {
@@ -309,7 +329,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
             return;
         }
         if ('order' === $reason) {
-            throw new \Exception('The "order" authorizations are not implemented.');
+            throw new Exception('The "order" authorizations are not implemented.');
         }
         // case when was placed using PayPal standard
         if (\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT == $this->_order->getState()) {
@@ -329,6 +349,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Register authorized payment
+     *
+     * @return void
      */
     protected function _registerPaymentAuthorization()
     {
@@ -352,6 +374,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * The status "Processed" is used when all Masspayments are successful
+     *
+     * @return void
      */
     protected function _registerMasspaymentsSuccess()
     {
@@ -361,6 +385,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process payment reversal and cancelled reversal notification
+     *
+     * @return void
      */
     protected function _registerPaymentReversal()
     {
@@ -389,6 +415,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process a refund
+     *
+     * @return void
      */
     protected function _registerPaymentRefund()
     {
@@ -416,6 +444,8 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements IpnInterface
 
     /**
      * Process voided authorization
+     *
+     * @return void
      */
     protected function _registerPaymentVoid()
     {

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 use Magento\Customer\Service\V1\Data\Customer;

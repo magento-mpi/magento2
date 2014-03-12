@@ -21,6 +21,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table and primary key
      *
+     * @return void
      */
     protected function _construct()
     {

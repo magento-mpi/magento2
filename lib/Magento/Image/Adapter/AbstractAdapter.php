@@ -7,14 +7,12 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Image\Adapter;
 
 /**
  * @file        Abstract.php
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Image\Adapter;
-
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
@@ -261,7 +259,8 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param \Magento\App\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(\Magento\App\Filesystem $filesystem, array $data = array()) {
+    public function __construct(\Magento\App\Filesystem $filesystem, array $data = array())
+    {
         $this->_filesystem      = $filesystem;
         $this->directoryWrite   = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
     }
@@ -274,7 +273,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getMimeType()
     {
-        if( $this->_fileType ) {
+        if ( $this->_fileType ) {
             return $this->_fileType;
         } else {
             list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType, ) = getimagesize($this->_fileName);
@@ -467,7 +466,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Get/set keepBackgroundColor
      *
      * @param null|array $value
-     * @return array|null
+     * @return array|void
      */
     public function backgroundColor($value = null)
     {

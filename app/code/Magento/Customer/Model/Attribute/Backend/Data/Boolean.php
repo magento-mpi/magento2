@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Attribute\Backend\Data;
 
 /**
  * Boolean customer attribute backend model
@@ -16,8 +16,6 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Attribute\Backend\Data;
-
 class Boolean
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -25,7 +23,7 @@ class Boolean
      * Prepare data before attribute save
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Customer\Model\Attribute\Backend\Data\Boolean
+     * @return $this
      */
     public function beforeSave($customer)
     {

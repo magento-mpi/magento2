@@ -66,6 +66,7 @@ class IndexerConfigData
      * @param string $path
      * @param mixed $default
      * @param mixed $data
+     * @return void
      */
     protected function processData($indexerId, $path, $default, &$data)
     {

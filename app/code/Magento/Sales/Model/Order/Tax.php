@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  *
@@ -39,10 +40,11 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Order;
-
 class Tax extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Resource\Order\Tax');

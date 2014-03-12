@@ -7,9 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Io;
-
 
 /**
  * Sftp client interface
@@ -112,7 +110,7 @@ class Sftp extends AbstractIo implements IoInterface
         if ($recursive) {
             $no_errors = true;
             $currentWorkingDir = $this->pwd();
-            if(!$this->_connection->chdir($dir)) {
+            if (!$this->_connection->chdir($dir)) {
                 throw new \Exception("chdir(): $dir: Not a directory");
             }
             $list = $this->_connection->nlist();
@@ -122,7 +120,7 @@ class Sftp extends AbstractIo implements IoInterface
                 return $this->rmdir($dir, false);
             } else {
                 foreach ($list as $filename) {
-                    if($this->_connection->chdir($filename)) { // This is a directory
+                    if ($this->_connection->chdir($filename)) { // This is a directory
                         $this->_connection->chdir('..');
                         $no_errors = $no_errors && $this->rmdir($filename, $recursive);
                     } else {
@@ -161,6 +159,7 @@ class Sftp extends AbstractIo implements IoInterface
 
     /**
      * Read a file
+     *
      * @param string $filename remote file name
      * @param string|null $destination local file name (optional)
      * @return mixed
@@ -233,7 +232,7 @@ class Sftp extends AbstractIo implements IoInterface
         $list = $this->_connection->nlist();
         $currentWorkingDir = $this->pwd();
         $result = array();
-        foreach($list as $name) {
+        foreach ($list as $name) {
             $result[] = array(
                 'text' => $name,
                 'id' => "{$currentWorkingDir}{$name}",

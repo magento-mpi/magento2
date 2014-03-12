@@ -17,24 +17,28 @@ class NodeLevelerSortOrder extends LineSizeCheck
 
     /**
      * This member hold line break data used when splitting lines.
+     *
      * @var array
      */
     protected $lineBreakData;
 
     /**
      * This member holds the original level.
+     *
      * @var int
      */
     protected $originalLevel;
 
     /**
      * This member holds the sort order to be used for the leveling.
+     *
      * @var int
      */
     protected $sortOrder;
 
     /**
      * This method constructs a new level based on the given sort order.
+     *
      * @param int $sortOrder
      * @param int $level Starting level for the traversal.
      */
@@ -49,7 +53,9 @@ class NodeLevelerSortOrder extends LineSizeCheck
 
     /**
      * This method is called when first visiting a node.
+     *
      * @param TreeNode $treeNode Current node in the tree.
+     * @return void
      */
     public function nodeEntry(TreeNode $treeNode)
     {
@@ -66,6 +72,7 @@ class NodeLevelerSortOrder extends LineSizeCheck
 
     /**
      * This method returns the first child of the passed in node.
+     *
      * @param TreeNode $treeNode Node to find the first child.
      * @return TreeNode|null First child of the passed in node or null if no children.
      */
@@ -83,8 +90,10 @@ class NodeLevelerSortOrder extends LineSizeCheck
     /**
      * This method splits the passed in line based on sort order of the line breaks and adds the
      * results to the passed in node.
+     *
      * @param Line $line Line to check.
      * @param TreeNode $treeNode Node to append the lines to.
+     * @return void
      */
     protected function getLineTreeForSortOrder(Line $line, TreeNode $treeNode)
     {
