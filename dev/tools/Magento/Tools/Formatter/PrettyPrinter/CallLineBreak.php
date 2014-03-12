@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 /**
  * Class CallLineBreak
- * @package Magento\Tools\Formatter\PrettyPrinter
  *
  * array()
  *
@@ -29,6 +28,9 @@ class CallLineBreak extends ConditionalLineBreak
 {
     const LINEBREAK_ID = 'conditionallb';
 
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         parent::__construct(array());
@@ -36,10 +38,12 @@ class CallLineBreak extends ConditionalLineBreak
 
     /**
      * This method returns the value for the break based on the passed in information.
+     *
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
-     * @param array $lineBreakData Data that the line break can use.
+     * @param array &$lineBreakData Data that the line break can use.
+     * @return HardIndentLineBreak|HardLineBreak|string|false
      */
     public function getValue($level, $index, $total, array &$lineBreakData)
     {
@@ -72,6 +76,7 @@ class CallLineBreak extends ConditionalLineBreak
     /**
      * This method returns a flag indicating that when placed in a list, an additional instance is
      * required after the list.
+     *
      * @return bool
      */
     public function isAfterListRequired()
@@ -82,6 +87,7 @@ class CallLineBreak extends ConditionalLineBreak
     /**
      * This method returns an id used to group line breaks occurring in the same line together.
      * This is typically either the class name or the instance id.
+     *
      * @return string
      */
     public function getGroupingId()
@@ -91,6 +97,7 @@ class CallLineBreak extends ConditionalLineBreak
 
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
+     *
      * @return int Order relative to other classes overriding this method.
      */
     public function getSortOrder()
@@ -100,6 +107,7 @@ class CallLineBreak extends ConditionalLineBreak
 
     /**
      * This method returns the value based on the level passed in.
+     *
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.

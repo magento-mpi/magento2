@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Model\Export;
 
 use Magento\ImportExport\Model\Export\RowCustomizerInterface;
@@ -22,6 +21,7 @@ class RowCustomizer implements RowCustomizerInterface
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param int $productIds
+     * @return void
      */
     public function prepareData($collection, $productIds)
     {

@@ -7,6 +7,13 @@
  */
 namespace Magento\Sales\Model\Resource\Sale;
 
+use Magento\Core\Model\EntityFactory;
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Event\ManagerInterface;
+use Magento\Logger;
+use Magento\Sales\Model\Resource\Order;
+
 /**
  * Sales Collection
  */
@@ -48,12 +55,12 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Order
+     * @var Order
      */
     protected $_orderResource;
 
@@ -63,19 +70,28 @@ class Collection extends \Magento\Data\Collection\Db
     protected $_storeCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
 
+    /**
+     * @param EntityFactory $entityFactory
+     * @param Logger $logger
+     * @param FetchStrategyInterface $fetchStrategy
+     * @param ManagerInterface $eventManager
+     * @param Order $resource
+     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
+     * @param StoreManagerInterface $storeManager
+     */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Logger $logger,
-        \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Sales\Model\Resource\Order $resource,
+        EntityFactory $entityFactory,
+        Logger $logger,
+        FetchStrategyInterface $fetchStrategy,
+        ManagerInterface $eventManager,
+        Order $resource,
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_orderResource = $resource;
@@ -100,7 +116,7 @@ class Collection extends \Magento\Data\Collection\Db
      * Add filter by stores
      *
      * @param array $storeIds
-     * @return \Magento\Sales\Model\Resource\Sale\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {
@@ -112,7 +128,7 @@ class Collection extends \Magento\Data\Collection\Db
      *
      * @param string|array $state
      * @param bool $exclude
-     * @return \Magento\Sales\Model\Resource\Sale\Collection
+     * @return $this
      */
     public function setOrderStateFilter($state, $exclude = false)
     {
@@ -124,7 +140,7 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * Before load action
      *
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _beforeLoad()
     {
@@ -168,7 +184,7 @@ class Collection extends \Magento\Data\Collection\Db
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  \Magento\Data\Collection\Db
+     * @return $this
      */
     public function load($printQuery = false, $logQuery = false)
     {

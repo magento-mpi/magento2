@@ -93,7 +93,7 @@ class Sales extends \Magento\Backend\Block\Template
     /**
      * Execute before toHtml() code.
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function _beforeToHtml()
     {

@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\Acl\Menu;
 
 class Generator
@@ -71,9 +70,9 @@ class Generator
 
 
     /**
-     * @param $basePath
-     * @param $validNodeTypes
-     * @param $aclXPathToId
+     * @param string $basePath
+     * @param string $validNodeTypes
+     * @param array $aclXPathToId
      * @param \Magento\Tools\Migration\Acl\FileManager $fileManager
      * @param bool $preview
      */
@@ -128,6 +127,7 @@ class Generator
      * Parse menu item node
      *
      * @param \DOMNode $node
+     * @return void
      */
     public function parseMenuNode(\DOMNode $node)
     {
@@ -151,6 +151,8 @@ class Generator
 
     /**
      * Parse menu files
+     *
+     * @return void
      */
     public function parseMenuFiles()
     {
@@ -176,7 +178,8 @@ class Generator
     }
 
     /**
-     * @param $menuId
+     * @param string $menuId
+     * @return void
      */
     public function initParentItems($menuId)
     {
@@ -194,7 +197,8 @@ class Generator
     /**
      * Build xpath elements
      *
-     * @param $menuId
+     * @param string $menuId
+     * @return void
      */
     public function buildXPath($menuId)
     {
@@ -231,6 +235,8 @@ class Generator
 
     /**
      * Initialize menu items XPath
+     *
+     * @return void
      */
     public function buildMenuItemsXPath()
     {
@@ -276,6 +282,7 @@ class Generator
 
     /**
      * @param array $idToXPath
+     * @return void
      */
     public function setIdToXPath($idToXPath)
     {
@@ -285,7 +292,7 @@ class Generator
     /**
      * Update attributes of menu items to set ACL resource id
      *
-     * @return array
+     * @return string[]
      */
     public function updateMenuAttributes()
     {
@@ -349,6 +356,7 @@ class Generator
 
     /**
      * @param array $menuIdToAclId
+     * @return void
      */
     public function setMenuIdToAclId($menuIdToAclId)
     {
@@ -357,6 +365,7 @@ class Generator
 
     /**
      * @param array $aclXPathToId
+     * @return void
      */
     public function setAclXPathToId($aclXPathToId)
     {
@@ -365,6 +374,7 @@ class Generator
 
     /**
      * @param array $menuDomList
+     * @return void
      */
     public function setMenuDomList($menuDomList)
     {
@@ -373,6 +383,8 @@ class Generator
 
     /**
      * Save menu XML files
+     *
+     * @return void
      */
     public function saveMenuFiles()
     {

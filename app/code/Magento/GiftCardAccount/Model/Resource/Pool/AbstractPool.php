@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCardAccount\Model\Resource\Pool;
 
 /**
  * GiftCardAccount Pool Resource Model Abstract
@@ -16,15 +16,13 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model\Resource\Pool;
-
 abstract class AbstractPool extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Delete records in db using specified status as criteria
      *
      * @param int $status
-     * @return \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
+     * @return $this
      */
     public function cleanupByStatus($status)
     {

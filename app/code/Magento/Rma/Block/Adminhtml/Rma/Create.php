@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma;
 
 /**
@@ -19,6 +18,9 @@ namespace Magento\Rma\Block\Adminhtml\Rma;
  */
 class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'id';

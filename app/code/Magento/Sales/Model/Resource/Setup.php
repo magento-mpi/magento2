@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Setup Model of Sales Module
  */
-namespace Magento\Sales\Model\Resource;
-
 class Setup extends \Magento\Eav\Model\Entity\Setup
 {
     /**
@@ -27,7 +26,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
 
     /**
      * @param \Magento\Eav\Model\Entity\Setup\Context $context
-     * @param $resourceName
+     * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\App\ConfigInterface $config
@@ -80,7 +79,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     /**
      * List of entities used with separate grid table
      *
-     * @var $_flatEntitiesGrid array
+     * @var string[] $_flatEntitiesGrid
      */
     protected $_flatEntitiesGrid     = array(
         'order',
@@ -107,7 +106,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param int|string $entityTypeId
      * @param string $code
      * @param array $attr
-     * @return \Magento\Sales\Model\Resource\Setup
+     * @return $this
      */
     public function addAttribute($entityTypeId, $code, array $attr)
     {
@@ -128,7 +127,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param string $table
      * @param string $attribute
      * @param array $attr
-     * @return \Magento\Sales\Model\Resource\Setup
+     * @return $this
      */
     protected function _addFlatAttribute($table, $attribute, $attr)
     {
@@ -148,7 +147,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param string $attribute
      * @param array $attr
      * @param string $entityTypeId
-     * @return \Magento\Sales\Model\Resource\Setup
+     * @return $this
      */
     protected function _addGridAttribute($table, $attribute, $attr, $entityTypeId)
     {
@@ -206,6 +205,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         return $data;
     }
 
+    /**
+     * @return array
+     */
     public function getDefaultEntities()
     {
         $entities = array(

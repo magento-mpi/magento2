@@ -53,6 +53,7 @@ class Gender extends AbstractWidget
 
     /**
      * Initialize block
+     *
      * @return void
      */
     public function _construct()

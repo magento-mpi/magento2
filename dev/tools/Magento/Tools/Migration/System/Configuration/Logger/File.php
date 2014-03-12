@@ -7,12 +7,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Migration\System\Configuration\Logger;
 
 /**
  * Migration logger. Output result put to file
  */
-namespace Magento\Tools\Migration\System\Configuration\Logger;
-
 class File
     extends \Magento\Tools\Migration\System\Configuration\AbstractLogger
 {
@@ -47,6 +46,8 @@ class File
 
     /**
      * Put report to file
+     *
+     * @return void
      */
     public function report()
     {

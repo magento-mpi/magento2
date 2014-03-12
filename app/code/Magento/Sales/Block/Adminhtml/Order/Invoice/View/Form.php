@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Invoice\View;
 
 /**
  * Invoice view form
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Invoice\View;
-
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -51,6 +50,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     /**
      * Retrieve order url
+     *
+     * @return string
      */
     public function getOrderUrl()
     {

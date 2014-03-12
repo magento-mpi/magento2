@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PayPalRecurringPayment\Model;
 
 use \Magento\Paypal\Model\Express as PayPalExpress;
@@ -23,7 +22,6 @@ class Express implements ManagerInterface
 
     /**
      * @param PayPalExpress $paymentMethod
-     * @param array $data
      */
     public function __construct(PayPalExpress $paymentMethod)
     {
@@ -44,6 +42,7 @@ class Express implements ManagerInterface
      * Validate RP data
      *
      * @param RecurringPayment $payment
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validate(RecurringPayment $payment)
@@ -70,6 +69,7 @@ class Express implements ManagerInterface
      *
      * @param RecurringPayment $payment
      * @param PaymentInfo $paymentInfo
+     * @return void
      */
     public function submit(RecurringPayment $payment, PaymentInfo $paymentInfo)
     {
@@ -118,6 +118,7 @@ class Express implements ManagerInterface
      *
      * @param string $referenceId
      * @param \Magento\Object $result
+     * @return void
      */
     public function getDetails($referenceId, \Magento\Object $result)
     {
@@ -127,6 +128,8 @@ class Express implements ManagerInterface
 
     /**
      * Whether can get recurring payment details
+     *
+     * @return bool
      */
     public function canGetDetails()
     {
@@ -137,6 +140,7 @@ class Express implements ManagerInterface
      * Update RP data
      *
      * @param RecurringPayment $payment
+     * @return void
      */
     public function update(RecurringPayment $payment)
     {
@@ -146,6 +150,7 @@ class Express implements ManagerInterface
      * Manage status
      *
      * @param RecurringPayment $payment
+     * @return void
      */
     public function updateStatus(RecurringPayment $payment)
     {

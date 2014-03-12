@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Block\Layer\Filter;
 
 /**
  * Catalog Layer Decimal Attribute Filter Block
@@ -16,13 +16,12 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Layer\Filter;
-
 class Decimal extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
 {
     /**
      * Initialize Decimal Filter Model
      *
+     * @return void
      */
     protected function _construct()
     {

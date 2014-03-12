@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource\Entity;
 
 /**
  * Gift registry entity collection
@@ -16,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Entity;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -38,7 +36,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -61,6 +59,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Collection initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -71,7 +70,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Load collection by customer id
      *
      * @param int $id
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     public function filterByCustomerId($id)
     {
@@ -82,7 +81,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Load collection by customer id
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     public function filterByActive()
     {
@@ -93,7 +92,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add registry info
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     public function addRegistryInfo()
     {
@@ -107,7 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add registry quantity info
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     protected function _addQtyItemsData()
     {
@@ -132,7 +131,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add event info to collection
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     protected function _addEventData()
     {
@@ -147,7 +146,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add registrant info to collection
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     protected function _addRegistrantData()
     {
@@ -172,7 +171,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Apply search filters
      *
      * @param array $params
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     public function applySearchFilters($params)
     {
@@ -266,7 +265,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified websites
      *
      * @param array|int $websiteIds
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     public function addWebsiteFilter($websiteIds)
     {
@@ -278,7 +277,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified status
      *
      * @param int $status
-     * @return \Magento\GiftRegistry\Model\Resource\Entity\Collection
+     * @return $this
      */
     public function filterByIsActive($status)
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Product\Widget;
 
 /**
  * New products widget
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\Widget;
-
 class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
     implements \Magento\Widget\Block\BlockInterface
 {
@@ -50,6 +49,8 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct
 
     /**
      * Initialize block's cache and template settings
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -143,6 +143,7 @@ class CopyRule
         }
         $result = array();
         foreach ($paths as $path) {
+            $path = $directoryHandler->getRelativePath($path);
             if ($directoryHandler->isDirectory($path)) {
                 $result[] = $directoryHandler->getAbsolutePath($path);
             }

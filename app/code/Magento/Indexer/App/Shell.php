@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\App;
 
 class Shell implements \Magento\LauncherInterface
@@ -28,7 +27,7 @@ class Shell implements \Magento\LauncherInterface
     protected $shellFactory;
 
     /**
-     * @param $entryFileName
+     * @param string $entryFileName
      * @param \Magento\Indexer\Model\ShellFactory $shellFactory
      * @param \Magento\App\Console\Response $response
      */

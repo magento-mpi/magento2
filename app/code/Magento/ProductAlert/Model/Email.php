@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ProductAlert\Model;
 
 /**
  * ProductAlert Email processor
@@ -16,8 +16,6 @@
  * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Model;
-
 class Email extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_EMAIL_PRICE_TEMPLATE = 'catalog/productalert/email_price_template';
@@ -146,6 +144,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Set model type
      *
      * @param string $type
+     * @return void
      */
     public function setType($type)
     {
@@ -166,7 +165,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Set website model
      *
      * @param \Magento\Core\Model\Website $website
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function setWebsite(\Magento\Core\Model\Website $website)
     {
@@ -178,7 +177,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Set website id
      *
      * @param int $websiteId
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function setWebsiteId($websiteId)
     {
@@ -190,7 +189,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Set customer by id
      *
      * @param int $customerId
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function setCustomerId($customerId)
     {
@@ -202,7 +201,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Set customer model
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
@@ -213,7 +212,7 @@ class Email extends \Magento\Core\Model\AbstractModel
     /**
      * Clean data
      *
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function clean()
     {
@@ -228,7 +227,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Add product (price change) to collection
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function addPriceProduct(\Magento\Catalog\Model\Product $product)
     {
@@ -240,7 +239,7 @@ class Email extends \Magento\Core\Model\AbstractModel
      * Add product (back in stock) to collection
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\ProductAlert\Model\Email
+     * @return $this
      */
     public function addStockProduct(\Magento\Catalog\Model\Product $product)
     {

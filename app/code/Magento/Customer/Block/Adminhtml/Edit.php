@@ -54,6 +54,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'id';
@@ -158,7 +161,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Prepare the layout.
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

@@ -47,7 +47,7 @@
         <?php endif;?>
         <?php if ($messages = $this->getMessages()): ?>
         <?php foreach ($messages as $message): ?>
-            <p class="item-msg <?php echo $message['type'] ?>">* <?php echo $message['text'] ?></p>
+            <p class="message item <?php echo $message['type'] ?>">* <?php echo $message['text'] ?></p>
         <?php endforeach; ?>
         <?php endif; ?>
     </td>

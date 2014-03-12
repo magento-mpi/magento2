@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
 class Attribute
@@ -15,6 +14,8 @@ class Attribute
 {
     /**
      * Instance of gift registry type model
+     *
+     * @var \Magento\GiftRegistry\Model\Type
      */
     protected $_typeInstance;
 
@@ -274,7 +275,7 @@ class Attribute
     /**
      * Prepare and return attribute values
      *
-     * @return array
+     * @return \Magento\Object[]
      */
     public function getAttributeValues()
     {
@@ -367,7 +368,7 @@ class Attribute
     /**
      * Prepare and return static types as \Magento\Object
      *
-     * @return array
+     * @return \Magento\Object
      */
     public function getStaticTypes()
     {

@@ -87,6 +87,10 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         }
     }
 
+    /**
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @return array
+     */
     protected function _getAttributeOptionsArray(\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute)
     {
         $options = $attribute->getOptions();

@@ -7,12 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Status;
 
 class NewStatus extends \Magento\Backend\Block\Widget\Form\Container
 {
-
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'status';

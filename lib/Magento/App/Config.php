@@ -10,7 +10,7 @@
 
 namespace Magento\App;
 
-class Config implements \Magento\App\ConfigInterface
+class Config implements ConfigInterface
 {
     /**
      * Config cache tag

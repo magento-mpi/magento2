@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Customer\Attribute\Source;
 
 /**
  * Customer group attribute source
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Customer\Attribute\Source;
-
 class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
@@ -48,6 +47,9 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         parent::__construct($coreData, $attrOptionCollectionFactory, $attrOptionFactory);
     }
 
+    /**
+     * @return array
+     */
     public function getAllOptions()
     {
         if (!$this->_options) {

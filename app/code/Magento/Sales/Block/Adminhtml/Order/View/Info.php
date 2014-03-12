@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Eav\Model\AttributeDataFactory;
+
 /**
  * Order history block
  */
@@ -23,11 +23,15 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected $_customerMetadataService;
 
     /**
+     * Group service
+     *
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
     /**
+     * Metadata element factory
+     *
      * @var \Magento\Customer\Model\Metadata\ElementFactory
      */
     protected $_metadataElementFactory;
@@ -58,6 +62,8 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     /**
      * Retrieve required options from parent
+     *
+     * @return void
      */
     protected function _beforeToHtml()
     {
@@ -73,6 +79,11 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         parent::_beforeToHtml();
     }
 
+    /**
+     * Get order store name
+     *
+     * @return null|string
+     */
     public function getOrderStoreName()
     {
         if ($this->getOrder()) {
@@ -201,6 +212,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     /**
      * Whether Customer IP address should be displayed on sales documents
+     *
      * @return bool
      */
     public function shouldDisplayCustomerIp()
@@ -210,6 +222,8 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     }
 
     /**
+     * Check if is single store mode
+     *
      * @return bool
      */
     public function isSingleStoreMode()

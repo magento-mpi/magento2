@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Creditmemo;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Item _getResource()
@@ -75,13 +76,26 @@
  * @method float getBaseHiddenTaxAmount()
  * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseHiddenTaxAmount(float $value)
  */
-namespace Magento\Sales\Model\Order\Creditmemo;
-
 class Item extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_creditmemo_item';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'creditmemo_item';
+
+    /**
+     * @var \Magento\Sales\Model\Order\Creditmemo|null
+     */
     protected $_creditmemo = null;
+
+    /**
+     * @var \Magento\Sales\Model\Order\Item|null
+     */
     protected $_orderItem = null;
 
     /**
@@ -113,6 +127,8 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -122,8 +138,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare creditmemo instance
      *
-     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
      */
     public function setCreditmemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -144,8 +160,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare order item instance
      *
-     * @param   \Magento\Sales\Model\Order\Item $item
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
+     * @param \Magento\Sales\Model\Order\Item $item
+     * @return $this
      */
     public function setOrderItem(\Magento\Sales\Model\Order\Item $item)
     {
@@ -175,7 +191,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Declare qty
      *
      * @param   float $qty
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Item
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function setQty($qty)
@@ -221,6 +237,9 @@ class Item extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function cancel()
     {
         $this->getOrderItem()->setQtyRefunded(
@@ -292,7 +311,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo\Item
+     * @return $this
      */
     protected function _beforeSave()
     {

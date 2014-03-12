@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model;
 
 class Observer
@@ -91,7 +90,7 @@ class Observer
      * used for event: sales_order_place_after
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function processOrderPlace(\Magento\Event\Observer $observer)
     {
@@ -118,7 +117,7 @@ class Observer
      * used for event: magento_giftcardaccount_charge_by_code
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function chargeByCode(\Magento\Event\Observer $observer)
     {
@@ -139,7 +138,7 @@ class Observer
      * used for event: sales_order_invoice_register
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function increaseOrderGiftCardInvoicedAmount(\Magento\Event\Observer $observer)
     {
@@ -157,7 +156,7 @@ class Observer
      * used for event: magento_giftcardaccount_create
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function create(\Magento\Event\Observer $observer)
     {
@@ -184,7 +183,7 @@ class Observer
      * used for event: magento_giftcardaccount_save_after
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function giftcardaccountSaveAfter(\Magento\Event\Observer $observer)
     {
@@ -254,7 +253,7 @@ class Observer
      * Set flag that giftcard applied on payment step in checkout process
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function paymentDataImport(\Magento\Event\Observer $observer)
     {
@@ -311,6 +310,7 @@ class Observer
      * Set the flag that we need to collect overall totals
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
@@ -323,6 +323,7 @@ class Observer
      * Set the source gift card accounts into new quote
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function quoteMergeAfter(\Magento\Event\Observer $observer)
     {
@@ -339,7 +340,7 @@ class Observer
      * used for event: sales_order_creditmemo_refund
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function refund(\Magento\Event\Observer $observer)
     {
@@ -376,7 +377,7 @@ class Observer
      * used for event: adminhtml_sales_order_creditmemo_register_before
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function creditmemoDataImport(\Magento\Event\Observer $observer)
     {
@@ -397,7 +398,7 @@ class Observer
      * used for event: sales_order_load_after
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     public function salesOrderLoadAfter(\Magento\Event\Observer $observer)
     {
@@ -423,6 +424,7 @@ class Observer
      * Merge gift card amount into discount of payment checkout totals
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addPaymentGiftCardItem(\Magento\Event\Observer $observer)
     {
@@ -440,7 +442,7 @@ class Observer
      *
      * @param int $id
      * @param float $amount
-     * @return \Magento\GiftCardAccount\Model\Observer
+     * @return $this
      */
     protected function _revertById($id, $amount = 0)
     {
@@ -459,8 +461,8 @@ class Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\GiftCardAccount\Model\Observer
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
      */
     protected function _revertGiftCardsForOrder(\Magento\Sales\Model\Order $order)
     {
@@ -479,8 +481,8 @@ class Observer
     /**
      * Revert authorized amounts for all order's gift cards
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\GiftCardAccount\Model\Observer
+     * @param \Magento\Event\Observer $observer
+     * @return $this
      */
     public function revertGiftCardAccountBalance(\Magento\Event\Observer $observer)
     {
@@ -495,8 +497,8 @@ class Observer
     /**
      * Revert gift cards for all orders
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\GiftCardAccount\Model\Observer
+     * @param \Magento\Event\Observer $observer
+     * @return $this
      */
     public function revertGiftCardsForAllOrders(\Magento\Event\Observer $observer)
     {
@@ -512,8 +514,8 @@ class Observer
     /**
      * Return funds to store credit
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\GiftCardAccount\Model\Observer
+     * @param \Magento\Event\Observer $observer
+     * @return $this
      */
     public function returnFundsToStoreCredit(\Magento\Event\Observer $observer)
     {

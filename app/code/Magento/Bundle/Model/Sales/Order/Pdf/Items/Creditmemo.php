@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 
 /**
  * Sales Order Creditmemo Pdf default items renderer
  */
-class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
+class Creditmemo extends AbstractItems
 {
     /**
      * Core string
@@ -59,6 +58,8 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
 
     /**
      * Draw item line
+     *
+     * @return void
      */
     public function draw()
     {

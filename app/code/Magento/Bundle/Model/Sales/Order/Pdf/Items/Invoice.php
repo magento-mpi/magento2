@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 
 /**
  * Sales Order Invoice Pdf default items renderer
  */
-class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
+class Invoice extends AbstractItems
 {
     /**
      * @var \Magento\Stdlib\String
@@ -57,6 +56,8 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 
     /**
      * Draw item line
+     *
+     * @return void
      */
     public function draw()
     {

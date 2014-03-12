@@ -7,18 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml;
+
+use Magento\App\ResponseInterface;
 
 /**
  * Adminhtml sales orders controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml;
-
 class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice
 {
     /**
      * Export invoice grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -28,7 +31,9 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     }
 
     /**
-     *  Export invoice grid to Excel XML format
+     * Export invoice grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportExcelAction()
     {

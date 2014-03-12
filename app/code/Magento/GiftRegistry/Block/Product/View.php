@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Product;
 
 /**
  * Front end helper block to show GiftRegistry mark
  */
-namespace Magento\GiftRegistry\Block\Product;
-
 class View extends \Magento\Catalog\Block\Product\View
 {
     /**
@@ -26,6 +25,7 @@ class View extends \Magento\Catalog\Block\Product\View
      *
      * @param string $blockName
      * @param string $template
+     * @return void
      * @throws \LogicException
      */
     public function setGiftRegistryTemplate($blockName, $template)
@@ -43,6 +43,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * Set GiftRegistry URL for the template
      *
      * @param string $blockName
+     * @return void
      * @throws \LogicException
      */
     public function setGiftRegistryUrl($blockName)

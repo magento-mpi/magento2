@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab;
 
 /**
  * Recurring payment orders grid
  */
-namespace Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab;
-
 class Orders
     extends \Magento\Backend\Block\Widget\Grid\Extended
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -18,7 +17,7 @@ class Orders
     /**
      * Core registry
      *
-     * @var \Magento\Registry
+     * @var \Magento\Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -64,6 +63,8 @@ class Orders
 
     /**
      * Initialize basic parameters
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,7 +77,7 @@ class Orders
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab\Orders
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -93,7 +94,7 @@ class Orders
      *
      * TODO: fix up this mess
      *
-     * @return \Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab\Orders
+     * @return $this
      */
     protected function _prepareColumns()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect;
 
 /**
  * Class to work with remote REST interface
@@ -15,8 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect;
-
 class Rest
 {
     /**
@@ -234,9 +233,8 @@ class Rest
 
     /**
      * Stub
-     *
-     * @param $n
-     * @return unknown_type
+     * @param string $n
+     * @return string
      */
     public function escapePackageName($n)
     {
@@ -272,7 +270,7 @@ class Rest
     /**
      * Sort releases
      *
-     * @param array $releases
+     * @param array &$releases
      * @return void
      */
     public function sortReleases(array &$releases)
@@ -296,8 +294,8 @@ class Rest
     /**
      * Get package info (package.xml)
      *
-     * @param $package
-     * @return unknown_type
+     * @param string $package
+     * @return \Magento\Connect\Package
      */
     public function getPackageInfo($package)
     {
@@ -311,8 +309,8 @@ class Rest
     /**
      * Retrieve information on Package Release from the Channel Server
      *
-     * @param $package
-     * @param $version
+     * @param string $package
+     * @param string $version
      * @return \Magento\Connect\Package|bool
      */
     public function getPackageReleaseInfo($package, $version)
@@ -327,11 +325,11 @@ class Rest
     /**
      * Get package archive file of release
      *
-     * @throws \Exception
      * @param string $package package name
-     * @param string $version package version
+     * @param string $version version
      * @param string $targetFile
-     * @return bool
+     * @return true|void
+     * @throws \Exception
      */
     public function downloadPackageFileOfRelease($package, $version, $targetFile)
     {

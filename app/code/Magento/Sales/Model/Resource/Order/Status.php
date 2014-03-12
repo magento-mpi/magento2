@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order;
+
+use Magento\Core\Exception;
 
 /**
  * Order status resource model
@@ -15,8 +18,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order;
-
 class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -35,6 +36,8 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -47,9 +50,10 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve select object for load object data
      *
-     * @param   string $field
-     * @param   mixed $value
-     * @return  \Zend_Db_Select
+     * @param string $field
+     * @param mixed $value
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -88,7 +92,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save status labels per store
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Sales\Model\Resource\Order\Status
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -122,7 +126,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $status
      * @param string $state
      * @param bool $isDefault
-     * @return \Magento\Sales\Model\Resource\Order\Status
+     * @return $this
      */
     public function assignState($status, $state, $isDefault)
     {
@@ -149,7 +153,8 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $status
      * @param string $state
-     * @return \Magento\Sales\Model\Resource\Order\Status
+     * @return $this
+     * @throws Exception
      */
     public function unassignState($status, $state)
     {
@@ -158,7 +163,7 @@ class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->where('state = ?', $state);
 
         if ($this->_getWriteAdapter()->fetchOne($select) == 1) {
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 __('The last status can\'t be unassigned from its current state.')
             );
         }

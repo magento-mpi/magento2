@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
@@ -15,6 +14,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Initialize banner edit page tabs
      *
+     * @return void
      */
     protected function _construct()
     {

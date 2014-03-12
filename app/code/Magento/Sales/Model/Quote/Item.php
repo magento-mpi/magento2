@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote;
 
 /**
  * Sales Quote Item Model
@@ -113,8 +114,6 @@
  * @method \Magento\Sales\Model\Quote\Item setHasConfigurationUnavailableError(bool $value)
  * @method \Magento\Sales\Model\Quote\Item unsHasConfigurationUnavailableError()
  */
-namespace Magento\Sales\Model\Quote;
-
 class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 {
     /**
@@ -218,6 +217,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -227,7 +227,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Quote Item Before Save prepare data process
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -259,7 +259,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Declare quote model object
      *
      * @param   \Magento\Sales\Model\Quote $quote
-     * @return  \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function setQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -295,7 +295,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Adding quantity to quote item
      *
      * @param float $qty
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function addQty($qty)
     {
@@ -317,7 +317,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Declare quote item quantity
      *
      * @param float $qty
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function setQty($qty)
     {
@@ -377,8 +377,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Set option product with Qty
      *
-     * @param  $qtyOptions
-     * @return \Magento\Sales\Model\Quote\Item
+     * @param array $qtyOptions
+     * @return $this
      */
     public function setQtyOptions($qtyOptions)
     {
@@ -388,8 +388,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Setup product for quote item
      *
-     * @param   \Magento\Catalog\Model\Product $product
-     * @return  \Magento\Sales\Model\Quote\Item
+     * @param \Magento\Catalog\Model\Product $product
+     * @return $this
      */
     public function setProduct($product)
     {
@@ -572,8 +572,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Initialize quote item options
      *
-     * @param   array $options
-     * @return  \Magento\Sales\Model\Quote\Item
+     * @param array $options
+     * @return $this
      */
     public function setOptions($options)
     {
@@ -606,8 +606,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Add option to item
      *
-     * @param   \Magento\Sales\Model\Quote\Item\Option|\Magento\Object $option
-     * @return  \Magento\Sales\Model\Quote\Item
+     * @param \Magento\Sales\Model\Quote\Item\Option|\Magento\Object $option
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function addOption($option)
@@ -642,7 +642,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @param \Magento\Object $option
      * @param int|float|null $value
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function updateQtyOption(\Magento\Object $option, $value)
     {
@@ -663,7 +663,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *Remove option from item options
      *
      * @param string $code
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function removeOption($code)
     {
@@ -677,8 +677,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Register option code
      *
-     * @param   \Magento\Sales\Model\Quote\Item\Option $option
-     * @return  \Magento\Sales\Model\Quote\Item
+     * @param \Magento\Sales\Model\Quote\Item\Option $option
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _addOptionCode($option)
@@ -723,7 +723,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Save item options
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     protected function _saveItemOptions()
     {
@@ -745,6 +745,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Save model plus its options
      * Ensures saving options in case when resource model was not changed
+     *
+     * @return $this
      */
     public function save()
     {
@@ -772,7 +774,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * Clone quote item
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function __clone()
     {
@@ -823,7 +825,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * It's recommended to use addErrorInfo() instead - to be able to remove error statuses later.
      *
      * @param bool $flag
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      * @see addErrorInfo()
      */
     public function setHasError($flag)
@@ -840,7 +842,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * Clears list of errors, associated with this quote item.
      * Also automatically removes error-flag from oneself.
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     protected function _clearErrorInfo()
     {
@@ -857,7 +859,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
      * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function addErrorInfo($origin = null, $code = null, $message = null, $additionalData = null)
     {
@@ -886,7 +888,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *   'origin', 'code', 'message'
      *
      * @param array $params
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function removeErrorInfosByParams($params)
     {

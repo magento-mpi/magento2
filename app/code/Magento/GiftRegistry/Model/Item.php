@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model;
 
 /**
  * Entity items data model
@@ -30,8 +31,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model;
-
 class Item extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
@@ -95,9 +94,13 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Flag stating that options were successfully saved
      *
+     * @var bool
      */
     protected $_flagOptionsSaved = null;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftRegistry\Model\Resource\Item');
@@ -108,7 +111,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param int $registryId
      * @param int $productId
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     public function loadByProductRegistry($registryId, $productId)
     {
@@ -122,10 +125,10 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Return true if product was successful added or exception with code
      * Return false for disabled or unvisible products
      *
-     * @throws \Magento\Core\Exception
      * @param \Magento\Checkout\Model\Cart $cart
      * @param int $qty
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function addToCart(\Magento\Checkout\Model\Cart $cart, $qty)
     {
@@ -229,7 +232,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Set product attributes to item
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     public function setProduct($product)
     {
@@ -252,6 +255,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Return item product
      *
      * @return \Magento\Catalog\Model\Product
+     * @throws \Magento\Core\Exception
      */
     protected function _getProduct()
     {
@@ -293,7 +297,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save item options after item is saved
      *
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -304,7 +308,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save item options
      *
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     protected function _saveItemOptions()
     {
@@ -326,6 +330,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save model plus its options
      * Ensures saving options in case when resource model was not changed
+     *
+     * @return $this
      */
     public function save()
     {
@@ -343,7 +349,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Initialize item options
      *
      * @param array $options
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     public function setOptions($options)
     {
@@ -377,7 +383,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Remove option from item options
      *
      * @param string $code
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     public function removeOption($code)
     {
@@ -391,9 +397,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Add option to item
      *
-     * @throws  \Magento\Core\Exception
-     * @param   \Magento\GiftRegistry\Model\Item\Option $option
-     * @return  \Magento\GiftRegistry\Model\Item
+     * @param \Magento\GiftRegistry\Model\Item\Option $option
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function addOption($option)
     {
@@ -431,9 +437,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Register option code
      *
-     * @throws  \Magento\Core\Exception
      * @param   \Magento\GiftRegistry\Model\Item\Option $option
-     * @return  \Magento\GiftRegistry\Model\Item
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _addOptionCode($option)
     {
@@ -477,7 +483,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Clone gift registry item
      *
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     public function __clone()
     {
@@ -506,8 +512,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Validates and sets quantity for the related product
      *
      * @param int|float $quantity New item quantity
-     * @throws \Magento\Core\Exception
-     * @return \Magento\GiftRegistry\Model\Item
+     * @return $this
      */
     public function setQty($quantity)
     {

@@ -57,7 +57,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Helper\Data $coreHelperData,
+     * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
      * @param CustomerGroupServiceInterface $customerGroupService

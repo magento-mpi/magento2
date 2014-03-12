@@ -5,9 +5,12 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+
 /**
  * This method returns an array of non-commented out lines
+ *
  * @param string $fileName Name of the file to read in
+ * @return string[]
  */
 function getLines($fileName)
 {
@@ -28,25 +31,35 @@ function getLines($fileName)
     }
     return $returns;
 }
+
 /**
  * This method returns true if $haystack start with the string in $needle.
- * @param $haystack
- * @param $needle
+ * @param string $haystack
+ * @param string $needle
  * @return bool
  */
 function startsWith($haystack, $needle)
 {
     return $needle === '' || strpos($haystack, $needle) === 0;
 }
+
 /**
  * This method returns the string with the directory separators normalized to /
+ *
+ * @param string $subject
+ * @return string
  */
 function normalizeDirectorySeparators($subject)
 {
     return str_replace('\\', '/', $subject);
 }
+
 /**
  * This method returns the result of joining the directory to the filename.
+ *
+ * @param string $path
+ * @param string $file
+ * @return string
  */
 function joinPaths($path, $file)
 {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order view block
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Order;
-
 class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
 {
     /**
@@ -54,6 +53,9 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');

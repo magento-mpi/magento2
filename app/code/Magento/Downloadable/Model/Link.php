@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Model;
 
 use Magento\Downloadable\Model\Resource\Link as Resource;
@@ -71,6 +70,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +81,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     /**
      * Enter description here...
      *
-     * @return Link
+     * @return $this
      */
     protected function _afterSave()
     {
