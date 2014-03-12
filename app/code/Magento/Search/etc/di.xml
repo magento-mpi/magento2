@@ -41,11 +41,6 @@
             <argument name="searchLayer" xsi:type="object">Magento\Search\Model\Catalog\Layer\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Search\Block\Catalogsearch\Layer">
-        <arguments>
-            <argument name="searchLayer" xsi:type="object">Magento\Search\Model\Search\Layer\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Search\Model\Catalog\Layer\Filter\Price">
         <arguments>
             <argument name="resourceEngine" xsi:type="object">Magento\Search\Model\Resource\Engine\Proxy</argument>
@@ -73,6 +68,16 @@
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="resourceIndex" xsi:type="object">Magento\Search\Model\Resource\Index\Proxy</argument>
             <argument name="resourceFulltext" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Category">
+        <arguments>
+            <argument name="context">Magento\Search\Model\Layer\Category\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Search">
+        <arguments>
+            <argument name="context">Magento\Search\Model\Layer\Search\Context</argument>
         </arguments>
     </type>
 </config>

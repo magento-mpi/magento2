@@ -165,4 +165,26 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 
         return $this;
     }
+
+    /**
+     * Retrieve number of items
+     *
+     * @return int
+     */
+    public function getItemsCount()
+    {
+       $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
+        if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS) {
+            return parent::getItemsCount();
+        }
+
+        $count = 0;
+        foreach ($this->getItems() as $item) {
+            if ($item->getCount()) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
 }
