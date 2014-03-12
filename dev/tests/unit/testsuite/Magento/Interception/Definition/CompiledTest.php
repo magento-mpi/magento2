@@ -5,6 +5,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
+namespace Magento\Interception\Definition;
+
 class CompiledTest extends \PHPUnit_Framework_TestCase
 {
     /**

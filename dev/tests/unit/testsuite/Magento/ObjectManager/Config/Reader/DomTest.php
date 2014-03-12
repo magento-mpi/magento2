@@ -8,7 +8,7 @@
 
 namespace Magento\ObjectManager\Config\Reader;
 
-require_once __DIR__ . '/Merger.php';
+require_once __DIR__ . '/_files/ConfigDomMock.php';
 
 class DomTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,7 +63,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
             $this->validationStateMock,
             'filename.xml',
             array(),
-            '\Magento\ObjectManager\Config\Reader\MergerMock'
+            '\ConfigDomMock'
         );
     }
 

@@ -6,9 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\ObjectManager\Config\Reader;
-
-class MergerMock extends \PHPUnit_Framework_TestCase
+class ConfigDomMock extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param null|string $initialContents
