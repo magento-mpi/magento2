@@ -187,7 +187,6 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTargetStorePostData()
     {
-        $targetStoreId   = 1;
         $targetStoreCode = 'TargetStoreName';
         $targetStoreUrl  = 'target-store-url';
         $expectedResult  = 'serialised-result';
