@@ -52,9 +52,9 @@ class File extends AbstractData
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
         \Magento\Locale\ResolverInterface $localeResolver,
-        $value = null,
+        $value,
         $entityTypeCode,
-        $isAjax = false,
+        $isAjax,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         \Magento\App\Filesystem $fileSystem

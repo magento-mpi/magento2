@@ -91,7 +91,7 @@ abstract class AbstractData
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
         \Magento\Locale\ResolverInterface $localeResolver,
-        $value = false,
+        $value,
         $entityTypeCode,
         $isAjax = false
     ) {

@@ -451,8 +451,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $customerId = $this->_customerSession->getCustomerId();
         return \Magento\Customer\Service\V1\CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED ==
             $this->_accountService->getConfirmationStatus(
-            $customerId
-        );
+                $customerId
+            );
     }
 
     /**
@@ -662,8 +662,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
             empty($requesterCountryCode) && !empty($requesterVatNumber) ||
             !empty($requesterCountryCode) && empty($requesterVatNumber) ||
             !empty($requesterCountryCode) && !$this->isCountryInEU(
-            $requesterCountryCode
-        )
+                $requesterCountryCode
+            )
         ) {
             $result = false;
         }

@@ -726,8 +726,8 @@ class Store extends AbstractModel implements
             $this->getDisableStoreInUrl()) &&
             $this->_appState->isInstalled() &&
             $this->getConfig(
-            self::XML_PATH_STORE_IN_URL
-        );
+                self::XML_PATH_STORE_IN_URL
+            );
     }
 
     /**
@@ -1207,10 +1207,10 @@ class Store extends AbstractModel implements
             $requestString .
             ($storeParsedQuery ? '?' .
             http_build_query(
-            $storeParsedQuery,
-            '',
-            '&amp;'
-        ) : '');
+                $storeParsedQuery,
+                '',
+                '&amp;'
+            ) : '');
     }
 
     /**

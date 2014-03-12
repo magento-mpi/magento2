@@ -108,8 +108,8 @@ class Daterange extends AbstractCondition
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' .
             $this->_viewUrl->getViewFileUrl(
-            'images/rule_chooser_trigger.gif'
-        ) . '" alt="" class="v-middle rule-chooser-trigger"' . 'title="' . __(
+                'images/rule_chooser_trigger.gif'
+            ) . '" alt="" class="v-middle rule-chooser-trigger"' . 'title="' . __(
             'Open Chooser'
         ) . '" /></a>';
     }

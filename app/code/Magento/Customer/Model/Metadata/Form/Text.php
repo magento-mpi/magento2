@@ -33,7 +33,7 @@ class Text extends AbstractData
         \Magento\Locale\ResolverInterface $localeResolver,
         $value,
         $entityTypeCode,
-        $isAjax = false,
+        $isAjax,
         \Magento\Stdlib\String $stringHelper
     ) {
         parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);

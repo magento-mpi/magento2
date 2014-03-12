@@ -55,8 +55,8 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 
         $this->_subQuery = $this->getViewMode() ==
             \Magento\CustomerSegment\Model\Segment::VIEW_MODE_INTERSECT_CODE ? $this->_getIntersectQuery(
-            $segment
-        ) : $this->_getUnionQuery(
+                $segment
+            ) : $this->_getUnionQuery(
             $segment
         );
 

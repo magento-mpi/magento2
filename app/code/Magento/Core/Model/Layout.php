@@ -631,8 +631,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
             list($row[self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME],
                 $row[self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER]) = $this->_beforeAfterToSibling(
-                $node
-            );
+                    $node
+                );
 
             // materialized path for referencing nodes in the plain array of _scheduledStructure
             if ($this->_scheduledStructure->hasPath($parentName)) {

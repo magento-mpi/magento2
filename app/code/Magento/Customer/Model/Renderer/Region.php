@@ -148,8 +148,8 @@ class Region implements \Magento\Data\Form\Element\Renderer\RendererInterface
                 $element->getEscapedValue() .
                 '" ' .
                 $element->serialize(
-                $htmlAttributes
-            ) . "/>" . "\n";
+                    $htmlAttributes
+                ) . "/>" . "\n";
             $html .= '<input type="hidden" name="' . $regionIdHtmlName . '" id="' . $regionIdHtmlId . '" value=""/>';
             $html .= '</div>' . "\n";
         }

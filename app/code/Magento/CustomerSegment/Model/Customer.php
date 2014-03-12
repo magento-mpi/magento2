@@ -373,9 +373,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $this->_customerWebsiteSegments[$websiteId][$customerId] = $this
                 ->_getResource()
                 ->getCustomerWebsiteSegments(
-                $customerId,
-                $websiteId
-            );
+                    $customerId,
+                    $websiteId
+                );
         }
         return $this->_customerWebsiteSegments[$websiteId][$customerId];
     }
