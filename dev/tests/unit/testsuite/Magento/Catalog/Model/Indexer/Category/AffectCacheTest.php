@@ -2,25 +2,22 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_PageCache
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
-namespace Magento\PageCache\Model\Indexer\Product;
+namespace Magento\Catalog\Model\Indexer\Category;
 
-/**
- * Class RefreshPluginTest
- */
-class RefreshPluginTest extends \PHPUnit_Framework_TestCase
+
+class AffectCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\Indexer\Product\RefreshPlugin
+     * @var \Magento\Catalog\Model\Indexer\Category\AffectCache
      */
     protected $plugin;
 
     /**
-     * @var \Magento\PageCache\Model\Indexer\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Indexer\Model\CacheContext|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
@@ -36,9 +33,9 @@ class RefreshPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->subjectMock = $this->getMockForAbstractClass('Magento\Indexer\Model\ActionInterface',
             array(), '', false, true, true, array());
-        $this->contextMock = $this->getMock('Magento\PageCache\Model\Indexer\Context',
+        $this->contextMock = $this->getMock('Magento\Indexer\Model\CacheContext',
             array(), array(), '', false);
-        $this->plugin = new \Magento\PageCache\Model\Indexer\Product\RefreshPlugin($this->contextMock);
+        $this->plugin = new \Magento\Catalog\Model\Indexer\Category\AffectCache($this->contextMock);
     }
 
     /**
@@ -46,13 +43,13 @@ class RefreshPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeExecute()
     {
-        $expectedIds = array(1, 2, 3);
+        $expectedIds = array(5, 6, 7);
         $this->contextMock->expects($this->once())
             ->method('registerEntities')
-            ->with($this->equalTo(\Magento\Catalog\Model\Product::ENTITY),
+            ->with($this->equalTo(\Magento\Catalog\Model\Category::ENTITY),
                 $this->equalTo($expectedIds))
             ->will($this->returnValue($this->contextMock));
         $actualIds = $this->plugin->beforeExecute($this->subjectMock, $expectedIds);
-        $this->assertEquals($expectedIds, $actualIds);
+        $this->assertEquals(array($expectedIds), $actualIds);
     }
 }

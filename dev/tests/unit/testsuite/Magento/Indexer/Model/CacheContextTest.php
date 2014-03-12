@@ -2,20 +2,17 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_PageCache
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
-namespace Magento\PageCache\Model\Indexer;
+namespace Magento\Indexer\Model;
 
-/**
- * Class ContextTest
- */
-class ContextTest extends \PHPUnit_Framework_TestCase
+
+class CacheContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\Indexer\Context
+     * @var \Magento\Indexer\Model\CacheContext
      */
     protected $context;
 
@@ -24,7 +21,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->context = new \Magento\PageCache\Model\Indexer\Context();
+        $this->context = new \Magento\Indexer\Model\CacheContext();
     }
 
     /**

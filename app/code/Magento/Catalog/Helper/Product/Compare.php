@@ -225,7 +225,12 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getPostDataRemove($product)
     {
-        return $this->_coreHelper->getPostData($this->getRemoveUrl(), ['product' => $product->getId()]);
+        $listCleanUrl = $this->getEncodedUrl($this->_getUrl('catalog/product_compare'));
+        $data = array(
+            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $listCleanUrl,
+            'product' => $product->getId()
+        );
+        return $this->_coreHelper->getPostData($this->getRemoveUrl(), $data);
     }
 
     /**
