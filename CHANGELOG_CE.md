@@ -41,6 +41,8 @@
   * Fixed ability to edit Product Template (MAGETWO-21757)
   * Fixed duplicated shipping method options (MAGETWO-20055)
   * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
+  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
+  * Fixed JS/CSS merging functionality (MAGETWO-21924)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
