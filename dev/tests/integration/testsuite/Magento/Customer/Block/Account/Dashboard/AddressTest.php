@@ -33,6 +33,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 '',
                 array('customerSession' => $this->_customerSession)
             );
+        $this->objectManager->get('Magento\App\ViewInterface')->setIsLayoutLoaded(true);
     }
 
     protected function tearDown()
@@ -142,9 +143,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function getPrimaryShippingAddressEditUrlDataProvider()
     {
         return [
-            '0' => [0, ''],
-            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
-            '5' => [5, 'http://localhost/index.php/customer/address/edit/'],
+            '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/'],
         ];
     }
 
@@ -167,9 +167,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function getPrimaryBillingAddressEditUrlDataProvider()
     {
         return [
-            '0' => [0, ''],
-            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
-            '5' => [5, 'http://localhost/index.php/customer/address/edit/'],
+            '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/'],
         ];
     }
 }
