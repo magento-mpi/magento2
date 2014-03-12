@@ -31,7 +31,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice
+     * @param \Magento\Search\Model\Layer\Category\Filter\Price $filterPrice
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
@@ -51,7 +51,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Catalog\Layer\Filter\Price $filterPrice,
+        \Magento\Search\Model\Layer\Category\Filter\Price $filterPrice,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,

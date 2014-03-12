@@ -81,10 +81,9 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Apply attribute option filter to product collection
      *
      * @param   \Zend_Controller_Request_Abstract $request
-     * @param   \Magento\Object $filterBlock
      * @return  $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request)
     {
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {

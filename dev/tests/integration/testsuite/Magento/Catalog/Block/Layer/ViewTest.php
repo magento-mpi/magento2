@@ -30,7 +30,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
-        /** @var $block \Magento\Catalog\Block\Layer\View */
+        /** @var $block \Magento\LayeredNavigation\Block\Navigation */
         $block = $layout->createBlock('Magento\Catalog\Block\Layer\View', 'block');
 
         $filters = $block->getFilters();

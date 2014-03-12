@@ -81,11 +81,6 @@
             <argument name="options" xsi:type="string">5,10,15,20,25</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Block\Layer\View">
-        <arguments>
-            <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">

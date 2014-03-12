@@ -76,7 +76,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_productCollection;
 
     /**
-     * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
+     * @var \Magento\Search\Model\Layer\Category\Filter\Price
      */
     protected $_model;
 
@@ -114,7 +114,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_cache = $this->getMock('\Magento\App\CacheInterface', array(), array(), '', false);
 
-        $this->_model = new \Magento\Search\Model\Catalog\Layer\Filter\Price($this->_filterItemFactory,
+        $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Price($this->_filterItemFactory,
             $this->_storeManager, $this->_layer, $this->_priceFactory, $this->_session, $this->_algorithm,
             $this->_registry, $this->_resourceEngine, $this->_cache);
     }
@@ -138,8 +138,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_store->expects($this->once())
             ->method('getConfig')
-            ->with(\Magento\Search\Model\Catalog\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION)
-            ->will($this->returnValue(\Magento\Search\Model\Catalog\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED));
+            ->with(\Magento\Search\Model\Layer\Category\Filter\Price::XML_PATH_RANGE_CALCULATION)
+            ->will($this->returnValue(\Magento\Search\Model\Layer\Category\Filter\Price::RANGE_CALCULATION_IMPROVED));
 
         $separators = '*-9,9-19';
         $this->_cache->expects($this->once())

@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <preference for="Magento\Catalog\Model\Layer\AvailabilityFlagInterface" type="Magento\Catalog\Model\Layer\Category\AvailabilityFlag" />
     <type name="Magento\Catalog\Model\Session">
         <arguments>
             <argument name="sessionName" xsi:type="string">frontend</argument>

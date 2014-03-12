@@ -105,10 +105,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Apply category filter to layer
      *
      * @param   \Zend_Controller_Request_Abstract $request
-     * @param   \Magento\View\Element\AbstractBlock $filterBlock
      * @return  $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request)
     {
         $filter = (int)$request->getParam($this->getRequestVar());
         if (!$filter) {

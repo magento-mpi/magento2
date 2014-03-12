@@ -64,10 +64,9 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Apply decimal range filter to product collection
      *
      * @param \Zend_Controller_Request_Abstract $request
-     * @param \Magento\Catalog\Block\Layer\Filter\Decimal $filterBlock
      * @return $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request)
     {
         parent::apply($request, $filterBlock);
 

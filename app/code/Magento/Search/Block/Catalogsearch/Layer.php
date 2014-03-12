@@ -8,8 +8,15 @@
  * @license     {license_link}
  */
 namespace Magento\Search\Block\Catalogsearch;
+use Magento\Search\Model\Layer\Category\FilterList;
+use Magento\LayeredNavigation\Block\Navigation;
+use Magento\CatalogSearch\Model\Resource\EngineProvider;
+use Magento\CatalogSearch\Helper\Data;
+use Magento\CatalogSearch\Model\Layer as ModelLayer;
+use Magento\Registry;
+use Magento\View\Element\Template\Context;
 
- /**
+/**
   * Layered Navigation block for search
   *
   * @category    Magento
@@ -25,109 +32,20 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
      */
     protected $_searchData;
 
-    /**
-     * Extended search layer
-     *
-     * @var \Magento\Search\Model\Search\Layer
-     */
-    protected $_searchLayer;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
-     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Registry $registry
-     * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\Search\Model\Search\Layer $searchLayer
-     * @param array $data
-     */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\CatalogSearch\Model\Layer $catalogLayer,
-        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Registry $registry,
+        Context $context,
+        ModelLayer $catalogLayer,
+        FilterList $filterList,
+        EngineProvider $engineProvider,
+        Data $catalogSearchData,
+        Registry $registry,
         \Magento\Search\Helper\Data $searchData,
-        \Magento\Search\Model\Search\Layer $searchLayer,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        $this->_searchLayer = $searchLayer;
         parent::__construct(
-            $context,
-            $catalogLayer,
-            $engineProvider,
-            $catalogSearchData,
-            $registry,
-            $data
+            $context, $catalogLayer, $filterList, $engineProvider, $catalogSearchData, $registry, $data
         );
-    }
-
-    /**
-     * Initialize blocks names
-     *
-     * @return void
-     */
-    protected function _initBlocks()
-    {
-        parent::_initBlocks();
-
-        if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            $this->_categoryBlockName        = 'Magento\Search\Block\Catalog\Layer\Filter\Category';
-            $this->_attributeFilterBlockName = 'Magento\Search\Block\Catalogsearch\Layer\Filter\Attribute';
-            $this->_priceFilterBlockName     = 'Magento\Search\Block\Catalog\Layer\Filter\Price';
-            $this->_decimalFilterBlockName   = 'Magento\Search\Block\Catalog\Layer\Filter\Decimal';
-        }
-    }
-
-    /**
-     * Prepare child blocks
-     *
-     * @return $this
-     */
-    protected function _prepareLayout()
-    {
-        if ($this->_searchData->isThirdPartSearchEngine()
-            && $this->_searchData->getIsEngineAvailableForNavigation(false)
-        ) {
-            $stateBlock = $this->getLayout()->createBlock($this->_stateBlockName)
-                ->setLayer($this->getLayer());
-
-            $categoryBlock = $this->getLayout()->createBlock($this->_categoryBlockName)
-                ->setLayer($this->getLayer())
-                ->init();
-
-            $filterableAttributes = $this->_getFilterableAttributes();
-            $filters = array();
-            foreach ($filterableAttributes as $attribute) {
-                if ($attribute->getAttributeCode() == 'price') {
-                    $filterBlockName = $this->_priceFilterBlockName;
-                } elseif ($attribute->getBackendType() == 'decimal') {
-                    $filterBlockName = $this->_decimalFilterBlockName;
-                } else {
-                    $filterBlockName = $this->_attributeFilterBlockName;
-                }
-
-                $filters[$attribute->getAttributeCode() . '_filter'] = $this->getLayout()->createBlock($filterBlockName)
-                    ->setLayer($this->getLayer())
-                    ->setAttributeModel($attribute)
-                    ->init();
-            }
-
-            $this->setChild('layer_state', $stateBlock);
-            $this->setChild('category_filter', $categoryBlock->addFacetCondition());
-
-            foreach ($filters as $filterName => $block) {
-                $this->setChild($filterName, $block->addFacetCondition());
-            }
-
-            $this->getLayer()->apply();
-        } else {
-            parent::_prepareLayout();
-        }
-
-        return $this;
     }
 
     /**

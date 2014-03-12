@@ -30,28 +30,6 @@ class Attribute extends \Magento\Catalog\Block\Layer\Filter\AbstractFilter
     }
 
     /**
-     * Set attribute model
-     *
-     * @return $this
-     */
-    protected function _prepareFilter()
-    {
-        $this->_filter->setAttributeModel($this->getAttributeModel());
-        return $this;
-    }
-
-    /**
-     * Add params to faceted search
-     *
-     * @return $this
-     */
-    public function addFacetCondition()
-    {
-        $this->_filter->addFacetCondition();
-        return $this;
-    }
-
-    /**
      * Get filter items count
      *
      * @return int
