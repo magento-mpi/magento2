@@ -50,7 +50,10 @@ try {
     $objectManagerFactory = new \Magento\App\ObjectManagerFactory();
     $objectManager = $objectManagerFactory->create(BP, $_SERVER);
 
-    $config = $objectManager->create('Magento\Tools\View\Generator\Config', array('cmdOptions' => $options));
+    $config = $objectManager->create(
+        'Magento\Tools\View\Generator\Config',
+        array('cmdOptions' => $options, 'allowedFiles' => array('.htaccess'))
+    );
     $themes = $objectManager->create('Magento\Core\Model\Theme\Collection');
     $themes->setItemObjectClass('Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
