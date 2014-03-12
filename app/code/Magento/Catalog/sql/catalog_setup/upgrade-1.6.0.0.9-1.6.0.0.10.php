@@ -81,10 +81,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_entity_group_price',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Group Price Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -149,10 +149,10 @@ $table = $connection
         $installer->getFkName(
             'catalog_product_index_group_price',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
          ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Group Price Index Table');
 $connection->createTable($table);

@@ -90,8 +90,8 @@ $table = $installer->getConnection()
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addIndex($installer->getIdxName('wishlist_item', 'store_id'), 'store_id')
-    ->addForeignKey($installer->getFkName('wishlist_item', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('wishlist_item', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Wishlist items');
 $installer->getConnection()->createTable($table);

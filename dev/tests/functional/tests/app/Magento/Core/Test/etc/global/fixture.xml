@@ -10,7 +10,7 @@
 <fixture>
     <website module="Magento_Core">
         <type>flat</type>
-        <entity_type>core_website</entity_type>
+        <entity_type>store_website</entity_type>
         <collection>Magento\Core\Model\Resource\Website\Collection</collection>
         <identifier>code</identifier>
         <fields />
@@ -19,7 +19,7 @@
     </website>
     <storeGroup module="Magento_Core">
         <type>flat</type>
-        <entity_type>core_store_group</entity_type>
+        <entity_type>store_group</entity_type>
         <collection>Magento\Core\Model\Resource\Store\Group\Collection</collection>
         <identifier />
         <fields />
@@ -28,7 +28,7 @@
     </storeGroup>
     <store module="Magento_Core">
         <type>flat</type>
-        <entity_type>core_store</entity_type>
+        <entity_type>store</entity_type>
         <collection>Magento\Core\Model\Resource\Store\Collection</collection>
         <identifier>code</identifier>
         <fields />

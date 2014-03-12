@@ -136,8 +136,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('eav_entity', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav_entity', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('eav_entity', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity');
 $installer->getConnection()->createTable($table);
@@ -218,10 +218,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'eav_entity_datetime',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity Value Prefix');
 $installer->getConnection()->createTable($table);
@@ -302,10 +302,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'eav_entity_decimal',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity Value Prefix');
 $installer->getConnection()->createTable($table);
@@ -386,10 +386,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'eav_entity_int',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity Value Prefix');
 $installer->getConnection()->createTable($table);
@@ -465,10 +465,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'eav_entity_text',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity Value Prefix');
 $installer->getConnection()->createTable($table);
@@ -548,10 +548,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'eav_entity_varchar',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity Value Prefix');
 $installer->getConnection()->createTable($table);
@@ -667,8 +667,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('eav_entity_store', 'entity_type_id', 'eav_entity_type', 'entity_type_id'),
         'entity_type_id', $installer->getTable('eav_entity_type'), 'entity_type_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav_entity_store', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('eav_entity_store', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Entity Store');
 $installer->getConnection()->createTable($table);
@@ -896,8 +896,8 @@ $table = $installer->getConnection()
         'option_id', $installer->getTable('eav_attribute_option'), 'option_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('eav_attribute_option_value', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('eav_attribute_option_value', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Attribute Option Value');
 $installer->getConnection()->createTable($table);
@@ -936,8 +936,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('eav_attribute_label', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('eav_attribute_label', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('eav_attribute_label', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Attribute Label');
 $installer->getConnection()->createTable($table);
@@ -980,8 +980,8 @@ $table = $installer->getConnection()
         array('code', 'theme', 'store_id'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('eav_form_type', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('eav_form_type', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('eav_form_type', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Form Type');
 $installer->getConnection()->createTable($table);
@@ -1082,8 +1082,8 @@ $table = $installer->getConnection()
         'fieldset_id', $installer->getTable('eav_form_fieldset'), 'fieldset_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('eav_form_fieldset_label', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('eav_form_fieldset_label', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Eav Form Fieldset Label');
 $installer->getConnection()->createTable($table);

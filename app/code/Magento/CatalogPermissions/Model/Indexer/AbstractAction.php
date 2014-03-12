@@ -560,12 +560,12 @@ abstract class AbstractAction
                 []
             )
             ->joinInner(
-                ['store_group' => $this->getTable('core_store_group')],
+                ['store_group' => $this->getTable('store_group')],
                 'store_group.website_id = product_website.website_id',
                 []
             )
             ->joinInner(
-                ['store' => $this->getTable('core_store')],
+                ['store' => $this->getTable('store')],
                 'store.website_id = product_website.website_id'
                     . ' AND store.group_id = store_group.group_id',
                 []

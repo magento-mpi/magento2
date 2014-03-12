@@ -69,8 +69,8 @@ for ($i = 0; $i < 3; ++$i) {
         ->addIndex($installer->getIdxName($aggregationTables[$i], array('store_id')), array('store_id'))
         ->addIndex($installer->getIdxName($aggregationTables[$i], array('product_id')), array('product_id'))
         ->addForeignKey(
-            $installer->getFkName($aggregationTables[$i], 'store_id', 'core_store', 'store_id'),
-            'store_id', $installer->getTable('core_store'), 'store_id',
+            $installer->getFkName($aggregationTables[$i], 'store_id', 'store', 'store_id'),
+            'store_id', $installer->getTable('store'), 'store_id',
             \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
         ->addForeignKey(
             $installer->getFkName($aggregationTables[$i], 'product_id', 'catalog_product_entity', 'entity_id'),

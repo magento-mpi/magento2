@@ -140,11 +140,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         if (!$this->getFlag('groups_and_stores_joined')) {
             $this->_idFieldName = 'website_group_store';
             $this->getSelect()->joinLeft(
-                array('group_table' => $this->getTable('core_store_group')),
+                array('group_table' => $this->getTable('store_group')),
                 'main_table.website_id = group_table.website_id',
                 array('group_id' => 'group_id', 'group_title' => 'name')
             )->joinLeft(
-                array('store_table' => $this->getTable('core_store')),
+                array('store_table' => $this->getTable('store')),
                 'group_table.group_id = store_table.group_id',
                 array('store_id' => 'store_id', 'store_title' => 'name')
             );

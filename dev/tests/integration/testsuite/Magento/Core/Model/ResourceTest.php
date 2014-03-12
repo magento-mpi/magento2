@@ -26,7 +26,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
     {
         $tablePrefix = 'prefix_';
         $tableSuffix = 'suffix';
-        $tableNameOrig = 'core_website';
+        $tableNameOrig = 'store_website';
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\App\Resource', array('tablePrefix' => 'prefix_'));

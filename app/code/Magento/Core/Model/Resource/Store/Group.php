@@ -23,7 +23,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_store_group', 'group_id');
+        $this->_init('store_group', 'group_id');
     }
 
     /**
@@ -58,7 +58,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($count == 1) {
             $bind  = array('default_group_id' => $groupId);
             $where = array('website_id = ?' => $websiteId);
-            $this->_getWriteAdapter()->update($this->getTable('core_website'), $bind, $where);
+            $this->_getWriteAdapter()->update($this->getTable('store_website'), $bind, $where);
         }
         return $this;
     }
@@ -73,14 +73,14 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if ($model->getOriginalWebsiteId() && $model->getWebsiteId() != $model->getOriginalWebsiteId()) {
             $select = $this->_getWriteAdapter()->select()
-               ->from($this->getTable('core_website'), 'default_group_id')
+               ->from($this->getTable('store_website'), 'default_group_id')
                ->where('website_id = :website_id');
             $groupId = $this->_getWriteAdapter()->fetchOne($select, array('website_id' => $model->getOriginalWebsiteId()));
 
             if ($groupId == $model->getId()) {
                 $bind  = array('default_group_id' => 0);
                 $where = array('website_id = ?' => $model->getOriginalWebsiteId());
-                $this->_getWriteAdapter()->update($this->getTable('core_website'), $bind, $where);
+                $this->_getWriteAdapter()->update($this->getTable('store_website'), $bind, $where);
             }
         }
         return $this;
@@ -97,7 +97,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $bind  = array('website_id' => $websiteId);
         $where = array('group_id = ?' => $groupId);
-        $this->_getWriteAdapter()->update($this->getTable('core_store'), $bind, $where);
+        $this->_getWriteAdapter()->update($this->getTable('store'), $bind, $where);
         return $this;
     }
 
@@ -131,8 +131,8 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = $adapter->select()->from(array('main' => $this->getMainTable()), 'COUNT(*)');
         if (!$countAdmin) {
             $select->joinLeft(
-                array('core_website' => $this->getTable('core_website')),
-                'core_website.website_id = main.website_id',
+                array('store_website' => $this->getTable('store_website')),
+                'store_website.website_id = main.website_id',
                 null
             )
             ->where(sprintf('%s <> %s', $adapter->quoteIdentifier('code'), $adapter->quote('admin')));

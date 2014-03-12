@@ -13,7 +13,7 @@ $installer           = $this;
 $connection          = $installer->getConnection();
 
 $rulesTable          = $installer->getTable('catalogrule');
-$websitesTable       = $installer->getTable('core_website');
+$websitesTable       = $installer->getTable('store_website');
 $customerGroupsTable = $installer->getTable('customer_group');
 $rulesWebsitesTable  = $installer->getTable('catalogrule_website');
 $rulesCustomerGroupsTable  = $installer->getTable('catalogrule_customer_group');
@@ -51,7 +51,7 @@ if (!$connection->isTableExists($rulesWebsitesTable)) {
             'rule_id', $rulesTable, 'rule_id',
             \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
         )
-        ->addForeignKey($installer->getFkName('catalogrule_website', 'website_id', 'core_website', 'website_id'),
+        ->addForeignKey($installer->getFkName('catalogrule_website', 'website_id', 'store_website', 'website_id'),
             'website_id', $websitesTable, 'website_id',
             \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
         )

@@ -71,8 +71,8 @@ $table = $installer->getConnection()
         ),
         'type_id', $installer->getTable('magento_giftregistry_type'), 'type_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_giftregistry_type_info', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_giftregistry_type_info', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Info Table');
 $installer->getConnection()->createTable($table);
@@ -117,8 +117,8 @@ $table = $installer->getConnection()
         ),
         'type_id', $installer->getTable('magento_giftregistry_type'), 'type_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_giftregistry_label', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_giftregistry_label', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Label Table');
 $installer->getConnection()->createTable($table);
@@ -200,10 +200,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'magento_giftregistry_entity',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Entity Table');
 

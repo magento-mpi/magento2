@@ -164,8 +164,8 @@ $table = $installer->getConnection()
         ), 'Selection Price Value')
     ->addIndex($installer->getIdxName('catalog_product_bundle_selection_price', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_selection_price', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalog_product_bundle_selection_price', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('catalog_product_bundle_selection_price', 'selection_id', 'catalog_product_bundle_selection', 'selection_id'),
         'selection_id', $installer->getTable('catalog_product_bundle_selection'), 'selection_id',
@@ -209,8 +209,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('catalog_product_bundle_price_index', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_bundle_price_index', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalog_product_bundle_price_index', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Bundle Price Index');
 $installer->getConnection()->createTable($table);

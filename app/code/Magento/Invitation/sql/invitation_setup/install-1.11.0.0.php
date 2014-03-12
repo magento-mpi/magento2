@@ -68,8 +68,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_invitation', 'referral_id', 'customer_entity', 'entity_id'),
         'referral_id', $installer->getTable('customer_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_invitation', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_invitation', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Invitation');
 $installer->getConnection()->createTable($table);

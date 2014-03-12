@@ -31,7 +31,7 @@ $connection->addColumn($tableCoreLayoutLink, 'is_temporary',
 // we must drop next 2 foreign keys to have an ability to drop index
 $connection->dropForeignKey(
     $tableCoreLayoutLink,
-    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'core_store', 'store_id')
+    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'store', 'store_id')
 );
 $connection->dropForeignKey(
     $tableCoreLayoutLink,
@@ -56,10 +56,10 @@ $connection->addIndex($tableCoreLayoutLink,
 
 // recreate 2 dropped foreign keys to have an ability to drop index
 $connection->addForeignKey(
-    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName($tableCoreLayoutLink, 'store_id', 'store', 'store_id'),
     $tableCoreLayoutLink,
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

@@ -25,7 +25,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $resource->expects($this->any())
             ->method('getMainTable')
-            ->will($this->returnValue($resource->getTable('core_website')));
+            ->will($this->returnValue($resource->getTable('store_website')));
         $resource->expects($this->any())
             ->method('getIdFieldName')
             ->will($this->returnValue('website_id'));

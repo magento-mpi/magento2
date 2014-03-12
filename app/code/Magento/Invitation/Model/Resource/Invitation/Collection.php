@@ -87,7 +87,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->getSelect()
             ->joinInner(
-                array('w' => $this->getTable('core_store')),
+                array('w' => $this->getTable('store')),
                 'main_table.store_id = w.store_id',
                 'w.website_id'
             );

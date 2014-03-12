@@ -187,7 +187,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         if (!$this->getFlag('core_store_group_table_joined')) {
             $this->getSelect()->join(
-                array('group_table' => $this->getTable('core_store_group')),
+                array('group_table' => $this->getTable('store_group')),
                 'main_table.group_id = group_table.group_id',
                 array('root_category_id')
             );

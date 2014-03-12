@@ -696,7 +696,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $select = $this->getConnection()->select()
                 ->from(array('product_website' => $this->_productWebsiteTable))
                 ->join(
-                    array('website' => $this->getResource()->getTable('core_website')),
+                    array('website' => $this->getResource()->getTable('store_website')),
                     'website.website_id = product_website.website_id',
                     array('name'))
                 ->where('product_website.product_id IN (?)', array_keys($productWebsites))
@@ -1669,14 +1669,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromPart['store_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_index' => $this->getTable('core_store')),
+                array('store_index' => $this->getTable('store')),
                 'store_index.store_id = ' . $filters['store_table'] . '.store_id',
                 array()
             );
         }
         if (!isset($fromPart['store_group_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_group_index' => $this->getTable('core_store_group')),
+                array('store_group_index' => $this->getTable('store_group')),
                 'store_index.group_id = store_group_index.group_id',
                 array()
             );

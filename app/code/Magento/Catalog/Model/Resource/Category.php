@@ -776,7 +776,7 @@ class Category extends AbstractResource
     public function isForbiddenToDelete($categoryId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('core_store_group'), array('group_id'))
+            ->from($this->getTable('store_group'), array('group_id'))
             ->where('root_category_id = :root_category_id');
         $result = $this->_getReadAdapter()->fetchOne($select, array('root_category_id' => $categoryId));
 

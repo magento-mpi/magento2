@@ -61,8 +61,8 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('catalogsearch_query', array('query_text','store_id','popularity')),
         array('query_text','store_id','popularity'))
     ->addIndex($installer->getIdxName('catalogsearch_query', 'store_id'), 'store_id')
-    ->addForeignKey($installer->getFkName('catalogsearch_query', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalogsearch_query', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog search query table');
 $installer->getConnection()->createTable($table);

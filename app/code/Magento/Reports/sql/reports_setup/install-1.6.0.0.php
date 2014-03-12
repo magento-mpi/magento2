@@ -84,8 +84,8 @@ $table = $installer->getConnection()
         array('subtype'))
     ->addIndex($installer->getIdxName('report_event', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('report_event', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('report_event', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('report_event', 'event_type_id', 'report_event_types', 'event_type_id'),
         'event_type_id', $installer->getTable('report_event_types'), 'event_type_id',
@@ -141,8 +141,8 @@ if (!$installer->tableExists($tableName)) {
         ->addForeignKey($installer->getFkName('report_compared_product_index', 'product_id', 'catalog_product_entity', 'entity_id'),
             'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
             \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-        ->addForeignKey($installer->getFkName('report_compared_product_index', 'store_id', 'core_store', 'store_id'),
-            'store_id', $installer->getTable('core_store'), 'store_id',
+        ->addForeignKey($installer->getFkName('report_compared_product_index', 'store_id', 'store', 'store_id'),
+            'store_id', $installer->getTable('store'), 'store_id',
             \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
         ->setComment('Reports Compared Product Index Table');
     $installer->getConnection()->createTable($table);
@@ -196,8 +196,8 @@ if (!$installer->tableExists($tableName)) {
         ->addForeignKey($installer->getFkName('report_viewed_product_index', 'product_id', 'catalog_product_entity', 'entity_id'),
             'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
             \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-        ->addForeignKey($installer->getFkName('report_viewed_product_index', 'store_id', 'core_store', 'store_id'),
-            'store_id', $installer->getTable('core_store'), 'store_id',
+        ->addForeignKey($installer->getFkName('report_viewed_product_index', 'store_id', 'store', 'store_id'),
+            'store_id', $installer->getTable('store'), 'store_id',
             \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
         ->setComment('Reports Viewed Product Index Table');
     $installer->getConnection()->createTable($table);

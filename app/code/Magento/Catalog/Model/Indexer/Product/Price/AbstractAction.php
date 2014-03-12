@@ -192,11 +192,11 @@ abstract class AbstractAction
 
         $select = $write->select()
             ->from(
-                array('cw' => $this->_getTable('core_website')),
+                array('cw' => $this->_getTable('store_website')),
                 array('website_id')
             )
             ->join(
-                array('csg' => $this->_getTable('core_store_group')),
+                array('csg' => $this->_getTable('store_group')),
                 'cw.default_group_id = csg.group_id',
                 array('store_id' => 'default_store_id')
             )
@@ -264,7 +264,7 @@ abstract class AbstractAction
                 array('customer_group_id')
             )
             ->join(
-                array('cw' => $this->_getTable('core_website')),
+                array('cw' => $this->_getTable('store_website')),
                 'tp.website_id = 0 OR tp.website_id = cw.website_id',
                 array('website_id')
             )
@@ -311,7 +311,7 @@ abstract class AbstractAction
                 array('customer_group_id')
             )
             ->join(
-                array('cw' => $this->_getTable('core_website')),
+                array('cw' => $this->_getTable('store_website')),
                 'gp.website_id = 0 OR gp.website_id = cw.website_id',
                 array('website_id')
             )

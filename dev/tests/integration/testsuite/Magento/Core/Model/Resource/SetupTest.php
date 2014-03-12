@@ -114,7 +114,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     public function testTableExists()
     {
-        $this->assertTrue($this->_model->tableExists('core_website'));
+        $this->assertTrue($this->_model->tableExists('store_website'));
         $this->assertFalse($this->_model->tableExists('core/website'));
     }
 }

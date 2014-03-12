@@ -25,7 +25,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_regione', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left')
-            ->joinField('store_name', 'core_store', 'name', 'store_id=store_id', null, 'left');
+            ->joinField('store_name', 'store', 'name', 'store_id=store_id', null, 'left');
         return $this;
     }
 }

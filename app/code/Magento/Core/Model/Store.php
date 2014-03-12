@@ -29,7 +29,7 @@ class Store extends AbstractModel
     /**
      * Entity name
      */
-    const ENTITY = 'core_store';
+    const ENTITY = 'store';
 
     /**
      * Custom entry point param

@@ -21,7 +21,7 @@ $connection
     )
     ->dropForeignKey(
         $this->getTable('magento_catalogpermissions_index'),
-        $this->getFkName('magento_catalogpermissions_index', 'website_id', 'core_website', 'website_id')
+        $this->getFkName('magento_catalogpermissions_index', 'website_id', 'store_website', 'website_id')
     );
 
 $table = $connection->newTable($this->getTable('magento_catalogpermissions_index_tmp'))

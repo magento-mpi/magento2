@@ -100,11 +100,11 @@ $table = $connection->newTable($this->getTable('googleshopping_items'))
         $installer->getFkName(
             'googleshopping_items',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
         'store_id',
-        $this->getTable('core_store'),
+        $this->getTable('store'),
         'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE
      )

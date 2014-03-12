@@ -603,7 +603,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
                 array('customer_group_id')
             )
             ->join(
-                array('cw' => $this->getTable('core_website')),
+                array('cw' => $this->getTable('store_website')),
                 'tp.website_id = 0 OR tp.website_id = cw.website_id',
                 array('website_id')
             )
@@ -660,7 +660,7 @@ class Price extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\Defaul
                 array('customer_group_id')
             )
             ->join(
-                array('cw' => $this->getTable('core_website')),
+                array('cw' => $this->getTable('store_website')),
                 'gp.website_id = 0 OR gp.website_id = cw.website_id',
                 array('website_id')
             )

@@ -56,8 +56,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_catalogpermissions', 'customer_group_id', 'customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_catalogpermissions', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('magento_catalogpermissions', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogpermissions');
 $installer->getConnection()->createTable($table);
@@ -97,8 +97,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_catalogpermissions_index', 'category_id', 'catalog_category_entity', 'entity_id'),
         'category_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_catalogpermissions_index', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('magento_catalogpermissions_index', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogpermissions Index');
 $installer->getConnection()->createTable($table);
@@ -150,8 +150,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_catalogpermissions_index_product', 'customer_group_id', 'customer_group', 'customer_group_id'),
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_catalogpermissions_index_product', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_catalogpermissions_index_product', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogpermissions Index Product');
 $installer->getConnection()->createTable($table);
