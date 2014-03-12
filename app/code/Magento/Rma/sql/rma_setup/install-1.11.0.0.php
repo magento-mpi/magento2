@@ -663,8 +663,8 @@ $table = $installer->getConnection()
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('magento_rma_item_eav_attribute_website', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        $installer->getFkName('magento_rma_item_eav_attribute_website', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise RMA Item Eav Attribute Website');
 $installer->getConnection()->createTable($table);

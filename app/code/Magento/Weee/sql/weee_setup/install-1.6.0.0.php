@@ -63,8 +63,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('weee_tax', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_tax', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('weee_tax', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable'store_website''), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('weee_tax', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
@@ -107,8 +107,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('weee_discount', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('weee_discount', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('weee_discount', 'website_id''store_website'e', 'website_id'),
+        'website_id', $installer->getTab'store_website'te'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Weee Discount');
 $installer->getConnection()->createTable($table);

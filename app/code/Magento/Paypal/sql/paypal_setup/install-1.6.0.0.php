@@ -201,8 +201,8 @@ $table = $installer->getConnection()
         ), 'Updated At')
     ->addIndex($installer->getIdxName('paypal_cert', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('paypal_cert', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('paypal_cert', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Paypal Certificate Table');
 $installer->getConnection()->createTable($table);

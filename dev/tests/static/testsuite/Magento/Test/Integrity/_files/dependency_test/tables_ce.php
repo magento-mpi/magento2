@@ -129,7 +129,7 @@ return array (
     'core_url_rewrite_tag' => 'Magento_Core',
     'core_variable' => 'Magento_Core',
     'core_variable_value' => 'Magento_Core',
-    'core_website' => 'Magento_Core',
+    'store_website' => 'Magento_Store',
     'cron_schedule' => 'Magento_Cron',
     'customer_address_entity' => 'Magento_Customer',
     'customer_group' => 'Magento_Customer',

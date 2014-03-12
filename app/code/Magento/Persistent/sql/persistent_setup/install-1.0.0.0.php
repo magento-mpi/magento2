@@ -51,9 +51,9 @@ $table = $installer->getConnection()
         \Magento\DB\Ddl\Table::ACTION_CASCADE
     )
     ->addForeignKey(
-        $installer->getFkName('persistent_session', 'website_id', 'core_website', 'website_id'),
+        $installer->getFkName('persistent_session', 'website_id', 'store_website', 'website_id'),
         'website_id',
-        $installer->getTable('core_website'),
+        $installer->getTable('store_website'),
         'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE
     )

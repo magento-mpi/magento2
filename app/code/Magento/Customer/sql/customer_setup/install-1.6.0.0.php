@@ -71,8 +71,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('customer_entity', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('customer_entity', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('customer_entity', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Customer Entity');
 $installer->getConnection()->createTable($table);
@@ -817,8 +817,8 @@ $table = $installer->getConnection()
         $installer->getFkName('customer_eav_attribute_website', 'attribute_id', 'eav_attribute', 'attribute_id'),
         'attribute_id', $installer->getTable('eav_attribute'), 'attribute_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('customer_eav_attribute_website', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('customer_eav_attribute_website', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Customer Eav Attribute Website');
 $installer->getConnection()->createTable($table);

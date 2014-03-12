@@ -147,7 +147,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testJoin()
     {
-        $this->_collection->join(array('w' => 'core_website'), 'main_table.website_id=w.website_id');
-        $this->assertContains('core_website', (string)$this->_collection->getSelect());
+        $this->_collection->join(array('w' => 'store_website'), 'main_table.website_id=w.website_id');
+        $this->assertContains'store_website'', (string)$this->_collection->getSelect());
     }
 }

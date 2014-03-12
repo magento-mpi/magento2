@@ -292,8 +292,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'rule_id', 'salesrule', 'rule_id'),
         'rule_id', $installer->getTable('salesrule'), 'rule_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
-    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('salesrule_product_attribute', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_NO_ACTION)
     ->setComment('Salesrule Product Attribute');
 $installer->getConnection()->createTable($table);

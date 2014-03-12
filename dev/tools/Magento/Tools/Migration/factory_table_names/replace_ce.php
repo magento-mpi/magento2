@@ -148,7 +148,7 @@ return array(
     'core/url_rewrite_tag' => 'core_url_rewrite_tag',
     'core/variable' => 'core_variable',
     'core/variable_value' => 'core_variable_value',
-    'core/website' => 'core_website',
+    'core/website' => 'store_website',
     'cron/schedule' => 'cron_schedule',
     'customer/address_entity' => 'customer_address_entity',
     'customer/customer_group' => 'customer_group',

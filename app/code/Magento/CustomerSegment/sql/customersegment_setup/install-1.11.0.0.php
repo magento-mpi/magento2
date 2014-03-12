@@ -62,8 +62,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_customersegment_website', 'segment_id', 'magento_customersegment_segment', 'segment_id'),
         'segment_id', $installer->getTable('magento_customersegment_segment'), 'segment_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_customersegment_website', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('magento_customersegment_website', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Customersegment Website');
 $installer->getConnection()->createTable($table);
@@ -100,8 +100,8 @@ $table = $installer->getConnection()
         array('website_id'))
     ->addIndex($installer->getIdxName('magento_customersegment_customer', array('customer_id')),
         array('customer_id'))
-    ->addForeignKey($installer->getFkName('magento_customersegment_customer', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('magento_customersegment_customer', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_customersegment_customer', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',

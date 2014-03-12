@@ -1002,8 +1002,8 @@ $table = $installer->getConnection()
         ), 'Website ID')
     ->addIndex($installer->getIdxName('catalog_product_website', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('catalog_product_website', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalog_product_website', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('catalog_product_website', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -1398,10 +1398,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_entity_tier_price',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Tier Price Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -2116,10 +2116,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_index_price',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Price Index Table');
 $installer->getConnection()->createTable($table);
@@ -2172,10 +2172,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_index_tier_price',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
          ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Tier Price Index Table');
 $installer->getConnection()->createTable($table);
@@ -2198,8 +2198,8 @@ $table = $installer->getConnection()
     ->addIndex($installer->getIdxName('catalog_product_index_website', array('website_date')),
         array('website_date'))
     ->addForeignKey(
-        $installer->getFkName('catalog_product_index_website', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        $installer->getFkName('catalog_product_index_website', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Website Index Table');
 $installer->getConnection()->createTable($table);

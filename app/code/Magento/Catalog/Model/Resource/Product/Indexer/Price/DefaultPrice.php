@@ -214,7 +214,7 @@ class DefaultPrice
                 '',
                 array('customer_group_id'))
             ->join(
-                array('cw' => $this->getTable('core_website')),
+                array('cw' => $this->getTable('store_website')),
                 '',
                 array('website_id'))
             ->join(
@@ -388,7 +388,7 @@ class DefaultPrice
                 array('i' => $this->_getDefaultFinalPriceTable()),
                 array('entity_id', 'customer_group_id', 'website_id'))
             ->join(
-                array('cw' => $this->getTable('core_website')),
+                array('cw' => $this->getTable('store_website')),
                 'cw.website_id = i.website_id',
                 array())
             ->join(
@@ -456,7 +456,7 @@ class DefaultPrice
                 array('i' => $this->_getDefaultFinalPriceTable()),
                 array('entity_id', 'customer_group_id', 'website_id'))
             ->join(
-                array('cw' => $this->getTable('core_website')),
+                array('cw' => $this->getTable('store_website')),
                 'cw.website_id = i.website_id',
                 array())
             ->join(

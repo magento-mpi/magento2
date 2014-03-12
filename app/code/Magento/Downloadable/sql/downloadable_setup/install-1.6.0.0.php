@@ -93,8 +93,8 @@ $table = $installer->getConnection()
         'link_id', $installer->getTable('downloadable_link'), 'link_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addIndex($installer->getIdxName('downloadable_link_price', 'website_id'), 'website_id')
-    ->addForeignKey($installer->getFkName('downloadable_link_price', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('downloadable_link_price', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Downloadable Link Price Table');
 $installer->getConnection()->createTable($table);

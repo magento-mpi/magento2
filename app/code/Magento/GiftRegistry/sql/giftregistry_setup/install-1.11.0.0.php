@@ -200,10 +200,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'magento_giftregistry_entity',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Registry Entity Table');
 

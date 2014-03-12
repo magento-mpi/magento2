@@ -151,8 +151,8 @@ $table = $installer->getConnection()
         'rule_id', $installer->getTable('catalogrule'), 'rule_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalogrule_product', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
 
     ->setComment('CatalogRule Product');
@@ -212,8 +212,8 @@ $table = $installer->getConnection()
         'customer_group_id', $installer->getTable('customer_group'), 'customer_group_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalogrule_product_price', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
 
     ->setComment('CatalogRule Product Price');
@@ -271,8 +271,8 @@ $table = $installer->getConnection()
         'rule_id', $installer->getTable('catalogrule'), 'rule_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
 
-    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('catalogrule_group_website', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('CatalogRule Group Website');
 

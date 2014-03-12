@@ -160,10 +160,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_super_attribute_pricing',
             'website_id',
-            'core_website',
+            'store_website',
             'website_id'
         ),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName(

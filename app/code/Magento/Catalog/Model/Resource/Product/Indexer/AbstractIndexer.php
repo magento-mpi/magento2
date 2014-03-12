@@ -127,7 +127,7 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
         }
 
         $select->join(
-            array('cw' => $this->getTable('core_website')),
+            array('cw' => $this->getTable('store_website')),
             $joinCondition,
             array()
         );

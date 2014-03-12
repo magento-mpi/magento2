@@ -15,10 +15,10 @@ $installer->startSetup();
 $connection = $installer->getConnection();
 
 /**
- * Create table 'core_website'
+ * Create table 'store_website'
  */
 $table = $connection
-    ->newTable($installer->getTable('core_website'))
+    ->newTable($installer->getTable('store_website'))
     ->addColumn(
         'website_id',
         Table::TYPE_SMALLINT,
@@ -66,16 +66,16 @@ $table = $connection
         'Defines Is Website Default'
     )
     ->addIndex(
-        $installer->getIdxName('core_website', array('code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        $installer->getIdxName('store_website', array('code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
         array('code'),
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
     )
     ->addIndex(
-        $installer->getIdxName('core_website', array('sort_order')),
+        $installer->getIdxName('store_website', array('sort_order')),
         array('sort_order')
     )
     ->addIndex(
-        $installer->getIdxName('core_website', array('default_group_id')),
+        $installer->getIdxName('store_website', array('default_group_id')),
         array('default_group_id')
     )
     ->setComment('Websites');
@@ -149,9 +149,9 @@ $table = $connection
         array('default_store_id')
     )
     ->addForeignKey(
-        $installer->getFkName('core_store_group', 'website_id', 'core_website', 'website_id'),
+        $installer->getFkName('core_store_group', 'website_id', 'store_website', 'website_id'),
         'website_id',
-        $installer->getTable('core_website'),
+        $installer->getTable('store_website'),
         'website_id',
         Table::ACTION_CASCADE,
         Table::ACTION_CASCADE
@@ -256,9 +256,9 @@ $table = $connection
         Table::ACTION_CASCADE
     )
     ->addForeignKey(
-        $installer->getFkName('core_store', 'website_id', 'core_website', 'website_id'),
+        $installer->getFkName('core_store', 'website_id', 'store_website', 'website_id'),
         'website_id',
-        $installer->getTable('core_website'),
+        $installer->getTable('store_website'),
         'website_id',
         Table::ACTION_CASCADE,
         Table::ACTION_CASCADE
@@ -272,7 +272,7 @@ $connection
  */
 $connection
     ->insertForce(
-        $installer->getTable('core_website'),
+        $installer->getTable('store_website'),
         array(
             'website_id' => 0,
             'code' => 'admin',
@@ -284,7 +284,7 @@ $connection
     );
 $connection
     ->insertForce(
-        $installer->getTable('core_website'),
+        $installer->getTable('store_website'),
         array(
             'website_id' => 1,
             'code' => 'base',

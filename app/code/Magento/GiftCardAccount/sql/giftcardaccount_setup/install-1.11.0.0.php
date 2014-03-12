@@ -53,8 +53,8 @@ $table = $installer->getConnection()
         ), 'Is Redeemable')
     ->addIndex($installer->getIdxName('magento_giftcardaccount', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('magento_giftcardaccount', 'website_id', 'core_website', 'website_id'),
-        'website_id', $installer->getTable('core_website'), 'website_id',
+    ->addForeignKey($installer->getFkName('magento_giftcardaccount', 'website_id', 'store_website', 'website_id'),
+        'website_id', $installer->getTable('store_website'), 'website_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Giftcardaccount');
 $installer->getConnection()->createTable($table);

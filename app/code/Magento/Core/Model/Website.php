@@ -31,7 +31,7 @@ namespace Magento\Core\Model;
  */
 class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
-    const ENTITY = 'core_website';
+    const ENTITY = 'store_website';
     const CACHE_TAG = 'website';
 
     /**

@@ -697,7 +697,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $select = $this->getConnection()->select()
                 ->from(array('product_website' => $this->_productWebsiteTable))
                 ->join(
-                    array('website' => $this->getResource()->getTable('core_website')),
+                    array('website' => $this->getResource()->getTable('store_website')),
                     'website.website_id = product_website.website_id',
                     array('name'))
                 ->where('product_website.product_id IN (?)', array_keys($productWebsites))
