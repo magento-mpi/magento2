@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,10 +15,6 @@ namespace Magento\Customer\Model;
  * @method string getCustomerGroupCode()
  * @method \Magento\Customer\Model\Group setCustomerGroupCode(string $value)
  * @method \Magento\Customer\Model\Group setTaxClassId(int $value)
- *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Group extends \Magento\Core\Model\AbstractModel
 {
@@ -122,7 +116,9 @@ class Group extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param int|null $groupId
+     * Get the tax class id for the specified group or this group if the groupId is null
+     *
+     * @param int|null $groupId The id of the group whose tax class id is being sought
      * @return int
      */
     public function getTaxClassId($groupId = null)
@@ -138,6 +134,8 @@ class Group extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Determine if this group is used as the create account default group
+     *
      * @return bool
      */
     public function usesAsDefault()
@@ -179,9 +177,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     protected function _prepareData()
     {
-        $this->setCode(
-            substr($this->getCode(), 0, self::GROUP_CODE_MAX_LENGTH)
-        );
+        $this->setCode(substr($this->getCode(), 0, self::GROUP_CODE_MAX_LENGTH));
         return $this;
     }
 }
