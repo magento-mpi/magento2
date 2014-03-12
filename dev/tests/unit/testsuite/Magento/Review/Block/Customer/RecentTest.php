@@ -48,7 +48,13 @@ class RecentTest extends \PHPUnit_Framework_TestCase
         );
         $this->collectionFactory->expects($this->once())->method('create')
             ->will($this->returnValue($this->collection));
-        $this->currentCustomer = $this->getMock('\Magento\Customer\Service\V1\CustomerCurrentService', [], [], '', false);
+        $this->currentCustomer = $this->getMock(
+            'Magento\Customer\Service\V1\CustomerCurrentService',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->object = $this->objectManagerHelper->getObject('Magento\Review\Block\Customer\Recent', [
