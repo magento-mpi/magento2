@@ -212,11 +212,9 @@ class Compare extends \Magento\App\Action\Action
                 /** @var $item \Magento\Catalog\Model\Product\Compare\Item */
                 $item = $this->_compareItemFactory->create();
                 if ($this->_customerSession->isLoggedIn()) {
-                    $item->addCustomerData($this->_customerSession->getCustomer());
+                    $item->setCustomerId($this->_customerSession->getCustomerId());
                 } elseif ($this->_customerId) {
-                    $item->addCustomerData(
-                        $this->_customerFactory->create()->load($this->_customerId)
-                    );
+                    $item->setCustomerId($this->_customerId);
                 } else {
                     $item->addVisitorId($this->_logVisitor->getId());
                 }

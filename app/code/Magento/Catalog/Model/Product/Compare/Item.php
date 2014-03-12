@@ -142,18 +142,6 @@ class Item extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
     }
 
     /**
-     * Add customer data from customer object
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return $this
-     */
-    public function addCustomerData(\Magento\Customer\Model\Customer $customer)
-    {
-        $this->setCustomerId($customer->getId());
-        return $this;
-    }
-
-    /**
      * Set visitor
      *
      * @param int $visitorId
