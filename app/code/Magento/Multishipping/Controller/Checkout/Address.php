@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Controller\Checkout;
 
 use Magento\App\Action\Context;
@@ -56,6 +55,8 @@ class Address extends \Magento\App\Action\Action
 
     /**
      * Create New Shipping address Form
+     *
+     * @return void
      */
     public function newShippingAction()
     {
@@ -82,6 +83,9 @@ class Address extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function shippingSavedAction()
     {
         /**
@@ -94,6 +98,9 @@ class Address extends \Magento\App\Action\Action
         $this->_redirect('*/checkout/addresses');
     }
 
+    /**
+     * @return void
+     */
     public function editShippingAction()
     {
         $this->_getState()->setActiveStep(
@@ -117,6 +124,9 @@ class Address extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function editShippingPostAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
@@ -126,6 +136,9 @@ class Address extends \Magento\App\Action\Action
         $this->_redirect('*/checkout/shipping');
     }
 
+    /**
+     * @return void
+     */
     public function selectBillingAction()
     {
         $this->_getState()->setActiveStep(\Magento\Multishipping\Model\Checkout\Type\Multishipping\State::STEP_BILLING);
@@ -134,6 +147,9 @@ class Address extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function newBillingAction()
     {
         $this->_view->loadLayout();
@@ -151,6 +167,9 @@ class Address extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function editAddressAction()
     {
         $this->_view->loadLayout();
@@ -168,6 +187,9 @@ class Address extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function editBillingAction()
     {
         $this->_getState()->setActiveStep(
@@ -187,6 +209,9 @@ class Address extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function setBillingAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {
@@ -196,6 +221,9 @@ class Address extends \Magento\App\Action\Action
         $this->_redirect('*/checkout/billing');
     }
 
+    /**
+     * @return void
+     */
     public function saveBillingAction()
     {
         if ($addressId = $this->getRequest()->getParam('id')) {

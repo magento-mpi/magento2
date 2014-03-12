@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Source\Cybersource;
 
 /**
  * Cybersource Payment Action Dropdown source
  */
-namespace Magento\Pbridge\Model\Source\Cybersource;
-
 class PaymentAction implements \Magento\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

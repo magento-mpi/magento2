@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;
 
+use Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element;
 use Magento\Customer\Controller\RegistryConstants;
 
 /**
@@ -16,9 +16,11 @@ use Magento\Customer\Controller\RegistryConstants;
  * @method \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata getDisableAutoGroupChangeAttribute()
  * @method mixed getDisableAutoGroupChangeAttributeValue()
  */
-class Group
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Group extends Element
 {
+    /**
+     * @var string
+     */
     protected $_template = 'edit/tab/account/form/renderer/group.phtml';
 
     /**

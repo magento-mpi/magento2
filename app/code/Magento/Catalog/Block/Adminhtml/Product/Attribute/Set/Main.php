@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set;
 
 /**
  * Adminhtml Catalog Attribute Set Main Block
@@ -15,12 +16,13 @@
  * @package     Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set;
-
 use Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface;
 
 class Main extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/attribute/set/main.phtml';
 
     /**

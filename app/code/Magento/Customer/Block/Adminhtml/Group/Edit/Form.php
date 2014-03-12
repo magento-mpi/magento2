@@ -55,6 +55,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Prepare form for render
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {

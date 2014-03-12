@@ -22,6 +22,7 @@ interface AdapterInterface
      * Set advanced index fields prefix
      *
      * @param string $prefix
+     * @return void
      */
     public function setAdvancedIndexFieldPrefix($prefix);
 

@@ -60,7 +60,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function initForm()
     {
-        /** @var \Magento\Data\Form $form */
+        /**@var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
@@ -116,7 +116,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare the layout.
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 abstract class AbstractData
@@ -73,7 +72,9 @@ abstract class AbstractData
      */
     protected $_value;
 
-    /** @var  string */
+    /**
+     * @var  string
+     */
     protected $_entityTypeCode;
 
     /**
@@ -106,8 +107,8 @@ abstract class AbstractData
     /**
      * Return Attribute instance
      *
-     * @throws \Magento\Core\Exception
      * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata
+     * @throws \Magento\Core\Exception
      */
     public function getAttribute()
     {
@@ -121,7 +122,7 @@ abstract class AbstractData
      * Set Request scope
      *
      * @param string $scope
-     * @return string
+     * @return $this
      */
     public function setRequestScope($scope)
     {
@@ -134,7 +135,7 @@ abstract class AbstractData
      * Search value only in scope or search value in scope and global
      *
      * @param boolean $flag
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData
+     * @return $this
      */
     public function setRequestScopeOnly($flag)
     {
@@ -146,7 +147,7 @@ abstract class AbstractData
      * Set array of full extracted data
      *
      * @param array $data
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData
+     * @return $this
      */
     public function setExtractedData(array $data)
     {
@@ -158,7 +159,7 @@ abstract class AbstractData
      * Return extracted data
      *
      * @param string $index
-     * @return mixed
+     * @return array|null
      */
     public function getExtractedData($index = null)
     {
@@ -215,7 +216,7 @@ abstract class AbstractData
      * Get/Set/Reset date filter format
      *
      * @param string|null|false $format
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData|string
+     * @return $this|string
      */
     protected function _dateFilterFormat($format = null)
     {
@@ -255,7 +256,7 @@ abstract class AbstractData
      * Validate value by attribute input validation rule
      *
      * @param string $value
-     * @return string|bool
+     * @return array|true
      */
     protected function _validateInputRule($value)
     {
@@ -435,7 +436,7 @@ abstract class AbstractData
                         \Zend_Validate_Date::FALSEFORMAT
                     );
                     if (!$validator->isValid($value)) {
-                       return array_unique($validator->getMessages());
+                        return array_unique($validator->getMessages());
                     }
 
                     break;
@@ -505,8 +506,8 @@ abstract class AbstractData
      * Validate data
      *
      * @param array|string|null $value
-     * @throws \Magento\Core\Exception
      * @return array|bool
+     * @throws \Magento\Core\Exception
      */
     abstract public function validateValue($value);
 

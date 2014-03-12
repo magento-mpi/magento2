@@ -7,7 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data;
 
+use Magento\Data\Tree\Node;
+use Magento\Data\Tree\Node\Collection as NodeCollection;
 
 /**
  * Data tree
@@ -16,11 +19,6 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data;
-
-use Magento\Data\Tree\Node;
-use Magento\Data\Tree\Node\Collection as NodeCollection;
-
 class Tree
 {
 
@@ -63,7 +61,7 @@ class Tree
     /**
      * Enter description here...
      *
-     * @param unknown_type $nodeId
+     * @param int|string $nodeId
      * @return void
      */
     public function loadNode($nodeId)
@@ -192,7 +190,7 @@ class Tree
     /**
      * Enter description here...
      *
-     * @param unknown_type $nodeId
+     * @param Node $nodeId
      * @return Node
      */
     public function getNodeById($nodeId)

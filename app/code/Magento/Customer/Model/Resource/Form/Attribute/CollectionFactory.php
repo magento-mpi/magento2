@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Resource\Form\Attribute;
 
 class CollectionFactory
@@ -29,7 +28,7 @@ class CollectionFactory
     /**
      * Create Collection
      *
-     * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
+     * @return Collection
      */
     public function create()
     {

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -127,11 +126,17 @@ class Addresses extends GenericMetadata
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return string
+     */
     public function getRegionsUrl()
     {
         return $this->getUrl('directory/json/countryRegion');
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
@@ -163,7 +168,7 @@ class Addresses extends GenericMetadata
     /**
      * Check block is readonly.
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
@@ -180,6 +185,9 @@ class Addresses extends GenericMetadata
         }
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
@@ -403,7 +411,7 @@ class Addresses extends GenericMetadata
     /**
      * Return ISO2 country codes, which have optional Zip/Postal pre-configured
      *
-     * @return array
+     * @return array|string
      */
     public function getOptionalZipCountries()
     {
@@ -421,7 +429,7 @@ class Addresses extends GenericMetadata
     }
 
     /**
-     * eturn, whether non-required state should be shown
+     * Return, whether non-required state should be shown
      *
      * @return int 1 if should be shown, and 0 if not.
      */

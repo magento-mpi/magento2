@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib\DateTime;
 
 class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
@@ -35,6 +34,9 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     protected $_dateFactory;
 
+    /**
+     * @var string
+     */
     protected $_defaultTimezonePath;
 
     /**

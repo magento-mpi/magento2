@@ -20,6 +20,9 @@ namespace Magento\Tax\Block\Adminhtml;
 
 class Rule extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller      = 'tax_rule';

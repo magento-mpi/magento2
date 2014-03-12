@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller;
 
 use Magento\Catalog\Model\Product as ModelProduct;

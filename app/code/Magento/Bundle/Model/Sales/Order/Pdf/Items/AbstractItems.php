@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 
 use Magento\Catalog\Model\Product\Type\AbstractType;

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CacheInvalidate\Model;
 
 /**
@@ -43,7 +42,7 @@ class Observer
         \Magento\PageCache\Model\Config $config,
         \Magento\PageCache\Helper\Data $helper,
         \Magento\HTTP\Adapter\Curl $curlAdapter
-    ){
+    ) {
         $this->_config = $config;
         $this->_helper = $helper;
         $this->_curlAdapter = $curlAdapter;
@@ -54,12 +53,13 @@ class Observer
      * of incoming object and asks to clean cache.
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function invalidateVarnish(\Magento\Event\Observer $observer)
     {
         $object = $observer->getEvent()->getObject();
-        if($object instanceof \Magento\Object\IdentityInterface) {
-            if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if ($object instanceof \Magento\Object\IdentityInterface) {
+            if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
                 $this->sendPurgeRequest(implode('|', $object->getIdentities()));
             }
         }
@@ -69,10 +69,11 @@ class Observer
      * Flash Varnish cache
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function flushAllCache(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
             $this->sendPurgeRequest('.*');
         }
     }
@@ -82,6 +83,7 @@ class Observer
      * to invalidate cache by tags pattern
      *
      * @param string $tagsPattern
+     * @return void
      */
     protected function sendPurgeRequest($tagsPattern)
     {

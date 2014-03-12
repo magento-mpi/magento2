@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Block\Adminhtml;
 
 /**
  * Log grid container
  */
-namespace Magento\Logging\Block\Adminhtml;
-
 class Details extends \Magento\Backend\Block\Widget\Container
 {
     /**
@@ -62,6 +61,7 @@ class Details extends \Magento\Backend\Block\Widget\Container
     /**
      * Add back button
      *
+     * @return void
      */
     protected function _construct()
     {

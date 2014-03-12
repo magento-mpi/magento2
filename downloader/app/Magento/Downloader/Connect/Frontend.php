@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader\Connect;
 
 /**
  * Class frontend
@@ -15,29 +16,27 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader\Connect;
-
 class Frontend extends \Magento\Connect\Frontend
 {
-
     /**
-    * Log stream or not
-    *
-    * @var string
-    */
+     * Log stream or not
+     *
+     * @var string|null
+     */
     protected $_logStream = null;
 
     /**
-    * Output cache
-    *
-    * @var array
-    */
+     * Output cache
+     *
+     * @var array
+     */
     protected $_out = array();
 
-     /**
+    /**
      * Set log stream
      *
      * @param string|resource $stream 'stdout' or open php stream
+     * @return $this
      */
     public function setLogStream($stream)
     {
@@ -46,18 +45,19 @@ class Frontend extends \Magento\Connect\Frontend
     }
 
     /**
-    * Retrieve log stream
-    *
-    * @return string
-    */
+     * Retrieve log stream
+     *
+     * @return string
+     */
     public function getLogStream()
     {
         return $this->_logStream;
     }
 
     /**
-    * Echo data from executed command
-    */
+     * @param array $data
+     * @return void
+     */
     public function output($data)
     {
 
@@ -96,10 +96,11 @@ class Frontend extends \Magento\Connect\Frontend
     }
 
     /**
-    * Method for ask client about rewrite all files.
-    *
-    * @param $string
-    */
+     * Method for ask client about rewrite all files.
+     *
+     * @param string $string
+     * @return void
+     */
     public function confirm($string)
     {
         $formId = $_POST['form_id'];
@@ -129,6 +130,4 @@ SCRIPT;
     {
         return $this->_out;
     }
-
 }
-

@@ -288,25 +288,16 @@ class Onepage extends Action
     public function successAction()
     {
         $session = $this->getOnepage()->getCheckout();
-        if (!$session->getLastSuccessQuoteId()) {
+        if (!$this->_objectManager->get('Magento\Checkout\Model\Session\SuccessValidator')->isValid($session)) {
             $this->_redirect('checkout/cart');
             return;
         }
-
-        $lastQuoteId = $session->getLastQuoteId();
-        $lastOrderId = $session->getLastOrderId();
-        $lastRecurringProfiles = $session->getLastRecurringProfileIds();
-        if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
-            $this->_redirect('checkout/cart');
-            return;
-        }
-
-        $session->clearQuote();
+        $session->clearQuote(); //@todo: Refactor it to match CQRS
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action',
-            array('order_ids' => array($lastOrderId))
+            array('order_ids' => array($session->getLastOrderId()))
         );
         $this->_view->renderLayout();
     }
@@ -577,11 +568,13 @@ class Onepage extends Action
 
             $data = $this->getRequest()->getPost('payment', array());
             if ($data) {
-                $data['checks'] = \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT
-                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY
-                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY
-                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX
-                    | \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL;
+                $data['checks'] = [
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
+                ];
                 $this->getOnepage()->getQuote()->getPayment()->importData($data);
             }
 

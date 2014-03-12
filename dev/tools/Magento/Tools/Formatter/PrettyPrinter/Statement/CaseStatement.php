@@ -17,6 +17,7 @@ class CaseStatement extends AbstractConditionalStatement
 {
     /**
      * This method constructs a new statement based on the specified case statement.
+     *
      * @param PHPParser_Node_Stmt_Case $node
      */
     public function __construct(PHPParser_Node_Stmt_Case $node)
@@ -26,6 +27,7 @@ class CaseStatement extends AbstractConditionalStatement
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -46,8 +48,10 @@ class CaseStatement extends AbstractConditionalStatement
 
     /**
      * This method adds the current comment line to the current tree node.
+     *
      * @param string $commentLine String containing the current comment.
      * @param TreeNode $treeNode TreeNode representing the current node.
+     * @return void
      */
     protected function addCommentToNode($commentLine, TreeNode $treeNode)
     {
@@ -66,6 +70,7 @@ class CaseStatement extends AbstractConditionalStatement
     /**
      * This method returns the previous node to the passed in node. Null is returned if not found
      * or found as the first child.
+     *
      * @param array $children Array of children to search
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode|null

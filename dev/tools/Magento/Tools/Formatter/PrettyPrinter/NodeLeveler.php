@@ -16,7 +16,9 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method is called when first visiting a node.
+     *
      * @param TreeNode $treeNode Current node in the tree.
+     * @return void
      */
     public function nodeEntry(TreeNode $treeNode)
     {
@@ -62,6 +64,7 @@ class NodeLeveler extends LevelNodeVisitor
      * This method checks to see if the line is valid as is, or if more processing needs to be
      * done. If the node looks valid, the strings are replaced with the resolved versions of the
      * line.
+     *
      * @param Line $line Line to check.
      * @param TreeNode $treeNode Current node in the tree.
      * @return bool Returns true if more processing needs to be done.
@@ -107,8 +110,10 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method copies the children found in the array to the target node.
-     * @param mixed $children Array of children or single child to copy.
+     *
+     * @param TreeNode[] $children Array of children or single child to copy.
      * @param TreeNode $target Node to copy to.
+     * @return void
      */
     public static function copyChildren($children, TreeNode $target)
     {
@@ -125,8 +130,10 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method copies children from the source node to the target node.
+     *
      * @param TreeNode $source Node containing the children to copy
      * @param TreeNode $target Node to copy to.
+     * @return void
      */
     protected function copyChildrenFromNode(TreeNode $source, TreeNode $target)
     {
@@ -137,8 +144,10 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method copies the line and the children from the source to the target.
+     *
      * @param TreeNode $source Node to copy from.
      * @param TreeNode $target Node to copy to.
+     * @return void
      */
     protected function copyContents(TreeNode $source, TreeNode $target)
     {
@@ -164,6 +173,7 @@ class NodeLeveler extends LevelNodeVisitor
     /**
      * This method determines if the line fits on the current level. To fit, it must be narrow
      * enough to fit after the indents.
+     *
      * @param Line $line Line representation as returned from line resolver.
      * @return bool
      */
@@ -181,6 +191,7 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method splits the line based on line breaks found in the line.
+     *
      * @param Line $line Line to check.
      * @return Tree Best looking sub-tree representing the given line.
      */
@@ -214,9 +225,11 @@ class NodeLeveler extends LevelNodeVisitor
 
     /**
      * This method takes the current lines and splits them around the current node.
-     * @param Line $line Line to check.
+     *
+     * @param Line &$line Line to check.
      * @param array $currentLines Line representation as returned from line resolver.
      * @param TreeNode $treeNode Current node in the tree.
+     * @return void
      */
     protected function splitNode(Line &$line, array $currentLines, TreeNode $treeNode)
     {

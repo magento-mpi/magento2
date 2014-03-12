@@ -5,18 +5,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Block\Adminhtml;
 
 /**
  * General Logging container
  */
-namespace Magento\Logging\Block\Adminhtml;
-
 class Container extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Remove add button
      * Set block group and controller
      *
+     * @return void
      */
     protected function _construct()
     {

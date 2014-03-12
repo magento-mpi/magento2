@@ -7,13 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Module;
 
 use Magento\App\State;
 use Magento\Module\Updater\SetupFactory;
-use Magento\Module\ModuleListInterface;
-use Magento\Module\ResourceResolverInterface;
 
 class Updater implements \Magento\Module\UpdaterInterface
 {

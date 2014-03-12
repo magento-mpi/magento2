@@ -150,10 +150,6 @@ $CONFIG['translates'] = array(
         'app/code/Magento/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
     ),
-    'Magento_GoogleCheckout' => array(
-        'app/code/Magento/GoogleCheckout/',
-        'app/design/frontend/base/default/layout/googlecheckout.xml'
-    ),
     'Magento_GoogleOptimizer' => array(
         'app/code/Magento/GoogleOptimizer/',
         'app/design/frontend/base/default/layout/googleoptimizer.xml',
@@ -570,7 +566,6 @@ $CONFIG['helpers']  = array(
     'giftmessage'       => 'Magento_GiftMessage',
     'googleanalytics'   => 'Magento_GoogleAnalytics',
     'googlebase'        => 'Magento_GoogleBase',
-    'googlecheckout'    => 'Magento_GoogleCheckout',
     'googleoptimizer'   => 'Magento_GoogleOptimizer',
     'googleshopping'    => 'Magento_GoogleShopping',
     'ideal'             => 'Magento_Ideal',

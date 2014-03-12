@@ -29,6 +29,11 @@ use Magento\View\Element\AbstractBlock;
 class Row extends AbstractCategory
 {
     /**
+     * Index of option for all values
+     */
+    const FORM_SELECT_ALL_VALUES = -1;
+
+    /**
      * @var string
      */
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
@@ -169,5 +174,13 @@ class Row extends AbstractCategory
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
+    }
+
+    /**
+     * @return int
+     */
+    public function getOptionForSelectAll()
+    {
+        return self::FORM_SELECT_ALL_VALUES;
     }
 }

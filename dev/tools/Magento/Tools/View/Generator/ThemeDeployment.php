@@ -7,12 +7,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\View\Generator;
 
 /**
  * Transformation of files, which must be copied to new location and its contents processed
  */
-namespace Magento\Tools\View\Generator;
-
 class ThemeDeployment
 {
     /**
@@ -143,6 +142,7 @@ class ThemeDeployment
      * Copy all the files according to $copyRules
      *
      * @param array $copyRules
+     * @return void
      */
     public function run($copyRules)
     {
@@ -176,6 +176,7 @@ class ThemeDeployment
      * @param string $sourceDir
      * @param string $destinationDir
      * @param array $context
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _copyDirStructure($sourceDir, $destinationDir, $context)
@@ -238,6 +239,7 @@ class ThemeDeployment
      * @param string $fileSource
      * @param string $fileDestination
      * @param array $context
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _deployFile($fileSource, $fileDestination, $context)

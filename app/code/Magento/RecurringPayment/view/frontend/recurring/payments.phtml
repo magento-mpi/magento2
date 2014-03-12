@@ -1,0 +1,18 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php /* @var $this \Magento\RecurringPayment\Block\Payments */ ?>
+<div class="block recurring payments">
+    <?php echo $this->getChildHtml('grid')?>
+    <div class="actions toolbar">
+        <div class="secondary">
+            <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
+        </div>
+    </div>
+</div>

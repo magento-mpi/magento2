@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer;
 
+use Magento\Catalog\Model\Product;
+
 /**
  * Adminhtml customers wishlist grid item renderer for name/options cell
  */
@@ -15,7 +17,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
     /**
      * Catalog product configuration
      *
-     * @var \Magento\Catalog\Helper\Product\Configuration
+     * @var \Magento\Catalog\Helper\Product\Configuration|null
      */
     protected $_productConfig = null;
 
@@ -46,7 +48,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
     /**
      * Returns helper for product type
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
      */
     protected function _getProductHelper($product)
@@ -129,11 +131,11 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
     /**
      * Render product item with options
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param array $options
      * @return string
      */
-    protected function _renderItemOptions(\Magento\Catalog\Model\Product $product, array $options)
+    protected function _renderItemOptions(Product $product, array $options)
     {
         $html = '<div class="bundle-product-options">'
             . '<strong>' . $this->escapeHtml($product->getName()) . '</strong>'

@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Quote\Item;
+
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Quote item abstract model
@@ -40,8 +41,19 @@ namespace Magento\Sales\Model\Quote\Item;
 abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
+    /**
+     * @var Item|null
+     */
     protected $_parentItem  = null;
+
+    /**
+     * @var array
+     */
     protected $_children    = array();
+
+    /**
+     * @var array
+     */
     protected $_messages    = array();
 
     /**
@@ -136,7 +148,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Specify parent item id before saving data
      *
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -150,8 +162,8 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Set parent item
      *
-     * @param  \Magento\Sales\Model\Quote\Item $parentItem
-     * @return \Magento\Sales\Model\Quote\Item
+     * @param  Item $parentItem
+     * @return $this
      */
     public function setParentItem($parentItem)
     {
@@ -165,7 +177,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Get parent item
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return Item
      */
     public function getParentItem()
     {
@@ -186,7 +198,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Add child item
      *
      * @param  \Magento\Sales\Model\Quote\Item\AbstractItem $child
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function addChild($child)
     {
@@ -199,7 +211,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Adds message(s) for quote item. Duplicated messages are not added.
      *
      * @param  mixed $messages
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function setMessage($messages)
     {
@@ -219,7 +231,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Add message of quote item to array of messages
      *
      * @param   string $message
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function addMessage($message)
     {
@@ -245,7 +257,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Removes message by text
      *
      * @param string $text
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function removeMessageByText($text)
     {
@@ -260,7 +272,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Clears all messages
      *
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function clearMessage()
     {
@@ -282,7 +294,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Checking item data
      *
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function checkData()
     {
@@ -359,7 +371,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Calculate item row total price
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function calcRowTotal()
     {
@@ -466,7 +478,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     public function isNominal()
     {
         if (!$this->hasData('is_nominal')) {
-            $this->setData('is_nominal', $this->getProduct() ? '1' == $this->getProduct()->getIsRecurring() : false);
+            $this->setData('is_nominal', $this->getProduct() ? $this->getProduct()->getIsRecurring() : false);
         }
         return $this->_getData('is_nominal');
     }
@@ -535,7 +547,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Get item price. Item price currency is website base currency.
      *
-     * @return decimal
+     * @return float
      */
     public function getPrice()
     {
@@ -546,7 +558,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
      * Specify item price (base calculation price and converted price will be refreshed too)
      *
      * @param   float $value
-     * @return  \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return  $this
      */
     public function setPrice($value)
     {
@@ -572,7 +584,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Set new value for converted price
      * @param float $value
-     * @return \Magento\Sales\Model\Quote\Item\AbstractItem
+     * @return $this
      */
     public function setConvertedPrice($value)
     {
@@ -584,7 +596,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Clone quote item
      *
-     * @return \Magento\Sales\Model\Quote\Item
+     * @return $this
      */
     public function __clone()
     {

@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System;
 
 class FileManager
@@ -38,6 +37,7 @@ class FileManager
     /**
      * @param string $fileName
      * @param string $contents
+     * @return void
      */
     public function write($fileName, $contents)
     {
@@ -47,7 +47,8 @@ class FileManager
     /**
      * Remove file
      *
-     * @param $fileName
+     * @param string $fileName
+     * @return void
      */
     public function remove($fileName)
     {
@@ -69,7 +70,7 @@ class FileManager
      * Get file list
      *
      * @param string $pattern
-     * @return array
+     * @return string[]
      */
     public function getFileList($pattern)
     {

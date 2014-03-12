@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 class Form
@@ -23,6 +22,9 @@ class Form
      */
     protected $giftRegistryTypeFactory;
 
+    /**
+     * @var string
+     */
     protected $_template = 'customer/form.phtml';
 
     /**
@@ -55,7 +57,7 @@ class Form
     /**
      * Prepare layout
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Form
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -116,7 +118,7 @@ class Form
         return $this->escapeHtml($type->getLabel());
     }
 
-   /**
+    /**
      * Retrieve escaped entity title
      *
      * @return string
@@ -126,7 +128,7 @@ class Form
         return $this->escapeHtml($this->getEntity()->getTitle());
     }
 
-   /**
+    /**
      * Retrieve escaped entity message
      *
      * @return string
@@ -136,7 +138,7 @@ class Form
         return $this->escapeHtml($this->getEntity()->getMessage());
     }
 
-   /**
+    /**
      * Retrieve list of registrants
      *
      * @return string
@@ -146,7 +148,7 @@ class Form
         return $this->escapeHtml($this->getEntity()->getRegistrants());
     }
 
-   /**
+    /**
      * Return gift registry entity object
      *
      * @return \Magento\GiftRegistry\Model\Entity
@@ -156,7 +158,7 @@ class Form
         return $this->_coreRegistry->registry('current_giftregistry_entity');
     }
 
-   /**
+    /**
      * Return shipping address
      *
      * @return \Magento\GiftRegistry\Model\Entity
@@ -166,7 +168,7 @@ class Form
         return $this->getEntity()->getFormatedShippingAddress();
     }
 
-   /**
+    /**
      * Return gift registry creation data
      *
      * @return \Magento\GiftRegistry\Model\Entity

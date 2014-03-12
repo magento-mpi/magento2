@@ -21,6 +21,7 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
      * Execute Row reindex
      *
      * @param int|null $id
+     * @return void
      * @throws \Magento\Catalog\Exception
      */
     public function execute($id = null)

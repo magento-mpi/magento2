@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Model;
 
 /**
@@ -52,6 +51,7 @@ class Sample extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -62,7 +62,7 @@ class Sample extends \Magento\Core\Model\AbstractModel
     /**
      * After save process
      *
-     * @return \Magento\Downloadable\Model\Sample
+     * @return $this
      */
     protected function _afterSave()
     {

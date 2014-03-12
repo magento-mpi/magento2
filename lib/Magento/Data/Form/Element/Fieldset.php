@@ -7,6 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Form\Element;
+
+use Magento\Data\Form;
+use Magento\Escaper;
 
 /**
  * Form fieldset
@@ -15,11 +19,6 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
-
-use Magento\Data\Form;
-use Magento\Escaper;
-
 class Fieldset extends AbstractElement
 {
     /**
@@ -125,7 +124,7 @@ class Fieldset extends AbstractElement
     /**
      * Get Advanced elements'
      *
-     * @return string
+     * @return array
      */
     public function getAdvancedChildren()
     {
@@ -208,7 +207,8 @@ class Fieldset extends AbstractElement
      * @param string $elementId
      * @param string $type
      * @param array $config
-     * @param boolean $after
+     * @param bool $after
+     * @param bool $isAdvanced
      * @return AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)

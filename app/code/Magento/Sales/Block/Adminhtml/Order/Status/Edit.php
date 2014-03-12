@@ -7,11 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Status;
 
 class Edit extends \Magento\Sales\Block\Adminhtml\Order\Status\NewStatus
 {
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

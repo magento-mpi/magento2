@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
 
 /**
  * Theme editor tab container
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize tabs and define tabs block settings
+     *
+     * @return void
      */
     public function _construct()
     {

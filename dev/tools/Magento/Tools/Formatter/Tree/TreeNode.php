@@ -10,30 +10,33 @@ namespace Magento\Tools\Formatter\Tree;
 /**
  * This class is a generic implementation of a tree node.
  * Class TreeNode
- * @package Magento\Tools\Formatter\PrettyPrinter
  */
 class TreeNode implements Node
 {
     /**
      * This member holds the list of children of this node.
-     * @var array
+     *
+     * @var TreeNode[]
      */
     protected $children;
 
     /**
      * This member holds the data associated with the node.
+     *
      * @var mixed $data User defined data for the node
      */
     protected $data;
 
     /**
      * This member holds the parent of the current node (i.e. a circular reference).
+     *
      * @var Node
      */
     protected $parent;
 
     /**
      * This method is used to construct a new tree node with the given data.
+     *
      * @param mixed $data User defined data for the node
      */
     public function __construct($data)
@@ -43,6 +46,7 @@ class TreeNode implements Node
 
     /**
      * This method adds the named child to the end of the children nodes
+     *
      * @param TreeNode $newChild Child node to be added
      * @param TreeNode $adjacentNode Optional child node to place new node next to
      * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
@@ -66,6 +70,7 @@ class TreeNode implements Node
 
     /**
      * This method adds a sibling node to the current node by adding the new sibling as a child of this nodes parent.
+     *
      * @param TreeNode $newSibling Sibling node to be added
      * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
      * added prior to this node.
@@ -82,7 +87,8 @@ class TreeNode implements Node
 
     /**
      * This method returns the array of children.
-     * @return array
+     *
+     * @return TreeNode[]
      */
     public function getChildren()
     {
@@ -91,6 +97,7 @@ class TreeNode implements Node
 
     /**
      * This method returns the data being stored with the node.
+     *
      * @return mixed Data being stored with the node.
      */
     public function getData()
@@ -100,6 +107,7 @@ class TreeNode implements Node
 
     /**
      * This method returns the parent node of the current node.
+     *
      * @return TreeNode Node that holds this node as a child.
      */
     public function getParent()
@@ -109,6 +117,7 @@ class TreeNode implements Node
 
     /**
      * This method returns if this node has children.
+     *
      * @return bool Indicator if this node has children.
      */
     public function hasChildren()
@@ -118,7 +127,9 @@ class TreeNode implements Node
 
     /**
      * This method removes the specified child from the child list.
+     *
      * @param TreeNode $existingChild Node representing an existing child.
+     * @return void
      */
     public function removeChild(TreeNode $existingChild)
     {
@@ -132,7 +143,9 @@ class TreeNode implements Node
 
     /**
      * This method sets the data associated with the node.
+     *
      * @param mixed $data User defined data for the node
+     * @return void
      */
     public function setData($data)
     {
@@ -141,7 +154,9 @@ class TreeNode implements Node
 
     /**
      * This method set the parent node of the current node.
+     *
      * @param Node $parent Node that holds this node as a child.
+     * @return void
      */
     public function setParent(Node $parent)
     {
@@ -155,11 +170,13 @@ class TreeNode implements Node
 
     /**
      * This method inserts the new node node into the passed in array.
-     * @param array $nodes Array of nodes where the insert is going to take place.
+     *
+     * @param TreeNode[] &$nodes Array of nodes where the insert is going to take place.
      * @param TreeNode $newNode New node to add to the list.
      * @param TreeNode $adjacentNode Optional node indicating where the new node should be inserted.
      * @param bool $after Flag indicating that the new node should be added after the adjacent node. If false, the
      * new node is added prior to this node.
+     * @return void
      */
     public static function setNodeWithinArray(
         array &$nodes,

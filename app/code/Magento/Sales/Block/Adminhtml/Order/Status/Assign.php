@@ -7,12 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Status;
 
 class Assign extends \Magento\Backend\Block\Widget\Form\Container
 {
-
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_order_status';

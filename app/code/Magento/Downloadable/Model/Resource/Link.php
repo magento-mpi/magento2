@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Downloadable\Model\Resource;
 
 /**
  * Downloadable Product  Samples resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Resource;
-
 class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -66,6 +64,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection and define resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,7 +75,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save title and price of link item
      *
      * @param \Magento\Downloadable\Model\Link $linkObject
-     * @return \Magento\Downloadable\Model\Resource\Link
+     * @return $this
      */
     public function saveItemTitleAndPrice($linkObject)
     {
@@ -183,7 +182,7 @@ class Link extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete data by item(s)
      *
      * @param \Magento\Downloadable\Model\Link|array|int $items
-     * @return \Magento\Downloadable\Model\Resource\Link
+     * @return $this
      */
     public function deleteItems($items)
     {

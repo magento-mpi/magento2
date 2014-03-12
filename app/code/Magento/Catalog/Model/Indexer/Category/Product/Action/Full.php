@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Category\Product\Action;
 
 class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction
@@ -48,6 +47,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
 
     /**
      * Remove unnecessary data
+     *
+     * @return void
      */
     protected function removeUnnecessaryData()
     {
@@ -60,6 +61,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
 
     /**
      * Publish data from tmp to index
+     *
+     * @return void
      */
     protected function publishData()
     {
@@ -82,6 +85,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
 
     /**
      * Clear all index data
+     *
+     * @return void
      */
     protected function clearTmpData()
     {

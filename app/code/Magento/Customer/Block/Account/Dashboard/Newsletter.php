@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Newsletter\Model\Subscriber;
+
 /**
  * Dashboard newsletter info
  */
@@ -15,7 +17,7 @@ class Newsletter extends \Magento\View\Element\Template
     /**
      * The subscriber.
      *
-     * @var \Magento\Newsletter\Model\Subscriber
+     * @var Subscriber
      */
     protected $_subscription;
 
@@ -56,7 +58,7 @@ class Newsletter extends \Magento\View\Element\Template
     /**
      * Fetch the subscription object. Create the subscriber by loading using the customerId.
      *
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return Subscriber
      */
     public function getSubscriptionObject()
     {
@@ -70,7 +72,7 @@ class Newsletter extends \Magento\View\Element\Template
     /**
      * Use the factory to create an empty Subscriber model instance.
      *
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return Subscriber
      */
     protected function _createSubscriber()
     {

@@ -14,7 +14,7 @@ interface FactoryInterface
     /**
      * Return search client interface
      *
-     * @param $options
+     * @param mixed $options
      * @return mixed
      */
     public function createClient($options);

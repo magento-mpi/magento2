@@ -22,7 +22,7 @@ interface CustomerGroupServiceInterface
      * The list of groups can be filtered to exclude the NOT_LOGGED_IN group using the first parameter and/or it can
      * be filtered by tax class.
      *
-     * @param boolean $includeNotLoggedIn
+     * @param bool $includeNotLoggedIn
      * @param int $taxClassId
      *
      * @return \Magento\Customer\Service\V1\Data\CustomerGroup[]
@@ -60,7 +60,7 @@ interface CustomerGroupServiceInterface
      * Check if the group can be deleted
      *
      * @param int $groupId
-     * @return bool true, if this group can be deleted
+     * @return bool True, if this group can be deleted
      */
     public function canDelete($groupId);
 

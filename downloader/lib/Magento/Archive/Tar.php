@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Archive;
 
 /**
  * Class to work with tar archives
@@ -15,8 +16,6 @@
  * @package     Magento_Archive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Archive;
-
 class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
 {
     /**
@@ -276,6 +275,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      *
      * @param boolean $skipRoot
      * @param boolean $finalize
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _createTar($skipRoot = false, $finalize = false)
@@ -308,6 +308,8 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
 
     /**
      * Write current file to tarball
+     *
+     * @return void
      */
     protected function _packAndWriteCurrentFile()
     {
@@ -569,6 +571,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      *
      * @param array $fileHeader
      * @param string $destination
+     * @return void
      */
     protected function _extractAndWriteFile($fileHeader, $destination)
     {
