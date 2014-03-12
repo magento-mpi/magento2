@@ -28,10 +28,10 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     /**
      * Add filter
      *
-     * @param \Magento\Customer\Service\V1\Data\Filter $filter
+     * @param \Magento\Service\Data\Filter $filter
      * @return $this
      */
-    public function addFilter(\Magento\Customer\Service\V1\Data\Filter $filter)
+    public function addFilter(\Magento\Service\Data\Filter $filter)
     {
         $this->getFilterGroup()->addFilter($filter);
         return $this;
@@ -40,7 +40,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     /**
      * Add an OR grouping of filters to this SearchCriteria.
      *
-     * @param \Magento\Customer\Service\V1\Data\Filter[] $filters
+     * @param \Magento\Service\Data\Filter[] $filters
      * @return $this
      */
     public function addOrGroup($filters)

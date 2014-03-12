@@ -7,8 +7,8 @@
  */
 namespace Magento\Webapi;
 
-use Magento\Customer\Service\V1\Data\Filter;
-use Magento\Customer\Service\V1\Data\FilterBuilder;
+use Magento\Service\Data\Filter;
+use Magento\Service\Data\FilterBuilder;
 use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use \Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Service\V1\Data\Customer;

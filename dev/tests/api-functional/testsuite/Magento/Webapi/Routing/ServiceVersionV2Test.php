@@ -44,7 +44,6 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItems()
     {
-        $this->_markTestAsRestOnly("Should be enabled in after MAGETWO-22140 implementation.");
         $itemArr = array(
             array(
                 'id' => 1,
@@ -80,11 +79,12 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
      */
     public function testItemsWithFilters($filters, $expectedResult)
     {
-        $this->_markTestAsRestOnly("Should be enabled in after MAGETWO-22140 implementation.");
         $restFilter = '';
-        foreach ($filters as $field => $value) {
-            $paramsDelimiter = empty($restFilter) ? '?' : '&';
-            $restFilter .= "{$paramsDelimiter}filters[{$field}]={$value}";
+        foreach ($filters as $filterItemKey => $filterMetadata) {
+            foreach ($filterMetadata as $filterMetaKey => $filterMetaValue) {
+                $paramsDelimiter = empty($restFilter) ? '?' : '&';
+                $restFilter .= "{$paramsDelimiter}filters[{$filterItemKey}][{$filterMetaKey}]={$filterMetaValue}";
+            }
         }
         $serviceInfo = array(
             'rest' => array(
@@ -110,8 +110,15 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
         $firstItem = ['id' => 1, 'name' => 'testProduct1', 'price' => 1];
         $secondItem = ['id' => 2, 'name' => 'testProduct2', 'price' => 2];
         return [
-            'First item filter' => [['id' => 1], [$firstItem]],
-            'Second item filter' => [['id' => 2], [$secondItem]],
+            'Both items filter' => [
+                [
+                    ['field' => 'id', 'conditionType' => 'eq','value' => 1],
+                    ['field' => 'id', 'conditionType' => 'eq','value' => 2]
+                ],
+                [$firstItem, $secondItem]
+            ],
+            'First item filter' => [[['field' => 'id', 'conditionType' => 'eq','value' => 1]], [$firstItem]],
+            'Second item filter' => [[['field' => 'id', 'conditionType' => 'eq','value' => 2]], [$secondItem]],
             'Empty filter' => [[], [$firstItem, $secondItem]],
         ];
     }

@@ -61,9 +61,19 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 
         /** Remove result wrappers */
         $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
-        $result = isset($result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME])
-            ? $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME]
-            : $result;
+        if (isset($result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME])) {
+            /** Eliminate 'item' node if present. It is wrapping all data, declared in WSDL as array */
+            $item = $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME];
+            if (is_array($item)) {
+                $isAssociative = array_keys($item) !== range(0, count($item) - 1);
+                /**
+                 * In case when only one array element is present, it will not be wrapped into a subarray
+                 * within item node. If several array elements are passed, they will be wrapped into
+                 * an indexed array within item node.
+                 */
+                $result = $isAssociative ? [$item] : $item;
+            }
+        }
         return $result;
     }
 

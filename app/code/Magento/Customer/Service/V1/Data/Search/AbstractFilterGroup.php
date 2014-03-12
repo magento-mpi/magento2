@@ -30,7 +30,7 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Customer\Service\V1\Data\Filter[]
+     * @return \Magento\Service\Data\Filter[]
      */
     public function getFilters()
     {

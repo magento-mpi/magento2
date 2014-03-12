@@ -27,15 +27,16 @@ class Signature extends \OAuth\OAuth1\Signature\Signature
         parse_str($uri->getQuery(), $queryStringData);
 
         $allParams = array_merge($queryStringData, $params);
-        ksort($allParams);
-
         foreach ($allParams as $key => $value) {
             if (is_array($value)) {
-                foreach ($value as $subKey => $subValue) {
-                    $signatureData[] = [
-                        'key' => rawurlencode("{$key}[{$subKey}]"),
-                        'value' => rawurlencode($subValue)
-                    ];
+                /** Implementation for complex filters parameters */
+                foreach ($value as $filterIndex => $filterMeta) {
+                    foreach ($filterMeta as $filterMetaKey => $filterMetaValue) {
+                        $signatureData[] = [
+                            'key' => rawurlencode("{$key}[{$filterIndex}][{$filterMetaKey}]"),
+                            'value' => rawurlencode($filterMetaValue)
+                        ];
+                    }
                 }
             } else {
                 $signatureData[] = ['key' => rawurlencode($key), 'value' => rawurlencode($value)];
@@ -63,6 +64,18 @@ class Signature extends \OAuth\OAuth1\Signature\Signature
     protected function buildSignatureDataString(array $signatureData)
     {
         $signatureString = '';
+        usort(
+            $signatureData,
+            function ($a, $b) {
+                if ($a['key'] == $b['key']) {
+                    return 0;
+                } elseif ($a['key'] > $b['key']) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        );
         $delimiter = '';
         foreach ($signatureData as $dataItem) {
             $signatureString .= $delimiter . $dataItem['key'] . '=' . $dataItem['value'];

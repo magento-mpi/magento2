@@ -18,10 +18,10 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
     /**
      * Add filter
      *
-     * @param \Magento\Customer\Service\V1\Data\Filter $filter
+     * @param \Magento\Service\Data\Filter $filter
      * @return $this
      */
-    public function addFilter(\Magento\Customer\Service\V1\Data\Filter $filter)
+    public function addFilter(\Magento\Service\Data\Filter $filter)
     {
         if (!isset($this->_data[AbstractFilterGroup::FILTERS])
             || !is_array($this->_data[AbstractFilterGroup::FILTERS])
@@ -35,7 +35,7 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
     /**
      * Set filters
      *
-     * @param \Magento\Customer\Service\V1\Data\Filter[] $filters
+     * @param \Magento\Service\Data\Filter[] $filters
      * @return $this
      */
     public function setFilters($filters)
