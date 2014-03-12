@@ -158,8 +158,8 @@ class Observer
                     ->getLinksTitle() : $this
                     ->_coreStoreConfig
                     ->getConfig(
-                    \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE
-                );
+                        \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE
+                    );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)->save();
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
@@ -217,8 +217,8 @@ class Observer
                 if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
                     $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE ||
                     $item->getProductOptionByCode(
-                    'is_downloadable'
-                )
+                        'is_downloadable'
+                    )
                 ) {
                     $this->_checkoutSession->setHasDownloadableProducts(true);
                     break;
@@ -293,10 +293,10 @@ class Observer
                     if ($item->getStatusId() == \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED &&
                         $orderItemStatusToEnable == \Magento\Sales\Model\Order\Item::STATUS_PENDING &&
                         !in_array(
-                        \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
-                        $availableStatuses,
-                        true
-                    )
+                            \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
+                            $availableStatuses,
+                            true
+                        )
                     ) {
                         $availableStatuses[] = \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED;
                     }

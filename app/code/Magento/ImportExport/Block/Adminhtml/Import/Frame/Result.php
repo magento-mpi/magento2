@@ -157,8 +157,8 @@ class Result extends \Magento\Backend\Block\Template
             '\');" class="scalable save"' .
             ' type="button"><span><span><span>' .
             __(
-            'Import'
-        ) . '</span></span></span></button>';
+                'Import'
+            ) . '</span></span></span></button>';
     }
 
     /**

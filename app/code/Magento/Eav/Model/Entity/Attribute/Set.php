@@ -123,8 +123,8 @@ class Set extends \Magento\Core\Model\AbstractModel
                 ->create()
                 ->getResourceCollection()
                 ->setAttributeGroupFilter(
-                $group->getId()
-            )->load();
+                    $group->getId()
+                )->load();
 
             $newAttributes = array();
             foreach ($groupAttributesCollection as $attribute) {

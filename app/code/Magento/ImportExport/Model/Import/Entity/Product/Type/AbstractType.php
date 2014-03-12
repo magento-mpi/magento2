@@ -271,9 +271,9 @@ abstract class AbstractType
                     if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $rowScope &&
                         ($isNewProduct ||
                         array_key_exists(
-                        $attrCode,
-                        $rowData
-                    ))
+                            $attrCode,
+                            $rowData
+                        ))
                     ) {
                         $this->_entityModel->addRowError(
                             \Magento\ImportExport\Model\Import\Entity\Product::ERROR_VALUE_IS_REQUIRED,
@@ -318,8 +318,8 @@ abstract class AbstractType
                 if (isset($rowData[$attrCode]) && strlen($rowData[$attrCode])) {
                     $resultAttrs[$attrCode] = 'select' == $attrParams['type'] ||
                         'multiselect' == $attrParams['type'] ? $attrParams['options'][strtolower(
-                        $rowData[$attrCode]
-                    )] : $rowData[$attrCode];
+                            $rowData[$attrCode]
+                        )] : $rowData[$attrCode];
                 } elseif (array_key_exists($attrCode, $rowData)) {
                     $resultAttrs[$attrCode] = $rowData[$attrCode];
                 } elseif ($withDefaultValue && null !== $attrParams['default_value']) {

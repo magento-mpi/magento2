@@ -63,8 +63,8 @@ class Mapper
             '"' .
             ' block="' .
             get_class(
-            $block
-        ) . '"' . ' cache_id="' . $block->getCacheKey() . '"';
+                $block
+            ) . '"' . ' cache_id="' . $block->getCacheKey() . '"';
 
         foreach ($block->getCacheKeyInfo() as $key => $value) {
             if (is_string($key) && !empty($key)) {

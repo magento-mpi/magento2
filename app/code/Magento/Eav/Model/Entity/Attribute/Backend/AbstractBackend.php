@@ -244,8 +244,8 @@ abstract class AbstractBackend implements \Magento\Eav\Model\Entity\Attribute\Ba
 
         if ($this->getAttribute()->getIsUnique() && !$this->getAttribute()->getIsRequired() && ($value == '' ||
             $this->getAttribute()->isValueEmpty(
-            $value
-        ))
+                $value
+            ))
         ) {
             return true;
         }

@@ -144,8 +144,8 @@ class Send extends \Magento\Backend\Block\Widget\Form\Generic
               var option = document.createElement("option");
               option.appendChild(document.createTextNode(\'' .
             __(
-            '-- First Please Select a Website --'
-        ) . '\'));
+                '-- First Please Select a Website --'
+            ) . '\'));
               sSel.appendChild(option);
             }
         }

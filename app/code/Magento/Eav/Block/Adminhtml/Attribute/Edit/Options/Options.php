@@ -209,8 +209,8 @@ class Options extends \Magento\Backend\Block\Template
             $storeId = $store->getId();
             $value['store' . $storeId] = $storeId ==
                 \Magento\Core\Model\Store::DEFAULT_STORE_ID ? $valuePrefix . $this->escapeHtml(
-                $option['label']
-            ) : '';
+                    $option['label']
+                ) : '';
         }
 
         return array($value);

@@ -199,8 +199,8 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
             '"/>&nbsp;' .
             '<strong>' .
             __(
-            'To'
-        ) .
+                'To'
+            ) .
             ':</strong>&nbsp;<input type="text" name="' .
             $name .
             '[]" class="input-text input-text-range" value="' .

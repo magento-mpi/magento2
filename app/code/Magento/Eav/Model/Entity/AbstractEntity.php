@@ -478,9 +478,9 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
         if (empty($attributeInstance) ||
             !$attributeInstance instanceof AbstractAttribute ||
             !$attributeInstance->getId() && !in_array(
-            $attributeInstance->getAttributeCode(),
-            $this->getDefaultAttributes()
-        )
+                $attributeInstance->getAttributeCode(),
+                $this->getDefaultAttributes()
+            )
         ) {
             return false;
         }

@@ -360,8 +360,8 @@ class Customer extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCus
         if (isset($rowData['password']) && strlen($rowData['password'])) {
             $attributesToSave[$passwordStorageTable][$entityId][$passwordAttributeId] = $this->_customerModel
                 ->hashPassword(
-                $rowData['password']
-            );
+                    $rowData['password']
+                );
         }
 
         return array(

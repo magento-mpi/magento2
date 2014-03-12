@@ -59,8 +59,8 @@ class Renderer
             }
         } elseif (!empty($data['value']) && $data['value'] != $data['default'] && !empty($data['attribute']) ||
             empty($data['value']) && $this->_isBackgroundImage(
-            $data
-        )
+                $data
+            )
         ) {
             $content .= $this->_quickStyleFactory->get($data['attribute'])->toCss($data) . "\n";
         }

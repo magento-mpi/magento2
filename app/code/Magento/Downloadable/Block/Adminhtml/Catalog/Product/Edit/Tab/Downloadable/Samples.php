@@ -205,8 +205,8 @@ class Samples extends \Magento\Backend\Block\Widget
         return $this->getProduct()->getId() &&
             $this->getProduct()->getTypeId() ==
             'downloadable' ? $this->getProduct()->getSamplesTitle() : $this->_storeConfig->getConfig(
-            \Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE
-        );
+                \Magento\Downloadable\Model\Sample::XML_PATH_SAMPLES_TITLE
+            );
     }
 
     /**

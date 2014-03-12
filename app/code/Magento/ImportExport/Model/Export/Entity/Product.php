@@ -1155,8 +1155,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
             $this->_attributeTypes[$attribute
                 ->getAttributeCode()] = \Magento\ImportExport\Model\Import::getAttributeType(
-                $attribute
-            );
+                    $attribute
+                );
         }
         return $this;
     }
