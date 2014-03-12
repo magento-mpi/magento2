@@ -47,7 +47,13 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $this->context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($this->urlBuilder));
-        $this->postDataHelper = $this->getMock('Magento\Core\Helper\PostData', array('getPostData'), array(), '', false);
+        $this->postDataHelper = $this->getMock(
+            'Magento\Core\Helper\PostData',
+            array('getPostData'),
+            array(),
+            '',
+            false
+        );
 
         $this->compareHelper = $objectManager->getObject(
             'Magento\Catalog\Helper\Product\Compare',
