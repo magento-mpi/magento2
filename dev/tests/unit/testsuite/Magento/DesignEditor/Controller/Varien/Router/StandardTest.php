@@ -263,13 +263,12 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     public function mockIterator(
         \PHPUnit_Framework_MockObject_MockObject $iteratorMock,
         array $items,
-        $includeCallsToKey = true)
-    {
+        $includeCallsToKey = true
+    ) {
         $iteratorMock->expects($this->at(0))
             ->method('rewind');
         $i = 0;
-        foreach ($items as $key => $value)
-        {
+        foreach ($items as $key => $value) {
             $iteratorMock->expects($this->at($i))
                 ->method('valid')
                 ->will($this->returnValue(true));
