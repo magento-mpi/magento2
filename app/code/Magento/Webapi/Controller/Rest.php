@@ -9,6 +9,7 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
@@ -176,14 +177,14 @@ class Rest implements \Magento\App\FrontControllerInterface
         if (is_array($data)) {
             $result = [];
             foreach ($data as $datum) {
-                if (is_object($datum)) {
-                    $result[] = $this->_convertDataObjectToArray($datum);
+                if ($datum instanceof AbstractObject) {
+                    $result[] = $datum->__toArray();
                 } else {
                     $result[] = $datum;
                 }
             }
-        } else if (is_object($data)) {
-            $result = $this->_convertDataObjectToArray($data);
+        } else if ($data instanceof AbstractObject) {
+            $result = $data->__toArray();
         } else if (is_null($data)) {
             $result = [];
         } else {
@@ -191,20 +192,5 @@ class Rest implements \Magento\App\FrontControllerInterface
             $result = $data;
         }
         return $result;
-    }
-
-    /**
-     * Convert Data Object to array.
-     *
-     * @param object $dataObject
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    protected function _convertDataObjectToArray($dataObject)
-    {
-        if (!is_object($dataObject) || !method_exists($dataObject, '__toArray')) {
-            throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
-        }
-        return $dataObject->__toArray();
     }
 }

@@ -136,11 +136,11 @@ class Handler
      */
     protected function _prepareResponseData($data)
     {
-        if ($this->_isDataObject($data)) {
+        if ($data instanceof AbstractObject) {
             $result = $this->_unpackDataObject($data);
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $this->_isDataObject($value) ? $this->_unpackDataObject($value) : $value;
+                $result[$key] = $value instanceof AbstractObject ? $this->_unpackDataObject($value) : $value;
             }
         } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
@@ -174,7 +174,7 @@ class Handler
     {
         $response = new \stdClass();
         foreach ($dataArray as $fieldName => $fieldValue) {
-            if ($this->_isDataObject($fieldValue)) {
+            if ($fieldValue instanceof AbstractObject) {
                 $fieldValue = $this->_unpackDataObject($fieldValue);
             }
             if (is_array($fieldValue)) {
@@ -184,17 +184,6 @@ class Handler
             $response->$fieldName = $fieldValue;
         }
         return $response;
-    }
-
-    /**
-     * Check if provided variable is service Data Object.
-     *
-     * @param mixed $var
-     * @return bool
-     */
-    protected function _isDataObject($var)
-    {
-        return $var instanceof AbstractObject;
     }
 
     /**
