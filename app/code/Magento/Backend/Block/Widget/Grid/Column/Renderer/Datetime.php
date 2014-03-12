@@ -13,8 +13,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Datetime
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Datetime extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Date format string
@@ -37,8 +36,7 @@ class Datetime
                     self::$_format = $this->_localeDate->getDateTimeFormat(
                         \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
                     );
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_logger->logException($e);
                 }
             }
@@ -58,11 +56,19 @@ class Datetime
         if ($data = $this->_getValue($row)) {
             $format = $this->_getFormat();
             try {
-                $data = $this->_localeDate->date($data, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
-            }
-            catch (\Exception $e)
-            {
-                $data = $this->_localeDate->date($data, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
+                $data = $this->_localeDate->date(
+                    $data,
+                    \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                )->toString(
+                    $format
+                );
+            } catch (\Exception $e) {
+                $data = $this->_localeDate->date(
+                    $data,
+                    \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
+                )->toString(
+                    $format
+                );
             }
             return $data;
         }

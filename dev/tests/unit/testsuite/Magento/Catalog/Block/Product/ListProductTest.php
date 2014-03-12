@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 class ListProductTest extends \PHPUnit_Framework_TestCase
@@ -53,14 +52,9 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $product->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue(array($productTag)));
+        $product->expects($this->once())->method('getIdentities')->will($this->returnValue(array($productTag)));
 
-        $itemsCollection = new \ReflectionProperty(
-            'Magento\Catalog\Block\Product\ListProduct',
-            '_productCollection'
-        );
+        $itemsCollection = new \ReflectionProperty('Magento\Catalog\Block\Product\ListProduct', '_productCollection');
         $itemsCollection->setAccessible(true);
         $itemsCollection->setValue($this->block, array($product));
 
@@ -77,5 +71,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             array($categoryTag, $productTag),
             $this->block->getIdentities()
         );
+
+        $this->assertEquals(array($categoryTag, $productTag), $this->block->getIdentities());
     }
 }

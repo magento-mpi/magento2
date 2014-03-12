@@ -28,7 +28,7 @@ class Inline extends \Magento\View\Element\Template
     /**
      * @var string|null
      */
-    protected $_type   = null;
+    protected $_type = null;
 
     /**
      * @var Message|null
@@ -139,9 +139,7 @@ class Inline extends \Magento\View\Element\Template
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->_giftMessageMessage->getGiftMessage(
-            $this->getEntity()->getGiftMessageId()
-        );
+        $this->_giftMessage = $this->_giftMessageMessage->getGiftMessage($this->getEntity()->getGiftMessageId());
         return $this;
     }
 
@@ -179,7 +177,7 @@ class Inline extends \Magento\View\Element\Template
      * @param mixed $entity
      * @return string
      */
-    public function getMessage($entity=null)
+    public function getMessage($entity = null)
     {
         if (is_null($this->_giftMessage)) {
             $this->_initMessage();
@@ -187,9 +185,7 @@ class Inline extends \Magento\View\Element\Template
 
         if ($entity) {
             if (!$entity->getGiftMessage()) {
-                $entity->setGiftMessage(
-                    $this->_giftMessageMessage->getGiftMessage($entity->getGiftMessageId())
-                );
+                $entity->setGiftMessage($this->_giftMessageMessage->getGiftMessage($entity->getGiftMessageId()));
             }
             return $entity->getGiftMessage();
         }
@@ -285,9 +281,9 @@ class Inline extends \Magento\View\Element\Template
      * @param string $defaultValue
      * @return string
      */
-    public function getEscaped($value, $defaultValue='')
+    public function getEscaped($value, $defaultValue = '')
     {
-        return $this->escapeHtml(trim($value)!='' ? $value : $defaultValue);
+        return $this->escapeHtml(trim($value) != '' ? $value : $defaultValue);
     }
 
     /**
@@ -320,8 +316,7 @@ class Inline extends \Magento\View\Element\Template
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'thumbnail')
-            ->resize($this->getThumbnailSize());
+        return (string)$this->_imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -53,11 +52,13 @@ class Balance extends \Magento\Backend\Block\Template
         $customer = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER);
         $balance = $this->_balanceFactory->create();
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
-            return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(
+            return $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Button'
+            )->setData(
                 array(
                     'label' => __('Delete Orphan Balances'),
                     'onclick' => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() . '\')',
-                    'class' => 'scalable delete',
+                    'class' => 'scalable delete'
                 )
             )->toHtml();
         }
@@ -73,10 +74,7 @@ class Balance extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/customerbalance/deleteOrphanBalances',
-            array(
-                '_current' => true,
-                'tab' => 'customer_info_tabs_customerbalance'
-            )
+            array('_current' => true, 'tab' => 'customer_info_tabs_customerbalance')
         );
     }
 }

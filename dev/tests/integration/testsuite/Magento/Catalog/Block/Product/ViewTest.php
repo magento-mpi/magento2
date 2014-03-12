@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 /**
@@ -76,7 +75,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testGetJsonConfig()
     {
-        $config = (array) json_decode($this->_block->getJsonConfig());
+        $config = (array)json_decode($this->_block->getJsonConfig());
         $this->assertNotEmpty($config);
         $this->assertArrayHasKey('productId', $config);
         $this->assertEquals(1, $config['productId']);

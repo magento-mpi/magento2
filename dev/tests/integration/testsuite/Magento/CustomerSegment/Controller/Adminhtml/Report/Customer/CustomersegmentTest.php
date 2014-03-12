@@ -8,14 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
 
 /**
  * @magentoAppArea adminhtml
  */
-class CustomersegmentTest
-    extends \Magento\Backend\Utility\Controller
+class CustomersegmentTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * Checks if child 'grid' block is found in
@@ -25,8 +23,9 @@ class CustomersegmentTest
      */
     public function testSegmentAction()
     {
-        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CustomerSegment\Model\Segment');
+        $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CustomerSegment\Model\Segment'
+        );
         $segment->load('Customer Segment 1', 'name');
 
         $this->dispatch(

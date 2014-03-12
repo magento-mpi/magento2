@@ -18,8 +18,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Grid;
 
-class Collection
-    extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
+class Collection extends \Magento\CustomerSegment\Model\Resource\Segment\Collection
 {
     /**
      * Add websites for load

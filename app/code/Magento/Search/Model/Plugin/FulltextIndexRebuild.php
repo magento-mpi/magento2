@@ -68,7 +68,9 @@ class FulltextIndexRebuild
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeRebuildIndex(
-        \Magento\CatalogSearch\Model\Fulltext $subject, $storeId = null, $productIds = null
+        \Magento\CatalogSearch\Model\Fulltext $subject,
+        $storeId = null,
+        $productIds = null
     ) {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
             $engine = $this->_engineProvider->get();

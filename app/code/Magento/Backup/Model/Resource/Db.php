@@ -25,7 +25,7 @@ class Db
      *
      * @var array
      */
-    protected $_foreignKeys    = array();
+    protected $_foreignKeys = array();
 
     /**
      * Backup resource helper
@@ -131,8 +131,7 @@ class Db
                 $statusObject->setData(strtolower($field), $value);
             }
 
-            $cntRow = $this->_write->fetchRow(
-                    $this->_write->select()->from($tableName, 'COUNT(1) as rows'));
+            $cntRow = $this->_write->fetchRow($this->_write->select()->from($tableName, 'COUNT(1) as rows'));
             $statusObject->setRows($cntRow['rows']);
 
             return $statusObject;
@@ -175,9 +174,7 @@ class Db
     public function getTableHeader($tableName)
     {
         $quotedTableName = $this->_write->quoteIdentifier($tableName);
-        return "\n--\n"
-            . "-- Table structure for table {$quotedTableName}\n"
-            . "--\n\n";
+        return "\n--\n" . "-- Table structure for table {$quotedTableName}\n" . "--\n\n";
     }
 
     /**
@@ -276,7 +273,8 @@ class Db
      * @param string $command
      * @return $this
      */
-    public function runCommand($command){
+    public function runCommand($command)
+    {
         $this->_write->query($command);
         return $this;
     }

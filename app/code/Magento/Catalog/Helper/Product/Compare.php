@@ -145,7 +145,7 @@ class Compare extends \Magento\Core\Helper\Url
         }
 
         $params = array(
-            'items'=>implode(',', $itemIds),
+            'items' => implode(',', $itemIds),
             \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
         );
 
@@ -160,7 +160,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getPostDataParams($product)
     {
-        return $this->_coreHelper->getPostData($this->getAddUrl(), ['product' => $product->getId()]);
+        return $this->_coreHelper->getPostData($this->getAddUrl(), array('product' => $product->getId()));
     }
 
     /**
@@ -225,7 +225,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getPostDataRemove($product)
     {
-        return $this->_coreHelper->getPostData($this->getRemoveUrl(), ['product' => $product->getId()]);
+        return $this->_coreHelper->getPostData($this->getRemoveUrl(), array('product' => $product->getId()));
     }
 
     /**
@@ -235,9 +235,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getClearListUrl()
     {
-        $params = array(
-            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-        );
+        $params = array(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl());
         return $this->_getUrl('catalog/product_compare/clear', $params);
     }
 
@@ -252,8 +250,7 @@ class Compare extends \Magento\Core\Helper\Url
             // cannot be placed in constructor because of the cyclic dependency which cannot be fixed with proxy class
             // collection uses this helper in constructor when calling isEnabledFlat() method
             $this->_itemCollection = $this->_itemCollectionFactory->create();
-            $this->_itemCollection->useProductItem(true)
-                ->setStoreId($this->_storeManager->getStore()->getId());
+            $this->_itemCollection->useProductItem(true)->setStoreId($this->_storeManager->getStore()->getId());
 
             if ($this->_customerSession->isLoggedIn()) {
                 $this->_itemCollection->setCustomerId($this->_customerSession->getCustomerId());
@@ -263,16 +260,12 @@ class Compare extends \Magento\Core\Helper\Url
                 $this->_itemCollection->setVisitorId($this->_logVisitor->getId());
             }
 
-            $this->_itemCollection->setVisibility(
-                $this->_catalogProductVisibility->getVisibleInSiteIds()
-            );
+            $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
 
             /* Price data is added to consider item stock status using price index */
             $this->_itemCollection->addPriceData();
 
-            $this->_itemCollection->addAttributeToSelect('name')
-                ->addUrlRewrite()
-                ->load();
+            $this->_itemCollection->addAttributeToSelect('name')->addUrlRewrite()->load();
 
             /* update compare items count */
             $this->_catalogSession->setCatalogCompareItemsCount(count($this->_itemCollection));
@@ -294,8 +287,7 @@ class Compare extends \Magento\Core\Helper\Url
             $count = 0;
         } else {
             /** @var $collection Collection */
-            $collection = $this->_itemCollectionFactory->create()
-                ->useProductItem(true);
+            $collection = $this->_itemCollectionFactory->create()->useProductItem(true);
             if (!$logout && $this->_customerSession->isLoggedIn()) {
                 $collection->setCustomerId($this->_customerSession->getCustomerId());
             } elseif ($this->_customerId) {
@@ -305,8 +297,7 @@ class Compare extends \Magento\Core\Helper\Url
             }
 
             /* Price data is added to consider item stock status using price index */
-            $collection->addPriceData()
-                ->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
+            $collection->addPriceData()->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
 
             $count = $collection->getSize();
         }

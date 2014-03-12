@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
 /**

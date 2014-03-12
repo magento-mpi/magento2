@@ -13,8 +13,7 @@
  */
 namespace Magento\FullPageCache\Model\Container\Sidebar;
 
-class Recentlycompared
-    extends \Magento\FullPageCache\Model\Container\AbstractContainer
+class Recentlycompared extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
      * Get identifier from cookies
@@ -23,8 +22,13 @@ class Recentlycompared
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED, '')
-            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
+        return $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED,
+            ''
+        ) . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER,
+            ''
+        );
     }
 
     /**
@@ -34,8 +38,9 @@ class Recentlycompared
      */
     protected function _getCacheId()
     {
-        return 'CONTAINER_RECENTLYCOMPARED_' . md5($this->_placeholder->getAttribute('cache_id')
-                . $this->_getIdentifier());
+        return 'CONTAINER_RECENTLYCOMPARED_' . md5(
+            $this->_placeholder->getAttribute('cache_id') . $this->_getIdentifier()
+        );
     }
 
     /**

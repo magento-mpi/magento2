@@ -20,9 +20,6 @@ class ObsoleteMenuTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $menuFile
-             */
             function ($menuFile) {
                 $menuXml = simplexml_load_file($menuFile);
                 $xpath = '/config/menu/*[boolean(./children) or boolean(./title) or boolean(./action)]';

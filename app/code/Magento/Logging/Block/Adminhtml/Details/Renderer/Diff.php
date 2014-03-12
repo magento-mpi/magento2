@@ -14,8 +14,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Details\Renderer;
 
-class Diff
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Diff extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value
@@ -32,8 +31,7 @@ class Diff
             $dataArray = unserialize($columnData);
             if (is_bool($dataArray)) {
                 $html = $dataArray ? 'true' : 'false';
-            }
-            elseif (is_array($dataArray)) {
+            } elseif (is_array($dataArray)) {
                 if (isset($dataArray['__no_changes'])) {
                     $html = __('No changes');
                     $specialFlag = true;
@@ -50,14 +48,16 @@ class Diff
                 if (!$specialFlag) {
                     $html = '<dl class="list-parameters">';
                     foreach ($dataArray as $key => $value) {
-                        $html .= '<dt class="parameter">' . $key . '</dt><dd class="value">' . $this->escapeHtml($value) . '</dd>';
+                        $html .= '<dt class="parameter">' . $key . '</dt><dd class="value">' . $this->escapeHtml(
+                            $value
+                        ) . '</dd>';
                     }
                     $html .= '</dl>';
                 }
             } else {
                 $html = $columnData;
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             $html = $columnData;
         }
         return $html;

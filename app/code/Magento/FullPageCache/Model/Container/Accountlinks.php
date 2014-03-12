@@ -22,9 +22,13 @@ class Accountlinks extends \Magento\FullPageCache\Model\Container\Customer
      */
     protected function _getIdentifier()
     {
-        $cacheId = $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '')
-            . '_'
-            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN, '');
+        $cacheId = $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER,
+            ''
+        ) . '_' . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN,
+            ''
+        );
         return $cacheId;
     }
 
@@ -48,15 +52,27 @@ class Accountlinks extends \Magento\FullPageCache\Model\Container\Customer
         $block = $this->_getPlaceHolderBlock();
         $block->setNameInLayout($this->_placeholder->getAttribute('name'));
 
-        if (!$this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER)
-            || $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN)
+        if (!$this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER
+        ) || $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN
+        )
         ) {
             $links = $this->_placeholder->getAttribute('links');
             if ($links) {
                 $links = unserialize(base64_decode($links));
                 foreach ($links as $position => $linkInfo) {
-                    $block->addLink($linkInfo['label'], $linkInfo['url'], $linkInfo['title'], true, array(), $position,
-                        $linkInfo['li_params'], $linkInfo['a_params'], $linkInfo['before_text'], $linkInfo['after_text']
+                    $block->addLink(
+                        $linkInfo['label'],
+                        $linkInfo['url'],
+                        $linkInfo['title'],
+                        true,
+                        array(),
+                        $position,
+                        $linkInfo['li_params'],
+                        $linkInfo['a_params'],
+                        $linkInfo['before_text'],
+                        $linkInfo['after_text']
                     );
                 }
             }

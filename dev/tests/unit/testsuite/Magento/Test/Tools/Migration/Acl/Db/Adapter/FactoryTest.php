@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Tools\Migration\Acl\Db\Adapter;
 
-require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/Acl/Db/Adapter/Factory.php';
 
+require_once realpath(
+    __DIR__ . '/../../../../../../../../../../'
+) . '/tools/Magento/Tools/Migration/Acl/Db/Adapter/Factory.php';
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -22,11 +22,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_config = array(
-            'dbname' => 'some_db_name',
-            'password' => '',
-            'username' => '',
-        );
+        $this->_config = array('dbname' => 'some_db_name', 'password' => '', 'username' => '');
     }
 
     /**
@@ -34,11 +30,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getAdapterDataProvider()
     {
-        return array(
-            array('Magento\Db\Adapter\Pdo\Mysql'),
-            array(''),
-            array(null),
-        );
+        return array(array('Magento\Db\Adapter\Pdo\Mysql'), array(''), array(null));
     }
 
     /**
@@ -50,10 +42,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $adapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
 
         $objectManager = $this->getMock('Magento\ObjectManager');
-        $objectManager->expects($this->any())
-            ->method('create')
-            ->with($this->equalTo('Magento\Db\Adapter\Pdo\Mysql'))
-            ->will($this->returnValue($adapterMock));
+        $objectManager->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo('Magento\Db\Adapter\Pdo\Mysql')
+        )->will(
+            $this->returnValue($adapterMock)
+        );
 
         $factory = new \Magento\Tools\Migration\Acl\Db\Adapter\Factory($objectManager);
         $adapter = $factory->getAdapter($this->_config, $adapterType);
@@ -70,10 +67,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $adapterMock = $this->getMock($adapterType, array(), array(), '', false);
 
         $objectManager = $this->getMock('Magento\ObjectManager');
-        $objectManager->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo($adapterType), $this->equalTo(array('config' => $this->_config)))
-            ->will($this->returnValue($adapterMock));
+        $objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo($adapterType),
+            $this->equalTo(array('config' => $this->_config))
+        )->will(
+            $this->returnValue($adapterMock)
+        );
 
         $factory = new \Magento\Tools\Migration\Acl\Db\Adapter\Factory($objectManager);
         $factory->getAdapter($this->_config, $adapterType);

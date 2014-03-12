@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Argument\Interpreter;
 
 class NumberTest extends \PHPUnit_Framework_TestCase
@@ -33,10 +32,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateExceptionDataProvider()
     {
-        return array(
-            'no value' => array(array()),
-            'non-numeric value' => array(array('value' => 'non-numeric')),
-        );
+        return array('no value' => array(array()), 'non-numeric value' => array(array('value' => 'non-numeric')));
     }
 
     /**
@@ -54,10 +50,10 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function evaluateDataProvider()
     {
         return array(
-            'integer'                  => array(10, 10),
-            'float'                    => array(10.5, 10.5),
+            'integer' => array(10, 10),
+            'float' => array(10.5, 10.5),
             'string numeric (integer)' => array('10', '10'),
-            'string numeric (float)'   => array('10.5', '10.5'),
+            'string numeric (float)' => array('10.5', '10.5')
         );
     }
 }

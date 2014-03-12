@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\HTTP;
 
 /**
@@ -31,10 +30,8 @@ class Header
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Stdlib\String $converter
      */
-    public function __construct(
-        \Magento\App\RequestInterface $httpRequest,
-        \Magento\Stdlib\String $converter
-    ) {
+    public function __construct(\Magento\App\RequestInterface $httpRequest, \Magento\Stdlib\String $converter)
+    {
         $this->_request = $httpRequest;
         $this->_converter = $converter;
     }

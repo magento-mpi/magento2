@@ -35,11 +35,8 @@ class Install
      * @param FrontendInterface $cache
      * @param UpdaterInterface $dbUpdater
      */
-    public function __construct(
-        State $appState,
-        FrontendInterface $cache,
-        UpdaterInterface $dbUpdater
-    ) {
+    public function __construct(State $appState, FrontendInterface $cache, UpdaterInterface $dbUpdater)
+    {
         $this->_appState = $appState;
         $this->_cache = $cache;
         $this->_dbUpdater = $dbUpdater;

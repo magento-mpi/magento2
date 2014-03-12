@@ -6,9 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Interception\ObjectManager;
-
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,9 +28,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInstanceTypeReturnsInterceptorClass()
     {
-        $this->interceptionConfig->expects($this->once())
-            ->method('hasPlugins')
-            ->will($this->returnValue(true));
+        $this->interceptionConfig->expects($this->once())->method('hasPlugins')->will($this->returnValue(true));
         $this->model->setInterceptionConfig($this->interceptionConfig);
 
         $this->assertEquals('SomeClass\Interceptor', $this->model->getInstanceType('SomeClass'));
@@ -52,12 +48,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOriginalInstanceTypeReturnsInterceptedClass()
     {
-        $this->interceptionConfig->expects($this->once())
-            ->method('hasPlugins')
-            ->will($this->returnValue(true));
+        $this->interceptionConfig->expects($this->once())->method('hasPlugins')->will($this->returnValue(true));
         $this->model->setInterceptionConfig($this->interceptionConfig);
 
         $this->assertEquals('SomeClass\Interceptor', $this->model->getInstanceType('SomeClass'));
         $this->assertEquals('SomeClass', $this->model->getOriginalInstanceType('SomeClass'));
     }
-} 
+}

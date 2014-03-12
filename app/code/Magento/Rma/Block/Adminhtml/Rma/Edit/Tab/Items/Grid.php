@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items;
 
 /**
@@ -136,142 +135,166 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareColumns()
     {
         $rma = $this->_coreRegistry->registry('current_rma');
-        if ($rma
-            && (($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED)
-                || ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
+        if ($rma && ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED ||
+            $rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED)
         ) {
             $this->_itemStatus->setOrderIsClosed();
         }
 
-        $this->addColumn('product_admin_name', array(
-            'header' => __('Product'),
-            'type'   => 'text',
-            'index'  => 'product_admin_name',
-            'escape' => true,
-            'header_css_class'  => 'col-product',
-            'column_css_class'  => 'col-product'
-        ));
+        $this->addColumn(
+            'product_admin_name',
+            array(
+                'header' => __('Product'),
+                'type' => 'text',
+                'index' => 'product_admin_name',
+                'escape' => true,
+                'header_css_class' => 'col-product',
+                'column_css_class' => 'col-product'
+            )
+        );
 
-        $this->addColumn('product_admin_sku', array(
-            'header'=> __('SKU'),
-            'type'  => 'text',
-            'index' => 'product_admin_sku',
-            'header_css_class'  => 'col-sku',
-            'column_css_class'  => 'col-sku'
-        ));
+        $this->addColumn(
+            'product_admin_sku',
+            array(
+                'header' => __('SKU'),
+                'type' => 'text',
+                'index' => 'product_admin_sku',
+                'header_css_class' => 'col-sku',
+                'column_css_class' => 'col-sku'
+            )
+        );
 
         //Renderer puts available quantity instead of order_item_id
-        $this->addColumn('qty_ordered', array(
-            'header'=> __('Remaining'),
-            'getter'   => array($this, 'getQtyOrdered'),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
-            'index' => 'qty_ordered',
-            'order_data' => $this->getOrderItemsData(),
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
-
-        $this->addColumn('qty_requested', array(
-            'header'=> __('Requested'),
-            'index' => 'qty_requested',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
-            'validate_class' => 'validate-greater-than-zero',
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
-
-        $this->addColumn('qty_authorized', array(
-            'header'=> __('Authorized'),
-            'index' => 'qty_authorized',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
-            'validate_class' => 'validate-greater-than-zero',
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
-
-        $this->addColumn('qty_returned', array(
-            'header'=> __('Returned'),
-            'index' => 'qty_returned',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
-            'validate_class' => 'validate-greater-than-zero',
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
-
-        $this->addColumn('qty_approved', array(
-            'header'=> __('Approved'),
-            'index' => 'qty_approved',
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
-            'validate_class' => 'validate-greater-than-zero',
-            'header_css_class'  => 'col-qty',
-            'column_css_class'  => 'col-qty'
-        ));
-
-        $this->addColumn('reason', array(
-            'header'=> __('Return Reason'),
-            'getter'   => array($this, 'getReasonOptionStringValue'),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Reasonselect',
-            'options' => $this->_rmaEav->getAttributeOptionValues('reason'),
-            'index' => 'reason',
-            'header_css_class'  => 'col-reason',
-            'column_css_class'  => 'col-reason'
-        ));
-
-        $this->addColumn('condition', array(
-            'header'=> __('Item Condition'),
-            'getter'   => array($this, 'getConditionOptionStringValue'),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
-            'options' => $this->_rmaEav->getAttributeOptionValues('condition'),
-            'index' => 'condition',
-            'header_css_class'  => 'col-condition',
-            'column_css_class'  => 'col-condition'
-        ));
-
-        $this->addColumn('resolution', array(
-            'header'=> __('Resolution'),
-            'index' => 'resolution',
-            'getter'   => array($this, 'getResolutionOptionStringValue'),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
-            'options' => $this->_rmaEav->getAttributeOptionValues('resolution'),
-            'header_css_class'  => 'col-resolution',
-            'column_css_class'  => 'col-resolution'
-        ));
-
-        $this->addColumn('status', array(
-            'header'=> __('Status'),
-            'index' => 'status',
-            'getter'=> array($this, 'getStatusOptionStringValue'),
-            'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Status',
-            'header_css_class'  => 'col-status',
-            'column_css_class'  => 'col-status'
-        ));
-
-        $actionsArray = array(
+        $this->addColumn(
+            'qty_ordered',
             array(
-                'caption'   => __('Details'),
-                'class'     => 'item_details'
-            ),
+                'header' => __('Remaining'),
+                'getter' => array($this, 'getQtyOrdered'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
+                'index' => 'qty_ordered',
+                'order_data' => $this->getOrderItemsData(),
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
         );
-        if (!($rma
-            && (($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED)
-                || ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
-        )) {
-                $actionsArray[] = array(
-                'caption'   => __('Split'),
-                'class'     => 'item_split_line',
-                'status_depended' => '1'
-            );
+
+        $this->addColumn(
+            'qty_requested',
+            array(
+                'header' => __('Requested'),
+                'index' => 'qty_requested',
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+                'validate_class' => 'validate-greater-than-zero',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
+
+        $this->addColumn(
+            'qty_authorized',
+            array(
+                'header' => __('Authorized'),
+                'index' => 'qty_authorized',
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+                'validate_class' => 'validate-greater-than-zero',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
+
+        $this->addColumn(
+            'qty_returned',
+            array(
+                'header' => __('Returned'),
+                'index' => 'qty_returned',
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+                'validate_class' => 'validate-greater-than-zero',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
+
+        $this->addColumn(
+            'qty_approved',
+            array(
+                'header' => __('Approved'),
+                'index' => 'qty_approved',
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textinput',
+                'validate_class' => 'validate-greater-than-zero',
+                'header_css_class' => 'col-qty',
+                'column_css_class' => 'col-qty'
+            )
+        );
+
+        $this->addColumn(
+            'reason',
+            array(
+                'header' => __('Return Reason'),
+                'getter' => array($this, 'getReasonOptionStringValue'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Reasonselect',
+                'options' => $this->_rmaEav->getAttributeOptionValues('reason'),
+                'index' => 'reason',
+                'header_css_class' => 'col-reason',
+                'column_css_class' => 'col-reason'
+            )
+        );
+
+        $this->addColumn(
+            'condition',
+            array(
+                'header' => __('Item Condition'),
+                'getter' => array($this, 'getConditionOptionStringValue'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
+                'options' => $this->_rmaEav->getAttributeOptionValues('condition'),
+                'index' => 'condition',
+                'header_css_class' => 'col-condition',
+                'column_css_class' => 'col-condition'
+            )
+        );
+
+        $this->addColumn(
+            'resolution',
+            array(
+                'header' => __('Resolution'),
+                'index' => 'resolution',
+                'getter' => array($this, 'getResolutionOptionStringValue'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Textselect',
+                'options' => $this->_rmaEav->getAttributeOptionValues('resolution'),
+                'header_css_class' => 'col-resolution',
+                'column_css_class' => 'col-resolution'
+            )
+        );
+
+        $this->addColumn(
+            'status',
+            array(
+                'header' => __('Status'),
+                'index' => 'status',
+                'getter' => array($this, 'getStatusOptionStringValue'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Status',
+                'header_css_class' => 'col-status',
+                'column_css_class' => 'col-status'
+            )
+        );
+
+        $actionsArray = array(array('caption' => __('Details'), 'class' => 'item_details'));
+        if (!($rma && ($rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED ||
+            $rma->getStatus() === \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
+        ) {
+            $actionsArray[] = array('caption' => __('Split'), 'class' => 'item_split_line', 'status_depended' => '1');
         }
 
-        $this->addColumn('action',
+        $this->addColumn(
+            'action',
             array(
-                'header'    =>  __('Action'),
-                'renderer'  => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
-                'actions'   => $actionsArray,
+                'header' => __('Action'),
+                'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
+                'actions' => $actionsArray,
                 'is_system' => true,
-                'header_css_class'  => 'col-actions',
-                'column_css_class'  => 'col-actions'
-        ));
+                'header_css_class' => 'col-actions',
+                'column_css_class' => 'col-actions'
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -285,12 +308,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function getQtyOrdered($row)
     {
         $orderItemsData = $this->getOrderItemsData();
-        if (is_array($orderItemsData)
-                && isset($orderItemsData[$row->getOrderItemId()])
-                && isset($orderItemsData[$row->getOrderItemId()]['qty_shipped'])
-                && isset($orderItemsData[$row->getOrderItemId()]['qty_returned'])) {
+        if (is_array(
+            $orderItemsData
+        ) && isset(
+            $orderItemsData[$row->getOrderItemId()]
+        ) && isset(
+            $orderItemsData[$row->getOrderItemId()]['qty_shipped']
+        ) && isset(
+            $orderItemsData[$row->getOrderItemId()]['qty_returned']
+        )
+        ) {
             $return = $orderItemsData[$row->getOrderItemId()]['qty_shipped'] -
-                    $orderItemsData[$row->getOrderItemId()]['qty_returned'];
+                $orderItemsData[$row->getOrderItemId()]['qty_returned'];
         } else {
             $return = 0;
         }

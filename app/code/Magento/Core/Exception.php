@@ -41,7 +41,7 @@ class Exception extends \Exception
      * @param string $type
      * @return array
      */
-    public function getMessages($type='')
+    public function getMessages($type = '')
     {
         if ('' == $type) {
             $arrRes = array();

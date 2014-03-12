@@ -70,8 +70,7 @@ class Observer
         if (empty($banners)) {
             $banners = array();
         }
-        $this->_bannerFactory->create()
-            ->bindBannersToCatalogRule($catalogRule->getId(), $banners);
+        $this->_bannerFactory->create()->bindBannersToCatalogRule($catalogRule->getId(), $banners);
         return $this;
     }
 
@@ -104,8 +103,7 @@ class Observer
         if (empty($banners)) {
             $banners = array();
         }
-        $this->_bannerFactory->create()
-            ->bindBannersToSalesRule($salesRule->getId(), $banners);
+        $this->_bannerFactory->create()->bindBannersToSalesRule($salesRule->getId(), $banners);
         return $this;
     }
 }

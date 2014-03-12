@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Log\Model;
 
 class ShellTest extends \PHPUnit_Framework_TestCase
@@ -21,8 +20,10 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Log\Model\Shell', array('entryPoint' => $entryPoint));
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Log\Model\Shell',
+            array('entryPoint' => $entryPoint)
+        );
     }
 
     /**
@@ -51,7 +52,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $model = $this->_getModel('testme.php');
         $result = $this->_run($model);
         $this->assertContains('testme.php', $result);
-        $this->assertContains('log', $result); // Something about logs
+        $this->assertContains('log', $result);
     }
 
     public function testRunLogStatus()

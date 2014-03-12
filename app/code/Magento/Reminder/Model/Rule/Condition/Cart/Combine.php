@@ -12,8 +12,7 @@ namespace Magento\Reminder\Model\Rule\Condition\Cart;
 /**
  * Rule conditions container
  */
-class Combine
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Cart Couponcode Factory
@@ -87,14 +86,15 @@ class Combine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(
-            parent::getNewChildSelectOptions(), array(
+            parent::getNewChildSelectOptions(),
+            array(
                 $this->_getRecursiveChildSelectOption(),
                 $this->_couponFactory->create()->getNewChildSelectOptions(),
                 $this->_itemsQtyFactory->create()->getNewChildSelectOptions(),
                 $this->_totalQtyFactory->create()->getNewChildSelectOptions(),
                 $this->_virtualFactory->create()->getNewChildSelectOptions(),
                 $this->_amountFactory->create()->getNewChildSelectOptions(),
-                array( // subselection combo
+                array(
                     'value' => 'Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
                     'label' => __('Items Subselection')
                 )

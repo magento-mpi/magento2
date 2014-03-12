@@ -8,11 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable;
 
-class LinksTest
-    extends \PHPUnit_Framework_TestCase
+class LinksTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable_Links
@@ -29,9 +27,9 @@ class LinksTest
         $this->_block = $objectManagerHelper->getObject(
             'Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\Links',
             array(
-                'urlBuilder'                                => $urlBuilder,
+                'urlBuilder' => $urlBuilder,
                 'Magento\Eav\Model\Entity\AttributeFactory' => $attributeFactory,
-                'Magento\Backend\Model\UrlFactory'          => $urlFactory,
+                'Magento\Backend\Model\UrlFactory' => $urlFactory
             )
         );
     }

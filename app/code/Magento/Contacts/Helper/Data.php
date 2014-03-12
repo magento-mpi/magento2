@@ -19,8 +19,7 @@ namespace Magento\Contacts\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-
-    const XML_PATH_ENABLED   = 'contacts/contacts/enabled';
+    const XML_PATH_ENABLED = 'contacts/contacts/enabled';
 
     /**
      * Core store config
@@ -58,7 +57,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfig( self::XML_PATH_ENABLED );
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED);
     }
 
     /**

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model;
 
 use Magento\Core\Model\Store;
@@ -14,21 +13,26 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\Region as RegionDataObject;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface as GroupServiceInterface;
-use \Magento\Exception\NoSuchEntityException;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Tax Calculation Model
  */
 class Calculation extends \Magento\Core\Model\AbstractModel
 {
-    const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL      = '0_0';
-    const CALC_TAX_BEFORE_DISCOUNT_ON_INCL      = '0_1';
-    const CALC_TAX_AFTER_DISCOUNT_ON_EXCL       = '1_0';
-    const CALC_TAX_AFTER_DISCOUNT_ON_INCL       = '1_1';
+    const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL = '0_0';
 
-    const CALC_UNIT_BASE                        = 'UNIT_BASE_CALCULATION';
-    const CALC_ROW_BASE                         = 'ROW_BASE_CALCULATION';
-    const CALC_TOTAL_BASE                       = 'TOTAL_BASE_CALCULATION';
+    const CALC_TAX_BEFORE_DISCOUNT_ON_INCL = '0_1';
+
+    const CALC_TAX_AFTER_DISCOUNT_ON_EXCL = '1_0';
+
+    const CALC_TAX_AFTER_DISCOUNT_ON_INCL = '1_1';
+
+    const CALC_UNIT_BASE = 'UNIT_BASE_CALCULATION';
+
+    const CALC_ROW_BASE = 'ROW_BASE_CALCULATION';
+
+    const CALC_TOTAL_BASE = 'TOTAL_BASE_CALCULATION';
 
     /**
      * @var array
@@ -367,8 +371,15 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected function _getRequestCacheKey($request)
     {
         $key = $request->getStore() ? $request->getStore()->getId() . '|' : '';
-        $key .= $request->getProductClassId() . '|' . $request->getCustomerClassId() . '|'
-            . $request->getCountryId() . '|'. $request->getRegionId() . '|' . $request->getPostcode();
+        $key .= $request->getProductClassId() .
+            '|' .
+            $request->getCustomerClassId() .
+            '|' .
+            $request->getCountryId() .
+            '|' .
+            $request->getRegionId() .
+            '|' .
+            $request->getPostcode();
         return $key;
     }
 
@@ -383,8 +394,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      */
     public function getStoreRate($request, $store = null)
     {
-        $storeRequest = $this->getRateOriginRequest($store)
-            ->setProductClassId($request->getProductClassId());
+        $storeRequest = $this->getRateOriginRequest($store)->setProductClassId($request->getProductClassId());
         return $this->getRate($storeRequest);
     }
 
@@ -397,20 +407,17 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     public function getRateOriginRequest($store = null)
     {
         $request = new \Magento\Object();
-        $request->setCountryId($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID,
-                $store
-            ))
-            ->setRegionId($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID,
-                $store
-            ))
-            ->setPostcode($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE,
-                $store
-            ))
-            ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
-            ->setStore($store);
+        $request->setCountryId(
+            $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, $store)
+        )->setRegionId(
+            $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, $store)
+        )->setPostcode(
+            $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, $store)
+        )->setCustomerClassId(
+            $this->getDefaultCustomerTaxClass($store)
+        )->setStore(
+            $store
+        );
         return $request;
     }
 
@@ -439,34 +446,29 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         if ($shippingAddress === false && $billingAddress === false && $customerTaxClass === false) {
             return $this->getRateOriginRequest($store);
         }
-        $address    = new \Magento\Object();
-        $customerData   = $this->getCustomerData();
-        $basedOn    = $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, $store);
+        $address = new \Magento\Object();
+        $customerData = $this->getCustomerData();
+        $basedOn = $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, $store);
 
-        if (($shippingAddress === false && $basedOn == 'shipping')
-            || ($billingAddress === false && $basedOn == 'billing')) {
+        if ($shippingAddress === false && $basedOn == 'shipping' || $billingAddress === false && $basedOn == 'billing'
+        ) {
             $basedOn = 'default';
         } else {
-            if ((($billingAddress === false || is_null($billingAddress) || !$billingAddress->getCountryId())
-                    && $basedOn == 'billing')
-                || (($shippingAddress === false || is_null($shippingAddress) || !$shippingAddress->getCountryId())
-                    && $basedOn == 'shipping')
+            if (($billingAddress === false || is_null(
+                $billingAddress
+            ) || !$billingAddress->getCountryId()) && $basedOn == 'billing' || ($shippingAddress === false || is_null(
+                $shippingAddress
+            ) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping'
             ) {
                 if ($customerData->getId()) {
                     try {
-                        $defaultBilling = $this->_addressService->getDefaultBillingAddress(
-                            $customerData->getId()
-                        );
+                        $defaultBilling = $this->_addressService->getDefaultBillingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
-                        /** Address does not exist */
                     }
 
                     try {
-                        $defaultShipping = $this->_addressService->getDefaultShippingAddress(
-                            $customerData->getId()
-                        );
+                        $defaultShipping = $this->_addressService->getDefaultShippingAddress($customerData->getId());
                     } catch (NoSuchEntityException $e) {
-                        /** Address does not exist */
                     }
 
                     if ($basedOn == 'billing' && $defaultBilling && $defaultBilling->getCountryId()) {
@@ -493,16 +495,22 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                 $address = $this->getRateOriginRequest($store);
                 break;
             case 'default':
-                $address
-                    ->setCountryId($this->_coreStoreConfig->getConfig(
+                $address->setCountryId(
+                    $this->_coreStoreConfig->getConfig(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
-                        $store))
-                    ->setRegionId($this->_coreStoreConfig->getConfig(
+                        $store
+                    )
+                )->setRegionId(
+                    $this->_coreStoreConfig->getConfig(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
-                        $store))
-                    ->setPostcode($this->_coreStoreConfig->getConfig(
+                        $store
+                    )
+                )->setPostcode(
+                    $this->_coreStoreConfig->getConfig(
                         \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
-                        $store));
+                        $store
+                    )
+                );
                 break;
             default:
                 break;
@@ -510,7 +518,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
 
         if (is_null($customerTaxClass) && $customerData->getId()) {
             $customerTaxClass = $this->_groupService->getGroup($customerData->getGroupId())->getTaxClassId();
-        } elseif (($customerTaxClass === false) || !$customerData->getId()) {
+        } elseif ($customerTaxClass === false || !$customerData->getId()) {
             $customerTaxClass = $this->getDefaultCustomerTaxClass($store);
         }
 
@@ -521,12 +529,17 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         } else {
             $regionId = $address->getRegionId();
         }
-        $request
-            ->setCountryId($address->getCountryId())
-            ->setRegionId($regionId)
-            ->setPostcode($address->getPostcode())
-            ->setStore($store)
-            ->setCustomerClassId($customerTaxClass);
+        $request->setCountryId(
+            $address->getCountryId()
+        )->setRegionId(
+            $regionId
+        )->setPostcode(
+            $address->getPostcode()
+        )->setStore(
+            $store
+        )->setCustomerClassId(
+            $customerTaxClass
+        );
         return $request;
     }
 
@@ -546,9 +559,9 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     {
         $country = $first->getCountryId() == $second->getCountryId();
         // "0" support for admin dropdown with --please select--
-        $region  = (int)$first->getRegionId() == (int)$second->getRegionId();
-        $postcode= $first->getPostcode() == $second->getPostcode();
-        $taxClass= $first->getCustomerClassId() == $second->getCustomerClassId();
+        $region = (int)$first->getRegionId() == (int)$second->getRegionId();
+        $postcode = $first->getPostcode() == $second->getPostcode();
+        $taxClass = $first->getCustomerClassId() == $second->getCustomerClassId();
 
         if ($country && $region && $postcode && $taxClass) {
             return true;
@@ -566,8 +579,10 @@ class Calculation extends \Magento\Core\Model\AbstractModel
          * If rates are not equal by ids then compare actual values
          * All product classes must have same rates to assume requests been similar
          */
-        $productClassId1 = $first->getProductClassId(); // Save to set it back later
-        $productClassId2 = $second->getProductClassId(); // Save to set it back later
+        $productClassId1 = $first->getProductClassId();
+        // Save to set it back later
+        $productClassId2 = $second->getProductClassId();
+        // Save to set it back later
 
         // Ids are equal for both requests, so take any of them to process
         $ids = is_array($productClassId1) ? $productClassId1 : array($productClassId1);

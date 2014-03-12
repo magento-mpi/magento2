@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Collection;
 
 class AssociatedProductTest extends \PHPUnit_Framework_TestCase
@@ -16,15 +15,18 @@ class AssociatedProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareSelect()
     {
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-        $product->load(1); // fixture
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $product->load(1);
+        // fixture
         $product->setId(10);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_product', $product);
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
+        );
         $collectionProduct = $collection->getFirstItem();
         $this->assertEquals($product->getName(), $collectionProduct->getName());
         $this->assertEquals($product->getSku(), $collectionProduct->getSku());
@@ -40,14 +42,17 @@ class AssociatedProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareSelectForSameProduct()
     {
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
-        $product->load(1); // fixture
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
+        $product->load(1);
+        // fixture
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_product', $product);
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
+        );
         $this->assertEmpty($collection->count());
     }
 }

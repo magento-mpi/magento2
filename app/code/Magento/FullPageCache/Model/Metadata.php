@@ -45,7 +45,7 @@ class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
             $cacheMetadata = unserialize($cacheMetadata);
         }
 
-        $this->_metaData = (empty($cacheMetadata) || !is_array($cacheMetadata)) ? array() : $cacheMetadata;
+        $this->_metaData = empty($cacheMetadata) || !is_array($cacheMetadata) ? array() : $cacheMetadata;
     }
 
     /**
@@ -57,7 +57,7 @@ class Metadata implements \Magento\FullPageCache\Model\MetadataInterface
      */
     public function getMetadata($key)
     {
-        return (isset($this->_metaData[$key])) ? $this->_metaData[$key] : null;
+        return isset($this->_metaData[$key]) ? $this->_metaData[$key] : null;
     }
 
     /**

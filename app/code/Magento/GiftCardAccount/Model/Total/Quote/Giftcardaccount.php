@@ -138,7 +138,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             $baseAmount = 0;
             $amount = 0;
             $cards = $this->_giftCardAccountData->getCards($quote);
-            foreach ($cards as $k=>&$card) {
+            foreach ($cards as $k => &$card) {
                 $model = $this->_giftCAFactory->create()->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
@@ -172,12 +172,14 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         } else {
             $giftCards = $this->_giftCardAccountData->getCards($address);
         }
-        $address->addTotal(array(
-            'code'=>$this->getCode(),
-            'title'=>__('Gift Cards'),
-            'value'=>-$address->getGiftCardsAmount(),
-            'gift_cards'=>$giftCards,
-        ));
+        $address->addTotal(
+            array(
+                'code' => $this->getCode(),
+                'title' => __('Gift Cards'),
+                'value' => -$address->getGiftCardsAmount(),
+                'gift_cards' => $giftCards
+            )
+        );
 
         return $this;
     }
@@ -202,6 +204,6 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         if ($a['ba'] == $b['ba']) {
             return 0;
         }
-        return ($a['ba'] > $b['ba']) ? 1 : -1;
+        return $a['ba'] > $b['ba'] ? 1 : -1;
     }
 }

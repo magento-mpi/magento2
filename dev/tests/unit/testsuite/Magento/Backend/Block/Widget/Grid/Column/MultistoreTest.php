@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Column;
 
 class MultistoreTest extends \PHPUnit_Framework_TestCase
@@ -33,8 +32,10 @@ class MultistoreTest extends \PHPUnit_Framework_TestCase
         );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column\Multistore',
-            $arguments);
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\Backend\Block\Widget\Grid\Column\Multistore',
+            $arguments
+        );
     }
 
     protected function tearDown()

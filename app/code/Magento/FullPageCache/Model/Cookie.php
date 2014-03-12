@@ -17,15 +17,21 @@ class Cookie extends \Magento\Stdlib\Cookie
     /**
      * Cookie names
      */
-    const COOKIE_CUSTOMER           = 'CUSTOMER';
-    const COOKIE_CUSTOMER_GROUP     = 'CUSTOMER_INFO';
+    const COOKIE_CUSTOMER = 'CUSTOMER';
 
-    const COOKIE_MESSAGE            = 'NEWMESSAGE';
-    const COOKIE_CART               = 'CART';
-    const COOKIE_COMPARE_LIST       = 'COMPARE';
-    const COOKIE_RECENTLY_COMPARED  = 'RECENTLYCOMPARED';
-    const COOKIE_WISHLIST           = 'WISHLIST';
-    const COOKIE_WISHLIST_ITEMS     = 'WISHLIST_CNT';
+    const COOKIE_CUSTOMER_GROUP = 'CUSTOMER_INFO';
+
+    const COOKIE_MESSAGE = 'NEWMESSAGE';
+
+    const COOKIE_CART = 'CART';
+
+    const COOKIE_COMPARE_LIST = 'COMPARE';
+
+    const COOKIE_RECENTLY_COMPARED = 'RECENTLYCOMPARED';
+
+    const COOKIE_WISHLIST = 'WISHLIST';
+
+    const COOKIE_WISHLIST_ITEMS = 'WISHLIST_CNT';
 
     const COOKIE_CUSTOMER_LOGGED_IN = 'CUSTOMER_AUTH';
 
@@ -47,7 +53,7 @@ class Cookie extends \Magento\Stdlib\Cookie
     /**
      * Cookie name for users who allowed cookie save
      */
-    const IS_USER_ALLOWED_SAVE_COOKIE  = 'user_allowed_save_cookie';
+    const IS_USER_ALLOWED_SAVE_COOKIE = 'user_allowed_save_cookie';
 
     /**
      * Encryption salt value
@@ -121,7 +127,13 @@ class Cookie extends \Magento\Stdlib\Cookie
      * @return \Magento\Stdlib\Cookie
      */
     public function setObscure(
-        $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
+        $name,
+        $value,
+        $period = null,
+        $path = null,
+        $domain = null,
+        $secure = null,
+        $httponly = null
     ) {
         $value = md5($this->_getSalt() . $value);
         $period = $period ?: $this->_customerSession->getCookieLifetime();
@@ -207,7 +219,7 @@ class Cookie extends \Magento\Stdlib\Cookie
             } else {
                 $cookieIds = array();
             }
-            array_splice($cookieIds, 0, 0, $productIds);  // append to the beginning
+            array_splice($cookieIds, 0, 0, $productIds);
         } else {
             $cookieIds = $productIds;
         }
@@ -236,7 +248,7 @@ class Cookie extends \Magento\Stdlib\Cookie
      */
     public static function getCategoryCookieValue()
     {
-        return (isset($_COOKIE[self::COOKIE_CATEGORY_PROCESSOR])) ? $_COOKIE[self::COOKIE_CATEGORY_PROCESSOR] : false;
+        return isset($_COOKIE[self::COOKIE_CATEGORY_PROCESSOR]) ? $_COOKIE[self::COOKIE_CATEGORY_PROCESSOR] : false;
     }
 
     /**

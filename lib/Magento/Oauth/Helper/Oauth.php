@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Oauth\Helper;
 
 class Oauth
@@ -15,8 +14,11 @@ class Oauth
      * Lengths of token fields
      */
     const LENGTH_TOKEN = 32;
+
     const LENGTH_TOKEN_SECRET = 32;
+
     const LENGTH_TOKEN_VERIFIER = 32;
+
     /**#@- */
 
     /**
@@ -24,7 +26,9 @@ class Oauth
      * Lengths of consumer fields
      */
     const LENGTH_CONSUMER_KEY = 32;
+
     const LENGTH_CONSUMER_SECRET = 32;
+
     /**#@- */
 
     /**
@@ -63,8 +67,9 @@ class Oauth
         if (function_exists('openssl_random_pseudo_bytes')) {
             // use openssl lib if it is install. It provides a better randomness.
             $bytes = openssl_random_pseudo_bytes(ceil($length / 2));
-            $hex = bin2hex($bytes); // hex() doubles the length of the string
-            $randomString = substr($hex, 0, $length); // truncate at most 1 char if length parameter is an odd number
+            $hex = bin2hex($bytes);
+            // hex() doubles the length of the string
+            $randomString = substr($hex, 0, $length);
         } else {
             // fallback to mt_rand() if openssl is not installed
             $randomString = $this->_mathRandom->getRandomString(

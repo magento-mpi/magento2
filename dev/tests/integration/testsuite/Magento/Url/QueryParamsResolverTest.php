@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Url;
 
 class QueryParamsResolverTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class QueryParamsResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Url\QueryParamsResolver');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Url\QueryParamsResolver'
+        );
     }
 
     public function testSetGetPurgeQueryParams()

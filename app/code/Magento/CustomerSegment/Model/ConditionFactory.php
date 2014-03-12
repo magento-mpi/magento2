@@ -23,9 +23,8 @@ class ConditionFactory
     /**
      * @param \Magento\ObjectManager $objectManager
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager)
+    {
         $this->_objectManager = $objectManager;
     }
 
@@ -44,8 +43,10 @@ class ConditionFactory
             $className = $classNamePrefix . $className;
         }
         $condition = $this->_objectManager->create($className, $data);
-        if (false == ($condition instanceof \Magento\Rule\Model\Condition\AbstractCondition)) {
-            throw new \InvalidArgumentException($className . ' doesn\'t extends \Magento\Rule\Model\Condition\AbstractCondition');
+        if (false == $condition instanceof \Magento\Rule\Model\Condition\AbstractCondition) {
+            throw new \InvalidArgumentException(
+                $className . ' doesn\'t extends \Magento\Rule\Model\Condition\AbstractCondition'
+            );
         }
         return $condition;
     }

@@ -42,7 +42,7 @@ class Testsuite
      */
     protected $_warmUpArguments = array(
         \Magento\TestFramework\Performance\Scenario::ARG_USERS => 1,
-        \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 2,
+        \Magento\TestFramework\Performance\Scenario::ARG_LOOPS => 2
     );
 
     /**
@@ -69,7 +69,8 @@ class Testsuite
      * @param \Magento\TestFramework\Application $application
      * @param \Magento\TestFramework\Performance\Scenario\HandlerInterface $scenarioHandler
      */
-    public function __construct(\Magento\TestFramework\Performance\Config $config,
+    public function __construct(
+        \Magento\TestFramework\Performance\Config $config,
         \Magento\TestFramework\Application $application,
         \Magento\TestFramework\Performance\Scenario\HandlerInterface $scenarioHandler
     ) {
@@ -114,7 +115,6 @@ class Testsuite
                     );
                     $this->_scenarioHandler->run($scenarioWarmUp);
                 } catch (\Magento\TestFramework\Performance\Scenario\FailureException $scenarioFailure) {
-                    // do not notify about failed warm up
                 }
             }
 
@@ -137,11 +137,10 @@ class Testsuite
      */
     protected function _getScenarioReportFile(\Magento\TestFramework\Performance\Scenario $scenario)
     {
-        $basePath = $this->_config->getReportDir() . '/'
-            . pathinfo($scenario->getFile(), PATHINFO_FILENAME);
+        $basePath = $this->_config->getReportDir() . '/' . pathinfo($scenario->getFile(), PATHINFO_FILENAME);
         $iteration = 1;
         do {
-            $suffix = ($iteration == 1) ? '' : '_' . $iteration;
+            $suffix = $iteration == 1 ? '' : '_' . $iteration;
             $reportFile = $basePath . $suffix . '.jtl';
             $iteration++;
         } while (isset($this->_reportFiles[$reportFile]));

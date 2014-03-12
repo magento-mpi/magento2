@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html\Head;
+
 use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 
 /**
@@ -26,10 +26,9 @@ class Script extends \Magento\View\Element\AbstractBlock implements AssetBlockIn
     ) {
         parent::__construct($context, $data);
         $this->setAsset(
-            $viewFileFactory->create(array(
-                'file' => (string)$this->getFile(),
-                'contentType' => \Magento\View\Publisher::CONTENT_TYPE_JS
-            ))
+            $viewFileFactory->create(
+                array('file' => (string)$this->getFile(), 'contentType' => \Magento\View\Publisher::CONTENT_TYPE_JS)
+            )
         );
     }
 

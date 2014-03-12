@@ -9,8 +9,7 @@
  */
 namespace Magento\TargetRule\Model\Rule\Condition\Product;
 
-class Attributes
-    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
+class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * Attribute property that defines whether to use it for target rules
@@ -48,7 +47,14 @@ class Attributes
         array $data = array()
     ) {
         parent::__construct(
-            $context, $backendData, $config, $product, $productResource, $attrSetCollection, $localeFormat, $data
+            $context,
+            $backendData,
+            $config,
+            $product,
+            $productResource,
+            $attrSetCollection,
+            $localeFormat,
+            $data
         );
         $this->setType('Magento\TargetRule\Model\Rule\Condition\Product\Attributes');
         $this->setValue(null);
@@ -64,17 +70,11 @@ class Attributes
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            if (! in_array($code, $this->_disabledTargetRuleCodes)) {
-                $conditions[] = array(
-                    'value' => $this->getType() . '|' . $code,
-                    'label' => $label
-                );
+            if (!in_array($code, $this->_disabledTargetRuleCodes)) {
+                $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
             }
         }
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Product Attributes')
-        );
+        return array('value' => $conditions, 'label' => __('Product Attributes'));
     }
 }

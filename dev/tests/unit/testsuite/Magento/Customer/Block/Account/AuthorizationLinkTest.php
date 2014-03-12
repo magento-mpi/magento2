@@ -38,49 +38,41 @@ class AuthorizationLinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_session = $this->getMockBuilder('Magento\Customer\Model\Session')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isLoggedIn'))
-            ->getMock();
-        $this->_helper = $this->getMockBuilder('Magento\Customer\Helper\Data')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getLogoutUrl', 'getLoginUrl'))
-            ->getMock();
+        $this->_session = $this->getMockBuilder(
+            'Magento\Customer\Model\Session'
+        )->disableOriginalConstructor()->setMethods(
+            array('isLoggedIn')
+        )->getMock();
+        $this->_helper = $this->getMockBuilder(
+            'Magento\Customer\Helper\Data'
+        )->disableOriginalConstructor()->setMethods(
+            array('getLogoutUrl', 'getLoginUrl')
+        )->getMock();
 
         $context = $this->_objectManager->getObject('Magento\View\Element\Template\Context');
         $this->_block = $this->_objectManager->getObject(
             'Magento\Customer\Block\Account\AuthorizationLink',
-            array(
-                'context' => $context,
-                'session' => $this->_session,
-                'customerHelper' => $this->_helper,
-            )
+            array('context' => $context, 'session' => $this->_session, 'customerHelper' => $this->_helper)
         );
     }
 
     public function testGetLabelLoggedIn()
     {
-        $this->_session->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(true));
+        $this->_session->expects($this->once())->method('isLoggedIn')->will($this->returnValue(true));
 
         $this->assertEquals('Log Out', $this->_block->getLabel());
     }
 
     public function testGetLabelLoggedOut()
     {
-        $this->_session->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
+        $this->_session->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
         $this->assertEquals('Log In', $this->_block->getLabel());
     }
 
     public function testGetHrefLoggedIn()
     {
-        $this->_session->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(true));
+        $this->_session->expects($this->once())->method('isLoggedIn')->will($this->returnValue(true));
 
         $this->_helper->expects($this->once())->method('getLogoutUrl')->will($this->returnValue('logout url'));
 
@@ -89,9 +81,7 @@ class AuthorizationLinkTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHrefLoggedOut()
     {
-        $this->_session->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(false));
+        $this->_session->expects($this->once())->method('isLoggedIn')->will($this->returnValue(false));
 
         $this->_helper->expects($this->once())->method('getLoginUrl')->will($this->returnValue('login url'));
 

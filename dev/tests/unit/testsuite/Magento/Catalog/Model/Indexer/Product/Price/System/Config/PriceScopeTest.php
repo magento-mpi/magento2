@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\System\Config;
 
 class PriceScopeTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +32,11 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_indexerMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer', array('load', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer',
+            array('load', 'invalidate'),
+            array(),
+            '',
+            false
         );
         $this->_indexerMock->expects($this->any())->method('load')->will($this->returnValue($this->_indexerMock));
 
@@ -50,7 +53,7 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
                 'registry' => $registryMock,
                 'storeManager' => $storeManagerMock,
                 'config' => $configMock,
-                'indexer' => $this->_indexerMock,
+                'indexer' => $this->_indexerMock
             )
         );
     }

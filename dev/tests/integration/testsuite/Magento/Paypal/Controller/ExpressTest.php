@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Controller;
 
 class ExpressTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -16,11 +15,13 @@ class ExpressTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testReviewAction()
     {
-        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Quote');
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
         $quote->load('test01', 'reserved_order_id');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Checkout\Model\Session')
-            ->setQuoteId($quote->getId());
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Checkout\Model\Session'
+        )->setQuoteId(
+            $quote->getId()
+        );
 
         $this->dispatch('paypal/express/review');
 
@@ -41,10 +42,15 @@ class ExpressTest extends \Magento\TestFramework\TestCase\AbstractController
         $order = $this->_objectManager->create('Magento\Sales\Model\Order');
         $order->load('100000002', 'increment_id');
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
-        $session->setLastRealOrderId($order->getRealOrderId())
-            ->setLastOrderId($order->getId())
-            ->setLastQuoteId($order->getQuoteId())
-            ->setQuoteId($order->getQuoteId());
+        $session->setLastRealOrderId(
+            $order->getRealOrderId()
+        )->setLastOrderId(
+            $order->getId()
+        )->setLastQuoteId(
+            $order->getQuoteId()
+        )->setQuoteId(
+            $order->getQuoteId()
+        );
         /** @var $paypalSession \Magento\Session\Generic */
         $paypalSession = $this->_objectManager->get('Magento\Session\Generic');
         $paypalSession->setExpressCheckoutToken('token');

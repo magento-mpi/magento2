@@ -14,8 +14,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
-class Store
-    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
+class Store extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
      * @var \Magento\Core\Model\System\Store
@@ -51,14 +50,17 @@ class Store
 
         $allShow = $this->getColumn()->getStoreAll();
 
-        $html  = '<select name="' . $this->escapeHtml($this->_getHtmlName()) . '" '
-               . $this->getColumn()->getValidateClass()
-               . $this->getUiId('filter', $this->_getHtmlName())
-               . '>';
+        $html = '<select name="' . $this->escapeHtml(
+            $this->_getHtmlName()
+        ) . '" ' . $this->getColumn()->getValidateClass() . $this->getUiId(
+            'filter',
+            $this->_getHtmlName()
+        ) . '>';
         $value = $this->getColumn()->getValue();
         if ($allShow) {
-            $html .= '<option value="0"' . ($value == 0 ? ' selected="selected"' : '') . '>'
-                  . __('All Store Views') . '</option>';
+            $html .= '<option value="0"' . ($value == 0 ? ' selected="selected"' : '') . '>' . __(
+                'All Store Views'
+            ) . '</option>';
         } else {
             $html .= '<option value=""' . (!$value ? ' selected="selected"' : '') . '></option>';
         }
@@ -79,13 +81,20 @@ class Store
                     }
                     if (!$groupShow) {
                         $groupShow = true;
-                        $html .= '<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;'
-                              . $this->escapeHtml($group->getName()) . '">';
+                        $html .= '<optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;' . $this->escapeHtml(
+                            $group->getName()
+                        ) . '">';
                     }
                     $value = $this->getValue();
                     $selected = $value == $store->getId() ? ' selected="selected"' : '';
-                    $html .= '<option value="' . $store->getId() . '"' . $selected . '>&nbsp;&nbsp;&nbsp;&nbsp;'
-                          . $this->escapeHtml($store->getName()) . '</option>';
+                    $html .= '<option value="' .
+                        $store->getId() .
+                        '"' .
+                        $selected .
+                        '>&nbsp;&nbsp;&nbsp;&nbsp;' .
+                        $this->escapeHtml(
+                        $store->getName()
+                    ) . '</option>';
                 }
                 if ($groupShow) {
                     $html .= '</optgroup>';
@@ -93,8 +102,8 @@ class Store
             }
         }
         if ($this->getColumn()->getDisplayDeleted()) {
-            $selected = ($this->getValue() == '_deleted_') ? ' selected' : '';
-            $html.= '<option value="_deleted_"'.$selected.'>'.__('[ deleted ]').'</option>';
+            $selected = $this->getValue() == '_deleted_' ? ' selected' : '';
+            $html .= '<option value="_deleted_"' . $selected . '>' . __('[ deleted ]') . '</option>';
         }
         $html .= '</select>';
         return $html;
@@ -116,5 +125,4 @@ class Store
             return array('eq' => $this->getValue());
         }
     }
-
 }

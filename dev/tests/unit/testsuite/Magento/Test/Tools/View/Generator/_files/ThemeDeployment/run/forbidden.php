@@ -8,8 +8,4 @@
  * @license     {license_link}
  */
 
-return array(
-    '',
-    'txt',
-    'php',
-);
+return array('', 'txt', 'php');

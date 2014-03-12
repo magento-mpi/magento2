@@ -12,8 +12,7 @@ namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
 /**
  * Sales conditions combine
  */
-class Combine
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var string
@@ -43,17 +42,19 @@ class Combine
      */
     public function getNewChildSelectOptions()
     {
-        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            $this->_conditionFactory->create('Order\Status')->getNewChildSelectOptions(),
-            // date ranges
+        return array_merge_recursive(
+            parent::getNewChildSelectOptions(),
             array(
-                'value' => array(
-                    $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),
-                    $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions(),
-                ),
-                'label' => __('Date Ranges'),
-            ),
-        ));
+                $this->_conditionFactory->create('Order\Status')->getNewChildSelectOptions(),
+                array(
+                    'value' => array(
+                        $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),
+                        $this->_conditionFactory->create('Daterange')->getNewChildSelectOptions()
+                    ),
+                    'label' => __('Date Ranges')
+                )
+            )
+        );
     }
 
     /**
@@ -63,10 +64,7 @@ class Combine
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array(
-            'total'   => __('Total'),
-            'average' => __('Average'),
-        ));
+        $this->setAttributeOption(array('total' => __('Total'), 'average' => __('Average')));
         return $this;
     }
 
@@ -97,9 +95,6 @@ class Combine
      */
     protected function _getSubfilterMap()
     {
-        return array(
-            'order' => 'sales_order.status',
-            'date' => 'sales_order.created_at',
-        );
+        return array('order' => 'sales_order.status', 'date' => 'sales_order.created_at');
     }
 }

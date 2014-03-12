@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout;
 
 use Magento\View\Design\ThemeInterface;
@@ -115,7 +114,7 @@ class File
     public function getFileIdentifier()
     {
         if (null === $this->identifier) {
-            $theme = ($this->getTheme() ? 'theme:' . $this->theme->getFullPath() : 'base');
+            $theme = $this->getTheme() ? 'theme:' . $this->theme->getFullPath() : 'base';
             $this->identifier = $theme . '|module:' . $this->getModule() . '|file:' . $this->getName();
         }
         return $this->identifier;

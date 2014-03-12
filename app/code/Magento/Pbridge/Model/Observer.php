@@ -78,8 +78,12 @@ class Observer
         $result = $observer->getEvent()->getData('result');
         $storeId = $quote ? $quote->getStoreId() : null;
 
-        if (((bool)$this->_getMethodConfigData('using_pbridge', $method, $storeId) === true)
-            && ((bool)$method->getIsDummy() === false)) {
+        if ((bool)$this->_getMethodConfigData(
+            'using_pbridge',
+            $method,
+            $storeId
+        ) === true && (bool)$method->getIsDummy() === false
+        ) {
             $result->isAvailable = false;
         }
         return $this;
@@ -93,10 +97,16 @@ class Observer
     public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
     {
         $website = $this->_storeManager->getWebsite($observer->getEvent()->getData('website'));
-        $braintreeEnabled = $website->getConfig('payment/braintree_basic/active')
-            && $website->getConfig('payment/braintree_basic/payment_profiles_enabled');
-        $authorizenetEnabled = $website->getConfig('payment/pbridge_authorizenet/active')
-            && $website->getConfig('payment/pbridge_authorizenet/payment_profiles_enabled');
+        $braintreeEnabled = $website->getConfig(
+            'payment/braintree_basic/active'
+        ) && $website->getConfig(
+            'payment/braintree_basic/payment_profiles_enabled'
+        );
+        $authorizenetEnabled = $website->getConfig(
+            'payment/pbridge_authorizenet/active'
+        ) && $website->getConfig(
+            'payment/pbridge_authorizenet/payment_profiles_enabled'
+        );
 
         $profileStatus = null;
 
@@ -128,6 +138,6 @@ class Observer
         if (!$method->getCode()) {
             return null;
         }
-        return $this->_coreStoreConfig->getConfig("payment/{$method->getCode()}/$key", $storeId);
+        return $this->_coreStoreConfig->getConfig("payment/{$method->getCode()}/{$key}", $storeId);
     }
 }

@@ -39,7 +39,6 @@ interface ConfigInterface
      */
     public function getComposableTypes();
 
-
     /**
      * Get list of product types that comply with condition
      *

@@ -42,11 +42,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      *
      * @var array
      */
-    protected $_defaultFilters = array(
-            'report_from' => '',
-            'report_to' => '',
-            'report_period' => 'day'
-        );
+    protected $_defaultFilters = array('report_from' => '', 'report_to' => '', 'report_period' => 'day');
 
     /**
      * Sub-report rows count
@@ -123,12 +119,16 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
                  * Validate from and to date
                  */
                 try {
-                    $from = $this->_localeDate->date($this->getFilter('report_from'), \Zend_Date::DATE_SHORT, null, false);
-                    $to   = $this->_localeDate->date($this->getFilter('report_to'), \Zend_Date::DATE_SHORT, null, false);
+                    $from = $this->_localeDate->date(
+                        $this->getFilter('report_from'),
+                        \Zend_Date::DATE_SHORT,
+                        null,
+                        false
+                    );
+                    $to = $this->_localeDate->date($this->getFilter('report_to'), \Zend_Date::DATE_SHORT, null, false);
 
                     $collection->setInterval($from, $to);
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = __('Invalid date specified');
                 }
             }
@@ -139,7 +139,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
                 $collection->setPageSize($this->getSubReportSize());
             }
 
-            $this->_eventManager->dispatch('adminhtml_widget_grid_filter_collection',
+            $this->_eventManager->dispatch(
+                'adminhtml_widget_grid_filter_collection',
                 array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
             );
         }
@@ -160,10 +161,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         $storeIds = array();
         if ($this->getRequest()->getParam('store')) {
             $storeIds = array($this->getParam('store'));
-        } elseif ($this->getRequest()->getParam('website')){
+        } elseif ($this->getRequest()->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-        } elseif ($this->getRequest()->getParam('group')){
-            $storeIds = $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
+        } elseif ($this->getRequest()->getParam('group')) {
+            $storeIds = $storeIds = $this->_storeManager->getGroup(
+                $this->getRequest()->getParam('group')
+            )->getStoreIds();
         }
 
         // By default storeIds array contains only allowed stores
@@ -201,7 +204,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      *
      * @return void
      */
-    public function setStoreSwitcherVisibility($visible=true)
+    public function setStoreSwitcherVisibility($visible = true)
     {
         $this->_storeSwitcherVisibility = $visible;
     }
@@ -233,7 +236,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      *
      * @return void
      */
-    public function setDateFilterVisibility($visible=true)
+    public function setDateFilterVisibility($visible = true)
     {
         $this->_dateFilterVisibility = $visible;
     }
@@ -314,8 +317,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         if (isset($this->_filters[$name])) {
             return $this->_filters[$name];
         } else {
-            return ($this->getRequest()->getParam($name))
-                    ?htmlspecialchars($this->getRequest()->getParam($name)):'';
+            return $this->getRequest()->getParam($name) ? htmlspecialchars($this->getRequest()->getParam($name)) : '';
         }
     }
 
@@ -358,10 +360,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     protected function _prepareFilterButtons()
     {
-        $this->addChild('refresh_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Refresh'),
-            'onclick'   => "{$this->getJsObjectName()}.doFilter();",
-            'class'     => 'task'
-        ));
+        $this->addChild(
+            'refresh_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Refresh'), 'onclick' => "{$this->getJsObjectName()}.doFilter();", 'class' => 'task')
+        );
     }
 }

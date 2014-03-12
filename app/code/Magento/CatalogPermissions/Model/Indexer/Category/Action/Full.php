@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Category\Action;
 
 class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
@@ -37,9 +36,12 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function getCategoryList()
     {
-        $select = $this->getReadAdapter()->select()
-            ->from($this->getTable('catalog_category_entity'), ['entity_id', 'path'])
-            ->order('level ASC');
+        $select = $this->getReadAdapter()->select()->from(
+            $this->getTable('catalog_category_entity'),
+            array('entity_id', 'path')
+        )->order(
+            'level ASC'
+        );
 
         return $this->getReadAdapter()->fetchPairs($select);
     }
@@ -51,12 +53,8 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function clearIndexTempTable()
     {
-        $this->getWriteAdapter()->delete(
-            $this->getIndexTempTable()
-        );
-        $this->getWriteAdapter()->delete(
-            $this->getProductIndexTempTable()
-        );
+        $this->getWriteAdapter()->delete($this->getIndexTempTable());
+        $this->getWriteAdapter()->delete($this->getProductIndexTempTable());
     }
 
     /**
@@ -66,8 +64,7 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function publishCategoryIndexData()
     {
-        $select = $this->getWriteAdapter()->select()
-            ->from($this->getIndexTempTable());
+        $select = $this->getWriteAdapter()->select()->from($this->getIndexTempTable());
 
         $queries = $this->prepareSelectsByRange($select, 'category_id');
 
@@ -76,8 +73,14 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
                 $this->getWriteAdapter()->insertFromSelect(
                     $query,
                     $this->getIndexTable(),
-                    ['category_id', 'website_id', 'customer_group_id',
-                        'grant_catalog_category_view', 'grant_catalog_product_price', 'grant_checkout_items'],
+                    array(
+                        'category_id',
+                        'website_id',
+                        'customer_group_id',
+                        'grant_catalog_category_view',
+                        'grant_catalog_product_price',
+                        'grant_checkout_items'
+                    ),
                     \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
@@ -91,8 +94,7 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function publishProductIndexData()
     {
-        $select = $this->getWriteAdapter()->select()
-            ->from($this->getProductIndexTempTable());
+        $select = $this->getWriteAdapter()->select()->from($this->getProductIndexTempTable());
 
         $queries = $this->prepareSelectsByRange($select, 'product_id', self::PRODUCT_STEP_COUNT);
 
@@ -101,8 +103,14 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
                 $this->getWriteAdapter()->insertFromSelect(
                     $query,
                     $this->getProductIndexTable(),
-                    ['product_id', 'store_id', 'customer_group_id', 'grant_catalog_category_view',
-                        'grant_catalog_product_price', 'grant_checkout_items'],
+                    array(
+                        'product_id',
+                        'store_id',
+                        'customer_group_id',
+                        'grant_catalog_category_view',
+                        'grant_catalog_product_price',
+                        'grant_checkout_items'
+                    ),
                     \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
@@ -116,19 +124,18 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function removeObsoleteCategoryIndexData()
     {
-        $query = $this->getWriteAdapter()->select()
-            ->from(['m' => $this->getIndexTable()])
-            ->joinLeft(
-                ['t' => $this->getIndexTempTable()],
-                'm.category_id = t.category_id'
-                    . ' AND m.website_id = t.website_id'
-                    . ' AND m.customer_group_id = t.customer_group_id'
-            )
-            ->where('t.category_id IS NULL');
-
-        $this->getWriteAdapter()->query(
-            $this->getWriteAdapter()->deleteFromSelect($query, 'm')
+        $query = $this->getWriteAdapter()->select()->from(
+            array('m' => $this->getIndexTable())
+        )->joinLeft(
+            array('t' => $this->getIndexTempTable()),
+            'm.category_id = t.category_id' .
+            ' AND m.website_id = t.website_id' .
+            ' AND m.customer_group_id = t.customer_group_id'
+        )->where(
+            't.category_id IS NULL'
         );
+
+        $this->getWriteAdapter()->query($this->getWriteAdapter()->deleteFromSelect($query, 'm'));
     }
 
     /**
@@ -138,19 +145,18 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function removeObsoleteProductIndexData()
     {
-        $query = $this->getWriteAdapter()->select()
-            ->from(['m' => $this->getProductIndexTable()])
-            ->joinLeft(
-                ['t' => $this->getProductIndexTempTable()],
-                'm.product_id = t.product_id'
-                    . ' AND m.store_id = t.store_id'
-                    . ' AND m.customer_group_id = t.customer_group_id'
-            )
-            ->where('t.product_id IS NULL');
-
-        $this->getWriteAdapter()->query(
-            $this->getWriteAdapter()->deleteFromSelect($query, 'm')
+        $query = $this->getWriteAdapter()->select()->from(
+            array('m' => $this->getProductIndexTable())
+        )->joinLeft(
+            array('t' => $this->getProductIndexTempTable()),
+            'm.product_id = t.product_id' .
+            ' AND m.store_id = t.store_id' .
+            ' AND m.customer_group_id = t.customer_group_id'
+        )->where(
+            't.product_id IS NULL'
         );
+
+        $this->getWriteAdapter()->query($this->getWriteAdapter()->deleteFromSelect($query, 'm'));
     }
 
     /**
@@ -170,6 +176,6 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function getProductList()
     {
-        return [];
+        return array();
     }
 }

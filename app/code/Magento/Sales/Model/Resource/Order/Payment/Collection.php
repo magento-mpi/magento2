@@ -19,14 +19,14 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_order_payment_collection';
+    protected $_eventPrefix = 'sales_order_payment_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'order_payment_collection';
+    protected $_eventObject = 'order_payment_collection';
 
     /**
      * @var \Magento\Sales\Model\Payment\Method\Converter
@@ -79,9 +79,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
         /** @var \Magento\Sales\Model\Order\Payment $item */
         foreach ($this->_items as $item) {
             foreach ($item->getData() as $fieldName => $fieldValue) {
-                $item->setData($fieldName,
-                    $this->_converter->decode($item, $fieldName)
-                );
+                $item->setData($fieldName, $this->_converter->decode($item, $fieldName));
             }
         }
 

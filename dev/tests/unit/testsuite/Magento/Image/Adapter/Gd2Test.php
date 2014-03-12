@@ -5,10 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Image\Adapter;
 
-use \Magento\TestFramework\Helper\ObjectManager;
+use Magento\TestFramework\Helper\ObjectManager;
+
 
 /**
  * Mocking crucial for this adapter global functions
@@ -59,7 +59,6 @@ function call_user_func($callable, $param)
 {
     return false;
 }
-
 /**
  * \Magento\Image\Adapter\Gd2 class test
  */
@@ -134,7 +133,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
             3 => 'width="480" height="320"',
             'bits' => 8,
             'channels' => 3,
-            'mime' => 'image/jpeg',
+            'mime' => 'image/jpeg'
         );
 
         $bigFile = array(
@@ -144,7 +143,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
             3 => 'width="3579" height="2398"',
             'bits' => 8,
             'channels' => 3,
-            'mime' => 'image/jpeg',
+            'mime' => 'image/jpeg'
         );
 
         return array(

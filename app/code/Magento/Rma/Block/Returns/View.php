@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Returns;
 
 use Magento\Rma\Model\Item;
@@ -164,9 +163,12 @@ class View extends \Magento\Rma\Block\Form
         $this->setOrder($this->_coreRegistry->registry('current_order'));
 
         /** @var $collection \Magento\Rma\Model\Resource\Item\Collection */
-        $collection = $this->_itemsFactory->create()
-            ->addAttributeToSelect('*')
-            ->addFilter('rma_entity_id', $this->getRma()->getEntityId());
+        $collection = $this->_itemsFactory->create()->addAttributeToSelect(
+            '*'
+        )->addFilter(
+            'rma_entity_id',
+            $this->getRma()->getEntityId()
+        );
 
         $this->setItems($collection);
 
@@ -199,9 +201,7 @@ class View extends \Magento\Rma\Block\Form
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
-        $itemForm->setFormCode('default')
-            ->setStore($this->getStore())
-            ->setEntity($itemModel);
+        $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($itemModel);
 
         // add system required attributes
         foreach ($itemForm->getSystemAttributes() as $attribute) {
@@ -225,19 +225,17 @@ class View extends \Magento\Rma\Block\Form
      */
     protected function _getAdditionalData(array $excludeAttr = array())
     {
-        $data       = array();
+        $data = array();
 
-        $items      = $this->getItems();
+        $items = $this->getItems();
 
-        $itemForm   = false;
+        $itemForm = false;
 
         foreach ($items as $item) {
             if (!$itemForm) {
                 /* @var $itemForm \Magento\Rma\Model\Item\Form */
                 $itemForm = $this->_itemFormFactory->create();
-                $itemForm->setFormCode('default')
-                    ->setStore($this->getStore())
-                    ->setEntity($item);
+                $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($item);
             }
             foreach ($itemForm->getAttributes() as $attribute) {
                 $code = $attribute->getAttributeCode();
@@ -246,11 +244,10 @@ class View extends \Magento\Rma\Block\Form
                     $data[$item->getId()][$code] = array(
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'html'  => ''
+                        'html' => ''
                     );
                     if ($attribute->getFrontendInput() == 'image') {
-                        $data[$item->getId()][$code]['html'] = $this->setEntity($item)
-                            ->getAttributeHtml($attribute);
+                        $data[$item->getId()][$code]['html'] = $this->setEntity($item)->getAttributeHtml($attribute);
                     }
                 }
             }
@@ -361,7 +358,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getAddress()
     {
-        return  $this->_rmaData->getReturnAddress();
+        return $this->_rmaData->getReturnAddress();
     }
 
     /**
@@ -387,17 +384,21 @@ class View extends \Magento\Rma\Block\Form
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
 
             $name = '';
-            if ($this->_eavConfig->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()) {
+            if ($this->_eavConfig->getAttribute('customer', 'prefix')->getIsVisible() && $billingAddress->getPrefix()
+            ) {
                 $name .= $billingAddress->getPrefix() . ' ';
             }
             $name .= $billingAddress->getFirstname();
-            if ($this->_eavConfig->getAttribute('customer', 'middlename')->getIsVisible()
-                && $billingAddress->getMiddlename()
+            if ($this->_eavConfig->getAttribute(
+                'customer',
+                'middlename'
+            )->getIsVisible() && $billingAddress->getMiddlename()
             ) {
                 $name .= ' ' . $billingAddress->getMiddlename();
             }
-            $name .=  ' ' . $billingAddress->getLastname();
-            if ($this->_eavConfig->getAttribute('customer', 'suffix')->getIsVisible() && $billingAddress->getSuffix()) {
+            $name .= ' ' . $billingAddress->getLastname();
+            if ($this->_eavConfig->getAttribute('customer', 'suffix')->getIsVisible() && $billingAddress->getSuffix()
+            ) {
                 $name .= ' ' . $billingAddress->getSuffix();
             }
             return $name;
@@ -454,13 +455,10 @@ class View extends \Magento\Rma\Block\Form
      */
     public function canShowButtons()
     {
-        return (bool)(
-            $this->getShippingLabel()->getId()
-            && (!($this->getRma()->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED
-                || $this->getRma()->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED))
-        );
+        return (bool)($this->getShippingLabel()->getId() &&
+            !($this->getRma()->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED ||
+            $this->getRma()->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED));
     }
-
 
     /**
      * Get print label button html
@@ -471,14 +469,13 @@ class View extends \Magento\Rma\Block\Form
     {
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
-        return $this->getLayout()
-            ->createBlock('Magento\View\Element\Html\Link')
-            ->setData(array(
-                'label'   => __('Print Shipping Label'),
-                'onclick' => 'setLocation(\'' . $url . '\')'
-            ))
-            ->setAnchorText(__('Print Shipping Label'))
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Link'
+        )->setData(
+            array('label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')')
+        )->setAnchorText(
+            __('Print Shipping Label')
+        )->toHtml();
     }
 
     /**
@@ -488,18 +485,23 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getShowPackagesButton()
     {
-        return $this->getLayout()
-            ->createBlock('Magento\View\Element\Html\Link')
-            ->setData(array(
-                'href'      => "javascript:void(0)",
-                'title'     => __('Show Packages'),
-                'onclick'   => "popWin(
-                        '".$this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma())."',
+        return $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Link'
+        )->setData(
+            array(
+                'href' => "javascript:void(0)",
+                'title' => __('Show Packages'),
+                'onclick' => "popWin(
+                        '" . $this->_rmaData->getPackagePopupUrlByRmaModel(
+                    $this->getRma()
+                ) .
+                "',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
-            ))
-            ->setAnchorText(__('Show Packages'))
-            ->toHtml();
+            )
+        )->setAnchorText(
+            __('Show Packages')
+        )->toHtml();
     }
 
     /**
@@ -509,17 +511,16 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getPrintShippingLabelButton()
     {
-        return $this->getLayout()
-            ->createBlock('Magento\View\Element\Html\Link')
-            ->setData(array(
-                'href'      => $this->_rmaData->getPackagePopupUrlByRmaModel(
-                    $this->getRma(),
-                    'printlabel'
-                ),
-                'title'     => __('Print Shipping Label'),
-            ))
-            ->setAnchorText(__('Print Shipping Label'))
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Link'
+        )->setData(
+            array(
+                'href' => $this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma(), 'printlabel'),
+                'title' => __('Print Shipping Label')
+            )
+        )->setAnchorText(
+            __('Print Shipping Label')
+        )->toHtml();
     }
 
     /**

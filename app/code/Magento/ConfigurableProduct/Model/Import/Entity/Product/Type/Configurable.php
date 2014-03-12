@@ -7,19 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Model\Import\Entity\Product\Type;
 
-class Configurable
-    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
     /**
      * Error codes.
      */
     const ERROR_ATTRIBUTE_CODE_IS_NOT_SUPER = 'attrCodeIsNotSuper';
-    const ERROR_INVALID_PRICE_CORRECTION    = 'invalidPriceCorr';
-    const ERROR_INVALID_OPTION_VALUE        = 'invalidOptionValue';
-    const ERROR_INVALID_WEBSITE             = 'invalidSuperAttrWebsite';
+
+    const ERROR_INVALID_PRICE_CORRECTION = 'invalidPriceCorr';
+
+    const ERROR_INVALID_OPTION_VALUE = 'invalidOptionValue';
+
+    const ERROR_INVALID_WEBSITE = 'invalidSuperAttrWebsite';
 
     /**
      * Validation failure message template definitions
@@ -28,9 +29,9 @@ class Configurable
      */
     protected $_messageTemplates = array(
         self::ERROR_ATTRIBUTE_CODE_IS_NOT_SUPER => 'Attribute with this code is not super',
-        self::ERROR_INVALID_PRICE_CORRECTION    => 'Super attribute price correction value is invalid',
-        self::ERROR_INVALID_OPTION_VALUE        => 'Invalid option value',
-        self::ERROR_INVALID_WEBSITE             => 'Invalid website code for super attribute'
+        self::ERROR_INVALID_PRICE_CORRECTION => 'Super attribute price correction value is invalid',
+        self::ERROR_INVALID_OPTION_VALUE => 'Invalid option value',
+        self::ERROR_INVALID_WEBSITE => 'Invalid website code for super attribute'
     );
 
     /**
@@ -39,8 +40,11 @@ class Configurable
      * @var string[]
      */
     protected $_specialAttributes = array(
-        '_super_products_sku', '_super_attribute_code', '_super_attribute_option',
-        '_super_attribute_price_corr', '_super_attribute_price_website'
+        '_super_products_sku',
+        '_super_attribute_code',
+        '_super_attribute_option',
+        '_super_attribute_price_corr',
+        '_super_attribute_price_website'
     );
 
     /**
@@ -193,7 +197,7 @@ class Configurable
      */
     protected function _isAttributeRequiredCheckNeeded($attrCode)
     {
-        return !$this->_isAttributeSuper($attrCode); // do not check super attributes
+        return !$this->_isAttributeSuper($attrCode);
     }
 
     /**
@@ -219,7 +223,8 @@ class Configurable
         if (!empty($rowData['_super_attribute_code'])) {
             $superAttrCode = $rowData['_super_attribute_code'];
 
-            if (!$this->_isAttributeSuper($superAttrCode)) { // check attribute superity
+            if (!$this->_isAttributeSuper($superAttrCode)) {
+                // check attribute superity
                 $this->_entityModel->addRowError(self::ERROR_ATTRIBUTE_CODE_IS_NOT_SUPER, $rowNum);
                 return false;
             } elseif (isset($rowData['_super_attribute_option']) && strlen($rowData['_super_attribute_option'])) {
@@ -229,8 +234,9 @@ class Configurable
                     return false;
                 }
                 // check price value
-                if (!empty($rowData['_super_attribute_price_corr'])
-                    && !$this->_isPriceCorr($rowData['_super_attribute_price_corr'])
+                if (!empty($rowData['_super_attribute_price_corr']) && !$this->_isPriceCorr(
+                    $rowData['_super_attribute_price_corr']
+                )
                 ) {
                     $this->_entityModel->addRowError(self::ERROR_INVALID_PRICE_CORRECTION, $rowNum);
                     return false;
@@ -251,7 +257,7 @@ class Configurable
     protected function _loadSkuSuperAttributeValues($bunch, $newSku, $oldSku)
     {
         if ($this->_superAttributes) {
-            $attrSetIdToName   = $this->_entityModel->getAttrSetIdToName();
+            $attrSetIdToName = $this->_entityModel->getAttrSetIdToName();
 
             $productIds = array();
             foreach ($bunch as $rowData) {
@@ -264,16 +270,18 @@ class Configurable
                 }
             }
 
-            foreach ($this->_productColFac->create()
-                        ->addFieldToFilter('type_id', $this->_productTypesConfig->getComposableTypes())
-                        ->addFieldToFilter ('entity_id', array('in' => $productIds))
-                        ->addAttributeToSelect(array_keys($this->_superAttributes)) as $product) {
+            foreach ($this->_productColFac->create()->addFieldToFilter(
+                'type_id',
+                $this->_productTypesConfig->getComposableTypes()
+            )->addFieldToFilter(
+                'entity_id',
+                array('in' => $productIds)
+            )->addAttributeToSelect(
+                array_keys($this->_superAttributes)
+            ) as $product) {
                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];
 
-                $data = array_intersect_key(
-                    $product->getData(),
-                    $this->_superAttributes
-                );
+                $data = array_intersect_key($product->getData(), $this->_superAttributes);
                 foreach ($data as $attrCode => $value) {
                     $attrId = $this->_superAttributes[$attrCode]['id'];
                     $this->_skuSuperAttributeValues[$attrSetName][$product->getId()][$attrId] = $value;
@@ -292,16 +300,20 @@ class Configurable
     {
         if (!$this->_skuSuperData) {
             $connection = $this->_entityModel->getConnection();
-            $mainTable  = $this->_resource->getTableName('catalog_product_super_attribute');
+            $mainTable = $this->_resource->getTableName('catalog_product_super_attribute');
             $priceTable = $this->_resource->getTableName('catalog_product_super_attribute_pricing');
-            $select     = $connection->select()
-                    ->from(array('m' => $mainTable), array('product_id', 'attribute_id', 'product_super_attribute_id'))
-                    ->joinLeft(
-                        array('p' => $priceTable),
-                        $connection->quoteIdentifier('p.product_super_attribute_id') . ' = '
-                        . $connection->quoteIdentifier('m.product_super_attribute_id'),
-                        array('value_index')
-                    );
+            $select = $connection->select()->from(
+                array('m' => $mainTable),
+                array('product_id', 'attribute_id', 'product_super_attribute_id')
+            )->joinLeft(
+                array('p' => $priceTable),
+                $connection->quoteIdentifier(
+                    'p.product_super_attribute_id'
+                ) . ' = ' . $connection->quoteIdentifier(
+                    'm.product_super_attribute_id'
+                ),
+                array('value_index')
+            );
 
             foreach ($connection->fetchAll($select) as $row) {
                 $attrId = $row['attribute_id'];
@@ -334,11 +346,11 @@ class Configurable
                 }
                 if ($superData['used_attributes']) {
                     $skuSuperValues = $this->_skuSuperAttributeValues[$superData['attr_set_code']][$assocId];
-                    $usedCombParts  = array();
+                    $usedCombParts = array();
 
                     foreach ($superData['used_attributes'] as $usedAttrId => $usedValues) {
                         if (empty($skuSuperValues[$usedAttrId]) || !isset($usedValues[$skuSuperValues[$usedAttrId]])) {
-                            continue; // invalid value or value does not exists for associated product
+                            continue;
                         }
                         $usedCombParts[] = $skuSuperValues[$usedAttrId];
                         $superData['used_attributes'][$usedAttrId][$skuSuperValues[$usedAttrId]] = true;
@@ -346,23 +358,23 @@ class Configurable
                     $comb = implode('|', $usedCombParts);
 
                     if (isset($usedCombs[$comb])) {
-                        continue; // super attributes values combination was already used
+                        continue;
                     }
                     $usedCombs[$comb] = true;
                 }
                 $superAttributes['super_link'][] = array(
-                    'product_id' => $assocId, 'parent_id' => $superData['product_id']
+                    'product_id' => $assocId,
+                    'parent_id' => $superData['product_id']
                 );
                 $superAttributes['relation'][] = array(
-                    'parent_id' => $superData['product_id'], 'child_id' => $assocId
+                    'parent_id' => $superData['product_id'],
+                    'child_id' => $assocId
                 );
             }
             // clean up unused values pricing
             foreach ($superData['used_attributes'] as $usedAttrId => $usedValues) {
                 foreach ($usedValues as $optionId => $isUsed) {
-                    if (!$isUsed
-                        && isset($superAttributes['pricing'][$superData['product_id']][$usedAttrId])
-                    ) {
+                    if (!$isUsed && isset($superAttributes['pricing'][$superData['product_id']][$usedAttrId])) {
                         foreach ($superAttributes['pricing'][$superData['product_id']][$usedAttrId] as $k => $params) {
                             if ($optionId == $params['value_index']) {
                                 unset($superAttributes['pricing'][$superData['product_id']][$usedAttrId][$k]);
@@ -386,17 +398,17 @@ class Configurable
      */
     public function saveData()
     {
-        $connection      = $this->_entityModel->getConnection();
-        $mainTable       = $this->_resource->getTableName('catalog_product_super_attribute');
-        $labelTable      = $this->_resource->getTableName('catalog_product_super_attribute_label');
-        $priceTable      = $this->_resource->getTableName('catalog_product_super_attribute_pricing');
-        $linkTable       = $this->_resource->getTableName('catalog_product_super_link');
-        $relationTable   = $this->_resource->getTableName('catalog_product_relation');
-        $newSku          = $this->_entityModel->getNewSku();
-        $oldSku          = $this->_entityModel->getOldSku();
+        $connection = $this->_entityModel->getConnection();
+        $mainTable = $this->_resource->getTableName('catalog_product_super_attribute');
+        $labelTable = $this->_resource->getTableName('catalog_product_super_attribute_label');
+        $priceTable = $this->_resource->getTableName('catalog_product_super_attribute_pricing');
+        $linkTable = $this->_resource->getTableName('catalog_product_super_link');
+        $relationTable = $this->_resource->getTableName('catalog_product_relation');
+        $newSku = $this->_entityModel->getNewSku();
+        $oldSku = $this->_entityModel->getOldSku();
         $productSuperData = array();
-        $productData     = null;
-        $nextAttrId      = $this->_resourceHelper->getNextAutoincrement($mainTable);
+        $productData = null;
+        $nextAttrId = $this->_resourceHelper->getNextAutoincrement($mainTable);
 
         if ($this->_entityModel->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
             $this->_loadSkuSuperData();
@@ -405,10 +417,10 @@ class Configurable
         while ($bunch = $this->_entityModel->getNextBunch()) {
             $superAttributes = array(
                 'attributes' => array(),
-                'labels'     => array(),
-                'pricing'    => array(),
+                'labels' => array(),
+                'pricing' => array(),
                 'super_link' => array(),
-                'relation'   => array()
+                'relation' => array()
             );
 
             $this->_loadSkuSuperAttributeValues($bunch, $newSku, $oldSku);
@@ -431,11 +443,11 @@ class Configurable
                     $this->_processSuperData($productSuperData, $superAttributes);
 
                     $productSuperData = array(
-                        'product_id'      => $productId,
-                        'attr_set_code'   => $productData['attr_set_code'],
-                        'used_attributes' => empty($this->_skuSuperData[$productId])
-                                             ? array() : $this->_skuSuperData[$productId],
-                        'assoc_ids'       => array()
+                        'product_id' => $productId,
+                        'attr_set_code' => $productData['attr_set_code'],
+                        'used_attributes' => empty($this->_skuSuperData[$productId]) ? array() : $this
+                            ->_skuSuperData[$productId],
+                        'assoc_ids' => array()
                     );
                 } elseif (null === $productData) {
                     continue;
@@ -457,13 +469,14 @@ class Configurable
                 } elseif (!isset($superAttributes['attributes'][$productId][$attrParams['id']])) {
                     $productSuperAttrId = $nextAttrId++;
                     $superAttributes['attributes'][$productId][$attrParams['id']] = array(
-                        'product_super_attribute_id' => $productSuperAttrId, 'position' => 0
+                        'product_super_attribute_id' => $productSuperAttrId,
+                        'position' => 0
                     );
                     $superAttributes['labels'][] = array(
                         'product_super_attribute_id' => $productSuperAttrId,
-                        'store_id'    => 0,
+                        'store_id' => 0,
                         'use_default' => 1,
-                        'value'       => $attrParams['frontend_label']
+                        'value' => $attrParams['frontend_label']
                     );
                 }
                 if (isset($rowData['_super_attribute_option']) && strlen($rowData['_super_attribute_option'])) {
@@ -475,10 +488,10 @@ class Configurable
                     if (!empty($rowData['_super_attribute_price_corr'])) {
                         $superAttributes['pricing'][] = array(
                             'product_super_attribute_id' => $productSuperAttrId,
-                            'value_index'   => $optionId,
-                            'is_percent'    => '%' == substr($rowData['_super_attribute_price_corr'], -1),
-                            'pricing_value' => (float) rtrim($rowData['_super_attribute_price_corr'], '%'),
-                            'website_id'    => 0
+                            'value_index' => $optionId,
+                            'is_percent' => '%' == substr($rowData['_super_attribute_price_corr'], -1),
+                            'pricing_value' => (double)rtrim($rowData['_super_attribute_price_corr'], '%'),
+                            'website_id' => 0
                         );
                     }
                 }
@@ -487,8 +500,9 @@ class Configurable
             $this->_processSuperData($productSuperData, $superAttributes);
 
             // remove old data if needed
-            if ($this->_entityModel->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
-                && $superAttributes['attributes']) {
+            if ($this->_entityModel->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND &&
+                $superAttributes['attributes']
+            ) {
                 $quoted = $connection->quoteInto('IN (?)', array_keys($superAttributes['attributes']));
                 $connection->delete($mainTable, "product_id {$quoted}");
                 $connection->delete($linkTable, "parent_id {$quoted}");
@@ -498,9 +512,9 @@ class Configurable
 
             foreach ($superAttributes['attributes'] as $productId => $attributesData) {
                 foreach ($attributesData as $attrId => $row) {
-                    $row['product_id']   = $productId;
+                    $row['product_id'] = $productId;
                     $row['attribute_id'] = $attrId;
-                    $mainData[]          = $row;
+                    $mainData[] = $row;
                 }
             }
             if ($mainData) {

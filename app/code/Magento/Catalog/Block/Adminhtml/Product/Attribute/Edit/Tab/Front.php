@@ -15,7 +15,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form;
@@ -56,21 +55,36 @@ class Front extends Generic
         $attributeObject = $this->_coreRegistry->registry('entity_attribute');
 
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
-            ))
+        $form = $this->_formFactory->create(
+            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
         );
 
         $yesnoSource = $this->_yesNo->toOptionArray();
 
         $fieldset = $form->addFieldset(
             'front_fieldset',
+            array('legend' => __('Frontend Properties'), 'collapsable' => $this->getRequest()->has('popup'))
+        );
+
+        $fieldset->addField(
+            'is_searchable',
+            'select',
             array(
-                'legend'=>__('Frontend Properties'),
-                'collapsable' => $this->getRequest()->has('popup'),
+                'name' => 'is_searchable',
+                'label' => __('Use in Quick Search'),
+                'title' => __('Use in Quick Search'),
+                'values' => $yesnoSource
+            )
+        );
+
+        $fieldset->addField(
+            'is_visible_in_advanced_search',
+            'select',
+            array(
+                'name' => 'is_visible_in_advanced_search',
+                'label' => __('Use in Advanced Search'),
+                'title' => __('Use in Advanced Search'),
+                'values' => $yesnoSource
             )
         );
 
@@ -121,48 +135,73 @@ class Front extends Generic
             $attributeObject->setIsHtmlAllowedOnFront(1);
         }
 
-        $fieldset->addField('is_visible_on_front', 'select', array(
-            'name'      => 'is_visible_on_front',
-            'label'     => __('Visible on Catalog Pages on Frontend'),
-            'title'     => __('Visible on Catalog Pages on Frontend'),
-            'values'    => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_visible_on_front',
+            'select',
+            array(
+                'name' => 'is_visible_on_front',
+                'label' => __('Visible on Catalog Pages on Frontend'),
+                'title' => __('Visible on Catalog Pages on Frontend'),
+                'values' => $yesnoSource
+            )
+        );
 
-        $fieldset->addField('used_in_product_listing', 'select', array(
-            'name'      => 'used_in_product_listing',
-            'label'     => __('Used in Product Listing'),
-            'title'     => __('Used in Product Listing'),
-            'note'      => __('Depends on design theme'),
-            'values'    => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'used_in_product_listing',
+            'select',
+            array(
+                'name' => 'used_in_product_listing',
+                'label' => __('Used in Product Listing'),
+                'title' => __('Used in Product Listing'),
+                'note' => __('Depends on design theme'),
+                'values' => $yesnoSource
+            )
+        );
 
-        $fieldset->addField('used_for_sort_by', 'select', array(
-            'name'      => 'used_for_sort_by',
-            'label'     => __('Used for Sorting in Product Listing'),
-            'title'     => __('Used for Sorting in Product Listing'),
-            'note'      => __('Depends on design theme'),
-            'values'    => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'used_for_sort_by',
+            'select',
+            array(
+                'name' => 'used_for_sort_by',
+                'label' => __('Used for Sorting in Product Listing'),
+                'title' => __('Used for Sorting in Product Listing'),
+                'note' => __('Depends on design theme'),
+                'values' => $yesnoSource
+            )
+        );
 
-        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_edit_frontend_prepare_form', array(
-            'form'      => $form,
-            'attribute' => $attributeObject
-        ));
+        $this->_eventManager->dispatch(
+            'adminhtml_catalog_product_attribute_edit_frontend_prepare_form',
+            array('form' => $form, 'attribute' => $attributeObject)
+        );
 
         // define field dependencies
         $this->setChild(
             'form_after',
-            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Form\Element\Dependence')
-                ->addFieldMap("is_wysiwyg_enabled", 'wysiwyg_enabled')
-                ->addFieldMap("is_html_allowed_on_front", 'html_allowed_on_front')
-                ->addFieldMap("frontend_input", 'frontend_input_type')
-                ->addFieldDependence('wysiwyg_enabled', 'frontend_input_type', 'textarea')
-                ->addFieldDependence('html_allowed_on_front', 'wysiwyg_enabled', '0')
+            $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Widget\Form\Element\Dependence'
+            )->addFieldMap(
+                "is_wysiwyg_enabled",
+                'wysiwyg_enabled'
+            )->addFieldMap(
+                "is_html_allowed_on_front",
+                'html_allowed_on_front'
+            )->addFieldMap(
+                "frontend_input",
+                'frontend_input_type'
+            )->addFieldDependence(
+                'wysiwyg_enabled',
+                'frontend_input_type',
+                'textarea'
+            )->addFieldDependence(
+                'html_allowed_on_front',
+                'wysiwyg_enabled',
+                '0'
+            )
         );
 
         $form->setValues($attributeObject->getData());
         $this->setForm($form);
         return parent::_prepareForm();
     }
-
 }

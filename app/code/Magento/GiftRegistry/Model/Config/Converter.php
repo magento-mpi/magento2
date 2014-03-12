@@ -112,7 +112,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $result[$attributeGroupName] = array(
                 'sortOrder' => $groupSortOrder,
                 'visible' => $groupIsVisible,
-                'label'     => $labelText
+                'label' => $labelText
             );
         }
 
@@ -169,10 +169,7 @@ class Converter implements \Magento\Config\ConverterInterface
             }
         }
 
-        $result = array(
-            'registry' => $registry,
-            'registrant' => $registrant
-        );
+        $result = array('registry' => $registry, 'registrant' => $registrant);
 
         return $result;
     }

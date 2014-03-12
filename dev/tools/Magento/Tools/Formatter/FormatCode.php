@@ -10,6 +10,7 @@ namespace Magento\Tools\Formatter;
 use DateTime;
 use Magento\Tools\Formatter\PrettyPrinter\Printer;
 
+
 require_once __DIR__ . '/../../../bootstrap.php';
 require_once __DIR__ . '/../../../PHP-Parser/lib/bootstrap.php';
 require_once __DIR__ . '/FileUtils.php';

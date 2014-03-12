@@ -14,7 +14,6 @@ namespace Magento\GiftRegistry\Model\Config;
  */
 class Reader extends \Magento\Config\Reader\Filesystem
 {
-
     /**
      * List of id attributes for merge
      *

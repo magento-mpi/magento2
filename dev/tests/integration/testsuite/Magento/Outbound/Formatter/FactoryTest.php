@@ -7,7 +7,6 @@
  * @copyright          {copyright}
  * @license            {license_link}
  */
-
 namespace Magento\Outbound\Formatter;
 
 use Magento\Outbound\Formatter\Factory as FormatterFactory;
@@ -20,12 +19,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_formatterFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Outbound\Formatter\Factory', array(
-                    'formatterMap' => array(
-                        EndpointInterface::FORMAT_JSON => 'Magento\Outbound\Formatter\Json'
-                    )
-                ));
+        $this->_formatterFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Outbound\Formatter\Factory',
+            array('formatterMap' => array(EndpointInterface::FORMAT_JSON => 'Magento\Outbound\Formatter\Json'))
+        );
     }
 
     public function testGetFormatter()

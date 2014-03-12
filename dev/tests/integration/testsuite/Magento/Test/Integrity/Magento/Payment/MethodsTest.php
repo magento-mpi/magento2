@@ -26,16 +26,18 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
     public function testPaymentMethod($code, $methodClass)
     {
         /** @var $blockFactory \Magento\View\Element\BlockFactory */
-        $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\Element\BlockFactory');
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+        $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\Element\BlockFactory'
+        );
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->getId();
         /** @var $model \Magento\Payment\Model\MethodInterface */
         if (empty($methodClass)) {
             /**
              * Note that $code is not whatever the payment method getCode() returns
              */
-            $this->fail("Model of '{$code}' payment method is not found."); // prevent fatal error
+            $this->fail("Model of '{$code}' payment method is not found.");
         }
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($methodClass);
         $this->assertNotEmpty($model->getTitle());
@@ -47,21 +49,24 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             $this->assertFileExists($block->getTemplateFile(), $message);
             if ($model->canUseInternal()) {
                 try {
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                        ->get('Magento\Core\Model\StoreManagerInterface')
-                        ->getStore()
-                        ->setId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                        'Magento\Core\Model\StoreManagerInterface'
+                    )->getStore()->setId(
+                        \Magento\Core\Model\Store::DEFAULT_STORE_ID
+                    );
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                        ->get('Magento\Core\Model\StoreManagerInterface')
-                        ->getStore()
-                        ->setId($storeId);
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                        'Magento\Core\Model\StoreManagerInterface'
+                    )->getStore()->setId(
+                        $storeId
+                    );
                 } catch (\Exception $e) {
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                        ->get('Magento\Core\Model\StoreManagerInterface')
-                        ->getStore()
-                        ->setId($storeId);
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                        'Magento\Core\Model\StoreManagerInterface'
+                    )->getStore()->setId(
+                        $storeId
+                    );
                     throw $e;
                 }
             }

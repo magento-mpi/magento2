@@ -23,7 +23,6 @@ class ResourceNotFoundException extends \Magento\Service\Exception
      */
     public function __construct(
         $message = '',
-        // TODO Specify default exception code when Service \Exception Handling policy is defined
         $code = 0,
         \Exception $previous = null,
         array $parameters = array(),

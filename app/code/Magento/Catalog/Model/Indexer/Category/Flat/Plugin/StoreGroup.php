@@ -54,7 +54,7 @@ class StoreGroup
     {
         return $group->dataHasChangedFor('root_category_id') && !$group->isObjectNew();
     }
-    
+
     /**
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $subject
      * @param callable $proceed

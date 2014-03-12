@@ -39,5 +39,4 @@ class Container extends \Magento\Eav\Model\Entity\Attribute\Source\Config
         }
         return false;
     }
-
 }

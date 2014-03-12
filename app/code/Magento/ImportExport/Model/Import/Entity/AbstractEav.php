@@ -12,8 +12,7 @@ namespace Magento\ImportExport\Model\Import\Entity;
 /**
  * Import EAV entity abstract model
  */
-abstract class AbstractEav
-    extends \Magento\ImportExport\Model\Import\AbstractEntity
+abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEntity
 {
     /**
      * Attribute collection name
@@ -100,13 +99,14 @@ abstract class AbstractEav
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data
-        );
+        parent::__construct($coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource, $data);
 
-        $this->_storeManager   = $storeManager;
-        $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
-            : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
+        $this->_storeManager = $storeManager;
+        $this->_attributeCollection = isset(
+            $data['attribute_collection']
+        ) ? $data['attribute_collection'] : $collectionFactory->create(
+            static::ATTRIBUTE_COLLECTION_NAME
+        );
 
         if (isset($data['entity_type_id'])) {
             $this->_entityTypeId = $data['entity_type_id'];
@@ -170,14 +170,14 @@ abstract class AbstractEav
         /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
-                'id'          => $attribute->getId(),
-                'code'        => $attribute->getAttributeCode(),
-                'table'       => $attribute->getBackend()->getTable(),
+                'id' => $attribute->getId(),
+                'code' => $attribute->getAttributeCode(),
+                'table' => $attribute->getBackend()->getTable(),
                 'is_required' => $attribute->getIsRequired(),
-                'is_static'   => $attribute->isStatic(),
-                'rules'       => $attribute->getValidateRules() ? unserialize($attribute->getValidateRules()) : null,
-                'type'        => \Magento\ImportExport\Model\Import::getAttributeType($attribute),
-                'options'     => $this->getAttributeOptions($attribute)
+                'is_static' => $attribute->isStatic(),
+                'rules' => $attribute->getValidateRules() ? unserialize($attribute->getValidateRules()) : null,
+                'type' => \Magento\ImportExport\Model\Import::getAttributeType($attribute),
+                'options' => $this->getAttributeOptions($attribute)
             );
         }
         return $this;
@@ -200,7 +200,8 @@ abstract class AbstractEav
      * @param array $indexAttributes OPTIONAL Additional attribute codes with index values.
      * @return array
      */
-    public function getAttributeOptions(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
+    public function getAttributeOptions(
+        \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
         array $indexAttributes = array()
     ) {
         $options = array();
@@ -219,13 +220,13 @@ abstract class AbstractEav
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
                     $value = is_array($option['value']) ? $option['value'] : array($option);
                     foreach ($value as $innerOption) {
-                        if (strlen($innerOption['value'])) { // skip ' -- Please Select -- ' option
+                        if (strlen($innerOption['value'])) {
+                            // skip ' -- Please Select -- ' option
                             $options[strtolower($innerOption[$index])] = $innerOption['value'];
                         }
                     }
                 }
             } catch (\Exception $e) {
-                // ignore exceptions connected with source models
             }
         }
         return $options;

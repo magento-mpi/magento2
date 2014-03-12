@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Banner;
 
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -68,8 +67,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_bannerColFactory->create()
-            ->addStoresVisibility();
+        $collection = $this->_bannerColFactory->create()->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -81,58 +79,59 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('banner_id',
+        $this->addColumn(
+            'banner_id',
+            array('header' => __('ID'), 'width' => 1, 'type' => 'number', 'index' => 'banner_id')
+        );
+
+        $this->addColumn(
+            'banner_name',
+            array('header' => __('Banner'), 'type' => 'text', 'index' => 'name', 'escape' => true)
+        );
+
+        $this->addColumn(
+            'banner_types',
             array(
-                'header'=> __('ID'),
-                'width' => 1,
-                'type'  => 'number',
-                'index' => 'banner_id',
-        ));
-
-        $this->addColumn('banner_name', array(
-            'header' => __('Banner'),
-            'type'   => 'text',
-            'index'  => 'name',
-            'escape' => true
-        ));
-
-        $this->addColumn('banner_types', array(
-            'header'  => __('Banner Types'),
-            'type'    => 'options',
-            'options' => $this->_bannerConfig->toOptionArray(true, false),
-            'index'   => 'types',
-            'width'   => 250,
-            'filter'  => false, // TODO implement
-        ));
+                'header' => __('Banner Types'),
+                'type' => 'options',
+                'options' => $this->_bannerConfig->toOptionArray(true, false),
+                'index' => 'types',
+                'width' => 250,
+                'filter' => false
+            )
+        );
 
         /**
          * Check is single store mode
          */
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('visible_in', array(
-                'header'                => __('Visibility'),
-                'type'                  => 'store',
-                'index'                 => 'stores',
-                'sortable'              => false,
-                'store_view'            => true,
-                'width'                 => 200
-            ));
+            $this->addColumn(
+                'visible_in',
+                array(
+                    'header' => __('Visibility'),
+                    'type' => 'store',
+                    'index' => 'stores',
+                    'sortable' => false,
+                    'store_view' => true,
+                    'width' => 200
+                )
+            );
         }
 
-        $this->addColumn('banner_is_enabled',
+        $this->addColumn(
+            'banner_is_enabled',
             array(
-                'header'    => __('Active'),
-                'align'     => 'center',
-                'width'     => 1,
-                'index'     => 'is_enabled',
-                'type'      => 'options',
-                'options'   => array(
-                    \Magento\Banner\Model\Banner::STATUS_ENABLED  =>
-                        __('Yes'),
-                    \Magento\Banner\Model\Banner::STATUS_DISABLED =>
-                        __('No'),
-                ),
-        ));
+                'header' => __('Active'),
+                'align' => 'center',
+                'width' => 1,
+                'index' => 'is_enabled',
+                'type' => 'options',
+                'options' => array(
+                    \Magento\Banner\Model\Banner::STATUS_ENABLED => __('Yes'),
+                    \Magento\Banner\Model\Banner::STATUS_DISABLED => __('No')
+                )
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -147,12 +146,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setMassactionIdField('banner_id');
         $this->getMassactionBlock()->setFormFieldName('banner');
 
-        $this->getMassactionBlock()->addItem('delete', array(
-            'label'    => __('Delete'),
-            'url'      => $this->getUrl('adminhtml/*/massDelete'),
-            'confirm'  =>
-                __('Are you sure you want to delete these banners?')
-        ));
+        $this->getMassactionBlock()->addItem(
+            'delete',
+            array(
+                'label' => __('Delete'),
+                'url' => $this->getUrl('adminhtml/*/massDelete'),
+                'confirm' => __('Are you sure you want to delete these banners?')
+            )
+        );
 
         return $this;
     }
@@ -175,7 +176,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/grid', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/grid', array('_current' => true));
     }
 
     /**

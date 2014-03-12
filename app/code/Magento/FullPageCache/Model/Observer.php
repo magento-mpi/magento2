@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model;
 
 /**
@@ -203,7 +202,7 @@ class Observer
         $this->_ctlgProdCompare = $ctlgProdCompare;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_processor = $processor;
-        $this->_mapper    = $mapper;
+        $this->_mapper = $mapper;
         $this->_cacheState = $cacheState;
         $this->_fpcCache = $fpcCache;
         $this->_cookie = $cookie;
@@ -270,7 +269,8 @@ class Observer
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
-            $this->_cacheState->setEnabled(\Magento\View\Element\AbstractBlock::CACHE_GROUP, false); // disable blocks cache
+            $this->_cacheState->setEnabled(\Magento\View\Element\AbstractBlock::CACHE_GROUP, false);
+            // disable blocks cache
             $this->_catalogSession->setParamsMemorizeDisabled(true);
         } else {
             $this->_catalogSession->setParamsMemorizeDisabled(false);
@@ -374,9 +374,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_fpcValidatorFactory
-            ->create()
-            ->checkDataChange($observer->getEvent()->getObject());
+        $this->_fpcValidatorFactory->create()->checkDataChange($observer->getEvent()->getObject());
         return $this;
     }
 
@@ -391,9 +389,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_fpcValidatorFactory
-            ->create()
-            ->checkDataDelete($observer->getEvent()->getObject());
+        $this->_fpcValidatorFactory->create()->checkDataDelete($observer->getEvent()->getObject());
         return $this;
     }
 
@@ -460,8 +456,13 @@ class Observer
             return $this;
         }
         /** @var \Magento\Sales\Model\Quote */
-        $quote = ($observer->getEvent()->getQuote()) ? $observer->getEvent()->getQuote() :
-            $observer->getEvent()->getQuoteItem()->getQuote();
+        $quote = $observer->getEvent()
+            ->getQuote() ? $observer
+            ->getEvent()
+            ->getQuote() : $observer
+            ->getEvent()
+            ->getQuoteItem()
+            ->getQuote();
         $this->_cookie->setObscure(\Magento\FullPageCache\Model\Cookie::COOKIE_CART, 'quote_' . $quote->getId());
 
         $cacheId = \Magento\FullPageCache\Model\Container\Advanced\Quote::getCacheId();
@@ -484,7 +485,7 @@ class Observer
 
         $listItems = $this->_ctlgProdCompare->getItemCollection();
         $previousList = $this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST);
-        $previousList = (empty($previousList)) ? array() : explode(',', $previousList);
+        $previousList = empty($previousList) ? array() : explode(',', $previousList);
 
         $ids = array();
         foreach ($listItems as $item) {
@@ -499,10 +500,11 @@ class Observer
         );
 
         //Recently compared products processing
-        $recentlyComparedProducts = $this->_cookie
-            ->get(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED);
-        $recentlyComparedProducts = (empty($recentlyComparedProducts)) ? array()
-            : explode(',', $recentlyComparedProducts);
+        $recentlyComparedProducts = $this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED);
+        $recentlyComparedProducts = empty($recentlyComparedProducts) ? array() : explode(
+            ',',
+            $recentlyComparedProducts
+        );
 
         //Adding products deleted from compare list to "recently compared products"
         $deletedProducts = array_diff($previousList, $ids);
@@ -545,7 +547,6 @@ class Observer
         return $this;
     }
 
-
     /**
      * Update customer viewed products index and renew customer viewed product ids cookie
      *
@@ -567,13 +568,13 @@ class Observer
         $countLimit = $this->_coreStoreConfig->getConfig(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
         );
-        $collection = $this->_reportsFactory
-            ->create()
-            ->addIndexFilter()
-            ->setAddedAtOrder()
-            ->setPageSize($countLimit)
-            ->setCurPage(1)
-            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
+        $collection = $this->_reportsFactory->create()->addIndexFilter()->setAddedAtOrder()->setPageSize(
+            $countLimit
+        )->setCurPage(
+            1
+        )->setVisibility(
+            $this->_productVisibility->getVisibleInSiteIds()
+        );
 
         $productIds = $collection->load()->getLoadedIds();
         $productIds = implode(',', $productIds);
@@ -650,8 +651,10 @@ class Observer
         $this->_cookie->setObscure(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST, $cookieValue);
 
         // Wishlist items count hash for top link
-        $this->_cookie->setObscure(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS,
-            'wishlist_item_count_' . $this->_wishlistData->getItemCount());
+        $this->_cookie->setObscure(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS,
+            'wishlist_item_count_' . $this->_wishlistData->getItemCount()
+        );
 
         return $this;
     }
@@ -667,8 +670,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $placeholder = $this->_fpcPlacehldrFactory
-            ->create('WISHLISTS');
+        $placeholder = $this->_fpcPlacehldrFactory->create('WISHLISTS');
 
         $blockContainer = $this->_fpcWishlistsFactory->create(array('placeholder' => $placeholder));
         $this->_fpcCache->remove($blockContainer->getCacheId());
@@ -705,10 +707,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(
-            \Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE,
-            null
-        );
+        $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null);
         return $this;
     }
 

@@ -14,7 +14,6 @@
  * @category   Magento
  * @package    Magento_CustomerSegment
  */
-
 namespace Magento\CustomerSegment\Block\Adminhtml;
 
 class Customersegment extends \Magento\Backend\Block\Widget\Grid\Container
@@ -32,5 +31,4 @@ class Customersegment extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_addButtonLabel = __('Add Segment');
         parent::_construct();
     }
-
 }

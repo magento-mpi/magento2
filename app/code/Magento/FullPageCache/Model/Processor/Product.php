@@ -95,7 +95,9 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         if ($product) {
             $cacheId = $this->_fpcProcessor->getRequestCacheId() . '_current_product_id';
             $this->_fpcCache->save(
-                $product->getId(), $cacheId, array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
+                $product->getId(),
+                $cacheId,
+                array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
             );
             $this->_fpcProcessor->setMetadata(self::METADATA_PRODUCT_ID, $product->getId());
             \Magento\FullPageCache\Model\Cookie::registerViewedProducts($product->getId(), $countLimit);

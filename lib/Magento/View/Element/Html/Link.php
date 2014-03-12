@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Html;
 
 /**
@@ -25,12 +24,34 @@ class Link extends \Magento\View\Element\Template
     public function getLinkAttributes()
     {
         $allow = array(
-            'href', 'title', 'charset', 'name', 'hreflang', 'rel', 'rev', 'accesskey', 'shape',
-            'coords', 'tabindex', 'onfocus', 'onblur', // %attrs
-            'id', 'class', 'style', // %coreattrs
-            'lang', 'dir', // %i18n
-            'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove',
-            'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup' // %events
+            'href',
+            'title',
+            'charset',
+            'name',
+            'hreflang',
+            'rel',
+            'rev',
+            'accesskey',
+            'shape',
+            'coords',
+            'tabindex',
+            'onfocus',
+            'onblur',
+            'id',
+            'class',
+            'style',
+            'lang',
+            'dir',
+            'onclick',
+            'ondblclick',
+            'onmousedown',
+            'onmouseup',
+            'onmouseover',
+            'onmousemove',
+            'onmouseout',
+            'onkeypress',
+            'onkeydown',
+            'onkeyup'
         );
 
         $attributes = array();

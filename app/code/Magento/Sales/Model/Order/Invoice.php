@@ -100,30 +100,45 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Invoice states
      */
-    const STATE_OPEN       = 1;
-    const STATE_PAID       = 2;
-    const STATE_CANCELED   = 3;
+    const STATE_OPEN = 1;
 
-    const CAPTURE_ONLINE   = 'online';
-    const CAPTURE_OFFLINE  = 'offline';
-    const NOT_CAPTURE      = 'not_capture';
+    const STATE_PAID = 2;
 
-    const XML_PATH_EMAIL_TEMPLATE               = 'sales_email/invoice/template';
-    const XML_PATH_EMAIL_GUEST_TEMPLATE         = 'sales_email/invoice/guest_template';
-    const XML_PATH_EMAIL_IDENTITY               = 'sales_email/invoice/identity';
-    const XML_PATH_EMAIL_COPY_TO                = 'sales_email/invoice/copy_to';
-    const XML_PATH_EMAIL_COPY_METHOD            = 'sales_email/invoice/copy_method';
-    const XML_PATH_EMAIL_ENABLED                = 'sales_email/invoice/enabled';
+    const STATE_CANCELED = 3;
 
-    const XML_PATH_UPDATE_EMAIL_TEMPLATE        = 'sales_email/invoice_comment/template';
-    const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE  = 'sales_email/invoice_comment/guest_template';
-    const XML_PATH_UPDATE_EMAIL_IDENTITY        = 'sales_email/invoice_comment/identity';
-    const XML_PATH_UPDATE_EMAIL_COPY_TO         = 'sales_email/invoice_comment/copy_to';
-    const XML_PATH_UPDATE_EMAIL_COPY_METHOD     = 'sales_email/invoice_comment/copy_method';
-    const XML_PATH_UPDATE_EMAIL_ENABLED         = 'sales_email/invoice_comment/enabled';
+    const CAPTURE_ONLINE = 'online';
 
-    const REPORT_DATE_TYPE_ORDER_CREATED        = 'order_created';
-    const REPORT_DATE_TYPE_INVOICE_CREATED      = 'invoice_created';
+    const CAPTURE_OFFLINE = 'offline';
+
+    const NOT_CAPTURE = 'not_capture';
+
+    const XML_PATH_EMAIL_TEMPLATE = 'sales_email/invoice/template';
+
+    const XML_PATH_EMAIL_GUEST_TEMPLATE = 'sales_email/invoice/guest_template';
+
+    const XML_PATH_EMAIL_IDENTITY = 'sales_email/invoice/identity';
+
+    const XML_PATH_EMAIL_COPY_TO = 'sales_email/invoice/copy_to';
+
+    const XML_PATH_EMAIL_COPY_METHOD = 'sales_email/invoice/copy_method';
+
+    const XML_PATH_EMAIL_ENABLED = 'sales_email/invoice/enabled';
+
+    const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'sales_email/invoice_comment/template';
+
+    const XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE = 'sales_email/invoice_comment/guest_template';
+
+    const XML_PATH_UPDATE_EMAIL_IDENTITY = 'sales_email/invoice_comment/identity';
+
+    const XML_PATH_UPDATE_EMAIL_COPY_TO = 'sales_email/invoice_comment/copy_to';
+
+    const XML_PATH_UPDATE_EMAIL_COPY_METHOD = 'sales_email/invoice_comment/copy_method';
+
+    const XML_PATH_UPDATE_EMAIL_ENABLED = 'sales_email/invoice_comment/enabled';
+
+    const REPORT_DATE_TYPE_ORDER_CREATED = 'order_created';
+
+    const REPORT_DATE_TYPE_INVOICE_CREATED = 'invoice_created';
 
     /*
      * Identifier for order history item
@@ -312,9 +327,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function loadByIncrementId($incrementId)
     {
-        $ids = $this->getCollection()
-            ->addAttributeToFilter('increment_id', $incrementId)
-            ->getAllIds();
+        $ids = $this->getCollection()->addAttributeToFilter('increment_id', $incrementId)->getAllIds();
 
         if (!empty($ids)) {
             reset($ids);
@@ -352,8 +365,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
         $this->_order = $order;
-        $this->setOrderId($order->getId())
-            ->setStoreId($order->getStoreId());
+        $this->setOrderId($order->getId())->setStoreId($order->getStoreId());
         return $this;
     }
 
@@ -417,9 +429,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function canCapture()
     {
-        return $this->getState() != self::STATE_CANCELED
-        && $this->getState() != self::STATE_PAID
-        && $this->getOrder()->getPayment()->canCapture();
+        return $this->getState() != self::STATE_CANCELED &&
+            $this->getState() != self::STATE_PAID &&
+            $this->getOrder()->getPayment()->canCapture();
     }
 
     /**
@@ -497,13 +509,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $this->setState($invoiceState);
 
         $this->getOrder()->getPayment()->pay($this);
-        $this->getOrder()->setTotalPaid(
-            $this->getOrder()->getTotalPaid()+$this->getGrandTotal()
-        );
-        $this->getOrder()->setBaseTotalPaid(
-            $this->getOrder()->getBaseTotalPaid()+$this->getBaseGrandTotal()
-        );
-        $this->_eventManager->dispatch('sales_order_invoice_pay', array($this->_eventObject=>$this));
+        $this->getOrder()->setTotalPaid($this->getOrder()->getTotalPaid() + $this->getGrandTotal());
+        $this->getOrder()->setBaseTotalPaid($this->getOrder()->getBaseTotalPaid() + $this->getBaseGrandTotal());
+        $this->_eventManager->dispatch('sales_order_invoice_pay', array($this->_eventObject => $this));
         return $this;
     }
 
@@ -569,12 +577,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
 
 
         if ($this->getState() == self::STATE_PAID) {
-            $this->getOrder()->setTotalPaid($this->getOrder()->getTotalPaid()-$this->getGrandTotal());
-            $this->getOrder()->setBaseTotalPaid($this->getOrder()->getBaseTotalPaid()-$this->getBaseGrandTotal());
+            $this->getOrder()->setTotalPaid($this->getOrder()->getTotalPaid() - $this->getGrandTotal());
+            $this->getOrder()->setBaseTotalPaid($this->getOrder()->getBaseTotalPaid() - $this->getBaseGrandTotal());
         }
         $this->setState(self::STATE_CANCELED);
         $this->getOrder()->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
-        $this->_eventManager->dispatch('sales_order_invoice_cancel', array($this->_eventObject=>$this));
+        $this->_eventManager->dispatch('sales_order_invoice_cancel', array($this->_eventObject => $this));
         return $this;
     }
 
@@ -637,7 +645,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $items = array();
         foreach ($this->getItemsCollection() as $item) {
             if (!$item->isDeleted()) {
-                $items[] =  $item;
+                $items[] = $item;
             }
         }
         return $items;
@@ -663,9 +671,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function addItem(\Magento\Sales\Model\Order\Invoice\Item $item)
     {
-        $item->setInvoice($this)
-            ->setParentId($this->getId())
-            ->setStoreId($this->getStoreId());
+        $item->setInvoice($this)->setParentId($this->getId())->setStoreId($this->getStoreId());
 
         if (!$item->getId()) {
             $this->getItemsCollection()->addItem($item);
@@ -682,9 +688,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     {
         if (null === self::$_states) {
             self::$_states = array(
-                self::STATE_OPEN       => __('Pending'),
-                self::STATE_PAID       => __('Paid'),
-                self::STATE_CANCELED   => __('Canceled'),
+                self::STATE_OPEN => __('Pending'),
+                self::STATE_PAID => __('Paid'),
+                self::STATE_CANCELED => __('Canceled')
             );
         }
         return self::$_states;
@@ -779,10 +785,10 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $this->setState(self::STATE_OPEN);
         }
 
-        $this->_eventManager->dispatch('sales_order_invoice_register', array(
-            $this->_eventObject => $this,
-            'order' => $order
-        ));
+        $this->_eventManager->dispatch(
+            'sales_order_invoice_register',
+            array($this->_eventObject => $this, 'order' => $order)
+        );
         return $this;
     }
 
@@ -812,15 +818,16 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
-        if (!($comment instanceof \Magento\Sales\Model\Order\Invoice\Comment)) {
-            $comment = $this->_invoiceCommentFactory->create()
-                ->setComment($comment)
-                ->setIsCustomerNotified($notify)
-                ->setIsVisibleOnFront($visibleOnFront);
+        if (!$comment instanceof \Magento\Sales\Model\Order\Invoice\Comment) {
+            $comment = $this->_invoiceCommentFactory->create()->setComment(
+                $comment
+            )->setIsCustomerNotified(
+                $notify
+            )->setIsVisibleOnFront(
+                $visibleOnFront
+            );
         }
-        $comment->setInvoice($this)
-            ->setStoreId($this->getStoreId())
-            ->setParentId($this->getId());
+        $comment->setInvoice($this)->setStoreId($this->getStoreId())->setParentId($this->getId());
         if (!$comment->getId()) {
             $this->getCommentsCollection()->addItem($comment);
         }
@@ -832,12 +839,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param bool $reload
      * @return \Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection
      */
-    public function getCommentsCollection($reload=false)
+    public function getCommentsCollection($reload = false)
     {
         if (is_null($this->_comments) || $reload) {
-            $this->_comments = $this->_commentCollectionFactory->create()
-                ->setInvoiceFilter($this->getId())
-                ->setCreatedAtOrder();
+            $this->_comments = $this->_commentCollectionFactory->create()->setInvoiceFilter(
+                $this->getId()
+            )->setCreatedAtOrder();
             /**
              * When invoice created with adding comment, comments collection
              * must be loaded before we added this comment.
@@ -888,22 +895,25 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         }
 
         if ($notifyCustomer) {
-            $this->_transportBuilder
-                ->setTemplateIdentifier($templateId)
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $storeId
-                ))
-                ->setTemplateVars(array(
-                    'order'        => $order,
-                    'invoice'      => $this,
-                    'comment'      => $comment,
-                    'billing'      => $order->getBillingAddress(),
+            $this->_transportBuilder->setTemplateIdentifier(
+                $templateId
+            )->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            )->setTemplateVars(
+                array(
+                    'order' => $order,
+                    'invoice' => $this,
+                    'comment' => $comment,
+                    'billing' => $order->getBillingAddress(),
                     'payment_html' => $paymentBlockHtml,
-                    'store'        => $this->getStore()
-                ))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
-                ->addTo($order->getCustomerEmail(), $customerName);
+                    'store' => $this->getStore()
+                )
+            )->setFrom(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId)
+            )->addTo(
+                $order->getCustomerEmail(),
+                $customerName
+            );
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
                 foreach ($copyTo as $email) {
@@ -911,31 +921,31 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                 }
             }
             /** @var \Magento\Mail\TransportInterface $transport */
-            $transport =  $this->_transportBuilder->getTransport();
+            $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
 
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $this->_transportBuilder
-                    ->setTemplateIdentifier($templateId)
-                    ->setTemplateOptions(array(
-                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                        'store' => $storeId
-                    ))
-                    ->setTemplateVars(array(
-                        'order'        => $order,
-                        'invoice'      => $this,
-                        'comment'      => $comment,
-                        'billing'      => $order->getBillingAddress(),
+                $this->_transportBuilder->setTemplateIdentifier(
+                    $templateId
+                )->setTemplateOptions(
+                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                )->setTemplateVars(
+                    array(
+                        'order' => $order,
+                        'invoice' => $this,
+                        'comment' => $comment,
+                        'billing' => $order->getBillingAddress(),
                         'payment_html' => $paymentBlockHtml,
-                        'store'        => $this->getStore()
-                    ))
-                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
-                    ->addTo($email)
-                    ->getTransport()
-                    ->sendMessage();
+                        'store' => $this->getStore()
+                    )
+                )->setFrom(
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId)
+                )->addTo(
+                    $email
+                )->getTransport()->sendMessage();
             }
         }
 
@@ -978,21 +988,24 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         }
 
         if ($notifyCustomer) {
-            $this->_transportBuilder
-                ->setTemplateIdentifier($templateId)
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $storeId
-                ))
-                ->setTemplateVars(array(
-                    'order'        => $order,
-                    'invoice'      => $this,
-                    'comment'      => $comment,
-                    'billing'      => $order->getBillingAddress(),
-                    'store'        => $this->getStore()
-                ))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
-                ->addTo($order->getCustomerEmail(), $customerName);
+            $this->_transportBuilder->setTemplateIdentifier(
+                $templateId
+            )->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            )->setTemplateVars(
+                array(
+                    'order' => $order,
+                    'invoice' => $this,
+                    'comment' => $comment,
+                    'billing' => $order->getBillingAddress(),
+                    'store' => $this->getStore()
+                )
+            )->setFrom(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId)
+            )->addTo(
+                $order->getCustomerEmail(),
+                $customerName
+            );
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
                 foreach ($copyTo as $email) {
@@ -1000,32 +1013,30 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
                 }
             }
             /** @var \Magento\Mail\TransportInterface $transport */
-            $transport =  $this->_transportBuilder->getTransport();
+            $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
 
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $this->_transportBuilder
-                    ->setTemplateIdentifier($templateId)
-                    ->setTemplateOptions(array(
-                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                            'store' => $storeId
-                        )
+                $this->_transportBuilder->setTemplateIdentifier(
+                    $templateId
+                )->setTemplateOptions(
+                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                )->setTemplateVars(
+                    array(
+                        'order' => $order,
+                        'invoice' => $this,
+                        'comment' => $comment,
+                        'billing' => $order->getBillingAddress(),
+                        'store' => $this->getStore()
                     )
-                    ->setTemplateVars(array(
-                            'order'        => $order,
-                            'invoice'      => $this,
-                            'comment'      => $comment,
-                            'billing'      => $order->getBillingAddress(),
-                            'store'        => $this->getStore()
-                        )
-                    )
-                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
-                    ->addTo($email)
-                    ->getTransport()
-                    ->sendMessage();
+                )->setFrom(
+                    $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId)
+                )->addTo(
+                    $email
+                )->getTransport()->sendMessage();
             }
         }
 

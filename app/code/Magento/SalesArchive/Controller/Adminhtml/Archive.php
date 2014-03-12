@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesArchive\Controller\Adminhtml;
+
 use Magento\App\ResponseInterface;
 
 /**
@@ -101,7 +101,6 @@ class Archive extends \Magento\Backend\App\Action
         $this->_renderGrid();
     }
 
-
     /**
      * Creditmemos view page
      *
@@ -150,7 +149,6 @@ class Archive extends \Magento\Backend\App\Action
         $this->_renderGrid();
     }
 
-
     /**
      * Cancel orders mass action
      *
@@ -192,10 +190,11 @@ class Archive extends \Magento\Backend\App\Action
         $removedFromArchive = $this->_archiveModel->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);
-        if ($removedFromArchiveCount>0) {
-            $this->messageManager->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
+        if ($removedFromArchiveCount > 0) {
+            $this->messageManager->addSuccess(
+                __('We removed %1 order(s) from the archive.', $removedFromArchiveCount)
+            );
         } else {
-            // selected orders is not available for removing from archive
         }
         $this->_redirect('adminhtml/*/orders');
     }
@@ -211,7 +210,7 @@ class Archive extends \Magento\Backend\App\Action
         $archivedIds = $this->_archiveModel->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);
-        if ($archivedCount>0) {
+        if ($archivedCount > 0) {
             $this->messageManager->addSuccess(__('We archived %1 order(s).', $archivedCount));
         } else {
             $this->messageManager->addWarning(__("We can't archive the selected order(s)."));
@@ -230,7 +229,7 @@ class Archive extends \Magento\Backend\App\Action
         if ($orderId) {
             $this->_archiveModel->archiveOrdersById($orderId);
             $this->messageManager->addSuccess(__('We have archived the order.'));
-            $this->_redirect('sales/order/view', array('order_id'=>$orderId));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         } else {
             $this->messageManager->addError(__('Please specify the order ID to be archived.'));
             $this->_redirect('sales/order');
@@ -248,7 +247,7 @@ class Archive extends \Magento\Backend\App\Action
         if ($orderId) {
             $this->_archiveModel->removeOrdersFromArchiveById($orderId);
             $this->messageManager->addSuccess(__('We have removed the order from the archive.'));
-            $this->_redirect('sales/order/view', array('order_id'=>$orderId));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         } else {
             $this->messageManager->addError(__('Please specify the order ID to be removed from archive.'));
             $this->_redirect('sales/order');
@@ -348,7 +347,9 @@ class Archive extends \Magento\Backend\App\Action
                 break;
             case 'creditmemo':
                 $fileName = 'creditmemo_archive.' . $type;
-                $grid = $layout->createBlock('Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid');
+                $grid = $layout->createBlock(
+                    'Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo\Grid'
+                );
                 break;
             default:
                 $fileName = 'orders_archive.' . $type;
@@ -360,7 +361,11 @@ class Archive extends \Magento\Backend\App\Action
         if ($type == 'csv') {
             return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
         } else {
-            return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\App\Filesystem::VAR_DIR);
+            return $this->_fileFactory->create(
+                $fileName,
+                $grid->getExcelFile($fileName),
+                \Magento\App\Filesystem::VAR_DIR
+            );
         }
     }
 

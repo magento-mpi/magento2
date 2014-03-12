@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
 class ToPercent extends ByPercent

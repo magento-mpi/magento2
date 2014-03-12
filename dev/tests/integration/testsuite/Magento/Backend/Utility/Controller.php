@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Utility;
 
 /**
@@ -49,7 +48,7 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
     {
         return array(
             'user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
         );
     }
 
@@ -70,7 +69,9 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
      * @param string $messageManager
      */
     public function assertSessionMessages(
-        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
+        \PHPUnit_Framework_Constraint $constraint,
+        $messageType = null,
+        $messageManager = 'Magento\Message\Manager'
     ) {
         parent::assertSessionMessages($constraint, $messageType, $messageManager);
     }

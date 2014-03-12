@@ -13,10 +13,8 @@
  */
 namespace Magento\FullPageCache\Model\Container\Advanced;
 
-abstract class AbstractAdvanced
-    extends \Magento\FullPageCache\Model\Container\AbstractContainer
+abstract class AbstractAdvanced extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
-
     /**
      * Get container individual additional cache id
      *
@@ -42,8 +40,9 @@ abstract class AbstractAdvanced
             return false;
         }
 
-        return isset($cacheRecord[$this->_getAdditionalCacheId()])
-            ? $cacheRecord[$this->_getAdditionalCacheId()] : false;
+        return isset(
+            $cacheRecord[$this->_getAdditionalCacheId()]
+        ) ? $cacheRecord[$this->_getAdditionalCacheId()] : false;
     }
 
     /**
@@ -65,8 +64,11 @@ abstract class AbstractAdvanced
 
         $tags[] = \Magento\FullPageCache\Model\Processor::CACHE_TAG;
         if (is_null($lifetime)) {
-            $lifetime = $this->_placeholder->getAttribute('cache_lifetime') ?
-                $this->_placeholder->getAttribute('cache_lifetime') : false;
+            $lifetime = $this->_placeholder->getAttribute(
+                'cache_lifetime'
+            ) ? $this->_placeholder->getAttribute(
+                'cache_lifetime'
+            ) : false;
         }
 
         /**

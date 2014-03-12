@@ -20,9 +20,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             */
             function ($file) {
                 $classes = \Magento\TestFramework\Utility\Classes::collectPhpCodeClasses(file_get_contents($file));
                 $this->_assertNonFactoryName($classes, $file);
@@ -35,9 +32,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $path
-             */
             function ($path) {
                 $xml = simplexml_load_file($path);
 
@@ -55,19 +49,20 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $path
-             */
             function ($path) {
                 $xml = simplexml_load_file($path);
                 $classes = \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml);
-                foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
-                    '/layout//@helper', 'helper') as $class) {
+                foreach (\Magento\TestFramework\Utility\Classes::getXmlAttributeValues(
+                    $xml,
+                    '/layout//@helper',
+                    'helper'
+                ) as $class) {
                     $classes[] = \Magento\TestFramework\Utility\Classes::getCallbackClass($class);
                 }
-                $classes =
-                    array_merge($classes, \Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml,
-                            '/layout//@module', 'module'));
+                $classes = array_merge(
+                    $classes,
+                    \Magento\TestFramework\Utility\Classes::getXmlAttributeValues($xml, '/layout//@module', 'module')
+                );
                 $this->_assertNonFactoryName(array_unique($classes), $path);
 
                 $tabs = \Magento\TestFramework\Utility\Classes::getXmlNodeValues(
@@ -114,7 +109,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
             }
         }
         if ($factoryNames) {
-            $this->fail("Obsolete factory name(s) detected in $file:" . "\n" . implode("\n", $factoryNames));
+            $this->fail("Obsolete factory name(s) detected in {$file}:" . "\n" . implode("\n", $factoryNames));
         }
     }
 }

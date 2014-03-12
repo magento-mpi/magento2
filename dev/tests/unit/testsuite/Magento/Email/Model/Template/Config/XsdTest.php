@@ -74,10 +74,10 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             'node "template" with invalid attribute "type"' => array(
                 '<config><template id="test" label="Test" file="test.txt" type="invalid" module="Module"/></config>',
                 array(
-                    "Element 'template', attribute 'type': "
-                    . "[facet 'enumeration'] The value 'invalid' is not an element of the set {'html', 'text'}.",
-                    "Element 'template', attribute 'type': "
-                    . "'invalid' is not a valid value of the atomic type 'emailTemplateFormatType'.",
+                    "Element 'template', attribute 'type': " .
+                    "[facet 'enumeration'] The value 'invalid' is not an element of the set {'html', 'text'}.",
+                    "Element 'template', attribute 'type': " .
+                    "'invalid' is not a valid value of the atomic type 'emailTemplateFormatType'."
                 )
             ),
             'node "template" without attribute "module"' => array(
@@ -89,7 +89,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     <template id="test" label="Test" file="test.txt" type="text" module="Module" unknown="true"/>
                 </config>',
                 array("Element 'template', attribute 'unknown': The attribute 'unknown' is not allowed.")
-            ),
+            )
         );
     }
 

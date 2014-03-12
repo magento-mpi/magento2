@@ -15,9 +15,8 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit\Tab;
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Conditions
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\TargetRule\Block\Adminhtml\Rule\Conditions
@@ -50,7 +49,6 @@ class Conditions
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
-
     /**
      * Prepare target rule actions form before rendering HTML
      *
@@ -59,26 +57,25 @@ class Conditions
     protected function _prepareForm()
     {
         /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = $this->_coreRegistry->registry('current_target_rule');
+        $model = $this->_coreRegistry->registry('current_target_rule');
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('rule_');
 
-        $fieldset   = $form->addFieldset('conditions_fieldset', array(
-            'legend' => __('Product Match Conditions (leave blank for matching all products)'))
+        $fieldset = $form->addFieldset(
+            'conditions_fieldset',
+            array('legend' => __('Product Match Conditions (leave blank for matching all products)'))
         );
-        $newCondUrl = $this->getUrl('adminhtml/targetrule/newConditionHtml/', array(
-            'form'  => $fieldset->getHtmlId()
-        ));
-        $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')
-            ->setNewChildUrl($newCondUrl);
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newConditionHtml/', array('form' => $fieldset->getHtmlId()));
+        $renderer = $this->_fieldset->setTemplate(
+            'Magento_TargetRule::edit/conditions/fieldset.phtml'
+        )->setNewChildUrl(
+            $newCondUrl
+        );
         $fieldset->setRenderer($renderer);
 
-        $element    = $fieldset->addField('conditions', 'text', array(
-            'name'      => 'conditions',
-            'required'  => true,
-        ));
+        $element = $fieldset->addField('conditions', 'text', array('name' => 'conditions', 'required' => true));
 
         $element->setRule($model);
         $element->setRenderer($this->_conditions);

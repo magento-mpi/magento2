@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Session;
 
 class SessionManagerTest extends \PHPUnit_Framework_TestCase
@@ -104,7 +103,6 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this->_model->setSessionId($this->_sidResolver->getSid($this->_model));
         $this->assertEquals('test-id', $this->_model->getSessionId());
     }
-
 
     public function testGetSessionIdForHost()
     {

@@ -12,8 +12,7 @@ namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
 /**
  * Column renderer for customer id
  */
-class Id
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Url Builder
@@ -45,7 +44,9 @@ class Id
     protected function _getValue(\Magento\Object $row)
     {
         $customerId = $this->escapeHtml($row->getData($this->getColumn()->getIndex()));
-        return '<a href="' . $this->_urlBuilder->getUrl('customer/index/edit',
-            array('id' => $customerId)) . '">' . $customerId . '</a>';
+        return '<a href="' . $this->_urlBuilder->getUrl(
+            'customer/index/edit',
+            array('id' => $customerId)
+        ) . '">' . $customerId . '</a>';
     }
 }

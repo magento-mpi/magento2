@@ -16,8 +16,7 @@ namespace Magento\Sales\Model\Resource\Report\Order\Updatedat;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Sales\Model\Resource\Report\Order\Collection
+class Collection extends \Magento\Sales\Model\Resource\Report\Order\Collection
 {
     /**
      * Aggregated Data Table

@@ -32,7 +32,7 @@ class View extends \Magento\Catalog\Block\Product\View
     {
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            throw new \LogicException("Could not find block '$blockName'");
+            throw new \LogicException("Could not find block '{$blockName}'");
         }
         if ($this->_isGiftRegistryRedirect()) {
             $block->setTemplate($template);
@@ -50,7 +50,7 @@ class View extends \Magento\Catalog\Block\Product\View
     {
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
-            throw new \LogicException("Could not find block '$blockName'");
+            throw new \LogicException("Could not find block '{$blockName}'");
         }
         if ($this->_isGiftRegistryRedirect()) {
             $block->setAddToGiftregistryUrl($this->getAddToGiftregistryUrl());
@@ -64,8 +64,10 @@ class View extends \Magento\Catalog\Block\Product\View
      */
     public function getAddToGiftregistryUrl()
     {
-        return $this->getUrl('magento_giftregistry/index/cart',
-            array('entity' => $this->getRequest()->getParam('entity')));
+        return $this->getUrl(
+            'magento_giftregistry/index/cart',
+            array('entity' => $this->getRequest()->getParam('entity'))
+        );
     }
 
     /**

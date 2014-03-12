@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
 class SaveTest extends \PHPUnit_Framework_TestCase
@@ -28,24 +27,22 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var $escaper \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
-        $escaper = $this->getMockBuilder('Magento\Escaper')
-            ->disableOriginalConstructor()
-            ->setMethods(array('escapeHtml'))
-            ->getMock();
-        $escaper->expects($this->any())
-            ->method('escapeHtml')
-            ->will($this->returnArgument(0));
+        $escaper = $this->getMockBuilder(
+            'Magento\Escaper'
+        )->disableOriginalConstructor()->setMethods(
+            array('escapeHtml')
+        )->getMock();
+        $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
 
         /** @var $urlBuilder \Magento\Core\Model\Url|\PHPUnit_Framework_MockObject_MockObject */
         $urlBuilder = $this->getMock('Magento\Url', array('getUrl'), array(), '', false);
-        $urlBuilder->expects($this->any())
-            ->method('getUrl')
-            ->will($this->returnValue($this->_url));
+        $urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue($this->_url));
 
-        $context = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getEscaper', 'getUrlBuilder'))
-            ->getMock();
+        $context = $this->getMockBuilder(
+            'Magento\Backend\Block\Template\Context'
+        )->disableOriginalConstructor()->setMethods(
+            array('getEscaper', 'getUrlBuilder')
+        )->getMock();
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($escaper));
         $context->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
 
@@ -91,7 +88,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                     $this->assertEquals($expectedOption, $action);
                     $isFound = true;
                 } catch (\Exception $e) {
-                    //do nothing
                 }
             }
 
@@ -111,12 +107,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL),
                 array(
                     'button' => array(
-                        'event'     => 'assign',
-                        'target'    => 'body',
-                        'eventData' => array(
-                            'theme_id' => 123,
-                            'confirm'  => array()
-                        )
+                        'event' => 'assign',
+                        'target' => 'body',
+                        'eventData' => array('theme_id' => 123, 'confirm' => array())
                     )
                 ),
                 array()
@@ -125,13 +118,9 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, true),
                 array(
                     'button' => array(
-                        'event'     => 'save',
-                        'target'    => 'body',
-                        'eventData' => array(
-                            'theme_id' => 123,
-                            'save_url' => $this->_url,
-                            'confirm'  => array()
-                        )
+                        'event' => 'save',
+                        'target' => 'body',
+                        'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
                     )
                 ),
                 array()
@@ -140,37 +129,25 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, false),
                 array(
                     'button' => array(
-                        'event'     => 'save',
-                        'target'    => 'body',
-                        'eventData' => array(
-                            'theme_id' => 123,
-                            'save_url' => $this->_url,
-                            'confirm'  => array()
-                        )
-                    ),
+                        'event' => 'save',
+                        'target' => 'body',
+                        'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
+                    )
                 ),
                 array(
                     array(
                         'button' => array(
-                            'event'     => 'save',
-                            'target'    => 'body',
-                            'eventData' => array(
-                                'theme_id' => 123,
-                                'save_url' => $this->_url,
-                                'confirm'  => array()
-                            )
-                        ),
+                            'event' => 'save',
+                            'target' => 'body',
+                            'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
+                        )
                     ),
                     array(
                         'button' => array(
-                            'event'     => 'save-and-assign',
-                            'target'    => 'body',
-                            'eventData' => array(
-                                'theme_id' => 123,
-                                'save_url' => $this->_url,
-                                'confirm'  => array()
-                            )
-                        ),
+                            'event' => 'save-and-assign',
+                            'target' => 'body',
+                            'eventData' => array('theme_id' => 123, 'save_url' => $this->_url, 'confirm' => array())
+                        )
                     )
                 )
             )
@@ -222,11 +199,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         // 1. Get domain model
         /** @var $domainModel \Magento\Core\Model\Theme\Domain\Virtual|\PHPUnit_Framework_MockObject_MockObject */
-        $domainModel = $this->getMock('Magento\Core\Model\Theme\Domain\Virtual',
-            array('isAssigned'), array(), '', false);
-        $domainModel->expects($this->any())
-            ->method('isAssigned')
-            ->will($this->returnValue($isAssigned));
+        $domainModel = $this->getMock(
+            'Magento\Core\Model\Theme\Domain\Virtual',
+            array('isAssigned'),
+            array(),
+            '',
+            false
+        );
+        $domainModel->expects($this->any())->method('isAssigned')->will($this->returnValue($isAssigned));
 
         // 2. Get Theme mock
         /** @var $theme \Magento\Core\Model\Theme|\PHPUnit_Framework_MockObject_MockObject */
@@ -237,10 +217,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $theme->expects($this->any())
-            ->method('getDomainModel')
-            ->with($type)
-            ->will($this->returnValue($domainModel));
+        $theme->expects($this->any())->method('getDomainModel')->with($type)->will($this->returnValue($domainModel));
 
         return $theme;
     }

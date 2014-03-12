@@ -46,8 +46,11 @@ class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
      * @param string $instanceName
      * @param bool $shared
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace', $shared = true)
-    {
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace',
+        $shared = true
+    ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
         $this->_isShared = $shared;
@@ -85,9 +88,11 @@ class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     protected function _getSubject()
     {
         if (!$this->_subject) {
-            $this->_subject = true === $this->_isShared
-                ? $this->_objectManager->get($this->_instanceName)
-                : $this->_objectManager->create($this->_instanceName);
+            $this->_subject = true === $this->_isShared ? $this->_objectManager->get(
+                $this->_instanceName
+            ) : $this->_objectManager->create(
+                $this->_instanceName
+            );
         }
         return $this->_subject;
     }
@@ -95,16 +100,24 @@ class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * {@inheritdoc}
      */
-    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
-    {
+    public function publicChildMethod(
+        \Zend\Code\Generator\ClassGenerator $classGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
+    ) {
         return $this->_getSubject()->publicChildMethod($classGenerator, $param1, $param2, $param3, $array);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function publicMethodWithReference(\Zend\Code\Generator\ClassGenerator &$classGenerator, &$param1, array &$array)
-    {
+    public function publicMethodWithReference(
+        \Zend\Code\Generator\ClassGenerator &$classGenerator,
+        &$param1,
+        array &$array
+    ) {
         return $this->_getSubject()->publicMethodWithReference($classGenerator, $param1, $array);
     }
 
@@ -119,8 +132,13 @@ class Proxy extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * {@inheritdoc}
      */
-    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
-    {
+    public function publicParentMethod(
+        \Zend\Code\Generator\DocBlockGenerator $docBlockGenerator,
+        $param1 = '',
+        $param2 = '\\',
+        $param3 = '\'',
+        array $array = array()
+    ) {
         return $this->_getSubject()->publicParentMethod($docBlockGenerator, $param1, $param2, $param3, $array);
     }
 

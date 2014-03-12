@@ -36,7 +36,7 @@ class View extends \Magento\Config\AbstractXml
     {
         $result = array();
         /** @var $varsNode \DOMElement */
-        foreach ($dom->childNodes->item(0)/*root*/->childNodes as $varsNode) {
+        foreach ($dom->childNodes->item(0)->childNodes as $varsNode) {
             $moduleName = $varsNode->getAttribute('module');
             /** @var $varNode \DOMElement */
             foreach ($varsNode->getElementsByTagName('var') as $varNode) {

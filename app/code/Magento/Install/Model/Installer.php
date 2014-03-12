@@ -369,9 +369,7 @@ class Installer extends \Magento\Object
 
         $data = $this->_installerDb->checkDbConnectionData($data);
 
-        $this->_installerConfig
-            ->setConfigData($data)
-            ->install();
+        $this->_installerConfig->setConfigData($data)->install();
 
         $this->_arguments->reload();
         $this->_resource->setTablePrefix($data['db_prefix']);
@@ -432,21 +430,21 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData($this->_localeResolver->getDefaultLocalePath(),
-                $locale['locale']);
+            $setupModel->setConfigData($this->_localeResolver->getDefaultLocalePath(), $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(
-                $this->_localeDate->getDefaultTimezonePath(),
-                $locale['timezone']);
+            $setupModel->setConfigData($this->_localeDate->getDefaultTimezonePath(), $locale['timezone']);
         }
         if (!empty($locale['currency'])) {
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
-                $locale['currency']);
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
-                $locale['currency']);
-            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
-                $locale['currency']);
+            $setupModel->setConfigData(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, $locale['currency']);
+            $setupModel->setConfigData(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_DEFAULT,
+                $locale['currency']
+            );
+            $setupModel->setConfigData(
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW,
+                $locale['currency']
+            );
         }
 
         if (!empty($data['order_increment_prefix'])) {
@@ -465,13 +463,17 @@ class Installer extends \Magento\Object
      */
     protected function _setOrderIncrementPrefix(\Magento\Core\Model\Resource\Setup $setupModel, $orderIncrementPrefix)
     {
-        $select = $setupModel->getConnection()->select()
-            ->from($setupModel->getTable('eav_entity_type'), 'entity_type_id')
-            ->where('entity_type_code=?', 'order');
+        $select = $setupModel->getConnection()->select()->from(
+            $setupModel->getTable('eav_entity_type'),
+            'entity_type_id'
+        )->where(
+            'entity_type_code=?',
+            'order'
+        );
         $data = array(
             'entity_type_id' => $setupModel->getConnection()->fetchOne($select),
             'store_id' => '1',
-            'increment_prefix' => $orderIncrementPrefix,
+            'increment_prefix' => $orderIncrementPrefix
         );
         $setupModel->getConnection()->insert($setupModel->getTable('eav_entity_store'), $data);
     }
@@ -485,16 +487,15 @@ class Installer extends \Magento\Object
     public function createAdministrator($data)
     {
         // \Magento\User\Model\User belongs to adminhtml area
-        $this->_app
-            ->loadAreaPart(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, \Magento\Core\Model\App\Area::PART_CONFIG);
+        $this->_app->loadAreaPart(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
+            \Magento\Core\Model\App\Area::PART_CONFIG
+        );
 
         /** @var $user \Magento\User\Model\User */
         $user = $this->_userModelFactory->create();
         $user->loadByUsername($data['username']);
-        $user->addData($data)
-            ->setForceNewPassword(true) // run-time flag to force saving of the entered password
-            ->setRoleId(1)
-            ->save();
+        $user->addData($data)->setForceNewPassword(true)->setRoleId(1)->save();
         $this->_refreshConfig();
     }
 

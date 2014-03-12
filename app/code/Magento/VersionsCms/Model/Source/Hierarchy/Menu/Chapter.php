@@ -28,7 +28,7 @@ class Chapter implements \Magento\Option\ArrayInterface
             array('label' => __('No'), 'value' => ''),
             array('label' => __('Chapter'), 'value' => 'chapter'),
             array('label' => __('Section'), 'value' => 'section'),
-            array('label' => __('Both'), 'value' => 'both'),
+            array('label' => __('Both'), 'value' => 'both')
         );
 
         return $options;

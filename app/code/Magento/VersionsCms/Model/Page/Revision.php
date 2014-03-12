@@ -55,6 +55,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @var string
      */
     const CACHE_TAG = 'CMS_REVISION';
+
     /**
      * Prefix of model events names.
      *
@@ -189,7 +190,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         foreach ($attributes as $attr) {
             $value = $this->getData($attr);
             if ($this->getOrigData($attr) !== $value) {
-                if ($this->getOrigData($attr) === NULL && $value === '' || $value === NULL) {
+                if ($this->getOrigData($attr) === null && $value === '' || $value === null) {
                     continue;
                 }
                 return true;
@@ -233,7 +234,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
             $object = $this->_pageRevisionFactory->create()->setData($data);
             $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }

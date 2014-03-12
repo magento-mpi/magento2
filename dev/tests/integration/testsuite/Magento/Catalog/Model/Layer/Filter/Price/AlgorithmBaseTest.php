@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Layer\Filter\Price;
 
 /**
@@ -59,7 +58,9 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
         $collection = $this->_layer->getProductCollection();
 
         $memoryUsedBefore = memory_get_usage();
-        $this->_model->setPricesModel($this->_filter)->setStatistics(
+        $this->_model->setPricesModel(
+            $this->_filter
+        )->setStatistics(
             $collection->getMinPrice(),
             $collection->getMaxPrice(),
             $collection->getPriceStandardDeviation(),
@@ -85,14 +86,10 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
 
     public function pricesSegmentationDataProvider()
     {
-        $testCases = include(__DIR__ . '/_files/_algorithm_base_data.php');
+        $testCases = include __DIR__ . '/_files/_algorithm_base_data.php';
         $result = array();
         foreach ($testCases as $index => $testCase) {
-            $result[] = array(
-                $index + 4, //category id
-                $testCase[1],
-                $testCase[2]
-            );
+            $result[] = array($index + 4, $testCase[1], $testCase[2]);
         }
 
         return $result;

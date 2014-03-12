@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule4\Service\V1;
 
 use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
@@ -25,7 +24,6 @@ interface DataObjectServiceInterface
      * @return \Magento\TestModule4\Service\V1\Entity\DataObjectResponse
      */
     public function updateData($id, DataObjectRequest $request);
-
 
     /**
      * @param int $id

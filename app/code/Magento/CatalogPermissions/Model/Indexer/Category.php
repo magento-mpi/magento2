@@ -46,8 +46,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
      */
     public function executeFull()
     {
-        $this->fullActionFactory->create()
-            ->execute();
+        $this->fullActionFactory->create()->execute();
     }
 
     /**
@@ -69,7 +68,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
      */
     public function executeRow($id)
     {
-        $this->executeAction([$id]);
+        $this->executeAction(array($id));
     }
 
     /**

@@ -17,9 +17,6 @@ class ObsoleteLayoutLocationTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $location
-             */
             function ($location) {
                 $files = glob($location . '/*.xml');
                 $layoutFiles = array();

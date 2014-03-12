@@ -33,13 +33,10 @@ class WordsTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $file
-             */
             function ($file) {
                 $words = self::$_wordsFinder->findWords($file);
                 if ($words) {
-                    $this->fail("Found words: '" . implode("', '", $words) . "' in '$file' file");
+                    $this->fail("Found words: '" . implode("', '", $words) . "' in '{$file}' file");
                 }
             },
             \Magento\TestFramework\Utility\Files::init()->getAllFiles()

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Js
-    extends \Magento\Backend\Block\Template
+class Js extends \Magento\Backend\Block\Template
 {
     /**
      * Rma eav
@@ -56,9 +54,7 @@ class Js
      */
     public function getValidateFiltersJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_attributeHelper->getAttributeValidateFilters()
-        );
+        return $this->_jsonEncoder->encode($this->_attributeHelper->getAttributeValidateFilters());
     }
 
     /**
@@ -68,9 +64,7 @@ class Js
      */
     public function getFilteTypesJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_attributeHelper->getAttributeFilterTypes()
-        );
+        return $this->_jsonEncoder->encode($this->_attributeHelper->getAttributeFilterTypes());
     }
 
     /**

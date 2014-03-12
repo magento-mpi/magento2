@@ -21,14 +21,18 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_modulesReaderMock = $this->getMock(
-            'Magento\Module\Dir\Reader', array(), array(), '', false
-        );
+        $this->_modulesReaderMock = $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false);
 
-        $this->_modulesReaderMock->expects($this->once())
-            ->method('getModuleDir')
-            ->with('etc', 'Magento_VersionsCms')
-            ->will($this->returnValue('some_path'));
+        $this->_modulesReaderMock->expects(
+            $this->once()
+        )->method(
+            'getModuleDir'
+        )->with(
+            'etc',
+            'Magento_VersionsCms'
+        )->will(
+            $this->returnValue('some_path')
+        );
 
         $this->_model = new \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator($this->_modulesReaderMock);
     }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 
 /**
@@ -51,8 +50,7 @@ class Text extends \Magento\Data\Form\Element\Text
      */
     public function getElementHtml()
     {
-        $additionalClasses = $this->_rmaEav
-            ->getAdditionalTextElementClasses($this->getEntityAttribute());
+        $additionalClasses = $this->_rmaEav->getAdditionalTextElementClasses($this->getEntityAttribute());
         foreach ($additionalClasses as $additionalClass) {
             $this->addClass($additionalClass);
         }

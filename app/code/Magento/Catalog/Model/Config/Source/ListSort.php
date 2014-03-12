@@ -32,9 +32,8 @@ class ListSort implements \Magento\Option\ArrayInterface
      *
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
-    public function __construct(
-        \Magento\Catalog\Model\Config $catalogConfig
-    ) {
+    public function __construct(\Magento\Catalog\Model\Config $catalogConfig)
+    {
         $this->_catalogConfig = $catalogConfig;
     }
 
@@ -46,15 +45,9 @@ class ListSort implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         $options = array();
-        $options[] = array(
-            'label' => __('Position'),
-            'value' => 'position'
-        );
+        $options[] = array('label' => __('Position'), 'value' => 'position');
         foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
-            $options[] = array(
-                'label' => __($attribute['frontend_label']),
-                'value' => $attribute['attribute_code']
-            );
+            $options[] = array('label' => __($attribute['frontend_label']), 'value' => $attribute['attribute_code']);
         }
         return $options;
     }
@@ -64,7 +57,8 @@ class ListSort implements \Magento\Option\ArrayInterface
      *
      * @return \Magento\Catalog\Model\Config
      */
-    protected function _getCatalogConfig() {
+    protected function _getCatalogConfig()
+    {
         return $this->_catalogConfig;
     }
 }

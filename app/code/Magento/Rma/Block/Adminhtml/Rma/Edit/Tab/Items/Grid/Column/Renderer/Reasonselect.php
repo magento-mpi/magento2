@@ -12,8 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 /**
  * Grid column widget for rendering action grid cells
  */
-class Reasonselect
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
+class Reasonselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Ram item form
@@ -51,11 +50,13 @@ class Reasonselect
         $rmaItemAttribute = $itemForm->setFormCode('default')->getAttribute('reason_other');
 
         $selectName = 'items[' . $row->getId() . '][' . $this->getColumn()->getId() . ']';
-        $html = '<select name="' . $selectName . '" class="action-select reason required-entry">'
-            . '<option value=""></option>';
+        $html = '<select name="' .
+            $selectName .
+            '" class="action-select reason required-entry">' .
+            '<option value=""></option>';
 
         $selectedIndex = $row->getData($this->getColumn()->getIndex());
-        foreach ($this->getColumn()->getOptions() as $val => $label){
+        foreach ($this->getColumn()->getOptions() as $val => $label) {
             $selected = isset($selectedIndex) && $val == $selectedIndex ? ' selected="selected"' : '';
             $html .= '<option value="' . $val . '"' . $selected . '>' . $label . '</option>';
         }
@@ -66,12 +67,20 @@ class Reasonselect
         }
 
         $html .= '</select>';
-        $html .= '<input type="text" '
-            . 'name="items[' . $row->getId() . '][reason_other]" '
-            . 'value="' . $this->escapeHtml($row->getReasonOther()) . '" '
-            . 'maxlength="255" '
-            . 'class="input-text ' . $this->getColumn()->getInlineCss() . '" '
-            . 'style="display:none" />';
+        $html .= '<input type="text" ' .
+            'name="items[' .
+            $row->getId() .
+            '][reason_other]" ' .
+            'value="' .
+            $this->escapeHtml(
+            $row->getReasonOther()
+        ) .
+            '" ' .
+            'maxlength="255" ' .
+            'class="input-text ' .
+            $this->getColumn()->getInlineCss() .
+            '" ' .
+            'style="display:none" />';
 
         return $html;
     }
@@ -90,18 +99,24 @@ class Reasonselect
         $value = $row->getData($this->getColumn()->getIndex());
 
         if ($value == 0 && $row->getReasonOther() != '') {
-            $html = $rmaItemAttribute && $rmaItemAttribute->getId()
-                ? $rmaItemAttribute->getStoreLabel() . ':&nbsp;'
-                : '';
+            $html = $rmaItemAttribute &&
+                $rmaItemAttribute->getId() ? $rmaItemAttribute->getStoreLabel() . ':&nbsp;' : '';
 
             if (strlen($row->getReasonOther()) > 18) {
-                $html .= '<a class="item_reason_other">'
-                    . $this->escapeHtml(substr($row->getReasonOther() , 0, 15)) . '...'
-                    . '</a>';
+                $html .= '<a class="item_reason_other">' . $this->escapeHtml(
+                    substr($row->getReasonOther(), 0, 15)
+                ) . '...' . '</a>';
 
-                $html .= '<input type="hidden" '
-                    . 'name="items[' . $row->getId() . '][' . $rmaItemAttribute->getAttributeCode() . ']" '
-                    . 'value="' . $this->escapeHtml($row->getReasonOther()) . '" />';
+                $html .= '<input type="hidden" ' .
+                    'name="items[' .
+                    $row->getId() .
+                    '][' .
+                    $rmaItemAttribute->getAttributeCode() .
+                    ']" ' .
+                    'value="' .
+                    $this->escapeHtml(
+                    $row->getReasonOther()
+                ) . '" />';
             } else {
                 $html .= $this->escapeHtml($row->getReasonOther());
             }

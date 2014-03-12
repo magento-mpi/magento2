@@ -12,19 +12,20 @@ namespace Magento\Core\Model\Layout;
 /**
  * Layout merge model
  */
-
 class Merge implements \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
      * Layout abstraction based on designer prerogative.
      */
     const DESIGN_ABSTRACTION_CUSTOM = 'custom';
+
     /**#@-*/
 
     /**#@+
      * Layout generalization guaranteed to load into View
      */
     const DESIGN_ABSTRACTION_PAGE_LAYOUT = 'page_layout';
+
     /**#@-*/
 
     /**
@@ -271,7 +272,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         if (!$handleName) {
             return null;
         }
-        $handles = $this->getFileLayoutUpdatesXml()->xpath("handle[@id='$handleName']");
+        $handles = $this->getFileLayoutUpdatesXml()->xpath("handle[@id='{$handleName}']");
         if (empty($handles)) {
             return null;
         }
@@ -309,7 +310,11 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $result = array();
 
         $conditions = array(
-            '(@design_abstraction="' . self::DESIGN_ABSTRACTION_PAGE_LAYOUT . '" or @design_abstraction="' . self::DESIGN_ABSTRACTION_CUSTOM . '")'
+            '(@design_abstraction="' .
+            self::DESIGN_ABSTRACTION_PAGE_LAYOUT .
+            '" or @design_abstraction="' .
+            self::DESIGN_ABSTRACTION_CUSTOM .
+            '")'
         );
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
@@ -317,9 +322,9 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         foreach ($nodes as $node) {
             $name = $node->getAttribute('id');
             $info = array(
-                'name'     => $name,
-                'label'    => __((string)$node->getAttribute('label')),
-                'design_abstraction'     => $node->getAttribute('design_abstraction'),
+                'name' => $name,
+                'label' => __((string)$node->getAttribute('label')),
+                'design_abstraction' => $node->getAttribute('design_abstraction')
             );
             $result[$name] = $info;
         }
@@ -373,12 +378,13 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
                 $layoutStr,
                 \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_MERGED,
                 false
-            )) {
+            )
+            ) {
                 $messages = $this->_layoutValidator->getMessages();
                 //Add first message to exception
                 $message = array_shift($messages);
                 $this->_logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
-                $this->_logger->log('Cache file with merged layout: ' . $cacheId. ': ' . $message, \Zend_Log::ERR);
+                $this->_logger->log('Cache file with merged layout: ' . $cacheId . ': ' . $message, \Zend_Log::ERR);
             }
         }
 
@@ -394,8 +400,11 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     public function asSimplexml()
     {
         $updates = trim($this->asString());
-        $updates = '<' . '?xml version="1.0"?' . '><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-            . $updates . '</layout>';
+        $updates = '<' .
+            '?xml version="1.0"?' .
+            '><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
+            $updates .
+            '</layout>';
         return $this->_loadXmlString($updates);
     }
 
@@ -436,7 +445,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $_profilerKey = 'layout_package_update:' . $handle;
         \Magento\Profiler::start($_profilerKey);
         $layout = $this->getFileLayoutUpdatesXml();
-        foreach ($layout->xpath("handle[@id='$handle']") as $updateXml) {
+        foreach ($layout->xpath("handle[@id='{$handle}']") as $updateXml) {
             $this->_fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
@@ -460,9 +469,9 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
             \Magento\Profiler::stop($_profilerKey);
             return false;
         }
-        $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
-            . $updateStr
-            . '</update_xml>';
+        $updateStr = '<update_xml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' .
+            $updateStr .
+            '</update_xml>';
         $updateStr = $this->_substitutePlaceholders($updateStr);
         $updateXml = $this->_loadXmlString($updateStr);
         $this->_fetchRecursiveUpdates($updateXml);
@@ -482,8 +491,8 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     {
         if ($this->_subst === null) {
             $placeholders = array(
-                'baseUrl'       => $this->_store->getBaseUrl(),
-                'baseSecureUrl' => $this->_store->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true),
+                'baseUrl' => $this->_store->getBaseUrl(),
+                'baseSecureUrl' => $this->_store->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)
             );
             $this->_subst = array();
             foreach ($placeholders as $key => $value) {
@@ -605,10 +614,9 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
                 continue;
             }
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
-                throw new \Magento\Exception(sprintf(
-                    "Theme layout update file '%s' must not declare page types.",
-                    $file->getFileName()
-                ));
+                throw new \Magento\Exception(
+                    sprintf("Theme layout update file '%s' must not declare page types.", $file->getFileName())
+                );
             }
             $handleName = basename($file->getFilename(), '.xml');
             $handleAttributes = 'id="' . $handleName . '"' . $this->_renderXmlAttributes($fileXml);
@@ -636,11 +644,10 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
                 $errors[] = "{$error->message} Line: {$error->line}";
             }
 
-            $this->_logger->log(sprintf(
-                "Theme layout update file '%s' is not valid.\n%s",
-                $fileName,
-                implode("\n", $errors)
-            ), \Zend_Log::ERR);
+            $this->_logger->log(
+                sprintf("Theme layout update file '%s' is not valid.\n%s", $fileName, implode("\n", $errors)),
+                \Zend_Log::ERR
+            );
         }
     }
 
@@ -658,7 +665,9 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
             $result = $result->getParentTheme();
         }
         if (!$result) {
-            throw new \Magento\Exception("Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'.");
+            throw new \Magento\Exception(
+                "Unable to find a physical ancestor for a theme '{$theme->getThemeTitle()}'."
+            );
         }
         return $result;
     }

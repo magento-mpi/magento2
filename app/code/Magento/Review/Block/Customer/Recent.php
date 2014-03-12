@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Block\Customer;
 
 use Magento\Review\Model\Resource\Review\Product\Collection;
@@ -74,12 +73,10 @@ class Recent extends \Magento\View\Element\Template
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**
@@ -89,13 +86,13 @@ class Recent extends \Magento\View\Element\Template
     protected function _initCollection()
     {
         $this->_collection = $this->_collectionFactory->create();
-        $this->_collection
-            ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->addCustomerFilter($this->_customerSession->getCustomerId())
-            ->setDateOrder()
-            ->setPageSize(5)
-            ->load()
-            ->addReviewSummary();
+        $this->_collection->addStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->addCustomerFilter(
+            $this->_customerSession->getCustomerId()
+        )->setDateOrder()->setPageSize(
+            5
+        )->load()->addReviewSummary();
         return $this;
     }
 

@@ -260,9 +260,10 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         $productIds = array();
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
-            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
-                && $this->productTypeConfig->isProductSet($productTypeOpt->getValue())
-                && $productTypeOpt->getProductId()
+            if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option &&
+                $this->productTypeConfig->isProductSet(
+                $productTypeOpt->getValue()
+            ) && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
             }
@@ -313,11 +314,9 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getTargetLinkCollection()
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Link\Product\Collection */
-        $collection = $this->_productLinkFactory->create()
-            ->useCrossSellLinks()
-            ->getProductCollection()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->setGroupBy();
+        $collection = $this->_productLinkFactory->create()->useCrossSellLinks()->getProductCollection()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->setGroupBy();
         $this->_addProductAttributesAndPrices($collection);
         $collection->setVisibility($this->_visibility->getVisibleInSiteIds());
         $this->_status->addIsInStockFilterToCollection($collection);
@@ -353,12 +352,15 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     protected function _getProductIdsFromIndexByProduct($product, $count, $excludeProductIds = array())
     {
-        return $this->_getTargetRuleIndex()
-            ->setType(\Magento\TargetRule\Model\Rule::CROSS_SELLS)
-            ->setLimit($count)
-            ->setProduct($product)
-            ->setExcludeProductIds($excludeProductIds)
-            ->getProductIds();
+        return $this->_getTargetRuleIndex()->setType(
+            \Magento\TargetRule\Model\Rule::CROSS_SELLS
+        )->setLimit(
+            $count
+        )->setProduct(
+            $product
+        )->setExcludeProductIds(
+            $excludeProductIds
+        )->getProductIds();
     }
 
     /**
@@ -396,8 +398,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
                 continue;
             }
 
-            $productIds = $this
-                ->_getProductIdsFromIndexByProduct($product, $this->getPositionLimit(), $excludeProductIds);
+            $productIds = $this->_getProductIdsFromIndexByProduct(
+                $product,
+                $this->getPositionLimit(),
+                $excludeProductIds
+            );
             $resultIds = array_merge($resultIds, $productIds);
         }
 
@@ -430,9 +435,14 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     {
         $excludeProductIds = $this->_getExcludeProductIds();
         $limit = $this->getPositionLimit();
-        $productIds = $this->_byLastAddedProduct
-            ? $this->_getProductIdsFromIndexByProduct($this->getLastAddedProduct(), $limit, $excludeProductIds)
-            : $this->_getProductIdsFromIndexForCartProducts($limit, $excludeProductIds);
+        $productIds = $this->_byLastAddedProduct ? $this->_getProductIdsFromIndexByProduct(
+            $this->getLastAddedProduct(),
+            $limit,
+            $excludeProductIds
+        ) : $this->_getProductIdsFromIndexForCartProducts(
+            $limit,
+            $excludeProductIds
+        );
 
         $items = array();
         if ($productIds) {

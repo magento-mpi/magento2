@@ -18,7 +18,6 @@ namespace Magento\FullPageCache\Model\Container;
  */
 class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
-
     /**
      * Array of ids of banner chosen to be shown to user this time
      *
@@ -52,9 +51,9 @@ class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _getInfoCacheId()
     {
-        return 'BANNER_INFORMATION_'
-            . md5($this->_placeholder->getAttribute('cache_id')
-            . '_' . $this->_getIdentifier());
+        return 'BANNER_INFORMATION_' . md5(
+            $this->_placeholder->getAttribute('cache_id') . '_' . $this->_getIdentifier()
+        );
     }
 
     /**
@@ -107,11 +106,15 @@ class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
         }
 
         sort($this->_bannersSelected);
-        return 'CONTAINER_BANNER_'
-            . md5($this->_placeholder->getAttribute('cache_id')
-            . '_' . $this->_getIdentifier())
-            . '_' . implode(',', $this->_bannersSelected)
-            . '_' .  self::_getCookieValue(\Magento\FullPageCache\Model\Cookie::CUSTOMER_SEGMENT_IDS, '');
+        return 'CONTAINER_BANNER_' . md5(
+            $this->_placeholder->getAttribute('cache_id') . '_' . $this->_getIdentifier()
+        ) . '_' . implode(
+            ',',
+            $this->_bannersSelected
+        ) . '_' . self::_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::CUSTOMER_SEGMENT_IDS,
+            ''
+        );
     }
 
     /**
@@ -177,9 +180,9 @@ class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
                 $isShuffle = $rotate == \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_SHUFFLE;
                 $bannerId = null;
 
-                $bannersSequence = isset($renderedParams['bannersSequence']) ?
-                    $renderedParams['bannersSequence'] :
-                    array();
+                $bannersSequence = isset(
+                    $renderedParams['bannersSequence']
+                ) ? $renderedParams['bannersSequence'] : array();
                 if ($bannersSequence) {
                     $canShowIds = array_merge(array_diff($bannerIds, $bannersSequence), array());
                     if (!empty($canShowIds)) {
@@ -198,7 +201,8 @@ class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
                 }
 
                 $renderedParams['bannersSequence'] = $bannersSequence;
-                $this->_saveInfoCache($renderedParams); // So that serie progresses
+                $this->_saveInfoCache($renderedParams);
+                // So that serie progresses
                 $result = array($bannerId);
                 break;
 
@@ -237,14 +241,19 @@ class Banner extends \Magento\FullPageCache\Model\Container\AbstractContainer
 
         $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 
-        $renderedInfo = $block->setSuggestedParams($suggestedParams)
-            ->setTemplate($placeholder->getAttribute('template'))
-            ->renderAndGetInfo();
+        $renderedInfo = $block->setSuggestedParams(
+            $suggestedParams
+        )->setTemplate(
+            $placeholder->getAttribute('template')
+        )->renderAndGetInfo();
 
         $renderedParams = $renderedInfo['params'];
-        $this->_bannersSelected = $renderedParams['renderedBannerIds']; // Later _getCacheId() will use it
-        unset($renderedParams['renderedBannerIds']); // We don't need it in cache info params
-        $this->_saveInfoCache($renderedParams); // Save sequence params and possibly changed other params
+        $this->_bannersSelected = $renderedParams['renderedBannerIds'];
+        // Later _getCacheId() will use it
+        unset($renderedParams['renderedBannerIds']);
+        // We don't need it in cache info params
+        $this->_saveInfoCache($renderedParams);
+        // Save sequence params and possibly changed other params
 
         return $renderedInfo['html'];
     }

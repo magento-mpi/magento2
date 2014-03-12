@@ -54,7 +54,6 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
-
     /**
      * Initialize SKU container
      *
@@ -83,23 +82,21 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             $headBlock->addChild(
                 'magento-checkout-addbysku-js',
                 'Magento\Theme\Block\Html\Head\Script',
-                array(
-                    'file' => 'Magento_AdvancedCheckout::addbysku.js'
-                )
+                array('file' => 'Magento_AdvancedCheckout::addbysku.js')
             );
         }
 
-        $this->addChild('deleteButton', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => '',
-            'onclick' => 'addBySku.del(this)',
-            'class'   => 'delete'
-        ));
+        $this->addChild(
+            'deleteButton',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => '', 'onclick' => 'addBySku.del(this)', 'class' => 'delete')
+        );
 
-        $this->addChild('addButton', 'Magento\Backend\Block\Widget\Button', array(
-            'label'   => 'Add',
-            'onclick' => 'addBySku.add()',
-            'class'   => 'add'
-        ));
+        $this->addChild(
+            'addButton',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => 'Add', 'onclick' => 'addBySku.add()', 'class' => 'add')
+        );
 
         return $this;
     }
@@ -140,14 +137,13 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
     public function getAddBySkuDataJson()
     {
         $data = array(
-            'dataContainerId'  => $this->getDataContainerId(),
+            'dataContainerId' => $this->getDataContainerId(),
             'deleteButtonHtml' => $this->getDeleteButtonHtml(),
-            'fileUploaded'     => \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
-            // All functions requiring listType affects error grid only
-            'listType'         => \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
-            'errorGridId'      => $this->getErrorGridId(),
-            'fileFieldName'    => \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE,
-            'fileUploadUrl'    => $this->getFileUploadUrl(),
+            'fileUploaded' => \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
+            'listType' => \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
+            'errorGridId' => $this->getErrorGridId(),
+            'fileFieldName' => \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE,
+            'fileUploadUrl' => $this->getFileUploadUrl()
         );
 
         $json = $this->_jsonEncoder->encode($data);

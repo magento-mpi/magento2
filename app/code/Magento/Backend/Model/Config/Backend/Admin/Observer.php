@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend\Admin;
 
 class Observer
@@ -78,9 +77,9 @@ class Observer
 
         $route = $this->_backendData->getAreaFrontName();
 
-        $this->_app->getResponse()
-            ->setRedirect($this->_storeManager->getStore()->getBaseUrl() . $route)
-            ->sendResponse();
+        $this->_app->getResponse()->setRedirect(
+            $this->_storeManager->getStore()->getBaseUrl() . $route
+        )->sendResponse();
         exit(0);
     }
 }

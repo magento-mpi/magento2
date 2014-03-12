@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model;
 
 /**
@@ -174,11 +173,10 @@ class Layer extends \Magento\Object
     {
         $stateSuffix = '';
         foreach ($this->getState()->getFilters() as $filterItem) {
-            $stateSuffix .= '_' . $filterItem->getFilter()->getRequestVar()
-                . '_' . $filterItem->getValueString();
+            $stateSuffix .= '_' . $filterItem->getFilter()->getRequestVar() . '_' . $filterItem->getValueString();
         }
         if (!empty($stateSuffix)) {
-            $this->_stateKey = $this->getStateKey().$stateSuffix;
+            $this->_stateKey = $this->getStateKey() . $stateSuffix;
         }
 
         return $this;
@@ -199,8 +197,7 @@ class Layer extends \Magento\Object
                 $this->setData('current_category', $category);
             } else {
                 /** @var \Magento\Catalog\Model\Category $category */
-                $category = $this->_categoryFactory->create()
-                    ->load($this->getCurrentStore()->getRootCategoryId());
+                $category = $this->_categoryFactory->create()->load($this->getCurrentStore()->getRootCategoryId());
                 $this->setData('current_category', $category);
             }
         }
@@ -221,7 +218,9 @@ class Layer extends \Magento\Object
             $category = $this->_categoryFactory->create()->load($category);
         }
         if (!$category instanceof \Magento\Catalog\Model\Category) {
-            throw new \Magento\Core\Exception(__('The category must be an instance of \Magento\Catalog\Model\Category.'));
+            throw new \Magento\Core\Exception(
+                __('The category must be an instance of \Magento\Catalog\Model\Category.')
+            );
         }
         if (!$category->getId()) {
             throw new \Magento\Core\Exception(__('Please correct the category.'));

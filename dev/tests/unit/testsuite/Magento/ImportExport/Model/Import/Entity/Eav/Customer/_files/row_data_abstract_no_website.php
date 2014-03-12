@@ -9,6 +9,4 @@
  * @license     {license_link}
  */
 
-return array(
-    '_email' => 'test1@email.com',
-);
+return array('_email' => 'test1@email.com');

@@ -7,8 +7,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class AbstractCreate
-    extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
+class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
     /**
      * Payment code
@@ -104,7 +103,8 @@ class AbstractCreate
      */
     public function getRedirectUrl()
     {
-        return $this->_backendUrl->getUrl('adminhtml/pbridge/result',
+        return $this->_backendUrl->getUrl(
+            'adminhtml/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }
@@ -126,8 +126,10 @@ class AbstractCreate
      */
     protected function _getVariation()
     {
-        return $this->_config->getValue('payment/pbridge/merchantcode', 'default')
-            . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
+        return $this->_config->getValue(
+            'payment/pbridge/merchantcode',
+            'default'
+        ) . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
     }
 
     /**

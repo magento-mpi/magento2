@@ -19,6 +19,5 @@ class DefaultLoader implements \Magento\Acl\LoaderInterface
      */
     public function populateAcl(\Magento\Acl $acl)
     {
-        // Do nothing
     }
 }

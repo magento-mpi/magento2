@@ -22,8 +22,13 @@ class Wishlistlinks extends \Magento\FullPageCache\Model\Container\AbstractConta
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS, '')
-            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '');
+        return $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS,
+            ''
+        ) . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER,
+            ''
+        );
     }
 
     /**

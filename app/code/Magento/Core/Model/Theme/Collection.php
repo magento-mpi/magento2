@@ -39,10 +39,8 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Filesystem $filesystem
-    ) {
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Filesystem $filesystem)
+    {
         parent::__construct($entityFactory);
         $this->_directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::THEMES_DIR);
     }
@@ -122,11 +120,9 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
             $pathsToThemeConfig = array_merge($pathsToThemeConfig, $themeConfigs);
         }
 
-        $this->_loadFromFilesystem($pathsToThemeConfig)
-            ->clearTargetPatterns()
-            ->_updateRelations()
-            ->_renderFilters()
-            ->_clearFilters();
+        $this->_loadFromFilesystem(
+            $pathsToThemeConfig
+        )->clearTargetPatterns()->_updateRelations()->_renderFilters()->_clearFilters();
 
         return $this;
     }
@@ -206,19 +202,17 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
 
         $themePath = implode(ThemeInterface::PATH_SEPARATOR, $pathData['theme_path_pieces']);
         $themeCode = implode(ThemeInterface::CODE_SEPARATOR, $pathData['theme_path_pieces']);
-        $parentPath = $parentPathPieces
-            ? implode(ThemeInterface::PATH_SEPARATOR, $parentPathPieces)
-            : null;
+        $parentPath = $parentPathPieces ? implode(ThemeInterface::PATH_SEPARATOR, $parentPathPieces) : null;
 
         return array(
-            'parent_id'         => null,
-            'type'              => ThemeInterface::TYPE_PHYSICAL,
-            'area'              => $pathData['area'],
-            'theme_path'        => $themePath,
-            'code'              => $themeCode,
-            'theme_version'     => $themeConfig->getThemeVersion(),
-            'theme_title'       => $themeConfig->getThemeTitle(),
-            'preview_image'     => $media['preview_image'] ? $media['preview_image'] : null,
+            'parent_id' => null,
+            'type' => ThemeInterface::TYPE_PHYSICAL,
+            'area' => $pathData['area'],
+            'theme_path' => $themePath,
+            'code' => $themeCode,
+            'theme_version' => $themeConfig->getThemeVersion(),
+            'theme_title' => $themeConfig->getThemeTitle(),
+            'preview_image' => $media['preview_image'] ? $media['preview_image'] : null,
             'parent_theme_path' => $parentPath
         );
     }
@@ -312,8 +306,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     public function getThemeByFullPath($fullPath)
     {
         list($area, $themePath) = explode('/', $fullPath, 2);
-        $this->addDefaultPattern($area)
-            ->addFilter('theme_path', $themePath);
+        $this->addDefaultPattern($area)->addFilter('theme_path', $themePath);
 
         return $this->getFirstItem();
     }

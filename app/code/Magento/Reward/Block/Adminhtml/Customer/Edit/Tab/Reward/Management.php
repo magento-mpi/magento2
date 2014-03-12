@@ -18,10 +18,8 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward;
 
-class Management
-    extends \Magento\Backend\Block\Template
+class Management extends \Magento\Backend\Block\Template
 {
-
     /**
      * Reward management template
      *
@@ -36,13 +34,15 @@ class Management
      */
     protected function _prepareLayout()
     {
-        $total = $this->getLayout()
-            ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance');
+        $total = $this->getLayout()->createBlock(
+            'Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance'
+        );
 
         $this->setChild('balance', $total);
 
-        $update = $this->getLayout()
-            ->createBlock('Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update');
+        $update = $this->getLayout()->createBlock(
+            'Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Update'
+        );
 
         $this->setChild('update', $update);
 

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account;
 
 /**
@@ -56,9 +55,12 @@ class AuthorizationLink extends \Magento\View\Element\Html\Link
      */
     public function getHref()
     {
-        return $this->_customerSession->isLoggedIn()
-            ? $this->_customerHelper->getLogoutUrl()
-            : $this->_customerHelper->getLoginUrl();
+        return $this->_customerSession
+            ->isLoggedIn() ? $this
+            ->_customerHelper
+            ->getLogoutUrl() : $this
+            ->_customerHelper
+            ->getLoginUrl();
     }
 
     /**
@@ -88,5 +90,4 @@ class AuthorizationLink extends \Magento\View\Element\Html\Link
     {
         return $this->_customerSession->isLoggedIn();
     }
-
 }

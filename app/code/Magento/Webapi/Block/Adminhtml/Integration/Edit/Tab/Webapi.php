@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
@@ -15,8 +14,8 @@ use Magento\Integration\Model\Integration as IntegrationModel;
 /**
  * Class for handling API section within integration.
  */
-class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Root ACL Resource
@@ -108,8 +107,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     public function canShowTab()
     {
         $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
-        return !isset($integrationData[Info::DATA_SETUP_TYPE])
-            || ($integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG);
+        return !isset(
+            $integrationData[Info::DATA_SETUP_TYPE]
+        ) || $integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG;
     }
 
     /**

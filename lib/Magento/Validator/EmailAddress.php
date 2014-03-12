@@ -9,8 +9,6 @@
  */
 namespace Magento\Validator;
 
-class EmailAddress extends \Zend_Validate_EmailAddress
-    implements \Magento\Validator\ValidatorInterface
+class EmailAddress extends \Zend_Validate_EmailAddress implements \Magento\Validator\ValidatorInterface
 {
-
 }

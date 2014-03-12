@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Block\Backend\Grid;
 
 class ItemsUpdater implements \Magento\View\Layout\Argument\UpdaterInterface

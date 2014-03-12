@@ -22,10 +22,8 @@ class Payment
      * @param Session $session
      * @param Filter $filter
      */
-    public function __construct(
-        Session $session,
-        Filter $filter
-    ) {
+    public function __construct(Session $session, Filter $filter)
+    {
         $this->session = $session;
         $this->filter = $filter;
     }
@@ -45,4 +43,4 @@ class Payment
         $result['hasRecurringItems'] = $quote && $this->filter->hasRecurringItems($quote);
         return $result;
     }
-} 
+}

@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Data;
 
 use Magento\Data\Form\Element\AbstractElement;
@@ -42,17 +41,17 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * @var RendererInterface
      */
-    static protected $_defaultElementRenderer;
+    protected static $_defaultElementRenderer;
 
     /**
      * @var RendererInterface
      */
-    static protected $_defaultFieldsetRenderer;
+    protected static $_defaultFieldsetRenderer;
 
     /**
      * @var RendererInterface
      */
-    static protected $_defaultFieldsetElementRenderer;
+    protected static $_defaultFieldsetElementRenderer;
 
     /**
      * @param Factory $factoryElement
@@ -318,19 +317,17 @@ class Form extends \Magento\Data\Form\AbstractForm
             $html .= '<form ' . $this->serialize($this->getHtmlAttributes()) . '>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
-                $html .= '<input name="form_key" type="hidden" value="'
-                    . $this->formKey->getFormKey()
-                    . '" />';
+                $html .= '<input name="form_key" type="hidden" value="' . $this->formKey->getFormKey() . '" />';
             }
             $html .= '</div>';
         }
 
         foreach ($this->getElements() as $element) {
-            $html.= $element->toHtml();
+            $html .= $element->toHtml();
         }
 
         if ($useContainer) {
-            $html.= '</form>';
+            $html .= '</form>';
         }
         Profiler::stop('form/toHtml');
         return $html;

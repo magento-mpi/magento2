@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Modular;
 
 class LayoutFilesTest extends \PHPUnit_Framework_TestCase
@@ -48,7 +47,6 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
                 }
                 $this->_argInterpreter->evaluate($argumentData);
             } catch (\Magento\Data\Argument\MissingOptionalValueException $e) {
-                // Argument value is missing in the testing environment, but it's optional, so no big deal
             } catch (\Exception $e) {
                 $this->fail($e->getMessage());
             }
@@ -89,24 +87,30 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
         // Arguments, evaluation of which causes a run-time error, because of unsafe assumptions to the environment
         $typeAttr = \Magento\Core\Model\Layout\Merge::TYPE_ATTRIBUTE;
         $ignoredArguments = array(
-            array($typeAttr => 'object',
-                'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'),
-            array($typeAttr => 'object',
-                'value' => 'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'),
+            array(
+                $typeAttr => 'object',
+                'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
+            ),
+            array(
+                $typeAttr => 'object',
+                'value' => 'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
+            ),
             array($typeAttr => 'object', 'value' => 'Magento\Search\Model\Resource\Search\Grid\Collection'),
             array($typeAttr => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'),
-            array($typeAttr => 'object',
-                'value' => 'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection'),
+            array(
+                $typeAttr => 'object',
+                'value' => 'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection'
+            ),
             array($typeAttr => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'),
             array($typeAttr => 'options', 'model' => 'Magento\Search\Model\Adminhtml\Search\Grid\Options'),
             array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\ActionsGroup'),
-            array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions'),
+            array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions')
         );
         $isIgnoredArgument = in_array($argumentData, $ignoredArguments, true);
 
         unset($argumentData[$typeAttr]);
         $hasValue = !empty($argumentData);
 
-        return $isIgnoredArgument || ($isUpdater && !$hasValue);
+        return $isIgnoredArgument || $isUpdater && !$hasValue;
     }
 }

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\Dependency\Report\Framework\Data;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -20,10 +19,10 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     protected function createDependency($lib, $count)
     {
         $objectManagerHelper = new ObjectManager($this);
-        return $objectManagerHelper->getObject('Magento\Tools\Dependency\Report\Framework\Data\Dependency', [
-            'lib' => $lib,
-            'count' => $count,
-        ]);
+        return $objectManagerHelper->getObject(
+            'Magento\Tools\Dependency\Report\Framework\Data\Dependency',
+            array('lib' => $lib, 'count' => $count)
+        );
     }
 
     public function testGetLib()

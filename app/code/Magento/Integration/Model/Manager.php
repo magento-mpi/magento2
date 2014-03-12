@@ -63,12 +63,10 @@ class Manager
                 $integrationData[Integration::EMAIL] = $integrationDetails[Converter::KEY_EMAIL];
             }
             if (isset($integrationDetails[Converter::KEY_AUTHENTICATION_ENDPOINT_URL])) {
-                $integrationData[Integration::ENDPOINT] =
-                    $integrationDetails[Converter::KEY_AUTHENTICATION_ENDPOINT_URL];
+                $integrationData[Integration::ENDPOINT] = $integrationDetails[Converter::KEY_AUTHENTICATION_ENDPOINT_URL];
             }
             if (isset($integrationDetails[Converter::KEY_IDENTITY_LINKING_URL])) {
-                $integrationData[Integration::IDENTITY_LINK_URL] =
-                    $integrationDetails[Converter::KEY_IDENTITY_LINKING_URL];
+                $integrationData[Integration::IDENTITY_LINK_URL] = $integrationDetails[Converter::KEY_IDENTITY_LINKING_URL];
             }
             $integrationData[Integration::SETUP_TYPE] = Integration::TYPE_CONFIG;
             // If it already exists, update it
@@ -81,7 +79,6 @@ class Manager
             } else {
                 $this->_integrationService->create($integrationData);
             }
-
         }
         return $integrationNames;
     }

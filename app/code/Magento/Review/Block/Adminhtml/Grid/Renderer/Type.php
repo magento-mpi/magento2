@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Block\Adminhtml\Grid\Renderer;
 
 /**
@@ -35,4 +34,4 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
         }
         return __('Guest');
     }
-}// Class \Magento\Review\Block\Adminhtml\Grid\Renderer\Type END
+}

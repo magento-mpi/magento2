@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Helper;
 
 /**
@@ -33,10 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServiceNameParts($className, $preserveVersion, $expected)
     {
-        $actual = $this->_helper->getServiceNameParts(
-            $className,
-            $preserveVersion
-        );
+        $actual = $this->_helper->getServiceNameParts($className, $preserveVersion);
         $this->assertEquals($expected, $actual);
     }
 
@@ -70,13 +66,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForTestGetServiceNamePartsInvalidName()
     {
         return array(
-            array('BarV1Interface'), // Missed vendor, module, 'Service'
-            array('Service\\V1Interface'), // Missed vendor and module
-            array('Magento\\Foo\\Service\\BarVxInterface'), // Version number should be a number
-            array('Magento\\Foo\\Service\\BarInterface'), // Version missed
-            array('Magento\\Foo\\Service\\BarV1'), // 'Interface' missed
-            array('Foo\\Service\\BarV1Interface'), // Module missed
-            array('Foo\\BarV1Interface'), // Module and 'Service' missed
+            array('BarV1Interface'),
+            array('Service\\V1Interface'),
+            array('Magento\\Foo\\Service\\BarVxInterface'),
+            array('Magento\\Foo\\Service\\BarInterface'),
+            array('Magento\\Foo\\Service\\BarV1'),
+            array('Foo\\Service\\BarV1Interface'),
+            array('Foo\\BarV1Interface')
         );
     }
 
@@ -92,4 +88,3 @@ class DataTest extends \PHPUnit_Framework_TestCase
 }
 
 require_once realpath(__DIR__ . '/../_files/test_interfaces.php');
-

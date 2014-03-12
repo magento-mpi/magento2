@@ -75,16 +75,25 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     public function initOrders()
     {
-        $customerId = $this->getCustomerId() ? $this->getCustomerId()
-            : $this->_customerSession->getCustomer()->getId();
+        $customerId = $this->getCustomerId() ? $this
+            ->getCustomerId() : $this
+            ->_customerSession
+            ->getCustomer()
+            ->getId();
 
-        $orders = $this->_orderCollectionFactory->create()
-            ->addAttributeToFilter('customer_id', $customerId)
-            ->addAttributeToFilter('state',
-                array('in' => $this->_orderConfig->getVisibleOnFrontStates())
-            )
-            ->addAttributeToSort('created_at', 'desc')
-            ->setPage(1, 1);
+        $orders = $this->_orderCollectionFactory->create()->addAttributeToFilter(
+            'customer_id',
+            $customerId
+        )->addAttributeToFilter(
+            'state',
+            array('in' => $this->_orderConfig->getVisibleOnFrontStates())
+        )->addAttributeToSort(
+            'created_at',
+            'desc'
+        )->setPage(
+            1,
+            1
+        );
         //TODO: add filter by current website
 
         $this->setOrders($orders);

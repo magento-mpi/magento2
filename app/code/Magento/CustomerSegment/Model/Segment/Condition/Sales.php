@@ -13,8 +13,7 @@
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition;
 
-class Sales
-    extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
+class Sales extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -40,19 +39,23 @@ class Sales
     {
         return array(
             'value' => array(
-                array( // order address combo
+                array(
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address',
-                    'label' => __('Order Address')),
+                    'label' => __('Order Address')
+                ),
                 array(
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Salesamount',
-                    'label' => __('Sales Amount')),
+                    'label' => __('Sales Amount')
+                ),
                 array(
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber',
-                    'label' => __('Number of Orders')),
+                    'label' => __('Number of Orders')
+                ),
                 array(
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity',
-                    'label' => __('Purchased Quantity')),
-             ),
+                    'label' => __('Purchased Quantity')
+                )
+            ),
             'label' => __('Sales')
         );
     }

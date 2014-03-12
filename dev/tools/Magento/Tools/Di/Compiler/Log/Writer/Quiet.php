@@ -17,6 +17,5 @@ class Quiet implements WriterInterface
      */
     public function write(array $data)
     {
-        // Do nothing
     }
 }

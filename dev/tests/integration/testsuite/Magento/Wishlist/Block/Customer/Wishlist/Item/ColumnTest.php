@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Wishlist\Block\Customer\Wishlist\Item;
 
 class ColumnTest extends \PHPUnit_Framework_TestCase
@@ -25,8 +24,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        );
         $this->_block = $this->_layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Item\Column', 'test');
         $this->_layout->addBlock('Magento\View\Element\Text', 'child', 'test');
     }
@@ -36,7 +36,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $item = new \StdClass;
+        $item = new \StdClass();
         $this->_block->setItem($item);
         $this->_block->toHtml();
         $this->assertSame($item, $this->_layout->getBlock('child')->getItem());

@@ -45,7 +45,7 @@ class Totals extends \Magento\View\Element\Template
     public function initTotals()
     {
         $parent = $this->getParentBlock();
-        $source  = $parent->getSource();
+        $source = $parent->getSource();
         $totals = $this->_giftWrappingData->getTotals($source);
         foreach ($totals as $total) {
             $this->getParentBlock()->addTotalBefore(new \Magento\Object($total), 'tax');

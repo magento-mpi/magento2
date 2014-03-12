@@ -1,5 +1,4 @@
 <?php
-
 /**
  * {license_notice}
  *
@@ -51,10 +50,8 @@ class Config
      * @param Type $configCacheType
      * @param Reader $configReader
      */
-    public function __construct(
-        Type $configCacheType,
-        Reader $configReader
-    ) {
+    public function __construct(Type $configCacheType, Reader $configReader)
+    {
         $this->_configCacheType = $configCacheType;
         $this->_configReader = $configReader;
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Product\Grouped;
 
 class AssociatedProductsTest extends \PHPUnit_Framework_TestCase

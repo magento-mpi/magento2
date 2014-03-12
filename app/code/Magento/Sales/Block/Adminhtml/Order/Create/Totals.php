@@ -116,7 +116,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     protected function _getTotalRenderer($code)
     {
-        $blockName = $code.'_total_renderer';
+        $blockName = $code . '_total_renderer';
         $block = $this->getLayout()->getBlock($blockName);
         if (!$block) {
             $configRenderer = $this->_salesConfig->getTotalsRenderer('quote', 'totals', $code);
@@ -145,11 +145,15 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function renderTotal($total, $area = null, $colspan = 1)
     {
-        return $this->_getTotalRenderer($total->getCode())
-            ->setTotal($total)
-            ->setColspan($colspan)
-            ->setRenderingArea(is_null($area) ? -1 : $area)
-            ->toHtml();
+        return $this->_getTotalRenderer(
+            $total->getCode()
+        )->setTotal(
+            $total
+        )->setColspan(
+            $colspan
+        )->setRenderingArea(
+            is_null($area) ? -1 : $area
+        )->toHtml();
     }
 
     /**

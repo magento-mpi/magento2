@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
@@ -22,20 +21,24 @@ class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_factory = new TemplateEngineFactory($this->_objectManagerMock, array(
-            'test' => 'Fixture\Module\Model\TemplateEngine',
-        ));
+        $this->_factory = new TemplateEngineFactory(
+            $this->_objectManagerMock,
+            array('test' => 'Fixture\Module\Model\TemplateEngine')
+        );
     }
 
     public function testCreateKnownEngine()
     {
         $engine = $this->getMock('Magento\View\TemplateEngineInterface');
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('create')
-            ->with('Fixture\Module\Model\TemplateEngine')
-            ->will($this->returnValue($engine))
-        ;
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Fixture\Module\Model\TemplateEngine'
+        )->will(
+            $this->returnValue($engine)
+        );
         $this->assertSame($engine, $this->_factory->create('test'));
     }
 
@@ -55,12 +58,15 @@ class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidEngine()
     {
-        $this->_objectManagerMock
-            ->expects($this->once())
-            ->method('create')
-            ->with('Fixture\Module\Model\TemplateEngine')
-            ->will($this->returnValue(new \stdClass()))
-        ;
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Fixture\Module\Model\TemplateEngine'
+        )->will(
+            $this->returnValue(new \stdClass())
+        );
         $this->_factory->create('test');
     }
 }

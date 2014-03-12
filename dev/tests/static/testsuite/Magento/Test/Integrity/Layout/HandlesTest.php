@@ -18,11 +18,6 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-        /**
-         * Test dependencies between handle attributes that is out of coverage by XSD
-         *
-         * @param string $layoutFile
-         */
             function ($layoutFile) {
                 $issues = array();
                 $node = simplexml_load_file($layoutFile);
@@ -46,11 +41,6 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * Test dependencies between container attributes that is out of coverage by XSD
-             *
-             * @param string $layoutFile
-             */
             function ($layoutFile) {
                 $issues = array();
                 $xml = simplexml_load_file($layoutFile);
@@ -63,8 +53,12 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
                 }
                 if ($issues) {
                     $this->fail(
-                        'The following containers declare attribute "htmlId" and/or "htmlClass", but not "htmlTag":'
-                            . "\n" . implode("\n", $issues) . "\n"
+                        'The following containers declare attribute "htmlId" and/or "htmlClass", but not "htmlTag":' .
+                        "\n" .
+                        implode(
+                            "\n",
+                            $issues
+                        ) . "\n"
                     );
                 }
             },
@@ -76,11 +70,6 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * Test format of a layout file using XSD
-             *
-             * @param string $layoutFile
-             */
             function ($layoutFile) {
                 $schemaFile = BP . '/app/code/Magento/Core/etc/layout_single.xsd';
                 $domLayout = new \Magento\Config\Dom(file_get_contents($layoutFile));

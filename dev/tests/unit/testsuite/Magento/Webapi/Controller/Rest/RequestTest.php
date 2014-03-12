@@ -24,11 +24,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** Prepare mocks for request constructor arguments. */
-        $this->_deserializerFactory =
-            $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Factory')
-                ->setMethods(array('deserialize', 'get'))
-                ->disableOriginalConstructor()
-                ->getMock();
+        $this->_deserializerFactory = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Rest\Request\Deserializer\Factory'
+        )->setMethods(
+            array('deserialize', 'get')
+        )->disableOriginalConstructor()->getMock();
         $areaListMock = $this->getMock('Magento\App\AreaList', array(), array(), '', false);
         $configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $areaListMock->expects($this->once())->method('getFrontName')->will($this->returnValue('rest'));
@@ -58,11 +58,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAcceptTypes($acceptHeader, $expectedResult)
     {
-        $this->_request
-            ->expects($this->once())
-            ->method('getHeader')
-            ->with('Accept')
-            ->will($this->returnValue($acceptHeader));
+        $this->_request->expects(
+            $this->once()
+        )->method(
+            'getHeader'
+        )->with(
+            'Accept'
+        )->will(
+            $this->returnValue($acceptHeader)
+        );
         $this->assertSame($expectedResult, $this->_request->getAcceptTypes());
     }
 
@@ -73,11 +77,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $params = array('a' => 123, 'b' => 145);
         $this->_prepareSutForGetBodyParamsTest($params);
-        $this->assertEquals(
-            $params,
-            $this->_request->getBodyParams(),
-            'Body parameters were retrieved incorrectly.'
-        );
+        $this->assertEquals($params, $this->_request->getBodyParams(), 'Body parameters were retrieved incorrectly.');
     }
 
     /**
@@ -88,27 +88,40 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     protected function _prepareSutForGetBodyParamsTest($params)
     {
         $rawBody = 'rawBody';
-        $this->_request->expects($this->once())
-            ->method('getRawBody')
-            ->will($this->returnValue($rawBody));
+        $this->_request->expects($this->once())->method('getRawBody')->will($this->returnValue($rawBody));
         $contentType = 'contentType';
-        $this->_request
-            ->expects($this->once())
-            ->method('getHeader')
-            ->with('Content-Type')
-            ->will($this->returnValue($contentType));
-        $deserializer = $this->getMockBuilder('Magento\Webapi\Controller\Rest\Request\Deserializer\Json')
-            ->disableOriginalConstructor()
-            ->setMethods(array('deserialize'))
-            ->getMock();
-        $deserializer->expects($this->once())
-            ->method('deserialize')
-            ->with($rawBody)
-            ->will($this->returnValue($params));
-        $this->_deserializerFactory->expects($this->once())
-            ->method('get')
-            ->with($contentType)
-            ->will($this->returnValue($deserializer));
+        $this->_request->expects(
+            $this->once()
+        )->method(
+            'getHeader'
+        )->with(
+            'Content-Type'
+        )->will(
+            $this->returnValue($contentType)
+        );
+        $deserializer = $this->getMockBuilder(
+            'Magento\Webapi\Controller\Rest\Request\Deserializer\Json'
+        )->disableOriginalConstructor()->setMethods(
+            array('deserialize')
+        )->getMock();
+        $deserializer->expects(
+            $this->once()
+        )->method(
+            'deserialize'
+        )->with(
+            $rawBody
+        )->will(
+            $this->returnValue($params)
+        );
+        $this->_deserializerFactory->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            $contentType
+        )->will(
+            $this->returnValue($deserializer)
+        );
     }
 
     /**
@@ -121,11 +134,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetContentType($contentTypeHeader, $contentType, $exceptionMessage = false)
     {
-        $this->_request
-            ->expects($this->once())
-            ->method('getHeader')
-            ->with('Content-Type')
-            ->will($this->returnValue($contentTypeHeader));
+        $this->_request->expects(
+            $this->once()
+        )->method(
+            'getHeader'
+        )->with(
+            'Content-Type'
+        )->will(
+            $this->returnValue($contentTypeHeader)
+        );
 
         try {
             $this->assertEquals($contentType, $this->_request->getContentType());
@@ -154,19 +171,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function providerAcceptType()
     {
         return array(
-            // Each element is: array(Accept HTTP header value, expected result))
             array('', array()),
             array(
                 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 array('text/html', 'application/xhtml+xml', 'application/xml', '*/*')
             ),
+            array('text/html, application/*, text, */*', array('text/html', 'application/*', 'text', '*/*')),
             array(
-                'text/html, application/*, text, */*',
-                array('text/html', 'application/*', 'text', '*/*')
-            ),
-            array(
-                'text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/webp,'
-                    . ' image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1',
+                'text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/webp,' .
+                ' image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1',
                 array(
                     'text/html',
                     'application/xhtml+xml',
@@ -190,7 +203,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function providerContentType()
     {
         return array(
-            // Each element is: array(Content-Type header value, content-type part[, expected exception message])
             array('', null, 'Content-Type header is empty.'),
             array('_?', null, 'Content-Type header is invalid.'),
             array('application/x-www-form-urlencoded; charset=UTF-8', 'application/x-www-form-urlencoded'),

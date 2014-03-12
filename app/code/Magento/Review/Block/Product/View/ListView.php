@@ -58,9 +58,7 @@ class ListView extends \Magento\Review\Block\Product\View
      */
     protected function _beforeToHtml()
     {
-        $this->getReviewsCollection()
-            ->load()
-            ->addRateVotes();
+        $this->getReviewsCollection()->load()->addRateVotes();
         return parent::_beforeToHtml();
     }
 

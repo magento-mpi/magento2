@@ -45,18 +45,44 @@ class Mapper
     public static function &accumulateByMap($from, $to, array $map, array $defaults = array())
     {
         $get = 'getData';
-        if (is_array($from) && isset($from[0]) && is_object($from[0]) && isset($from[1]) && is_string($from[1]) && is_callable($from)) {
+        if (is_array(
+            $from
+        ) && isset(
+            $from[0]
+        ) && is_object(
+            $from[0]
+        ) && isset(
+            $from[1]
+        ) && is_string(
+            $from[1]
+        ) && is_callable(
+            $from
+        )
+        ) {
             list($from, $get) = $from;
         }
         $fromIsArray = is_array($from);
-        $fromIsVO    = $from instanceof \Magento\Object;
+        $fromIsVO = $from instanceof \Magento\Object;
 
         $set = 'setData';
-        if (is_array($to) && isset($to[0]) && is_object($to[0]) && isset($to[1]) && is_string($to[1]) && is_callable($to)) {
+        if (is_array(
+            $to
+        ) && isset(
+            $to[0]
+        ) && is_object(
+            $to[0]
+        ) && isset(
+            $to[1]
+        ) && is_string(
+            $to[1]
+        ) && is_callable(
+            $to
+        )
+        ) {
             list($to, $set) = $to;
         }
         $toIsArray = is_array($to);
-        $toIsVO    = $to instanceof \Magento\Object;
+        $toIsVO = $to instanceof \Magento\Object;
 
         foreach ($map as $keyFrom => $keyTo) {
             if (!is_string($keyFrom)) {
@@ -67,16 +93,16 @@ class Mapper
                     if ($toIsArray) {
                         $to[$keyTo] = $from[$keyFrom];
                     } elseif ($toIsVO) {
-                        $to->$set($keyTo, $from[$keyFrom]);
+                        $to->{$set}($keyTo, $from[$keyFrom]);
                     }
                 }
             } elseif ($fromIsVO) {
                 // get value if (any) value is found as in magic data or a non-empty value with declared getter
                 $value = null;
                 if ($shouldGet = $from->hasData($keyFrom)) {
-                    $value = $from->$get($keyFrom);
+                    $value = $from->{$get}($keyFrom);
                 } elseif (method_exists($from, $get)) {
-                    $value = $from->$get($keyFrom);
+                    $value = $from->{$get}($keyFrom);
                     if ($value) {
                         $shouldGet = true;
                     }
@@ -85,7 +111,7 @@ class Mapper
                     if ($toIsArray) {
                         $to[$keyTo] = $value;
                     } elseif ($toIsVO) {
-                        $to->$set($keyTo, $value);
+                        $to->{$set}($keyTo, $value);
                     }
                 }
             }
@@ -97,7 +123,7 @@ class Mapper
                 }
             } elseif ($toIsVO) {
                 if (!$to->hasData($keyTo)) {
-                    $to->$set($keyTo, $value);
+                    $to->{$set}($keyTo, $value);
                 }
             }
         }

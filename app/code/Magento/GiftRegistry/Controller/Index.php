@@ -102,13 +102,20 @@ class Index extends \Magento\App\Action\Action
             if ($entity && $entity->getId()) {
                 $skippedItems = 0;
                 $request = $this->getRequest();
-                if ($request->getParam('product')) {//Adding from product page
+                if ($request->getParam('product')) {
+                    //Adding from product page
                     $entity->addItem($request->getParam('product'), new \Magento\Object($request->getParams()));
-                    $count = ($request->getParam('qty')) ? $request->getParam('qty') : 1;
-                } else {//Adding from cart
+                    $count = $request->getParam('qty') ? $request->getParam('qty') : 1;
+                } else {
+                    //Adding from cart
                     $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
                     foreach ($cart->getQuote()->getAllVisibleItems() as $item) {
-                        if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->canAddToGiftRegistry($item)) {
+                        if (!$this->_objectManager->get(
+                            'Magento\GiftRegistry\Helper\Data'
+                        )->canAddToGiftRegistry(
+                            $item
+                        )
+                        ) {
                             $skippedItems++;
                             continue;
                         }
@@ -120,13 +127,9 @@ class Index extends \Magento\App\Action\Action
                 }
 
                 if ($count > 0) {
-                    $this->messageManager->addSuccess(
-                        __('%1 item(s) have been added to the gift registry.', $count)
-                    );
+                    $this->messageManager->addSuccess(__('%1 item(s) have been added to the gift registry.', $count));
                 } else {
-                    $this->messageManager->addNotice(
-                        __('We have nothing to add to this gift registry.')
-                    );
+                    $this->messageManager->addNotice(__('We have nothing to add to this gift registry.'));
                 }
                 if (!empty($skippedItems)) {
                     $this->messageManager->addNotice(
@@ -166,20 +169,27 @@ class Index extends \Magento\App\Action\Action
         if ($itemId) {
             try {
                 $entity = $this->_initEntity('entity');
-                $wishlistItem = $this->_objectManager->create('Magento\Wishlist\Model\Item')
-                    ->loadWithOptions($itemId, 'info_buyRequest');
-                $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
-                $this->messageManager->addSuccess(
-                    __('The wish list item has been added to this gift registry.')
+                $wishlistItem = $this->_objectManager->create(
+                    'Magento\Wishlist\Model\Item'
+                )->loadWithOptions(
+                    $itemId,
+                    'info_buyRequest'
                 );
+                $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
+                $this->messageManager->addSuccess(__('The wish list item has been added to this gift registry.'));
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
             } catch (Exception $e) {
                 if ($e->getCode() == \Magento\GiftRegistry\Model\Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                    $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
-                        ->load((int)$wishlistItem->getProductId());
+                    $product = $this->_objectManager->create(
+                        'Magento\Catalog\Model\Product'
+                    )->load(
+                        (int)$wishlistItem->getProductId()
+                    );
                     $query['options'] = \Magento\GiftRegistry\Block\Product\View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
-                    $this->getResponse()->setRedirect($product->getUrlModel()->getUrl($product, array('_query' => $query)));
+                    $this->getResponse()->setRedirect(
+                        $product->getUrlModel()->getUrl($product, array('_query' => $query))
+                    );
                     return;
                 }
                 $this->messageManager->addError($e->getMessage());
@@ -204,9 +214,7 @@ class Index extends \Magento\App\Action\Action
             $entity = $this->_initEntity();
             if ($entity->getId()) {
                 $entity->delete();
-                $this->messageManager->addSuccess(
-                    __('You deleted this gift registry.')
-                );
+                $this->messageManager->addSuccess(__('You deleted this gift registry.'));
             }
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
@@ -283,9 +291,7 @@ class Index extends \Magento\App\Action\Action
             if ($entity->getId()) {
                 $items = $this->getRequest()->getParam('items');
                 $entity->updateItems($items);
-                $this->messageManager->addSuccess(
-                    __('You updated the gift registry items.')
-                );
+                $this->messageManager->addSuccess(__('You updated the gift registry items.'));
             }
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
@@ -460,7 +466,9 @@ class Index extends \Magento\App\Action\Action
                     }
                 }
 
-                $data = $this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->filterDatesByFormat(
+                $data = $this->_objectManager->get(
+                    'Magento\GiftRegistry\Helper\Data'
+                )->filterDatesByFormat(
                     $data,
                     $model->getDateFieldArray()
                 );
@@ -522,7 +530,7 @@ class Index extends \Magento\App\Action\Action
                         throw new Exception(__('Please select an address.'));
                     }
                     /* @var $customer \Magento\Customer\Model\Customer */
-                    $customer  = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer();
+                    $customer = $this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer();
 
                     $address = $customer->getAddressItemById($addressId);
                     if (!$address) {
@@ -548,13 +556,14 @@ class Index extends \Magento\App\Action\Action
                         $personLeft[] = $person->getId();
                     }
                     if (!$isAddAction) {
-                        $this->_objectManager->create('Magento\GiftRegistry\Model\Person')
-                            ->getResource()
-                            ->deleteOrphan($entityId, $personLeft);
+                        $this->_objectManager->create(
+                            'Magento\GiftRegistry\Model\Person'
+                        )->getResource()->deleteOrphan(
+                            $entityId,
+                            $personLeft
+                        );
                     }
-                    $this->messageManager->addSuccess(
-                        __('You saved this gift registry.')
-                    );
+                    $this->messageManager->addSuccess(__('You saved this gift registry.'));
                     if ($isAddAction) {
                         $model->sendNewRegistryEmail();
                     }
@@ -563,9 +572,7 @@ class Index extends \Magento\App\Action\Action
                 $this->messageManager->addError($e->getMessage());
                 $isError = true;
             } catch (\Exception $e) {
-                $this->messageManager->addError(
-                    __("We couldn't save this gift registry.")
-                );
+                $this->messageManager->addError(__("We couldn't save this gift registry."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 $isError = true;
             }

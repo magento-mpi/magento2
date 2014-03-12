@@ -7,7 +7,6 @@
  */
 namespace Magento\Webapi\Service\Entity;
 
-
 class SimpleDataObjectBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
     /**

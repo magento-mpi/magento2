@@ -137,7 +137,7 @@ class History extends \Magento\View\Element\Template
      */
     public function getExplanation(\Magento\Reward\Model\Reward\History $item)
     {
-        return ''; // TODO
+        return '';
     }
 
     /**
@@ -175,14 +175,15 @@ class History extends \Magento\View\Element\Template
     {
         if (!$this->_collection) {
             $websiteId = $this->_storeManager->getWebsite()->getId();
-            $this->_collection = $this->_historyFactory->create()
-                ->addCustomerFilter($this->_customerSession->getCustomerId())
-                ->addWebsiteFilter($websiteId)
-                ->setExpiryConfig($this->_rewardData->getExpiryConfig())
-                ->addExpirationDate($websiteId)
-                ->skipExpiredDuplicates()
-                ->setDefaultOrder()
-            ;
+            $this->_collection = $this->_historyFactory->create()->addCustomerFilter(
+                $this->_customerSession->getCustomerId()
+            )->addWebsiteFilter(
+                $websiteId
+            )->setExpiryConfig(
+                $this->_rewardData->getExpiryConfig()
+            )->addExpirationDate(
+                $websiteId
+            )->skipExpiredDuplicates()->setDefaultOrder();
         }
         return $this->_collection;
     }
@@ -195,9 +196,14 @@ class History extends \Magento\View\Element\Template
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'reward.history.pager')
-                ->setCollection($this->_getCollection())->setIsOutputRequired(false)
-            ;
+            $pager = $this->getLayout()->createBlock(
+                'Magento\Theme\Block\Html\Pager',
+                'reward.history.pager'
+            )->setCollection(
+                $this->_getCollection()
+            )->setIsOutputRequired(
+                false
+            );
             $this->setChild('pager', $pager);
         }
         return parent::_prepareLayout();
@@ -223,7 +229,6 @@ class History extends \Magento\View\Element\Template
      */
     protected function _isEnabled()
     {
-        return $this->_rewardData->isEnabledOnFront()
-            && $this->_rewardData->getGeneralConfig('publish_history');
+        return $this->_rewardData->isEnabledOnFront() && $this->_rewardData->getGeneralConfig('publish_history');
     }
 }

@@ -41,15 +41,21 @@ namespace Magento\Invitation\Model;
 class Invitation extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_NEW = 'new';
+
     const STATUS_SENT = 'sent';
+
     const STATUS_ACCEPTED = 'accepted';
+
     const STATUS_CANCELED = 'canceled';
 
     const XML_PATH_EMAIL_IDENTITY = 'magento_invitation/email/identity';
+
     const XML_PATH_EMAIL_TEMPLATE = 'magento_invitation/email/template';
 
     const ERROR_STATUS = 1;
+
     const ERROR_INVALID_DATA = 2;
+
     const ERROR_CUSTOMER_EXISTS = 3;
 
     /**
@@ -194,7 +200,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         if (count($code) != 2) {
             throw new \Magento\Core\Exception(__('Please correct the invitation code.'));
         }
-        list ($id, $protectionCode) = $code;
+        list($id, $protectionCode) = $code;
         $this->load($id);
         if (!$this->getId() || $this->getProtectionCode() != $protectionCode) {
             throw new \Magento\Core\Exception(__('Please correct the invitation code.'));
@@ -212,12 +218,14 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->getId()) {
             // set initial data for new one
-            $this->addData(array(
-                'protection_code' => $this->mathRandom->getUniqueHash(),
-                'status'          => self::STATUS_NEW,
-                'invitation_date' => $this->dateTime->formatDate(time()),
-                'store_id'        => $this->getStoreId(),
-            ));
+            $this->addData(
+                array(
+                    'protection_code' => $this->mathRandom->getUniqueHash(),
+                    'status' => self::STATUS_NEW,
+                    'invitation_date' => $this->dateTime->formatDate(time()),
+                    'store_id' => $this->getStoreId()
+                )
+            );
             $inviter = $this->getInviter();
             if ($inviter) {
                 $this->setCustomerId($inviter->getId());
@@ -227,8 +235,10 @@ class Invitation extends \Magento\Core\Model\AbstractModel
                     $this->setGroupId($inviter->getGroupId());
                 }
                 if (!$this->hasGroupId()) {
-                    throw new \Magento\Core\Exception(__('You need to specify a customer ID group.'),
-                        self::ERROR_INVALID_DATA);
+                    throw new \Magento\Core\Exception(
+                        __('You need to specify a customer ID group.'),
+                        self::ERROR_INVALID_DATA
+                    );
                 }
             } else {
                 $this->unsetData('group_id');
@@ -253,9 +263,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
-        $this->_historyFactory->create()
-            ->setInvitationId($this->getId())->setStatus($this->getStatus())
-            ->save();
+        $this->_historyFactory->create()->setInvitationId($this->getId())->setStatus($this->getStatus())->save();
         $parent = parent::_afterSave();
         if ($this->getStatus() === self::STATUS_NEW) {
             $this->setOrigData();
@@ -273,21 +281,23 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->makeSureCanBeSent();
         $store = $this->_storeManager->getStore($this->getStoreId());
 
-        $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_EMAIL_TEMPLATE))
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->getStoreId(),
-            ))
-            ->setTemplateVars(array(
+        $this->_transportBuilder->setTemplateIdentifier(
+            $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+        )->setTemplateVars(
+            array(
                 'url' => $this->_invitationData->getInvitationUrl($this),
                 'message' => $this->getMessage(),
                 'store' => $store,
                 'store_name' => $store->getGroup()->getName(),
-                'inviter_name' => ($this->getInviter() ? $this->getInviter()->getName() : null)
-            ))
-            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
-            ->addTo($this->getEmail());
+                'inviter_name' => $this->getInviter() ? $this->getInviter()->getName() : null
+            )
+        )->setFrom(
+            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY)
+        )->addTo(
+            $this->getEmail()
+        );
         $transport = $this->_transportBuilder->getTransport();
         try {
             $transport->sendMessage();
@@ -335,17 +345,22 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     public function makeSureCanBeSent()
     {
         if (!$this->getId()) {
-            throw new \Magento\Core\Exception(__("We couldn't find an ID for this invitation."),
-                self::ERROR_INVALID_DATA);
+            throw new \Magento\Core\Exception(
+                __("We couldn't find an ID for this invitation."),
+                self::ERROR_INVALID_DATA
+            );
         }
         if ($this->getStatus() !== self::STATUS_NEW) {
             throw new \Magento\Core\Exception(
-                __('We cannot send an invitation with status "%1".', $this->getStatus()), self::ERROR_STATUS
+                __('We cannot send an invitation with status "%1".', $this->getStatus()),
+                self::ERROR_STATUS
             );
         }
         if (!$this->getEmail() || !\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
-            throw new \Magento\Core\Exception(__('Please correct the invalid or empty invitation email.'),
-                self::ERROR_INVALID_DATA);
+            throw new \Magento\Core\Exception(
+                __('Please correct the invalid or empty invitation email.'),
+                self::ERROR_INVALID_DATA
+            );
         }
         $this->makeSureCustomerNotExists();
     }
@@ -375,15 +390,15 @@ class Invitation extends \Magento\Core\Model\AbstractModel
 
         // lookup customer by specified email/website id
         if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
-            $customer = $this->_customerFactory->create()
-                ->setWebsiteId($websiteId)->loadByEmail($email);
-            self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
+            $customer = $this->_customerFactory->create()->setWebsiteId($websiteId)->loadByEmail($email);
+            self::$_customerExistsLookup[$email][$websiteId] = $customer->getId() ? $customer->getId() : false;
         }
         if (false === self::$_customerExistsLookup[$email][$websiteId]) {
             return;
         }
         throw new \Magento\Core\Exception(
-            __('This invitation is addressed to a current customer: "%1".', $email), self::ERROR_CUSTOMER_EXISTS
+            __('This invitation is addressed to a current customer: "%1".', $email),
+            self::ERROR_CUSTOMER_EXISTS
         );
     }
 
@@ -428,8 +443,10 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      */
     public function canBeCanceled()
     {
-        return (bool)(int)$this->getId()
-            && !in_array($this->getStatus(), array(self::STATUS_CANCELED, self::STATUS_ACCEPTED));
+        return (bool)(int)$this->getId() && !in_array(
+            $this->getStatus(),
+            array(self::STATUS_CANCELED, self::STATUS_ACCEPTED)
+        );
     }
 
     /**
@@ -474,10 +491,13 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     public function accept($websiteId, $referralId)
     {
         $this->makeSureCanBeAccepted($websiteId);
-        $this->setReferralId($referralId)
-            ->setStatus(self::STATUS_ACCEPTED)
-            ->setSignupDate($this->dateTime->formatDate(time()))
-            ->save();
+        $this->setReferralId(
+            $referralId
+        )->setStatus(
+            self::STATUS_ACCEPTED
+        )->setSignupDate(
+            $this->dateTime->formatDate(time())
+        )->save();
         $inviterId = $this->getCustomerId();
         if ($inviterId) {
             $this->getResource()->trackReferral($inviterId, $referralId);
@@ -497,7 +517,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
             $this->makeSureCanBeAccepted($websiteId);
             return true;
         } catch (\Magento\Core\Exception $e) {
-            // intentionally jammed
         }
         return false;
     }
@@ -523,5 +542,4 @@ class Invitation extends \Magento\Core\Model\AbstractModel
 
         return true;
     }
-
 }

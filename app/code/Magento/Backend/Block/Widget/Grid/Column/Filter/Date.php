@@ -12,8 +12,7 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 /**
  * Date grid column filter
  */
-class Date
-    extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
+class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
      * @var \Magento\Math\Random
@@ -62,29 +61,71 @@ class Date
     {
         $htmlId = $this->mathRandom->getUniqueHash($this->_getHtmlId());
         $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
-        $html = '<div class="range" id="' . $htmlId . '_range"><div class="range-line date">'
-            . '<input type="text" name="' . $this->_getHtmlName() . '[from]" id="' . $htmlId . '_from"'
-                . ' value="' . $this->getEscapedValue('from') . '" class="input-text no-changes" placeholder="' . __('From') . '" '
-                . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/>'
-            . '</div>';
-        $html .= '<div class="range-line date">'
-            . '<input type="text" name="' . $this->_getHtmlName() . '[to]" id="' . $htmlId . '_to"'
-                . ' value="' . $this->getEscapedValue('to') . '" class="input-text no-changes" placeholder="' . __('To') . '" '
-                . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
-            . '</div></div>';
-        $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'
-            . ' value="' . $this->_localeResolver->getLocaleCode() . '"/>';
+        $html = '<div class="range" id="' .
+            $htmlId .
+            '_range"><div class="range-line date">' .
+            '<input type="text" name="' .
+            $this->_getHtmlName() .
+            '[from]" id="' .
+            $htmlId .
+            '_from"' .
+            ' value="' .
+            $this->getEscapedValue(
+            'from'
+        ) . '" class="input-text no-changes" placeholder="' . __(
+            'From'
+        ) . '" ' . $this->getUiId(
+            'filter',
+            $this->_getHtmlName(),
+            'from'
+        ) . '/>' . '</div>';
+        $html .= '<div class="range-line date">' .
+            '<input type="text" name="' .
+            $this->_getHtmlName() .
+            '[to]" id="' .
+            $htmlId .
+            '_to"' .
+            ' value="' .
+            $this->getEscapedValue(
+            'to'
+        ) . '" class="input-text no-changes" placeholder="' . __(
+            'To'
+        ) . '" ' . $this->getUiId(
+            'filter',
+            $this->_getHtmlName(),
+            'to'
+        ) . '/>' . '</div></div>';
+        $html .= '<input type="hidden" name="' .
+            $this->_getHtmlName() .
+            '[locale]"' .
+            ' value="' .
+            $this->_localeResolver->getLocaleCode() .
+            '"/>';
         $html .= '<script type="text/javascript">
             (function( $ ) {
-                $("#' . $htmlId . '_range").dateRange({
-                    dateFormat: "' . $format . '",
-                    buttonImage: "' . $this->getViewFileUrl('images/grid-cal.gif') . '",
-                    buttonText: "' . $this->escapeHtml(__('Date selector')) . '",
+                $("#' .
+            $htmlId .
+            '_range").dateRange({
+                    dateFormat: "' .
+            $format .
+            '",
+                    buttonImage: "' .
+            $this->getViewFileUrl(
+            'images/grid-cal.gif'
+        ) . '",
+                    buttonText: "' . $this->escapeHtml(
+            __('Date selector')
+        ) .
+            '",
                     from: {
-                        id: "' . $htmlId . '_from"
+                        id: "' .
+            $htmlId .
+            '_from"
                     },
                     to: {
-                        id: "' . $htmlId . '_to"
+                        id: "' .
+            $htmlId .
+            '_to"
                     }
                 })
             })(jQuery)
@@ -96,11 +137,13 @@ class Date
      * @param string|null $index
      * @return string
      */
-    public function getEscapedValue($index=null)
+    public function getEscapedValue($index = null)
     {
         $value = $this->getValue($index);
         if ($value instanceof \Zend_Date) {
-            return $value->toString($this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT));
+            return $value->toString(
+                $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
+            );
         }
         return $value;
     }
@@ -109,11 +152,11 @@ class Date
      * @param string|null $index
      * @return array|string|int|float|null
      */
-    public function getValue($index=null)
+    public function getValue($index = null)
     {
         if ($index) {
             if ($data = $this->getData('value', 'orig_' . $index)) {
-                return $data;//date('Y-m-d', strtotime($data));
+                return $data;
             }
             return null;
         }
@@ -170,9 +213,7 @@ class Date
             $dateObj = $this->_localeDate->date(null, null, $locale, false);
 
             //set default timezone for store (admin)
-            $dateObj->setTimezone(
-                $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath())
-            );
+            $dateObj->setTimezone($this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath()));
 
             //set beginning of day
             $dateObj->setHour(00);

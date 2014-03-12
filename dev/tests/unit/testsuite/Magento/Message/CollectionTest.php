@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 /**
@@ -38,7 +37,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $messages = array(
             $this->objectManager->getObject('Magento\Message\Error'),
             $this->objectManager->getObject('Magento\Message\Error'),
-            $this->objectManager->getObject('Magento\Message\Error'),
+            $this->objectManager->getObject('Magento\Message\Error')
         );
 
         foreach ($messages as $message) {
@@ -150,7 +149,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $messages = array(
             $this->objectManager->getObject('Magento\Message\Error')->setIdentifier('error_id'),
             $this->objectManager->getObject('Magento\Message\Notice')->setIdentifier('notice_id'),
-            $this->objectManager->getObject('Magento\Message\Warning')->setIdentifier('warning_id'),
+            $this->objectManager->getObject('Magento\Message\Warning')->setIdentifier('warning_id')
         );
 
         foreach ($messages as $message) {
@@ -163,7 +162,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(count($messages), $this->model->getCount());
         $this->model->deleteMessageByIdentifier('notice_id');
-        $this->assertEquals((count($messages) - 1), $this->model->getCount());
+        $this->assertEquals(count($messages) - 1, $this->model->getCount());
 
         $this->assertEmpty($this->model->getMessageByIdentifier('notice_id'));
     }

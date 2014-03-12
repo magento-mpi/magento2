@@ -32,7 +32,9 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
         self::$_reportFile = __DIR__ . '/../../../tmp/phpcs_report.xml';
         $wrapper = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper();
         self::$_cmd = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer(
-            realpath(__DIR__ . '/../_files/phpcs'), self::$_reportFile, $wrapper
+            realpath(__DIR__ . '/../_files/phpcs'),
+            self::$_reportFile,
+            $wrapper
         );
     }
 
@@ -63,10 +65,6 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * @param string $inputFile
-             * @param string $expectedResultFile
-             */
             function ($inputFile, $expectedResultFile) {
                 $expectedXml = simplexml_load_file($expectedResultFile);
 
@@ -81,7 +79,7 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
                 $elements = $expectedXml->xpath('/config/run');
                 foreach ($elements as $element) {
                     $method = (string)$element->attributes()->method;
-                    $this->$method();
+                    $this->{$method}();
                 }
 
                 self::$_cmd->run(array($inputFile));
@@ -123,7 +121,7 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
         $dir = dir($inputDir);
         do {
             $file = $dir->read();
-            if (($file === false) || in_array($file, $skipFiles)) {
+            if ($file === false || in_array($file, $skipFiles)) {
                 continue;
             }
 
@@ -163,7 +161,7 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
         $element = $elements[0];
         $attributes = $element->attributes();
         if (isset($attributes->errors)) {
-            $numErrorsExpected = (string) $attributes->errors;
+            $numErrorsExpected = (string)$attributes->errors;
             $this->assertEquals(
                 $numErrorsExpected,
                 $numErrorsActual,
@@ -171,7 +169,7 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
             );
         }
         if (isset($attributes->warnings)) {
-            $numWarningsExpected = (string) $attributes->warnings;
+            $numWarningsExpected = (string)$attributes->warnings;
             $this->assertEquals(
                 $numWarningsExpected,
                 $numWarningsActual,
@@ -205,7 +203,7 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
     {
         $elements = $expected->xpath('/config/error') ?: array();
         foreach ($elements as $element) {
-            $lineExpected = (string) $element->attributes()->line;
+            $lineExpected = (string)$element->attributes()->line;
             $errorElement = $report->xpath('/checkstyle/file/error[@severity="error"][@line=' . $lineExpected . ']');
             $this->assertNotEmpty(
                 $errorElement,
@@ -224,7 +222,7 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
     {
         $elements = $expected->xpath('/config/warning') ?: array();
         foreach ($elements as $element) {
-            $lineExpected = (string) $element->attributes()->line;
+            $lineExpected = (string)$element->attributes()->line;
             $errorElement = $report->xpath('/checkstyle/file/error[@severity="warning"][@line=' . $lineExpected . ']');
             $this->assertNotEmpty(
                 $errorElement,

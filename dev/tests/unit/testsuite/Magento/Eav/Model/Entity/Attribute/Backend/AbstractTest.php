@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
@@ -40,17 +39,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $attribute->expects($this->any())
-            ->method('getAttributeId')
-            ->will($this->returnValue($attributeId));
+        $attribute->expects($this->any())->method('getAttributeId')->will($this->returnValue($attributeId));
 
-        $attribute->expects($this->any())
-            ->method('isStatic')
-            ->will($this->returnValue(false));
+        $attribute->expects($this->any())->method('isStatic')->will($this->returnValue(false));
 
-        $attribute->expects($this->any())
-            ->method('getBackendTable')
-            ->will($this->returnValue('table'));
+        $attribute->expects($this->any())->method('getBackendTable')->will($this->returnValue('table'));
 
         $this->_model->setAttribute($attribute);
 
@@ -58,12 +51,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->_model->setValueId($valueId);
 
         $this->assertEquals(
-            array(
-                'table' => array(array(
-                    'value_id' => $valueId,
-                    'attribute_id' => $attributeId
-                ))
-            ),
+            array('table' => array(array('value_id' => $valueId, 'attribute_id' => $attributeId))),
             $this->_model->getAffectedFields($object)
         );
     }

@@ -91,7 +91,6 @@ interface AppInterface
      */
     public function getCacheInstance();
 
-
     /**
      * Retrieve cache object
      *

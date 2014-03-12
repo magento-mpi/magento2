@@ -11,8 +11,7 @@ namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form;
 
-class Send
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Send extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @var \Magento\Json\EncoderInterface
@@ -50,38 +49,43 @@ class Send
 
         $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
-        $fieldset = $form->addFieldset('base_fieldset',
-            array('legend' => __('Send Gift Card'))
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Send Gift Card')));
+
+        $fieldset->addField(
+            'recipient_email',
+            'text',
+            array(
+                'label' => __('Recipient Email'),
+                'title' => __('Recipient Email'),
+                'class' => 'validate-email',
+                'name' => 'recipient_email'
+            )
         );
 
-        $fieldset->addField('recipient_email', 'text', array(
-            'label'     => __('Recipient Email'),
-            'title'     => __('Recipient Email'),
-            'class'     => 'validate-email',
-            'name'      => 'recipient_email',
-        ));
-
-        $fieldset->addField('recipient_name', 'text', array(
-            'label'     => __('Recipient Name'),
-            'title'     => __('Recipient Name'),
-            'name'      => 'recipient_name',
-        ));
+        $fieldset->addField(
+            'recipient_name',
+            'text',
+            array('label' => __('Recipient Name'), 'title' => __('Recipient Name'), 'name' => 'recipient_name')
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $field = $fieldset->addField('store_id', 'select', array(
-                'name'     => 'recipient_store',
-                'label'    => __('Send Email from the Following Store View'),
-                'title'    => __('Send Email from the Following Store View'),
-                'after_element_html' => $this->_getStoreIdScript()
-            ));
-            $renderer = $this->getLayout()
-                ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element');
+            $field = $fieldset->addField(
+                'store_id',
+                'select',
+                array(
+                    'name' => 'recipient_store',
+                    'label' => __('Send Email from the Following Store View'),
+                    'title' => __('Send Email from the Following Store View'),
+                    'after_element_html' => $this->_getStoreIdScript()
+                )
+            );
+            $renderer = $this->getLayout()->createBlock(
+                'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
+            );
             $field->setRenderer($renderer);
         }
 
-        $fieldset->addField('action', 'hidden', array(
-            'name'      => 'send_action',
-        ));
+        $fieldset->addField('action', 'hidden', array('name' => 'send_action'));
 
         $form->setValues($model->getData());
         $this->setForm($form);
@@ -97,13 +101,11 @@ class Send
         foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
             $websiteStores[$websiteId] = array();
             foreach ($website->getGroups() as $groupId => $group) {
-                $websiteStores[$websiteId][$groupId] = array(
-                    'name' => $group->getName()
-                );
+                $websiteStores[$websiteId][$groupId] = array('name' => $group->getName());
                 foreach ($group->getStores() as $storeId => $store) {
                     $websiteStores[$websiteId][$groupId]['stores'][] = array(
-                        'id'   => $storeId,
-                        'name' => $store->getName(),
+                        'id' => $storeId,
+                        'name' => $store->getName()
                     );
                 }
             }
@@ -111,8 +113,8 @@ class Send
 
         $websiteStores = $this->_jsonEncoder->encode($websiteStores);
 
-        $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
-        $result .= "var websiteStores = $websiteStores;";
+        $result = '<script type="text/javascript">//<![CDATA[' . "\n";
+        $result .= "var websiteStores = {$websiteStores};";
         $result .= "Event.observe('_infowebsite_id', 'change', setCurrentStores);";
         $result .= "setCurrentStores();";
         $result .= 'function setCurrentStores(){
@@ -140,7 +142,10 @@ class Send
             }
             else {
               var option = document.createElement("option");
-              option.appendChild(document.createTextNode(\''.__('-- First Please Select a Website --').'\'));
+              option.appendChild(document.createTextNode(\'' .
+            __(
+            '-- First Please Select a Website --'
+        ) . '\'));
               sSel.appendChild(option);
             }
         }

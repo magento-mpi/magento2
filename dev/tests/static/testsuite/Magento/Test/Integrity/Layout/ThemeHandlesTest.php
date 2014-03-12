@@ -20,11 +20,6 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * Check that all handles declared in a theme layout are declared in base layouts
-             *
-             * @param string $handleName
-             */
             function ($handleName) {
                 $this->assertContains(
                     $handleName,
@@ -41,10 +36,10 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
      */
     public function designHandlesDataProvider()
     {
-        $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(
-            'include_code' => false,
-            'area' => 'frontend'
-        ), false);
+        $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(
+            array('include_code' => false, 'area' => 'frontend'),
+            false
+        );
         $handles = $this->_extractLayoutHandles($files);
         $result = array();
         foreach ($handles as $handleName) {
@@ -61,10 +56,10 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
     protected function _getBaseFrontendHandles()
     {
         if ($this->_baseFrontendHandles === null) {
-            $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(array(
-                'include_design' => false,
-                'area' => 'frontend'
-            ), false);
+            $files = \Magento\TestFramework\Utility\Files::init()->getLayoutFiles(
+                array('include_design' => false, 'area' => 'frontend'),
+                false
+            );
             $this->_baseFrontendHandles = $this->_extractLayoutHandles($files);
         }
         return $this->_baseFrontendHandles;

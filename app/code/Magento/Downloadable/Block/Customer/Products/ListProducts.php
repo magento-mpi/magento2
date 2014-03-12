@@ -64,9 +64,13 @@ class ListProducts extends \Magento\View\Element\Template
     protected function _construct()
     {
         parent::_construct();
-        $purchased = $this->_linksFactory->create()
-            ->addFieldToFilter('customer_id', $this->_customerSession->getCustomerId())
-            ->addOrder('created_at', 'desc');
+        $purchased = $this->_linksFactory->create()->addFieldToFilter(
+            'customer_id',
+            $this->_customerSession->getCustomerId()
+        )->addOrder(
+            'created_at',
+            'desc'
+        );
         $this->setPurchased($purchased);
         $purchasedIds = array();
         foreach ($purchased as $_item) {
@@ -75,17 +79,16 @@ class ListProducts extends \Magento\View\Element\Template
         if (empty($purchasedIds)) {
             $purchasedIds = array(null);
         }
-        $purchasedItems = $this->_itemsFactory->create()
-            ->addFieldToFilter('purchased_id', array('in' => $purchasedIds))
-            ->addFieldToFilter('status',
-                array(
-                    'nin' => array(
-                        Item::LINK_STATUS_PENDING_PAYMENT,
-                        Item::LINK_STATUS_PAYMENT_REVIEW
-                    )
-                )
-            )
-            ->setOrder('item_id', 'desc');
+        $purchasedItems = $this->_itemsFactory->create()->addFieldToFilter(
+            'purchased_id',
+            array('in' => $purchasedIds)
+        )->addFieldToFilter(
+            'status',
+            array('nin' => array(Item::LINK_STATUS_PENDING_PAYMENT, Item::LINK_STATUS_PAYMENT_REVIEW))
+        )->setOrder(
+            'item_id',
+            'desc'
+        );
         $this->setItems($purchasedItems);
     }
 
@@ -98,8 +101,12 @@ class ListProducts extends \Magento\View\Element\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'downloadable.customer.products.pager')
-            ->setCollection($this->getItems());
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'downloadable.customer.products.pager'
+        )->setCollection(
+            $this->getItems()
+        );
         $this->setChild('pager', $pager);
         $this->getItems()->load();
         foreach ($this->getItems() as $item) {
@@ -167,5 +174,4 @@ class ListProducts extends \Magento\View\Element\Template
     {
         return $this->_storeConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
     }
-
 }

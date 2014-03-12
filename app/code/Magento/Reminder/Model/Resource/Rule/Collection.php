@@ -24,8 +24,8 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'magento_reminder_rule_website',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'website_id'
         )
     );
 
@@ -48,9 +48,13 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      */
     public function addDateFilter($date)
     {
-        $this->getSelect()
-            ->where('from_date IS NULL OR from_date <= ?', $date)
-            ->where('to_date IS NULL OR to_date >= ?', $date);
+        $this->getSelect()->where(
+            'from_date IS NULL OR from_date <= ?',
+            $date
+        )->where(
+            'to_date IS NULL OR to_date >= ?',
+            $date
+        );
 
         return $this;
     }

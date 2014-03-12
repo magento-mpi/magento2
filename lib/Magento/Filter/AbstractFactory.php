@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter;
 
 /**
@@ -85,8 +84,11 @@ abstract class AbstractFactory implements FactoryInterface
      */
     public function createFilter($alias, array $arguments = array())
     {
-        $addToShared = !$arguments || isset($this->sharedInstances[$alias])
-            xor $this->isShared($this->invokableClasses[$alias]);
+        $addToShared = !$arguments || isset(
+            $this->sharedInstances[$alias]
+        ) xor $this->isShared(
+            $this->invokableClasses[$alias]
+        );
 
         if (!isset($this->sharedInstances[$alias])) {
             $filter = $this->objectManager->create($this->invokableClasses[$alias], $arguments);

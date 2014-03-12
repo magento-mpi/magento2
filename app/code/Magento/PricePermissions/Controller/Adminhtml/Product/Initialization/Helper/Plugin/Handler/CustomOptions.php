@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
@@ -55,8 +54,7 @@ class CustomOptions implements HandlerInterface
 
         foreach ($options as $optionId => &$option) {
             // For old options
-            if (isset($originalOptionsAssoc[$optionId])
-                && $originalOptionsAssoc[$optionId]['type'] == $option['type']
+            if (isset($originalOptionsAssoc[$optionId]) && $originalOptionsAssoc[$optionId]['type'] == $option['type']
             ) {
                 if (!isset($option['values'])) {
                     $option['price'] = $originalOptionsAssoc[$optionId]['price'];
@@ -64,8 +62,7 @@ class CustomOptions implements HandlerInterface
                 } elseif (is_array($option['values'])) {
                     foreach ($option['values'] as &$value) {
                         if (isset($originalOptionsAssoc[$optionId]['values'][$value['option_type_id']])) {
-                            $originalValue =
-                                $originalOptionsAssoc[$optionId]['values'][$value['option_type_id']];
+                            $originalValue = $originalOptionsAssoc[$optionId]['values'][$value['option_type_id']];
                             $value['price'] = $originalValue['price'];
                             $value['price_type'] = $originalValue['price_type'];
                         } else {
@@ -75,7 +72,6 @@ class CustomOptions implements HandlerInterface
                         }
                     }
                 }
-
             } else {
                 // Set price to zero and price type to fixed for new options
                 if (!isset($option['values'])) {
@@ -92,4 +88,4 @@ class CustomOptions implements HandlerInterface
 
         $product->setData('product_options', $options);
     }
-} 
+}

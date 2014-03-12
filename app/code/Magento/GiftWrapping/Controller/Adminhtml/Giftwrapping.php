@@ -31,10 +31,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -153,7 +151,10 @@ class Giftwrapping extends \Magento\Backend\App\Action
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'store' => $model->getStoreId()));
+                    $this->_redirect(
+                        'adminhtml/*/edit',
+                        array('id' => $model->getId(), 'store' => $model->getStoreId())
+                    );
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
@@ -213,16 +214,15 @@ class Giftwrapping extends \Magento\Backend\App\Action
         $wrappingIds = (array)$this->getRequest()->getParam('wrapping_ids');
         $status = (int)(bool)$this->getRequest()->getParam('status');
         try {
-            $wrappingCollection = $this->_objectManager
-                ->create('Magento\GiftWrapping\Model\Resource\Wrapping\Collection');
+            $wrappingCollection = $this->_objectManager->create(
+                'Magento\GiftWrapping\Model\Resource\Wrapping\Collection'
+            );
             $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
             foreach ($wrappingCollection as $wrapping) {
                 $wrapping->setStatus($status);
             }
             $wrappingCollection->save();
-            $this->messageManager->addSuccess(
-                __('You updated a total of %1 records.', count($wrappingIds))
-            );
+            $this->messageManager->addSuccess(__('You updated a total of %1 records.', count($wrappingIds)));
         } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
@@ -245,15 +245,14 @@ class Giftwrapping extends \Magento\Backend\App\Action
             $this->messageManager->addError(__('Please select items.'));
         } else {
             try {
-                $wrappingCollection = $this->_objectManager
-                    ->create('Magento\GiftWrapping\Model\Resource\Wrapping\Collection');
+                $wrappingCollection = $this->_objectManager->create(
+                    'Magento\GiftWrapping\Model\Resource\Wrapping\Collection'
+                );
                 $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
                 }
-                $this->messageManager->addSuccess(
-                    __('You deleted a total of %1 records.', count($wrappingIds))
-                );
+                $this->messageManager->addSuccess(__('You deleted a total of %1 records.', count($wrappingIds)));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
@@ -278,7 +277,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the gift wrapping.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('_current'=>true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
             }
         }
         $this->_redirect('adminhtml/*/');

@@ -16,8 +16,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Returnaddress
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+class Returnaddress extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Rma data
@@ -67,5 +66,4 @@ class Returnaddress
     {
         return $this->_rmaData->getReturnAddress('html', array(), $this->getStoreId());
     }
-
 }

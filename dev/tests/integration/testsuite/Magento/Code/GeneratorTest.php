@@ -10,19 +10,21 @@
  */
 namespace Magento\Code;
 
-use \Magento\ObjectManager\Code\Generator as DIGenerator;
-use \Magento\Interception\Code\Generator as InterceptionGenerator;
+use Magento\ObjectManager\Code\Generator as DIGenerator;
+use Magento\Interception\Code\Generator as InterceptionGenerator;
+
 
 require_once __DIR__ . '/GeneratorTest/SourceClassWithNamespace.php';
 require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
-
 /**
  * @magentoAppIsolation enabled
  */
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     const CLASS_NAME_WITHOUT_NAMESPACE = 'Magento\Code\GeneratorTest\SourceClassWithoutNamespace';
+
     const CLASS_NAME_WITH_NAMESPACE = 'Magento\Code\GeneratorTest\SourceClassWithNamespace';
+
     const INTERFACE_NAME_WITHOUT_NAMESPACE = 'Magento\Code\GeneratorTest\SourceInterfaceWithoutNamespace';
 
     /**
@@ -49,8 +51,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_includePath = get_include_path();
 
-        $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Filesystem')->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem'
+        )->getDirectoryWrite(
+            \Magento\App\Filesystem::VAR_DIR
+        );
         $generationDirectory = $this->varDirectory->getAbsolutePath('generation');
 
         \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
@@ -67,8 +72,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 'generatedEntities' => array(
                     DIGenerator\Factory::ENTITY_TYPE => '\Magento\ObjectManager\Code\Generator\Factory',
                     DIGenerator\Proxy::ENTITY_TYPE => '\Magento\ObjectManager\Code\Generator\Proxy',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE
-                        => '\Magento\Interception\Code\Generator\Interceptor',
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Interception\Code\Generator\Interceptor'
                 )
             )
         );
@@ -91,8 +95,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $factoryClassName = self::CLASS_NAME_WITH_NAMESPACE . 'Factory';
         $result = false;
         $generatorResult = $this->_generator->generateClass($factoryClassName);
-        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult
-        ) {
+        if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $result = true;
         }
         $this->assertTrue($result);
@@ -152,7 +155,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
         if (\Magento\Code\Generator::GENERATION_SUCCESS == $generatorResult) {
             $content = $this->_clearDocBlock(
-                file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . '\Interceptor'))
+                file_get_contents(
+                    $this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . '\Interceptor')
+                )
             );
             $expectedContent = $this->_clearDocBlock(
                 file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceInterceptor.php')

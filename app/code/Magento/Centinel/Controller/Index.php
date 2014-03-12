@@ -27,10 +27,8 @@ class Index extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -97,4 +95,3 @@ class Index extends \Magento\App\Action\Action
         return false;
     }
 }
-

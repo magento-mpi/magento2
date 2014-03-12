@@ -92,7 +92,6 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
         return $result;
     }
 
-
     /**
      * Refund a capture transaction
      *
@@ -151,7 +150,6 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
         return $payment->getParentTransactionId();
     }
 
-
     /**
      * Import capture results to payment
      *
@@ -162,9 +160,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
     protected function _importCaptureResultToPayment($api, $payment)
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
-        $payment->setPreparedMessage(
-            __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
-        );
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)));
         $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 
@@ -178,10 +174,16 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {
-        $payment->setTransactionId($api->getTransactionId())
-                ->setIsTransactionClosed(1) // refund initiated by merchant
-                ->setShouldCloseParentTransaction(!$canRefundMore)
-                ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
+        $payment->setTransactionId(
+            $api->getTransactionId()
+        )->setIsTransactionClosed(
+            1
+        )->setShouldCloseParentTransaction(
+            !$canRefundMore
+        )->setTransactionAdditionalInfo(
+            self::TRANSPORT_PAYFLOW_TXN_ID,
+            $api->getPayflowTrxid()
+        );
 
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)));
         $this->_infoFactory->create()->importToPayment($api, $payment);

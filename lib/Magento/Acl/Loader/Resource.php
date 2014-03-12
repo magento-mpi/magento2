@@ -34,10 +34,8 @@ class Resource implements \Magento\Acl\LoaderInterface
      * @param ProviderInterface $resourceProvider
      * @param ResourceFactory $resourceFactory
      */
-    public function __construct(
-        ProviderInterface $resourceProvider,
-        ResourceFactory $resourceFactory
-    ) {
+    public function __construct(ProviderInterface $resourceProvider, ResourceFactory $resourceFactory)
+    {
         $this->_resourceProvider = $resourceProvider;
         $this->_resourceFactory = $resourceFactory;
     }

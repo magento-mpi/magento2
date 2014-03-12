@@ -108,7 +108,7 @@ class Cache
      * @param object $default
      * @return object
      */
-    public function load($idx, $default=null)
+    public function load($idx, $default = null)
     {
         if (isset($this->_references[$idx])) {
             $idx = $this->_references[$idx];
@@ -128,9 +128,9 @@ class Cache
      * @return string
      * @throws \Magento\Exception
      */
-    public function save($object, $idx=null, $tags=null)
+    public function save($object, $idx = null, $tags = null)
     {
-//\Magento\Profiler::start('OBJECT_SAVE');
+        //\Magento\Profiler::start('OBJECT_SAVE');
         if (!is_object($object)) {
             return false;
         }
@@ -148,11 +148,17 @@ class Cache
         }
 
         if (is_null($idx)) {
-            $idx = '#'.(++$this->_idx);
+            $idx = '#' . ++$this->_idx;
         }
 
         if (isset($this->_objects[$idx])) {
-            throw new \Magento\Exception('Object already exists in registry ('.$idx.'). Old object class: '.get_class($this->_objects[$idx]).', new object class: '.get_class($object));
+            throw new \Magento\Exception(
+                'Object already exists in registry (' . $idx . '). Old object class: ' . get_class(
+                    $this->_objects[$idx]
+                ) . ', new object class: ' . get_class(
+                    $object
+                )
+            );
         }
 
         $this->_objects[$idx] = $object;
@@ -169,7 +175,7 @@ class Cache
                 $this->_objectTags[$idx][$t] = true;
             }
         }
-//\Magento\Profiler::stop('OBJECT_SAVE');
+        //\Magento\Profiler::stop('OBJECT_SAVE');
 
         return $idx;
     }
@@ -192,7 +198,14 @@ class Cache
         }
 
         if (isset($this->_references[$refName])) {
-            throw new \Magento\Exception('The reference already exists: '.$refName.'. New index: '.$idx.', old index: '.$this->_references[$refName]);
+            throw new \Magento\Exception(
+                'The reference already exists: ' .
+                $refName .
+                '. New index: ' .
+                $idx .
+                ', old index: ' .
+                $this->_references[$refName]
+            );
         }
         $this->_references[$refName] = $idx;
         $this->_objectReferences[$idx][$refName] = true;
@@ -208,18 +221,18 @@ class Cache
      */
     public function delete($idx)
     {
-//\Magento\Profiler::start("OBJECT_DELETE");
+        //\Magento\Profiler::start("OBJECT_DELETE");
         if (is_object($idx)) {
             $idx = $this->find($idx);
-            if (false===$idx) {
-//\Magento\Profiler::stop("OBJECT_DELETE");
+            if (false === $idx) {
+                //\Magento\Profiler::stop("OBJECT_DELETE");
                 return false;
             }
             unset($this->_objects[$idx]);
-//\Magento\Profiler::stop("OBJECT_DELETE");
+            //\Magento\Profiler::stop("OBJECT_DELETE");
             return false;
         } elseif (!isset($this->_objects[$idx])) {
-//\Magento\Profiler::stop("OBJECT_DELETE");
+            //\Magento\Profiler::stop("OBJECT_DELETE");
             return false;
         }
 
@@ -228,7 +241,7 @@ class Cache
         unset($this->_hashes[$this->_objectHashes[$idx]], $this->_objectHashes[$idx]);
 
         if (isset($this->_objectTags[$idx])) {
-            foreach ($this->_objectTags[$idx] as $t=>$dummy) {
+            foreach ($this->_objectTags[$idx] as $t => $dummy) {
                 unset($this->_tags[$t][$idx]);
             }
             unset($this->_objectTags[$idx]);
@@ -240,7 +253,7 @@ class Cache
             }
             unset($this->_objectReferences[$idx]);
         }
-//\Magento\Profiler::stop("OBJECT_DELETE");
+        //\Magento\Profiler::stop("OBJECT_DELETE");
 
         return true;
     }
@@ -253,7 +266,7 @@ class Cache
      */
     public function deleteByClass($class)
     {
-        foreach ($this->_objects as $idx=>$object) {
+        foreach ($this->_objects as $idx => $object) {
             if ($object instanceof $class) {
                 $this->delete($idx);
             }
@@ -272,7 +285,7 @@ class Cache
             $tags = array($tags);
         }
         foreach ($tags as $t) {
-            foreach ($this->_tags[$t] as $idx=>$dummy) {
+            foreach ($this->_tags[$t] as $idx => $dummy) {
                 $this->delete($idx);
             }
         }
@@ -298,8 +311,8 @@ class Cache
      */
     public function find($object)
     {
-        foreach ($this->_objects as $idx=>$obj) {
-            if ($object===$obj) {
+        foreach ($this->_objects as $idx => $obj) {
+            if ($object === $obj) {
                 return $idx;
             }
         }
@@ -315,7 +328,7 @@ class Cache
     public function findByIds($ids)
     {
         $objects = array();
-        foreach ($this->_objects as $idx=>$obj) {
+        foreach ($this->_objects as $idx => $obj) {
             if (in_array($idx, $ids)) {
                 $objects[$idx] = $obj;
             }
@@ -347,7 +360,7 @@ class Cache
         }
         $objects = array();
         foreach ($tags as $t) {
-            foreach ($this->_tags[$t] as $idx=>$dummy) {
+            foreach ($this->_tags[$t] as $idx => $dummy) {
                 if (isset($objects[$idx])) {
                     continue;
                 }
@@ -366,7 +379,7 @@ class Cache
     public function findByClass($class)
     {
         $objects = array();
-        foreach ($this->_objects as $idx=>$object) {
+        foreach ($this->_objects as $idx => $object) {
             if ($object instanceof $class) {
                 $objects[$idx] = $object;
             }
@@ -381,15 +394,15 @@ class Cache
      * @param object|null $object
      * @return void
      */
-    public function debug($idx, $object=null)
+    public function debug($idx, $object = null)
     {
         $bt = debug_backtrace();
         $debug = array();
-        foreach ($bt as $i=>$step) {
+        foreach ($bt as $i => $step) {
             $debug[$i] = array(
-                'file'     => isset($step['file']) ? $step['file'] : null,
-                'line'     => isset($step['line']) ? $step['line'] : null,
-                'function' => isset($step['function']) ? $step['function'] : null,
+                'file' => isset($step['file']) ? $step['file'] : null,
+                'line' => isset($step['line']) ? $step['line'] : null,
+                'function' => isset($step['function']) ? $step['function'] : null
             );
         }
         $this->_debug[$idx] = $debug;

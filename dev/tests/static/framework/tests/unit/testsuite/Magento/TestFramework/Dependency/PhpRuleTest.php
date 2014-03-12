@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Dependency;
 
 class PhpRuleTest extends \PHPUnit_Framework_TestCase
@@ -20,13 +19,8 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $mapRoutes = array(
-            'someModule' => array('Magento\SomeModule'),
-            'anotherModule' => array('Magento\OneModule')
-        );
-        $mapLayoutBlocks = array(
-            'area' => array('block.name' => array('Magento\SomeModule' => 'Magento\SomeModule'))
-        );
+        $mapRoutes = array('someModule' => array('Magento\SomeModule'), 'anotherModule' => array('Magento\OneModule'));
+        $mapLayoutBlocks = array('area' => array('block.name' => array('Magento\SomeModule' => 'Magento\SomeModule')));
         $this->model = new PhpRule($mapRoutes, $mapLayoutBlocks);
     }
 
@@ -49,58 +43,72 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
 
     public function getDependencyInfoDataProvider()
     {
-        return [
-            ['Magento\SomeModule', 'something extends \Magento\SomeModule\Any\ClassName {', []], //1
-            [
+        return array(
+            array('Magento\SomeModule', 'something extends \Magento\SomeModule\Any\ClassName {', array()),
+            array(
                 'Magento\AnotherModule',
                 'something extends \Magento\SomeModule\Any\ClassName {',
-                [[
-                    'module' => 'Magento\SomeModule',
-                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                    'source' => 'Magento\SomeModule\Any\ClassName',
-                ]]
-            ], // 2
-            ['Magento\SomeModule', '$this->getViewFileUrl("Magento_SomeModule::js/order-by-sku-failure.js")', []], //3
-            [
+                array(
+                    array(
+                        'module' => 'Magento\SomeModule',
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                        'source' => 'Magento\SomeModule\Any\ClassName'
+                    )
+                )
+            ),
+            array(
+                'Magento\SomeModule',
+                '$this->getViewFileUrl("Magento_SomeModule::js/order-by-sku-failure.js")',
+                array()
+            ),
+            array(
                 'Magento\AnotherModule',
                 '$this->getViewFileUrl("Magento_SomeModule::js/order-by-sku-failure.js")',
-                [[
-                    'module' => 'Magento\SomeModule',
-                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                    'source' => 'Magento_SomeModule',
-                ]]
-            ], //4
-            ['Magento\SomeModule', '$this->helper("Magento\SomeModule\Any\ClassName")', []], //5
-            [
+                array(
+                    array(
+                        'module' => 'Magento\SomeModule',
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                        'source' => 'Magento_SomeModule'
+                    )
+                )
+            ),
+            array('Magento\SomeModule', '$this->helper("Magento\SomeModule\Any\ClassName")', array()),
+            array(
                 'Magento\AnotherModule',
                 '$this->helper("Magento\SomeModule\Any\ClassName")',
-                [[
-                    'module' => 'Magento\SomeModule',
-                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                    'source' => 'Magento\SomeModule\Any\ClassName',
-                ]]
-            ], //6
-            ['Magento\SomeModule', '$this->getUrl("someModule")', []], // 7
-            [
+                array(
+                    array(
+                        'module' => 'Magento\SomeModule',
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                        'source' => 'Magento\SomeModule\Any\ClassName'
+                    )
+                )
+            ),
+            array('Magento\SomeModule', '$this->getUrl("someModule")', array()),
+            array(
                 'Magento\AnotherModule',
                 '$this->getUrl("anotherModule")',
-                [[
-                    'module' => 'Magento\OneModule',
-                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                    'source' => 'getUrl("anotherModule"',
-                ]]
-            ], //8
-            ['Magento\SomeModule', '$this->getLayout()->getBlock(\'block.name\');', []], // 9
-            [
+                array(
+                    array(
+                        'module' => 'Magento\OneModule',
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                        'source' => 'getUrl("anotherModule"'
+                    )
+                )
+            ),
+            array('Magento\SomeModule', '$this->getLayout()->getBlock(\'block.name\');', array()),
+            array(
                 'Magento\AnotherModule',
                 '$this->getLayout()->getBlock(\'block.name\');',
-                [[
-                    'module' => 'Magento\SomeModule',
-                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                    'source' => 'getBlock(\'block.name\')',
-                ]]
-            ], //10
-        ];
+                array(
+                    array(
+                        'module' => 'Magento\SomeModule',
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                        'source' => 'getBlock(\'block.name\')'
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -112,27 +120,31 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultModelDependency($module, $content, array $expected)
     {
         $mapLayoutBlocks = array(
-            'default' => array('block.name' => array(
-                'Magento\SomeModule' => 'Magento\SomeModule',
-                'Magento\Install' => 'Magento\Install'
-            ))
+            'default' => array(
+                'block.name' => array(
+                    'Magento\SomeModule' => 'Magento\SomeModule',
+                    'Magento\Install' => 'Magento\Install'
+                )
+            )
         );
-        $this->model = new PhpRule([], $mapLayoutBlocks);
+        $this->model = new PhpRule(array(), $mapLayoutBlocks);
         $this->assertEquals($expected, $this->model->getDependencyInfo($module, 'template', 'any', $content));
     }
 
     public function getDefaultModelDependencyDataProvider()
     {
-        return [
-            [
+        return array(
+            array(
                 'Magento\AnotherModule',
                 '$this->getLayout()->getBlock(\'block.name\');',
-                [[
-                    'module' => 'Magento\Install',
-                    'type'   => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                    'source' => 'getBlock(\'block.name\')',
-                ]]
-            ],
-        ];
+                array(
+                    array(
+                        'module' => 'Magento\Install',
+                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                        'source' => 'getBlock(\'block.name\')'
+                    )
+                )
+            )
+        );
     }
 }

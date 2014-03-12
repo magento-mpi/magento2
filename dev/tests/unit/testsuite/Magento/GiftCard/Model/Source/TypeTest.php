@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Source;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -35,9 +34,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $abstractAttributeMock->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue('code'));
+        $abstractAttributeMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue('code'));
 
         $this->_model->setAttribute($abstractAttributeMock);
 

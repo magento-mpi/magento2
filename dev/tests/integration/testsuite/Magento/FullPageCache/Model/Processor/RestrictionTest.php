@@ -21,14 +21,16 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\App\Cache\StateInterface $cacheState */
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\App\Cache\StateInterface');
+            'Magento\App\Cache\StateInterface'
+        );
         $cacheState->setEnabled('full_page', true);
     }
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\FullPageCache\Model\Processor');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\FullPageCache\Model\Processor'
+        );
     }
 
     public function testIsAllowedNoCacheCookie()

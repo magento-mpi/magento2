@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller;
 
 use Zend\Code\Reflection\ClassReflection;
@@ -31,10 +30,8 @@ class ServiceArgsSerializer
      * @param TypeProcessor $typeProcessor
      * @param ObjectManager $objectManager
      */
-    public function __construct(
-        TypeProcessor $typeProcessor,
-        ObjectManager $objectManager
-    ) {
+    public function __construct(TypeProcessor $typeProcessor, ObjectManager $objectManager)
+    {
         $this->_typeProcessor = $typeProcessor;
         $this->_objectManager = $objectManager;
     }
@@ -63,23 +60,23 @@ class ServiceArgsSerializer
         /** @var ParameterReflection[] $params */
         $params = $serviceMethod->getParameters();
 
-        $inputData = [];
+        $inputData = array();
         foreach ($params as $param) {
             $paramName = $param->getName();
             if (isset($inputArray[$paramName])) {
                 if ($this->_isArrayParam($param)) {
                     $paramType = "{$param->getType()}[]";
                     /** Eliminate 'item' node if present. It is wrapping all data, declared in WSDL as array */
-                    $paramValue = isset($inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME])
-                        ? $inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME]
-                        : $inputArray[$paramName];
+                    $paramValue = isset(
+                        $inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME]
+                    ) ? $inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME] : $inputArray[$paramName];
                 } else {
                     $paramType = $param->getType();
                     $paramValue = $inputArray[$paramName];
                 }
                 $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
-                $inputData[] = $param->getDefaultValue();                   // not set, so use default
+                $inputData[] = $param->getDefaultValue();
             }
         }
 
@@ -101,7 +98,11 @@ class ServiceArgsSerializer
             /** This pattern will help to skip parameters declarations which precede to the current one */
             $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
             $paramType = str_replace('\\', '\\\\', $param->getType());
-            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/is", $docBlock->getContents())) {
+            if (preg_match(
+                "/.*{$precedingParamsPattern}\\@param\\s+({$paramType}\\[\\]).*/is",
+                $docBlock->getContents()
+            )
+            ) {
                 $isArray = true;
             }
         }
@@ -130,7 +131,7 @@ class ServiceArgsSerializer
             if ($methodReflection->isPublic()) {
                 $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
                 $setterName = 'set' . $camelCaseProperty;
-                $builder->$setterName($this->_convertValue($value, $returnType));
+                $builder->{$setterName}($this->_convertValue($value, $returnType));
             }
         }
         return $builder->create();
@@ -150,7 +151,7 @@ class ServiceArgsSerializer
         } elseif ($this->_typeProcessor->isArrayType($type)) {
             $itemType = $this->_typeProcessor->getArrayItemType($type);
             // Initializing the result for array type else it will return null for empty array
-            $result = is_array($value) ? [] : null;
+            $result = is_array($value) ? array() : null;
             foreach ($value as $key => $item) {
                 $result[$key] = $this->_createFromArray($itemType, $item);
             }
@@ -177,11 +178,13 @@ class ServiceArgsSerializer
         } elseif ($class->hasMethod($boolGetterName)) {
             $methodName = $boolGetterName;
         } else {
-            throw new \Exception(sprintf(
-                'Property :"%s" does not exist in the Data Object class: "%s".',
-                $camelCaseProperty,
-                $class->getName()
-            ));
+            throw new \Exception(
+                sprintf(
+                    'Property :"%s" does not exist in the Data Object class: "%s".',
+                    $camelCaseProperty,
+                    $class->getName()
+                )
+            );
         }
         return $methodName;
     }

@@ -21,7 +21,6 @@ class Grand extends AbstractTotal
          * Check order grand total and invoice amounts
          */
         if ($invoice->isLast()) {
-            //
         }
         return $this;
     }

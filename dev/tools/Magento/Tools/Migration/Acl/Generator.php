@@ -9,9 +9,9 @@
  */
 namespace Magento\Tools\Migration\Acl;
 
-require_once(__DIR__ . '/Menu/Generator.php');
-require_once(__DIR__ . '/FileManager.php');
 
+require_once __DIR__ . '/Menu/Generator.php';
+require_once __DIR__ . '/FileManager.php';
 class Generator
 {
     /**
@@ -111,10 +111,7 @@ class Generator
         $this->_printHelp = array_key_exists('h', $options);
         $this->_isPreviewMode = array_key_exists('p', $options);
 
-        $this->_metaNodeNames = array(
-            'sort_order' => 'sortOrder',
-            'title' => 'title'
-        );
+        $this->_metaNodeNames = array('sort_order' => 'sortOrder', 'title' => 'title');
 
         $this->_basePath = realpath(__DIR__ . '/../../../../../..');
 
@@ -161,9 +158,7 @@ class Generator
      */
     public function getForwardNodeNames()
     {
-        return array(
-            'children',
-        );
+        return array('children');
     }
 
     /**
@@ -201,9 +196,7 @@ class Generator
      */
     public function getValidNodeTypes()
     {
-        return array(
-            1, //DOMElement
-        );
+        return array(1);
     }
 
     /**
@@ -429,10 +422,14 @@ class Generator
             $resourcesList = $xpath->query('//config/acl/*');
             /** @var $aclNode \DOMNode **/
             foreach ($resourcesList as $aclNode) {
-                $this->parseNode($aclNode, $resultDom, $resultDom->getElementsByTagName('resources')->item(0), $module);
+                $this->parseNode(
+                    $aclNode,
+                    $resultDom,
+                    $resultDom->getElementsByTagName('resources')->item(0),
+                    $module
+                );
             }
             $this->_parsedDomList[$file] = $resultDom;
-
         }
     }
 
@@ -509,14 +506,17 @@ class Generator
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
 
-            $output = $this->_xmlFormatter->parseString($dom->saveXml(), array(
+            $output = $this->_xmlFormatter->parseString(
+                $dom->saveXml(),
+                array(
                     'indent' => true,
                     'input-xml' => true,
                     'output-xml' => true,
                     'add-xml-space' => false,
                     'indent-spaces' => 4,
                     'wrap' => 1000
-                ));
+                )
+            );
             $this->_fileManager->write($file, $output);
         }
     }
@@ -554,10 +554,7 @@ class Generator
      */
     public function removeAdminhtmlFiles()
     {
-        $output = array(
-            'removed' => array(),
-            'not_removed' => array(),
-        );
+        $output = array('removed' => array(), 'not_removed' => array());
 
         /** @var $dom \DOMDocument **/
         foreach ($this->_adminhtmlDomList as $file => $dom) {
@@ -568,7 +565,7 @@ class Generator
             }
             $acl = $nodeList->item(0);
             $countNodes = $acl->childNodes->length - 1;
-            for ($i = $countNodes; $i >= 0 ; $i--) {
+            for ($i = $countNodes; $i >= 0; $i--) {
                 $node = $acl->childNodes->item($i);
                 if (in_array($node->nodeName, $this->getNodeToRemove())) {
                     $acl->removeChild($node);
@@ -670,7 +667,7 @@ class Generator
 
         $output .= PHP_EOL;
         $output .= 'Mapped Menu Items: ' . count($menuResult['mapped']) . PHP_EOL;
-        $output .= 'Not Mapped Menu Items: ' .count($menuResult['not_mapped']) . PHP_EOL;
+        $output .= 'Not Mapped Menu Items: ' . count($menuResult['not_mapped']) . PHP_EOL;
 
         if (count($menuResult['not_mapped'])) {
             foreach ($menuResult['not_mapped'] as $menuId) {
@@ -678,7 +675,7 @@ class Generator
             }
         }
 
-        $output .= 'Menu Update Errors: ' .count($menuResult['menu_update_errors']) . PHP_EOL;
+        $output .= 'Menu Update Errors: ' . count($menuResult['menu_update_errors']) . PHP_EOL;
         if (count($menuResult['menu_update_errors'])) {
             foreach ($menuResult['menu_update_errors'] as $errorText) {
                 $output .= ' - ' . $errorText . PHP_EOL;
@@ -729,9 +726,7 @@ class Generator
      */
     public function getRestrictedNodeNames()
     {
-        return array(
-            'privilegeSets',
-        );
+        return array('privilegeSets');
     }
 
     /**
@@ -739,9 +734,6 @@ class Generator
      */
     public function getNodeToRemove()
     {
-        return array(
-            'resources',
-            'privilegeSets',
-        );
+        return array('resources', 'privilegeSets');
     }
 }

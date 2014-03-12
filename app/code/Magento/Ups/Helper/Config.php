@@ -42,15 +42,10 @@ class Config
      */
     protected function getCodes()
     {
-        return [
-            'action' => [
-                'single' => '3',
-                'all' => '4',
-            ],
-
-            'originShipment' => [
-                // United States Domestic Shipments
-                'United States Domestic Shipments' => [
+        return array(
+            'action' => array('single' => '3', 'all' => '4'),
+            'originShipment' => array(
+                'United States Domestic Shipments' => array(
                     '01' => __('UPS Next Day Air'),
                     '02' => __('UPS Second Day Air'),
                     '03' => __('UPS Ground'),
@@ -62,10 +57,9 @@ class Config
                     '14' => __('UPS Next Day Air Early A.M.'),
                     '54' => __('UPS Worldwide Express Plus'),
                     '59' => __('UPS Second Day Air A.M.'),
-                    '65' => __('UPS Saver'),
-                ],
-                // Shipments Originating in United States
-                'Shipments Originating in United States' => [
+                    '65' => __('UPS Saver')
+                ),
+                'Shipments Originating in United States' => array(
                     '01' => __('UPS Next Day Air'),
                     '02' => __('UPS Second Day Air'),
                     '03' => __('UPS Ground'),
@@ -76,10 +70,9 @@ class Config
                     '14' => __('UPS Next Day Air Early A.M.'),
                     '54' => __('UPS Worldwide Express Plus'),
                     '59' => __('UPS Second Day Air A.M.'),
-                    '65' => __('UPS Worldwide Saver'),
-                ],
-                // Shipments Originating in Canada
-                'Shipments Originating in Canada' => [
+                    '65' => __('UPS Worldwide Saver')
+                ),
+                'Shipments Originating in Canada' => array(
                     '01' => __('UPS Express'),
                     '02' => __('UPS Expedited'),
                     '07' => __('UPS Worldwide Express'),
@@ -87,18 +80,16 @@ class Config
                     '11' => __('UPS Standard'),
                     '12' => __('UPS Three-Day Select'),
                     '14' => __('UPS Express Early A.M.'),
-                    '65' => __('UPS Saver'),
-                ],
-                // Shipments Originating in the European Union
-                'Shipments Originating in the European Union' => [
+                    '65' => __('UPS Saver')
+                ),
+                'Shipments Originating in the European Union' => array(
                     '07' => __('UPS Express'),
                     '08' => __('UPS Expedited'),
                     '11' => __('UPS Standard'),
                     '54' => __('UPS Worldwide Express PlusSM'),
-                    '65' => __('UPS Saver'),
-                ],
-                // Polish Domestic Shipments
-                'Polish Domestic Shipments' => [
+                    '65' => __('UPS Saver')
+                ),
+                'Polish Domestic Shipments' => array(
                     '07' => __('UPS Express'),
                     '08' => __('UPS Expedited'),
                     '11' => __('UPS Standard'),
@@ -108,10 +99,9 @@ class Config
                     '83' => __('UPS Today Dedicated Courrier'),
                     '84' => __('UPS Today Intercity'),
                     '85' => __('UPS Today Express'),
-                    '86' => __('UPS Today Express Saver'),
-                ],
-                // Puerto Rico Origin
-                'Puerto Rico Origin' => [
+                    '86' => __('UPS Today Express Saver')
+                ),
+                'Puerto Rico Origin' => array(
                     '01' => __('UPS Next Day Air'),
                     '02' => __('UPS Second Day Air'),
                     '03' => __('UPS Ground'),
@@ -119,26 +109,23 @@ class Config
                     '08' => __('UPS Worldwide Expedited'),
                     '14' => __('UPS Next Day Air Early A.M.'),
                     '54' => __('UPS Worldwide Express Plus'),
-                    '65' => __('UPS Saver'),
-                ],
-                // Shipments Originating in Mexico
-                'Shipments Originating in Mexico' => [
+                    '65' => __('UPS Saver')
+                ),
+                'Shipments Originating in Mexico' => array(
                     '07' => __('UPS Express'),
                     '08' => __('UPS Expedited'),
                     '54' => __('UPS Express Plus'),
-                    '65' => __('UPS Saver'),
-                ],
-                // Shipments Originating in Other Countries
-                'Shipments Originating in Other Countries' => [
+                    '65' => __('UPS Saver')
+                ),
+                'Shipments Originating in Other Countries' => array(
                     '07' => __('UPS Express'),
                     '08' => __('UPS Worldwide Expedited'),
                     '11' => __('UPS Standard'),
                     '54' => __('UPS Worldwide Express Plus'),
                     '65' => __('UPS Saver')
-                ],
-            ],
-
-            'method' => [
+                )
+            ),
+            'method' => array(
                 '1DM' => __('Next Day Air Early AM'),
                 '1DML' => __('Next Day Air Early AM Letter'),
                 '1DA' => __('Next Day Air'),
@@ -160,33 +147,30 @@ class Config
                 'XPRL' => __('Worldwide Express Letter'),
                 'XDM' => __('Worldwide Express Plus'),
                 'XDML' => __('Worldwide Express Plus Letter'),
-                'XPD' => __('Worldwide Expedited'),
-            ],
-
-            'pickup' => [
-                'RDP' => ["label" => 'Regular Daily Pickup', "code" => "01"],
-                'OCA' => ["label" => 'On Call Air', "code" => "07"],
-                'OTP' => ["label" => 'One Time Pickup', "code" => "06"],
-                'LC' => ["label" => 'Letter Center', "code" => "19"],
-                'CC' => ["label" => 'Customer Counter', "code" => "03"],
-            ],
-
-            'container' => [
-                'CP' => '00', // Customer Packaging
-                'ULE' => '01', // UPS Letter Envelope
-                'CSP' => '02', // Customer Supplied Package
-                'UT' => '03', // UPS Tube
-                'PAK' => '04', // PAK
-                'UEB' => '21', // UPS Express Box
-                'UW25' => '24', // UPS Worldwide 25 kilo
-                'UW10' => '25', // UPS Worldwide 10 kilo
-                'PLT' => '30', // Pallet
-                'SEB' => '2a', // Small Express Box
-                'MEB' => '2b', // Medium Express Box
-                'LEB' => '2c', // Large Express Box
-            ],
-
-            'container_description' => [
+                'XPD' => __('Worldwide Expedited')
+            ),
+            'pickup' => array(
+                'RDP' => array("label" => 'Regular Daily Pickup', "code" => "01"),
+                'OCA' => array("label" => 'On Call Air', "code" => "07"),
+                'OTP' => array("label" => 'One Time Pickup', "code" => "06"),
+                'LC' => array("label" => 'Letter Center', "code" => "19"),
+                'CC' => array("label" => 'Customer Counter', "code" => "03")
+            ),
+            'container' => array(
+                'CP' => '00',
+                'ULE' => '01',
+                'CSP' => '02',
+                'UT' => '03',
+                'PAK' => '04',
+                'UEB' => '21',
+                'UW25' => '24',
+                'UW10' => '25',
+                'PLT' => '30',
+                'SEB' => '2a',
+                'MEB' => '2b',
+                'LEB' => '2c'
+            ),
+            'container_description' => array(
                 'CP' => __('Customer Packaging'),
                 'ULE' => __('UPS Letter Envelope'),
                 'CSP' => __('Customer Supplied Package'),
@@ -198,124 +182,48 @@ class Config
                 'PLT' => __('Pallet'),
                 'SEB' => __('Small Express Box'),
                 'MEB' => __('Medium Express Box'),
-                'LEB' => __('Large Express Box'),
-            ],
-
-            'dest_type' => [
-                'RES' => '01', // Residential
-                'COM' => '02', // Commercial
-            ],
-
-            'dest_type_description' => [
-                'RES' => __('Residential'),
-                'COM' => __('Commercial'),
-            ],
-
-            'unit_of_measure' => [
-                'LBS' => __('Pounds'),
-                'KGS' => __('Kilograms'),
-            ],
-
-            'containers_filter' => [
-                [
-                    'containers' => ['00'], // Customer Packaging
-                    'filters' => [
-                        'within_us' => [
-                            'method' => [
-                                '01', // Next Day Air
-                                '13', // Next Day Air Saver
-                                '12', // 3 Day Select
-                                '59', // 2nd Day Air AM
-                                '03', // Ground
-                                '14', // Next Day Air Early AM
-                                '02', // 2nd Day Air
-                            ],
-                        ],
-                        'from_us' => [
-                            'method' => [
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '08', // Worldwide Expedited
-                                '65', // Worldwide Saver
-                                '11', // Standard
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    // Small Express Box, Medium Express Box, Large Express Box, UPS Tube
-                    'containers' => ['2a', '2b', '2c', '03'],
-                    'filters' => [
-                        'within_us' => [
-                            'method' => [
-                                '01', // Next Day Air
-                                '13', // Next Day Air Saver
-                                '14', // Next Day Air Early AM
-                                '02', // 2nd Day Air
-                                '59', // 2nd Day Air AM
-                                '13', // Next Day Air Saver
-                            ],
-                        ],
-                        'from_us' => [
-                            'method' => [
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '08', // Worldwide Expedited
-                                '65', // Worldwide Saver
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'containers' => ['24', '25'], // UPS Worldwide 25 kilo, UPS Worldwide 10 kilo
-                    'filters' => [
-                        'within_us' => [
-                            'method' => [],
-                        ],
-                        'from_us' => [
-                            'method' => [
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '65', // Worldwide Saver
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'containers' => ['01', '04'], // UPS Letter, UPS PAK
-                    'filters' => [
-                        'within_us' => [
-                            'method' => [
-                                '01', // Next Day Air
-                                '14', // Next Day Air Early AM
-                                '02', // 2nd Day Air
-                                '59', // 2nd Day Air AM
-                                '13', // Next Day Air Saver
-                            ],
-                        ],
-                        'from_us' => [
-                            'method' => [
-                                '07', // Worldwide Express
-                                '54', // Worldwide Express Plus
-                                '65', // Worldwide Saver
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'containers' => ['04'], // UPS PAK
-                    'filters' => [
-                        'within_us' => [
-                            'method' => [],
-                        ],
-                        'from_us' => [
-                            'method' => [
-                                '08', // Worldwide Expedited
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ];
+                'LEB' => __('Large Express Box')
+            ),
+            'dest_type' => array('RES' => '01', 'COM' => '02'),
+            'dest_type_description' => array('RES' => __('Residential'), 'COM' => __('Commercial')),
+            'unit_of_measure' => array('LBS' => __('Pounds'), 'KGS' => __('Kilograms')),
+            'containers_filter' => array(
+                array(
+                    'containers' => array('00'),
+                    'filters' => array(
+                        'within_us' => array('method' => array('01', '13', '12', '59', '03', '14', '02')),
+                        'from_us' => array('method' => array('07', '54', '08', '65', '11'))
+                    )
+                ),
+                array(
+                    'containers' => array('2a', '2b', '2c', '03'),
+                    'filters' => array(
+                        'within_us' => array('method' => array('01', '13', '14', '02', '59', '13')),
+                        'from_us' => array('method' => array('07', '54', '08', '65'))
+                    )
+                ),
+                array(
+                    'containers' => array('24', '25'),
+                    'filters' => array(
+                        'within_us' => array('method' => array()),
+                        'from_us' => array('method' => array('07', '54', '65'))
+                    )
+                ),
+                array(
+                    'containers' => array('01', '04'),
+                    'filters' => array(
+                        'within_us' => array('method' => array('01', '14', '02', '59', '13')),
+                        'from_us' => array('method' => array('07', '54', '65'))
+                    )
+                ),
+                array(
+                    'containers' => array('04'),
+                    'filters' => array(
+                        'within_us' => array('method' => array()),
+                        'from_us' => array('method' => array('08'))
+                    )
+                )
+            )
+        );
     }
 }

@@ -27,6 +27,6 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getItem()
     {
-        return $this->_getData('item');//->getOrderItem();
+        return $this->_getData('item');
     }
 }

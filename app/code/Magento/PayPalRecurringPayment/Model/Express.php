@@ -7,11 +7,11 @@
  */
 namespace Magento\PayPalRecurringPayment\Model;
 
-use \Magento\Paypal\Model\Express as PayPalExpress;
-use \Magento\Payment\Model\Info as PaymentInfo;
-use \Magento\RecurringPayment\Model\States;
-use \Magento\RecurringPayment\Model\RecurringPayment;
-use \Magento\RecurringPayment\Model\ManagerInterface;
+use Magento\Paypal\Model\Express as PayPalExpress;
+use Magento\Payment\Model\Info as PaymentInfo;
+use Magento\RecurringPayment\Model\States;
+use Magento\RecurringPayment\Model\RecurringPayment;
+use Magento\RecurringPayment\Model\ManagerInterface;
 
 class Express implements ManagerInterface
 {
@@ -48,15 +48,20 @@ class Express implements ManagerInterface
     public function validate(RecurringPayment $payment)
     {
         $errors = array();
-        if (strlen($payment->getSubscriberName()) > 32) { // up to 32 single-byte chars
+        if (strlen($payment->getSubscriberName()) > 32) {
+            // up to 32 single-byte chars
             $errors[] = __('The subscriber name is too long.');
         }
-        $refId = $payment->getInternalReferenceId(); // up to 127 single-byte alphanumeric
-        if (strlen($refId) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $refId)
+        $refId = $payment->getInternalReferenceId();
+        // up to 127 single-byte alphanumeric
+        if (strlen($refId) > 127) {
+            //  || !preg_match('/^[a-z\d\s]+$/i', $refId)
             $errors[] = __('The merchant\'s reference ID format is not supported.');
         }
-        $scheduleDescription = $payment->getScheduleDescription(); // up to 127 single-byte alphanumeric
-        if (strlen($scheduleDescription) > 127) { //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescription)
+        $scheduleDescription = $payment->getScheduleDescription();
+        // up to 127 single-byte alphanumeric
+        if (strlen($scheduleDescription) > 127) {
+            //  || !preg_match('/^[a-z\d\s]+$/i', $scheduleDescription)
             $errors[] = __('The schedule description is too long.');
         }
         if ($errors) {
@@ -80,9 +85,7 @@ class Express implements ManagerInterface
             $payment,
             $api,
             array(
-                'token', // EC fields
-                // TODO: DP fields
-                // payment fields
+                'token',
                 'subscriber_name',
                 'start_datetime',
                 'internal_reference_id',
@@ -122,8 +125,7 @@ class Express implements ManagerInterface
      */
     public function getDetails($referenceId, \Magento\Object $result)
     {
-        $this->_paymentMethod->getApi()->setRecurringPaymentId($referenceId)
-            ->callGetRecurringPaymentDetails($result);
+        $this->_paymentMethod->getApi()->setRecurringPaymentId($referenceId)->callGetRecurringPaymentDetails($result);
     }
 
     /**
@@ -168,11 +170,16 @@ class Express implements ManagerInterface
                 break;
         }
         $state = $payment->getState();
-        $api->setRecurringPaymentId($payment->getReferenceId())
-            ->setIsAlreadyCanceled($state == States::CANCELED)
-            ->setIsAlreadySuspended($state == States::SUSPENDED)
-            ->setIsAlreadyActive($state == States::ACTIVE)
-            ->setAction($action)
-            ->callManageRecurringPaymentStatus();
+        $api->setRecurringPaymentId(
+            $payment->getReferenceId()
+        )->setIsAlreadyCanceled(
+            $state == States::CANCELED
+        )->setIsAlreadySuspended(
+            $state == States::SUSPENDED
+        )->setIsAlreadyActive(
+            $state == States::ACTIVE
+        )->setAction(
+            $action
+        )->callManageRecurringPaymentStatus();
     }
 }

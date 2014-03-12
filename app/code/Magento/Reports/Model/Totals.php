@@ -44,7 +44,7 @@ class Totals
             }
             $data = $item->getData();
 
-            foreach ($columns as $field=>$a) {
+            foreach ($columns as $field => $a) {
                 if ($field !== '') {
                     $columns[$field]['value'] = $columns[$field]['value'] + (isset($data[$field]) ? $data[$field] : 0);
                 }
@@ -56,16 +56,16 @@ class Totals
             if ($a['total'] == 'avg') {
                 if ($field !== '') {
                     if ($count != 0) {
-                        $data[$field] = $a['value']/$count;
+                        $data[$field] = $a['value'] / $count;
                     } else {
                         $data[$field] = 0;
                     }
                 }
-            } else if ($a['total'] == 'sum') {
+            } elseif ($a['total'] == 'sum') {
                 if ($field !== '') {
                     $data[$field] = $a['value'];
                 }
-            } else if (strpos($a['total'], '/') !== FALSE) {
+            } elseif (strpos($a['total'], '/') !== FALSE) {
                 if ($field !== '') {
                     $data[$field] = 0;
                 }

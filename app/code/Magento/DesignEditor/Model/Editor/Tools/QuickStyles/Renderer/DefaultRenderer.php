@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
 
 /**
  * Default css renderer
  */
-class DefaultRenderer
-    extends \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\AbstractRenderer
+class DefaultRenderer extends \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\AbstractRenderer
 {
     /**
      * Render concrete element

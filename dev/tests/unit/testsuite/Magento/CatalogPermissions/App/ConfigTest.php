@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\App;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
@@ -20,15 +19,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethods($method, $configMethod, $path, $value, $configValue)
     {
-        $storeConfigMock = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Store\ConfigInterface'
+        $storeConfigMock = $this->getMockForAbstractClass('Magento\Core\Model\Store\ConfigInterface');
+        $storeConfigMock->expects(
+            $this->once()
+        )->method(
+            $configMethod
+        )->with(
+            $path,
+            null
+        )->will(
+            $this->returnValue($configValue)
         );
-        $storeConfigMock->expects($this->once())
-            ->method($configMethod)
-            ->with($path, null)
-            ->will($this->returnValue($configValue));
         $model = new Config($storeConfigMock);
-        $this->assertEquals($value, $model->$method());
+        $this->assertEquals($value, $model->{$method}());
     }
 
     /**
@@ -36,77 +39,105 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderMethods()
     {
-        return [
-            [
-                'isEnabled', 'getConfigFlag',
+        return array(
+            array(
+                'isEnabled',
+                'getConfigFlag',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_ENABLED,
-                true, true,
-            ],
-            [
-                'isEnabled', 'getConfigFlag',
+                true,
+                true
+            ),
+            array(
+                'isEnabled',
+                'getConfigFlag',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_ENABLED,
-                false, false,
-            ],
-            [
-                'getCatalogCategoryViewMode', 'getConfig',
+                false,
+                false
+            ),
+            array(
+                'getCatalogCategoryViewMode',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW,
-                'value', 'value',
-            ],
-            [
-                'getCatalogCategoryViewGroups', 'getConfig',
+                'value',
+                'value'
+            ),
+            array(
+                'getCatalogCategoryViewGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
-                [], '',
-            ],
-            [
-                'getCatalogCategoryViewGroups', 'getConfig',
+                array(),
+                ''
+            ),
+            array(
+                'getCatalogCategoryViewGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
-                ['value1', 'value2'], 'value1,value2',
-            ],
-            [
-                'getCatalogProductPriceMode', 'getConfig',
+                array('value1', 'value2'),
+                'value1,value2'
+            ),
+            array(
+                'getCatalogProductPriceMode',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE,
-                'value', 'value',
-            ],
-            [
-                'getCatalogProductPriceGroups', 'getConfig',
+                'value',
+                'value'
+            ),
+            array(
+                'getCatalogProductPriceGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
-                [], '',
-            ],
-            [
-                'getCatalogProductPriceGroups', 'getConfig',
+                array(),
+                ''
+            ),
+            array(
+                'getCatalogProductPriceGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
-                ['value1', 'value2'], 'value1,value2',
-            ],
-            [
-                'getCheckoutItemsMode', 'getConfig',
+                array('value1', 'value2'),
+                'value1,value2'
+            ),
+            array(
+                'getCheckoutItemsMode',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS,
-                'value', 'value',
-            ],
-            [
-                'getCheckoutItemsGroups', 'getConfig',
+                'value',
+                'value'
+            ),
+            array(
+                'getCheckoutItemsGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups',
-                [], '',
-            ],
-            [
-                'getCheckoutItemsGroups', 'getConfig',
+                array(),
+                ''
+            ),
+            array(
+                'getCheckoutItemsGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups',
-                ['value1', 'value2'], 'value1,value2',
-            ],
-            [
-                'getCatalogSearchDenyGroups', 'getConfig',
+                array('value1', 'value2'),
+                'value1,value2'
+            ),
+            array(
+                'getCatalogSearchDenyGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH,
-                [], '',
-            ],
-            [
-                'getCatalogSearchDenyGroups', 'getConfig',
+                array(),
+                ''
+            ),
+            array(
+                'getCatalogSearchDenyGroups',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH,
-                ['value1', 'value2'], 'value1,value2',
-            ],
-            [
-                'getRestrictedLandingPage', 'getConfig',
+                array('value1', 'value2'),
+                'value1,value2'
+            ),
+            array(
+                'getRestrictedLandingPage',
+                'getConfig',
                 \Magento\CatalogPermissions\App\ConfigInterface::XML_PATH_LANDING_PAGE,
-                'value', 'value',
-            ],
-        ];
+                'value',
+                'value'
+            )
+        );
     }
 }

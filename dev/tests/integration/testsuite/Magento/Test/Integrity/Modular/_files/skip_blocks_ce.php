@@ -10,7 +10,6 @@
  * @license     {license_link}
  */
 return array(
-    // Blocks with abstract constructor arguments
     'Magento\Email\Block\Adminhtml\Template',
     'Magento\Email\Block\Adminhtml\Template\Edit',
     'Magento\Backend\Block\System\Config\Edit',

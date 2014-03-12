@@ -15,10 +15,7 @@ class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/group'     => 'id',
-        '/config/group/job' => 'name',
-    );
+    protected $_idAttributes = array('/config/group' => 'id', '/config/group/job' => 'name');
 
     /**
      * Path to tough XSD for merged file validation
@@ -38,10 +35,7 @@ class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
         $invalidFiles = array();
 
         $files = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('crontab.xml');
-        $mergedConfig = new \Magento\Config\Dom(
-            '<config></config>',
-            $this->_idAttributes
-        );
+        $mergedConfig = new \Magento\Config\Dom('<config></config>', $this->_idAttributes);
 
         foreach ($files as $file) {
             $content = file_get_contents($file[0]);

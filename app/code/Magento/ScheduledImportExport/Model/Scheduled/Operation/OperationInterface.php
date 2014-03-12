@@ -25,8 +25,7 @@ interface OperationInterface
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return bool
      */
-    function runSchedule(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation);
-
+    public function runSchedule(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation);
 
     /**
      * Initialize operation model from scheduled operation
@@ -34,7 +33,7 @@ interface OperationInterface
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
      * @return object operation instance
      */
-    function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation);
+    public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation);
 
     /**
      * Log debug data to file.
@@ -42,12 +41,12 @@ interface OperationInterface
      * @param mixed $debugData
      * @return object
      */
-    function addLogComment($debugData);
+    public function addLogComment($debugData);
 
     /**
      * Return human readable debug trace.
      *
      * @return array
      */
-    function getFormatedLogTrace();
+    public function getFormatedLogTrace();
 }

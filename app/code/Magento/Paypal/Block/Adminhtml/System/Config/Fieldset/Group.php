@@ -13,8 +13,7 @@
  */
 namespace Magento\Paypal\Block\Adminhtml\System\Config\Fieldset;
 
-class Group
-    extends \Magento\Backend\Block\System\Config\Form\Fieldset
+class Group extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
      * @param \Magento\Backend\Block\Context $context
@@ -45,9 +44,14 @@ class Group
             return parent::_getHeaderCommentHtml($element);
         }
 
-        $html = '<div class="comment">' . $element->getComment()
-            . ' <a target="_blank" href="' . $groupConfig['help_url'] . '">'
-            . __('Help') . '</a></div>';
+        $html = '<div class="comment">' .
+            $element->getComment() .
+            ' <a target="_blank" href="' .
+            $groupConfig['help_url'] .
+            '">' .
+            __(
+            'Help'
+        ) . '</a></div>';
 
         return $html;
     }

@@ -55,7 +55,13 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct(
-            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+            $eventManager,
+            $fpcCache,
+            $placeholder,
+            $coreRegistry,
+            $urlHelper,
+            $coreStoreConfig,
+            $layout
         );
         $this->_storeManager = $storeManager;
         $this->_productFactory = $productFactory;
@@ -91,9 +97,11 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
         $product = null;
 
         if ($productId) {
-            $product = $this->_productFactory->create()
-                ->setStoreId($this->_storeManager->getStore()->getId())
-                ->load($productId);
+            $product = $this->_productFactory->create()->setStoreId(
+                $this->_storeManager->getStore()->getId()
+            )->load(
+                $productId
+            );
             if ($product) {
                 $this->_coreRegistry->register('current_product', $product);
             }
@@ -128,7 +136,10 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
             }
         }
 
-        $this->_eventManager->dispatch('render_block', array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder));
+        $this->_eventManager->dispatch(
+            'render_block',
+            array('block' => $breadcrumbsBlock, 'placeholder' => $this->_placeholder)
+        );
         return $breadcrumbsBlock->toHtml();
     }
 }

@@ -16,7 +16,6 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Invitation\Model\Resource\Report\Invitation\Collection;
 
 class Initial extends \Magento\Reports\Model\Resource\Report\Collection
