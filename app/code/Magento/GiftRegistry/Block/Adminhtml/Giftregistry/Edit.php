@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -34,7 +33,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * Intialize form
+     * Initialize form
      *
      * @return void
      */

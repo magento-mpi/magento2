@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 /**
@@ -79,7 +78,7 @@ class Collection
      * Get first even message by identifier
      *
      * @param string $identifier
-     * @return MessageInterface|null
+     * @return MessageInterface|void
      */
     public function getMessageByIdentifier($identifier)
     {

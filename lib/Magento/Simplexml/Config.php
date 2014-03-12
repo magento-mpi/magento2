@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\Simplexml;
 
 /**
  * Base class for simplexml based configurations
@@ -16,8 +16,6 @@
  * @package    Magento_Simplexml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Simplexml;
-
 class Config
 {
 
@@ -52,7 +50,7 @@ class Config
     /**
      * Enter description here...
      *
-     * @var unknown_type
+     * @var string|null|false
      */
     protected $_cacheChecksum = false;
 
@@ -111,7 +109,7 @@ class Config
     /**
      * Sets xml for this configuration
      *
-     * @param \Magento\Simplexml\Element $sourceData
+     * @param \Magento\Simplexml\Element $node
      * @return $this
      */
     public function setXml(\Magento\Simplexml\Element $node)
@@ -455,9 +453,9 @@ class Config
     /**
      * Enter description here...
      *
-     * @todo check this, as there are no caches that implement remove() method
      * @param string $id
-     * @return unknown
+     * @return mixed
+     * @todo check this, as there are no caches that implement remove() method
      */
     protected function _removeCache($id)
     {

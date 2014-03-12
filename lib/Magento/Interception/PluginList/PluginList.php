@@ -295,6 +295,7 @@ class PluginList extends Scoped implements InterceptionPluginList
      * Merge configuration
      *
      * @param array $config
+     * @return void
      */
     public function merge(array $config)
     {

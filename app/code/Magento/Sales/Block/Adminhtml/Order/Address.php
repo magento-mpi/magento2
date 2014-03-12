@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order;
 
 /**
  * Edit order address form container block
  */
-namespace Magento\Sales\Block\Adminhtml\Order;
-
 class Address extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -36,6 +35,11 @@ class Address extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_order';

@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\DB;
  \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento\DB\Tree\Node'); \Zend_Loader::loadClass('\Magento\DB\Tree\NodeSet');
 
@@ -91,7 +90,7 @@ class Tree
 
             // use an object from the registry?
             if (is_string($connection)) {
-                $connection = Zend::registry($connection);
+                $connection = \Zend::registry($connection);
             }
 
             // make sure it's a \Zend_Db_Adapter
@@ -345,7 +344,7 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @return bool|Node
+     * @return bool|Node|void
      */
     public function removeNode($nodeId)
     {
@@ -393,7 +392,8 @@ class Tree
      * @param string|int $aId
      * @return bool
      */
-    public function moveNode($eId, $pId, $aId = 0) {
+    public function moveNode($eId, $pId, $aId = 0)
+    {
 
         $eInfo = $this->getNodeInfo($eId);
         $pInfo = $this->getNodeInfo($pId);

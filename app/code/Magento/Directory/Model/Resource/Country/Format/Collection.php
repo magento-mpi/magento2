@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Directory\Model\Resource\Country\Format;
 
 /**
  * \Directory country format resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Directory
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Directory\Model\Resource\Country\Format;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {

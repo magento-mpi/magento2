@@ -1,0 +1,33 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+//    PayPal checkout button
+//--------------------------------------
+
+.paypal {
+    &.after:after {
+        content: "- " attr(data-label) " -";
+        display: block;
+        margin: 0 5px 10px;
+        text-transform: uppercase;
+    }
+    &.before:before {
+        content: "- " attr(data-label) " -";
+        display: block;
+        margin: 10px 5px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+}
+
+.form.new.agreement {
+    .actions.toolbar {
+        &:extend(.action-toolbar-reset-margin all);
+    }
+}

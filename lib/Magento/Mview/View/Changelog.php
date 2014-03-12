@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\View;
 
 class Changelog implements ChangelogInterface
@@ -52,6 +51,7 @@ class Changelog implements ChangelogInterface
     /**
      * Check DB connection
      *
+     * @return void
      * @throws \Exception
      */
     protected function checkConnection()
@@ -64,6 +64,7 @@ class Changelog implements ChangelogInterface
     /**
      * Create changelog table
      *
+     * @return void
      * @throws \Exception
      */
     public function create()
@@ -92,6 +93,7 @@ class Changelog implements ChangelogInterface
     /**
      * Drop changelog table
      *
+     * @return void
      * @throws \Exception
      */
     public function drop()
@@ -107,7 +109,7 @@ class Changelog implements ChangelogInterface
     /**
      * Clear changelog table by version_id
      *
-     * @param integer $versionId
+     * @param int $versionId
      * @return boolean
      * @throws \Exception
      */

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Grid;
 
 /**
  * Flat sales order grid collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Grid;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 {
     /**
@@ -44,6 +42,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +80,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * Set customer mode flag value
      *
      * @param bool $value
-     * @return \Magento\Sales\Model\Resource\Order\Grid\Collection
+     * @return $this
      */
     public function setIsCustomerMode($value)
     {

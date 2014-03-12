@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Attribute;
 
 /**
  * Product attribute edit page
  */
-
-namespace Magento\Catalog\Block\Adminhtml\Product\Attribute;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -44,6 +42,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'attribute_id';

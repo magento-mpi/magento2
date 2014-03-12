@@ -20,12 +20,18 @@ class ConcatOperator extends AbstractLeftAssocOperator
         parent::__construct($node);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function operator()
     {
         return '.';
     }
 
     /* 'Expr_Concat'           => array( 5, -1), */
+    /**
+     * {@inheritdoc}
+     */
     public function precedence()
     {
         return 5;

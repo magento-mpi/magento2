@@ -86,11 +86,12 @@ $csvData    = array();
 $cvsClean   = array();
 
 /**
- * @desc array alternate multisort function
+ * Array alternate multisort function
  * [array(key, [SORT_ASC | SORT_DESC])]
- * @param array $array the array
- * @param array $args  the sort option
-**/
+ *
+ * @param array &$array the array
+ * @return void
+ */
 function multiSort (&$array)
 {
     $args   = func_get_args();
@@ -120,6 +121,7 @@ function multiSort (&$array)
  * @param string $basicModuleName
  * @param array $exclude
  * @param bool $_isRecursion
+ * @return bool|void
  */
 function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = false)
 {
@@ -188,6 +190,7 @@ function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = f
  *
  * @param string $fileName
  * @param string $basicModuleName
+ * @return void
  */
 function parseFile($fileName, $basicModuleName)
 {
@@ -253,6 +256,7 @@ function parseFile($fileName, $basicModuleName)
  *
  * @param string $fileName
  * @param string $basicModuleName
+ * @return void
  */
 function parseXmlFile($fileName, $basicModuleName)
 {
@@ -292,8 +296,10 @@ function parseXmlFile($fileName, $basicModuleName)
  * Find attribute translate in SimpleXmlElement object
  *
  * @param SimpleXMLElement $xmlNode
- * @param array $translate
+ * @param array &$translate
+ * @param string $module
  * @param array $xPath
+ * @return void
  */
 function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array())
 {
@@ -328,12 +334,14 @@ function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array(
 }
 
 /**
- * add data to csv array
+ * Add data to csv array
  *
  * @param string $moduleName
  * @param string $translationKey
  * @param string $fileName
  * @param string $fileLine
+ * @param bool $xml
+ * @return void
  */
 function writeToCsv($moduleName, $translationKey, $fileName, $fileLine, $xml = false)
 {

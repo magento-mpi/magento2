@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Layer;
 
 /**
  * Catalog layered navigation view block
@@ -15,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Layer;
-
 class View extends \Magento\View\Element\Template
 {
     /**
@@ -77,6 +76,8 @@ class View extends \Magento\View\Element\Template
 
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

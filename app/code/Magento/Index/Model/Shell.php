@@ -165,6 +165,8 @@ class Shell extends \Magento\App\AbstractShell
 
     /**
      * Reindexes indexer(s)
+     *
+     * @return void
      */
     protected function _runReindex()
     {

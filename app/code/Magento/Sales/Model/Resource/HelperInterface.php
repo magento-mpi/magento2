@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Sales resource helper interface
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource;
-
 interface HelperInterface
 {
     /**
@@ -27,7 +25,7 @@ interface HelperInterface
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return \Magento\Sales\Model\Resource\Helper
+     * @return $this
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable

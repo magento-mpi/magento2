@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Shipment\Comment;
 
 /**
  * Flat sales order shipment comments collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Shipment\Comment;
-
-class Collection
-    extends \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
+class Collection extends \Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -38,6 +35,7 @@ class Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -48,7 +46,7 @@ class Collection
      * Set shipment filter
      *
      * @param int $shipmentId
-     * @return \Magento\Sales\Model\Resource\Order\Shipment\Comment\Collection
+     * @return $this
      */
     public function setShipmentFilter($shipmentId)
     {

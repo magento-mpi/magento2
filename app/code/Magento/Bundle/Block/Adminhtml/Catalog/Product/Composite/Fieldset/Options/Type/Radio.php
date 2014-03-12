@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
 
 /**
  * Bundle option radiobox type renderer
@@ -16,11 +16,12 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
-
 class Radio
     extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio
 {
+    /**
+     * @var string
+     */
     protected $_template = 'product/composite/fieldset/options/type/radio.phtml';
 
     /**

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Quote\Item;
 
 class QuantityValidator 
@@ -173,6 +172,7 @@ class QuantityValidator
      *
      * @param \Magento\Sales\Model\Quote\Item $item
      * @param int $code
+     * @return void
      */
     protected function _removeErrorsFromQuoteAndItem($item, $code)
     {

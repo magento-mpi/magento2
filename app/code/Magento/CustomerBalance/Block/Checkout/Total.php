@@ -18,6 +18,8 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
     /**
      * Custom constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

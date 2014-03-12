@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Obtain all carts contents for specified client
- *
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
 class Carts extends \Magento\Backend\Block\Template
 {
     /** @var \Magento\Customer\Model\Config\Share */
@@ -44,7 +42,7 @@ class Carts extends \Magento\Backend\Block\Template
     /**
      * Add shopping cart grid of each website
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\Carts
+     * @return $this
      */
     protected function _prepareLayout()
     {

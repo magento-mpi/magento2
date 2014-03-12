@@ -40,6 +40,9 @@ class TranslateTool {
      */
     static private $CONFIG;
 
+    /**
+     * @var array
+     */
     static private $allParseData=array();
 
     /**
@@ -51,8 +54,8 @@ class TranslateTool {
     /**
      *Starting checking process
      *
-     * @param   none
-     * @return  none
+     * @param   array $config
+     * @return  void
      */
     static public function run($config)
     {
@@ -178,8 +181,8 @@ class TranslateTool {
      * @param string $path root path
      * @param string $dir_en dir to default english files
      * @param int $level level of recursion
-     * @return  void
      * @param bool $doSave
+     * @return  void
      */
     static protected function _callGenerate($file,  $path, $dir_en, $level=0, $doSave=true)
     {
@@ -277,6 +280,11 @@ class TranslateTool {
         }
          */
     }
+
+    /**
+     * @param string $dir_en
+     * @return void
+     */
     static protected function _saveInBatchMode($dir_en)
     {
         static $files_name_changed = array();
@@ -341,7 +349,7 @@ class TranslateTool {
      * @param   string $file - files array
      * @param   string $dir - dir to comparing files
      * @param   string $dir_en - dir to default english files
-     * @return  none
+     * @return  void
      */
     static protected function _callUpdate($file,  $dir, $dir_en)
     {
@@ -386,7 +394,7 @@ class TranslateTool {
      *
      * @param   string $file - files array
      * @param   string $dir - dir to comparing files
-     * @return  none
+     * @return  void
      */
     static protected function _callSort($file,  $dir)
     {
@@ -427,7 +435,7 @@ class TranslateTool {
      *
      * @param   string $key - key checking
      * @param   string $path - path to root
-     * @return  none
+     * @return  void
      */
     static protected function _callDups($key,$path)
     {
@@ -481,7 +489,7 @@ class TranslateTool {
      *sort file
      *
      * @param   string $file - file to sort
-     * @return  none
+     * @return  void
      */
     static public function sortFile($file){
         try {
@@ -533,9 +541,11 @@ class TranslateTool {
     }
     /**
      * Parsering xml file
+     *
      * @param   string $file - xml file to parse
-     * @param   array $data_arr - array of data
-     * @return  none
+     * @param   array &$data_arr - array of data
+     * @param   string $mod_name
+     * @return  void
      */
     static public function parseXml($file,&$data_arr,$mod_name=null){
         $xml = new \Magento\Simplexml\Config();
@@ -563,8 +573,8 @@ class TranslateTool {
      * Parsering file on "__()"
      * @param   string $file - file to parse
      * @param   array $data_arr - array of data
-     * @param   $mod_name - name of module
-     * @return  none
+     * @param   string $mod_name - name of module
+     * @return  void
      */
     static public function parseTranslatingFiles($file,&$data_arr,$mod_name=null){
         global $CONFIG;
@@ -599,7 +609,7 @@ class TranslateTool {
      *
      * @param string $file - file to parse
      * @param array $dataArr - array of data
-     * @param $modName - name of module
+     * @param string $modName - name of module
      * @return void
      */
     static public function parseZendValidateMessageTemplates($file, &$dataArr, $modName)
@@ -684,7 +694,7 @@ class TranslateTool {
      *Display error message
      *
      * @param   string $msg - message to display
-     * @return  none
+     * @return  void
      */
     static protected function _error($msg)
     {
@@ -698,6 +708,8 @@ class TranslateTool {
      *
      * @param   array $arr_en - array of pairs of CSV default english file data
      * @param   array $arr - array of pairs of CSV comparing file data
+     * @param   string $missing
+     * @param   string $redundant
      * @return  array $array - array of lack of coincidences
      */
     static public function checkArray($arr_en,$arr, $missing = 'missing', $redundant = 'redundant')
@@ -744,7 +756,7 @@ class TranslateTool {
      *
      * @param   string $file_en - default english file
      * @param   string $file - comparing file
-     * @return  none
+     * @return  void
      */
     static public function checkFiles($file_en,$file)
     {
@@ -761,7 +773,7 @@ class TranslateTool {
      *
      * @param   string $file_en - default english file
      * @param   string $file - comparing file
-     * @return  none
+     * @return  void
      */
     static protected function _checkFilesUpdate($file_en,$file)
     {
@@ -796,7 +808,8 @@ class TranslateTool {
      *
      * @param   string $file_name - compared file name
      * @param   array $arr - array of lack of coincidences
-     * @return  none
+     * @param   string $out_file_name
+     * @return  void
      */
     static protected function _output($file_name,$arr,$out_file_name=null)
     {

@@ -6,12 +6,14 @@
  * @license   {license_link}
  */
 namespace Magento\Tools\Di\Compiler\Log\Writer;
+
 use Magento\Tools\Di\Compiler\Log\Log;
 
 class Console implements WriterInterface
 {
     /**
      * Report messages by type
+     *
      * @var array
      */
     protected $_messages = array(
@@ -25,6 +27,7 @@ class Console implements WriterInterface
      * Output log data
      *
      * @param array $data
+     * @return void
      */
     public function write(array $data)
     {

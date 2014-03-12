@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Sales\Order;
 
 class Giftcards extends \Magento\View\Element\Template
@@ -44,6 +43,9 @@ class Giftcards extends \Magento\View\Element\Template
         return $this->getParentBlock()->getOrder();
     }
 
+    /**
+     * @return mixed
+     */
     public function getSource()
     {
         return $this->getParentBlock()->getSource();
@@ -76,7 +78,7 @@ class Giftcards extends \Magento\View\Element\Template
     /**
      * Initialize giftcard order total
      *
-     * @return \Magento\GiftCardAccount\Block\Sales\Order\Giftcards
+     * @return $this
      */
     public function initTotals()
     {
@@ -89,11 +91,17 @@ class Giftcards extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLabelProperties()
     {
         return $this->getParentBlock()->getLabelProperties();
     }
 
+    /**
+     * @return mixed
+     */
     public function getValueProperties()
     {
         return $this->getParentBlock()->getValueProperties();

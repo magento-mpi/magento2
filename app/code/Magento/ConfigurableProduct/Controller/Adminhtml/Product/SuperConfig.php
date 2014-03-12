@@ -31,6 +31,9 @@ class SuperConfig extends Action
         parent::__construct($context);
     }
 
+    /**
+     * @return void
+     */
     public function indexAction()
     {
         $this->productBuilder->build($this->getRequest());

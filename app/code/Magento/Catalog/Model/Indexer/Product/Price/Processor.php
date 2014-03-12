@@ -18,15 +18,15 @@ class Processor
     const INDEXER_ID = 'catalog_product_price';
 
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $_indexer;
 
     /**
-     * @param \Magento\Indexer\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
     public function __construct(
-       \Magento\Indexer\Model\Indexer $indexer
+       \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
         $this->_indexer = $indexer;
     }
@@ -34,7 +34,7 @@ class Processor
     /**
      * Get indexer
      *
-     * @return \Magento\Indexer\Model\Indexer
+     * @return \Magento\Indexer\Model\IndexerInterface
      */
     public function getIndexer()
     {
@@ -48,6 +48,7 @@ class Processor
      * Run Row reindex
      *
      * @param int $id
+     * @return void
      */
     public function reindexRow($id)
     {
@@ -61,6 +62,7 @@ class Processor
      * Run List reindex
      *
      * @param int[] $ids
+     * @return void
      */
     public function reindexList($ids)
     {
@@ -72,6 +74,8 @@ class Processor
 
     /**
      * Run Full reindex
+     *
+     * @return void
      */
     public function reindexAll()
     {
@@ -80,6 +84,8 @@ class Processor
 
     /**
      * Mark Product price indexer as invalid
+     *
+     * @return void
      */
     public function markIndexerAsInvalid()
     {

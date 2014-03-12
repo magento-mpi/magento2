@@ -86,6 +86,8 @@ class Observer
 
     /**
      * Add products to changes list with price which depends on date
+     *
+     * @return void
      */
     public function refreshSpecialPrices()
     {
@@ -119,6 +121,7 @@ class Observer
      * @param int $storeId
      * @param string $attrCode
      * @param \Zend_Db_Expr $attrConditionValue
+     * @return void
      */
     protected function _refreshSpecialPriceByStore($storeId, $attrCode, $attrConditionValue)
     {

@@ -74,6 +74,10 @@
         <word>TargetRule</word>
         <word>VersionsCms</word>
         <word>WebsiteRestriction</word>
+        <!-- Removed modules -->
+        <word>Magento/GoogleCheckout</word>
+        <word>Magento\GoogleCheckout</word>
+        <word>Magento_GoogleCheckout</word>
     </words>
     <whitelist>
         <item>
@@ -401,6 +405,13 @@
         <item>
             <!-- Skip all words in CE check as currently this testsuites are used only for EE -->
             <path>dev/tests/functional/testsuites/</path>
+        </item>
+        <item>
+            <!-- Skip all words in CE check for docs temporary -->
+            <path>pub/lib/css/docs/</path>
+        </item>
+        <item>
+            <path>dev/tools/Magento/Tools/css_docs</path>
         </item>
         <item>
             <path>app/code/Magento/Core/etc/di.xml</path>

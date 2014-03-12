@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect;
 
 /**
  * Class to validate string resources
@@ -15,9 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Connect;
-
 class Validator
 {
     /**
@@ -43,7 +41,7 @@ class Validator
      *
      * @param int $s1
      * @param int $s2
-     * @return int
+     * @return int|void
      * @throws \Exception
      */
     public function compareStabilities($s1, $s2)

@@ -1,0 +1,24 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @package     magento2_reference
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+@media only screen
+and (max-width : 99999px) {
+    .product.data.items  {
+        .data-tabs(
+            @_tab-content-border-top-status: true
+        );
+    }
+}
+
+@media only screen
+and (max-width : @break-point-1) {
+    .product.data.items {
+        .data-accordion();
+    }
+}

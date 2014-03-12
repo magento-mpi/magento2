@@ -5,11 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -63,7 +61,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
@@ -84,6 +82,9 @@ class Info extends \Magento\View\Element\Template
         return $this->_helperView->getCustomerName($this->getCustomer());
     }
 
+    /**
+     * @return string
+     */
     public function getChangePasswordUrl()
     {
         return $this->_urlBuilder->getUrl('*/account/edit/changepass/1');

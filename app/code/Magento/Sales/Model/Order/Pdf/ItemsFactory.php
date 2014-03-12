@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Pdf;
 
 /**
  * Factory class for \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
  */
-namespace Magento\Sales\Model\Order\Pdf;
-
 class ItemsFactory
 {
     /**

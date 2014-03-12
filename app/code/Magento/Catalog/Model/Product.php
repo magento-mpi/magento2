@@ -730,6 +730,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
 
     /**
      * Callback for entity reindex
+     *
+     * @return void
      */
     public function priceReindexCallback()
     {
@@ -741,7 +743,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     /**
      * Init indexing process after product save
      *
-     * @return $this
+     * @return void
      */
     public function reindex()
     {
@@ -1367,16 +1369,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function isVirtual()
     {
         return $this->getIsVirtual();
-    }
-
-    /**
-     * Whether the product is a recurring payment
-     *
-     * @return bool
-     */
-    public function isRecurring()
-    {
-        return $this->getIsRecurring() == '1';
     }
 
     /**

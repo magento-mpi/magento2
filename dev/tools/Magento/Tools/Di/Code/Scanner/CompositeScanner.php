@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Di\Code\Scanner;
 
 class CompositeScanner implements ScannerInterface
@@ -20,6 +19,7 @@ class CompositeScanner implements ScannerInterface
      *
      * @param ScannerInterface $scanner
      * @param string $type
+     * @return void
      */
     public function addChild(ScannerInterface $scanner, $type)
     {

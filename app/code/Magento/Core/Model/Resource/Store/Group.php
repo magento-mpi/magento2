@@ -20,6 +20,8 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
+     *
+     * @return void
      */
     protected function _construct()
     {

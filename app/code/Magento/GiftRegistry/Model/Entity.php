@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model;
 
 /**
  * Entity data model
@@ -38,8 +39,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model;
-
 class Entity extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -59,7 +58,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
 
     /**
      * Type object
-     * @var \Magento\GiftRegistry\Model\Type
+     * @var Type
      */
     protected $_type = null;
 
@@ -83,7 +82,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $attributeConfig;
 
     /**
-     * @var \Magento\GiftRegistry\Model\Item
+     * @var Item
      */
     protected $itemModel;
 
@@ -191,10 +190,10 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
-     * @param \Magento\GiftRegistry\Model\Item $itemModel
+     * @param Item $itemModel
      * @param \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -221,7 +220,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        \Magento\GiftRegistry\Model\Item $itemModel,
+        Item $itemModel,
         \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -265,6 +264,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -317,7 +318,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      *
      * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
      * @param null|\Magento\Object $request
-     * @return false|\Magento\GiftRegistry\Model\Item
+     * @return false|Item
      * @throws \Magento\Core\Exception
      */
     public function addItem($itemToAdd, $request = null)
@@ -639,7 +640,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Return array of entity registrant roles
      *
-     * @return string
+     * @return array
      */
     public function getRegistrantRoles()
     {
@@ -682,7 +683,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * Load entity model by gift registry item id
      *
      * @param int $itemId
-     * @return \Magento\GiftRegistry\Model\Entity
+     * @return $this
      */
     public function loadByEntityItem($itemId)
     {
@@ -695,7 +696,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      *
      * @param int $customerId
      * @param int $entityId
-     * @return \Magento\GiftRegistry\Model\Entity
+     * @return $this
      */
     public function setActiveEntity($customerId, $entityId)
     {
@@ -750,8 +751,9 @@ class Entity extends \Magento\Core\Model\AbstractModel
 
     /**
      * Set type for Model using typeId
+     *
      * @param int $typeId
-     * @return \Magento\GiftRegistry\Model\Entity | false
+     * @return $this|false
      */
     public function setTypeById($typeId)
     {
@@ -929,7 +931,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      *
      * @param array $data
      * @param bool $isAddAction
-     * @return this
+     * @return $this
      */
     public function importData($data, $isAddAction = true)
     {
@@ -1039,7 +1041,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * Load entity model by url key
      *
      * @param string $urlKey
-     * @return \Magento\GiftRegistry\Model\Entity
+     * @return $this
      */
     public function loadByUrlKey($urlKey)
     {
@@ -1051,7 +1053,9 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * Validate gift registry items
      *
      * @param array $items
+     * @return void
      * @throws \Magento\Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _validateItems($items)
     {
@@ -1079,7 +1083,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * Update gift registry items
      *
      * @param array $items
-     * @return \Magento\GiftRegistry\Model\Entity
+     * @return $this
      */
     public function updateItems($items)
     {

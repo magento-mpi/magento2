@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
 /**
  * Gift wrapping order create abstract block
@@ -15,10 +16,7 @@
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
-
-class AbstractCreate
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+class AbstractCreate extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -102,7 +100,7 @@ class AbstractCreate
             $temp['design'] = $item->getDesign();
             $data[$item->getId()] = $temp;
         }
-       return new \Magento\Object($data);
+        return new \Magento\Object($data);
     }
 
     /**
@@ -115,13 +113,13 @@ class AbstractCreate
         $data = array();
         if ($this->getAllowPrintedCard()) {
             $price = $this->_giftWrappingData->getPrintedCardPrice($this->getStoreId());
-             if ($this->getDisplayCardBothPrices()) {
+            if ($this->getDisplayCardBothPrices()) {
                  $data['price_incl_tax'] = $this->calculatePrice(new \Magento\Object(), $price, true);
                  $data['price_excl_tax'] = $this->calculatePrice(new \Magento\Object(), $price);
-             } else {
+            } else {
                 $data['price'] = $this->calculatePrice(new \Magento\Object(), $price,
                     $this->getDisplayCardPriceInclTax());
-             }
+            }
         }
         return new \Magento\Object($data);
     }
@@ -130,7 +128,7 @@ class AbstractCreate
      * Calculate price
      *
      * @param \Magento\Object $item
-     * @param mixed $basePrice
+     * @param float $basePrice
      * @param bool $includeTax
      * @return string
      */
@@ -177,7 +175,7 @@ class AbstractCreate
     /**
      * Return quote id
      *
-     * @return array
+     * @return array|null
      */
     public function getEntityId()
     {

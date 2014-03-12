@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry advanced search block
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 {
     /**
@@ -25,8 +24,14 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      */
     protected $attributeConfig;
 
+    /**
+     * @var array|null
+     */
     protected $_attributes = null;
 
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
@@ -60,7 +65,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
@@ -69,6 +74,8 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -81,7 +88,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * Retrieve by key saved in session form data
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {

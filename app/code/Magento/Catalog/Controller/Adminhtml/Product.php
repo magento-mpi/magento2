@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Controller\Adminhtml;
+
+use Magento\Backend\App\Action;
+use Magento\Catalog\Model\Product\Validator;
 
 /**
  * Catalog product controller
@@ -15,11 +19,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Controller\Adminhtml;
-
-use Magento\Backend\App\Action;
-use Magento\Catalog\Model\Product\Validator;
-
 class Product extends \Magento\Backend\App\Action
 {
     /**
@@ -657,6 +656,9 @@ class Product extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * @return void
+     */
     public function massDeleteAction()
     {
         $productIds = $this->getRequest()->getParam('product');

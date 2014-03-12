@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry quick search block
@@ -14,8 +15,6 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Quick extends \Magento\View\Element\Template
 {
     /**
@@ -73,7 +72,7 @@ class Quick extends \Magento\View\Element\Template
     /**
      * Select element for choosing registry type
      *
-     * @return array
+     * @return string
      */
     public function getTypeSelectHtml()
     {

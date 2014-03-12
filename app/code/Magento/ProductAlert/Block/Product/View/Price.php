@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ProductAlert\Block\Product\View;
 
 /**
@@ -19,7 +18,7 @@ class Price extends \Magento\ProductAlert\Block\Product\View
      * Prepare price info
      *
      * @param string $template
-     * @return \Magento\View\Element\Template
+     * @return $this
      */
     public function setTemplate($template)
     {
