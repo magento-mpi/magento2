@@ -11,6 +11,9 @@ class BinaryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetParametersWithUnpacking()
     {
+        if (!function_exists('igbinary_serialize')) {
+            $this->markTestSkipped('This test requires igbinary PHP extension');
+        }
         $checkString = 'packed code';
         $signatures = array('wonderfulClass' => igbinary_serialize($checkString));
         $definitions = array('wonderful' => 'wonderfulClass');
