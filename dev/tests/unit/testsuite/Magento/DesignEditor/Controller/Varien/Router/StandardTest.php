@@ -55,11 +55,9 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         array $routers = array(),
         $matchedValue = null
     ) {
-//        $this->markTestIncomplete('Neet to mock Iterator');
         $this->_model = $this->_prepareMocksForTestMatch($request, $isVde, $isLoggedIn, $routers);
 
-        $this->_model->match($request);
-//        $this->assertEquals($matchedValue, $this->_model->match($request));
+        $this->assertEquals($matchedValue, $this->_model->match($request));
         if ($isVde && $isLoggedIn) {
             $this->assertEquals(self::TEST_PATH, $request->getPathInfo());
         }
@@ -216,7 +214,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     protected function _getHelperMock($isVde)
     {
         $helper = $this->getMock('Magento\DesignEditor\Helper\Data', array('isVdeRequest'), array(), '', false);
-        $helper->expects($this->once())
+        $helper->expects($this->any())
             ->method('isVdeRequest')
             ->will($this->returnValue($isVde));
         return $helper;
@@ -230,7 +228,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     protected function _getBackendSessionMock($isVde, $isLoggedIn)
     {
         $backendSession = $this->getMock('Magento\Backend\Model\Auth\Session', array(), array(), '', false);
-        $backendSession->expects($isVde ? $this->once() : $this->never())
+        $backendSession->expects($isVde ? $this->any() : $this->never())
             ->method('isLoggedIn')
             ->will($this->returnValue($isLoggedIn));
 
@@ -254,6 +252,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         return $stateModel;
     }
 
+    /**
+     * Mock for Iterator class
+     *
+     * @param \PHPUnit_Framework_MockObject_MockObject $iteratorMock
+     * @param array $items
+     * @param bool $includeCallsToKey
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
     public function mockIterator(
         \PHPUnit_Framework_MockObject_MockObject $iteratorMock,
         array $items,
