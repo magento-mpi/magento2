@@ -47,6 +47,9 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
      */
     public static function consumerFixture($date = null)
     {
+        /** Clear the credentials because during the fixture generation, any previous credentials are invalidated */
+        \Magento\TestFramework\Authentication\OauthHelper::clearApiAccessCredentials();
+
         $consumerCredentials = \Magento\TestFramework\Authentication\OauthHelper::getConsumerCredentials($date);
         self::$_consumerKey = $consumerCredentials['key'];
         self::$_consumerSecret = $consumerCredentials['secret'];

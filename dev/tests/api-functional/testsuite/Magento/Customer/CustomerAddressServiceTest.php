@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Webapi;
+namespace Magento\Customer;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
