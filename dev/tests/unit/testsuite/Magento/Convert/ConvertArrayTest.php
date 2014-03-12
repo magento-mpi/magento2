@@ -44,6 +44,21 @@ XML;
     }
 
     /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Associative and numeric keys must not be mixed at one level.
+     */
+    public function testAssocToXmlExceptionByKey()
+    {
+        $data = array(
+            'one' => array(
+                100,
+                'two' => 'three',
+            ),
+        );
+        $this->_model->assocToXml($data);
+    }
+
+    /**
      * @param array $array
      * @param string $rootName
      * @expectedException \Magento\Exception
