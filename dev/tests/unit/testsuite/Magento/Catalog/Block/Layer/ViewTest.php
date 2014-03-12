@@ -22,7 +22,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         );
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
-            ->with('layer_state')
+            ->with('state')
             ->will($this->returnValue($childBlock));
 
         $expectedUrl = 'http://example.com/clear_all/12/';
