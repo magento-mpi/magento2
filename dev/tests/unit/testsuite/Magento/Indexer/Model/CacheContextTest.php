@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 3/12/14
- * Time: 2:35 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Indexer\Model;
