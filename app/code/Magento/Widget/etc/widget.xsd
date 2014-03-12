@@ -37,6 +37,7 @@
         </xs:all>
         <xs:attribute name="id" type="xs:ID" use="required" />
         <xs:attribute name="class" type="xs:string" use="required" />
+        <xs:attribute name="ttl" type="xs:int" />
         <xs:attribute name="is_email_compatible" type="xs:boolean" />
         <xs:attribute name="placeholder_image" type="xs:string" />
     </xs:complexType>
