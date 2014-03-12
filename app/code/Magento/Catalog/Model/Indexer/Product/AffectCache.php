@@ -2,35 +2,34 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_PageCache
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
-namespace Magento\PageCache\Model\Indexer\Product;
+namespace Magento\Catalog\Model\Indexer\Product;
 
 /**
- * Class RefreshPlugin
+ * Class AffectCache
  */
-class RefreshPlugin
+class AffectCache
 {
     /**
-     * @var \Magento\PageCache\Model\Indexer\Context
+     * @var \Magento\Indexer\Model\CacheContext $context
      */
     protected $context;
 
     /**
-     * @param \Magento\PageCache\Model\Indexer\Context $context
+     * @param \Magento\Indexer\Model\CacheContext $context
      */
     public function __construct(
-        \Magento\PageCache\Model\Indexer\Context $context
+        \Magento\Indexer\Model\CacheContext $context
     ) {
         $this->context = $context;
     }
 
     /**
      * @param \Magento\Indexer\Model\ActionInterface $subject
-     * @param array $arguments
+     * @param array $ids
      * @return array
      */
     public function beforeExecute(\Magento\Indexer\Model\ActionInterface $subject, $ids)

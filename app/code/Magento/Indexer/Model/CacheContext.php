@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    Magento_PageCache
+ * @package    Magento_Indexer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\PageCache\Model\Indexer;
+namespace Magento\Indexer\Model;
 
 /**
  * Class Context
  */
-class Context implements \Magento\Object\IdentityInterface
+class CacheContext implements \Magento\Object\IdentityInterface
 {
     /**
      * @var array
