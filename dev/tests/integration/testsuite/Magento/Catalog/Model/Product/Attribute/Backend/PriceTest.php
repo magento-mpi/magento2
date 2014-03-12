@@ -72,10 +72,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $product->setOrigData();
         $product->setPrice(9.99);
         $product->setStoreId(0);
-
-        $this->_model->setScope($this->_model->getAttribute());
-        $this->_model->afterSave($product);
-
+        $product->save();
         $this->assertEquals(
             '9.99',
             $product->getResource()->getAttributeRawValue(
