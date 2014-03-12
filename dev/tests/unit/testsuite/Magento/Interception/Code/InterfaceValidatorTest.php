@@ -27,7 +27,9 @@ class InterfaceValidatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->argumentsReaderMock->expects($this->any())->method('isCompatibleType')
-            ->will($this->returnCallback(function($arg1, $arg2){return ltrim($arg1, '\\') == ltrim($arg2, '\\');}));
+            ->will($this->returnCallback(function ($arg1, $arg2) {
+                return ltrim($arg1, '\\') == ltrim($arg2, '\\');
+            }));
 
         $this->model = new InterfaceValidator($this->argumentsReaderMock);
     }

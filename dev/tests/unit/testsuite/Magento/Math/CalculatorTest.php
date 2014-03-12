@@ -24,7 +24,9 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->_scopeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_scopeMock->expects($this->any())
             ->method('roundPrice')
-            ->will($this->returnCallback(function($argument) {return round($argument, 2);}));
+            ->will($this->returnCallback(function ($argument) {
+                return round($argument, 2);
+            }));
 
         $this->_model = new \Magento\Math\Calculator($this->_scopeMock);
     }

@@ -50,7 +50,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')
-            ->with($type,'code')
+            ->with($type, 'code')
             ->will($this->returnValue($pluginMock));
 
         $subjectMock->expects($this->once())
@@ -84,7 +84,7 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')
-            ->with($type,'code')
+            ->with($type, 'code')
             ->will($this->returnValue($pluginMock));
 
         $this->assertEquals('subjectMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, array()));
@@ -113,14 +113,14 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
         $this->_pluginListMock->expects($this->once())
             ->method('getPlugin')
-            ->with($type,'code')
+            ->with($type, 'code')
             ->will($this->returnValue($pluginMock));
 
         $subjectMock->expects($this->once())
             ->method('___callParent')
-            ->with('method', array(1,2))
+            ->with('method', array(1, 2))
             ->will($this->returnValue('subjectMethodResult'));
 
-        $this->assertEquals('afterMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, array(1,2)));
+        $this->assertEquals('afterMethodResult', $this->_model->invokeNext($type, $method, $subjectMock, array(1, 2)));
     }
 }
