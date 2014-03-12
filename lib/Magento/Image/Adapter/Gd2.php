@@ -229,7 +229,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
                     }
 
                     return $transparentAlphaColor;
-                // fill image with indexed non-alpha transparency
+                    // fill image with indexed non-alpha transparency
                 } elseif (false !== $transparentIndex) {
                     $transparentColor = false;
                     if ($transparentIndex >= 0 && $transparentIndex <= imagecolorstotal($this->_imageHandler)) {
@@ -287,7 +287,7 @@ class Gd2 extends \Magento\Image\Adapter\AbstractAdapter
             $transparentIndex = imagecolortransparent($imageResource);
             if ($transparentIndex >= 0) {
                 return $transparentIndex;
-            // assume that truecolor PNG has transparency
+                // assume that truecolor PNG has transparency
             } elseif (IMAGETYPE_PNG === $fileType) {
                 $isAlpha = $this->checkAlpha($this->_fileName);
                 $isTrueColor = true;

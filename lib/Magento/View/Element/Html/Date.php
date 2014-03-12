@@ -51,8 +51,8 @@ class Date extends \Magento\View\Element\Template
             '
                         buttonText: "' .
             __(
-            'Select Date'
-        ) .
+                'Select Date'
+            ) .
             '"
                     })
                 });

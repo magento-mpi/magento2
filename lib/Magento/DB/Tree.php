@@ -16,7 +16,6 @@ use Magento\DB\Tree\Node;
 use Magento\DB\Tree\NodeSet;
 use Magento\DB\Tree\TreeException;
 
-
 /**
  * Magento Library
  */
@@ -486,9 +485,9 @@ class Tree
                 ' THEN ' .
                 $this->_level .
                 sprintf(
-                '%+d',
-                -($level - 1) + $levelP
-            ) .
+                    '%+d',
+                    -($level - 1) + $levelP
+                ) .
                 ' ELSE ' .
                 $this->_level .
                 ' END, ' .
@@ -584,9 +583,9 @@ class Tree
                 ' THEN ' .
                 $this->_level .
                 sprintf(
-                '%+d',
-                -($level - 1) + $levelP
-            ) .
+                    '%+d',
+                    -($level - 1) + $levelP
+                ) .
                 ' ELSE ' .
                 $this->_level .
                 ' END, ' .
@@ -675,9 +674,9 @@ class Tree
                 ' THEN ' .
                 $this->_level .
                 sprintf(
-                '%+d',
-                -($level - 1) + $levelP
-            ) .
+                    '%+d',
+                    -($level - 1) + $levelP
+                ) .
                 ' ELSE ' .
                 $this->_level .
                 ' END, ' .

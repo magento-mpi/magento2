@@ -445,8 +445,8 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
          */
         if ($this->_getType() == \Magento\UrlInterface::URL_TYPE_LINK &&
             $this->_getRequest()->isDirectAccessFrontendName(
-            $this->_getRouteFrontName()
-        )
+                $this->_getRouteFrontName()
+            )
         ) {
             $this->_routeParamsResolver->setType(\Magento\UrlInterface::URL_TYPE_DIRECT_LINK);
         }

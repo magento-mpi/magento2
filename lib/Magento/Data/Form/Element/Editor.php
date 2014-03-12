@@ -118,8 +118,8 @@ class Editor extends Textarea
                 $this->getClass() .
                 '" ' .
                 $this->serialize(
-                $this->getHtmlAttributes()
-            ) .
+                    $this->getHtmlAttributes()
+                ) .
                 ' >' .
                 $this->getEscapedValue() .
                 '</textarea>' .
@@ -130,8 +130,8 @@ class Editor extends Textarea
                 "\n" .
                 '(function($) {$.mage.translate.add(' .
                 \Zend_Json::encode(
-                $translatedString
-            ) .
+                    $translatedString
+                ) .
                 ')})(jQuery);' .
                 "\n" .
                 $jsSetupObject .
@@ -139,8 +139,8 @@ class Editor extends Textarea
                 $this->getHtmlId() .
                 '", ' .
                 \Zend_Json::encode(
-                $this->getConfig()
-            ) .
+                    $this->getConfig()
+                ) .
                 ');' .
                 $forceLoad .
                 '

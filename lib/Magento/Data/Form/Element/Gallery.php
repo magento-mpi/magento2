@@ -79,8 +79,8 @@ class Gallery extends AbstractElement
                         $image->getValueId() .
                         '\');return false;" ' .
                         $this->_getUiId(
-                        'image-' . $image->getValueId()
-                    ) .
+                            'image-' . $image->getValueId()
+                        ) .
                         '>
                     <img id="' .
                         $this->getHtmlId() .
@@ -101,8 +101,8 @@ class Gallery extends AbstractElement
                         $image->getValueId() .
                         ']" size="1"' .
                         $this->_getUiId(
-                        'file'
-                    ) . ' ></td>';
+                            'file'
+                        ) . ' ></td>';
                 }
                 $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="input" name="' .
                     parent::getName() .
@@ -116,8 +116,8 @@ class Gallery extends AbstractElement
                     $image->getValueId() .
                     '" size="3" ' .
                     $this->_getUiId(
-                    'position-' . $image->getValueId()
-                ) . '/></td>';
+                        'position-' . $image->getValueId()
+                    ) . '/></td>';
                 $html .= '<td class="gallery" align="center" style="vertical-align:bottom;"><input type="checkbox" name="' .
                     parent::getName() .
                     '[delete][' .
@@ -130,8 +130,8 @@ class Gallery extends AbstractElement
                     $image->getValueId() .
                     '" ' .
                     $this->_getUiId(
-                    'delete-button-' . $image->getValueId()
-                ) . '/></td>';
+                        'delete-button-' . $image->getValueId()
+                    ) . '/></td>';
                 $html .= '</tr>';
             }
         }

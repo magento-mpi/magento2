@@ -66,8 +66,8 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
                 $this->getHtmlId() .
                 '_image\'); return false;" ' .
                 $this->_getUiId(
-                'link'
-            ) .
+                    'link'
+                ) .
                 '>' .
                 '<img src="' .
                 $url .

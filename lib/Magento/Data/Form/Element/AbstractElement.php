@@ -363,8 +363,8 @@ abstract class AbstractElement extends AbstractForm
             $this->getEscapedValue() .
             '" ' .
             $this->serialize(
-            $this->getHtmlAttributes()
-        ) . '/>';
+                $this->getHtmlAttributes()
+            ) . '/>';
         if ($this->getAfterElementJs() && $this->getAfterElementJs() != '') {
             $html .= $this->getAfterElementJs();
         }

@@ -31,8 +31,8 @@ class Converter implements \Magento\Config\ConverterInterface
                 if ($childNode->nodeType == XML_ELEMENT_NODE ||
                     ($childNode->nodeType == XML_CDATA_SECTION_NODE ||
                     $childNode->nodeType == XML_TEXT_NODE && trim(
-                    $childNode->nodeValue
-                ) != '')
+                        $childNode->nodeValue
+                    ) != '')
                 ) {
                     $typeConfig[$childNode->nodeName] = $childNode->nodeValue;
                 }

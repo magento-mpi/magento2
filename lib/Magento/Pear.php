@@ -13,7 +13,6 @@ use Magento\Exception;
 use Magento\Pear\Frontend;
 use Magento\Pear\Registry as PearRegistry;
 
-
 /**
  * Pear package routines
  * *
