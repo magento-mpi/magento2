@@ -148,17 +148,17 @@ class Minified implements MergeableInterface
      */
     protected function process()
     {
-        $originalFile = $this->originalAsset->getSourceFile();
-
-        if ($this->isFileMinified($originalFile)) {
+        if ($this->isFileMinified($this->originalAsset->getRelativePath())) {
             $this->fillPropertiesByOriginalAsset();
-        } else if ($this->hasPreminifiedFile($originalFile)) {
+        } else if ($this->hasPreminifiedFile($this->originalAsset->getSourceFile())) {
             $this->fillPropertiesByOriginalAssetWithMin();
         } else {
             try {
                 $this->fillPropertiesByMinifyingAsset();
             } catch (\Exception $e) {
-                $this->logger->logException(new \Magento\Exception('Could not minify file: ' . $originalFile, 0, $e));
+                $this->logger->logException(
+                    new \Magento\Exception('Could not minify file: ' . $this->originalAsset->getSourceFile(), 0, $e)
+                );
                 $this->fillPropertiesByOriginalAsset();
             }
         }
@@ -195,8 +195,7 @@ class Minified implements MergeableInterface
      */
     protected function composeMinifiedName($fileName)
     {
-        $minifiedPath = preg_replace('/\\.([^.]*)$/', '.min.$1', $fileName);
-        return $minifiedPath;
+        return preg_replace('/\\.([^.]*)$/', '.min.$1', $fileName);
     }
 
     /**
@@ -227,7 +226,8 @@ class Minified implements MergeableInterface
         $originalFile = $this->originalAsset->getSourceFile();
         $originalFileRelRoot = $this->rootDir->getRelativePath($originalFile);
 
-        $minifiedName = md5($originalFile) . '_' . $this->composeMinifiedName(basename($originalFile));
+        $origRelativePath = $this->originalAsset->getRelativePath();
+        $minifiedName = md5($origRelativePath) . '_' . $this->composeMinifiedName(basename($origRelativePath));
         $minifiedFileRelView = self::getRelativeDir() . '/' . $minifiedName;
 
         $this->strategy->minifyFile($originalFileRelRoot, $minifiedFileRelView);

@@ -280,7 +280,7 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
         $this->_asset->expects($this->once())
             ->method('getUrl')
             ->will($this->returnValue(self::ORIG_URL));
-        $this->_asset->expects($this->once())
+        $this->_asset->expects($this->atLeastOnce())
             ->method('getRelativePath')
             ->will($this->returnValue(self::ORIG_RELPATH));
 
