@@ -74,7 +74,7 @@ sub vcl_fetch {
     }
 
     # cache only successfully responses
-    if (beresp.status != 200 || beresp.http.Cache-Control ~ "private") {
+    if (beresp.status != 200) {
         set beresp.ttl = 0s;
         return (hit_for_pass);
     }
@@ -85,7 +85,7 @@ sub vcl_fetch {
 
     # validate if we need to cache it and prevent from setting cookie
     # images, css and js are cacheable by default so we have to remove cookie also
-    if (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD")) {
+    if (beresp.http.Cache-Control ~ "private" || (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD"))) {
         unset beresp.http.set-cookie;
         if (req.url !~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
             set beresp.http.Pragma = "no-cache";

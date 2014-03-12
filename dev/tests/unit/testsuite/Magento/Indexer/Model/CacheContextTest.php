@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 3/12/14
- * Time: 2:35 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Indexer\Model;
@@ -12,7 +12,7 @@ namespace Magento\Indexer\Model;
 class CacheContextTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\Indexer\Context
+     * @var \Magento\Indexer\Model\CacheContext
      */
     protected $context;
 
