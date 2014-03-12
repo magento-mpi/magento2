@@ -53,6 +53,6 @@ class RefreshPluginTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo($expectedIds))
             ->will($this->returnValue($this->contextMock));
         $actualIds = $this->plugin->beforeExecute($this->subjectMock, $expectedIds);
-        $this->assertEquals($expectedIds, $actualIds);
+        $this->assertEquals(array($expectedIds), $actualIds);
     }
 }
