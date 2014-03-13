@@ -96,8 +96,9 @@ class StockItem
          */
         if ($result->getHasQtyOptionUpdate() && (!$quoteItem->getParentItem() ||
             $quoteItem->getParentItem()->getProduct()->getTypeInstance()->getForceChildItemQtyChanges(
-            $quoteItem->getParentItem()->getProduct()
-        ))
+                $quoteItem->getParentItem()->getProduct()
+            )
+        )
         ) {
             $quoteItem->setData('qty', $result->getOrigQty());
         }

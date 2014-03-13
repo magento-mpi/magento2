@@ -96,9 +96,7 @@ class Settings extends Generic
 
         $product = $this->getProduct();
         $usedAttributes = $product->getTypeId() ==
-            Configurable::TYPE_CODE ? $this->_configurableType->getUsedProductAttributes(
-            $product
-        ) : array();
+            Configurable::TYPE_CODE ? $this->_configurableType->getUsedProductAttributes($product) : array();
         foreach ($usedAttributes as $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($this->_configurableType->canUseAttribute($attribute, $product)) {

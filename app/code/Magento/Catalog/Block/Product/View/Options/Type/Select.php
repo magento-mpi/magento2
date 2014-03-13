@@ -122,9 +122,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
                             ' value="" checked="checked" /><label class="label" for="options_' .
                             $_option->getId() .
                             '"><span>' .
-                            __(
-                            'None'
-                        ) . '</span></label></div>';
+                            __('None') . '</span></label></div>';
                     }
                     break;
                 case \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX:
@@ -175,11 +173,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
                     '" ' .
                     $checked .
                     ' price="' .
-                    $this->_coreHelper->currencyByStore(
-                    $_value->getPrice(true),
-                    $store,
-                    false
-                ) .
+                    $this->_coreHelper->currencyByStore($_value->getPrice(true), $store, false) .
                     '" />' .
                     '<label class="label" for="options_' .
                     $_option->getId() .

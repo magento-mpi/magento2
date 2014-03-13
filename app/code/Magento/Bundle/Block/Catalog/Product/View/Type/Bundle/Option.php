@@ -109,9 +109,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         $_selections = $_option->getSelections();
         $selectedOptions = $this->_getSelectedOptions();
         $inPreConfigured = $this->getProduct()->hasPreconfiguredValues() &&
-            $this->getProduct()->getPreconfiguredValues()->getData(
-            'bundle_option_qty/' . $_option->getId()
-        );
+            $this->getProduct()->getPreconfiguredValues()->getData('bundle_option_qty/' . $_option->getId());
 
         if (empty($selectedOptions) && $_default) {
             $_defaultQty = $_default->getSelectionQty() * 1;
@@ -222,13 +220,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         $this->setFormatProduct($_selection);
         $priceTitle = $_selection->getSelectionQty() * 1 . ' x ' . $this->escapeHtml($_selection->getName());
 
-        $priceTitle .= ' &nbsp; ' .
-            ($includeContainer ? '<span class="price-notice">' : '') .
-            '+' .
-            $this->formatPriceString(
-            $price,
-            $includeContainer
-        ) . ($includeContainer ? '</span>' : '');
+        $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '') . '+' .
+            $this->formatPriceString($price, $includeContainer) . ($includeContainer ? '</span>' : '');
 
         return $priceTitle;
     }
@@ -268,13 +261,8 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         $price = $this->getProduct()->getPriceModel()->getSelectionPreFinalPrice($this->getProduct(), $_selection, 1);
         $this->setFormatProduct($_selection);
         $priceTitle = $this->escapeHtml($_selection->getName());
-        $priceTitle .= ' &nbsp; ' .
-            ($includeContainer ? '<span class="price-notice">' : '') .
-            '+' .
-            $this->formatPriceString(
-            $price,
-            $includeContainer
-        ) . ($includeContainer ? '</span>' : '');
+        $priceTitle .= ' &nbsp; ' . ($includeContainer ? '<span class="price-notice">' : '') . '+' .
+            $this->formatPriceString($price, $includeContainer) . ($includeContainer ? '</span>' : '');
         return $priceTitle;
     }
 

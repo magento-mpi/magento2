@@ -649,9 +649,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 if ($minimumQty &&
                     $minimumQty > 0 &&
                     $request->getQty() < $minimumQty &&
-                    !$this->getQuote()->hasProductId(
-                    $productId
-                )
+                    !$this->getQuote()->hasProductId($productId)
                 ) {
                     $request->setQty($minimumQty);
                 }

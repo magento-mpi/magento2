@@ -34,16 +34,10 @@ class Apply extends \Magento\Data\Form\Element\Multiselect
             $elementAttributeHtml = $elementAttributeHtml . ' disabled="disabled"';
         }
 
-        $html = '<select onchange="toggleApplyVisibility(this)"' .
-            $elementAttributeHtml .
-            '>' .
-            '<option value="0">' .
-            $this->getModeLabels(
-            'all'
-        ) . '</option>' . '<option value="1" ' . ($this->getValue() ==
-            null ? '' : 'selected') . '>' . $this->getModeLabels(
-            'custom'
-        ) . '</option>' . '</select><br /><br />';
+        $html = '<select onchange="toggleApplyVisibility(this)"' . $elementAttributeHtml . '>'
+            . '<option value="0">' . $this->getModeLabels('all'). '</option>'
+            . '<option value="1" ' . ($this->getValue()==null ? '' : 'selected') . '>'
+            . $this->getModeLabels('custom'). '</option>' . '</select><br /><br />';
 
         $html .= parent::getElementHtml();
         return $html;

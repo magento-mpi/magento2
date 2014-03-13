@@ -27,7 +27,7 @@ class Price
     /**
      * @var array
      */
-    static $attributeCache = array();
+    protected static $attributeCache = array();
 
     /**
      * Core event manager proxy

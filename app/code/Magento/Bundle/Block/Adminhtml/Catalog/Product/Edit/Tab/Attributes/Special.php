@@ -30,9 +30,7 @@ class Special extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\El
             '" value="' .
             $this->getElement()->getEscapedValue() .
             '" ' .
-            $this->getElement()->serialize(
-            $this->getElement()->getHtmlAttributes()
-        ) .
+            $this->getElement()->serialize($this->getElement()->getHtmlAttributes()) .
             '/>' .
             "\n" .
             '<label class="addafter" for="' .

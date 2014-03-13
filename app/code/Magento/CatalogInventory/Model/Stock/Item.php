@@ -476,11 +476,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                 $this->_qtyIncrements = (double)($this
                     ->getUseConfigQtyIncrements() ? $this
                     ->_coreStoreConfig
-                    ->getConfig(
-                    self::XML_PATH_QTY_INCREMENTS
-                ) : $this->getData(
-                    'qty_increments'
-                ));
+                    ->getConfig(self::XML_PATH_QTY_INCREMENTS) : $this->getData('qty_increments'));
                 if ($this->_qtyIncrements <= 0) {
                     $this->_qtyIncrements = false;
                 }

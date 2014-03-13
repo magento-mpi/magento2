@@ -76,17 +76,11 @@ class Extend extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Ele
             ($this->getProduct()->getId() &&
             $this->getAttribute()->getAttributeCode() == 'price' ||
             $this->getElement()->getReadonly() ? ' disabled="disabled"' : '') . '>
-            <option value="">' . __(
-            '-- Select --'
-        ) . '</option>
+            <option value="">' . __('-- Select --') . '</option>
             <option ' . ($switchAttributeValue ==
-            self::DYNAMIC ? 'selected' : '') . ' value="' . self::DYNAMIC . '">' . __(
-            'Dynamic'
-        ) . '</option>
+            self::DYNAMIC ? 'selected' : '') . ' value="' . self::DYNAMIC . '">' . __('Dynamic') . '</option>
             <option ' . ($switchAttributeValue ==
-            self::FIXED ? 'selected' : '') . ' value="' . self::FIXED . '">' . __(
-            'Fixed'
-        ) . '</option>
+            self::FIXED ? 'selected' : '') . ' value="' . self::FIXED . '">' . __('Fixed') . '</option>
         </select>';
 
         if (!($this->getAttribute()->getAttributeCode() == 'price' && $this->getCanReadPrice() === false)) {

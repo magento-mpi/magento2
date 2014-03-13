@@ -283,9 +283,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 '  ' .
                 $checkout->getStoreCurrencyCode() .
                 ' ' .
-                $_item->getProduct()->getFinalPrice(
-                $_item->getQty()
-            ) . "\n";
+                $_item->getProduct()->getFinalPrice($_item->getQty()) . "\n";
         }
         $total = $checkout->getStoreCurrencyCode() . ' ' . $checkout->getGrandTotal();
 

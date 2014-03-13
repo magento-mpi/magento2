@@ -826,10 +826,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $tableAlias = $attributeCode . '_max_value';
         $fieldAlias = 'max_' . $attributeCode;
         $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql(
-            $tableAlias . '.attribute_id',
-            $attribute->getId()
-        );
+            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
 
         $select->join(
             array($tableAlias => $attribute->getBackend()->getTable()),
@@ -862,10 +859,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $tableAlias = $attributeCode . '_range_count_value';
 
         $condition = 'e.entity_id = ' . $tableAlias . '.entity_id
-            AND ' . $this->_getConditionSql(
-            $tableAlias . '.attribute_id',
-            $attribute->getId()
-        );
+            AND ' . $this->_getConditionSql($tableAlias . '.attribute_id', $attribute->getId());
 
         $select->reset(\Zend_Db_Select::GROUP);
         $select->join(

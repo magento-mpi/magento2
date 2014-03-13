@@ -82,9 +82,7 @@ class Weight extends \Magento\Data\Form\Element\Text
             '<label class="addafter" for="' .
             $this->getHtmlId() .
             '"><strong>' .
-            __(
-            'lbs'
-        ) .
+            __('lbs') .
             '</strong></label>' .
             '</div></div></div><div class="field choice">' .
             $this->_virtual->getElementHtml() .

@@ -179,12 +179,9 @@ class Advanced extends AbstractModel
                 ->create()
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()
-                ->addStoreLabel(
-                $this->_storeManager->getStore()->getId()
-            )->setOrder(
-                'main_table.attribute_id',
-                'asc'
-            )->load();
+                ->addStoreLabel($this->_storeManager->getStore()->getId())
+                ->setOrder('main_table.attribute_id', 'asc')
+                ->load();
             foreach ($attributes as $attribute) {
                 $attribute->setEntity($product->getResource());
             }
@@ -319,9 +316,7 @@ class Advanced extends AbstractModel
         }
 
         if (($attribute->getFrontendInput() == 'select' ||
-            $attribute->getFrontendInput() == 'multiselect') && is_array(
-            $value
-        )
+            $attribute->getFrontendInput() == 'multiselect') && is_array($value)
         ) {
             foreach ($value as $key => $val) {
                 $value[$key] = $attribute->getSource()->getOptionText($val);

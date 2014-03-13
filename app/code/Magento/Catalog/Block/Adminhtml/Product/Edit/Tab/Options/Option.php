@@ -430,9 +430,7 @@ class Option extends Widget
             '_use_default"' .
             $checkedHtml .
             ' /><span class="use-default-label">' .
-            __(
-            'Use Default'
-        ) . '</span></label></div>';
+            __('Use Default') . '</span></label></div>';
 
         return $useDefault;
     }

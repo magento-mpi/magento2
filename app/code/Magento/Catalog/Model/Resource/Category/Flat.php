@@ -401,14 +401,11 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
                 ->create()
                 ->addNameToResult()
                 ->addUrlRewriteToResult()
-                ->addParentPathFilter(
-                $parentPath
-            )->addStoreFilter()->addIsActiveFilter()->addAttributeToFilter(
-                'include_in_menu',
-                1
-            )->addSortedField(
-                $sorted
-            );
+                ->addParentPathFilter($parentPath)
+                ->addStoreFilter()
+                ->addIsActiveFilter()
+                ->addAttributeToFilter('include_in_menu', 1)
+                ->addSortedField($sorted);
             if ($toLoad) {
                 return $collection->load();
             }
