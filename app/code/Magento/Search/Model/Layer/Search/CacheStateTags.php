@@ -19,7 +19,8 @@ class CacheStateTags extends \Magento\Search\Model\Layer\Category\CacheStateTags
      */
     public function getList(\Magento\Catalog\Model\Category $category, array $additionalTags = array())
     {
-        $tags = \Magento\Search\Model\Layer\Category\parent::getList($category, $additionalTags);
+        $tags = parent::getList($category, $additionalTags);
         $tags[] = \Magento\CatalogSearch\Model\Query::CACHE_TAG;
+        return $tags;
     }
 } 

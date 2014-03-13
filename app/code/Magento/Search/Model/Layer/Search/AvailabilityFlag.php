@@ -11,6 +11,8 @@ namespace Magento\Search\Model\Layer\Search;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 
+use Magento\CatalogSearch\Model\Resource\EngineProvider;
+
 class AvailabilityFlag extends \Magento\CatalogSearch\Model\Layer\AvailabilityFlag
 {
     /**
@@ -31,6 +33,7 @@ class AvailabilityFlag extends \Magento\CatalogSearch\Model\Layer\AvailabilityFl
         $this->helper = $helper;
         parent::__construct($storeManager, $engineProvider);
     }
+
 
     /**
      * @param \Magento\Catalog\Model\Layer $layer

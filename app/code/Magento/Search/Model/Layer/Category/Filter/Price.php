@@ -56,7 +56,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Category $layer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
@@ -69,7 +69,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $layer,
+        \Magento\Catalog\Model\Layer\Category $layer,
         \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
@@ -101,7 +101,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function getCacheTag()
     {
-        return \Magento\Catalog\Model\Layer\Filter\Price::CACHE_TAG;
+        return self::CACHE_TAG;
     }
 
     /**

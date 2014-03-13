@@ -10,6 +10,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Search\Helper\ClientInterface" type="Magento\Search\Helper\Data" />
     <preference for="Magento\Catalog\Model\Layer\ItemCollectionProvider" type="Magento\Search\Model\Layer\ItemCollectionProvider" />
+    <preference for="Magento\Catalog\Model\Layer\Search\AvailabilityFlag" type="Magento\Search\Model\Layer\Search\AvailabilityFlag" />
     <preference for="Magento\CatalogSearch\Model\Layer" type="SearchResultsLayer" />
     <type name="Magento\CatalogSearch\Model\Fulltext">
         <plugin name="fulltextIndexRebuild" type="Magento\Search\Model\Plugin\FulltextIndexRebuild" />

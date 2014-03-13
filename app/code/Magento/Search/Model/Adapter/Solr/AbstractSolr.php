@@ -100,7 +100,6 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Search\Model\Layer\Category\Filter\Price $filterPrice
      * @param \Magento\Search\Model\Resource\Index $resourceIndex
      * @param \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
@@ -121,7 +120,6 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Search\Model\Layer\Category\Filter\Price $filterPrice,
         \Magento\Search\Model\Resource\Index $resourceIndex,
         \Magento\CatalogSearch\Model\Resource\Fulltext $resourceFulltext,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
@@ -147,7 +145,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         $this->_localeResolver = $localeResolver;
         $this->_localeDate = $localeDate;
         parent::__construct(
-            $customerSession, $filterPrice, $resourceIndex, $resourceFulltext, $attributeCollection,
+            $customerSession, $resourceIndex, $resourceFulltext, $attributeCollection,
             $logger, $storeManager, $cache
         );
         try {
