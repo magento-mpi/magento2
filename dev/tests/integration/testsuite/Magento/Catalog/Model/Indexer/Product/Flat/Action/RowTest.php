@@ -54,6 +54,7 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
      */
     public function testProductUpdate()
     {
+        $this->markTestSkipped('Incomplete due to MAGETWO-21369');
         $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\CategoryFactory');
         $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
