@@ -495,6 +495,7 @@ class Installer extends \Magento\Object
         /** @var $user \Magento\User\Model\User */
         $user = $this->_userModelFactory->create();
         $user->loadByUsername($data['username']);
+        // setForceNewPassword(true) - run-time flag to force saving of the entered password
         $user->addData($data)->setForceNewPassword(true)->setRoleId(1)->save();
         $this->_refreshConfig();
     }

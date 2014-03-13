@@ -22,6 +22,13 @@ class Result extends \Magento\Backend\Block\Template
 {
     /**
      * JavaScript actions for response.
+     *     'clear'           remove element from DOM
+     *     'innerHTML'       set innerHTML property (use: elementID => new content)
+     *     'value'           set value for form element (use: elementID => new value)
+     *     'show'            show specified element
+     *     'hide'            hide specified element
+     *     'removeClassName' remove specified class name from element
+     *     'addClassName'    add specified class name to element
      *
      * @var array
      */

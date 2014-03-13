@@ -366,6 +366,7 @@ class Integration extends Action
             if ($this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken)) {
                 $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
             }
+            // Important to call get() once again - that will pull newly generated token
             $this->_registry->register(
                 self::REGISTRY_KEY_CURRENT_INTEGRATION,
                 $this->_integrationService->get($integrationId)->getData()

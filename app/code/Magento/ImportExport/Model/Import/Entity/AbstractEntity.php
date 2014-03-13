@@ -412,6 +412,7 @@ abstract class AbstractEntity
                     }
                 }
             } catch (\Exception $e) {
+                // ignore exceptions connected with source models
             }
         }
         return $options;

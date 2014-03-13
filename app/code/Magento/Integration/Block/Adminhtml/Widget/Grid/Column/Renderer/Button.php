@@ -101,6 +101,12 @@ class Button extends AbstractRenderer
      */
     protected function _getValidAttributes()
     {
+        /*
+         * HTML global attributes - 'accesskey', 'class', 'id', 'lang', 'style', 'tabindex', 'title'
+         * HTML mouse event attributes - 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseout',
+         *                               'onmouseover', 'onmouseup'
+         * Element attributes - 'disabled', 'name', 'type', 'value'
+         */
         return array(
             'accesskey',
             'class',

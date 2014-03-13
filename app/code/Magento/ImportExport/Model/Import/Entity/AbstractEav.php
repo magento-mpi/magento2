@@ -227,6 +227,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
                     }
                 }
             } catch (\Exception $e) {
+                // ignore exceptions connected with source models
             }
         }
         return $options;

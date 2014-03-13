@@ -110,6 +110,8 @@ class Db extends \Magento\Install\Model\Installer\AbstractInstaller
             if (!$resource->supportEngine()) {
                 throw new \Magento\Core\Exception(__('Database server does not support the InnoDB storage engine.'));
             }
+
+            // TODO: check user roles
         } catch (\Magento\Core\Exception $e) {
             $this->_logger->logException($e);
             throw new \Magento\Core\Exception(__($e->getMessage()));

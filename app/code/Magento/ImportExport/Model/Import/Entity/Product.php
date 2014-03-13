@@ -1285,6 +1285,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     }
                 } elseif (null === $rowSku) {
                     $this->_rowsToSkip[$rowNum] = true;
+                    // skip rows when SKU is NULL
                     continue;
                 } elseif (self::SCOPE_STORE == $rowScope) {
                     // set necessary data from SCOPE_DEFAULT row
@@ -1388,6 +1389,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 foreach ($rowData as $attrCode => $attrValue) {
                     $attribute = $resource->getAttribute($attrCode);
                     if ('multiselect' != $attribute->getFrontendInput() && self::SCOPE_NULL == $rowScope) {
+                        // skip attribute processing for SCOPE_NULL rows
                         continue;
                     }
                     $attrId = $attribute->getId();
@@ -1940,6 +1942,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     );
                 } else {
                     $this->addRowError(self::ERROR_TYPE_UNSUPPORTED, $rowNum);
+                    // child rows of legacy products with unsupported types are orphans
                     $sku = false;
                 }
             } else {
@@ -1985,6 +1988,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 !isset($this->_oldSku[$sku])
             );
             if (!$rowAttributesValid && self::SCOPE_DEFAULT == $rowScope && !isset($this->_oldSku[$sku])) {
+                // mark SCOPE_DEFAULT row as invalid for future child rows if product not in DB already
                 $sku = false;
             }
         }

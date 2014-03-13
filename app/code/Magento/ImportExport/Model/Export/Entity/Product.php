@@ -820,6 +820,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
                         }
                         if (is_scalar($attrValue)) {
                             $dataRows[$itemId][$storeId][$attrCode] = $attrValue;
+                            // mark row as not empty
                             $rowIsEmpty = false;
                         }
                     }
