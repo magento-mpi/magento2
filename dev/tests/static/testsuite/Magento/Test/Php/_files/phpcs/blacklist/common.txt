@@ -42,3 +42,7 @@ lib/Magento/Translate/AdapterInterface.php
 lib/Magento/Filesystem/WrapperInterface.php
 # We think this file is not referenced and may be deleted, thus it is not worth making changes.  Verification is needed that this file is no longer referenced.
 dev/tools/Magento/Tools/Formatter/PrettyPrinter.php
+# PSR-1 not applied to
+dev/tests/integration/testsuite/Magento
+# PSR-1 not applied to
+dev/tests/unit/testsuite/Magento

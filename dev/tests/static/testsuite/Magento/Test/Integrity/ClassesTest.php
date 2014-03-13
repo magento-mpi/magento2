@@ -447,10 +447,10 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                     $namespacePath .
                     '/' .
                     str_replace(
-                    '\\',
-                    '/',
-                    $badClass
-                ) . '.php';
+                        '\\',
+                        '/',
+                        $badClass
+                    ) . '.php';
                 if (file_exists($fullPath)) {
                     unset($badClasses[array_search($badClass, $badClasses)]);
                     break;

@@ -7,7 +7,6 @@ use PHP_CodeSniffer_CommentParser_FunctionCommentParser;
 use PHP_CodeSniffer_CommentParser_ParserException;
 use PHP_CodeSniffer_Tokens;
 
-
 include_once 'Helper.php';
 /**
  * Parses and verifies the doc comments for functions.

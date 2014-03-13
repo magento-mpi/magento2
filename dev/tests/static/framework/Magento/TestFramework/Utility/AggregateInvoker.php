@@ -51,9 +51,9 @@ class AggregateInvoker
                 !$exception instanceof \PHPUnit_Framework_IncompleteTestError &&
                 !$exception instanceof \PHPUnit_Framework_SkippedTestError ||
                 $this->_options['verbose'] ? 'Data set: ' . var_export(
-                $dataSet,
-                true
-            ) . PHP_EOL : '';
+                    $dataSet,
+                    true
+                ) . PHP_EOL : '';
             return $dataSet . $exception->getMessage() . PHP_EOL . \PHPUnit_Util_Filter::getFilteredStacktrace(
                 $exception
             );

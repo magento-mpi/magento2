@@ -13,7 +13,6 @@ namespace Magento\Code;
 use Magento\ObjectManager\Code\Generator as DIGenerator;
 use Magento\Interception\Code\Generator as InterceptionGenerator;
 
-
 require_once __DIR__ . '/GeneratorTest/SourceClassWithNamespace.php';
 require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
 /**

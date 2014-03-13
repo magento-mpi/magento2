@@ -9,7 +9,6 @@ namespace Magento\Image\Adapter;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
-
 /**
  * Mocking crucial for this adapter global functions
  */

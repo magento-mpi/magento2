@@ -20,7 +20,6 @@ use OAuth\OAuth1\Signature\SignatureInterface;
 use OAuth\OAuth1\Token\StdOAuth1Token;
 use OAuth\OAuth1\Token\TokenInterface;
 
-
 require_once __DIR__ . '/../../../../../lib/OAuth/bootstrap.php';
 class OauthClient extends AbstractService
 {

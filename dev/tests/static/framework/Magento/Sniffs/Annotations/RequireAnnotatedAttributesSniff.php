@@ -8,7 +8,6 @@ use PHP_CodeSniffer_CommentParser_MemberCommentParser;
 use PHP_CodeSniffer_CommentParser_ParserException;
 use PHP_CodeSniffer_CommentParser_CommentElement;
 
-
 include_once 'Helper.php';
 /**
  * Parses and verifies the variable doc comment.
