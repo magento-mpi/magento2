@@ -91,8 +91,8 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
             $this->_viewUrl->getViewFileUrl(
                 'images/rule_chooser_trigger.gif'
             ) . '" alt="" class="v-middle rule-chooser-trigger" title="' . __(
-            'Open Chooser'
-        ) . '" /></a>';
+                'Open Chooser'
+            ) . '" /></a>';
     }
 
     /**
