@@ -13,7 +13,7 @@ use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
 class ItemCollectionProvider implements ItemCollectionProviderInterface
 {
     /**
-     * @param $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getCollection(\Magento\Catalog\Model\Category $category)

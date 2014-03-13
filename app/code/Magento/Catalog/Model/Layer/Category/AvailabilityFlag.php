@@ -9,7 +9,6 @@
 
 namespace Magento\Catalog\Model\Layer\Category;
 
-
 use Magento\Catalog\Model\Layer\AvailabilityFlagInterface;
 
 class AvailabilityFlag implements AvailabilityFlagInterface

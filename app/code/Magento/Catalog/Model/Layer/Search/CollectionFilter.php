@@ -49,15 +49,16 @@ class CollectionFilter implements CollectionFilterInterface
         $this->storeManager = $storeManager;
         $this->productVisibility = $productVisibility;
     }
+
     /**
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param $category
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function filter(
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\Catalog\Model\Category $category
-    )
-    {
+    ) {
         $collection
             ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
             ->addSearchFilter($this->helper->getQuery()->getQueryText())

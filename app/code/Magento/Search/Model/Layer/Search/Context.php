@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Search\Model\Layer\Category;
+namespace Magento\Search\Model\Layer\Search;
 
 use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\Layer\ContextInterface;

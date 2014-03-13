@@ -26,8 +26,8 @@ class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey
     }
 
     /**
-     * @param $category
-     * @return string|void
+     * @param \Magento\Catalog\Model\Category $category
+     * @return string
      */
     public function toString($category)
     {

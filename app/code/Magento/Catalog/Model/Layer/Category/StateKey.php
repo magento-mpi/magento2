@@ -35,6 +35,10 @@ class StateKey implements StateKeyInterface
         $this->customerSession = $customerSession;
     }
 
+    /**
+     * @param \Magento\Catalog\Model\Category $category
+     * @return string
+     */
     public function toString($category)
     {
         return 'STORE_' . $this->storeManager->getStore()->getId()
