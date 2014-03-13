@@ -1677,7 +1677,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
         if (!isset($fromPart['store_group_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_group_index' => $this->getTable('core_store_group')),
+                array('store_group_index' => $this->getTable('store_group')),
                 'store_index.group_id = store_group_index.group_id',
                 array()
             );

@@ -222,7 +222,7 @@ class DefaultPrice
                 'cw.website_id = cwd.website_id',
                 array())
             ->join(
-                array('csg' => $this->getTable('core_store_group')),
+                array('csg' => $this->getTable('store_group')),
                 'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
                 array())
             ->join(
@@ -392,7 +392,7 @@ class DefaultPrice
                 'cw.website_id = i.website_id',
                 array())
             ->join(
-                array('csg' => $this->getTable('core_store_group')),
+                array('csg' => $this->getTable('store_group')),
                 'csg.group_id = cw.default_group_id',
                 array())
             ->join(
@@ -460,7 +460,7 @@ class DefaultPrice
                 'cw.website_id = i.website_id',
                 array())
             ->join(
-                array('csg' => $this->getTable('core_store_group')),
+                array('csg' => $this->getTable('store_group')),
                 'csg.group_id = cw.default_group_id',
                 array())
             ->join(

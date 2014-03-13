@@ -123,7 +123,7 @@ return array (
     'core_resource' => 'Magento_Core',
     'core_session' => 'Magento_Core',
     'core_store' => 'Magento_Core',
-    'core_store_group' => 'Magento_Core',
+    'store_group' => 'Magento_Core',
     'core_translate' => 'Magento_Core',
     'core_url_rewrite' => 'Magento_Core',
     'core_url_rewrite_tag' => 'Magento_Core',

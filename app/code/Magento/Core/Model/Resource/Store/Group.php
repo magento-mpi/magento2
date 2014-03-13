@@ -25,7 +25,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_store_group', 'group_id');
+        $this->_init('store_group', 'group_id');
     }
 
     /**

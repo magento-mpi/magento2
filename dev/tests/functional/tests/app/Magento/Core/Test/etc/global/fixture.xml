@@ -19,7 +19,7 @@
     </website>
     <storeGroup module="Magento_Core">
         <type>flat</type>
-        <entity_type>core_store_group</entity_type>
+        <entity_type>store_group</entity_type>
         <collection>Magento\Core\Model\Resource\Store\Group\Collection</collection>
         <identifier />
         <fields />

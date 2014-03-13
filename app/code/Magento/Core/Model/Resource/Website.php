@@ -109,7 +109,7 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
                 array('website_table' => $this->getTable('store_website')),
                 array('website_id'))
             ->joinLeft(
-                array('store_group_table' => $this->getTable('core_store_group')),
+                array('store_group_table' => $this->getTable('store_group')),
                 'website_table.website_id=store_group_table.website_id'
                     . ' AND website_table.default_group_id = store_group_table.group_id',
                 array('store_id' => $ifNull)

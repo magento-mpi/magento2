@@ -134,7 +134,7 @@ abstract class AbstractIndexer extends \Magento\Index\Model\Resource\AbstractRes
 
         if ($store) {
             $select->join(
-                array('csg' => $this->getTable('core_store_group')),
+                array('csg' => $this->getTable('store_group')),
                 'csg.group_id = cw.default_group_id',
                 array())
             ->join(

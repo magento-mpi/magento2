@@ -115,7 +115,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($count == 1) {
             $bind  = array('default_store_id' => (int)$storeId);
             $where = array('group_id = ?' => (int)$groupId);
-            $adapter->update($this->getTable('core_store_group'), $bind, $where);
+            $adapter->update($this->getTable('store_group'), $bind, $where);
         }
 
         return $this;
@@ -132,14 +132,14 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($model->getOriginalGroupId() && $model->getGroupId() != $model->getOriginalGroupId()) {
             $adapter = $this->_getReadAdapter();
             $select = $adapter->select()
-                ->from($this->getTable('core_store_group'), 'default_store_id')
+                ->from($this->getTable('store_group'), 'default_store_id')
                 ->where($adapter->quoteInto('group_id=?', $model->getOriginalGroupId()));
             $storeId = $adapter->fetchOne($select, 'default_store_id');
 
             if ($storeId == $model->getId()) {
                 $bind = array('default_store_id' => \Magento\Core\Model\Store::DEFAULT_STORE_ID);
                 $where = array('group_id = ?' => $model->getOriginalGroupId());
-                $this->_getWriteAdapter()->update($this->getTable('core_store_group'), $bind, $where);
+                $this->_getWriteAdapter()->update($this->getTable('store_group'), $bind, $where);
             }
         }
         return $this;

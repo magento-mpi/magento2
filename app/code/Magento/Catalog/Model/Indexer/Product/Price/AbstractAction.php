@@ -197,7 +197,7 @@ abstract class AbstractAction
                 array('website_id')
             )
             ->join(
-                array('csg' => $this->_getTable('core_store_group')),
+                array('csg' => $this->_getTable('store_group')),
                 'cw.default_group_id = csg.group_id',
                 array('store_id' => 'default_store_id')
             )

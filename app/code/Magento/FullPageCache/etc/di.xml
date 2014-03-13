@@ -64,7 +64,7 @@
                 <item name="review" xsi:type="string">Magento\Review\Model\Review</item>
                 <item name="cms_hierarchy_node" xsi:type="string">Magento\VersionsCms\Model\Hierarchy\Node</item>
                 <item name="banner" xsi:type="string">Magento\Banner\Model\Banner</item>
-                <item name="core_store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
+                <item name="store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
             </argument>
             <argument name="deleteDependencies" xsi:type="array">
                 <item name="catalog_category" xsi:type="string">Magento\Catalog\Model\Category</item>
@@ -72,7 +72,7 @@
                 <item name="review" xsi:type="string">Magento\Review\Model\Review</item>
                 <item name="cms_hierarchy_node" xsi:type="string">Magento\VersionsCms\Model\Hierarchy\Node</item>
                 <item name="banner" xsi:type="string">Magento\Banner\Model\Banner</item>
-                <item name="core_store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
+                <item name="store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
             </argument>
         </arguments>
     </type>

@@ -82,10 +82,10 @@ $table = $connection
 $connection->createTable($table);
 
 /**
- * Create table 'core_store_group'
+ * Create table 'store_group'
  */
 $table = $connection
-    ->newTable($installer->getTable('core_store_group'))
+    ->newTable($installer->getTable('store_group'))
     ->addColumn(
         'group_id',
         Table::TYPE_SMALLINT,
@@ -141,15 +141,15 @@ $table = $connection
         'Default Store Id'
     )
     ->addIndex(
-        $installer->getIdxName('core_store_group', array('website_id')),
+        $installer->getIdxName('store_group', array('website_id')),
         array('website_id')
     )
     ->addIndex(
-        $installer->getIdxName('core_store_group', array('default_store_id')),
+        $installer->getIdxName('store_group', array('default_store_id')),
         array('default_store_id')
     )
     ->addForeignKey(
-        $installer->getFkName('core_store_group', 'website_id', 'store_website', 'website_id'),
+        $installer->getFkName('store_group', 'website_id', 'store_website', 'website_id'),
         'website_id',
         $installer->getTable('store_website'),
         'website_id',
@@ -248,9 +248,9 @@ $table = $connection
         array('group_id')
     )
     ->addForeignKey(
-        $installer->getFkName('core_store', 'group_id', 'core_store_group', 'group_id'),
+        $installer->getFkName('core_store', 'group_id', 'store_group', 'group_id'),
         'group_id',
-        $installer->getTable('core_store_group'),
+        $installer->getTable('store_group'),
         'group_id',
         Table::ACTION_CASCADE,
         Table::ACTION_CASCADE
@@ -300,7 +300,7 @@ $connection
  */
 $connection
     ->insertForce(
-        $installer->getTable('core_store_group'),
+        $installer->getTable('store_group'),
         array(
             'group_id' => 0,
             'website_id' => 0,
@@ -311,7 +311,7 @@ $connection
     );
 $connection
     ->insertForce(
-        $installer->getTable('core_store_group'),
+        $installer->getTable('store_group'),
         array(
             'group_id' => 1,
             'website_id' => 1,

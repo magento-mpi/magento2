@@ -142,7 +142,7 @@ return array(
     'core/resource' => 'core_resource',
     'core/session' => 'core_session',
     'core/store' => 'core_store',
-    'core/store_group' => 'core_store_group',
+    'core/store_group' => 'store_group',
     'core/translate' => 'core_translate',
     'core/url_rewrite' => 'core_url_rewrite',
     'core/url_rewrite_tag' => 'core_url_rewrite_tag',
