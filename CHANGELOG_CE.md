@@ -22,6 +22,7 @@
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
   * [#499] (https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
 * Fixed bugs:
+  * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
   * Fixed transaction rollback in fetchNewIncrementId on exception
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
@@ -41,6 +42,9 @@
   * Fixed ability to edit Product Template (MAGETWO-21757)
   * Fixed duplicated shipping method options (MAGETWO-20055)
   * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
+  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
+  * Fixed JS/CSS merging functionality (MAGETWO-21924)
+  * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
 * Modularity improvements:
   * Introduced Offline Payments module
   * Added ability to enable/disable Paypal module
@@ -67,6 +71,7 @@
   * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
+  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
 * Customer Service usage:
   * Customer module blocks and controllers refactoring to use customer service layer
   * Tax module refactoring to use customer service layer
