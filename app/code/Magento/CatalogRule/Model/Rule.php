@@ -357,10 +357,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->getResourceCollection()->walk(array($this->_getResource(), 'updateRuleProductData'));
         $this->_getResource()->applyAllRulesForDateRange();
         $this->_invalidateCache();
-        $indexProcess = $this->_indexer->getProcessByCode('catalog_product_price');
-        if ($indexProcess) {
-            $indexProcess->reindexAll();
-        }
     }
 
     /**
