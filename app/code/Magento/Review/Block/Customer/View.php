@@ -60,9 +60,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Customer session model
      *
-     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
+     * @var \Magento\Customer\Model\Session
      */
-    protected $currentCustomer;
+    protected $_customerSession;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
@@ -80,7 +80,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
-     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      * @param array $priceBlockTypes
      *
@@ -102,7 +102,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
-        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -110,7 +110,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_reviewFactory = $reviewFactory;
         $this->_voteFactory = $voteFactory;
         $this->_ratingFactory = $ratingFactory;
-        $this->currentCustomer = $currentCustomer;
+        $this->_customerSession = $customerSession;
 
         parent::__construct(
             $context,
@@ -245,6 +245,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function isReviewOwner()
     {
-        return $this->getReviewData()->getCustomerId() == $this->currentCustomer->getCustomerId();
+        return ($this->getReviewData()->getCustomerId() == $this->_customerSession->getCustomerId());
     }
 }

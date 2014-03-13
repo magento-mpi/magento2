@@ -71,11 +71,6 @@ class Form extends \Magento\View\Element\Template
     protected $messageManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
-     */
-    protected $currentCustomer;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Session\Generic $reviewSession
@@ -84,7 +79,6 @@ class Form extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -96,7 +90,6 @@ class Form extends \Magento\View\Element\Template
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $currentCustomer,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -106,7 +99,6 @@ class Form extends \Magento\View\Element\Template
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->messageManager = $messageManager;
-        $this->currentCustomer = $currentCustomer;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -125,7 +117,7 @@ class Form extends \Magento\View\Element\Template
 
         // add logged in customer name as nickname
         if (!$data->getNickname()) {
-            $customer = $this->currentCustomer->getCustomer();
+            $customer = $this->_customerSession->getCustomerDataObject();
             if ($customer && $customer->getId()) {
                 $data->setNickname($customer->getFirstname());
             }
