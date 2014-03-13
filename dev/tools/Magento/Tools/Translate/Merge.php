@@ -204,9 +204,7 @@ modules on translate file:  ' .
                 $result['translate_modules']
             ) . '
 string on translate file:   ' . $result['translate_string'] . '
-modules on original file:   ' . count(
-    $result['original_modules']
-) .
+modules on original file:   ' . count($result['original_modules']) .
             '
 string on original file:    ' .
             $result['original_string'] .
