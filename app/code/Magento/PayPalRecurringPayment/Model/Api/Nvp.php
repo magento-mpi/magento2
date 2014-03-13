@@ -66,7 +66,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      *
      * @var string[]
      */
-    protected $_getRecurringPaymentDetailsResponse = array('STATUS');
+    protected $_getRecurringPaymentDetailsResponse = array('STATUS', /* TODO: lot of other stuff */);
 
     /**
      * @var \Magento\RecurringPayment\Model\QuoteImporter

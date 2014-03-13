@@ -1376,7 +1376,12 @@ class Config
      */
     public function getWpsPaymentDeliveryMethods()
     {
-        return array(self::WPS_TRANSPORT_IPN => __('IPN (Instant Payment Notification) Only'));
+        return array(
+            self::WPS_TRANSPORT_IPN => __('IPN (Instant Payment Notification) Only')
+            // not supported yet:
+            //            self::WPS_TRANSPORT_PDT      => __('PDT (Payment Data Transfer) Only'),
+            //            self::WPS_TRANSPORT_IPN_PDT  => __('Both IPN and PDT'),
+        );
     }
 
     /**

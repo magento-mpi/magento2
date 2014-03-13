@@ -215,9 +215,9 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         $api = $this->_apiStandardFactory->create()->setConfigObject($this->getConfig());
         $api->setOrderId(
             $orderIncrementId
-        )->setCurrencyCode(
-            $order->getBaseCurrencyCode()
-        )->setOrder(
+        )->setCurrencyCode($order->getBaseCurrencyCode())
+        //->setPaymentAction()
+        ->setOrder(
             $order
         )->setNotifyUrl(
             $this->_urlBuilder->getUrl('paypal/ipn/')

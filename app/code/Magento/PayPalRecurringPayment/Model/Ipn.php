@@ -180,6 +180,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
             $message .= ' ' . $comment;
         }
         if ($addToHistory) {
+            //TODO: add to payment comments
         }
         return $message;
     }

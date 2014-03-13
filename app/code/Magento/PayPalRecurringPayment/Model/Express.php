@@ -85,7 +85,9 @@ class Express implements ManagerInterface
             $payment,
             $api,
             array(
-                'token',
+                'token', // EC fields
+                // TODO: DP fields
+                // payment fields
                 'subscriber_name',
                 'start_datetime',
                 'internal_reference_id',

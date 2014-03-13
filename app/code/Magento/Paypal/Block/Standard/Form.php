@@ -77,6 +77,7 @@ class Form extends \Magento\Payment\Block\Form
         )->setRedirectMessage(
             __('You will be redirected to the PayPal website when you place an order.')
         )->setMethodTitle(
+            // Output PayPal mark, omit title
             ''
         )->setMethodLabelAfterHtml(
             $mark->toHtml()

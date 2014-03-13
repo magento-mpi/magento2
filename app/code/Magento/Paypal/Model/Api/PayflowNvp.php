@@ -78,12 +78,14 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @var array
      */
     protected $_globalMap = array(
+        // each call
         'PARTNER' => 'partner',
         'VENDOR' => 'vendor',
         'USER' => 'user',
         'PWD' => 'password',
         'BUTTONSOURCE' => 'build_notation_code',
         'TENDER' => 'tender',
+        // commands
         'RETURNURL' => 'return_url',
         'CANCELURL' => 'cancel_url',
         'INVNUM' => 'inv_num',
@@ -92,12 +94,16 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'CUSTIP' => 'ip_address',
         'NOTIFYURL' => 'notify_url',
         'NOTE' => 'note',
+        // style settings
         'PAGESTYLE' => 'page_style',
         'HDRIMG' => 'hdrimg',
         'HDRBORDERCOLOR' => 'hdrbordercolor',
         'HDRBACKCOLOR' => 'hdrbackcolor',
         'PAYFLOWCOLOR' => 'payflowcolor',
         'LOCALECODE' => 'locale_code',
+
+        // transaction info
+        //We need to store paypal trx id for correct IPN working
         'PAYMENTINFO_0_TRANSACTIONID' => 'paypal_transaction_id',
         'TRANSACTIONID' => 'paypal_transaction_id',
         'REFUNDTRANSACTIONID' => 'paypal_transaction_id',
@@ -107,20 +113,24 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
         'AMT' => 'amount',
         'AVSADDR' => 'address_verification',
         'AVSZIP' => 'postcode_verification',
+        // payment/billing info
         'CURRENCY' => 'currency_code',
         'PAYMENTSTATUS' => 'payment_status',
         'PENDINGREASON' => 'pending_reason',
         'PAYERID' => 'payer_id',
         'PAYERSTATUS' => 'payer_status',
         'EMAIL' => 'email',
+        // backwards compatibility
         'FIRSTNAME' => 'firstname',
         'LASTNAME' => 'lastname',
+        // paypal direct credit card information
         'ACCT' => 'credit_card_number',
         'EXPDATE' => 'credit_card_expiration_date',
         'CVV2' => 'credit_card_cvv2',
         'CARDSTART' => 'maestro_solo_issue_date',
         'CARDISSUE' => 'maestro_solo_issue_number',
         'CVV2MATCH' => 'cvv2_check_result',
+        // cardinal centinel
         'AUTHSTATUS3DS' => 'centinel_authstatus',
         'MPIVENDOR3DS' => 'centinel_mpivendor',
         'CAVV' => 'centinel_cavv',

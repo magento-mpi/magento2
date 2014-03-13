@@ -67,12 +67,17 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @var array
      */
     protected $_globalMap = array(
+        // each call
         'VERSION' => 'version',
         'USER' => 'api_username',
         'PWD' => 'api_password',
         'SIGNATURE' => 'api_signature',
         'BUTTONSOURCE' => 'build_notation_code',
+
+        // for Unilateral payments
         'SUBJECT' => 'business_account',
+
+        // commands
         'PAYMENTACTION' => 'payment_action',
         'RETURNURL' => 'return_url',
         'CANCELURL' => 'cancel_url',
@@ -92,6 +97,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'REDIRECTREQUIRED' => 'redirect_required',
         'SUCCESSPAGEREDIRECTREQUESTED' => 'redirect_requested',
         'REQBILLINGADDRESS' => 'require_billing_address',
+        // style settings
         'PAGESTYLE' => 'page_style',
         'HDRIMG' => 'hdrimg',
         'HDRBORDERCOLOR' => 'hdrbordercolor',
@@ -99,13 +105,17 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'PAYFLOWCOLOR' => 'payflowcolor',
         'LOCALECODE' => 'locale_code',
         'PAL' => 'pal',
+
+        // transaction info
         'TRANSACTIONID' => 'transaction_id',
         'AUTHORIZATIONID' => 'authorization_id',
         'REFUNDTRANSACTIONID' => 'refund_transaction_id',
         'COMPLETETYPE' => 'complete_type',
         'AMT' => 'amount',
         'ITEMAMT' => 'subtotal_amount',
-        'GROSSREFUNDAMT' => 'refunded_amount',
+        'GROSSREFUNDAMT' => 'refunded_amount', // possible mistake, check with API reference
+
+        // payment/billing info
         'CURRENCYCODE' => 'currency_code',
         'PAYMENTSTATUS' => 'payment_status',
         'PENDINGREASON' => 'pending_reason',
@@ -115,10 +125,16 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'ADDRESSID' => 'address_id',
         'ADDRESSSTATUS' => 'address_status',
         'EMAIL' => 'email',
+
+        // backwards compatibility
         'FIRSTNAME' => 'firstname',
         'LASTNAME' => 'lastname',
+
+        // shipping rate
         'SHIPPINGOPTIONNAME' => 'shipping_rate_code',
         'NOSHIPPING' => 'suppress_shipping',
+
+        // paypal direct credit card information
         'CREDITCARDTYPE' => 'credit_card_type',
         'ACCT' => 'credit_card_number',
         'EXPDATE' => 'credit_card_expiration_date',
@@ -127,6 +143,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'ISSUENUMBER' => 'maestro_solo_issue_number',
         'CVV2MATCH' => 'cvv2_check_result',
         'AVSCODE' => 'avs_result',
+        // cardinal centinel
         'AUTHSTATUS3DS' => 'centinel_authstatus',
         'MPIVENDOR3DS' => 'centinel_mpivendor',
         'CAVV' => 'centinel_cavv',
@@ -134,6 +151,8 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'XID' => 'centinel_xid',
         'VPAS' => 'centinel_vpas_result',
         'ECISUBMITTED3DS' => 'centinel_eci_result',
+
+        // recurring payments
         'SUBSCRIBERNAME' => 'subscriber_name',
         'PROFILESTARTDATE' => 'start_datetime',
         'PROFILEREFERENCE' => 'internal_reference_id',
@@ -143,10 +162,12 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'BILLINGPERIOD' => 'period_unit',
         'BILLINGFREQUENCY' => 'period_frequency',
         'TOTALBILLINGCYCLES' => 'period_max_cycles',
+        //'AMT' => 'billing_amount', // have to use 'amount', see above
         'TRIALBILLINGPERIOD' => 'trial_period_unit',
         'TRIALBILLINGFREQUENCY' => 'trial_period_frequency',
         'TRIALTOTALBILLINGCYCLES' => 'trial_period_max_cycles',
         'TRIALAMT' => 'trial_billing_amount',
+        // 'CURRENCYCODE' => 'currency_code',
         'SHIPPINGAMT' => 'shipping_amount',
         'TAXAMT' => 'tax_amount',
         'INITAMT' => 'init_amount',
@@ -154,8 +175,11 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'PROFILEID' => 'recurring_payment_id',
         'PROFILESTATUS' => 'recurring_payment_status',
         'STATUS' => 'status',
+
+        //Next two fields are used for Brazil only
         'TAXID' => 'buyer_tax_id',
         'TAXIDTYPE' => 'buyer_tax_id_type',
+
         'BILLINGAGREEMENTID' => 'billing_agreement_id',
         'REFERENCEID' => 'reference_id',
         'BILLINGAGREEMENTSTATUS' => 'billing_agreement_status',
@@ -181,6 +205,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'TAXAMT' => '_filterAmount',
         'INITAMT' => '_filterAmount',
         'CREDITCARDTYPE' => '_filterCcType',
+        //        'PROFILESTARTDATE' => '_filterToPaypalDate',
         'AUTOBILLAMT' => '_filterBillFailedLater',
         'BILLINGPERIOD' => '_filterPeriodUnit',
         'TRIALBILLINGPERIOD' => '_filterPeriodUnit',
@@ -457,7 +482,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'MIDDLENAME' => 'middlename',
         'SALUTATION' => 'prefix',
         'SUFFIX' => 'suffix',
-        'COUNTRYCODE' => 'country_id',
+        'COUNTRYCODE' => 'country_id', // iso-3166 two-character code
         'STATE' => 'region',
         'CITY' => 'city',
         'STREET' => 'street',
@@ -486,6 +511,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'SHIPTOSTREET2' => 'street2',
         'SHIPTOZIP' => 'postcode',
         'SHIPTOPHONENUM' => 'telephone'
+        // 'SHIPTONAME' will be treated manually in address import/export methods
     );
 
     /**

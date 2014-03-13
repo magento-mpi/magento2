@@ -177,7 +177,7 @@ class Pro extends \Magento\Paypal\Model\Payflow\Pro
         $payment->setTransactionId(
             $api->getTransactionId()
         )->setIsTransactionClosed(
-            1
+            1 // refund initiated by merchant
         )->setShouldCloseParentTransaction(
             !$canRefundMore
         )->setTransactionAdditionalInfo(

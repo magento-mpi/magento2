@@ -22,24 +22,29 @@ class Standard extends \Magento\Paypal\Model\Api\AbstractApi
      * @var array
      */
     protected $_globalMap = array(
+        // commands
         'business' => 'business_account',
         'notify_url' => 'notify_url',
         'return' => 'return_url',
         'cancel_return' => 'cancel_url',
         'bn' => 'build_notation_code',
         'paymentaction' => 'payment_action',
+        // payment
         'invoice' => 'order_id',
         'currency_code' => 'currency_code',
         'amount' => 'amount',
         'shipping' => 'shipping_amount',
         'tax' => 'tax_amount',
         'discount_amount' => 'discount_amount',
+        // misc
         'item_name' => 'cart_summary',
+        // page design settings
         'page_style' => 'page_style',
         'cpp_header_image' => 'hdrimg',
         'cpp_headerback_color' => 'hdrbackcolor',
         'cpp_headerborder_color' => 'hdrbordercolor',
         'cpp_payflow_color' => 'payflowcolor',
+        // 'cs' => '', // TODO
         'lc' => 'locale'
     );
 

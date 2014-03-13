@@ -292,7 +292,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($asLabelValue && $withGroups) {
             $groups = $this->_paymentConfig->getGroups();
             foreach ($groups as $code => $title) {
-                $methods[$code] = $title;
+                $methods[$code] = $title; // for sorting, see below
             }
         }
         if ($sorted) {

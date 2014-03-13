@@ -999,8 +999,9 @@ class Checkout
     {
         $options = $this->_prepareShippingOptions($address, false);
         foreach ($options as $option) {
-            if ($selectedCode === $option['code'] ||
-                $selectedCode === $option['name'] ||
+            if ($selectedCode === $option['code'] || // the proper case as outlined in documentation
+                $selectedCode === $option['name'] || // workaround: PayPal may return name instead of the code
+                // workaround: PayPal may concatenate code and name, and return it instead of the code:
                 $selectedCode === "{$option['code']} {$option['name']}"
             ) {
                 return $option['code'];

@@ -612,6 +612,7 @@ class Observer
             !$this->_customerSession->isLoggedIn() &&
             $this->_checkoutSession->getQuoteId() &&
             !$observer->getControllerAction() instanceof \Magento\Checkout\Controller\Onepage
+            // persistent session does not expire on onepage checkout page to not spoil customer group id
         ) {
             $this->_eventManager->dispatch('persistent_session_expired');
             $this->_expirePersistentSession();

@@ -405,7 +405,7 @@ class Pro
         $payment->setTransactionId(
             $api->getRefundTransactionId()
         )->setIsTransactionClosed(
-            1
+            1 // refund initiated by merchant
         )->setShouldCloseParentTransaction(
             !$canRefundMore
         );

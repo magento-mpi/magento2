@@ -140,6 +140,10 @@ class AbstractIpn
             default:
                 return '';
         }
+        // documented in NVP, but not documented in IPN:
+        //Info::PAYMENTSTATUS_NONE
+        //Info::PAYMENTSTATUS_INPROGRESS
+        //Info::PAYMENTSTATUS_REFUNDEDPART
     }
 
     /**

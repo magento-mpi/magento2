@@ -427,7 +427,7 @@ class Pbridge extends AbstractMethod
         $authTransactionId = $payment->getParentTransactionId();
 
         if (!$authTransactionId) {
-            return false;
+            return false;//$this->authorize($payment, $amount);
         }
 
         $request = $this->_getApiRequest();

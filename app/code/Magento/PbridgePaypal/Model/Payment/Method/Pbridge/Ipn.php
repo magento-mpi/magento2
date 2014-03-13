@@ -561,6 +561,7 @@ class Ipn
             if ($exception) {
                 $this->_logger->logException($exception);
             }
+            // @TODO: dump the message and IPN form data
         } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
