@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
 class Giftcard
  extends \Magento\Backend\Block\Widget
  implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
 
     /**
@@ -155,6 +157,10 @@ class Giftcard
         return $result;
     }
 
+    /**
+     * @param string $field
+     * @return null|string
+     */
     public function getConfigValue($field)
     {
         return $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH . $field);

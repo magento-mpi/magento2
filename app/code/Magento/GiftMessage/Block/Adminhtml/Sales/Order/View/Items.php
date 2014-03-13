@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
 
 /**
  * Gift message adminhtml sales order view items
@@ -15,8 +16,6 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
-
 class Items extends \Magento\Backend\Block\Template
 {
     /**
@@ -62,11 +61,11 @@ class Items extends \Magento\Backend\Block\Template
      */
     public function getDefaultSender()
     {
-        if(!$this->getItem()) {
+        if (!$this->getItem()) {
             return '';
         }
 
-        if($this->getItem()->getOrder()) {
+        if ($this->getItem()->getOrder()) {
             return $this->getItem()->getOrder()->getBillingAddress()->getName();
         }
 
@@ -80,11 +79,11 @@ class Items extends \Magento\Backend\Block\Template
      */
     public function getDefaultRecipient()
     {
-        if(!$this->getItem()) {
+        if (!$this->getItem()) {
             return '';
         }
 
-        if($this->getItem()->getOrder()) {
+        if ($this->getItem()->getOrder()) {
             if ($this->getItem()->getOrder()->getShippingAddress()) {
                 return $this->getItem()->getOrder()->getShippingAddress()->getName();
             } else if ($this->getItem()->getOrder()->getBillingAddress()) {
@@ -115,7 +114,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Retrieve real html id for field
      *
-     * @param string $name
+     * @param string $id
      * @return string
      */
     public function getFieldId($id)
@@ -136,7 +135,7 @@ class Items extends \Magento\Backend\Block\Template
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\GiftMessage\Block\Adminhtml\Sales\Order\View\Items
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -144,10 +143,10 @@ class Items extends \Magento\Backend\Block\Template
             $this->_messageHelper->getGiftMessage($this->getItem()->getGiftMessageId());
 
         // init default values for giftmessage form
-        if(!$this->getMessage()->getSender()) {
+        if (!$this->getMessage()->getSender()) {
             $this->getMessage()->setSender($this->getDefaultSender());
         }
-        if(!$this->getMessage()->getRecipient()) {
+        if (!$this->getMessage()->getRecipient()) {
             $this->getMessage()->setRecipient($this->getDefaultRecipient());
         }
 
@@ -161,7 +160,7 @@ class Items extends \Magento\Backend\Block\Template
      */
     public function getMessage()
     {
-        if(!isset($this->_giftMessage[$this->getItem()->getGiftMessageId()])) {
+        if (!isset($this->_giftMessage[$this->getItem()->getGiftMessageId()])) {
             $this->_initMessage();
         }
 

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend;
 
 /**
  * Invoice backend model for order attribute
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend;
-
 class Order
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -25,7 +23,7 @@ class Order
      * Method is invoked before save
      *
      * @param \Magento\Object $object
-     * @return \Magento\Sales\Model\Resource\Order\Invoice\Attribute\Backend\Order
+     * @return $this
      */
     public function beforeSave($object)
     {

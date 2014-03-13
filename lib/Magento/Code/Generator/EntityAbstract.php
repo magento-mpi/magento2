@@ -261,7 +261,7 @@ abstract class EntityAbstract
             $filePath = stream_resolve_include_path(str_replace('_', '/', $controllerPath) . '.php');
             $isSourceClassValid = !empty($filePath);
         } else {
-            $isSourceClassValid =$autoloader::getFile($sourceClassName);
+            $isSourceClassValid = $autoloader::getFile($sourceClassName);
         }
 
         if (!$isSourceClassValid) {

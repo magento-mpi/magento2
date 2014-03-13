@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
 use Magento\View\Element\Template\Context;
 use Magento\Customer\Helper\Address as AddressHelper;
 use Magento\Customer\Helper\Data as CustomerHelper;
@@ -19,8 +18,8 @@ use Magento\Customer\Helper\Data as CustomerHelper;
 /**
  * Widget for showing customer name.
  *
- * @method \Magento\Customer\Service\V1\Dto\Customer getObject()
- * @method Name setObject(\Magento\Customer\Service\V1\Dto\Customer $customer)
+ * @method \Magento\Customer\Service\V1\Data\Customer getObject()
+ * @method Name setObject(\Magento\Customer\Service\V1\Data\Customer $customer)
  */
 class Name extends AbstractWidget
 {
@@ -48,6 +47,9 @@ class Name extends AbstractWidget
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -189,7 +191,7 @@ class Name extends AbstractWidget
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     * @return \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata|null
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */

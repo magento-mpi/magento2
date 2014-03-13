@@ -103,6 +103,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\StaticPropertyReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StaticVariableReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\StringReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\UseReference;
+use Magento\Tools\Formatter\PrettyPrinter\Statement\AbstractStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\BreakStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\CaseStatement;
 use Magento\Tools\Formatter\PrettyPrinter\Statement\CatchStatement;
@@ -150,6 +151,7 @@ class SyntaxFactory
 
     /**
      * This member holds the mapping of parser nodes to statement classes.
+     *
      * @var array
      */
     protected $nodeMap = array();
@@ -158,6 +160,7 @@ class SyntaxFactory
      * This method returns an instance of a statement class used to process the given node.
      *
      * @param PHPParser_Node $parserNode
+     * @return AbstractStatement
      */
     public function getStatement(PHPParser_Node $parserNode)
     {
@@ -201,6 +204,7 @@ class SyntaxFactory
      *
      * @param string $parserNodeName Contains the name corresponding to the type of parser node
      * @param string $statement Contains the name of the class used to process the parser node
+     * @return void
      */
     protected function register($parserNodeName, $statement)
     {
@@ -209,6 +213,8 @@ class SyntaxFactory
 
     /**
      * This method registers the expression types.
+     *
+     * @return void
      */
     protected function registerExprs()
     {
@@ -294,6 +300,8 @@ class SyntaxFactory
 
     /**
      * This method registers the scalar types.
+     *
+     * @return void
      */
     protected function registerScalars()
     {
@@ -312,6 +320,8 @@ class SyntaxFactory
 
     /**
      * This method registers the statements.
+     *
+     * @return void
      */
     protected function registerStmts()
     {

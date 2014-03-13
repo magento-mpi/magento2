@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
 //merge
 
@@ -14,14 +15,20 @@
 //- translate file
 //- write to file non translate
 
-namespace Magento\Tools\Translate;
-
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 
 class Merge
 {
+    /**
+     * @var string
+     */
     protected $_usage;
+
+    /**
+     * @var array
+     */
     protected $_args;
+
     /**
      * Magento File CSV
      *
@@ -29,8 +36,14 @@ class Merge
      */
     protected $_csv;
 
+    /**
+     * @var array
+     */
     protected $_translate = array();
 
+    /**
+     * Constructor for Merge Class
+     */
     public function __construct()
     {
         $this->_usage = '
@@ -51,6 +64,9 @@ OPTIONAL PARAMETRS:
         $this->_csv = new \Magento\File\Csv();
     }
 
+    /**
+     * @return void
+     */
     protected function _getArgs()
     {
         if (is_null($this->_args)) {
@@ -70,6 +86,9 @@ OPTIONAL PARAMETRS:
         }
     }
 
+    /**
+     * @return void
+     */
     protected function _checkArgs()
     {
         $this->_getArgs();
@@ -95,6 +114,11 @@ OPTIONAL PARAMETRS:
         }
     }
 
+    /**
+     * @param string $message
+     * @return void
+     * @throws \Exception
+     */
     protected function _exception($message)
     {
         $inputArgs = func_get_args();
@@ -106,6 +130,11 @@ OPTIONAL PARAMETRS:
         throw new \Exception($this->_usage . $message . "\n\n");
     }
 
+    /**
+     * @param string $string
+     * @param string $module
+     * @return bool
+     */
     protected function _findTranslate($string, $module)
     {
         if (isset($this->_translate[$module][$string])) {
@@ -121,6 +150,9 @@ OPTIONAL PARAMETRS:
         return false;
     }
 
+    /**
+     * @return void
+     */
     public function run()
     {
         $result  = array(

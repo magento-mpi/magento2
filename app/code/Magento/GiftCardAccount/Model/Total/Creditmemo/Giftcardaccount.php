@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Total\Creditmemo;
 
 class Giftcardaccount extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
@@ -16,7 +15,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
      * Collect gift card account totals for credit memo
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return \Magento\GiftCardAccount\Model\Total\Creditmemo\Giftcardaccount
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {

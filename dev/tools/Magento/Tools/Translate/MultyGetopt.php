@@ -17,6 +17,12 @@ require_once BASE_PATH . '/lib/Zend/Console/Getopt.php';
 
 class MultyGetopt extends \Zend_Console_Getopt {
 
+    /**
+     * @param string $flag
+     * @param string[] &$argv
+     * @return void
+     * @throws \Zend_Console_Getopt_Exception
+     */
     protected function _parseSingleOption($flag, &$argv)
     {
             if ($this->_getoptConfig[self::CONFIG_IGNORECASE]) {
@@ -61,12 +67,7 @@ class MultyGetopt extends \Zend_Console_Getopt {
             } else {
                 $this->_options[$realFlag] = $param;
             }
-
-
     }
-
-
-
 }
 
 ?>

@@ -27,6 +27,7 @@ class EndToEndCETests
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\EditConfigurableTest');
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
         // Bundle
@@ -39,6 +40,10 @@ class EndToEndCETests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
+
+        // Shopping Cart
+        // Simple product with recurring payment
+        $suite->addTestSuite('Magento\RecurringPayment\Test\TestCase\RecurringPaymentTest');
 
         // Product search
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
@@ -71,6 +76,9 @@ class EndToEndCETests
 
         // Layered navigation
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
+
+        // Assign products to a category
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\AssignProductTest');
 
         return $suite;
     }

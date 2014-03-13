@@ -38,7 +38,7 @@ class Page extends DataFixture
      *
      * @return string
      */
-    public function getPageIdentifier()
+    public function getIdentifier()
     {
         return $this->getData('fields/identifier/value');
     }

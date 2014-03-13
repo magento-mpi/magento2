@@ -821,6 +821,7 @@ abstract class AbstractAdapter
      * Should initialize _client
      *
      * @param array $options
+     * @return SolrClient|\Magento\Search\Model\Client\Solr
      */
     abstract protected function _connect($options = array());
 
@@ -829,11 +830,14 @@ abstract class AbstractAdapter
      *
      * @param string $query
      * @param array $params
+     * @return array
      */
     abstract protected function _search($query, $params = array());
 
     /**
      * Checks if Solr server is still up
+     *
+     * @return bool
      */
     abstract public function ping();
 
@@ -841,6 +845,7 @@ abstract class AbstractAdapter
      * Retrieve language code by specified locale code if this locale is supported
      *
      * @param string $localeCode
+     * @return false|string
      */
     abstract protected function _getLanguageCodeByLocaleCode($localeCode);
 

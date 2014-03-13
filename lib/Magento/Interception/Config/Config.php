@@ -3,7 +3,7 @@
  * Interception config. Responsible for providing list of plugins configured for instance
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -59,6 +59,13 @@ class Config implements \Magento\Interception\Config
      * @var array
      */
     protected $_intercepted = array();
+
+    /**
+     * List of class types that can not be pluginized
+     *
+     * @var array
+     */
+    protected $_serviceClassTypes = array('Proxy', 'Interceptor');
 
     /**
      * @param \Magento\Config\ReaderInterface $reader
@@ -124,12 +131,15 @@ class Config implements \Magento\Interception\Config
                     $this->_intercepted[$type] = true;
                     return true;
                 }
-            } else if (substr($type, -5) != 'Proxy' && $this->_relations->has($type)) {
-                $relations = $this->_relations->getParents($type);
-                foreach ($relations as $relation) {
-                    if ($relation && $this->_inheritInterception($relation)) {
-                        $this->_intercepted[$type] = true;
-                        return true;
+            } else {
+                $parts = explode('\\', $type);
+                if (!in_array(end($parts), $this->_serviceClassTypes) && $this->_relations->has($type)) {
+                    $relations = $this->_relations->getParents($type);
+                    foreach ($relations as $relation) {
+                        if ($relation && $this->_inheritInterception($relation)) {
+                            $this->_intercepted[$type] = true;
+                            return true;
+                        }
                     }
                 }
             }

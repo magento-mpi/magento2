@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect;
 
 /**
  * Class to manipulate with packages
@@ -15,8 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect;
-
 class Packager
 {
     /**
@@ -216,6 +215,7 @@ class Packager
      *
      * @param string $dir
      * @param \Magento\Connect\Ftp $ftp
+     * @return void
      */
     protected function removeEmptyDirectory($dir, $ftp = null)
     {
@@ -265,8 +265,8 @@ class Packager
     /**
      * Uninstall Package over FTP
      *
-     * @param $chanName
-     * @param $package
+     * @param string $chanName
+     * @param string $package
      * @param \Magento\Connect\Singleconfig $cacheObj
      * @param \Magento\Connect\Ftp $ftp
      * @return void

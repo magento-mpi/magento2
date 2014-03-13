@@ -1,0 +1,66 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+//
+// Newsletter subscription
+//--------------------------------------
+
+.block.newsletter {
+    position:relative;
+    z-index: 1;
+    .fieldset {
+        margin:0;
+        padding:0;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .control {
+        .icon-font(
+            @icon-envelope,
+            @_icon-font-size: 35px,
+            @_icon-font-line-height: 33px
+            );
+        &:before {
+            position: absolute;
+        }
+        width:250px;
+    }
+    input {
+        padding-left:35px;
+    }
+    .title {
+        display: none;
+    }
+    .label {
+        .visually-hidden();
+    }
+    .actions {
+        display:inline-block;
+        vertical-align: top;
+    }
+    .action.subscribe {}
+}
+
+.responsive(@break) when (@break = @mobile) {
+    .footer.content .block.newsletter {
+        float: none;
+        .subscribe.form {
+            display: flex;
+        }
+        .fieldset,
+        .control {
+            .box-sizing();
+            width: 90%;
+        }
+        .actions {
+            padding-left: 10px;
+            display: block;
+            vertical-align: top;
+        }
+    }
+}

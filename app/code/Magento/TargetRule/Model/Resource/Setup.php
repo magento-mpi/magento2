@@ -13,7 +13,7 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
     /**
      * @param \Magento\Eav\Model\Entity\Setup\Context $context
-     * @param $resourceName
+     * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory

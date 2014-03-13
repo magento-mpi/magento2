@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Shipment\Track;
 
 /**
  * Flat sales order shipment tracks collection
@@ -16,10 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Shipment\Track;
-
-class Collection
-    extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
+class Collection extends \Magento\Sales\Model\Resource\Order\Collection\AbstractCollection
 {
     /**
      * Event prefix
@@ -45,6 +42,7 @@ class Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -55,7 +53,7 @@ class Collection
      * Set shipment filter
      *
      * @param int $shipmentId
-     * @return \Magento\Sales\Model\Resource\Order\Shipment\Track\Collection
+     * @return $this
      */
     public function setShipmentFilter($shipmentId)
     {

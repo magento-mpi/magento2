@@ -7,15 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
-/**
- * Abstract class for form, coumn and fieldset
- *
- * @category   Magento
- * @package    Magento_Data
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Data\Form;
 
 use Magento\Data\Form\Element\AbstractElement;
@@ -25,6 +16,13 @@ use Magento\Data\Form\Element\Column;
 use Magento\Data\Form\Element\Factory;
 use Magento\Data\Form\Element\Fieldset;
 
+/**
+ * Abstract class for form, coumn and fieldset
+ *
+ * @category   Magento
+ * @package    Magento_Data
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class AbstractForm extends \Magento\Object
 {
     /**
@@ -72,6 +70,7 @@ class AbstractForm extends \Magento\Object
      *
      * Please override this one instead of overriding real __construct constructor
      *
+     * @return void
      */
     protected function _construct()
     {

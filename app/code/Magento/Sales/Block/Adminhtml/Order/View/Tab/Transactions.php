@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
 /**
  * Order transactions tab
@@ -15,13 +16,10 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
-
 class Transactions
     extends \Magento\Sales\Block\Adminhtml\Transactions\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-
     /**
      * Retrieve grid url
      *
@@ -35,6 +33,7 @@ class Transactions
     /**
      * Retrieve grid row url
      *
+     * @param \Magento\Object $item
      * @return string
      */
     public function getRowUrl($item)
@@ -43,9 +42,7 @@ class Transactions
     }
 
     /**
-     * Retrieve tab label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabLabel()
     {
@@ -53,9 +50,7 @@ class Transactions
     }
 
     /**
-     * Retrieve tab title
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getTabTitle()
     {
@@ -63,9 +58,7 @@ class Transactions
     }
 
     /**
-     * Check whether can show tab
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -73,9 +66,7 @@ class Transactions
     }
 
     /**
-     * Check whether tab is hidden
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isHidden()
     {

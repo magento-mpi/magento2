@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report;
 
 /**
  * Shipping report resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report;
-
-class Shipping extends \Magento\Sales\Model\Resource\Report\AbstractReport
+class Shipping extends AbstractReport
 {
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,9 +31,9 @@ class Shipping extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Shipping data
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Shipping
+     * @param string|int|\Zend_Date|array|null $from
+     * @param string|int|\Zend_Date|array|null $to
+     * @return $this
      */
     public function aggregate($from = null, $to = null)
     {
@@ -52,9 +51,9 @@ class Shipping extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate shipping report by order create_at as period
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Shipping
+     * @param string|null $from
+     * @param string|null $to
+     * @return $this
      * @throws \Exception
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
@@ -142,9 +141,9 @@ class Shipping extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate shipping report by shipment create_at as period
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Shipping
+     * @param string|null $from
+     * @param string|null $to
+     * @return $this
      * @throws \Exception
      */
     protected function _aggregateByShippingCreatedAt($from, $to)

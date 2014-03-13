@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
 /**
  * Order Invoices grid
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
-
 class Invoices
     extends \Magento\Backend\Block\Widget\Grid\Extended
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -29,11 +28,15 @@ class Invoices
     protected $_coreRegistry = null;
 
     /**
+     * Order invoice
+     *
      * @var \Magento\Sales\Model\Order\Invoice
      */
     protected $_orderInvoice;
 
     /**
+     * Collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Collection\Factory
      */
     protected $_collectionFactory;
@@ -60,6 +63,11 @@ class Invoices
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -77,6 +85,11 @@ class Invoices
         return 'Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection';
     }
 
+    /**
+     * Apply sorting and filtering to collection
+     *
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create($this->_getCollectionClass())
@@ -97,6 +110,11 @@ class Invoices
         return parent::_prepareCollection();
     }
 
+    /**
+     * Initialize grid columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
@@ -152,6 +170,12 @@ class Invoices
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * Row URL getter
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('sales/order_invoice/view',
@@ -162,6 +186,11 @@ class Invoices
         );
     }
 
+    /**
+     * Grid URL getter
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('sales/*/invoices', array('_current' => true));
@@ -171,21 +200,34 @@ class Invoices
     /**
      * ######################## TAB settings #################################
      */
+
+    /**
+     * {@inheritdoc}
+     */
     public function getTabLabel()
     {
         return __('Invoices');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTabTitle()
     {
         return __('Order Invoices');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isHidden()
     {
         return false;

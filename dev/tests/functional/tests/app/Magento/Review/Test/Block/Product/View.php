@@ -29,7 +29,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $formSelector = 'review-form';
+    protected $formSelector = '#review-form';
 
     /**
      * Review item selector

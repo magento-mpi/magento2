@@ -7,17 +7,18 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Migration\System\Configuration\Logger;
 
 /**
  * Migration logger. Output result print to console
  */
-namespace Magento\Tools\Migration\System\Configuration\Logger;
-
 class Console
     extends \Magento\Tools\Migration\System\Configuration\AbstractLogger
 {
     /**
      * Print logs to console
+     *
+     * @return void
      */
     public function report()
     {

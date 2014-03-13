@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Model\Resource;
 
 /**
@@ -18,6 +17,7 @@ class Country extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {

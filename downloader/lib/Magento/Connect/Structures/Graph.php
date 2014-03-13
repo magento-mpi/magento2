@@ -7,13 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Structures;
+
+use Magento\Connect\Structures\Node;
 
 class Graph
 {
+    /**
+     * @var Node[]
+     */
     protected $_nodes = array();
+
+    /**
+     * @var bool
+     */
     protected $_directed = false;
+
+    /**
+     * @var string
+     */
     protected $_nodeClassName = 'Magento\Connect\Structures\Node';
 
     const ACYCLIC_VISITED_KEY = 'acyclic-test-visited';
@@ -30,7 +42,6 @@ class Graph
         $this->_directed = $directed;
     }
 
-
     /**
      * Is graph directed?
      *
@@ -38,14 +49,15 @@ class Graph
      */
     public function isDirected()
     {
-        return (boolean) $this->_directed;
+        return (bool) $this->_directed;
     }
 
     /**
      * Add node to list
      *
-     * @param \Magento\Connect\Structures\Graph_Node $newNode
+     * @param Node &$newNode
      * @return void
+     * @throws \Exception
      */
     public function addNode(&$newNode)
     {
@@ -63,7 +75,8 @@ class Graph
 
     /**
      * Remove a Node from the Graph
-     * @param  \Magento\Connect\Structures\Graph_Node  $node
+     * @param  Node &$node
+     * @return void
      */
     public function removeNode(&$node)
     {
@@ -72,7 +85,8 @@ class Graph
 
     /**
      * Return set of nodes
-     * @return   array
+     *
+     * @return Node[]
      */
     public function &getNodes()
     {
@@ -81,7 +95,8 @@ class Graph
 
     /**
      * Is asyclic
-     * @return unknown_type
+     *
+     * @return bool
      */
     public function isAcyclic()
     {
@@ -92,11 +107,12 @@ class Graph
     }
 
     /**
-     *
      * This is a variant of Graph::inDegree which does
      * not count nodes marked as visited.
      *
-     * @return integer
+     * @param Node &$node
+     * @param string $metadataKey
+     * @return int
      */
     protected static function _nonVisitedInDegree(&$node, $metadataKey)
     {
@@ -112,7 +128,8 @@ class Graph
 
     /**
      * Is graph acyclic?
-     * @param $graph
+     *
+     * @param Graph &$graph
      * @return bool
      */
     protected static function _isAcyclic(&$graph)
@@ -164,8 +181,7 @@ class Graph
     }
 
     /**
-     *
-     * sort returns the graph's nodes, sorted by topological order.
+     * Sort returns the graph's nodes, sorted by topological order.
      *
      * The result is an array with
      * as many entries as topological levels.
@@ -194,6 +210,10 @@ class Graph
         return $result;
     }
 
+    /**
+     * @param Graph &$graph
+     * @return void
+     */
     protected static function _topologicalSort(&$graph)
     {
         // Mark every node as not visited
@@ -230,5 +250,4 @@ class Graph
             $nodes[$key]->unsetMetadata(self::SORT_VISITED_KEY);
         }
     }
-
 }

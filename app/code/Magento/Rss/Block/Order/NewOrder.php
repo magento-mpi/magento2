@@ -94,6 +94,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
 
     /**
      * @param array $args
+     * @return void
      */
     public function addNewOrderXmlCallback($args)
     {

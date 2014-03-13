@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\App;
+
 use Magento\ObjectManager\Factory;
 
 /**
@@ -16,7 +17,7 @@ use Magento\ObjectManager\Factory;
 class ObjectManager extends \Magento\ObjectManager\ObjectManager
 {
     /**
-     * @var \Magento\App\ObjectManager
+     * @var ObjectManager
      */
     protected static $_instance;
 
@@ -26,7 +27,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
      * TODO: Temporary solution for serialization, should be removed when Serialization problem is resolved
      *
      * @deprecated
-     * @return \Magento\App\ObjectManager
+     * @return ObjectManager
      * @throws \RuntimeException
      */
     public static function getInstance()

@@ -9,7 +9,7 @@
 -->
 <config>
     <event name="catalog_product_collection_before_add_count_to_categories">
-        <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Observer" method="applyCategoryPermissionOnProductCount" />
+        <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Observer" method="applyProductPermissionOnCollection" />
     </event>
     <event name="catalog_product_is_salable_after">
         <observer name="magento_catalogpermissions" instance="Magento\CatalogPermissions\Model\Observer" method="applyIsSalableToProduct" />

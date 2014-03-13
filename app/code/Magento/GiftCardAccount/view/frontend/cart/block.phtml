@@ -16,7 +16,7 @@
     <div class="title"><strong><?php echo __('Gift Cards') ?></strong></div>
     <div class="content">
         <div id="giftcard-balance-lookup"></div>
-        <span id="gc-please-wait" class="load indicator" style="display:none;">
+        <span id="gc-please-wait" class="please-wait load indicator" style="display: none;" data-text="<?php echo __('Please wait, loading...') ?>">
             <span><?php echo __('Please wait, loading...') ?></span>
         </span>
         <form class="form giftcard add" id="giftcard-form" action="<?php echo $this->getUrl('magento_giftcardaccount/cart/add') ?>" method="post"
@@ -50,5 +50,4 @@
             </fieldset>
         </form>
     </div>
-
 </div>

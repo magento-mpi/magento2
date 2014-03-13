@@ -160,6 +160,7 @@ function isFactoryName($class)
  * Transform factory name into a pair of module and name
  *
  * @param string $factoryName
+ * @param array $compositeModules
  * @return array
  */
 function getModuleName($factoryName, $compositeModules = array())

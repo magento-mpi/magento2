@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource;
 
 /**
  * Sales Mysql resource helper model
  */
-namespace Magento\Sales\Model\Resource;
-
-class Helper extends \Magento\Core\Model\Resource\Helper
-    implements \Magento\Sales\Model\Resource\HelperInterface
+class Helper extends \Magento\Core\Model\Resource\Helper implements HelperInterface
 {
     /**
      * @var \Magento\Reports\Model\Resource\Helper
@@ -42,7 +40,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
      * @param array $aggregationAliases
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return \Magento\Sales\Model\Resource\Helper
+     * @return $this
      */
     public function getBestsellersReportUpdateRatingPos($aggregation, $aggregationAliases,
         $mainTable, $aggregationTable

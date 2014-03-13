@@ -208,6 +208,7 @@ class ModuleTranslations
      *
      * @static
      * @param array $config
+     * @return void
      */
     public static function setConfig($config = array())
     {
@@ -227,6 +228,8 @@ class ModuleTranslations
 
     /**
      * Run actions passed from command line
+     *
+     * @return void
      */
     public function run()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address;
 
+use \Magento\Core\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Quote\Address\Rate _getResource()
@@ -39,10 +41,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Quote\Address;
-
-use \Magento\Core\Model\AbstractModel;
-
 class Rate extends AbstractModel
 {
     /**
@@ -50,13 +48,16 @@ class Rate extends AbstractModel
      */
     protected $_address;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Sales\Model\Resource\Quote\Address\Rate');
     }
 
     /**
-     * @return $this|\Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {

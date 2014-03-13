@@ -82,7 +82,7 @@ class Xml implements \Magento\Config\ConverterInterface
     /**
      * Convert schedule cron configurations
      *
-     * @param $jobConfig
+     * @param \DOMElement $jobConfig
      * @return array
      */
     protected function convertCronSchedule(\DOMElement $jobConfig)

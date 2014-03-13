@@ -27,6 +27,7 @@ class EndToEndTests
         // Virtual
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateVirtualTest');
         // Configurable
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\EditConfigurableTest');
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
         // Gift Card
@@ -43,8 +44,8 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
 
         // Shopping Cart
-        // Simple product with recurring profile
-        $suite->addTestSuite('Magento\Payment\Test\TestCase\RecurringProfileTest');
+        // Simple product with recurring payment
+        $suite->addTestSuite('Magento\RecurringPayment\Test\TestCase\RecurringPaymentTest');
 
         // Product search
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
@@ -88,6 +89,9 @@ class EndToEndTests
 
         // Layered navigation
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
+
+        // Assign products to a category
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\AssignProductTest');
 
         return $suite;
     }

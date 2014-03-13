@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml;
 
 /**
  * Adminhtml sales transactions block
@@ -15,10 +16,13 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml;
-
 class Transactions extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_transactions';
@@ -27,5 +31,4 @@ class Transactions extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

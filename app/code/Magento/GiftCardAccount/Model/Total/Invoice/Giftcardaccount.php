@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Total\Invoice;
 
 class Giftcardaccount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
@@ -16,7 +15,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
      * Collect gift card account totals for invoice
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return \Magento\GiftCardAccount\Model\Total\Invoice\Giftcardaccount
+     * @return $this
      */
     public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
     {

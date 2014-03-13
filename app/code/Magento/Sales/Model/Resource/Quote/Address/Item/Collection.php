@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Quote\Address\Item;
 
 /**
  * Quote addresses collection
@@ -16,13 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Address\Item;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set parent items
      *
-     * @return \Magento\Sales\Model\Resource\Quote\Address\Item\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -53,7 +52,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set address filter
      *
      * @param int $addressId
-     * @return \Magento\Sales\Model\Resource\Quote\Address\Item\Collection
+     * @return $this
      */
     public function setAddressFilter($addressId)
     {

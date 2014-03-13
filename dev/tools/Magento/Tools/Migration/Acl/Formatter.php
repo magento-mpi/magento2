@@ -7,14 +7,14 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\Acl;
 
 class Formatter
 {
     /**
      * @param string $string
-     * @param string $parameters
+     * @param string $paramenters
+     * @return string
      */
     public function parseString($string, $paramenters)
     {

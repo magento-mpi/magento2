@@ -22,6 +22,15 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $moduleConfig
      * @dataProvider checkModuleDependenciesDataProvider
+     */
+    public function testCheckModuleDependenciesDoesNotThrowExceptionIfAllDependenciesAreCorrect(array $moduleConfig)
+    {
+        $this->model->checkModuleDependencies($moduleConfig, array('Module_Three'));
+    }
+
+    /**
+     * @param array $moduleConfig
+     * @dataProvider checkModuleDependenciesDataProvider
      * @expectedException \Exception
      * @expectedExceptionMessage Module 'Module_One' depends on 'Module_Two' that is missing or not active.
      */
@@ -65,15 +74,27 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'moduleConfig' => array(
+                'Module_One' => array(
                     'name' => 'Module_One',
                     'version' => '1.0.0.0',
                     'active' => true,
                     'dependencies' => array(
                         'modules' => array(),
                         'extensions' => array(
-                            'strict' => array(),
-                            'alternatives' => array(),
+                            'strict' => array(
+                                array(
+                                    'name' => 'simplexml',
+                                    'minVersion' => '0.0.0.1',
+                                ),array(
+                                    'name' => 'spl',
+                                ),
+                            ),
+                            'alternatives' => array(
+                                array(
+                                    array('name' => 'dom'),
+                                    array('name' => 'hash'),
+                                ),
+                            ),
                         ),
                     ),
                 ),
