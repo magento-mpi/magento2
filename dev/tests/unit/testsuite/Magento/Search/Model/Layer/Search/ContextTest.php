@@ -56,7 +56,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->model = new Context(
-            $this->searchProviderMock, $this->catalogProviderMock, $this->stateKeyMock, $this->collectionFilterMock,
+            $this->catalogProviderMock, $this->stateKeyMock, $this->collectionFilterMock, $this->searchProviderMock,
             $this->helperMock
         );
     }
