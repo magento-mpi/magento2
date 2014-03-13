@@ -20,11 +20,6 @@ use \Magento\CustomerSegment\Helper\Data;
 class DepersonalizePlugin
 {
     /**
-     * @var \Magento\View\LayoutInterface
-     */
-    protected $layout;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
@@ -45,20 +40,25 @@ class DepersonalizePlugin
     protected $customerSegmentIds;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @var \Magento\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\Http\Context $httpContext
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\App\RequestInterface $request,
+        \Magento\Module\Manager $moduleManager,
         \Magento\App\Http\Context $httpContext
     ) {
-        $this->layout = $layout;
         $this->customerSession = $customerSession;
         $this->request = $request;
+        $this->moduleManager = $moduleManager;
         $this->httpContext = $httpContext;
     }
 
@@ -66,10 +66,17 @@ class DepersonalizePlugin
      * Before layout generate
      *
      * @param \Magento\Core\Model\Layout $subject
+     * @return array
      */
     public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
     {
-        $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
+            $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+        }
+        return array();
     }
 
     /**
@@ -81,7 +88,10 @@ class DepersonalizePlugin
      */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
             $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds);
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
