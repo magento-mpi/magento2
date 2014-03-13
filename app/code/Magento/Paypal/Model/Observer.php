@@ -195,8 +195,8 @@ class Observer
         $methodInstance = $event->getMethodInstance();
         if ($methodInstance instanceof \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement &&
             false == $this->_authorization->isAllowed(
-            'Magento_Paypal::use'
-        )
+                'Magento_Paypal::use'
+            )
         ) {
             $event->getResult()->isAvailable = false;
         }

@@ -79,9 +79,9 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
         return $parentBlock instanceof \Magento\Backend\Block\Template &&
             $parentBlock->getOrderId() &&
             $this->_rmaData->canCreateRma(
-            $parentBlock->getOrder(),
-            true
-        );
+                $parentBlock->getOrder(),
+                true
+            );
     }
 
     /**

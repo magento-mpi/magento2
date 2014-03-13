@@ -193,9 +193,9 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
             $product->getProductUrl() .
             '"><img src="' .
             $this->_imageHelper->init(
-            $product,
-            'thumbnail'
-        )->resize(
+                $product,
+                'thumbnail'
+            )->resize(
             75,
             75
         ) .

@@ -262,8 +262,8 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option &&
                 $this->productTypeConfig->isProductSet(
-                $productTypeOpt->getValue()
-            ) && $productTypeOpt->getProductId()
+                    $productTypeOpt->getValue()
+                ) && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
             }

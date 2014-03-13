@@ -509,8 +509,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $helper = $this->_searchData;
             $searchSuggestionsEnabled = $this->_searchQueryParams != $this->_generalDefaultQuery &&
                 $helper->getSolrConfigData(
-                'server_suggestion_enabled'
-            );
+                    'server_suggestion_enabled'
+                );
             if ($searchSuggestionsEnabled) {
                 $params['solr_params']['spellcheck'] = 'true';
                 $searchSuggestionsCount = (int)$helper->getSolrConfigData('server_suggestion_count');

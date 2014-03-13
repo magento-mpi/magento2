@@ -103,9 +103,9 @@ class Labels extends \Magento\Shipping\Model\Shipping
             !$originStreet1 ||
             !$shipperRegionCode ||
             !$this->_coreStoreConfig->getConfig(
-            Shipment::XML_PATH_STORE_CITY,
-            $shipmentStoreId
-        ) || !$this->_coreStoreConfig->getConfig(
+                Shipment::XML_PATH_STORE_CITY,
+                $shipmentStoreId
+            ) || !$this->_coreStoreConfig->getConfig(
             Shipment::XML_PATH_STORE_ZIP,
             $shipmentStoreId
         ) || !$this->_coreStoreConfig->getConfig(

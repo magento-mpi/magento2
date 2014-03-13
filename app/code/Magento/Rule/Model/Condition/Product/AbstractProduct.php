@@ -282,8 +282,8 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
                 $image .
                 '" alt="" class="v-middle rule-chooser-trigger" title="' .
                 __(
-                'Open Chooser'
-            ) . '" /></a>';
+                    'Open Chooser'
+                ) . '" /></a>';
         }
         return $html;
     }

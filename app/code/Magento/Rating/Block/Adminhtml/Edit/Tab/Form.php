@@ -199,8 +199,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 <div class="messages">
     <div class="message notice">
         <div>' . __(
-            'Please specify a rating title for a store, or we\'ll just use the default value.'
-        ) . '</div>
+    'Please specify a rating title for a store, or we\'ll just use the default value.'
+) . '</div>
     </div>
 </div>
 </div>';

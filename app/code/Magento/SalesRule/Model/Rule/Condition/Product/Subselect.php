@@ -56,9 +56,9 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
             $this->getOperator() .
             '</operator>' .
             parent::asXml(
-            $containerKey,
-            $itemKey
-        );
+                $containerKey,
+                $itemKey
+            );
         return $xml;
     }
 

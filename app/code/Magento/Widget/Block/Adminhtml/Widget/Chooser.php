@@ -186,8 +186,8 @@ class Chooser extends \Magento\Backend\Block\Template
             $chooserId .
             'label">' .
             ($this->getLabel() ? $this->getLabel() : __(
-            'Not Selected'
-        )) .
+                'Not Selected'
+            )) .
             '</label>
             <div id="' .
             $chooserId .

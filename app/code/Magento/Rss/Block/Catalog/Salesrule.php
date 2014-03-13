@@ -106,9 +106,9 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
                 $ruleModel->getDescription() .
                 '<br/>Discount Start Date: ' .
                 $this->formatDate(
-                $ruleModel->getFromDate(),
-                'medium'
-            );
+                    $ruleModel->getFromDate(),
+                    'medium'
+                );
             if ($ruleModel->getToDate()) {
                 $description .= '<br/>Discount End Date: ' . $this->formatDate($ruleModel->getToDate(), 'medium');
             }

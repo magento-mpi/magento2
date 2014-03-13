@@ -124,7 +124,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {

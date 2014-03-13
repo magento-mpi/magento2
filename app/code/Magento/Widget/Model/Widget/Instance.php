@@ -568,8 +568,8 @@ class Instance extends \Magento\Core\Model\AbstractModel
                     '</argument>' .
                     '<argument name="value" xsi:type="string">' .
                     $this->_escaper->escapeHtml(
-                    $value
-                ) . '</argument>' . '</action>';
+                        $value
+                    ) . '</argument>' . '</action>';
             }
         }
         $xml .= '</block></referenceContainer>';

@@ -193,9 +193,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                             "rating_detail",
                             "' .
             $this->getUrl(
-            'catalog/*/ratingItems',
-            array('_current' => true)
-        ) .
+                'catalog/*/ratingItems',
+                array('_current' => true)
+            ) .
             '",
                             {
                                 parameters:Form.serializeElements(elements),

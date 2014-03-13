@@ -40,8 +40,8 @@ class Editable extends AbstractBlock implements RendererInterface
                 $element->getValue() .
                 '"/> ' .
                 htmlspecialchars(
-                $valueName
-            ) . '&nbsp;';
+                    $valueName
+                ) . '&nbsp;';
         } else {
             $html = ' <span class="rule-param"' .
                 ($element->getParamId() ? ' id="' .

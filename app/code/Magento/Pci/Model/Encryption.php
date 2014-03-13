@@ -282,8 +282,8 @@ class Encryption extends \Magento\Encryption\Encryptor
         $crypt = $this->_getCrypt();
         return $this->_keyVersion . ':' . $this->_cipher . ':' . (MCRYPT_MODE_CBC ===
             $crypt->getMode() ? $crypt->getInitVector() . ':' : '') . base64_encode(
-            $crypt->encrypt((string)$data)
-        );
+                $crypt->encrypt((string)$data)
+            );
     }
 
     /**

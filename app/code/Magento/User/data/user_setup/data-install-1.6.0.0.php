@@ -7,7 +7,6 @@
  */
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
 
-
 /**
  * Save administrators group role and rules
  */

@@ -894,8 +894,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
 
                 if ($itemModel->getStatus() === \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED &&
                     $itemModel->getOrigData(
-                    'status'
-                ) !== $itemModel->getStatus()
+                        'status'
+                    ) !== $itemModel->getStatus()
                 ) {
                     $this->setIsSendAuthEmail(1);
                 }

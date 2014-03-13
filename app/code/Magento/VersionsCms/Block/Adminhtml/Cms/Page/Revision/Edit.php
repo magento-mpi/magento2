@@ -157,12 +157,12 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
                 function newVersionAction(e){
                     var versionName = prompt('" .
                 __(
-                'You must specify a new version name.'
-            ) . "', '')
+                    'You must specify a new version name.'
+                ) . "', '')
                     if (versionName == '') {
                         alert('" . __(
-                'Please specify a valid name.'
-            ) .
+    'Please specify a valid name.'
+) .
                 "');
                         e.stopImmediatePropagation();
                     } else if (versionName == null) {

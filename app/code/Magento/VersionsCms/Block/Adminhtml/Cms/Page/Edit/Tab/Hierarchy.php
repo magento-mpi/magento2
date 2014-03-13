@@ -117,8 +117,8 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo(
-                $this->getPage()
-            );
+                    $this->getPage()
+                );
 
             if (is_array($data)) {
                 foreach ($data as $v) {

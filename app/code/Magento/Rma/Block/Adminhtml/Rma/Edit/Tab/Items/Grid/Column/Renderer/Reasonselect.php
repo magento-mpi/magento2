@@ -73,8 +73,8 @@ class Reasonselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\
             '][reason_other]" ' .
             'value="' .
             $this->escapeHtml(
-            $row->getReasonOther()
-        ) .
+                $row->getReasonOther()
+            ) .
             '" ' .
             'maxlength="255" ' .
             'class="input-text ' .
@@ -115,8 +115,8 @@ class Reasonselect extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\
                     ']" ' .
                     'value="' .
                     $this->escapeHtml(
-                    $row->getReasonOther()
-                ) . '" />';
+                        $row->getReasonOther()
+                    ) . '" />';
             } else {
                 $html .= $this->escapeHtml($row->getReasonOther());
             }

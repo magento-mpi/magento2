@@ -93,14 +93,14 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel implements
      *
      * @return \Magento\Sales\Model\Quote
      */
-    abstract function getQuote();
+    abstract public function getQuote();
 
     /**
      * Retrieve address model
      *
      * @return \Magento\Sales\Model\Quote\Address
      */
-    abstract function getAddress();
+    abstract public function getAddress();
 
     /**
      * Retrieve product model object associated with item

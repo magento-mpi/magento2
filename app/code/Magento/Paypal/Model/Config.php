@@ -64,13 +64,13 @@ class Config
 
     const EC_BUTTON_TYPE_MARK = 'ecmark';
 
-    const PAYMENT_MARK_37x23 = '37x23';
+    const PAYMENT_MARK_37X23 = '37x23';
 
-    const PAYMENT_MARK_50x34 = '50x34';
+    const PAYMENT_MARK_50X34 = '50x34';
 
-    const PAYMENT_MARK_60x38 = '60x38';
+    const PAYMENT_MARK_60X38 = '60x38';
 
-    const PAYMENT_MARK_180x113 = '180x113';
+    const PAYMENT_MARK_180X113 = '180x113';
 
     /**#@-*/
     const DEFAULT_LOGO_TYPE = 'wePrefer_150x60';
@@ -1066,13 +1066,13 @@ class Config
             $staticSize = $this->paymentMarkSize;
         }
         switch ($staticSize) {
-            case self::PAYMENT_MARK_37x23:
-            case self::PAYMENT_MARK_50x34:
-            case self::PAYMENT_MARK_60x38:
-            case self::PAYMENT_MARK_180x113:
+            case self::PAYMENT_MARK_37X23:
+            case self::PAYMENT_MARK_50X34:
+            case self::PAYMENT_MARK_60X38:
+            case self::PAYMENT_MARK_180X113:
                 break;
             default:
-                $staticSize = self::PAYMENT_MARK_37x23;
+                $staticSize = self::PAYMENT_MARK_37X23;
         }
         return sprintf(
             'https://www.paypal.com/%s/i/logo/PayPal_mark_%s.gif',

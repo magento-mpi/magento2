@@ -236,10 +236,10 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                     '" border="0" align="left" height="75" width="75"></a></td>' .
                     '<td style="text-decoration:none;">' .
                     $outputHelper->productAttribute(
-                    $product,
-                    $product->getShortDescription(),
-                    'short_description'
-                ) . '<p>';
+                        $product,
+                        $product->getShortDescription(),
+                        'short_description'
+                    ) . '<p>';
 
                 if ($product->getAllowedPriceInRss()) {
                     $description .= $this->getPriceHtml($product, true);

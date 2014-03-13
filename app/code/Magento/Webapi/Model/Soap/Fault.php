@@ -322,8 +322,8 @@ FAULT_MESSAGE;
                     $parameterNode = self::NODE_DETAIL_PARAMETER;
                     $paramsXml .= "<m:{$parameterNode}><m:{$keyNode}>{$parameterName}</m:{$keyNode}><m:{$valueNode}>" .
                         htmlspecialchars(
-                        $parameterValue
-                    ) . "</m:{$valueNode}></m:{$parameterNode}>";
+                            $parameterValue
+                        ) . "</m:{$valueNode}></m:{$parameterNode}>";
                 }
             }
             if (!empty($paramsXml)) {

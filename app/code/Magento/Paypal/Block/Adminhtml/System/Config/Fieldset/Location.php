@@ -198,8 +198,8 @@ class Location extends \Magento\Backend\Block\System\Config\Form\Fieldset
                                 if (isEvent) {
                                     confirmationApproved = confirm(\'' .
             $this->escapeJsQuote(
-            __('There is already another PayPal solution enabled. Enable this solution instead?')
-        ) .
+                __('There is already another PayPal solution enabled. Enable this solution instead?')
+            ) .
             '\');
                                 } else {
                                     paypalConflictsObject.isConflict = true;
@@ -301,25 +301,25 @@ class Location extends \Magento\Backend\Block\System\Config\Form\Fieldset
                 if (paypalConflictsObject.isConflict || paypalConflictsObject.ecMissed) {
                     var notification = \'' .
             $this->escapeJsQuote(
-            __('The following error(s) occured:')
-        ) .
+                __('The following error(s) occured:')
+            ) .
             '\';
                     if (paypalConflictsObject.isConflict) {
                         notification += "\\n  " + \'' .
             $this->escapeJsQuote(
-            __('Some PayPal solutions conflict.')
-        ) .
+                __('Some PayPal solutions conflict.')
+            ) .
             '\';
                     }
                     if (paypalConflictsObject.ecMissed) {
                         notification += "\\n  " + \'' .
             $this->escapeJsQuote(
-            __('PayPal Express Checkout is not enabled.')
-        ) . '\';
+                __('PayPal Express Checkout is not enabled.')
+            ) . '\';
                     }
                     notification += "\\n" + \'' . $this->escapeJsQuote(
-            __('Please re-enable the previously enabled payment solutions.')
-        ) .
+    __('Please re-enable the previously enabled payment solutions.')
+) .
             '\';
                     setTimeout(function() {
                         alert(notification);

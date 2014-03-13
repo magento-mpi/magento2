@@ -136,8 +136,8 @@ class Chooser extends \Magento\Backend\Block\Template
             ' = new Ext.tree.AsyncTreeNode({
                     text: "' .
             __(
-            "Root"
-        ) .
+                "Root"
+            ) .
             '",
                     id: "root",
                     allowDrop: true,
@@ -199,8 +199,8 @@ class Chooser extends \Magento\Backend\Block\Template
             $this->getId() .
             '").innerHTML = "' .
             __(
-            'No nodes are available.'
-        ) . '";
+                'No nodes are available.'
+            ) . '";
             }
             </script>
         ';

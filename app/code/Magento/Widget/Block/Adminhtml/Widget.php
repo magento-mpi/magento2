@@ -41,8 +41,8 @@ class Widget extends \Magento\Backend\Block\Widget\Form\Container
         $this->_formScripts[] = 'wWidget = new WysiwygWidget.Widget(' .
             '"widget_options_form", "select_widget_type", "widget_options", "' .
             $this->getUrl(
-            'adminhtml/*/loadOptions'
-        ) . '", "' . $this->getRequest()->getParam(
+                'adminhtml/*/loadOptions'
+            ) . '", "' . $this->getRequest()->getParam(
             'widget_target_id'
         ) . '");';
     }

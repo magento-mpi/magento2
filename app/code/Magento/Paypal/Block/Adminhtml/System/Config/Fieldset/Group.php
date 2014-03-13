@@ -50,8 +50,8 @@ class Group extends \Magento\Backend\Block\System\Config\Form\Fieldset
             $groupConfig['help_url'] .
             '">' .
             __(
-            'Help'
-        ) . '</a></div>';
+                'Help'
+            ) . '</a></div>';
 
         return $html;
     }

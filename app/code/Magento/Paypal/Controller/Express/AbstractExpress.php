@@ -143,8 +143,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action implements
             } elseif ((!$quoteCheckoutMethod ||
                 $quoteCheckoutMethod != \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER) &&
                 !$this->_objectManager->get(
-                'Magento\Checkout\Helper\Data'
-            )->isAllowedGuestCheckout(
+                    'Magento\Checkout\Helper\Data'
+                )->isAllowedGuestCheckout(
                 $this->_getQuote(),
                 $this->_getQuote()->getStoreId()
             )
