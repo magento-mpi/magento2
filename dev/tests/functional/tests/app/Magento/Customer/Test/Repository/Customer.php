@@ -16,14 +16,14 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class Customer Repository
  *
- * @package Magento\Customer\Test\Fixture
+ * @package Magento\Customer\Test\Repository
  */
 class Customer extends AbstractRepository
 {
     /**
      * The group ID for customer fields
      */
-    const GROUP_CUSTOMER_INFO_TABS_ACCOUNT = 'customer_info_tabs_account';
+    const GROUP_CUSTOMER_INFO_TABS_ACCOUNT = 'account_information';
 
     /**
      * The 'value' key for group entries
@@ -48,7 +48,7 @@ class Customer extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
         $this->_data['default'] = array(
             'config' => $defaultConfig,
@@ -159,10 +159,12 @@ class Customer extends AbstractRepository
                         'input_value' => $groupType[self::INDEX_INPUT_VALUE]
                     ),
                     'password' => array(
-                        'value' => '123123q'
+                        'value' => '123123q',
+                        'group' => null
                     ),
                     'confirmation' => array(
-                        'value' => '123123q'
+                        'value' => '123123q',
+                        'group' => null
                     )
                 ),
                 'address' => array(

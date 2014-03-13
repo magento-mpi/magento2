@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
 /**
  * Adminhtml sales order create sidebar compared block
@@ -15,12 +16,13 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
-
 class Compared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
 {
-
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -28,6 +30,11 @@ class Compared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstr
         $this->setDataId('compared');
     }
 
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Products in Comparison List');
@@ -59,9 +66,14 @@ class Compared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstr
         return $collection;
     }
 
+    /**
+     * Get item id
+     *
+     * @param \Magento\Object $item
+     * @return int
+     */
     public function getItemId($item)
     {
         return $item->getCatalogCompareItemId();
     }
-
 }

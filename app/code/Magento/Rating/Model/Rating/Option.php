@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Model\Rating;
 
 /**
  * Rating option model
@@ -26,21 +27,29 @@
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Model\Rating;
-
 class Option extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Rating\Model\Resource\Rating\Option');
     }
 
+    /**
+     * @return $this
+     */
     public function addVote()
     {
         $this->getResource()->addVote($this);
         return $this;
     }
 
+    /**
+     * @param mixed $id
+     * @return $this
+     */
     public function setId($id)
     {
         $this->setOptionId($id);

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -735,7 +734,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Retrieve formatting date
      *
-     * @param   string $date
+     * @param   \Zend_Date|string|null $date
      * @param   string $format
      * @param   bool $showTime
      * @return  string
@@ -749,7 +748,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Retrieve formatting time
      *
-     * @param   string $time
+     * @param   \Zend_Date|string|null $time
      * @param   string $format
      * @param   bool $showDate
      * @return  string

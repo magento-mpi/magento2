@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order\Pdf\Items\Shipment;
 
 /**
@@ -59,6 +58,8 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
 
     /**
      * Draw item line
+     *
+     * @return void
      */
     public function draw()
     {

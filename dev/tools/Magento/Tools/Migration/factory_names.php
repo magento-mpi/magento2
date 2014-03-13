@@ -128,6 +128,7 @@ function getModuleName($factoryName)
  * @param string $suffix
  * @param array &$search
  * @param array &$replace
+ * @return void
  */
 function addReplace($factoryName, $module, $name, $pattern, $suffix, &$search, &$replace)
 {
@@ -155,6 +156,7 @@ function addReplace($factoryName, $module, $name, $pattern, $suffix, &$search, &
  * @param array $search
  * @param array $replace
  * @param mixed $output
+ * @return void
  */
 function replaceAndOutput($file, $search, $replace, $output)
 {

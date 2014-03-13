@@ -22,6 +22,10 @@ class CustomerAddressCurrentService implements \Magento\Customer\Service\V1\Cust
      */
     protected $customerAddressService;
 
+    /**
+     * @param CustomerCurrentService $customerCurrentService
+     * @param CustomerAddressService $customerAddressService
+     */
     public function __construct(
         \Magento\Customer\Service\V1\CustomerCurrentService $customerCurrentService,
         \Magento\Customer\Service\V1\CustomerAddressService $customerAddressService
@@ -33,7 +37,7 @@ class CustomerAddressCurrentService implements \Magento\Customer\Service\V1\Cust
     /**
      * Returns all addresses for current customer
      *
-     * @return array|Dto\Address[]
+     * @return array|Data\Address[]
      */
     public function getCustomerAddresses()
     {
@@ -44,7 +48,7 @@ class CustomerAddressCurrentService implements \Magento\Customer\Service\V1\Cust
     /**
      * Returns default billing address form current customer
      *
-     * @return Dto\Address|null
+     * @return Data\Address|null
      */
     public function getDefaultBillingAddress()
     {
@@ -55,7 +59,7 @@ class CustomerAddressCurrentService implements \Magento\Customer\Service\V1\Cust
     /**
      * Returns default shipping address for current customer
      *
-     * @return Dto\Address|null
+     * @return Data\Address|null
      */
     public function getDefaultShippingAddress()
     {

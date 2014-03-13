@@ -65,12 +65,6 @@ class CurlTransport implements CurlInterface
             curl_setopt($this->_getResource(), $option, $value);
         }
 
-        $verifyPeer = isset($this->_config['verifypeer']) ? : true;
-        curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYPEER, $verifyPeer);
-
-        $verifyHost = isset($this->_config['verifyhost']) ? : 2;
-        curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYHOST, $verifyHost);
-
         if (empty($this->_config)) {
             return $this;
         }

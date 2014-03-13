@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry search form
@@ -14,10 +15,11 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Form extends \Magento\View\Element\Template
 {
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
@@ -62,7 +64,7 @@ class Form extends \Magento\View\Element\Template
      * Retrieve by key saved in session form data
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {
@@ -89,7 +91,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * Select element for choosing registry type
      *
-     * @return array
+     * @return string
      */
     public function getTypeSelectHtml()
     {

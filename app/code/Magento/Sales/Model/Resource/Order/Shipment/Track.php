@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Shipment;
 
 /**
  * Flat sales order shipment comment resource
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Shipment;
-
 class Track extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
@@ -30,6 +28,7 @@ class Track extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Archive\Helper;
 
 /**
 * Helper class that simplifies files stream reading and writing
@@ -15,8 +16,6 @@
 * @package     Magento_Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-namespace Magento\Archive\Helper;
-
 class File
 {
     /**
@@ -83,6 +82,7 @@ class File
      *
      * @param string $mode
      * @param int $chmod
+     * @return void
      * @throws \Magento\Exception
      */
     public function open($mode = 'w+', $chmod = 0666)
@@ -116,6 +116,7 @@ class File
      * Write data to file
      *
      * @param string $data
+     * @return void
      */
     public function write($data)
     {
@@ -127,7 +128,7 @@ class File
      * Read data from file
      *
      * @param int $length
-     * @return string|boolean
+     * @return string|bool
      */
     public function read($length = 4096)
     {
@@ -143,7 +144,7 @@ class File
     /**
      * Check whether end of file reached
      *
-     * @return boolean
+     * @return bool
      */
     public function eof()
     {
@@ -153,6 +154,8 @@ class File
 
     /**
      * Close file
+     *
+     * @return void
      */
     public function close()
     {
@@ -166,6 +169,7 @@ class File
      * Implementation of file opening
      *
      * @param string $mode
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _open($mode)
@@ -181,6 +185,7 @@ class File
      * Implementation of writing data to file
      *
      * @param string $data
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _write($data)
@@ -196,6 +201,7 @@ class File
      * Implementation of file reading
      *
      * @param int $length
+     * @return string|false
      * @throws \Magento\Exception
      */
     protected function _read($length)
@@ -212,7 +218,7 @@ class File
     /**
      * Implementation of EOF indicator
      *
-     * @return boolean
+     * @return bool
      */
     protected function _eof()
     {
@@ -221,6 +227,8 @@ class File
 
     /**
      * Implementation of file closing
+     *
+     * @return void
      */
     protected function _close()
     {
@@ -231,6 +239,7 @@ class File
      * Check whether requested mode is writable mode
      *
      * @param string $mode
+     * @return int|false
      */
     protected function _isWritableMode($mode)
     {
@@ -238,10 +247,11 @@ class File
     }
 
     /**
-    * Check whether requested mode is readable mode
-    *
-    * @param string $mode
-    */
+     * Check whether requested mode is readable mode
+     *
+     * @param string $mode
+     * @return bool
+     */
     protected function _isReadableMode($mode) {
         return !$this->_isWritableMode($mode);
     }
@@ -249,6 +259,7 @@ class File
     /**
      * Check whether file is opened
      *
+     * @return void
      * @throws \Magento\Exception
      */
     protected function _checkFileOpened()

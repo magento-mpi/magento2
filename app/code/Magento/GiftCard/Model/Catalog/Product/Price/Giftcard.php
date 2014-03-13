@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Catalog\Product\Price;
 
 class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
@@ -68,7 +67,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Retrieve product final price
      *
-     * @param integer $qty
+     * @param int $qty
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
@@ -91,6 +90,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * Load and set gift card amounts into product object
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return array
      */
     public function getAmounts($product)
     {

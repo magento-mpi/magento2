@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftCardAccount\Model\Resource;
 
 /**
  * GiftCard account resource model
@@ -16,13 +16,12 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model\Resource;
-
 class Giftcardaccount extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table  and primary key field
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -54,7 +53,7 @@ class Giftcardaccount extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param array $ids
      * @param int $state
-     * @return \Magento\GiftCardAccount\Model\Resource\Giftcardaccount
+     * @return $this
      */
     public function updateState($ids, $state)
     {

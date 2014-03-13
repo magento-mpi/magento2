@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 /**
  * Adminhtml customer view gift registry items block
  */
-namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
-
 class Items
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -47,6 +46,9 @@ class Items
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -56,6 +58,9 @@ class Items
         $this->setFilterVisibility(false);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->itemFactory->create()->getCollection()
@@ -66,6 +71,9 @@ class Items
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
@@ -131,6 +139,7 @@ class Items
     /**
      * Return grid row url
      *
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

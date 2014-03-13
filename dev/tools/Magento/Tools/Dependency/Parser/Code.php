@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Parser;
 
 use Magento\Tools\Dependency\ParserInterface;
@@ -73,6 +72,7 @@ class Code implements ParserInterface
      * Template method. Check passed options step
      *
      * @param array $options
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function checkOptions($options)

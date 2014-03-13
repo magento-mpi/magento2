@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order address resource
  */
-namespace Magento\Sales\Model\Resource\Order;
-
-class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Address extends AbstractOrder
 {
     /**
      * Event prefix
@@ -47,6 +46,8 @@ class Address extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer;
 
+use Magento\Sales\Model\Order\Item;
 
 /**
  * Adminhtml sales order item renderer
@@ -15,16 +17,18 @@
  * @category   Magento
  * @package    Magento_Sales
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer;
-
 class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {
     /**
+     * Message helper
+     *
      * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_messageHelper;
 
     /**
+     * Checkout helper
+     *
      * @var \Magento\Checkout\Helper\Data
      */
     protected $_checkoutHelper;
@@ -50,6 +54,11 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         parent::__construct($context, $productFactory, $registry, $data);
     }
 
+    /**
+     * Get order item
+     *
+     * @return Item
+     */
     public function getItem()
     {
         return $this->_getData('item');
@@ -58,7 +67,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Retrieve real html id for field
      *
-     * @param string $name
+     * @param string $id
      * @return string
      */
     public function getFieldId($id)
@@ -79,7 +88,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Indicate that block can display container
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayContainer()
     {
@@ -153,7 +162,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Initialize gift message for entity
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -212,7 +221,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Indicates that block can display giftmessages form
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplayGiftmessage()
     {
@@ -224,7 +233,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Display susbtotal price including tax
      *
-     * @param \Magento\Sales\Model\Order\Item $item
+     * @param Item $item
      * @return string
      */
     public function displaySubtotalInclTax($item)
@@ -238,7 +247,7 @@ class DefaultRenderer extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Display item price including tax
      *
-     * @param \Magento\Sales\Model\Order\Item $item
+     * @param Item|\Magento\Object $item
      * @return string
      */
     public function displayPriceInclTax(\Magento\Object $item)

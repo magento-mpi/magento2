@@ -15,7 +15,7 @@ interface CustomerCurrentServiceInterface
     /**
      * Returns current customer according to session and context
      *
-     * @return Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer
      */
     public function getCustomer();
 
@@ -25,4 +25,4 @@ interface CustomerCurrentServiceInterface
      * @return int|null
      */
     public function getCustomerId();
-} 
+}

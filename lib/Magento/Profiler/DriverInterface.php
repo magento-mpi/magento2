@@ -18,6 +18,7 @@ interface DriverInterface
      *
      * @param string $timerId
      * @param array|null $tags
+     * @return void
      */
     public function start($timerId, array $tags = null);
 
@@ -25,6 +26,7 @@ interface DriverInterface
      * Stop timer
      *
      * @param string $timerId
+     * @return void
      */
     public function stop($timerId);
 
@@ -32,6 +34,7 @@ interface DriverInterface
      * Clear collected statistics for specified timer or for whole profiler if timer name is omitted.
      *
      * @param string|null $timerId
+     * @return void
      */
     public function clear($timerId = null);
 }

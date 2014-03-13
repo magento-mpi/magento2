@@ -31,7 +31,7 @@
         <word>BannerCustomerSegment</word>
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
-        <word>CustomAttribute</word>
+        <word>CustomAttributeManagement</word>
         <word>CustomerCustomAttributes</word>
         <word>CustomerSegment</word>
         <word>CustomerBalance</word>
@@ -74,6 +74,10 @@
         <word>TargetRule</word>
         <word>VersionsCms</word>
         <word>WebsiteRestriction</word>
+        <!-- Removed modules -->
+        <word>Magento/GoogleCheckout</word>
+        <word>Magento\GoogleCheckout</word>
+        <word>Magento_GoogleCheckout</word>
     </words>
     <whitelist>
         <item>
@@ -184,7 +188,7 @@
             <word>BannerCustomerSegment</word>
             <word>CatalogEvent</word>
             <word>CatalogPermissions</word>
-            <word>CustomAttribute</word>
+            <word>CustomAttributeManagement</word>
             <word>CustomerCustomAttributes</word>
             <word>CustomerSegment</word>
             <word>CustomerBalance</word>
@@ -403,6 +407,13 @@
             <path>dev/tests/functional/testsuites/</path>
         </item>
         <item>
+            <!-- Skip all words in CE check for docs temporary -->
+            <path>pub/lib/css/docs/</path>
+        </item>
+        <item>
+            <path>dev/tools/Magento/Tools/css_docs</path>
+        </item>
+        <item>
             <path>app/code/Magento/Core/etc/di.xml</path>
             <word>CHANGELOG</word>
         </item>
@@ -518,6 +529,13 @@
         <item>
             <word>Magento\Rma</word>
             <path>app/code/Magento/Usps/etc/adminhtml/di.xml</path>
+        </item>
+        <item>
+            <!-- License replacement tool does not process license placeholders which are used for test case generation -->
+            <word>{copyright}</word>
+            <word>{license_link}</word>
+            <word>{license_notice}</word>
+            <path>dev/tests/functional/lib/Mtf/Util/Generate/TestCase.php</path>
         </item>
     </whitelist>
 </config>

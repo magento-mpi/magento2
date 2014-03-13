@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 use Magento\Tools\I18n\Code\Context;
@@ -43,6 +42,8 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Template method
+     *
+     * @return void
      */
     abstract protected function _parse();
 
@@ -59,6 +60,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param string $phrase
      * @param string|int $line
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function _addPhrase($phrase, $line = '')

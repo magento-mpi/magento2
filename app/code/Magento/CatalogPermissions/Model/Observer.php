@@ -33,10 +33,6 @@ use Magento\Sales\Model\Quote\Item;
 
 class Observer
 {
-    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
-    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/magento_catalogpermissions/grant_catalog_product_price';
-    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'catalog/magento_catalogpermissions/grant_checkout_items';
-
     /**
      * Is in product queue flag
      *
@@ -198,23 +194,6 @@ class Observer
 
         $observer->getEvent()->getTree()->addInactiveCategoryIds($categoryIds);
 
-        return $this;
-    }
-
-    /**
-     * Applies permissions on product count for categories
-     *
-     * @param EventObserver $observer
-     * @return $this
-     */
-    public function applyCategoryPermissionOnProductCount(EventObserver $observer)
-    {
-        if (!$this->_permissionsConfig->isEnabled()) {
-            return $this;
-        }
-
-        $collection = $observer->getEvent()->getCollection();
-        $this->_permissionIndex->addIndexToProductCount($collection, $this->_getCustomerGroupId());
         return $this;
     }
 

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order creditmemo resource
@@ -16,9 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order;
-
-class Creditmemo extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Creditmemo extends AbstractOrder
 {
     /**
      * Event prefix
@@ -51,6 +49,7 @@ class Creditmemo extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -60,7 +59,7 @@ class Creditmemo extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Init virtual grid records for entity
      *
-     * @return \Magento\Sales\Model\Resource\Order\Creditmemo
+     * @return $this
      */
     protected function _initVirtualGridColumns()
     {

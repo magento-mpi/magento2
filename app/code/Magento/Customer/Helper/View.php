@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Helper;
 
 /**
@@ -13,7 +12,9 @@ namespace Magento\Customer\Helper;
  */
 class View extends \Magento\App\Helper\AbstractHelper
 {
-    /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     */
     protected $_customerMetadataService;
 
     /**
@@ -33,10 +34,10 @@ class View extends \Magento\App\Helper\AbstractHelper
     /**
      * Concatenate all customer name parts into full customer name.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @param \Magento\Customer\Service\V1\Data\Customer $customerData
      * @return string
      */
-    public function getCustomerName(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    public function getCustomerName(\Magento\Customer\Service\V1\Data\Customer $customerData)
     {
         $name = '';
         $prefixMetadata = $this->_customerMetadataService->getAttributeMetadata('customer', 'prefix');

@@ -12,7 +12,7 @@
 
 namespace Magento\Backend\Test\Handler\Ui;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 
@@ -27,10 +27,10 @@ class LogoutUser extends Ui
     /**
      * Logout admin user
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed|string
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $homePage = Factory::getPageFactory()->getAdminDashboard();
         $headerBlock = $homePage->getAdminPanelHeader();

@@ -33,6 +33,7 @@ abstract class HelperFactory
     /**
      * Create resource helper instance
      *
+     * @return void
      */
     public function create()
     {

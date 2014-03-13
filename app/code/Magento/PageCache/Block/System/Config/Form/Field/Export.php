@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Block\System\Config\Form\Field;
+
+use Magento\App\ConfigInterface;
+use Magento\Backend\Block\Template\Context;
 
 /**
  * Class Export
@@ -16,15 +18,20 @@ namespace Magento\PageCache\Block\System\Config\Form\Field;
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var ConfigInterface
      */
     protected $config;
 
+    /**
+     * @param Context $context
+     * @param ConfigInterface $config
+     * @param array $data
+     */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\App\ConfigInterface $config,
+        Context $context,
+        ConfigInterface $config,
         array $data = array()
-    ){
+    ) {
         $this->config = $config;
         parent::__construct($context, $data);
     }

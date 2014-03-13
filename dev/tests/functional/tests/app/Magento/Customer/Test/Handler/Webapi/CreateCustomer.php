@@ -12,7 +12,7 @@
 
 namespace Magento\Customer\Test\Handler\Webapi;
 
-use Mtf\Fixture;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Webapi;
 use Mtf\Util\Protocol\SoapTransport;
 
@@ -26,10 +26,10 @@ class CreateCustomer extends Webapi
     /**
      * Create customer through request
      *
-     * @param Fixture $fixture [optional]
+     * @param FixtureInterface $fixture [optional]
      * @return mixed
      */
-    public function execute(Fixture $fixture = null)
+    public function persist(FixtureInterface $fixture = null)
     {
         $configuration = $this->_configuration->getConfigParam('handler/webapi');
 

@@ -30,7 +30,7 @@ class Page extends DataFixture
      */
     public function getPageTitle()
     {
-        return $this->getData('fields/page_title/value');
+        return $this->getData('fields/title/value');
     }
 
     /**
@@ -38,9 +38,9 @@ class Page extends DataFixture
      *
      * @return string
      */
-    public function getPageIdentifier()
+    public function getIdentifier()
     {
-        return $this->getData('fields/page_identifier/value');
+        return $this->getData('fields/identifier/value');
     }
 
     /**
@@ -50,7 +50,7 @@ class Page extends DataFixture
      */
     public function getPageContent()
     {
-        return $this->getData('fields/page_content/value');
+        return $this->getData('fields/content/value');
     }
 
     /**

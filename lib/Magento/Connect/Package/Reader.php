@@ -46,7 +46,6 @@ class Reader
      * Constructor initializes $_file.
      *
      * @param string $file
-     * @return $this
      */
     public function __construct($file='')
     {

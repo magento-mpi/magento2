@@ -1,3 +1,64 @@
+* Cache:
+  * Depersonalize private content generation
+  * Content invalidation
+  * Added Edge side includes(ESI) supporting
+  * Added Built-in caching application
+* Themes update:
+  * LESS styles library added in pub/lib/css/
+  * New Blank theme set as default
+* GitHub requests:
+  * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
+  * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
+  * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
+  * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
+  * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
+  * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
+  * [#499] (https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
+* Fixed bugs:
+  * Fixed transaction rollback in fetchNewIncrementId on exception
+  * Fixed category saveing when it has more than 1000 products
+  * Fixed error messages displayed during installation when required extensions are not installed
+  * Fixed synopsis of install.php script
+  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
+  * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
+  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
+  * Fixed ability to reset password for customer from backend (MAGETWO-20164)
+  * Fixed ability to download backup (MAGETWO-21353)
+  * Fixed possibility of XSS injection in the Integration re-authorization flow
+  * Fixed cancellation of the Billing Agreement from backend
+  * Fixed debug section in the developer settings
+  * Fixed unreliable implementation of fetching authorization header via SOAP
+  * Fixed WSDL generation error reporting issues
+  * Fixed correct order Recurring Profile tab in Account Customer on frontend (MAGETWO-20706)
+  * Fixed displaying an image on recurring profile page (MAGETWO-21375)
+  * Fixed ability to edit Product Template (MAGETWO-21757)
+  * Fixed duplicated shipping method options (MAGETWO-20055)
+  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
+  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
+  * Fixed JS/CSS merging functionality (MAGETWO-21924)
+  * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
+* Modularity improvements:
+  * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
+  * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
+  * Eliminate dependencies to Customer Models/Blocks from Sales Module
+  * Renamed RecurringProfile to RecurringPayment module (MAGETWO-21456)
+  * Resolved dependencies between Email Templates functionality and other modules
+  * Core module lib-only depended components moved to library
+  * CSS url resolving logic moved from publisher to separate css pre-processor
+  * View publisher re-factored
+* Framework Improvements:
+  * Added restrictions on the data populated to the Service Data Object
+  * Renamed Data Transfer Object to the Service Data Object
+  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
+* Customer Service usage:
+  * Tax module refactoring to use customer service layer
+  * Refactored Customer module Adminhtml internal controllers and helper to use customer services
+  * Added and updated customer service APIs
+  * Exposed customer services as REST APIs
+* Indexer implementation:
+  * Implemented a new optimized Product Price Indexer
+* Updated various PHPDoc with the parameter and return types
+
 2.0.0.0-dev68
 =============
 * Cache:

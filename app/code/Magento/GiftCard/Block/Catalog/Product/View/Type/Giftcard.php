@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Catalog\Product\View\Type;
+
+use Magento\Catalog\Model\Product;
 
 class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
 {
@@ -75,6 +76,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @param Product $product
+     * @return array
+     */
     public function getAmountSettingsJson($product)
     {
         $result = array('min'=>0, 'max'=>0);
@@ -89,6 +94,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         return $result;
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function isConfigured($product)
     {
         if (!$product->getAllowOpenAmount() && !$product->getGiftcardAmounts()) {
@@ -97,6 +106,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         return true;
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function isOpenAmountAvailable($product)
     {
         if (!$product->getAllowOpenAmount()) {
@@ -105,6 +118,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         return true;
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function isAmountAvailable($product)
     {
         if (!$product->getGiftcardAmounts()) {
@@ -113,6 +130,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         return true;
     }
 
+    /**
+     * @param Product $product
+     * @return array
+     */
     public function getAmounts($product)
     {
         $result = array();
@@ -123,11 +144,18 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         return $result;
     }
 
+    /**
+     * @return string
+     */
     public function getCurrentCurrency()
     {
         return $this->_storeManager->getStore()->getCurrentCurrencyCode();
     }
 
+    /**
+     * @param Product $product
+     * @return bool|int
+     */
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
@@ -137,6 +165,10 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         }
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function isEmailAvailable($product)
     {
         if ($product->getTypeInstance()->isTypePhysical($product)) {
@@ -145,6 +177,9 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerName()
     {
         $firstName = (string)$this->_customerSession->getCustomer()->getFirstname();
@@ -157,11 +192,17 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerEmail()
     {
         return (string)$this->_customerSession->getCustomer()->getEmail();
     }
 
+    /**
+     * @return int
+     */
     public function getMessageMaxLength()
     {
         return (int) $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);

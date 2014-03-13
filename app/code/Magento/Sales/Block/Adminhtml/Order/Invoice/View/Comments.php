@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Invoice\View;
 
 /**
  * Adminhtml sales shipment comment view block
@@ -16,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Invoice\View;
-
 class Comments extends \Magento\Backend\Block\Text\ListText
 {
     /**

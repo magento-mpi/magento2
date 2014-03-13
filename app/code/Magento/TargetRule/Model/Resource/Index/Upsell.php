@@ -30,6 +30,7 @@ class Upsell extends \Magento\TargetRule\Model\Resource\Index\AbstractIndex
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {

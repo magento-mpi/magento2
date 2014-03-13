@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Block\Product\Compare;
 
 /**
  * Catalog Comapare Products Sidebar Block
@@ -16,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\Compare;
-
 class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     implements \Magento\View\Block\IdentityInterface
 {
@@ -30,6 +28,8 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
     /**
      * Initialize block
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -686,13 +686,13 @@ class Controllers
     }
 
     /**
-     * Custom handler for Recurring Profiles status update
+     * Custom handler for Recurring Payments status update
      *
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @return \Magento\Logging\Model\Event
      */
-    public function postDispatchRecurringProfilesUpdate($config, $eventModel)
+    public function postDispatchRecurringPaymentsUpdate($config, $eventModel)
     {
         $message = '';
         if ($this->_request->getParam('action')) {

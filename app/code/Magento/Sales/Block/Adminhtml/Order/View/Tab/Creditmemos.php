@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
 /**
  * Order Credit Memos grid
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
-
 class Creditmemos
     extends \Magento\Backend\Block\Widget\Grid\Extended
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -60,6 +59,11 @@ class Creditmemos
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -77,7 +81,11 @@ class Creditmemos
         return 'Magento\Sales\Model\Resource\Order\Creditmemo\Grid\Collection';
     }
 
-
+    /**
+     * Apply sorting and filtering to collection
+     *
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create($this->_getCollectionClass())
@@ -97,6 +105,11 @@ class Creditmemos
         return parent::_prepareCollection();
     }
 
+    /**
+     * Initialize grid columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('increment_id', array(
@@ -152,6 +165,12 @@ class Creditmemos
         return $this->_coreRegistry->registry('current_order');
     }
 
+    /**
+     * Row URL getter
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl(
@@ -162,6 +181,11 @@ class Creditmemos
              ));
     }
 
+    /**
+     * Grid URL getter
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('sales/*/creditmemos', array('_current' => true));
@@ -170,21 +194,34 @@ class Creditmemos
     /**
      * ######################## TAB settings #################################
      */
+
+    /**
+     * {@inheritdoc}
+     */
     public function getTabLabel()
     {
         return __('Credit Memos');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTabTitle()
     {
         return __('Order Credit Memos');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isHidden()
     {
         return false;

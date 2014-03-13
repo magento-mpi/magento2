@@ -8,7 +8,10 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Customer\Service\V1\Data\Customer;
+use Magento\Customer\Service\V1\Data\CustomerBuilder;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -23,13 +26,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Registry */
     private $_coreRegistry;
 
-    /** @var  \Magento\Customer\Service\V1\Dto\CustomerBuilder */
+    /** @var  CustomerBuilder */
     private $_customerBuilder;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
-    private $_customerService;
+    /** @var  CustomerAccountServiceInterface */
+    private $_customerAccountService;
 
-    /** @var  \Magento\Customer\Service\V1\CustomerGroupServiceInterface */
+    /** @var  CustomerGroupServiceInterface */
     private $_groupService;
 
     /** @var \Magento\Core\Model\StoreManagerInterface */
@@ -49,9 +52,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 array('storeManager' => $this->_storeManager)
             );
 
-        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Dto\CustomerBuilder');
+        $this->_customerBuilder = $objectManager->get('Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->_coreRegistry = $objectManager->get('Magento\Registry');
-        $this->_customerService = $objectManager->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $this->_customerAccountService = $objectManager
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_groupService = $objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->_block = $objectManager->get('Magento\View\LayoutInterface')
@@ -161,7 +165,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->setLastname('lastname')
             ->setEmail('email@email.com')
             ->create();
-        $id = $this->_customerService->saveCustomer($customer);
+        $id = $this->_customerAccountService->saveCustomer($customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $id);
         $this->assertEquals('Confirmation Not Required', $this->_block->getIsConfirmedStatus());
     }
@@ -249,7 +253,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     private function _createCustomer()
     {
-        /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
         $customer = $this->_customerBuilder->setFirstname('firstname')
             ->setLastname('lastname')
             ->setEmail('email@email.com')
@@ -264,10 +268,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     private function _loadCustomer()
     {
-        $customer = $this->_customerService->getCustomer(1);
+        $customer = $this->_customerAccountService->getCustomer(1);
         $data = ['account' => $customer->__toArray()];
         $this->_context->getBackendSession()->setCustomerData($data);
-        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getCustomerId());
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return $customer;
     }
 }

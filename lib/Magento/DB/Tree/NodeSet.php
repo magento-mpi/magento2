@@ -7,14 +7,12 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\DB\Tree;
 
 /**
  * TODO implements iterators
  *
  */
-namespace Magento\DB\Tree;
-
 class NodeSet implements \Iterator
 {
     /**
@@ -32,7 +30,11 @@ class NodeSet implements \Iterator
      */
     private $_current = 0;
 
-    function __construct() {
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
         $this->_nodes = array();
         $this->_current = 0;
         $this->_currentNode = 0;

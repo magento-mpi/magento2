@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource;
 
 /**
  * Gift registry entity resource model
@@ -16,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource;
-
 class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -30,6 +28,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Assigning eventTable
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -41,7 +40,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Converting some data to internal database format
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -83,7 +82,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object is loaded
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -98,7 +97,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform action after object is saved - saving data to the eventTable
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -142,7 +141,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'website_id')
             ->where($this->getIdFieldName() . ' = :entity_id');
-        return $this->_getReadAdapter()->fetchOne($select,  array(':entity_id' => (int)$entityId));
+        return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => (int)$entityId));
     }
 
     /**
@@ -150,7 +149,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $customerId
      * @param int $entityId
-     * @return \Magento\GiftRegistry\Model\Resource\Entity
+     * @return $this
      */
     public function setActiveEntity($customerId, $entityId)
     {
@@ -171,7 +170,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\GiftRegistry\Model\Entity $object
      * @param int $itemId
-     * @return \Magento\GiftRegistry\Model\Resource\Entity
+     * @return $this
      */
     public function loadByEntityItem($object, $itemId)
     {
@@ -196,7 +195,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\GiftRegistry\Model\Entity $object
      * @param string $urlKey
-     * @return \Magento\GiftRegistry\Model\Resource\Entity
+     * @return $this
      */
     public function loadByUrlKey($object, $urlKey)
     {

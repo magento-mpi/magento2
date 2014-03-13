@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml\Order;
+
+use Magento\Sales\Model\Order;
+use Magento\App\ResponseInterface;
 
 /**
  * Adminhtml sales order creditmemo controller
@@ -15,13 +19,13 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml\Order;
-
 class Creditmemo
     extends \Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo
 {
     /**
      * Get requested items qtys and return to stock flags
+     *
+     * @return array
      */
     protected function _getItemData()
     {
@@ -40,7 +44,7 @@ class Creditmemo
 
     /**
      * Check if creditmeno can be created for order
-     * @param \Magento\Sales\Model\Order $order
+     * @param Order $order
      * @return bool
      */
     protected function _canCreditmemo($order)
@@ -66,7 +70,7 @@ class Creditmemo
     /**
      * Initialize requested invoice instance
      *
-     * @param unknown_type $order
+     * @param Order $order
      * @return bool
      */
     protected function _initInvoice($order)
@@ -87,7 +91,7 @@ class Creditmemo
      * Initialize creditmemo model instance
      *
      * @param bool $update
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return \Magento\Sales\Model\Order\Creditmemo|false
      */
     protected function _initCreditmemo($update = false)
     {
@@ -178,7 +182,9 @@ class Creditmemo
     }
 
     /**
-     * creditmemo information page
+     * Creditmemo information page
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -202,6 +208,8 @@ class Creditmemo
 
     /**
      * Start create creditmemo action
+     *
+     * @return void
      */
     public function startAction()
     {
@@ -212,7 +220,9 @@ class Creditmemo
     }
 
     /**
-     * creditmemo create page
+     * Creditmemo create page
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -237,6 +247,8 @@ class Creditmemo
 
     /**
      * Update items qty action
+     *
+     * @return void
      */
     public function updateQtyAction()
     {
@@ -263,6 +275,8 @@ class Creditmemo
     /**
      * Save creditmemo
      * We can save only new creditmemo. Existing creditmemos are not editable
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -332,6 +346,8 @@ class Creditmemo
 
     /**
      * Cancel creditmemo action
+     *
+     * @return void
      */
     public function cancelAction()
     {
@@ -354,6 +370,8 @@ class Creditmemo
 
     /**
      * Void creditmemo action
+     *
+     * @return void
      */
     public function voidAction()
     {
@@ -376,6 +394,8 @@ class Creditmemo
 
     /**
      * Add comment to creditmemo history
+     *
+     * @return void
      */
     public function addCommentAction()
     {
@@ -417,6 +437,8 @@ class Creditmemo
 
     /**
      * Create pdf for current creditmemo
+     *
+     * @return ResponseInterface|void
      */
     public function printAction()
     {
