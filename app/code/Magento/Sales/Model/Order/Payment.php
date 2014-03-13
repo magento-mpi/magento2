@@ -377,10 +377,10 @@ class Payment extends \Magento\Payment\Model\Info
             if ($message) {
                 $order->addStatusToHistory($order->getStatus(), $message, $isCustomerNotified);
             }
-        // add message to history if order state already declared
+            // add message to history if order state already declared
         } elseif ($order->getState() && ($orderStatus !== $order->getStatus() || $message)) {
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
-        // set order state
+            // set order state
         } elseif ($order->getState() != $orderState || $order->getStatus() != $orderStatus || $message) {
             $order->setState($orderState, $orderStatus, $message, $isCustomerNotified);
         }

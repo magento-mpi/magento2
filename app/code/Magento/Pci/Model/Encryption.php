@@ -243,21 +243,21 @@ class Encryption extends \Magento\Encryption\Encryptor
                 $initVector = $iv ? $iv : false;
                 $keyVersion = (int)$keyVersion;
                 $cryptVersion = self::CIPHER_RIJNDAEL_256;
-            // specified key, specified crypt
+                // specified key, specified crypt
             } elseif (3 === $partsCount) {
                 list($keyVersion, $cryptVersion, $data) = $parts;
                 $keyVersion = (int)$keyVersion;
                 $cryptVersion = (int)$cryptVersion;
-            // no key version = oldest key, specified crypt
+                // no key version = oldest key, specified crypt
             } elseif (2 === $partsCount) {
                 list($cryptVersion, $data) = $parts;
                 $keyVersion = 0;
                 $cryptVersion = (int)$cryptVersion;
-            // no key version = oldest key, no crypt version = oldest crypt
+                // no key version = oldest key, no crypt version = oldest crypt
             } elseif (1 === $partsCount) {
                 $keyVersion = 0;
                 $cryptVersion = self::CIPHER_BLOWFISH;
-            // not supported format
+                // not supported format
             } else {
                 return '';
             }

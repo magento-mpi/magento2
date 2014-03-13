@@ -18,7 +18,7 @@ class Observer
     *
         protected $_indexer;
 
-        /**
+    /**
     * @param \Magento\Index\Model\Indexer $indexer
     */
     public function __construct(\Magento\Index\Model\Indexer $indexer)

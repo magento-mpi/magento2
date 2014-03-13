@@ -1794,7 +1794,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
             $products
         )->setVisibility(
             $this->_productVisibility->getVisibleInSiteIds()
-        /* Price data is added to consider item stock status using price index */
+            /* Price data is added to consider item stock status using price index */
         )->addPriceData()->setPageSize(
             $limit
         )->load();
@@ -2428,10 +2428,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 if ($this->getState() !== self::STATE_COMPLETE) {
                     $this->_setState(self::STATE_COMPLETE, true, '', $userNotification);
                 }
-            /**
-             * Order can be closed just in case when we have refunded amount.
-             * In case of "0" grand total order checking ForcedCanCreditmemo flag
-             */
+                /**
+                * Order can be closed just in case when we have refunded amount.
+                * In case of "0" grand total order checking ForcedCanCreditmemo flag
+                */
             } elseif (floatval(
                 $this->getTotalRefunded()
             ) || !$this->getTotalRefunded() && $this->hasForcedCanCreditmemo()

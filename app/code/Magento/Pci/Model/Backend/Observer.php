@@ -162,7 +162,7 @@ class Observer
             // set first failure date when this is first failure or last first failure expired
             if (1 === $failuresNum || !$firstFailureDate || $now - $firstFailureDate > $lockThreshold) {
                 $updateFirstFailureDate = $now;
-            // otherwise lock user
+                // otherwise lock user
             } elseif ($failuresNum >= $maxFailures) {
                 $updateLockExpires = $now + $lockThreshold;
             }

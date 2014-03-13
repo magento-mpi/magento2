@@ -311,7 +311,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             'is_expired=0'
         )->where(
             "{$field} IS NOT NULL" // expire_at - BEFORE_DAYS < NOW
-        )->where( // eq. expire_at - BEFORE_DAYS < NOW
+        )->where(
+            // eq. expire_at - BEFORE_DAYS < NOW
             "{$field} < ?",
             $expireAtLimit
         )->group(
