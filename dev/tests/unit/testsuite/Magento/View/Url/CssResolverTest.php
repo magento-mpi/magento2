@@ -86,7 +86,12 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
         $sourceNoPatterns = 'li {background: url("https://example.com/absolute.gif");}';
 
         return array(
-            'empty' => array('', function() {}, ''),
+            'empty' => array(
+                '',
+                function () {
+                },
+                ''
+            ),
             'data without patterns' => array($sourceNoPatterns, $callback, $sourceNoPatterns),
             'data with patterns' => array($source, $callback, $result)
         );
