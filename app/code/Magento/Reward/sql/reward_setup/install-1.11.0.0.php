@@ -136,8 +136,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_reward_history', 'reward_id', 'magento_reward', 'reward_id'),
         'reward_id', $installer->getTable('magento_reward'), 'reward_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_reward_history', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_reward_history', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_reward_history', 'website_id', 'store_website', 'website_id'),
         'website_id', $installer->getTable('store_website'), 'website_id',

@@ -68,8 +68,8 @@ $table = $installer->getConnection()
         array('email', 'website_id'))
     ->addIndex($installer->getIdxName('customer_entity', array('website_id')),
         array('website_id'))
-    ->addForeignKey($installer->getFkName('customer_entity', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('customer_entity', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('customer_entity', 'website_id', 'store_website', 'website_id'),
         'website_id', $installer->getTable('store_website'), 'website_id',

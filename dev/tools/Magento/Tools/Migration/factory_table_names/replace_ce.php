@@ -141,7 +141,7 @@ return array(
     'core/layout_update' => 'core_layout_update',
     'core/resource' => 'core_resource',
     'core/session' => 'core_session',
-    'core/store' => 'core_store',
+    'core/store' => 'store',
     'core/store_group' => 'store_group',
     'core/translate' => 'core_translate',
     'core/url_rewrite' => 'core_url_rewrite',

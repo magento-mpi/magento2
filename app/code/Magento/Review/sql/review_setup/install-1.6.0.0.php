@@ -141,8 +141,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('review_detail', 'review_id', 'review', 'review_id'),
         'review_id', $installer->getTable('review'), 'review_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('review_detail', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('review_detail', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Review detail information');
 $installer->getConnection()->createTable($table);
@@ -180,8 +180,8 @@ $table = $installer->getConnection()
         ), 'Store id')
     ->addIndex($installer->getIdxName('review_entity_summary', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('review_entity_summary', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('review_entity_summary', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Review aggregates');
 $installer->getConnection()->createTable($table);
@@ -206,8 +206,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('review_store', 'review_id', 'review', 'review_id'),
         'review_id', $installer->getTable('review'), 'review_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('review_store', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('review_store', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Review Store');
 $installer->getConnection()->createTable($table);

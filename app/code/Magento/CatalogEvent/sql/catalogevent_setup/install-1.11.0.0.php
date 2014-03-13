@@ -71,8 +71,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_catalogevent_event_image', 'event_id', 'magento_catalogevent_event', 'event_id'),
         'event_id', $installer->getTable('magento_catalogevent_event'), 'event_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_catalogevent_event_image', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_catalogevent_event_image', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Catalogevent Event Image');
 $installer->getConnection()->createTable($table);

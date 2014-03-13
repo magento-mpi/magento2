@@ -21,7 +21,7 @@ $tableCoreLayoutLink = $installer->getTable('core_layout_link');
 
 $connection->dropForeignKey(
     $tableCoreLayoutLink,
-    $installer->getFkName('core_layout_link', 'store_id', 'core_store', 'store_id')
+    $installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id')
 );
 
 $connection->dropIndex($tableCoreLayoutLink, $installer->getIdxName(
@@ -48,10 +48,10 @@ $connection->addIndex($tableCoreLayoutLink, $installer->getIdxName(
 ), array('store_id', 'theme_id', 'layout_update_id'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE);
 
 $connection->addForeignKey(
-    $installer->getFkName('core_layout_link', 'store_id', 'core_store', 'store_id'),
+    $installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id'),
     $tableCoreLayoutLink,
     'store_id',
-    $installer->getTable('core_store'),
+    $installer->getTable('store'),
     'store_id',
     \Magento\DB\Ddl\Table::ACTION_CASCADE,
     \Magento\DB\Ddl\Table::ACTION_CASCADE

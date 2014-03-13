@@ -1670,7 +1670,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $fromPart = $this->getSelect()->getPart(\Zend_Db_Select::FROM);
         if (!isset($fromPart['store_index'])) {
             $this->getSelect()->joinLeft(
-                array('store_index' => $this->getTable('core_store')),
+                array('store_index' => $this->getTable('store')),
                 'store_index.store_id = ' . $filters['store_table'] . '.store_id',
                 array()
             );

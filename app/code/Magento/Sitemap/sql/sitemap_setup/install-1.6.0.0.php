@@ -42,8 +42,8 @@ $table = $installer->getConnection()
         ), 'Store id')
     ->addIndex($installer->getIdxName('sitemap', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('sitemap', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('sitemap', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('XML Sitemap');

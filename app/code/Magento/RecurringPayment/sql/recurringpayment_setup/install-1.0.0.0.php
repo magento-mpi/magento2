@@ -123,8 +123,8 @@ $table = $this->getConnection()
     ->addForeignKey($this->getFkName('recurring_payment', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $this->getTable('customer_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($this->getFkName('recurring_payment', 'store_id', 'core_store', 'store_id'),
-        'store_id', $this->getTable('core_store'), 'store_id',
+    ->addForeignKey($this->getFkName('recurring_payment', 'store_id', 'store', 'store_id'),
+        'store_id', $this->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Sales Recurring Payment');
 $this->getConnection()->createTable($table);

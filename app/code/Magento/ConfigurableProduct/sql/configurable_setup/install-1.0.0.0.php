@@ -106,8 +106,8 @@ $table = $installer->getConnection()
         'product_super_attribute_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_product_super_attribute_label', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_product_super_attribute_label', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Super Attribute Label Table');
 $installer->getConnection()->createTable($table);

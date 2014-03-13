@@ -99,7 +99,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $bind  = array('website_id' => $websiteId);
         $where = array('group_id = ?' => $groupId);
-        $this->_getWriteAdapter()->update($this->getTable('core_store'), $bind, $where);
+        $this->_getWriteAdapter()->update($this->getTable('store'), $bind, $where);
         return $this;
     }
 

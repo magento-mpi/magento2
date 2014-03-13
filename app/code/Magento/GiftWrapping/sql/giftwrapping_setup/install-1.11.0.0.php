@@ -70,10 +70,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'magento_giftwrapping_store_attributes',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Gift Wrapping Attribute Table');
 $installer->getConnection()->createTable($table);

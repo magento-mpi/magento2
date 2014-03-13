@@ -25,7 +25,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_store', 'store_id');
+        $this->_init('store', 'store_id');
     }
 
     /**

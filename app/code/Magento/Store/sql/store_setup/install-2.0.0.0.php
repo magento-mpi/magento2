@@ -160,10 +160,10 @@ $table = $connection
 $connection->createTable($table);
 
 /**
- * Create table 'core_store'
+ * Create table 'store'
  */
 $table = $connection
-    ->newTable($installer->getTable('core_store'))
+    ->newTable($installer->getTable('store'))
     ->addColumn(
         'store_id',
         Table::TYPE_SMALLINT,
@@ -231,24 +231,24 @@ $table = $connection
         'Store Activity'
     )
     ->addIndex(
-        $installer->getIdxName('core_store', array('code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+        $installer->getIdxName('store', array('code'), \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
         array('code'),
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
     )
     ->addIndex(
-        $installer->getIdxName('core_store', array('website_id')),
+        $installer->getIdxName('store', array('website_id')),
         array('website_id')
     )
     ->addIndex(
-        $installer->getIdxName('core_store', array('is_active', 'sort_order')),
+        $installer->getIdxName('store', array('is_active', 'sort_order')),
         array('is_active', 'sort_order')
     )
     ->addIndex(
-        $installer->getIdxName('core_store', array('group_id')),
+        $installer->getIdxName('store', array('group_id')),
         array('group_id')
     )
     ->addForeignKey(
-        $installer->getFkName('core_store', 'group_id', 'store_group', 'group_id'),
+        $installer->getFkName('store', 'group_id', 'store_group', 'group_id'),
         'group_id',
         $installer->getTable('store_group'),
         'group_id',
@@ -256,7 +256,7 @@ $table = $connection
         Table::ACTION_CASCADE
     )
     ->addForeignKey(
-        $installer->getFkName('core_store', 'website_id', 'store_website', 'website_id'),
+        $installer->getFkName('store', 'website_id', 'store_website', 'website_id'),
         'website_id',
         $installer->getTable('store_website'),
         'website_id',
@@ -326,7 +326,7 @@ $connection
  */
 $connection
     ->insertForce(
-        $installer->getTable('core_store'),
+        $installer->getTable('store'),
         array(
             'store_id' => 0,
             'code' => 'admin',
@@ -339,7 +339,7 @@ $connection
     );
 $connection
     ->insertForce(
-        $installer->getTable('core_store'),
+        $installer->getTable('store'),
         array(
             'store_id' => 1,
             'code' => 'default',

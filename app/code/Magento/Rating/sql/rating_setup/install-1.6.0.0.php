@@ -215,8 +215,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'rating_id', 'rating', 'rating_id'),
         'rating_id', $installer->getTable('rating'), 'rating_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('rating_option_vote_aggregated', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Rating vote aggregated');
 $installer->getConnection()->createTable($table);
@@ -240,8 +240,8 @@ $table = $installer->getConnection()
         ), 'Store id')
     ->addIndex($installer->getIdxName('rating_store', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('rating_store', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('rating_store', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('rating_store', 'rating_id', 'rating', 'rating_id'),
         'rating_id', $installer->getTable('rating'), 'rating_id',
@@ -274,8 +274,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('rating_title', 'rating_id', 'rating', 'rating_id'),
         'rating_id', $installer->getTable('rating'), 'rating_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('rating_title', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('rating_title', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Rating Title');
 $installer->getConnection()->createTable($table);

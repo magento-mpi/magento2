@@ -59,8 +59,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_banner_content', 'banner_id', 'magento_banner', 'banner_id'),
         'banner_id', $installer->getTable('magento_banner'), 'banner_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_banner_content', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_banner_content', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Banner Content');
 $installer->getConnection()->createTable($table);

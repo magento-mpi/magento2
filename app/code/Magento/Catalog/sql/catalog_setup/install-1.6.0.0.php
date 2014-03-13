@@ -144,10 +144,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_entity_datetime',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Datetime Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -216,8 +216,8 @@ $table = $installer->getConnection()
         ),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_entity_decimal', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_entity_decimal', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Decimal Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -290,10 +290,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_entity_int',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Integer Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -352,8 +352,8 @@ $table = $installer->getConnection()
         $installer->getFkName('catalog_product_entity_text', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_entity_text', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_entity_text', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Text Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -413,8 +413,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_product_entity_varchar', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_product_entity_varchar', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Varchar Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -480,8 +480,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_product_entity_gallery', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_product_entity_gallery', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Gallery Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -590,8 +590,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_category_entity_datetime', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_datetime', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Category Datetime Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -651,8 +651,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_category_entity_decimal', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_decimal', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Category Decimal Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -712,8 +712,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_category_entity_int', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_int', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Category Integer Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -773,8 +773,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_category_entity_text', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_text', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Category Text Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -834,8 +834,8 @@ $table = $installer->getConnection()
         'entity_id', $installer->getTable('catalog_category_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_category_entity_varchar', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_category_entity_varchar', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Category Varchar Attribute Backend Table');
 $installer->getConnection()->createTable($table);
@@ -930,8 +930,8 @@ $table = $installer->getConnection()
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_category_product_index', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_category_product_index', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Category Product Index');
 $installer->getConnection()->createTable($table);
@@ -979,8 +979,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('catalog_compare_item', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_compare_item', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_compare_item', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Compare Table');
 $installer->getConnection()->createTable($table);
@@ -1040,8 +1040,8 @@ $table = $installer->getConnection()
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
-        $installer->getFkName('catalog_product_enabled_index', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        $installer->getFkName('catalog_product_enabled_index', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Visibility Index Table');
 $installer->getConnection()->createTable($table);
@@ -1496,10 +1496,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_entity_media_gallery_value',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Media Gallery Attribute Value Table');
 $installer->getConnection()->createTable($table);
@@ -1607,10 +1607,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_option_price',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Price Table');
 $installer->getConnection()->createTable($table);
@@ -1664,10 +1664,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_option_title',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Title Table');
 $installer->getConnection()->createTable($table);
@@ -1762,10 +1762,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_option_type_price',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Type Price Table');
 $installer->getConnection()->createTable($table);
@@ -1815,8 +1815,8 @@ $table = $installer->getConnection()
         ),
         'option_type_id', $installer->getTable('catalog_product_option_type_value'), 'option_type_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_option_type_title', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_option_type_title', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product Option Type Title Table');
 $installer->getConnection()->createTable($table);
@@ -1986,8 +1986,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('catalog_product_index_eav', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('catalog_product_index_eav', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('catalog_product_index_eav', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product EAV Index Table');
 $installer->getConnection()->createTable($table);
@@ -2046,10 +2046,10 @@ $table = $installer->getConnection()
         $installer->getFkName(
             'catalog_product_index_eav_decimal',
             'store_id',
-            'core_store',
+            'store',
             'store_id'
         ),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Catalog Product EAV Decimal Index Table');
 $installer->getConnection()->createTable($table);

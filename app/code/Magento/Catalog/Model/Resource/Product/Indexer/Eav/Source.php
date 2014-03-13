@@ -123,7 +123,7 @@ class Source
         /**@var $subSelect \Magento\DB\Select*/
         $subSelect = $adapter->select()
             ->from(
-                array('s' => $this->getTable('core_store')),
+                array('s' => $this->getTable('store')),
                 array('store_id', 'website_id')
             )
             ->joinLeft(
@@ -215,7 +215,7 @@ class Source
                 array('pvd' => $this->getTable('catalog_product_entity_varchar')),
                 array('entity_id', 'attribute_id'))
             ->join(
-                array('cs' => $this->getTable('core_store')),
+                array('cs' => $this->getTable('store')),
                 '',
                 array('store_id'))
             ->joinLeft(

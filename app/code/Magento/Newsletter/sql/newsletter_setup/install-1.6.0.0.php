@@ -58,8 +58,8 @@ $table = $installer->getConnection()
         array('customer_id'))
     ->addIndex($installer->getIdxName('newsletter_subscriber', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('newsletter_subscriber', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('newsletter_subscriber', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Newsletter Subscriber');
 $installer->getConnection()->createTable($table);
@@ -215,8 +215,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'queue_id', 'newsletter_queue', 'queue_id'),
         'queue_id', $installer->getTable('newsletter_queue'), 'queue_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('newsletter_queue_store_link', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Newsletter Queue Store Link');
 $installer->getConnection()->createTable($table);

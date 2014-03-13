@@ -55,8 +55,8 @@ $table = $this->getConnection()
     ->addForeignKey($this->getFkName('report_compared_product_index', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $this->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($this->getFkName('report_compared_product_index', 'store_id', 'core_store', 'store_id'),
-        'store_id', $this->getTable('core_store'), 'store_id',
+    ->addForeignKey($this->getFkName('report_compared_product_index', 'store_id', 'store', 'store_id'),
+        'store_id', $this->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Reports Compared Product Index Table');
 $this->getConnection()->createTable($table);
@@ -106,8 +106,8 @@ $table = $this->getConnection()
     ->addForeignKey($this->getFkName('report_viewed_product_index', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $this->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($this->getFkName('report_viewed_product_index', 'store_id', 'core_store', 'store_id'),
-        'store_id', $this->getTable('core_store'), 'store_id',
+    ->addForeignKey($this->getFkName('report_viewed_product_index', 'store_id', 'store', 'store_id'),
+        'store_id', $this->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Reports Viewed Product Index Table');
 $this->getConnection()->createTable($table);

@@ -246,8 +246,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('salesrule_label', 'rule_id', 'salesrule', 'rule_id'),
         'rule_id', $installer->getTable('salesrule'), 'rule_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('salesrule_label', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('salesrule_label', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Salesrule Label');
 $installer->getConnection()->createTable($table);
@@ -351,8 +351,8 @@ $table = $installer->getConnection()
         array('period', 'store_id', 'order_status', 'coupon_code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('coupon_aggregated', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('coupon_aggregated', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('coupon_aggregated', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Coupon Aggregated');
 $installer->getConnection()->createTable($table);
@@ -398,8 +398,8 @@ $table = $installer->getConnection()
         array('period', 'store_id', 'order_status', 'coupon_code'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('coupon_aggregated_order', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('coupon_aggregated_order', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('coupon_aggregated_order', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Coupon Aggregated Order');
 $installer->getConnection()->createTable($table);

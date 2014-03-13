@@ -113,7 +113,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
         $bind    = array(':entity_id' => $orderId);
         $select  = $adapter->select()
             ->from(array('so' => $this->getTable('sales_flat_order')), 'cs.website_id')
-            ->joinInner(array('cs' => $this->getTable('core_store')), 'cs.store_id = so.store_id')
+            ->joinInner(array('cs' => $this->getTable('store')), 'cs.store_id = so.store_id')
             ->where('so.entity_id = :entity_id');
         return $adapter->fetchOne($select, $bind);
     }

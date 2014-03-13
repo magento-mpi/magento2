@@ -57,8 +57,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('paypal_billing_agreement', 'customer_id', 'customer_entity', 'entity_id'),
         'customer_id', $installer->getTable('customer_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('paypal_billing_agreement', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('paypal_billing_agreement', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Sales Billing Agreement');
 $installer->getConnection()->createTable($table);

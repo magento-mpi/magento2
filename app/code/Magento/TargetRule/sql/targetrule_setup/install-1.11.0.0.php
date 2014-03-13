@@ -172,8 +172,8 @@ $table = $installer->getConnection()
         array('product_id'))
     ->addIndex($installer->getIdxName('magento_targetrule_product', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('magento_targetrule_product', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_targetrule_product', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('magento_targetrule_product', 'product_id', 'catalog_product_entity', 'entity_id'),
         'product_id', $installer->getTable('catalog_product_entity'), 'entity_id',
@@ -226,8 +226,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_targetrule_index', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_targetrule_index', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_targetrule_index', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Targetrule Index');
 $installer->getConnection()->createTable($table);
@@ -264,8 +264,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_targetrule_index_related', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_targetrule_index_related', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_targetrule_index_related', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Targetrule Index Related');
 $installer->getConnection()->createTable($table);
@@ -302,8 +302,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_targetrule_index_upsell', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_targetrule_index_upsell', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_targetrule_index_upsell', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Targetrule Index Upsell');
 $installer->getConnection()->createTable($table);
@@ -340,8 +340,8 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('magento_targetrule_index_crosssell', 'entity_id', 'catalog_product_entity', 'entity_id'),
         'entity_id', $installer->getTable('catalog_product_entity'), 'entity_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('magento_targetrule_index_crosssell', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('magento_targetrule_index_crosssell', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Enterprise Targetrule Index Crosssell');
 $installer->getConnection()->createTable($table);

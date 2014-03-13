@@ -117,8 +117,8 @@ $table = $installer->getConnection()
         array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core_layout_link', array('layout_update_id')),
         array('layout_update_id'))
-    ->addForeignKey($installer->getFkName('core_layout_link', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('core_layout_link', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('core_layout_link', 'layout_update_id', 'core_layout_update', 'layout_update_id'),
@@ -179,8 +179,8 @@ $table = $installer->getConnection()
         array('store_id', 'locale', 'string'), array('type' => \Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE))
     ->addIndex($installer->getIdxName('core_translate', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core_translate', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('core_translate', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Translations');
 $installer->getConnection()->createTable($table);
@@ -228,8 +228,8 @@ $table = $installer->getConnection()
         array('id_path'))
     ->addIndex($installer->getIdxName('core_url_rewrite', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core_url_rewrite', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('core_url_rewrite', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Url Rewrites');
 $installer->getConnection()->createTable($table);
@@ -257,8 +257,8 @@ $table = $installer->getConnection()
         ), 'Last Date of Design Activity')
     ->addIndex($installer->getIdxName('design_change', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('design_change', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('design_change', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->setComment('Design Changes');
 $installer->getConnection()->createTable($table);
@@ -315,8 +315,8 @@ $table = $installer->getConnection()
         array('variable_id'))
     ->addIndex($installer->getIdxName('core_variable_value', array('store_id')),
         array('store_id'))
-    ->addForeignKey($installer->getFkName('core_variable_value', 'store_id', 'core_store', 'store_id'),
-        'store_id', $installer->getTable('core_store'), 'store_id',
+    ->addForeignKey($installer->getFkName('core_variable_value', 'store_id', 'store', 'store_id'),
+        'store_id', $installer->getTable('store'), 'store_id',
         \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey($installer->getFkName('core_variable_value', 'variable_id', 'core_variable', 'variable_id'),
         'variable_id', $installer->getTable('core_variable'), 'variable_id',

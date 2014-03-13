@@ -145,7 +145,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 'main_table.website_id = group_table.website_id',
                 array('group_id' => 'group_id', 'group_title' => 'name')
             )->joinLeft(
-                array('store_table' => $this->getTable('core_store')),
+                array('store_table' => $this->getTable('store')),
                 'group_table.group_id = store_table.group_id',
                 array('store_id' => 'store_id', 'store_title' => 'name')
             );
