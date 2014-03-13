@@ -107,7 +107,7 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         return ($phrase[0] == Phrase::QUOTE_DOUBLE ||
             $phrase[0] == Phrase::QUOTE_SINGLE) && $phrase[0] == $phrase[strlen(
-            $phrase
-        ) - 1];
+                $phrase
+            ) - 1];
     }
 }

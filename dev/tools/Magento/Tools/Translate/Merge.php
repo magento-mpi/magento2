@@ -201,12 +201,12 @@ OPTIONAL PARAMETRS:
 -------------------------------------------------------------------------------
 modules on translate file:  ' .
             count(
-            $result['translate_modules']
-        ) . '
+                $result['translate_modules']
+            ) . '
 string on translate file:   ' . $result['translate_string'] . '
 modules on original file:   ' . count(
-            $result['original_modules']
-        ) .
+    $result['original_modules']
+) .
             '
 string on original file:    ' .
             $result['original_string'] .

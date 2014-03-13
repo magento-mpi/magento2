@@ -10,7 +10,6 @@ require_once __DIR__ . '/bootstrap.php';
 use Magento\TestFramework\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
-
 try {
     $console = new \Zend_Console_Getopt(array('directory|d=s' => 'Path to base directory for parsing'));
     $console->parse();

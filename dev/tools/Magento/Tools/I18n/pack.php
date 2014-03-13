@@ -8,7 +8,6 @@
 require __DIR__ . '/bootstrap.php';
 use Magento\Tools\I18n\Code\ServiceLocator;
 
-
 try {
     $console = new \Zend_Console_Getopt(
         array(

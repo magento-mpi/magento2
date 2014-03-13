@@ -10,7 +10,6 @@ $rootDir = realpath(__DIR__ . '/../../../../../');
 use Magento\Tools\Layout\Reference\Processor;
 use Magento\Tools\Layout\Formatter;
 
-
 try {
     $opt = new \Zend_Console_Getopt(
         array(
