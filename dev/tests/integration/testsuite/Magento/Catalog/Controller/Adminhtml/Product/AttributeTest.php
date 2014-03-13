@@ -67,7 +67,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     public function testSaveActionCleanAttributeLabelCache()
     {
         /** @var \Magento\Translation\Model\Resource\String $string */
-        $string = $this->_objectManager->create('Magento\Translation\Model\Resource\Translate\String');
+        $string = $this->_objectManager->create('Magento\Translation\Model\Resource\String');
         $this->assertEquals($this->_translate('string to translate'), 'predefined string translation');
         $string->saveTranslate('string to translate', 'new string translation');
         $postData = $this->_getAttributeData() + array('attribute_id' => 1);
