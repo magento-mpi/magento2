@@ -8,12 +8,12 @@
  */
 namespace Magento\Search\Model\Layer\Search;
 
-use Magento\Catalog\Model\Layer\CollectionFilterInterface;
-use Magento\Catalog\Model\Layer\ContextInterface;
 use Magento\Catalog\Model\Layer\ItemCollectionProviderInterface;
-use Magento\Catalog\Model\Layer\StateKeyInterface;
+use Magento\Catalog\Model\Layer\Search\CollectionFilter;
+use Magento\Catalog\Model\Layer\Search\ItemCollectionProvider as CatalogCollectionProvider;
+use Magento\Catalog\Model\Layer\Search\StateKey;
 
-class Context implements ContextInterface
+class Context extends \Magento\Catalog\Model\Layer\Search\Context
 {
     /**
      * @var \Magento\Search\Helper\Data
@@ -23,16 +23,25 @@ class Context implements ContextInterface
     /**
      * @var ItemCollectionProvider
      */
-    protected $collectionProvider;
+    protected $searchProvider;
 
+    /**
+     * @param ItemCollectionProvider $searchProvider
+     * @param CatalogCollectionProvider $catalogProvider
+     * @param StateKey $stateKey
+     * @param CollectionFilter $collectionFilter
+     * @param \Magento\Search\Helper\Data $helper
+     */
     public function __construct(
-        \Magento\Catalog\Model\Layer\Search\Context $catalogContext,
-        ItemCollectionProvider $collectionProvider,
+        ItemCollectionProvider $searchProvider,
+        CatalogCollectionProvider $catalogProvider,
+        StateKey $stateKey,
+        CollectionFilter $collectionFilter,
         \Magento\Search\Helper\Data $helper
     ) {
-        $this->catalogContext = $catalogContext;
-        $this->collectionProvider = $collectionProvider;
         $this->helper = $helper;
+        $this->searchProvider = $searchProvider;
+        parent::__construct($catalogProvider, $stateKey, $collectionFilter);
     }
 
     /**
@@ -41,24 +50,8 @@ class Context implements ContextInterface
     public function getCollectionProvider()
     {
         if ($this->helper->isThirdPartSearchEngine() && $this->helper->isActiveEngine()) {
-            return $this->collectionProvider;
+            return $this->searchProvider;
         }
-        return $this->catalogContext->getCollectionProvider();
+        return parent::getCollectionProvider();
     }
-
-    /**
-     * @return StateKeyInterface
-     */
-    public function getStateKey()
-    {
-        return $this->catalogContext->getStateKey();
-    }
-
-    /**
-     * @return CollectionFilterInterface
-     */
-    public function getCollectionFilter()
-    {
-        return $this->catalogContext->getCollectionFilter();
-    }
-} 
+}

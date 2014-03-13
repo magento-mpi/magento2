@@ -25,14 +25,14 @@ class Observer
     /**
      * Search catalog layer
      *
-     * @var \Magento\Search\Model\Catalog\Layer
+     * @var \Magento\Catalog\Model\Layer\Category
      */
     protected $_searchCatalogLayer = null;
 
     /**
      * Search search layer
      *
-     * @var \Magento\Search\Model\Search\Layer
+     * @var \Magento\Catalog\Model\Layer\Search
      */
     protected $_searchSearchLayer = null;
 
@@ -86,24 +86,22 @@ class Observer
     protected $_request;
 
     /**
-     * Construct
-     *
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
-     * @param \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Search\Model\Search\Layer $searchSearchLayer
-     * @param \Magento\Search\Model\Catalog\Layer $searchCatalogLayer
+     * @param Resource\RecommendationsFactory $searchRecommendationsFactory
+     * @param \Magento\Catalog\Model\Layer\Search $searchSearchLayer
+     * @param \Magento\Catalog\Model\Layer\Category $searchCatalogLayer
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Search\Model\Source\Weight $sourceWeight
+     * @param Source\Weight $sourceWeight
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Search\Model\Search\Layer $searchSearchLayer,
-        \Magento\Search\Model\Catalog\Layer $searchCatalogLayer,
+        \Magento\Catalog\Model\Layer\Search $searchSearchLayer,
+        \Magento\Catalog\Model\Layer\Category $searchCatalogLayer,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,

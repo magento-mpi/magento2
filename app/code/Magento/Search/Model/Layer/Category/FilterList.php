@@ -30,10 +30,10 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
     ) {
         $this->helper = $helper;
         if ($helper->getIsEngineAvailableForNavigation()) {
-            $this->filterTypes[self::CATEGORY_FILTER]  = 'Magento\Search\Model\Catalog\Layer\Filter\Category';
-            $this->filterTypes[self::ATTRIBUTE_FILTER] = 'Magento\Search\Model\Catalog\Layer\Filter\Attribute';
-            $this->filterTypes[self::PRICE_FILTER]     = 'Magento\Search\Model\Catalog\Layer\Filter\Price';
-            $this->filterTypes[self::DECIMAL_FILTER]   = 'Magento\Search\Model\Catalog\Layer\Filter\Decimal';
+            $this->filterTypes[self::CATEGORY_FILTER]  = 'Magento\Search\Model\Layer\Category\Filter\Category';
+            $this->filterTypes[self::ATTRIBUTE_FILTER] = 'Magento\Search\Model\Layer\Category\Filter\Attribute';
+            $this->filterTypes[self::PRICE_FILTER]     = 'Magento\Search\Model\Layer\Category\Filter\Price';
+            $this->filterTypes[self::DECIMAL_FILTER]   = 'Magento\Search\Model\Layer\Category\Filter\Decimal';
         }
         parent::__construct($objectManager, $filterableAttributes, $filters);
     }
