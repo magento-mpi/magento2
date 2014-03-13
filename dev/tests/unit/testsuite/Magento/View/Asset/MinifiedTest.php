@@ -264,7 +264,11 @@ class MinifiedTest extends \PHPUnit_Framework_TestCase
 
         $this->_staticViewDir->expects($this->any())
             ->method('getAbsolutePath')
-            ->will($this->returnCallback(function($relPath) {return self::STATIC_PATH . '/' . $relPath;}));
+            ->will($this->returnCallback(
+                function ($relPath) {
+                    return self::STATIC_PATH . '/' . $relPath;
+                }
+            ));
 
         $this->_baseUrl->expects($this->any())
             ->method('getBaseUrl')
