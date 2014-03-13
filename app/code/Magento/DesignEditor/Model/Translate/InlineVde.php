@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Translate;
 /**
  * Inline translation specific to Vde.
  */
-class InlineVde implements \Magento\Translation\InlineInterface
+class InlineVde implements \Magento\Translate\InlineInterface
 {
     /**
      * data-translate-mode attribute name
@@ -50,7 +50,7 @@ class InlineVde implements \Magento\Translation\InlineInterface
     protected $_helper;
 
     /**
-     * @var \Magento\Translation\Inline\ParserInterface
+     * @var \Magento\Translate\Inline\ParserInterface
      */
     protected $_parser;
 
@@ -163,7 +163,7 @@ class InlineVde implements \Magento\Translation\InlineInterface
         }
 
         $scope = $this->_scopeResolver->getScope();
-        $ajaxUrl = $this->_url->getUrl('core/ajax/translate', array(
+        $ajaxUrl = $this->_url->getUrl('translation/ajax/index', array(
             '_secure' => $scope->isCurrentlySecure(),
             \Magento\DesignEditor\Helper\Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
         ));

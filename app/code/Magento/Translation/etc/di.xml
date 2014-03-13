@@ -15,7 +15,7 @@
     <type name="Magento\Translate\Inline">
         <arguments>
             <argument name="templateFileName" xsi:type="string">Magento_Translation::translate_inline.phtml</argument>
-            <argument name="translatorRoute" xsi:type="string">core/ajax/translate</argument>
+            <argument name="translatorRoute" xsi:type="string">translation/ajax/index</argument>
             <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
         </arguments>
     </type>

@@ -2,28 +2,25 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Controller;
+namespace Magento\Translation\Controller;
 
 class AjaxTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
-     * @dataProvider translateActionDataProvider
+     * @dataProvider indexActionDataProvider
      */
-    public function testTranslateAction($postData)
+    public function testIndexAction($postData)
     {
         $this->getRequest()->setPost('translate', $postData);
-        $this->dispatch('core/ajax/translate');
+        $this->dispatch('translation/ajax/index');
         $this->assertEquals('{success:true}', $this->getResponse()->getBody());
     }
 
-    public function translateActionDataProvider()
+    public function indexActionDataProvider()
     {
         return array(
             array('test'),

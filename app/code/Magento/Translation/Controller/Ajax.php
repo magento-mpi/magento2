@@ -2,10 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-namespace Magento\Core\Controller;
+namespace Magento\Translation\Controller;
 
 class Ajax extends \Magento\App\Action\Action
 {
@@ -14,7 +14,7 @@ class Ajax extends \Magento\App\Action\Action
      *
      * @return void
      */
-    public function translateAction()
+    public function indexAction()
     {
         $translationParams = (array)$this->getRequest()->getPost('translate');
         $area = $this->getRequest()->getPost('area');

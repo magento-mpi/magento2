@@ -41,7 +41,7 @@ class Order extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Translation\InlineInterface
+     * @var \Magento\Translate\InlineInterface
      */
     protected $_translateInline;
 
@@ -49,13 +49,13 @@ class Order extends \Magento\Backend\App\Action
      * @param Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Translation\InlineInterface $translateInline
+     * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
         Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Translation\InlineInterface $translateInline
+        \Magento\Translate\InlineInterface $translateInline
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;

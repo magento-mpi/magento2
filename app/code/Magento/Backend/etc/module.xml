@@ -28,6 +28,7 @@
             <module name="Magento_User"/>
             <module name="Magento_Cms"/>
             <module name="Magento_Backup"/>
+            <module name="Magento_Translation"/>
             <module name="Magento_Email"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Tax"/>
