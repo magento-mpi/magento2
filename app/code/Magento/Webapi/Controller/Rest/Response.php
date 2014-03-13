@@ -80,9 +80,6 @@ class Response extends \Magento\Webapi\Controller\Response
                 'message' => $maskedException->getMessage(),
                 'http_code' => $maskedException->getHttpCode()
             );
-            if ($maskedException->getCode()) {
-                $messageData['code'] = $maskedException->getCode();
-            }
             if ($maskedException->getDetails()) {
                 $messageData['parameters'] = $maskedException->getDetails();
             }

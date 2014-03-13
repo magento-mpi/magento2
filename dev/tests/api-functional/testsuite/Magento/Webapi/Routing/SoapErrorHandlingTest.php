@@ -43,7 +43,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $e,
                 'Parameterized service exception',
                 'env:Sender',
-                1234,
                 array('key1' => 'value1', 'key2' => 'value2')
             );
         }
@@ -64,8 +63,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $this->_checkSoapFault(
                 $e,
                 'Service not found',
-                'env:Sender',
-                5555
+                'env:Sender'
             );
         }
     }
@@ -87,8 +85,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                 $this->_checkSoapFault(
                     $e,
                     'Non service exception',
-                    'env:Receiver',
-                    5678
+                    'env:Receiver'
                 );
             } else {
                 $this->_checkSoapFault(
@@ -106,7 +103,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param \SoapFault $soapFault
      * @param string $expectedMessage
      * @param string $expectedFaultCode
-     * @param string $expectedErrorCode
      * @param array $expectedErrorParams
      * @param bool $isTraceExpected
      */
@@ -114,7 +110,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $soapFault,
         $expectedMessage,
         $expectedFaultCode,
-        $expectedErrorCode = null,
         $expectedErrorParams = array(),
         $isTraceExpected = false
     ) {
@@ -122,7 +117,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
         $errorDetailsNode = Fault::NODE_DETAIL_WRAPPER;
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
-        if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
+        if (!empty($expectedErrorParams) || $isTraceExpected) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
             $this->_checkFaultParams($expectedErrorParams, $errorDetails);
@@ -139,16 +134,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                     $this->assertFalse(isset($errorDetails->$traceNode), "Exception trace was not expected.");
                 }
             }
-
-            /** Check error code if present*/
-            if ($expectedErrorCode) {
-                $this->assertEquals(
-                    $expectedErrorCode,
-                    $errorDetails->{Fault::NODE_DETAIL_CODE},
-                    "Error code in fault details is invalid."
-                );
-            }
-
         } else {
             $this->assertNull($errorDetails, "Details are not expected.");
         }

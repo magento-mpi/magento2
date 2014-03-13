@@ -22,7 +22,6 @@ class Fault extends \RuntimeException
     /**#@+
      * Nodes that can appear in Detail node of SOAP fault.
      */
-    const NODE_DETAIL_CODE = 'Code';
     const NODE_DETAIL_PARAMETERS = 'Parameters';
     /** Note that parameter node must be unique in scope of all complex types declared in WSDL */
     const NODE_DETAIL_PARAMETER = 'GenericFaultParameter';
@@ -34,9 +33,6 @@ class Fault extends \RuntimeException
 
     /** @var string */
     protected $_soapFaultCode;
-
-    /** @var string */
-    protected $_errorCode;
 
     /**
      * Parameters are extracted from exception and can be inserted into 'Detail' node as 'Parameters'.
@@ -89,7 +85,6 @@ class Fault extends \RuntimeException
         parent::__construct($previousException->getMessage(), $previousException->getCode(), $previousException);
         $this->_soapCode = $previousException->getOriginator();
         $this->_parameters = $previousException->getDetails();
-        $this->_errorCode = $previousException->getCode();
         $this->_application = $application;
         $this->_soapServer = $soapServer;
         $this->_localeResolver = $localeResolver;
@@ -108,9 +103,6 @@ class Fault extends \RuntimeException
         }
         if ($this->getParameters()) {
             $this->addDetails(array(self::NODE_DETAIL_PARAMETERS => $this->getParameters()));
-        }
-        if ($this->getErrorCode()) {
-            $this->addDetails(array(self::NODE_DETAIL_CODE => $this->getErrorCode()));
         }
 
         return $this->getSoapFaultMessage($this->getMessage(), $this->getSoapCode(), $this->getDetails());
@@ -152,16 +144,6 @@ class Fault extends \RuntimeException
                 $this->_faultName = ucfirst($soapAction) . ucfirst($exceptionName) . 'Fault';
             }
         }
-    }
-
-    /**
-     * Retrieve error code.
-     *
-     * @return string|null
-     */
-    public function getErrorCode()
-    {
-        return $this->_errorCode;
     }
 
     /**
@@ -280,8 +262,6 @@ FAULT_MESSAGE;
                 continue;
             }
             switch ($detailNode) {
-                case self::NODE_DETAIL_CODE:
-                    // break is intentionally omitted
                 case self::NODE_DETAIL_TRACE:
                     if (is_string($detailValue) || is_numeric($detailValue)) {
                         $detailsXml .= "<m:$detailNode>" . htmlspecialchars($detailValue) . "</m:$detailNode>";

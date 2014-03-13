@@ -92,7 +92,6 @@ class FaultTest extends \PHPUnit_Framework_TestCase
                             <m:value>2</m:value>
                         </m:GenericFaultParameter>
                     </m:Parameters>
-                    <m:Code>111</m:Code>
                 </m:GenericFault>
             </env:Detail>
         </env:Fault>
@@ -156,7 +155,6 @@ XML;
                 'Sender',
                 array(
                     Fault::NODE_DETAIL_PARAMETERS => array('key1' => 'value1', 'key2' => 'value2', 'value3'),
-                    Fault::NODE_DETAIL_CODE => 333,
                     Fault::NODE_DETAIL_TRACE => 'Trace',
                     'Invalid' => 'This node should be skipped'
                 ),
@@ -236,7 +234,6 @@ XML;
                             <m:value>2</m:value>
                         </m:GenericFaultParameter>
                     </m:Parameters>
-                    <m:Code>{$code}</m:Code>
                 </m:GenericFault>
             </env:Detail>
         </env:Fault>

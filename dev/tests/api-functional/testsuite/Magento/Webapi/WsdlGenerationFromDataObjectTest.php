@@ -557,17 +557,6 @@ GENERIC_FAULT_IN_MESSAGES;
         $genericFaultType = <<< GENERIC_FAULT_COMPLEX_TYPE
 <xsd:complexType name="GenericFault">
     <xsd:sequence>
-        <xsd:element name="Code" minOccurs="1" maxOccurs="1" type="xsd:int">
-            <xsd:annotation>
-                <xsd:documentation>
-                    SOAP fault code, unique for each type of exceptions.
-                </xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
-                    <inf:min/>
-                    <inf:max/>
-                </xsd:appinfo>
-            </xsd:annotation>
-        </xsd:element>
         <xsd:element name="Trace" minOccurs="0" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation>Exception calls stack trace.</xsd:documentation>

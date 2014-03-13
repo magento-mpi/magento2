@@ -403,11 +403,6 @@ class Generator
         );
         $genericFaultTypeData = array(
             'parameters' => array(
-                Fault::NODE_DETAIL_CODE => array(
-                    'type' => 'int',
-                    'required' => true,
-                    'documentation' => 'SOAP fault code, unique for each type of exceptions.',
-                ),
                 Fault::NODE_DETAIL_TRACE => array(
                     'type' => 'string',
                     'required' => false,
