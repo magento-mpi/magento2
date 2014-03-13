@@ -174,7 +174,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
             foreach ($values as $option) {
                 $data['values'][] = array('label' => __($option['label']), 'value' => $option['value']);
             }
-        // otherwise, a source model is specified
+            // otherwise, a source model is specified
         } elseif ($sourceModel = $parameter->getSourceModel()) {
             $data['values'] = $this->_sourceModelPool->get($sourceModel)->toOptionArray();
         }
@@ -185,7 +185,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         // hidden element
         if (!$parameter->getVisible()) {
             $fieldType = 'hidden';
-        // just an element renderer
+            // just an element renderer
         } elseif ($fieldType && $this->_isClassName($fieldType)) {
             $fieldRenderer = $this->getLayout()->createBlock($fieldType);
             $fieldType = $this->_defaultElementType;
