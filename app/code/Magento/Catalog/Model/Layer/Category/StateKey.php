@@ -36,6 +36,8 @@ class StateKey implements StateKeyInterface
     }
 
     /**
+     * Build state key
+     *
      * @param \Magento\Catalog\Model\Category $category
      * @return string
      */

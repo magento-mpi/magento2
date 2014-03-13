@@ -16,13 +16,6 @@
             <argument name="layer" xsi:type="object">Magento\Search\Model\Search\Layer\ItemCollectionProvider</argument>
         </arguments>
     </virtualType>
-    <virtualType name="SearchResultsFilterList" type="Magento\Search\Model\Catalog\Layer\FilterList">
-        <arguments>
-            <argument name="filters" xsi:type="array">
-                <item name="attribute" xsi:type="string">Magento\Search\Model\Search\Layer\Filter\Attribute</item>
-            </argument>
-        </arguments>
-    </virtualType>
     <type name="Magento\Search\Block\Catalogsearch\Layer">
         <arguments>
             <argument name="filterList" xsi:type="object">SearchResultsFilterList</argument>
@@ -80,4 +73,10 @@
             <argument name="context">Magento\Search\Model\Layer\Search\Context</argument>
         </arguments>
     </type>
+    <virtualType name="categoryFilterList" type="Magento\Search\Model\Layer\Category\FilterList"/>
+    <virtualType name="categorySearchList" type="Magento\Search\Model\Layer\Search\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Search\Model\Layer\Search\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
 </config>

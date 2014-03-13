@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Model\Layer;
 
-use Magento\Catalog\Model\Layer\FilterableAttributeListInterface;
 use Magento\Catalog\Model\Layer\Filter;
 
 class FilterList
