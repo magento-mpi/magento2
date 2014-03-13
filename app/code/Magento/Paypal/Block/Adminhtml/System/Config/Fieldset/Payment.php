@@ -106,8 +106,8 @@ class Payment extends \Magento\Backend\Block\System\Config\Form\Fieldset
             ) . '\'); return false;"><span class="state-closed">' . __(
                 'Configure'
             ) . '</span><span class="state-opened">' . __(
-            'Close'
-        ) . '</span></button>';
+                'Close'
+            ) . '</span></button>';
 
         if (!empty($groupConfig['more_url'])) {
             $html .= '<a class="link-more" href="' . $groupConfig['more_url'] . '" target="_blank">' . __(

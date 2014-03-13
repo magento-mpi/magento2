@@ -317,9 +317,10 @@ class Location extends \Magento\Backend\Block\System\Config\Form\Fieldset
                 __('PayPal Express Checkout is not enabled.')
             ) . '\';
                     }
-                    notification += "\\n" + \'' . $this->escapeJsQuote(
-        __('Please re-enable the previously enabled payment solutions.')
-        ) .
+                    notification += "\\n" + \'' .
+                    $this->escapeJsQuote(
+                        __('Please re-enable the previously enabled payment solutions.')
+                    ) .
             '\';
                     setTimeout(function() {
                         alert(notification);

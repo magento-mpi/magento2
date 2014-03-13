@@ -350,8 +350,9 @@ class Validator extends \Magento\Core\Model\AbstractModel
             $baseDiscountAmount = 0;
             $rulePercent = min(100, $rule->getDiscountAmount());
             switch ($rule->getSimpleAction()) {
-                case \Magento\SalesRule\Model\Rule::TO_PERCENT_ACTION:  /* Intentional fall-through */
+                case \Magento\SalesRule\Model\Rule::TO_PERCENT_ACTION:
                     $rulePercent = max(0, 100 - $rule->getDiscountAmount());
+                    // break is intentionally omitted
                 case \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION:
                     $discountAmount = ($shippingAmount - $address->getShippingDiscountAmount()) * $rulePercent / 100;
                     $baseDiscountAmount = ($baseShippingAmount -

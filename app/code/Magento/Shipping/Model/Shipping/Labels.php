@@ -109,9 +109,9 @@ class Labels extends \Magento\Shipping\Model\Shipping
                 Shipment::XML_PATH_STORE_ZIP,
                 $shipmentStoreId
             ) || !$this->_coreStoreConfig->getConfig(
-            Shipment::XML_PATH_STORE_COUNTRY_ID,
-            $shipmentStoreId
-        )
+                Shipment::XML_PATH_STORE_COUNTRY_ID,
+                $shipmentStoreId
+            )
         ) {
             throw new \Magento\Core\Exception(
                 __(
