@@ -77,7 +77,12 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => 'rating_code', 'title' => ''));
+        $this->_uniqueFields = array(
+            array(
+                'field' => 'rating_code',
+                'title' => '' /* __('Rating with the same title')*/
+            )
+        );
         return $this;
     }
 

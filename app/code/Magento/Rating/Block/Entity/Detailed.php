@@ -60,7 +60,7 @@ class Detailed extends \Magento\View\Element\Template
         }
 
         $ratingCollection = $this->_ratingFactory->create()->getResourceCollection()->addEntityFilter(
-            'product'
+            'product' # TOFIX
         )->setPositionOrder()->setStoreFilter(
             $this->_storeManager->getStore()->getId()
         )->addRatingPerStoreName(
