@@ -344,9 +344,9 @@ final class Install extends \Magento\Connect\Command
                             \Magento\Connect\Config::DEFAULT_CACHE_PATH .
                             '/' .
                             trim(
-                            $pChan,
-                            "\\/"
-                        );
+                                $pChan,
+                                "\\/"
+                            );
                         $ftpObj->mkdirRecursive($dir, 0777);
                         $ftpObj->chdir($cwd);
                     } else {
