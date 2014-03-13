@@ -78,7 +78,6 @@ class Navigation extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Layer\FilterList $filterList
      * @param \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $visibilityFlag
-     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -86,13 +85,11 @@ class Navigation extends \Magento\View\Element\Template
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Layer\FilterList $filterList,
         \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $visibilityFlag,
-        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
         $this->filterList = $filterList;
         $this->visibilityFlag = $visibilityFlag;
-        $registry->register('current_layer', $this->getLayer(), true);
         parent::__construct($context, $data);
     }
 

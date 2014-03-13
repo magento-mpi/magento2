@@ -162,10 +162,6 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLayer()
     {
-        $layer = $this->_coreRegistry->registry('current_layer');
-        if ($layer) {
-            return $layer;
-        }
         return $this->_catalogLayer;
     }
 

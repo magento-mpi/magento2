@@ -66,10 +66,6 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
         $layer->expects($this->once())
             ->method('getCurrentCategory')
             ->will($this->returnValue($currentCategory));
-        $this->registryMock->expects($this->once())
-            ->method('registry')
-            ->with('current_layer')
-            ->will($this->returnValue($layer));
 
         $this->assertEquals(
             array($categoryTag, $productTag),

@@ -23,20 +23,6 @@ class Observer
     protected $_indexer;
 
     /**
-     * Search catalog layer
-     *
-     * @var \Magento\Catalog\Model\Layer\Category
-     */
-    protected $_searchCatalogLayer = null;
-
-    /**
-     * Search search layer
-     *
-     * @var \Magento\Catalog\Model\Layer\Search
-     */
-    protected $_searchSearchLayer = null;
-
-    /**
      * Search recommendations factory
      *
      * @var \Magento\Search\Model\Resource\RecommendationsFactory
@@ -88,8 +74,6 @@ class Observer
     /**
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
      * @param Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Catalog\Model\Layer\Search $searchSearchLayer
-     * @param \Magento\Catalog\Model\Layer\Category $searchCatalogLayer
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
@@ -100,8 +84,6 @@ class Observer
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Catalog\Model\Layer\Search $searchSearchLayer,
-        \Magento\Catalog\Model\Layer\Category $searchCatalogLayer,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
@@ -111,8 +93,6 @@ class Observer
     ) {
         $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
-        $this->_searchSearchLayer = $searchSearchLayer;
-        $this->_searchCatalogLayer = $searchCatalogLayer;
         $this->_indexer = $indexer;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
@@ -270,32 +250,6 @@ class Observer
 
         if (!empty($storeIds)) {
             $this->_engineProvider->get()->cleanIndex($storeIds);
-        }
-    }
-
-    /**
-     * Reset search engine if it is enabled for catalog navigation
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function resetCurrentCatalogLayer(EventObserver $observer)
-    {
-        if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            $this->_coreRegistry->register('current_layer', $this->_searchCatalogLayer);
-        }
-    }
-
-    /**
-     * Reset search engine if it is enabled for search navigation
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function resetCurrentSearchLayer(EventObserver $observer)
-    {
-        if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            $this->_coreRegistry->register('current_layer', $this->_searchSearchLayer);
         }
     }
 

@@ -251,7 +251,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
 
             $cachedData = $max;
             $tags = $this->cacheStateTags->getList($this->getLayer()->getCurrentCategory());
-            $tags[] = \Magento\Catalog\Model\Layer\Filter\Price::CACHE_TAG;
+            $tags[] = \Magento\Search\Model\Layer\Category\Filter\Price::CACHE_TAG;
             $this->_cache->save($cachedData, $cacheKey, $tags);
         }
 
