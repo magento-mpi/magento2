@@ -62,4 +62,15 @@ class AllSoapAndRest extends AbstractObject
     {
         return $this->_get(self::HAS_NAME);
     }
+
+    /**
+     * Method which will not be used when adding complex type field to WSDL.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getFieldExcludedFromWsdl($value)
+    {
+        return $value;
+    }
 }
