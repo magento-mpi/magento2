@@ -51,12 +51,12 @@ class CollectionFilter implements CollectionFilterInterface
     }
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param $collection
      * @param $category
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function filter(
-        \Magento\Catalog\Model\Resource\Product\Collection $collection,
+        $collection,
         \Magento\Catalog\Model\Category $category
     ) {
         $collection

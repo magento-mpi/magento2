@@ -8,25 +8,25 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <virtualType name="categoryLayeredNavigationBlock" type="Magento\LayeredNavigation\Block\Navigation">
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\Category" type="Magento\LayeredNavigation\Block\Navigation">
         <arguments>
             <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
             <argument name="filterList" xsi:type="object">categoryFilterList</argument>
         </arguments>
     </virtualType>
-    <virtualType name="searchLayeredNavigationBlock" type="Magento\LayeredNavigation\Block\Navigation">
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\Search" type="Magento\LayeredNavigation\Block\Navigation">
         <arguments>
             <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
             <argument name="visibilityFlag" xsi:type="object">Magento\CatalogSearch\Model\Layer\AvailabilityFlag</argument>
             <argument name="filterList" xsi:type="object">searchFilterList</argument>
         </arguments>
     </virtualType>
-    <virtualType name="categoryLayeredNavigationStateBlock" type="Magento\LayeredNavigation\Block\Navigation\State">
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\State\Category" type="Magento\LayeredNavigation\Block\Navigation\State">
         <arguments>
             <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
         </arguments>
     </virtualType>
-    <virtualType name="searchLayeredNavigationStateBlock" type="Magento\LayeredNavigation\Block\Navigation\State">
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\State\Search" type="Magento\LayeredNavigation\Block\Navigation\State">
         <arguments>
             <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
         </arguments>

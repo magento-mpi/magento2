@@ -11,7 +11,7 @@
     <update handle="page_two_columns_left"/>
     <referenceContainer name="content">
         <block class="Magento\CatalogSearch\Block\Result" name="search.result" template="result.phtml">
-            <block class="searchResultListProduct" name="search_result_list" template="product/list.phtml">
+            <block class="Magento\CatalogSearch\Block\SearchResult\ListProduct" name="search_result_list" template="product/list.phtml">
                 <arguments>
                     <!-- If position of argument is depend on image size changable in VDE:
                         positions:list-secondary,grid-secondary,list-actions,grid-actions,list-primary,grid-primary

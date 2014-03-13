@@ -16,7 +16,7 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\CatalogSearch\Block\Advanced\Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
-            <block class="searchResultListProduct" name="search_result_list" template="product/list.phtml">
+            <block class="Magento\CatalogSearch\Block\SearchResult\ListProduct" name="search_result_list" template="product/list.phtml">
                 <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                     <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager"/>
                 </block>

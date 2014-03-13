@@ -11,11 +11,11 @@ namespace Magento\Catalog\Model\Layer;
 interface CollectionFilterInterface
 {
     /**
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @param $category
+     * @param $collection
+     * @param \Magento\Catalog\Model\Category $category
      */
     public function filter(
-        \Magento\Catalog\Model\Resource\Product\Collection $collection,
+        $collection,
         \Magento\Catalog\Model\Category $category
     );
 }
