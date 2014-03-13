@@ -27,6 +27,6 @@
     </type>
     <type name="Magento\Indexer\Model\Processor">
         <plugin name="page-cache-indexer-reindex-invalidate"
-                type="Magento\Indexer\Model\Processor\CacheInvalidate" sortOrder="10"/>
+                type="Magento\Indexer\Model\Processor\InvalidateCache" sortOrder="10"/>
     </type>
 </config>
