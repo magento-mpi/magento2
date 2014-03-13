@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Translate\Helper;
+namespace Magento\Translation\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
