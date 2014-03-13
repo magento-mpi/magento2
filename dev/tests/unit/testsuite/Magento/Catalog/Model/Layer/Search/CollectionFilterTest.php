@@ -54,15 +54,15 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     public function testFilter()
     {
         $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+            '\Magento\Search\Model\Resource\Collection', array(), array(), '', false
         );
         $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', array(), array(), '', false);
-        $queryMock = $this->getMock('Magento\CatalogSearch\Helper\Query', array(), array(), '', false);
+        $queryMock = $this->getMock('Magento\CatalogSearch\Helper\Query', array('getQueryText'), array(), '', false);
 
         $queryMock->expects($this->once())->method('getQueryText');
 
         $this->catalogConfigMock->expects($this->once())->method('getProductAttributes');
-        $this->visibilityMock->expects($this->once())->method('getVisibleInCatalogIds');
+        $this->visibilityMock->expects($this->once())->method('getVisibleInSearchIds');
         $this->helperMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
         $this->storeManagerMock->expects($this->once())->method('getStore');
 
