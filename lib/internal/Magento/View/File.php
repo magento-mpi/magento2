@@ -11,7 +11,7 @@ namespace Magento\View;
 use Magento\View\Design\ThemeInterface;
 
 /**
- * Layout file in the file system with context of its identity
+ * View file in the file system with context of its identity
  */
 class File
 {
@@ -108,7 +108,7 @@ class File
     }
 
     /**
-     * Calculate unique identifier for a layout file
+     * Calculate unique identifier for a view file
      *
      * @return string
      */
