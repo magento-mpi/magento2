@@ -20,8 +20,8 @@ class Ajax extends Action
     {
         $translationParams = (array)$this->getRequest()->getPost('translate');
         $area = $this->getRequest()->getPost('area');
-        /** @var \Magento\Translate\Helper\Data $translationHelper */
-        $translationHelper = $this->_objectManager->get('Magento\Translate\Helper\Data');
+        /** @var \Magento\Translation\Helper\Data $translationHelper */
+        $translationHelper = $this->_objectManager->get('Magento\Translation\Helper\Data');
         $response = $translationHelper->apply($translationParams, $area);
         $this->getResponse()->setBody($response);
         $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);

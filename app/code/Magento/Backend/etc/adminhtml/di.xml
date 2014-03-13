@@ -19,8 +19,8 @@
     <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
     <preference for="Magento\Translate\Inline\ConfigFactory" type="Magento\Backend\Model\Translate\Inline\ConfigFactory" />
     <preference for="Magento\Translate\InlineInterface" type="Magento\Backend\Model\Translate\Inline" />
-    <preference for="Magento\Translate\Model\Resource\Translate\String" type="Magento\Backend\Model\Resource\Translate\String" />
-    <preference for="Magento\Translate\Model\Resource\Translate" type="Magento\Backend\Model\Resource\Translate" />
+    <preference for="Magento\Translation\Model\Resource\String" type="Magento\Backend\Model\Resource\Translate\String" />
+    <preference for="Magento\Translation\Model\Resource\Translate" type="Magento\Backend\Model\Resource\Translate" />
     <preference for="Magento\App\Response\Http\FileFactory" type="Magento\Backend\App\Response\Http\FileFactory" />
     <preference for="Magento\App\View" type="Magento\Backend\Model\View" />
     <type name="Magento\Backend\Model\Translate\Inline">

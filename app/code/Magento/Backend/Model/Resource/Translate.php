@@ -12,7 +12,7 @@ namespace Magento\Backend\Model\Resource;
 /**
  * Backend translate resource model
  */
-class Translate extends \Magento\Translate\Model\Resource\Translate
+class Translate extends \Magento\Translation\Model\Resource\Translate
 {
     /**
      * Get current store id

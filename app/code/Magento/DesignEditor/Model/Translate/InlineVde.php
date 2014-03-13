@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Translate;
 /**
  * Inline translation specific to Vde.
  */
-class InlineVde implements \Magento\Translate\InlineInterface
+class InlineVde implements \Magento\Translation\InlineInterface
 {
     /**
      * data-translate-mode attribute name
@@ -50,7 +50,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
     protected $_helper;
 
     /**
-     * @var \Magento\Translate\Inline\ParserInterface
+     * @var \Magento\Translation\Inline\ParserInterface
      */
     protected $_parser;
 
@@ -86,7 +86,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
-     * @param \Magento\Translate\Inline\ParserFactory $parserFactory
+     * @param \Magento\Translation\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\UrlInterface $url
      * @param \Magento\ObjectManager $objectManager
@@ -94,7 +94,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
     public function __construct(
         \Magento\View\DesignInterface $design,
         \Magento\BaseScopeResolverInterface $scopeResolver,
-        \Magento\Translate\Inline\ParserFactory $parserFactory,
+        \Magento\Translation\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\UrlInterface $url,
         \Magento\ObjectManager $objectManager

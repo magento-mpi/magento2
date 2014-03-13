@@ -59,15 +59,15 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
-     * @magentoDataFixture Magento/Core/_files/db_translate_admin_store.php
+     * @magentoDataFixture Magento/Translation/_files/db_translate_admin_store.php
      * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
      * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
      * @magentoAppIsolation enabled
      */
     public function testSaveActionCleanAttributeLabelCache()
     {
-        /** @var \Magento\Translate\Model\Resource\String $string */
-        $string = $this->_objectManager->create('Magento\Translate\Model\Resource\Translate\String');
+        /** @var \Magento\Translation\Model\Resource\String $string */
+        $string = $this->_objectManager->create('Magento\Translation\Model\Resource\Translate\String');
         $this->assertEquals($this->_translate('string to translate'), 'predefined string translation');
         $string->saveTranslate('string to translate', 'new string translation');
         $postData = $this->_getAttributeData() + array('attribute_id' => 1);

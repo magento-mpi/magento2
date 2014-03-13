@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Translate;
+namespace Magento\Translation\Model;
 
 class InlineParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Translate\Model\Inline\Parser
+     * @var \Magento\Translation\Model\Inline\Parser
      */
     protected $_inlineParser;
 
@@ -33,7 +33,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
         $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Translate\Inline');
         $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate\Model\Inline\Parser', array('translateInline' => $inline));
+            ->create('Magento\Translation\Model\Inline\Parser', array('translateInline' => $inline));
         /* Called getConfig as workaround for setConfig bug */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
@@ -53,7 +53,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
         $this->_inlineParser->processAjaxPost($inputArray);
 
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate\Model\String');
+            ->create('Magento\Translation\Model\String');
         $model->load($originalText);
         try {
             $this->assertEquals($translatedText, $model->getTranslate());

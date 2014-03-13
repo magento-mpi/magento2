@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@
 /**
  * Inline Translation config
  */
-namespace Magento\Translate\Model\Inline;
+namespace Magento\Translation\Model\Inline;
 
 class Config implements \Magento\Translate\Inline\ConfigInterface
 {

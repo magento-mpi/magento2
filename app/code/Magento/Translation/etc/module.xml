@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <module name="Magento_Translate" version="1.0.0.0" active="true" />
+    <module name="Magento_Translation" version="1.0.0.0" active="true" />
 </config>

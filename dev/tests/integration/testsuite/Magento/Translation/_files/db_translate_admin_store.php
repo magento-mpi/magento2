@@ -8,7 +8,7 @@
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
     ->loadAreaPart(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, \Magento\Core\Model\App\Area::PART_CONFIG);
-/** @var \Magento\Translate\Model\Resource\String $translateString */
+/** @var \Magento\Translation\Model\Resource\String $translateString */
 $translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Translate\Model\Resource\Translate\String');
+    ->create('Magento\Translation\Model\Resource\String');
 $translateString->saveTranslate('string to translate', 'predefined string translation', null);

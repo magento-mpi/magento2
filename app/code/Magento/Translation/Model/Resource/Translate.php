@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Translate\Model\Resource;
+namespace Magento\Translation\Model\Resource;
 
 class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
 {

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <preference for="Magento\Translate\InlineInterface" type="Magento\Translation\Inline" />
+    <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Translation\Model\Inline\Config" />
+    <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
+    <preference for="Magento\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
+    <type name="Magento\Translation\Inline">
+        <arguments>
+            <argument name="templateFileName" xsi:type="string">Magento_Translation::translate_inline.phtml</argument>
+            <argument name="translatorRoute" xsi:type="string">core/ajax/translate</argument>
+            <argument name="layout" xsi:type="object">Magento\View\LayoutInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Translation\Model\Inline\Parser">
+        <arguments>
+            <argument name="inputFilter" xsi:type="object">Magento\Filter\Input\MaliciousCode</argument>
+        </arguments>
+    </type>
+</config>
