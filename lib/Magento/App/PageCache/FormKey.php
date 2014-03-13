@@ -22,11 +22,6 @@ class FormKey
     const COOKIE_NAME = 'form_key';
 
     /**
-     * Ten years cookie period
-     */
-    const COOKIE_PERIOD = 315360000;
-
-    /**
      * Cookie
      *
      * @var \Magento\Stdlib\Cookie

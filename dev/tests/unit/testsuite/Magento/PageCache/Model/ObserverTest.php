@@ -15,35 +15,38 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\PageCache\Model\Observer */
     protected $_model;
 
-    /** @var  \Magento\PageCache\Model\Config */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Config */
     protected $_configMock;
 
-    /** @var  \Magento\App\PageCache\Cache */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\Cache */
     protected $_cacheMock;
 
-    /** @var \Magento\View\Element\AbstractBlock */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Element\AbstractBlock */
     protected $_blockMock;
 
-    /** @var \Magento\Core\Model\Layout */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Layout */
     protected $_layoutMock;
 
-    /** @var \Magento\Event\Observer */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Event\Observer */
     protected $_observerMock;
 
-    /** @var \Magento\PageCache\Helper\Data */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Helper\Data */
     protected $_helperMock;
 
-    /** @var  \Magento\App\Cache\TypeListInterface */
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Cache\TypeListInterface */
     protected $_typeListMock;
 
     /** @var \Magento\Object */
     protected $_transport;
 
-    /** @var  \Magento\App\Cache\StateInterface */
-    protected $_cacheStateMock;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Object\ */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\PageCache\Model\Observer */
     protected $_observerObject;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\PageCache\FormKey */
+    protected $_formKey;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Session */
+    protected $_session;
 
     /**
      * Set up all mocks and data for test
@@ -54,14 +57,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock = $this->getMock('Magento\App\PageCache\Cache', ['clean'], [], '', false);
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', [], [], '', false);
         $this->_typeListMock  = $this->getMock('Magento\App\Cache\TypeList', [], [], '', false);
-        $this->_cacheStateMock  = $this->getMock('Magento\App\Cache\State', [], [], '', false);
+        $this->_formKey  = $this->getMock('Magento\App\PageCache\FormKey', [], [], '', false);
+        $this->_session  = $this->getMock('Magento\Core\Model\Session', ['setData'], [], '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer(
             $this->_configMock,
             $this->_cacheMock,
             $this->_helperMock,
             $this->_typeListMock,
-            $this->_cacheStateMock
+            $this->_formKey,
+            $this->_session
         );
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $this->_layoutMock = $this->getMock(
@@ -263,5 +268,24 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [true],
             [false]
         ];
+    }
+
+    public function testRegisterFormKeyFromCookie()
+    {
+        //Data
+        $formKey = 'asdfaswqrwqe12';
+
+        //Verification
+        $this->_configMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+        $this->_formKey->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($formKey));
+        $this->_session->expects($this->once())
+            ->method('setData')
+            ->with(\Magento\Data\Form\FormKey::FORM_KEY, $formKey);
+
+        $this->_model->registerFormKeyFromCookie($this->_observerMock);
     }
 }

@@ -48,7 +48,6 @@ class DataTest extends \Magento\TestFramework\TestCase\AbstractController
         $params = (array) json_decode($json);
         $data = (array) $params['data'];
         $this->assertEquals('11', $data['product']);
-        $this->assertArrayHasKey('form_key', $data);
         $this->assertArrayHasKey('uenc', $data);
         $this->assertStringEndsWith(
             'wishlist/index/add/',
@@ -62,7 +61,6 @@ class DataTest extends \Magento\TestFramework\TestCase\AbstractController
         $params = (array) json_decode($json);
         $data = (array) $params['data'];
         $this->assertEquals('11', $data['item']);
-        $this->assertArrayHasKey('form_key', $data);
         $this->assertArrayHasKey('uenc', $data);
         $this->assertStringEndsWith(
             'wishlist/index/fromcart/',
@@ -80,7 +78,6 @@ class DataTest extends \Magento\TestFramework\TestCase\AbstractController
         $data = (array) $params['data'];
         $this->assertEquals('11', $data['product']);
         $this->assertEquals('15', $data['id']);
-        $this->assertArrayHasKey('form_key', $data);
         $this->assertArrayHasKey('uenc', $data);
         $this->assertStringEndsWith(
             'wishlist/index/updateItemOptions/',

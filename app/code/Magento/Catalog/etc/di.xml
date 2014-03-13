@@ -124,6 +124,8 @@
         <arguments>
             <argument name="flatIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-category-flat"
+                type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
@@ -168,11 +170,15 @@
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-category-product"
+                type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Category">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-product-category"
+                type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
         <arguments>
@@ -224,10 +230,9 @@
     <type name="Magento\App\Http">
         <plugin name="catalog-app-http-context-plugin" type="Magento\Core\Model\App\ContextPlugin" sortOrder="1000"/>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat">
-        <plugin name="page-cache-indexer-reindex-category-flat" type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
-    </type>
+
     <type name="Magento\Catalog\Model\Indexer\Product\Flat">
-        <plugin name="page-cache-indexer-reindex-product-flat" type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
+        <plugin name="page-cache-indexer-reindex-product-flat"
+                type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
     </type>
 </config>
