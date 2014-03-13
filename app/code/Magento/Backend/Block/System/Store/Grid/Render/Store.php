@@ -29,11 +29,10 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
         return '<a title="' . __(
             'Edit Store View'
         ) . '"
-            href="' . $this->getUrl(
-            'adminhtml/*/editStore',
-            array('store_id' => $row->getStoreId())
-        ) . '">' . $this->escapeHtml(
-            $row->getData($this->getColumn()->getIndex())
-        ) . '</a>';
+            href="' .
+        $this->getUrl('adminhtml/*/editStore', array('store_id' => $row->getStoreId())) .
+        '">' .
+        $this->escapeHtml($row->getData($this->getColumn()->getIndex())) .
+        '</a>';
     }
 }

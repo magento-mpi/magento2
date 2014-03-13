@@ -116,8 +116,8 @@ class Menu extends \Magento\Backend\Block\Template
             $itemModel instanceof \Magento\Backend\Model\Menu\Item &&
             ($itemModel->getId() == $item->getId() ||
             $item->getChildren()->get(
-            $itemModel->getId()
-        ) !== null)
+                $itemModel->getId()
+            ) !== null)
         ) {
             $output = true;
         }

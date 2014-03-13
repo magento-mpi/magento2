@@ -24,7 +24,7 @@ class DraggableHandle extends \Magento\Backend\Block\Widget\Grid\Column\Renderer
             '"></span>' .
             '<input type="hidden" name="entity_id" value="' .
             $row->getData(
-            $this->getColumn()->getIndex()
-        ) . '"/>' . '<input type="hidden" name="position" value=""/>';
+                $this->getColumn()->getIndex()
+            ) . '"/>' . '<input type="hidden" name="position" value=""/>';
     }
 }

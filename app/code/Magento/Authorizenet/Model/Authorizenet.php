@@ -1024,8 +1024,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             case self::RESPONSE_CODE_ERROR:
                 if ($result->getResponseReasonCode() == self::RESPONSE_REASON_CODE_NOT_FOUND &&
                     $this->_isTransactionExpired(
-                    $realAuthTransactionId
-                )
+                        $realAuthTransactionId
+                    )
                 ) {
                     $voidTransactionId = $realAuthTransactionId . '-void';
                     return $this->_addTransaction(

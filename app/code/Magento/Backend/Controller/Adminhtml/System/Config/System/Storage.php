@@ -59,8 +59,8 @@ class Storage extends \Magento\Backend\App\Action
             $flag->getState() == \Magento\Core\Model\File\Storage\Flag::STATE_RUNNING &&
             $flag->getLastUpdate() &&
             time() <= strtotime(
-            $flag->getLastUpdate()
-        ) + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL
+                $flag->getLastUpdate()
+            ) + \Magento\Core\Model\File\Storage\Flag::FLAG_TTL
         ) {
             return;
         }

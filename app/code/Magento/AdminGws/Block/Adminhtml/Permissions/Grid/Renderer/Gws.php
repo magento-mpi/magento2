@@ -116,9 +116,9 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
             ($isStoreGroup ? 'padding-left:2em;' : '') .
             '">' .
             str_replace(
-            ' ',
-            '&nbsp;',
-            $name
-        ) . '</span>';
+                ' ',
+                '&nbsp;',
+                $name
+            ) . '</span>';
     }
 }

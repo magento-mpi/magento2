@@ -69,14 +69,14 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             $this->_getHtmlId() .
             '_from" placeholder="' .
             __(
-            'From'
-        ) . '" value="' . $this->getEscapedValue(
-            'from'
-        ) . '" class="input-text no-changes"  ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'from'
-        ) . '/></div>';
+                'From'
+            ) . '" value="' . $this->getEscapedValue(
+                'from'
+            ) . '" class="input-text no-changes"  ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'from'
+            ) . '/></div>';
         $html .= '<div class="range-line">' .
             '<input type="text" name="' .
             $this->_getHtmlName() .
@@ -84,14 +84,14 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             $this->_getHtmlId() .
             '_to" placeholder="' .
             __(
-            'To'
-        ) . '" value="' . $this->getEscapedValue(
-            'to'
-        ) . '" class="input-text no-changes" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'to'
-        ) . '/></div>';
+                'To'
+            ) . '" value="' . $this->getEscapedValue(
+                'to'
+            ) . '" class="input-text no-changes" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'to'
+            ) . '/></div>';
 
         if ($this->getDisplayCurrencySelect()) {
             $html .= '<div class="range-line">' . $this->_getCurrencySelectHtml() . '</div>';
@@ -224,8 +224,8 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             ->getCurrencyCode() : $this
             ->_currencyLocator
             ->getDefaultCurrency(
-            $this->_request
-        );
+                $this->_request
+            );
     }
 
     /**

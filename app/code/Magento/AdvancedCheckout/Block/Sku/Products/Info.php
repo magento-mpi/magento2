@@ -76,8 +76,8 @@ class Info extends \Magento\View\Element\Template
                     $this->getItem()->getId() .
                     '">' .
                     $this->_checkoutData->getMessage(
-                    \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
-                ) . '</span>';
+                        \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
+                    ) . '</span>';
                 return $message;
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED:
                 $message = $this->_checkoutData->getMessage(

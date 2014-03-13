@@ -128,8 +128,8 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
             $this->_getDependsJson() .
             ($this->_configOptions ? ', ' .
             $this->_jsonEncoder->encode(
-            $this->_configOptions
-        ) : '') . '); </script>';
+                $this->_configOptions
+            ) : '') . '); </script>';
     }
 
     /**

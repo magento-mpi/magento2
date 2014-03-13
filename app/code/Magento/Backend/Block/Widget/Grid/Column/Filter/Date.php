@@ -71,14 +71,14 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
             '_from"' .
             ' value="' .
             $this->getEscapedValue(
-            'from'
-        ) . '" class="input-text no-changes" placeholder="' . __(
-            'From'
-        ) . '" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'from'
-        ) . '/>' . '</div>';
+                'from'
+            ) . '" class="input-text no-changes" placeholder="' . __(
+                'From'
+            ) . '" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'from'
+            ) . '/>' . '</div>';
         $html .= '<div class="range-line date">' .
             '<input type="text" name="' .
             $this->_getHtmlName() .
@@ -87,14 +87,14 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
             '_to"' .
             ' value="' .
             $this->getEscapedValue(
-            'to'
-        ) . '" class="input-text no-changes" placeholder="' . __(
-            'To'
-        ) . '" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'to'
-        ) . '/>' . '</div></div>';
+                'to'
+            ) . '" class="input-text no-changes" placeholder="' . __(
+                'To'
+            ) . '" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'to'
+            ) . '/>' . '</div></div>';
         $html .= '<input type="hidden" name="' .
             $this->_getHtmlName() .
             '[locale]"' .
@@ -111,11 +111,9 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
             '",
                     buttonImage: "' .
             $this->getViewFileUrl(
-            'images/grid-cal.gif'
-        ) . '",
-                    buttonText: "' . $this->escapeHtml(
-            __('Date selector')
-        ) .
+                'images/grid-cal.gif'
+            ) . '",
+                        buttonText: "' . $this->escapeHtml(__('Date selector')) .
             '",
                     from: {
                         id: "' .

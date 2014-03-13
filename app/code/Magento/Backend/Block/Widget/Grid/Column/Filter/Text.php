@@ -31,9 +31,9 @@ class Text extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
             $this->getEscapedValue() .
             '" class="input-text no-changes"' .
             $this->getUiId(
-            'filter',
-            $this->_getHtmlName()
-        ) . ' /></div>';
+                'filter',
+                $this->_getHtmlName()
+            ) . ' /></div>';
         return $html;
     }
 }

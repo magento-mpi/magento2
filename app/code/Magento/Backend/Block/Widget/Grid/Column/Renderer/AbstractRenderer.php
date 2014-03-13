@@ -61,8 +61,8 @@ abstract class AbstractRenderer extends \Magento\Backend\Block\AbstractBlock imp
             $value = $this->_getValue($row);
             return $value . ($this->getColumn()->getEditOnly() ? '' : ($value !=
                 '' ? '' : '&nbsp;')) . $this->_getInputValueElement(
-                $row
-            );
+                    $row
+                );
         }
         return $this->_getValue($row);
     }
@@ -107,8 +107,8 @@ abstract class AbstractRenderer extends \Magento\Backend\Block\AbstractBlock imp
             $this->getColumn()->getId() .
             '" value="' .
             $this->_getInputValue(
-            $row
-        ) . '"/>';
+                $row
+            ) . '"/>';
     }
 
     /**

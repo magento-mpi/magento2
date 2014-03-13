@@ -29,11 +29,10 @@ class Group extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
         return '<a title="' . __(
             'Edit Store'
         ) . '"
-            href="' . $this->getUrl(
-            'adminhtml/*/editGroup',
-            array('group_id' => $row->getGroupId())
-        ) . '">' . $this->escapeHtml(
-            $row->getData($this->getColumn()->getIndex())
-        ) . '</a>';
+            href="' .
+        $this->getUrl('adminhtml/*/editGroup', array('group_id' => $row->getGroupId())) .
+        '">' .
+        $this->escapeHtml($row->getData($this->getColumn()->getIndex())) .
+        '</a>';
     }
 }

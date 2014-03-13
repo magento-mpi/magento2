@@ -31,14 +31,14 @@ class Range extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             $this->_getHtmlId() .
             '_from" placeholder="' .
             __(
-            'From'
-        ) . '" value="' . $this->getEscapedValue(
-            'from'
-        ) . '" class="input-text no-changes" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'from'
-        ) . '/></div>';
+                'From'
+            ) . '" value="' . $this->getEscapedValue(
+                'from'
+            ) . '" class="input-text no-changes" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'from'
+            ) . '/></div>';
         $html .= '<div class="range-line">' .
             '<input type="text" name="' .
             $this->_getHtmlName() .
@@ -46,14 +46,14 @@ class Range extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             $this->_getHtmlId() .
             '_to" placeholder="' .
             __(
-            'To'
-        ) . '" value="' . $this->getEscapedValue(
-            'to'
-        ) . '" class="input-text no-changes" ' . $this->getUiId(
-            'filter',
-            $this->_getHtmlName(),
-            'to'
-        ) . '/></div></div>';
+                'To'
+            ) . '" value="' . $this->getEscapedValue(
+                'to'
+            ) . '" class="input-text no-changes" ' . $this->getUiId(
+                'filter',
+                $this->_getHtmlName(),
+                'to'
+            ) . '/></div></div>';
         return $html;
     }
 
