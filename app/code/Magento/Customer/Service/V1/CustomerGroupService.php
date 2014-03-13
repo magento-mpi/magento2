@@ -15,6 +15,7 @@ use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Service\Data\Filter;
 
 /**
  * Class CustomerGroupService
@@ -145,10 +146,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      * Helper function that adds a filter to the collection
      *
      * @param Collection $collection
-     * @param Data\Filter $filter
+     * @param Filter $filter
      * @return void
      */
-    protected function addFilterToCollection(Collection $collection, Data\Filter $filter)
+    protected function addFilterToCollection(Collection $collection, Filter $filter)
     {
         $field = $this->translateField($filter->getField());
         $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
