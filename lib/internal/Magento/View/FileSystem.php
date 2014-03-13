@@ -142,29 +142,33 @@ class FileSystem
     }
 
     /**
-     * Get a relative path between $from and $to paths as if $from was to refer to $to relatively of itself
+     * Get a relative path between $relatedPath and $path paths as if $path was to refer to $relatedPath
+     * relatively of itself
      *
      * Returns new calculated relative path.
      * Examples:
-     *   /some/directory/one/file.ext -> /some/directory/two/another/file.ext
-     *       Result: ../two/another
-     *   http://example.com/themes/demo/css/styles.css -> http://example.com/images/logo.gif
-     *       Result: ../../../images
+     *   $path: /some/directory/one/file.ext
+     *   $relatedPath: /some/directory/two/another/file.ext
+     *   Result: ../two/another
      *
-     * @param string $from
-     * @param string $to
+     *   $path: http://example.com/themes/demo/css/styles.css
+     *   $relatedPath: http://example.com/images/logo.gif
+     *   Result: ../../../images
+     *
+     * @param string $relatedPath
+     * @param string $path
      * @return string
      */
-    public static function offsetPath($from, $to)
+    public static function offsetPath($relatedPath, $path)
     {
-        list($from, $to) = self::ltrimSamePart($from, $to);
-        $toDir = ltrim(dirname($to), '/');
+        list($relatedPath, $path) = self::ltrimSamePart($relatedPath, $path);
+        $toDir = ltrim(dirname($path), '/');
         if ($toDir == '.') {
             $offset = '';
         } else {
             $offset = str_repeat('../', count(explode('/', $toDir)));
         }
-        return rtrim($offset . dirname($from), '/');
+        return rtrim($offset . dirname($relatedPath), '/');
     }
 
     /**

@@ -4,7 +4,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-h2 {background: url(../two/another/../images/h2.gif?test);}
+h2 {background: url(../two/images/h2.gif?test);}
 body {background: url(../two/another/body.gif);}
 a {background: url(data:image/png;)}
 li {background: url("https://example.com/absolute.gif");}

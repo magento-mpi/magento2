@@ -15,7 +15,7 @@ namespace Magento\View;
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem
      */
     protected $_model;
 
@@ -138,6 +138,47 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             'two times two dots path' => array(
                 '/dir/../somedir/../somefile.ext',
                 '/somefile.ext',
+            ),
+        );
+    }
+
+    /**
+     * @param string $relatedPath
+     * @param string $path
+     * @param string $expectedResult
+     * @dataProvider offsetPathDataProvider
+     */
+    public function testOffsetPath($relatedPath, $path, $expectedResult)
+    {
+        $result = $this->_model->offsetPath($relatedPath, $path);
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function offsetPathDataProvider()
+    {
+        return array(
+            'local path' => array(
+                '/some/directory/two/another/file.ext',
+                '/some/directory/one/file.ext',
+                '../two/another'
+            ),
+            'local path reverted' => array(
+                '/some/directory/one/file.ext',
+                '/some/directory/two/another/file.ext',
+                '../../one'
+            ),
+            'url' => array(
+                'http://example.com/images/logo.gif',
+                'http://example.com/themes/demo/css/styles.css',
+                '../../../images'
+            ),
+            'same path' => array(
+                '/some/directory/file.ext',
+                '/some/directory/file1.ext',
+                '.'
             ),
         );
     }

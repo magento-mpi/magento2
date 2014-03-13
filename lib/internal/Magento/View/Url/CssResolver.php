@@ -25,13 +25,13 @@ class CssResolver
      * Adjust relative URLs in CSS content as if the file with this content is to be moved to new location
      *
      * @param string $cssContent
-     * @param string $from
-     * @param string $to
+     * @param string $relatedPath
+     * @param string $filePath
      * @return mixed
      */
-    public function relocateRelativeUrls($cssContent, $from, $to)
+    public function relocateRelativeUrls($cssContent, $relatedPath, $filePath)
     {
-        $offset = FileSystem::offsetPath($from, $to);
+        $offset = FileSystem::offsetPath($relatedPath, $filePath);
         $callback = function ($path) use ($offset) {
             return FileSystem::normalizePath($offset . '/' . $path);
         };
