@@ -47,7 +47,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             ->method('getAvailableSortByOptions')
             ->will($this->returnValue($sortOptions));
         $category->setId(100500); // Any id - just for layer navigation
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Layer')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Layer\Search')
             ->setCurrentCategory($category);
 
         $childBlock = $this->_layout->addBlock('Magento\View\Element\Text', 'search_result_list', 'block');

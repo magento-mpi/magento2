@@ -11,8 +11,6 @@ namespace Magento\Search\Model\Layer\Search;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 
-use Magento\CatalogSearch\Model\Resource\EngineProvider;
-
 class AvailabilityFlag extends \Magento\CatalogSearch\Model\Layer\AvailabilityFlag
 {
     /**

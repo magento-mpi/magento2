@@ -90,7 +90,6 @@ class Result extends Template
      * @return void
      */
     public function setListOrders() {
-        $category = $this->_catalogLayer->getCurrentCategory();
         /* @var $category \Magento\Catalog\Model\Category */
         $category = $this->_catalogLayer->getCurrentCategory();
 

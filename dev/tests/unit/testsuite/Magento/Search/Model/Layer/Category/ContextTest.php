@@ -13,17 +13,28 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $catalogContextMock;
+    protected $searchProviderMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $collProviderMock;
+    protected $catalogProviderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $stateKeyMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $collectionFilterMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $helperMock;
+
 
     /**
      * @var \Magento\Search\Model\Layer\Category\Context
@@ -32,17 +43,22 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->catalogContextMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Category\Context', array(), array(), '', false
+        $this->searchProviderMock = $this->getMock(
+            '\Magento\Search\Model\Layer\Category\ItemCollectionProvider', array(), array(), '', false);
+        $this->catalogProviderMock = $this->getMock(
+            '\Magento\Catalog\Model\Layer\Category\ItemCollectionProvider', array(), array(), '', false);
+        $this->helperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->stateKeyMock = $this->getMock(
+            '\Magento\Catalog\Model\Layer\Category\StateKey', array(), array(), '', false
         );
-        $this->collProviderMock = $this->getMock(
-            '\Magento\Search\Model\Layer\Category\ItemCollectionProvider', array(), array(), '', false
-        );
-        $this->helperMock = $this->getMock(
-            '\Magento\Search\Helper\Data', array(), array(), '', false
+        $this->collectionFilterMock = $this->getMock(
+            '\Magento\Catalog\Model\Layer\Category\CollectionFilter', array(), array(), '', false
         );
 
-        $this->model = new Context($this->catalogContextMock, $this->collProviderMock, $this->helperMock);
+        $this->model = new Context(
+            $this->searchProviderMock, $this->catalogProviderMock, $this->stateKeyMock, $this->collectionFilterMock,
+            $this->helperMock
+        );
     }
 
     /**
@@ -55,12 +71,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             ->method('getIsEngineAvailableForNavigation')
             ->will($this->returnValue(true));
 
-        $this->catalogContextMock->expects($this->never())
-            ->method('getCollectionProvider');
-
-        $this->assertInstanceOf(
-            '\Magento\Search\Model\Layer\Category\ItemCollectionProvider', $this->model->getCollectionProvider()
-        );
+        $this->assertSame($this->searchProviderMock, $this->model->getCollectionProvider());
     }
 
     /**
@@ -72,13 +83,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             ->method('getIsEngineAvailableForNavigation')
             ->will($this->returnValue(false));
 
-        $this->catalogContextMock->expects($this->once())
-            ->method('getCollectionProvider')
-            ->will($this->returnValue($this->collProviderMock));
-
-        $this->assertInstanceOf(
-            '\Magento\Search\Model\Layer\Category\ItemCollectionProvider', $this->model->getCollectionProvider()
-        );
+        $this->assertSame($this->catalogProviderMock, $this->model->getCollectionProvider());
     }
 
     /**
@@ -86,11 +91,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStateKey()
     {
-        $this->catalogContextMock->expects($this->once())
-            ->method('getStateKey')
-            ->will($this->returnValue('key'));
-
-        $this->assertEquals('key', $this->model->getStateKey());
+        $this->assertSame($this->stateKeyMock, $this->model->getStateKey());
     }
 
     /**
@@ -98,10 +99,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollectionFilter()
     {
-        $this->catalogContextMock->expects($this->once())
-            ->method('getCollectionFilter')
-            ->will($this->returnValue('filter'));
-
-        $this->assertEquals('filter', $this->model->getCollectionFilter());
+        $this->assertSame($this->collectionFilterMock, $this->model->getCollectionFilter());
     }
 }

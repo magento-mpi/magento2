@@ -70,7 +70,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_productCollection = $this->getMock('\Magento\Search\Model\Resource\Collection', array(), array(), '',
             false);
-        $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
+        $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer\Category', array(), array(), '', false);
         $this->_layer->expects($this->any())
             ->method('getProductCollection')
             ->will($this->returnValue($this->_productCollection));
@@ -93,7 +93,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Search\Model\Layer\Category\Filter\Price',
             array(
                 'storeManager' => $this->_storeManager,
-                'catalogLayer' => $this->_layer,
+                'layer' => $this->_layer,
                 'filterPriceFactory' => $this->_priceFactory,
                 'resourceEngine' => $this->_resourceEngine,
                 'cache' => $this->_cache,
