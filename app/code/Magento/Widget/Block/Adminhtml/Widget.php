@@ -43,7 +43,7 @@ class Widget extends \Magento\Backend\Block\Widget\Form\Container
             $this->getUrl(
                 'adminhtml/*/loadOptions'
             ) . '", "' . $this->getRequest()->getParam(
-            'widget_target_id'
-        ) . '");';
+                'widget_target_id'
+            ) . '");';
     }
 }

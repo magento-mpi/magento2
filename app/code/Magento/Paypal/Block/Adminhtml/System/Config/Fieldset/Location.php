@@ -318,8 +318,8 @@ class Location extends \Magento\Backend\Block\System\Config\Form\Fieldset
             ) . '\';
                     }
                     notification += "\\n" + \'' . $this->escapeJsQuote(
-    __('Please re-enable the previously enabled payment solutions.')
-) .
+        __('Please re-enable the previously enabled payment solutions.')
+        ) .
             '\';
                     setTimeout(function() {
                         alert(notification);

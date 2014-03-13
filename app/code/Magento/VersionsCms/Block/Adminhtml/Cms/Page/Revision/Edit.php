@@ -161,8 +161,8 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
                 ) . "', '')
                     if (versionName == '') {
                         alert('" . __(
-    'Please specify a valid name.'
-) .
+            'Please specify a valid name.'
+            ) .
                 "');
                         e.stopImmediatePropagation();
                     } else if (versionName == null) {

@@ -349,8 +349,8 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
                 \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE ? $this->_getBundleTierPriceInfo(
                     $prices
                 ) : $this->_getTierPriceInfo(
-                $prices
-            );
+                    $prices
+                );
             $html = implode('<br/>', $info);
         }
         return $html;

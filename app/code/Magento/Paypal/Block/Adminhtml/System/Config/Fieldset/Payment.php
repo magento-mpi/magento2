@@ -104,8 +104,8 @@ class Payment extends \Magento\Backend\Block\System\Config\Form\Fieldset
             $this->getUrl(
                 'adminhtml/*/state'
             ) . '\'); return false;"><span class="state-closed">' . __(
-            'Configure'
-        ) . '</span><span class="state-opened">' . __(
+                'Configure'
+            ) . '</span><span class="state-opened">' . __(
             'Close'
         ) . '</span></button>';
 

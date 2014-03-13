@@ -145,9 +145,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action implements
                 !$this->_objectManager->get(
                     'Magento\Checkout\Helper\Data'
                 )->isAllowedGuestCheckout(
-                $this->_getQuote(),
-                $this->_getQuote()->getStoreId()
-            )
+                    $this->_getQuote(),
+                    $this->_getQuote()->getStoreId()
+                )
             ) {
 
                 $this->messageManager->addNotice(
