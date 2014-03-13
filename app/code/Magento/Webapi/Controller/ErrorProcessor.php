@@ -86,12 +86,19 @@ class ErrorProcessor
             } else {
                 $httpCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;
             }
+
+            $wrappedErrors = array();
+            if ($exception instanceof \Magento\Exception\InputException) {
+                $wrappedErrors = $exception->getErrors();
+            }
+
             $maskedException = new \Magento\Webapi\Exception(
                 $exception->getMessage(),
                 $exception->getCode(),
                 $httpCode,
                 $exception->getParameters(),
-                $exception->getName()
+                $exception->getName(),
+                $wrappedErrors
             );
         } else if ($exception instanceof \Magento\Webapi\Exception) {
             $maskedException = $exception;

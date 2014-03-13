@@ -81,4 +81,13 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
     {
         return "incompatibleDataType";
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function inputException()
+    {
+        $inputException = \Magento\Exception\InputException::create(1234, "First name", "empty");
+        throw $inputException;
+    }
 }

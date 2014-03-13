@@ -133,6 +133,36 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         );
     }
 
+    public function testInputException()
+    {
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => '/V1/errortest/inputexception',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+        );
+
+        $expectedException = new \Magento\Exception\InputException();
+        $expectedException->addError("1234", "First name", "empty");
+
+        $expectedWrappedErrors = [
+            [
+                'fieldName' => 'First name',
+                'code' => 1234,
+                'value' => 'empty',
+            ]
+        ];
+
+        $this->_errorTest(
+            $serviceInfo,
+            array(),
+            \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
+            $expectedException->getMessage(),
+            [],
+            $expectedWrappedErrors
+        );
+    }
+
     /**
      * Perform a negative REST api call test case and compare the results with expected values.
      *
@@ -141,13 +171,15 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
      * @param int $httpStatus - Expected HTTP status
      * @param string|array $errorMessage - \Exception error message
      * @param array $parameters - Optional parameters array, or null if no parameters
+     * @param array $wrappedErrors - Optional wrappedErrors array, or null if no parameters
      */
     protected function _errorTest(
         $serviceInfo,
         $data,
         $httpStatus,
         $errorMessage,
-        $parameters = array()
+        $parameters = array(),
+        $wrappedErrors = array()
     ) {
         // TODO: need to get header info instead of catching the exception
         try {
@@ -172,6 +204,10 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             if ($parameters) {
                 $this->assertEquals($parameters, $body['errors'][0]['parameters'], 'Checking body parameters');
+            }
+
+            if ($wrappedErrors) {
+                $this->assertEquals($wrappedErrors, $body['errors'][0]['wrapped_errors'], 'Checking body wrapped errors');
             }
         }
     }

@@ -53,4 +53,9 @@ interface ErrorInterface
      * @return int Status
      */
     public function returnIncompatibleDataType();
+
+    /**
+     * @return int Status
+     */
+    public function inputException();
 }

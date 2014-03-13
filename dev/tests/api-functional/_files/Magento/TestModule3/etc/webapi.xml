@@ -17,5 +17,6 @@
         <rest-route httpMethod="GET" method="otherException" resources="Magento_TestModule3::resource1">/otherexception</rest-route>
         <rest-route httpMethod="GET" method="returnIncompatibleDataType" resources="Magento_TestModule3::resource1">/returnIncompatibleDataType</rest-route>
         <rest-route httpMethod="GET" method="webapiException" resources="Magento_TestModule3::resource1">/webapiException</rest-route>
+        <rest-route httpMethod="GET" method="inputException" resources="Magento_TestModule3::resource1">/inputException</rest-route>
     </service>
 </config>
