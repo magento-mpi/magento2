@@ -7,6 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogSearch\Model;
+
+use Magento\CatalogSearch\Helper\Data;
+use Magento\CatalogSearch\Model\Query;
+use Magento\Core\Model\AbstractModel;
+use Magento\Model\Context;
+use Magento\Registry;
+use Magento\Core\Model\Resource\AbstractResource;
+use Magento\Core\Model\Store\Config;
+use Magento\Data\Collection\Db;
 
 /**
  * Catalog advanced search model
@@ -24,17 +34,6 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model;
-
-use Magento\CatalogSearch\Helper\Data;
-use Magento\CatalogSearch\Model\Query;
-use Magento\Core\Model\AbstractModel;
-use Magento\Model\Context;
-use Magento\Registry;
-use Magento\Core\Model\Resource\AbstractResource;
-use Magento\Core\Model\Store\Config;
-use Magento\Data\Collection\Db;
-
 class Fulltext extends AbstractModel
 {
     const SEARCH_TYPE_LIKE              = 1;
@@ -79,6 +78,9 @@ class Fulltext extends AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\CatalogSearch\Model\Resource\Fulltext');

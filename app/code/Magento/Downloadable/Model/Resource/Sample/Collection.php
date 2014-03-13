@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Downloadable\Model\Resource\Sample;
 
 /**
  * Downloadable samples resource collection
@@ -16,12 +16,12 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Resource\Sample;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,8 +31,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Method for product filter
      *
-     * @param \Magento\Catalog\Model\Product|array|integer|null $product
-     * @return \Magento\Downloadable\Model\Resource\Sample\Collection
+     * @param \Magento\Catalog\Model\Product|array|int|null $product
+     * @return $this
      */
     public function addProductToFilter($product)
     {
@@ -50,8 +50,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add title column to select
      *
-     * @param integer $storeId
-     * @return \Magento\Downloadable\Model\Resource\Sample\Collection
+     * @param int $storeId
+     * @return $this
      */
     public function addTitleToResult($storeId = 0)
     {

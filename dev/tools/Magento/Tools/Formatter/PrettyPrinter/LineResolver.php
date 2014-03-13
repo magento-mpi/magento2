@@ -15,13 +15,16 @@ class LineResolver extends NodeVisitorAbstract
 {
     /**
      * This member holds the count of the number of statements encountered during this traversal.
+     *
      * @var int
      */
     public $statementCount = 0;
 
     /**
      * This method is called when first visiting a node.
+     *
      * @param TreeNode $treeNode
+     * @return void
      */
     public function nodeEntry(TreeNode $treeNode)
     {
@@ -49,7 +52,10 @@ class LineResolver extends NodeVisitorAbstract
 
     /**
      * This method adds any comments in the current node as prior siblings to the current node.
+     *
+     * @param LineData $lineData
      * @param TreeNode $treeNode Node representing the current node.
+     * @return void
      */
     protected function addCommentsBefore(LineData $lineData, TreeNode $treeNode)
     {

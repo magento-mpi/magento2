@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftMessage\Model;
 
 /**
  * Gift Message Observer Model
@@ -16,14 +16,12 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Model;
-
 class Observer extends \Magento\Object
 {
     /**
      * Gift message message
      *
-     * @var \Magento\GiftMessage\Helper\Message
+     * @var \Magento\GiftMessage\Helper\Message|null
      */
     protected $_giftMessageMessage = null;
 
@@ -48,7 +46,7 @@ class Observer extends \Magento\Object
      * Set gift messages to order from quote address
      *
      * @param \Magento\Object $observer
-     * @return \Magento\GiftMessage\Model\Observer
+     * @return $this
      */
     public function salesEventConvertQuoteAddressToOrder($observer)
     {
@@ -63,7 +61,7 @@ class Observer extends \Magento\Object
      * Set gift messages to order from quote address
      *
      * @param \Magento\Object $observer
-     * @return \Magento\GiftMessage\Model\Observer
+     * @return $this
      */
     public function salesEventConvertQuoteToOrder($observer)
     {
@@ -75,8 +73,8 @@ class Observer extends \Magento\Object
     /**
      * Operate with gift messages on checkout proccess
      *
-     * @param Varien_Object $observer
-     * @return \Magento\GiftMessage\Model\Observer
+     * @param \Magento\Object $observer
+     * @return $this
      */
     public function checkoutEventCreateGiftMessage($observer)
     {
@@ -117,7 +115,8 @@ class Observer extends \Magento\Object
                             $entity->setGiftMessageId(0)
                                 ->save();
                         }
-                        catch (\Exception $e) { }
+                        catch (\Exception $e) {
+                        }
                     }
                     continue;
                 }
@@ -132,7 +131,8 @@ class Observer extends \Magento\Object
                         ->save();
 
                 }
-                catch (\Exception $e) { }
+                catch (\Exception $e) {
+                }
             }
         }
         return $this;
@@ -142,7 +142,7 @@ class Observer extends \Magento\Object
      * Duplicates giftmessage from order to quote on import or reorder
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftMessage\Model\Observer
+     * @return $this
      */
     public function salesEventOrderToQuote($observer)
     {
@@ -170,7 +170,7 @@ class Observer extends \Magento\Object
      * Duplicates giftmessage from order item to quote item on import or reorder
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftMessage\Model\Observer
+     * @return $this
      */
     public function salesEventOrderItemToQuoteItem($observer)
     {

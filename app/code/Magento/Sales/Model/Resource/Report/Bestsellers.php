@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Report;
 
 /**
  * Bestsellers report resource model
  */
-namespace Magento\Sales\Model\Resource\Report;
-
-class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
+class Bestsellers extends AbstractReport
 {
     const AGGREGATION_DAILY   = 'daily';
     const AGGREGATION_MONTHLY = 'monthly';
@@ -69,6 +68,8 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
 
     /**
      * Model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -78,9 +79,9 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Orders data by order created at
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
+     * @param string|int|\Zend_Date|array|null $from
+     * @param string|int|\Zend_Date|array|null $to
+     * @return $this
      * @throws \Exception
      */
     public function aggregate($from = null, $to = null)
@@ -262,7 +263,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * Update rating position
      *
      * @param string $aggregation One of \Magento\Sales\Model\Resource\Report\Bestsellers::AGGREGATION_XXX constants
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
+     * @return $this
      */
     protected function _updateRatingPos($aggregation)
     {

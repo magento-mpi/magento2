@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
+
+use Magento\Core\Exception;
 
 /**
  * Order creditmemo model
@@ -103,8 +106,6 @@
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order\Creditmemo setBaseShippingInclTax(float $value)
  */
-namespace Magento\Sales\Model\Order;
-
 class Creditmemo extends \Magento\Sales\Model\AbstractModel
 {
     const STATE_OPEN        = 1;
@@ -133,10 +134,24 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      */
     const HISTORY_ENTITY_NAME = 'creditmemo';
 
+    /**
+     * @var array
+     */
     protected static $_states;
 
+    /**
+     * @var mixed
+     */
     protected $_items;
+
+    /**
+     * @var \Magento\Sales\Model\Order
+     */
     protected $_order;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\Collection
+     */
     protected $_comments;
 
     /**
@@ -146,7 +161,14 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      */
     protected $_calculators = array();
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order_creditmemo';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'creditmemo';
 
     /**
@@ -266,6 +288,8 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize creditmemo resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -295,8 +319,8 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare order for creditmemo
      *
-     * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\Sales\Model\Order\Creditmemo
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -322,7 +346,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve billing address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getBillingAddress()
     {
@@ -332,13 +356,16 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve shipping address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getShippingAddress()
     {
         return $this->getOrder()->getShippingAddress();
     }
 
+    /**
+     * @return mixed
+     */
     public function getItemsCollection()
     {
         if (empty($this->_items)) {
@@ -367,6 +394,10 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         return $items;
     }
 
+    /**
+     * @param mixed $itemId
+     * @return mixed
+     */
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
@@ -380,7 +411,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Returns credit memo item by its order id
      *
-     * @param $orderId
+     * @param mixed $orderId
      * @return \Magento\Sales\Model\Order\Creditmemo\Item|bool
      */
     public function getItemByOrderId($orderId)
@@ -393,6 +424,10 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         return false;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Order\Creditmemo\Item $item
+     * @return $this
+     */
     public function addItem(\Magento\Sales\Model\Order\Creditmemo\Item $item)
     {
         $item->setCreditmemo($this)
@@ -407,7 +442,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Creditmemo totals collecting
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return $this
      */
     public function collectTotals()
     {
@@ -436,6 +471,9 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         return $price;
     }
 
+    /**
+     * @return bool
+     */
     public function canRefund()
     {
         if ($this->getState() != self::STATE_CANCELED
@@ -484,7 +522,10 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         return $canVoid;
     }
 
-
+    /**
+     * @return $this
+     * @throws Exception
+     */
     public function refund()
     {
         $this->setState(self::STATE_REFUNDED);
@@ -499,7 +540,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
 
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid()- $this->getOrder()->getBaseTotalRefunded();
 
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 __('The most money available to refund is %1.', $this->getOrder()->formatBasePrice($baseAvailableRefund))
             );
         }
@@ -549,7 +590,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * Cancel Creditmemo action
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return $this
      */
     public function cancel()
     {
@@ -597,13 +638,13 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      *
      * Apply to order, order items etc.
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new \Magento\Core\Exception(__('We cannot register an existing credit memo.'));
+            throw new Exception(__('We cannot register an existing credit memo.'));
         }
 
         foreach ($this->getAllItems() as $item) {
@@ -799,13 +840,12 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         return $this->_comments;
     }
 
-
     /**
      * Send email with creditmemo data
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return $this
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
     {
@@ -897,7 +937,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return $this
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
     {
@@ -1003,7 +1043,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     /**
      * After save object manipulations
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -1019,14 +1059,13 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
             }
         }
 
-
         return parent::_afterSave();
     }
 
     /**
      * Before object save manipulations
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo
+     * @return $this
      */
     protected function _beforeSave()
     {

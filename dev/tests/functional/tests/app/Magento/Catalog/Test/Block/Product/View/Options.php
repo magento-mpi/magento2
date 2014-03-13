@@ -81,7 +81,7 @@ class Options extends Block
     {
         foreach ($productOptions as $attributeLabel => $attributeValue) {
             $select = $this->_rootElement->find(
-                '//*[*[@class="product options configure"]//span[text()="' .
+                '//*[*[@class="product options wrapper"]//span[text()="' .
                 $attributeLabel .
                 '"]]//select',
                 Locator::SELECTOR_XPATH,

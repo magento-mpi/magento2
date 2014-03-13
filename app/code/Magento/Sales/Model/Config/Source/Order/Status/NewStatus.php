@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Config\Source\Order\Status;
 
 /**
  * Order Statuses source model
  */
-namespace Magento\Sales\Model\Config\Source\Order\Status;
-
 class NewStatus extends \Magento\Sales\Model\Config\Source\Order\Status
 {
+    /**
+     * @var string
+     */
     protected $_stateStatuses = \Magento\Sales\Model\Order::STATE_NEW;
 }

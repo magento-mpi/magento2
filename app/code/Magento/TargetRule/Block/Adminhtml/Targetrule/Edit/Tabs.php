@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit;
 
 /**
  * Enterprise TargetRule left-navigation block
  *
  */
-namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

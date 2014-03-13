@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Total;
 
 /**
  * Base class for configure totals order
@@ -15,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Order\Total;
-
 abstract class AbstractTotal extends \Magento\Object
 {
     /**

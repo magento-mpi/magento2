@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Item;
 
 /**
  * Gift registry item option model
@@ -15,8 +16,6 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Item;
-
 class Option extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
@@ -37,6 +36,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Internal constructor
      * Initializes resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -61,7 +62,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      * Set related gift registry item
      *
      * @param   \Magento\GiftRegistry\Model\Item $item
-     * @return  \Magento\GiftRegistry\Model\Item\Option
+     * @return $this
      */
     public function setItem($item)
     {
@@ -84,7 +85,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      * Set product related to option
      *
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  \Magento\GiftRegistry\Model\Item\Option
+     * @return $this
      */
     public function setProduct($product)
     {
@@ -118,7 +119,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize item identifier before data save
      *
-     * @return \Magento\GiftRegistry\Model\Item\Option
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -131,7 +132,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Clone option object
      *
-     * @return \Magento\GiftRegistry\Model\Item\Option
+     * @return $this
      */
     public function __clone()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Model\Event;
 
 /**
  * Logging event changes model
@@ -28,8 +29,6 @@
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Logging\Model\Event;
-
 class Changes extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -77,6 +76,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
      * Initialize resource
      * Get fields that should not be logged for all models
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -139,6 +139,7 @@ abstract class AbstractAction
      * Execute action for given ids
      *
      * @param array|int $ids
+     * @return void
      */
     abstract public function execute($ids);
 
@@ -382,6 +383,7 @@ abstract class AbstractAction
      * @param string $sourceTable
      * @param string $destTable
      * @param null|string $where
+     * @return void
      */
     protected function _insertFromTable($sourceTable, $destTable, $where = null)
     {
@@ -428,6 +430,7 @@ abstract class AbstractAction
      * Removes all data from the table
      *
      * @param string $table
+     * @return void
      */
     protected function _emptyTable($table)
     {

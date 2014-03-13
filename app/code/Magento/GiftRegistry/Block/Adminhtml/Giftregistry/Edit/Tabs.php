@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit;
 
 class Tabs
     extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
-     * Intialize form
+     * Initialize form
      *
      * @return void
      */
@@ -29,7 +28,7 @@ class Tabs
     /**
      * Add tab sections
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs
+     * @return $this
      */
     protected function _beforeToHtml()
     {

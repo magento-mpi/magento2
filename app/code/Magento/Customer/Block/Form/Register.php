@@ -72,13 +72,16 @@ class Register extends \Magento\Directory\Block\Data
      * Get config
      *
      * @param string $path
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path)
     {
         return $this->_storeConfig->getConfig($path);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->setTitle(__('Create New Customer Account'));
@@ -112,7 +115,7 @@ class Register extends \Magento\Directory\Block\Data
     /**
      * Retrieve form data
      *
-     * @return \Magento\Object
+     * @return mixed
      */
     public function getFormData()
     {
@@ -176,8 +179,8 @@ class Register extends \Magento\Directory\Block\Data
      * Entity and form code must be defined for the form
      *
      * @param \Magento\Customer\Model\Metadata\Form $form
-     * @param null $scope
-     * @return \Magento\Customer\Block\Form\Register
+     * @param string|null $scope
+     * @return $this
      */
     public function restoreSessionData(\Magento\Customer\Model\Metadata\Form $form, $scope = null)
     {

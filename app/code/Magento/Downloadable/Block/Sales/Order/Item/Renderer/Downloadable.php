@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Block\Sales\Order\Item\Renderer;
+
+use Magento\Downloadable\Model\Link\Purchased;
 
 /**
  * Downloadable order item render block
@@ -16,7 +17,7 @@ namespace Magento\Downloadable\Block\Sales\Order\Item\Renderer;
 class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
 {
     /**
-     * @var \Magento\Downloadable\Model\Link\Purchased
+     * @var Purchased
      */
     protected $_purchasedLinks;
 
@@ -51,6 +52,9 @@ class Downloadable extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRende
         parent::__construct($context, $string, $productOptionFactory, $data);
     }
 
+    /**
+     * @return Purchased
+     */
     public function getLinks()
     {
         $this->_purchasedLinks = $this->_purchasedFactory->create()

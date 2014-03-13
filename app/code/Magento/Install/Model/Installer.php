@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Install\Model;
 
 /**
  * Installer model
  */
-namespace Magento\Install\Model;
-
 class Installer extends \Magento\Object
 {
     /**
@@ -344,6 +342,7 @@ class Installer extends \Magento\Object
     /**
      * Check all necessary extensions are loaded and available
      *
+     * @return void
      * @throws \Exception
      */
     protected function checkExtensionsLoaded()

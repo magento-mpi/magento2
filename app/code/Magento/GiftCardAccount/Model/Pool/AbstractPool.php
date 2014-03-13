@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\GiftCardAccount\Model\Pool;
 
 abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
@@ -16,8 +14,19 @@ abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
     const STATUS_FREE = 0;
     const STATUS_USED = 1;
 
+    /**
+     * @var int|null
+     */
     protected $_pool_percent_used = null;
+
+    /**
+     * @var int
+     */
     protected $_pool_size = 0;
+
+    /**
+     * @var int
+     */
     protected $_pool_free_size = 0;
 
     /**
@@ -75,7 +84,7 @@ abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
     /**
      * Delete free codes from pool
      *
-     * @return \Magento\GiftCardAccount\Model\Pool\AbstractPool
+     * @return $this
      */
     public function cleanupFree()
     {

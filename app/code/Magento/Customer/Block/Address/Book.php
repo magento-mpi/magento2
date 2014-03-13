@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Address;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer address book block
@@ -15,11 +19,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Address;
-
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
-
 class Book extends \Magento\View\Element\Template
 {
     /**
@@ -66,6 +65,9 @@ class Book extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
@@ -74,11 +76,17 @@ class Book extends \Magento\View\Element\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getAddAddressUrl()
     {
         return $this->getUrl('customer/address/new', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         if ($this->getRefererUrl()) {
@@ -87,6 +95,9 @@ class Book extends \Magento\View\Element\Template
         return $this->getUrl('customer/account/', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteUrl()
     {
         return $this->getUrl('customer/address/delete');
@@ -162,7 +173,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getDefaultBilling()
     {
@@ -188,7 +199,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getDefaultShipping()
     {

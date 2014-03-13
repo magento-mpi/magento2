@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
 
 /**
  * Quote address attribute frontend shipping resource model
@@ -16,16 +16,13 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
-
-class Shipping
-    extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
+class Shipping extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
 {
     /**
      * Fetch totals
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend\Shipping
+     * @return $this
      */
     public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {

@@ -7,7 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
+namespace Magento\Io;
 
 /**
  * FTP client
@@ -16,8 +16,6 @@
  * @package    Magento_Io
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Io;
-
 class Ftp extends AbstractIo
 {
     const ERROR_EMPTY_HOST = 1;
@@ -49,6 +47,9 @@ class Ftp extends AbstractIo
      */
     protected $_error;
 
+    /**
+     * @var string
+     */
     protected $_tmpFilename;
 
     /**

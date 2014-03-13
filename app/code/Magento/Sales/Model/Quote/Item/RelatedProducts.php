@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Quote\Item;
 
 class RelatedProducts
@@ -30,7 +29,7 @@ class RelatedProducts
      * Retrieve Array of product ids which have special relation with products in Cart
      *
      * @param \Magento\Sales\Model\Quote\Item[] $quoteItems
-     * @return array
+     * @return int[]
      */
     public function getRelatedProductIds(array $quoteItems)
     {

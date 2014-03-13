@@ -188,7 +188,7 @@ class View extends Block
         foreach ($attributes as $attributeName => $attribute) {
             foreach ($attribute as $optionName) {
                 $option = $this->_rootElement->find(
-                    '//*[*[@class="product options configure"]//span[text()="' .
+                    '//*[*[@class="field configurable required"]//span[text()="' .
                     $attributeName .
                     '"]]//select/option[contains(text(), "' .
                     $optionName .
@@ -211,14 +211,13 @@ class View extends Block
     public function fillOptions($product)
     {
         $configureButton = $this->_rootElement->find('.action.primary.customize');
-        $configureSection = $this->_rootElement->find('.product.options.configure');
+        $configureSection = $this->_rootElement->find('.product.options.wrapper');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
             $bundleOptions = $product->getSelectionData();
             $this->getBundleBlock()->fillBundleOptions($bundleOptions);
-        }
-        if ($configureSection->isVisible()) {
+        } elseif ($configureSection->isVisible()) {
             $productOptions = $product->getProductOptions();
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }

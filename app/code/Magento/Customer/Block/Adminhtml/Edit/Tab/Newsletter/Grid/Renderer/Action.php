@@ -33,6 +33,10 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $actions = array();
@@ -53,11 +57,19 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
         return $this->_actionsToHtml($actions);
     }
 
+    /**
+     * @param string $value
+     * @return string
+     */
     protected function _getEscapedValue($value)
     {
         return addcslashes(htmlspecialchars($value), '\\\'');
     }
 
+    /**
+     * @param array $actions
+     * @return string
+     */
     protected function _actionsToHtml(array $actions)
     {
         $html = array();

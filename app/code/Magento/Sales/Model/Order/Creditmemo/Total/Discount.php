@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Creditmemo\Total;
 
-class Discount extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
+class Discount extends AbstractTotal
 {
+    /**
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
+     */
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $creditmemo->setDiscountAmount(0);

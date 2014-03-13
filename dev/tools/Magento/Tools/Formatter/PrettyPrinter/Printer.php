@@ -16,7 +16,6 @@ use PHPParser_Parser;
 /**
  * This class is used to control pretty printing of a block of code.
  * Class Printer
- * @package Magento\Tools\Formatter\PrettyPrinter
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Printer
@@ -38,6 +37,7 @@ class Printer
 
     /**
      * This method returns the lexer data member
+     *
      * @return array|\Magento\Tools\Formatter\ParserLexer
      */
     public static function getLexer()
@@ -47,6 +47,8 @@ class Printer
 
     /**
      * This method is used to construct the printer for the given code block.
+     *
+     * @param string $code
      */
     public function __construct($code)
     {
@@ -60,7 +62,9 @@ class Printer
      * This method display the remaining items in the comment map.
      * Any items left in this collection were likely removed by the
      * formatter.
-     * @param $commentMap
+     *
+     * @param array $commentMap
+     * @return void
      */
     public function displayRemovedComments($commentMap)
     {
@@ -76,6 +80,8 @@ class Printer
 
     /**
      * This method returns the code as a formatted block.
+     *
+     * @return string
      */
     public function getFormattedCode()
     {
@@ -84,6 +90,8 @@ class Printer
 
     /**
      * This method returns if the formatted code indicates a change.
+     *
+     * @return bool
      */
     public function hasChange()
     {
@@ -92,6 +100,8 @@ class Printer
 
     /**
      * This method performs the parsing and printing of the original code.
+     *
+     * @return void
      */
     public function parseCode()
     {
@@ -108,6 +118,7 @@ class Printer
 
     /**
      * This method adds a new sibling for the passed in node.
+     *
      * @param PHPParser_Node $node Node obtained from the parser.
      * @param TreeNode $treeNode Tree node location where the object is going to be added.
      * @return TreeNode Newly added node.
@@ -120,7 +131,9 @@ class Printer
 
     /**
      * This method resolves the statements into lines.
+     *
      * @param mixed $statements PHP Parser nodes to resolve
+     * @return void
      */
     protected function resolveStatements($statements)
     {
@@ -150,7 +163,9 @@ class Printer
     /**
      * This method takes the statement tree and levels it (i.e. makes sure lines are at the correct
      * level) and prints the tree.
+     *
      * @param Tree $tree Tree to operate upon.
+     * @return void
      */
     protected function formatTree(Tree $tree)
     {

@@ -9,11 +9,17 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 class HeredocTerminatingLineCondition extends LineBreakCondition
 {
+    /**
+     * {@inheritdoc}
+     */
     public function __construct()
     {
         parent::__construct(';');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function process(&$tokens, $nextToken)
     {
         $token = $nextToken;

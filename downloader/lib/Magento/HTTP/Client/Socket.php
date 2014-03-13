@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\HTTP\Client;
 
 /**
  * Class to work with HTTP protocol using sockets
@@ -15,8 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\HTTP\Client;
-
 class Socket
     implements \Magento\HTTP\IClient
 {
@@ -93,6 +92,7 @@ class Socket
      * Set request timeout, msec
      *
      * @param int $value
+     * @return void
      */
     public function setTimeout($value)
     {
@@ -116,6 +116,7 @@ class Socket
      *
      * @param string $host
      * @param int $port
+     * @return void
      */
     public function connect($host, $port = 80)
     {
@@ -126,6 +127,8 @@ class Socket
 
     /**
      * Disconnect
+     *
+     * @return void
      */
     public function disconnect()
     {
@@ -134,8 +137,9 @@ class Socket
 
     /**
      * Set headers from hash
-
+     *
      * @param array $headers
+     * @return void
      */
     public function setHeaders($headers)
     {
@@ -148,6 +152,7 @@ class Socket
      *
      * @param $name name, ex. "Location"
      * @param $value value ex. "http://google.com"
+     * @return void
      */
     public function addHeader($name, $value)
     {
@@ -159,6 +164,7 @@ class Socket
      * Remove specified header
      *
      * @param string $name
+     * @return void
      */
     public function removeHeader($name)
     {
@@ -172,6 +178,7 @@ class Socket
      *
      * @param string $login username
      * @param string $pass password
+     * @return void
      */
     public function setCredentials($login, $pass)
     {
@@ -184,6 +191,7 @@ class Socket
      *
      * @param string $name
      * @param string $value
+     * @return void
      */
     public function addCookie($name, $value)
     {
@@ -194,6 +202,7 @@ class Socket
      * Remove cookie
      *
      * @param string $name
+     * @return void
      */
     public function removeCookie($name)
     {
@@ -204,6 +213,7 @@ class Socket
      * Set cookies array
      *
      * @param array $cookies
+     * @return void
      */
     public function setCookies($cookies)
     {
@@ -212,6 +222,8 @@ class Socket
 
     /**
      * Clear cookies
+     *
+     * @return void
      */
     public function removeCookies()
     {
@@ -223,6 +235,7 @@ class Socket
      * Make GET request
      *
      * @param string $uri full uri path
+     * @return void
      */
     public function get($uri)
     {
@@ -235,6 +248,7 @@ class Socket
      *
      * @param string $uri ex. http://google.com/index.php?a=b
      * @return string ex. /index.php?a=b
+     * @throws \InvalidArgumentException
      */
     protected function parseUrl($uri)
     {
@@ -266,6 +280,10 @@ class Socket
 
     /**
      * Make POST request
+     *
+     * @param string $uri
+     * @param array $params
+     * @return void
      */
     public function post($uri, $params)
     {
@@ -358,6 +376,8 @@ class Socket
 
     /**
      * Process response headers
+     *
+     * @return void
      */
     protected function processResponseHeaders()
     {
@@ -389,6 +409,8 @@ class Socket
 
     /**
      * Process response body
+     *
+     * @return void
      */
     protected function processResponseBody()
     {
@@ -401,6 +423,8 @@ class Socket
 
     /**
      * Process response
+     *
+     * @return void
      */
     protected function processResponse()
     {
@@ -422,6 +446,8 @@ class Socket
 
     /**
      * Process redirect
+     *
+     * @return void
      */
     protected function processRedirect()
     {
@@ -431,6 +457,8 @@ class Socket
 
     /**
      * Get response status code
+     *
+     * @return int
      * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
      */
     public function getStatus()
@@ -477,7 +505,9 @@ class Socket
 
     /**
      * Throw error excpetion
-     * @param $string
+     *
+     * @param string $string
+     * @return void
      * @throws \Exception
      */
     public function doError($string)
@@ -487,8 +517,8 @@ class Socket
 
     /**
      * Convert headers hash to string
-     * @param $delimiter
-     * @param $append
+     *
+     * @param array $append
      * @return string
      */
     protected function headersToString($append = array())
@@ -506,6 +536,9 @@ class Socket
 
     /**
      * TODO
+     *
+     * @param array $arr
+     * @return void
      */
     public function setOptions($arr)
     {
@@ -514,10 +547,13 @@ class Socket
 
     /**
      * TODO
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
      */
     public function setOption($name, $value)
     {
         // Stub
     }
-
 }

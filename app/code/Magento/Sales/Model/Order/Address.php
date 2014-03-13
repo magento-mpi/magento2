@@ -116,6 +116,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -126,7 +128,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * Set order
      *
      * @param \Magento\Sales\Model\Order $order
-     * @return \Magento\Sales\Model\Order\Address
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -150,7 +152,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Before object save manipulations
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return $this
      */
     protected function _beforeSave()
     {

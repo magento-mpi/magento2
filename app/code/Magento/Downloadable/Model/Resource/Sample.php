@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Downloadable\Model\Resource;
 
 /**
  * Downloadable Product  Samples resource model
@@ -16,13 +16,12 @@
  * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model\Resource;
-
 class Sample extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +32,7 @@ class Sample extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save title of sample item in store scope
      *
      * @param \Magento\Downloadable\Model\Sample $sampleObject
-     * @return \Magento\Downloadable\Model\Resource\Sample
+     * @return $this
      */
     public function saveItemTitle($sampleObject)
     {
@@ -77,7 +76,7 @@ class Sample extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete data by item(s)
      *
      * @param \Magento\Downloadable\Model\Sample|array|int $items
-     * @return \Magento\Downloadable\Model\Resource\Sample
+     * @return $this
      */
     public function deleteItems($items)
     {

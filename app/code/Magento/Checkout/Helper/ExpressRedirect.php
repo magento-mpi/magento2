@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Helper;
 
 use Magento\Checkout\Controller\Express\RedirectLoginInterface as RedirectLoginInterface;
@@ -52,6 +51,7 @@ class ExpressRedirect extends \Magento\App\Helper\AbstractHelper
      * Performs redirect to login for checkout
      * @param RedirectLoginInterface $expressRedirect
      * @param string|null $customerBeforeAuthUrlDefault
+     * @return void
      */
     public function redirectLogin(RedirectLoginInterface $expressRedirect, $customerBeforeAuthUrlDefault = null)
     {

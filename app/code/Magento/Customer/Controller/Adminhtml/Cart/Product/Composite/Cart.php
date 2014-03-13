@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
+
+use Magento\Core\Exception;
 
 /**
  * Catalog composite product configuration controller
@@ -15,8 +18,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
-
 class Cart extends \Magento\Backend\App\Action
 {
     /**
@@ -62,7 +63,7 @@ class Cart extends \Magento\Backend\App\Action
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
-            throw new \Magento\Core\Exception(__('Please correct the quote items and try again.'));
+            throw new Exception(__('Please correct the quote items and try again.'));
         }
 
         return $this;

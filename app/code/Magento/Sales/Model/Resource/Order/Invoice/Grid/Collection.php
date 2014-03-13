@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order\Invoice\Grid;
 
 /**
  * Flat sales order invoice grid collection
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Invoice\Grid;
-
 class Collection extends \Magento\Sales\Model\Resource\Order\Invoice\Collection
 {
     /**
@@ -37,6 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Invoice\Collection
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

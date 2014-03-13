@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Resource\Item;
 
 /**
  * Gift registry item option resource model
@@ -15,12 +16,12 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Item;
-
 class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

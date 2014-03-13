@@ -17,12 +17,14 @@ class ClosureDetection
 {
     /**
      * This member holds the flag indicating closure has been detected.
+     *
      * @var bool
      */
     protected $closure = false;
 
     /**
      * This method constructs the closure detection based on arguments passed in.
+     *
      * @param array $arguments Array of arguments on which to detect closures.
      */
     public function __construct(array $arguments)
@@ -32,6 +34,8 @@ class ClosureDetection
 
     /**
      * This method returns the flag indicating if closure has been detected.
+     *
+     * @return bool
      */
     public function hasClosure()
     {
@@ -40,6 +44,7 @@ class ClosureDetection
 
     /**
      * This method returns if the list of arguments contain a closure element.
+     *
      * @param array $arguments Array of arguments on which to detect closures.
      * @return bool
      */
@@ -60,6 +65,7 @@ class ClosureDetection
 
     /**
      * This method returns if the passed in argument contains a closure reference.
+     *
      * @param mixed $argument Argument to check.
      * @return bool
      */

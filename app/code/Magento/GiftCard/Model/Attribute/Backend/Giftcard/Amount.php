@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Attribute\Backend\Giftcard;
 
 class Amount
@@ -62,7 +61,7 @@ class Amount
      * Validate data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
+     * @return  $this
      * @throws \Magento\Core\Exception
      */
     public function validate($object)
@@ -94,7 +93,7 @@ class Amount
      * Assign amounts to product data
      *
      * @param   \Magento\Catalog\Model\Product $object
-     * @return  \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
+     * @return  $this
      */
     public function afterLoad($object)
     {
@@ -122,7 +121,7 @@ class Amount
      * Save amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
+     * @return $this
      */
     public function afterSave($object)
     {
@@ -162,7 +161,7 @@ class Amount
      * Delete amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return \Magento\GiftCard\Model\Attribute\Backend\Giftcard\Amount
+     * @return $This
      */
     public function afterDelete($object)
     {

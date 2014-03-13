@@ -65,6 +65,7 @@ class Log
      * @param string $type
      * @param string $key
      * @param string $message
+     * @return void
      */
     public function add($type, $key, $message = '')
     {
@@ -77,6 +78,8 @@ class Log
 
     /**
      * Write entries
+     *
+     * @return void
      */
     public function report()
     {

@@ -25,6 +25,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Define collection item type and corresponding table
+     *
+     * @return void
      */
     protected function _construct()
     {

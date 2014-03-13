@@ -13,10 +13,15 @@ abstract class AbstractCastOperator extends AbstractPrefixOperator
 {
     /**
      * This member holds the operator for this cast.
+     *
      * @var string $operator
      */
     protected $operator;
 
+    /**
+     * @param PHPParser_Node_Expr_Cast $node
+     * @param string $operator
+     */
     protected function __construct(PHPParser_Node_Expr_Cast $node, $operator)
     {
         parent::__construct($node);
@@ -25,6 +30,7 @@ abstract class AbstractCastOperator extends AbstractPrefixOperator
 
     /**
      * All cast operators have the same associativity
+     *
      * @return int
      */
     public function associativity()
@@ -34,6 +40,7 @@ abstract class AbstractCastOperator extends AbstractPrefixOperator
 
     /**
      * This method returns the operator for this cast
+     *
      * @return string String containing the entire cast operator.
      */
     public function operator()
@@ -43,6 +50,7 @@ abstract class AbstractCastOperator extends AbstractPrefixOperator
 
     /**
      * All cast operators have the same precedence
+     *
      * @return int
      */
     public function precedence()

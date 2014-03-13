@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order;
 
 /**
  * Adminhtml sales order create
@@ -15,12 +16,11 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order;
-
 class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
+     * Session quote
+     *
      * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
@@ -39,6 +39,11 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'order_id';
@@ -99,6 +104,11 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         return $out;
     }
 
+    /**
+     * Get header width
+     *
+     * @return string
+     */
     public function getHeaderWidth()
     {
         return 'width: 70%;';
@@ -114,6 +124,11 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         return $this->_sessionQuote;
     }
 
+    /**
+     * Get cancel url
+     *
+     * @return string
+     */
     public function getCancelUrl()
     {
         if ($this->_sessionQuote->getOrder()->getId()) {

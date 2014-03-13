@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\System\Config\Source;
 
 class PriceType implements \Magento\Option\ArrayInterface
@@ -17,6 +16,9 @@ class PriceType implements \Magento\Option\ArrayInterface
      */
     protected $_options;
 
+    /**
+     * @return void
+     */
     public function __construct()
     {
         $this->_options = array(

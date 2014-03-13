@@ -37,7 +37,7 @@ interface BackupInterface
      * Set Backup Extension
      *
      * @param string $backupExtension
-     * @return \Magento\Backup\BackupInterface
+     * @return $this
      */
     public function setBackupExtension($backupExtension);
 
@@ -45,7 +45,7 @@ interface BackupInterface
      * Set Resource Model
      *
      * @param object $resourceModel
-     * @return \Magento\Backup\BackupInterface
+     * @return $this
      */
     public function setResourceModel($resourceModel);
 
@@ -53,7 +53,7 @@ interface BackupInterface
      * Set Time
      *
      * @param int $time
-     * @return \Magento\Backup\BackupInterface
+     * @return $this
      */
     public function setTime($time);
 
@@ -68,7 +68,7 @@ interface BackupInterface
      * Set path to directory where backups stored
      *
      * @param string $backupsDir
-     * @return \Magento\Backup\BackupInterface
+     * @return $this
      */
     public function setBackupsDir($backupsDir);
 }

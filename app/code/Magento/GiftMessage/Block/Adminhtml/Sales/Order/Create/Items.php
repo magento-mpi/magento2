@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * Gift message adminhtml sales order create items
@@ -15,8 +16,6 @@
  * @package    Magento_GiftMessage
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
-
 class Items extends \Magento\Backend\Block\Template
 {
     /**
@@ -64,7 +63,7 @@ class Items extends \Magento\Backend\Block\Template
         );
     }
 
-   /**
+    /**
      * Return form html
      *
      * @return string

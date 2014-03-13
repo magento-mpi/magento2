@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Widget;
 
 class AbstractWidget extends \Magento\View\Element\Template
@@ -40,11 +39,18 @@ class AbstractWidget extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @param string $key
+     * @return null|string
+     */
     public function getConfig($key)
     {
         return $this->_addressHelper->getConfig($key);
     }
 
+    /**
+     * @return string
+     */
     public function getFieldIdFormat()
     {
         if (!$this->hasData('field_id_format')) {
@@ -53,6 +59,9 @@ class AbstractWidget extends \Magento\View\Element\Template
         return $this->getData('field_id_format');
     }
 
+    /**
+     * @return string
+     */
     public function getFieldNameFormat()
     {
         if (!$this->hasData('field_name_format')) {
@@ -61,11 +70,19 @@ class AbstractWidget extends \Magento\View\Element\Template
         return $this->getData('field_name_format');
     }
 
+    /**
+     * @param string $field
+     * @return string
+     */
     public function getFieldId($field)
     {
         return sprintf($this->getFieldIdFormat(), $field);
     }
 
+    /**
+     * @param string $field
+     * @return string
+     */
     public function getFieldName($field)
     {
         return sprintf($this->getFieldNameFormat(), $field);

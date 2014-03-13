@@ -46,7 +46,7 @@ class ServiceCollection extends AbstractServiceCollection
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Data\Collection
+     * @return $this
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

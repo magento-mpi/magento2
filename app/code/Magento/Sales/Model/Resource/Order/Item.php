@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Order;
 
 /**
  * Flat sales order item resource
@@ -16,9 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order;
-
-class Item extends \Magento\Sales\Model\Resource\Order\AbstractOrder
+class Item extends AbstractOrder
 {
     /**
      * Event prefix
@@ -30,6 +28,7 @@ class Item extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

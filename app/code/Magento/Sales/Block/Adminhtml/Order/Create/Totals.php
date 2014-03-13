@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 /**
  * Adminhtml sales order create totals block
@@ -15,12 +16,20 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml\Order\Create;
-
 class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
+    /**
+     * Total renderers
+     *
+     * @var array
+     */
     protected $_totalRenderers;
+
+    /**
+     * Default renderer
+     *
+     * @var string
+     */
     protected $_defaultRenderer = 'Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals';
 
     /**
@@ -31,6 +40,8 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_salesData = null;
 
     /**
+     * Sales config
+     *
      * @var \Magento\Sales\Model\Config
      */
     protected $_salesConfig;
@@ -56,27 +67,53 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('sales_order_create_totals');
     }
 
+    /**
+     * Get totals
+     *
+     * @return array
+     */
     public function getTotals()
     {
         return $this->getQuote()->getTotals();
     }
 
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Order Totals');
     }
 
+    /**
+     * Get header css class
+     *
+     * @return string
+     */
     public function getHeaderCssClass()
     {
         return 'head-money';
     }
 
+    /**
+     * Get total renderer
+     *
+     * @param string $code
+     * @return bool|\Magento\View\Element\BlockInterface
+     */
     protected function _getTotalRenderer($code)
     {
         $blockName = $code.'_total_renderer';
@@ -98,6 +135,14 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         return $block;
     }
 
+    /**
+     * Render total
+     *
+     * @param \Magento\Object $total
+     * @param string|null $area
+     * @param int $colspan
+     * @return mixed
+     */
     public function renderTotal($total, $area = null, $colspan = 1)
     {
         return $this->_getTotalRenderer($total->getCode())
@@ -107,6 +152,13 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             ->toHtml();
     }
 
+    /**
+     * Render totals
+     *
+     * @param null $area
+     * @param int $colspan
+     * @return string
+     */
     public function renderTotals($area = null, $colspan = 1)
     {
         $html = '';
@@ -119,6 +171,11 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         return $html;
     }
 
+    /**
+     * Check allow to send new order confirmation email
+     *
+     * @return bool
+     */
     public function canSendNewOrderConfirmationEmail()
     {
         return $this->_salesData->canSendNewOrderConfirmationEmail($this->getQuote()->getStoreId());
