@@ -26,6 +26,11 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     protected $attributeMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layerMock;
+
+    /**
      * @var \Magento\Catalog\Model\Layer\FilterList
      */
     protected $model;
@@ -46,6 +51,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             FilterList::ATTRIBUTE_FILTER => 'AttributeFilterClass',
 
         );
+        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
 
         $this->model = new FilterList($this->objectManagerMock, $this->attributeListMock, $filters);
     }
@@ -68,7 +74,9 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
         $this->objectManagerMock->expects($this->at(1))
             ->method('create')
-            ->with($expectedClass, array('data' => array('attribute_model' => $this->attributeMock)))
+            ->with($expectedClass, array(
+                'data' => array('attribute_model' => $this->attributeMock),
+                'layer' => $this->layerMock))
             ->will($this->returnValue('filter'));
 
         $this->attributeMock->expects($this->once())
@@ -79,7 +87,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             ->method('getList')
             ->will($this->returnValue(array($this->attributeMock)));
 
-        $this->assertEquals(array('filter', 'filter'), $this->model->getFilters());
+        $this->assertEquals(array('filter', 'filter'), $this->model->getFilters($this->layerMock));
     }
 
     /**

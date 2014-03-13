@@ -26,6 +26,11 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     protected $searchHelperMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layerMock;
+
+    /**
      * @var \Magento\Search\Model\Layer\Category\FilterList
      */
     protected $model;
@@ -37,6 +42,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Layer\Category\FilterableAttributeList', array(), array(), '', false
         );
         $this->searchHelperMock = $this->getMock('\Magento\Search\Helper\Data', array(), array(), '', false);
+        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
 
         $this->model = new FilterList($this->objectManagerMock, $this->attributeListMock, $this->searchHelperMock);
     }
@@ -55,7 +61,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             ->method('getList')
             ->will($this->returnValue(array()));
 
-        $this->assertEquals(array('filter'), $this->model->getFilters());
+        $this->assertEquals(array('filter'), $this->model->getFilters($this->layerMock));
     }
 
     /**
@@ -86,6 +92,6 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             ->method('getIsEngineAvailableForNavigation')
             ->will($this->returnValue(true));
 
-        $this->assertEquals(array($filterMock), $this->model->getFilters());
+        $this->assertEquals(array($filterMock), $this->model->getFilters($this->layerMock));
     }
 }
