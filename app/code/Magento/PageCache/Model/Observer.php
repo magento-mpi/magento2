@@ -38,23 +38,39 @@ class Observer
     protected $_typeList;
 
     /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_formKey;
+
+    /**
      * Constructor
      *
      * @param Config $config
      * @param \Magento\App\PageCache\Cache $cache
      * @param \Magento\PageCache\Helper\Data $helper
      * @param \Magento\App\Cache\TypeListInterface $typeList
+     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\App\PageCache\FormKey $formKey
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Cache $cache,
         \Magento\PageCache\Helper\Data $helper,
-        \Magento\App\Cache\TypeListInterface $typeList
+        \Magento\App\Cache\TypeListInterface $typeList,
+        \Magento\App\PageCache\FormKey $formKey,
+        \Magento\Core\Model\Session $session
     ){
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_helper = $helper;
         $this->_typeList = $typeList;
+        $this->_session = $session;
+        $this->_formKey = $formKey;
     }
 
     /**
@@ -155,4 +171,20 @@ class Observer
         return $this;
     }
 
+    /**
+     * Register form key in session from cookie value
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function registerFormKeyFromCookie(\Magento\Event\Observer $observer)
+    {
+        if (!$this->_config->isEnabled()) {
+            return;
+        }
+
+        $formKeyFromCookie = $this->_formKey->get();
+        if ($formKeyFromCookie) {
+            $this->_session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKeyFromCookie);
+        }
+    }
 }

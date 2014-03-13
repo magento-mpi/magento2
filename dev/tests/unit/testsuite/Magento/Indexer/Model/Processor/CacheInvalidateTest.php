@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 3/12/14
- * Time: 2:29 PM
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Indexer\Model\Processor;
@@ -12,7 +12,7 @@ namespace Magento\Indexer\Model\Processor;
 class CacheInvalidateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\Indexer\Processor\InvalidatePlugin
+     * @var \Magento\Indexer\Model\Processor\CacheInvalidate
      */
     protected $plugin;
 

@@ -54,9 +54,9 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
 

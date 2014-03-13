@@ -74,8 +74,10 @@ sub vcl_fetch {
     }
 
     # cache only successfully responses
-    if (beresp.status != 200 || beresp.http.Cache-Control ~ "private") {
+    if (beresp.status != 200) {
         set beresp.ttl = 0s;
+        return (hit_for_pass);
+    } elsif (beresp.http.Cache-Control ~ "private") {
         return (hit_for_pass);
     }
 
