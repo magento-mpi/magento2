@@ -151,8 +151,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $additionalExtension .
             '.' .
             $this->getExtensionByType(
-            $backup->getType()
-        );
+                $backup->getType()
+            );
     }
 
     /**
