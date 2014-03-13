@@ -73,11 +73,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_quoteFactory;
 
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * @var \Magento\HTTP\Header
      */
     protected $_httpHeader;
@@ -106,7 +101,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -126,7 +120,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -143,7 +136,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_customerFactory = $customerFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
         $this->_storeManager = $storeManager;
@@ -389,28 +381,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     {
         $ipData = array();
         $data->setIpData($ipData);
-        return $this;
-    }
-
-    /**
-     * Load customer data into $data
-     *
-     * @param object $data
-     * @return $this
-     */
-    public function addCustomerData($data)
-    {
-        $customerId = $data->getCustomerId();
-        if (intval($customerId) <= 0) {
-            return $this;
-        }
-        $customerData = $this->_customerFactory->create()->load($customerId);
-        $newCustomerData = array();
-        foreach ($customerData->getData() as $propName => $propValue) {
-            $newCustomerData['customer_' . $propName] = $propValue;
-        }
-
-        $data->addData($newCustomerData);
         return $this;
     }
 

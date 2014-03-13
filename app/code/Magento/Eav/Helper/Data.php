@@ -175,6 +175,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             'entity_type_id' => $attribute->getEntityTypeId(),
             'attribute_id' => $attribute->getAttributeId(),
             'attribute_table' => $attribute->getBackend()->getTable(),
+            'backend_type' => $attribute->getBackendType(),
         ];
     }
 }
