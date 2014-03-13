@@ -10,7 +10,7 @@ namespace Magento\File\Transfer\Adapter;
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Zend_Controller_Response_Http|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Controller\Response\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     private $response;
 
@@ -26,7 +26,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->response = $this->getMock('Zend_Controller_Response_Http');
+        $this->response = $this->getMock('\Magento\Controller\Response\Http');
         $this->mime = $this->getMock('Magento\File\Mime');
         $this->object = new Http($this->response, $this->mime);
     }

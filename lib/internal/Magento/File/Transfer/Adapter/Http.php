@@ -21,10 +21,10 @@ class Http
     private $mime;
 
     /**
-     * @param \Zend_Controller_Response_Http $response
+     * @param \Magento\Controller\Response\Http $response
      * @param \Magento\File\Mime $mime
      */
-    public function __construct(\Zend_Controller_Response_Http $response, \Magento\File\Mime $mime)
+    public function __construct(\Magento\Controller\Response\Http $response, \Magento\File\Mime $mime)
     {
         $this->response = $response;
         $this->mime = $mime;
