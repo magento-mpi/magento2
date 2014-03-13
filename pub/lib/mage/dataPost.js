@@ -30,7 +30,7 @@
             var params = $(e.currentTarget).data('post');
             var formKey = $(this.options.formKeyInputSelector).val();
             if (formKey) {
-                params.data.push("form_key", formKey);
+                params.data.form_key = formKey;
             }
             this.postData(params);
         },
