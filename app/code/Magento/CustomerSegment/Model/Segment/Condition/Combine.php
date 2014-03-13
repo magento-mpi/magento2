@@ -44,24 +44,30 @@ class Combine extends AbstractCombine
     public function getNewChildSelectOptions()
     {
         $conditions = array(
+            // Subconditions combo
             array(
                 'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine',
                 'label' => __('Conditions Combination'),
                 'available_in_guest_mode' => true
             ),
+            // Customer address combo
             array(
                 'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address',
                 'label' => __('Customer Address')
             ),
+            // Customer attribute group
             $this->_conditionFactory->create('Customer')->getNewChildSelectOptions(),
+            // Shopping cart group
             $this->_conditionFactory->create('Shoppingcart')->getNewChildSelectOptions(),
             array(
                 'value' => array(
+                    // Product list combo
                     array(
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine',
                         'label' => __('Product List'),
                         'available_in_guest_mode' => true
                     ),
+                    // Product history combo
                     array(
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History',
                         'label' => __('Product History'),
@@ -71,6 +77,7 @@ class Combine extends AbstractCombine
                 'label' => __('Products'),
                 'available_in_guest_mode' => true
             ),
+            // Sales group
             $this->_conditionFactory->create('Sales')->getNewChildSelectOptions()
         );
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);

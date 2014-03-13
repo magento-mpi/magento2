@@ -79,6 +79,7 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
                 $this->_entityType->getEntityTypeCode(),
                 $this->_formCode
             );
+            // @todo initialize default values  MAGETWO-17600
         }
         return $this->_metadataForm;
     }

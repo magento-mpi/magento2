@@ -102,6 +102,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             try {
                 $attributesMetadata[] = $this->getAttributeMetadata($entityType, $attributeCode);
             } catch (NoSuchEntityException $e) {
+                //If no such entity, skip
             }
         }
         return $attributesMetadata;

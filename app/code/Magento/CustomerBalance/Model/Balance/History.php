@@ -178,6 +178,7 @@ class History extends \Magento\Core\Model\AbstractModel
                 $this->setAdditionalInfo(__('Order #%1', $balance->getOrder()->getIncrementId()));
                 break;
             default:
+                // break intentionally omitted
                 throw new Exception(__('Unknown balance history action code'));
         }
         $this->setAction((int)$balance->getHistoryAction());

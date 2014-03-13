@@ -46,6 +46,7 @@ class Combine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
             parent::getNewChildSelectOptions(),
             array(
                 $this->_conditionFactory->create('Order\Status')->getNewChildSelectOptions(),
+                // date ranges
                 array(
                     'value' => array(
                         $this->_conditionFactory->create('Uptodate')->getNewChildSelectOptions(),

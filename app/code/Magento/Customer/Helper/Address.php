@@ -242,6 +242,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
         $class = $attribute ? $attribute->getFrontendClass() : '';
         if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
             if ($class && !$attribute->isVisible()) {
+                // address attribute is not visible thus its validation rules are not applied
                 $class = '';
             }
 

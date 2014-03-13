@@ -237,6 +237,7 @@ class Index extends \Magento\Backend\App\Action
                         $customerData['address'][$address->getId()]['id'] = $address->getId();
                     }
                 } catch (NoSuchEntityException $e) {
+                    //do nothing
                 }
             } catch (NoSuchEntityException $e) {
                 $this->messageManager->addException($e, __('An error occurred while editing the customer.'));

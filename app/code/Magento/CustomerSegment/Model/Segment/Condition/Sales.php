@@ -40,6 +40,7 @@ class Sales extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
         return array(
             'value' => array(
                 array(
+                     // order address combo
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address',
                     'label' => __('Order Address')
                 ),

@@ -775,6 +775,7 @@ class Account extends \Magento\App\Action\Action
                     CustomerAccountServiceInterface::EMAIL_RESET
                 );
             } catch (NoSuchEntityException $e) {
+                // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {
                 $this->messageManager->addException($exception, __('Unable to send password reset email.'));
                 $this->_redirect('*/*/forgotpassword');

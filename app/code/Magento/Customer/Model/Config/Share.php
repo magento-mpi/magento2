@@ -114,11 +114,13 @@ class Share extends \Magento\Core\Model\Config\Value implements \Magento\Option\
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
             if ($this->_customerResource->findEmailDuplicates()) {
+                //@codingStandardsIgnoreStart
                 throw new \Magento\Core\Exception(
                     __(
                         'Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.'
                     )
                 );
+                //@codingStandardsIgnoreEnd
             }
         }
         return $this;

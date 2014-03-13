@@ -192,6 +192,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     {
         $dateRange = $this->_getDateRange();
         if (isset($dateRange[$borderName])) {
+            //milliseconds for JS
             return $dateRange[$borderName] * 1000;
         } else {
             return null;

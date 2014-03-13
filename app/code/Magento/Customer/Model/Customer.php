@@ -698,6 +698,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function sendNewAccountEmail($type = 'registered', $backUrl = '', $storeId = '0')
     {
+        /**
+         * 'registered'   welcome email, when confirmation is disabled
+         * 'confirmed'    welcome email, when confirmation is enabled
+         * 'confirmation' email with confirmation link
+         */
         $types = array(
             'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
             'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
