@@ -1529,8 +1529,7 @@ XMLAuth;
             $method == '11' // UPS Standard
         ) {
             $containerTypes = array();
-            if (
-                $method == '07' // Worldwide Express
+            if ($method == '07' // Worldwide Express
                 || $method == '08' // Worldwide Expedited
                 || $method == '65' // Worldwide Saver
             ) {
