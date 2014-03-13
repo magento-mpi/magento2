@@ -40,7 +40,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $layer \Magento\Catalog\Model\Layer */
         $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
         $layer->setCurrentCategory(4);
         $layer->setState(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\State'));

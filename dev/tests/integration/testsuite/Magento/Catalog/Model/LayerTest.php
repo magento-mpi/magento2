@@ -26,7 +26,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
         $this->_model->setCurrentCategory(4);
     }
 
@@ -106,13 +106,13 @@ class LayerTest extends \PHPUnit_Framework_TestCase
         /* Category object */
         /** @var $model \Magento\Catalog\Model\Layer */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
         $model->setCurrentCategory($existingCategory);
         $this->assertSame($existingCategory, $model->getCurrentCategory());
 
         /* Category id */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
         $model->setCurrentCategory(3);
         $actualCategory = $model->getCurrentCategory();
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $actualCategory);
@@ -125,7 +125,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Registry')->register('current_category', $existingCategory);
         try {
             $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
             $objectManager->get('Magento\Registry')->unregister('current_category');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
@@ -137,7 +137,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
         try {
             $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
             $model->setCurrentCategory(new \Magento\Object());
             $this->fail('Assign category of invalid class.');
         } catch (\Magento\Core\Exception $e) {
@@ -145,7 +145,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
         try {
             $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
             $model->setCurrentCategory(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category'));
             $this->fail('Assign category with invalid id.');

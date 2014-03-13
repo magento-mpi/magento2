@@ -32,7 +32,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $this->_model->setData(array(
             'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer', array(
+            ->create('Magento\Catalog\Model\Layer\Category', array(
                 'data' => array('current_category' => $category)
             )),
         ));

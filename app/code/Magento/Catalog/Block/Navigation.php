@@ -59,7 +59,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
     /**
      * Catalog layer
      *
-     * @var \Magento\Catalog\Model\Layer
+     * @var \Magento\Catalog\Model\Layer\Category
      */
     protected $_catalogLayer;
 

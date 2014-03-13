@@ -44,7 +44,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Filter\Price\Algorithm');
         $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            ->create('Magento\Catalog\Model\Layer\Category');
         $this->_filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Filter\Price');
         $this->_filter

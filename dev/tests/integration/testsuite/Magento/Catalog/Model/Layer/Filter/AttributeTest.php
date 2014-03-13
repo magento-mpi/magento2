@@ -45,7 +45,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Layer\Filter\Attribute');
         $this->_model->setData(array(
             'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer'),
+            ->create('Magento\Catalog\Model\Layer\Category'),
             'attribute_model' => $attribute,
         ));
     }
