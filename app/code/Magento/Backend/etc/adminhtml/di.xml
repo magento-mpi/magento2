@@ -26,7 +26,7 @@
     <type name="Magento\Backend\Model\Translate\Inline">
         <arguments>
             <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>
-            <argument name="templateFileName" xsi:type="string">Magento_Core::translate_inline.phtml</argument>
+            <argument name="templateFileName" xsi:type="string">Magento_Translation::translate_inline.phtml</argument>
         </arguments>
     </type>
     <type name="Magento\Backend\App\Action\Context">
