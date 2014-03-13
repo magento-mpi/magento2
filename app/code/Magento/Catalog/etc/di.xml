@@ -124,8 +124,6 @@
         <arguments>
             <argument name="flatIndexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
-        <plugin name="page-cache-indexer-reindex-category-flat"
-                type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
@@ -145,6 +143,8 @@
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-category-flat"
+                type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup">
         <arguments>
