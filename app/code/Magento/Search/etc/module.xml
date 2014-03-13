@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Search" version="1.11.0.0" active="true">
+    <module name="Magento_Search" version="1.11.0.0" active="false">
         <sequence>
             <module name="Magento_CatalogSearch"/>
         </sequence>
