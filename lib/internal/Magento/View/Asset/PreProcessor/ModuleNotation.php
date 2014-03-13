@@ -51,8 +51,9 @@ class ModuleNotation implements Asset\PreProcessorInterface
     /**
      * Convert module notation to a path relative to the specified asset
      *
-     * For example, the asset is Foo_Bar/styles/style.css and it refers to url(Bar_Baz::images/logo.gif)
-     * The result will be url(../../Bar_Baz/images/logo.gif)
+     * For example, the asset is Foo_Bar/styles/style.css and it refers to Bar_Baz::images/logo.gif
+     * (i.e. url(Bar_Baz::images/logo.gif))
+     * The result will be ../../Bar_Baz/images/logo.gif
      *
      * The $asset has to be of "FileId" type, because only it carries necessary relevant "params" information.
      * Its method "createSimilar()" exists because the $params are not exposed by the $asset object (encapsulated).

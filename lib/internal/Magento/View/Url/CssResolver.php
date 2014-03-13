@@ -35,7 +35,7 @@ class CssResolver
         $callback = function ($path) use ($offset) {
             return FileSystem::normalizePath($offset . '/' . $path);
         };
-        return self::replaceRelativeUrls($cssContent, $callback);
+        return $this->replaceRelativeUrls($cssContent, $callback);
     }
 
     /**
@@ -48,7 +48,7 @@ class CssResolver
      * @param callback $inlineCallback
      * @return string
      */
-    public static function replaceRelativeUrls($cssContent, $inlineCallback)
+    public function replaceRelativeUrls($cssContent, $inlineCallback)
     {
         $patterns = self::extractRelativeUrls($cssContent);
         if ($patterns) {
