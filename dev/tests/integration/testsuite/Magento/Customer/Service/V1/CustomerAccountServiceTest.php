@@ -5,6 +5,7 @@ use Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
+use Magento\Service\Data\FilterBuilder;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAccountService
@@ -1154,20 +1155,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Customer with specific email' => [
-                [(new Data\FilterBuilder())->setField('email')->setValue('customer@search.example.com')->create()],
+                [(new FilterBuilder())->setField('email')->setValue('customer@search.example.com')->create()],
                 null,
                 [1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname']]
             ],
             'Customer with specific first name' => [
-                [(new Data\FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()],
+                [(new FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()],
                 null,
                 [2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']]
             ],
             'Customers with either email' => [
                 [],
                 [
-                    (new Data\FilterBuilder())->setField('firstname')->setValue('Firstname')->create(),
-                    (new Data\FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()
+                    (new FilterBuilder())->setField('firstname')->setValue('Firstname')->create(),
+                    (new FilterBuilder())->setField('firstname')->setValue('Firstname2')->create()
                 ],
                 [
                     1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
@@ -1175,7 +1176,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'Customers created since' => [
-                [(new Data\FilterBuilder())
+                [(new FilterBuilder())
                      ->setField('created_at')->setValue('2011-02-28 15:52:26')->setConditionType('gt')->create()],
                 [],
                 [
@@ -1197,7 +1198,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $searchBuilder = new Data\SearchCriteriaBuilder();
 
         // Filter for 'firstname' like 'First'
-        $filterBuilder = new Data\FilterBuilder();
+        $filterBuilder = new FilterBuilder();
         $firstnameFilter = $filterBuilder->
             setField('firstname')->setConditionType('like')->setValue('First%')->create();
         $searchBuilder->addFilter($firstnameFilter);

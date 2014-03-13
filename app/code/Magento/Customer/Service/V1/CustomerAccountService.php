@@ -20,6 +20,7 @@ use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Math\Random;
 use Magento\UrlInterface;
+use Magento\Service\Data\Filter;
 
 /**
  * Handle various customer account actions
@@ -441,10 +442,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Helper function that adds a filter to the collection
      *
      * @param Collection $collection
-     * @param Data\Filter $filter
+     * @param Filter $filter
      * @return void
      */
-    protected function addFilterToCollection(Collection $collection, Data\Filter $filter)
+    protected function addFilterToCollection(Collection $collection, Filter $filter)
     {
         $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
         $collection->addFieldToFilter($filter->getField(), [$condition => $filter->getValue()]);

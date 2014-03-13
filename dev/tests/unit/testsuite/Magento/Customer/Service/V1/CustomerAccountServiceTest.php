@@ -13,6 +13,7 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Service\Data\FilterBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
@@ -1426,7 +1427,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
         $searchBuilder = new Data\SearchCriteriaBuilder();
-        $filterBuilder = new Data\FilterBuilder();
+        $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue('customer@search.example.com')->create();
         $searchBuilder->addFilter($filter);
 
@@ -1493,7 +1494,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
         $searchBuilder = new Data\SearchCriteriaBuilder();
-        $filterBuilder = new Data\FilterBuilder();
+        $filterBuilder = new FilterBuilder();
         $filter = $filterBuilder->setField('email')->setValue(self::EMAIL)->create();
         $searchBuilder->addFilter($filter);
 

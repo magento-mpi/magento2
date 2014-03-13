@@ -9,6 +9,8 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Service\Data\FilterBuilder;
+
 class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -181,15 +183,15 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'eq' => [
-                [(new Data\FilterBuilder())->setField('code')->setValue('General')->create()],
+                [(new FilterBuilder())->setField('code')->setValue('General')->create()],
                 null,
                 [1 => ['code' => 'General', 'tax_class_id' => 3]]
             ],
             'and' => [
                 [
-                    (new Data\FilterBuilder())->setField('code')->setValue('General')->create(),
-                    (new Data\FilterBuilder())->setField('tax_class_id')->setValue('3')->create(),
-                    (new Data\FilterBuilder())->setField('id')->setValue('1')->create(),
+                    (new FilterBuilder())->setField('code')->setValue('General')->create(),
+                    (new FilterBuilder())->setField('tax_class_id')->setValue('3')->create(),
+                    (new FilterBuilder())->setField('id')->setValue('1')->create(),
                 ],
                 [],
                 [1 => ['code' => 'General', 'tax_class_id' => 3]]
@@ -197,8 +199,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
             'or' => [
                 [],
                 [
-                    (new Data\FilterBuilder())->setField('code')->setValue('General')->create(),
-                    (new Data\FilterBuilder())->setField('code')->setValue('Wholesale')->create(),
+                    (new FilterBuilder())->setField('code')->setValue('General')->create(),
+                    (new FilterBuilder())->setField('code')->setValue('Wholesale')->create(),
                 ],
                 [
                     1 => ['code' => 'General', 'tax_class_id' => 3],
@@ -206,7 +208,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'like' => [
-                [(new Data\FilterBuilder())->setField('code')->setValue('er')->setConditionType('like')->create()],
+                [(new FilterBuilder())->setField('code')->setValue('er')->setConditionType('like')->create()],
                 [],
                 [
                     1 => ['code' => 'General', 'tax_class_id' => 3],
