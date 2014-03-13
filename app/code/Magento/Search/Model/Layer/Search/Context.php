@@ -26,22 +26,22 @@ class Context extends \Magento\Catalog\Model\Layer\Search\Context
     protected $searchProvider;
 
     /**
-     * @param ItemCollectionProvider $searchProvider
-     * @param CatalogCollectionProvider $catalogProvider
+     * @param CatalogCollectionProvider $collectionProvider
      * @param StateKey $stateKey
      * @param CollectionFilter $collectionFilter
+     * @param ItemCollectionProvider $searchProvider
      * @param \Magento\Search\Helper\Data $helper
      */
     public function __construct(
-        ItemCollectionProvider $searchProvider,
-        CatalogCollectionProvider $catalogProvider,
+        CatalogCollectionProvider $collectionProvider,
         StateKey $stateKey,
         CollectionFilter $collectionFilter,
+        ItemCollectionProvider $searchProvider,
         \Magento\Search\Helper\Data $helper
     ) {
         $this->helper = $helper;
         $this->searchProvider = $searchProvider;
-        parent::__construct($catalogProvider, $stateKey, $collectionFilter);
+        parent::__construct($collectionProvider, $stateKey, $collectionFilter);
     }
 
     /**
