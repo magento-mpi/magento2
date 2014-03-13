@@ -15,6 +15,7 @@
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
   * [#499] (https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
 * Fixed bugs:
+  * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
   * Fixed transaction rollback in fetchNewIncrementId on exception
   * Fixed category saveing when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
