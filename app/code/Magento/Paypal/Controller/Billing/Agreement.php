@@ -104,7 +104,7 @@ class Agreement extends \Magento\App\Action\Action
         if ($paymentCode) {
             try {
                 $agreement
-                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
+                    ->setStoreId($this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId())
                     ->setMethodCode($paymentCode)
                     ->setReturnUrl($this->_objectManager->create('Magento\UrlInterface')
                         ->getUrl('*/*/returnWizard', array('payment_method' => $paymentCode)))
@@ -135,7 +135,7 @@ class Agreement extends \Magento\App\Action\Action
         if ($token && $paymentCode) {
             try {
                 $agreement
-                    ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
+                    ->setStoreId($this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
                     ->setCustomer($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer())

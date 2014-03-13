@@ -56,15 +56,15 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $this->closureMock = function () {
             return 'Expected';
         };
-        $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
         $this->_urlMock = $this->getMock('\Magento\Url', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('\Magento\Store\Model\Store\Config', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $this->_model = new \Magento\Core\App\FrontController\Plugin\RequestPreprocessor(
             $this->_storeManagerMock,

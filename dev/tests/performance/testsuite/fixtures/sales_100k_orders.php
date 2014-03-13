@@ -40,7 +40,7 @@ $order->setBaseSubtotal(100)
     ->setTotalPaid(100)
     ->setCustomerIsGuest(true)
     ->setState(\Magento\Sales\Model\Order::STATE_NEW, true)
-    ->setStoreId($this->getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId());
+    ->setStoreId($this->getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId());
 
 for ($i = 1; $i <= 100000; $i++) {
     $billingAddress

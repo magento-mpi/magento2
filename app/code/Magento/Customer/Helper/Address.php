@@ -63,10 +63,10 @@ class Address extends \Magento\App\Helper\AbstractHelper
     /** @var \Magento\View\Element\BlockFactory */
     protected $_blockFactory;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var \Magento\Core\Model\Store\Config */
+    /** @var \Magento\Store\Model\Store\Config */
     protected $_coreStoreConfig;
 
     /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
@@ -78,16 +78,16 @@ class Address extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\Element\BlockFactory $blockFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\View\Element\BlockFactory $blockFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService,
         \Magento\Customer\Model\Address\Config $addressConfig
     ) {
@@ -150,7 +150,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * Return customer address config value by key and store
      *
      * @param string $key
-     * @param \Magento\Core\Model\Store|int|string $store
+     * @param \Magento\Store\Model\Store|int|string $store
      * @return string|null
      */
     public function getConfig($key, $store = null)
@@ -166,7 +166,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
     /**
      * Return Number of Lines in a Street Address for store
      *
-     * @param \Magento\Core\Model\Store|int|string $store
+     * @param \Magento\Store\Model\Store|int|string $store
      * @return int
      */
     public function getStreetLines($store = null)
@@ -293,7 +293,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether VAT ID validation is enabled
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return bool
      */
     public function isVatValidationEnabled($store = null)
@@ -314,7 +314,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve 'validate on each transaction' value
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return bool
      */
     public function hasValidateOnEachTransaction($store = null)
@@ -325,7 +325,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve customer address type on which tax calculation must be based
      *
-     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @param \Magento\Store\Model\Store|string|int|null $store
      * @return string
      */
     public function getTaxCalculationAddressType($store = null)

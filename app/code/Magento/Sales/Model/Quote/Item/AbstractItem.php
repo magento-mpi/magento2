@@ -284,7 +284,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store model object
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

@@ -32,17 +32,17 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\Store\Group\Factory $storeGroupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
-        \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
-        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\Store\Group\Factory $storeGroupFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -77,7 +77,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

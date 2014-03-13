@@ -25,7 +25,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         'Magento\View\Url',
         'Magento\View\FileSystem',
         'Magento\Core\Model\View\Design',
-        'Magento\Core\Model\Store\Config',
+        'Magento\Store\Model\Store\Config',
         'Magento\Email\Model\Template\Config',
     );
 

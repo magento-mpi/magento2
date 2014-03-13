@@ -37,8 +37,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address');
 
         $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsites(true);
-        /** @var $website \Magento\Core\Model\Website */
+            ->get('Magento\Store\Model\StoreManagerInterface')->getWebsites(true);
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
         }

@@ -159,7 +159,7 @@ class Carrier
     protected $_coreDate;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -191,7 +191,7 @@ class Carrier
     protected $_httpClientFactory;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
@@ -207,7 +207,7 @@ class Carrier
      * @param \Magento\Shipping\Helper\Carrier $carrierHelper
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Module\Dir\Reader $configReader
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\App\Filesystem $filesystem
@@ -216,7 +216,7 @@ class Carrier
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
@@ -232,7 +232,7 @@ class Carrier
         \Magento\Shipping\Helper\Carrier $carrierHelper,
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Module\Dir\Reader $configReader,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
         \Magento\App\Filesystem $filesystem,
@@ -306,7 +306,7 @@ class Carrier
 
         $origCompanyName = $this->_getDefaultValue(
             $requestDhl->getOrigCompanyName(),
-            \Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME
+            \Magento\Store\Model\Store::XML_PATH_STORE_STORE_NAME
         );
         $origCountryId = $this->_getDefaultValue(
             $requestDhl->getOrigCountryId(),

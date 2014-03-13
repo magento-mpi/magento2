@@ -26,7 +26,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected static $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -51,8 +51,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
-        $storeManager  = self::$_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var $storeManager \Magento\Store\Model\StoreManagerInterface */
+        $storeManager  = self::$_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $this->_store = $storeManager->getStore();
         $this->_model = self::$_objectManager->create('Magento\Catalog\Model\Category');
     }
@@ -125,7 +125,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->load(3); /* id from fixture */
         $this->assertContains(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()->getId(),
             $this->_model->getStoreIds()
         );
@@ -134,7 +134,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testSetGetStoreId()
     {
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()->getId(),
             $this->_model->getStoreId()
         );
@@ -149,9 +149,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetStoreIdWithNonNumericValue()
     {
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Store');
+            ->create('Magento\Store\Model\Store');
         $store->load('fixturestore');
 
         $this->assertNotEquals($this->_model->getStoreId(), $store->getId());

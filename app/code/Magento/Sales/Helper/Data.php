@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Helper;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Sales module base helper

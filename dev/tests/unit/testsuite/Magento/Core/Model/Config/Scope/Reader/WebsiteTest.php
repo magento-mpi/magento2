@@ -50,8 +50,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $websiteFactoryMock = $this->getMock('Magento\Core\Model\WebsiteFactory', array('create'), array(), '', false);
-        $this->_websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
+        $websiteFactoryMock = $this->getMock('Magento\Store\Model\WebsiteFactory', array('create'), array(), '', false);
+        $this->_websiteMock = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
         $websiteFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_websiteMock));

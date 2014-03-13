@@ -36,11 +36,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
-                $objectManager->get('Magento\Core\Model\StoreManager'),
+                $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->create('Magento\App\Filesystem'),
                 $objectManager->create('Magento\View\Url'),
                 $objectManager->create('Magento\View\FileSystem'),
-                $objectManager->create('Magento\Core\Model\Store\Config'),
+                $objectManager->create('Magento\Store\Model\Store\Config'),
                 $objectManager->create('Magento\App\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Email\Model\Template\Config'),
@@ -66,7 +66,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $filter = $this->_model->getTemplateFilter();
         $this->assertSame($filter, $this->_model->getTemplateFilter());
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()->getId(),
             $filter->getStoreId()
         );
@@ -102,7 +102,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->_model->setDesignConfig(array(
             'area' => 'frontend',
             'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
+                ->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplate());
     }
@@ -116,7 +116,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\Design\ThemeInterface');
         $theme->load('magento_plushe', 'theme_path');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore('fixturestore')->setConfig(
                 \Magento\View\DesignInterface::XML_PATH_THEME_ID,
                 $theme->getId()
@@ -153,7 +153,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->_model->setDesignConfig(array(
             'area' => 'frontend',
             'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
+                ->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
         ));
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
     }

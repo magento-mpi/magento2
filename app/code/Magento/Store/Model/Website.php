@@ -10,9 +10,9 @@ namespace Magento\Store\Model;
 /**
  * Core Website model
  *
- * @method \Magento\Core\Model\Resource\Website _getResource()
- * @method \Magento\Core\Model\Resource\Website getResource()
- * @method \Magento\Core\Model\Website setCode(string $value)
+ * @method \Magento\Store\Model\Resource\Website _getResource()
+ * @method \Magento\Store\Model\Resource\Website getResource()
+ * @method \Magento\Store\Model\Website setCode(string $value)
  * @method string getName()
  * @method string getGroupTitle()
  * @method string getStoreTitle()
@@ -20,12 +20,12 @@ namespace Magento\Store\Model;
  * @method int getGroupId()
  * @method int getWebsiteId()
  * @method bool hasWebsiteId()
- * @method \Magento\Core\Model\Website setName(string $value)
+ * @method \Magento\Store\Model\Website setName(string $value)
  * @method int getSortOrder()
- * @method \Magento\Core\Model\Website setSortOrder(int $value)
- * @method \Magento\Core\Model\Website setDefaultGroupId(int $value)
+ * @method \Magento\Store\Model\Website setSortOrder(int $value)
+ * @method \Magento\Store\Model\Website setDefaultGroupId(int $value)
  * @method int getIsDefault()
- * @method \Magento\Core\Model\Website setIsDefault(int $value)
+ * @method \Magento\Store\Model\Website setIsDefault(int $value)
  */
 class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
@@ -57,7 +57,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Website Group Collection array
      *
-     * @var \Magento\Core\Model\Store\Group[]
+     * @var \Magento\Store\Model\Store\Group[]
      */
     protected $_groups;
 
@@ -106,7 +106,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Website default group
      *
-     * @var \Magento\Core\Model\Store\Group
+     * @var \Magento\Store\Model\Store\Group
      */
     protected $_defaultGroup;
 
@@ -140,7 +140,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Core\Model\Store\GroupFactory
+     * @var \Magento\Store\Model\Store\GroupFactory
      */
     protected $_storeGroupFactory;
 
@@ -169,10 +169,10 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\ConfigInterface $coreConfig
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
-     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\Store\GroupFactory $storeGroupFactory
+     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -184,10 +184,10 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
         \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\ConfigInterface $coreConfig,
-        \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
-        \Magento\Core\Model\WebsiteFactory $websiteFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\Store\GroupFactory $storeGroupFactory,
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\App $app,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -212,7 +212,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Resource\Website');
+        $this->_init('Magento\Store\Model\Resource\Website');
     }
 
     /**
@@ -293,7 +293,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve new (not loaded) Group collection object with website filter
      *
-     * @return \Magento\Core\Model\Resource\Store\Group\Collection
+     * @return \Magento\Store\Model\Resource\Store\Group\Collection
      */
     public function getGroupCollection()
     {
@@ -305,7 +305,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve website groups
      *
-     * @return \Magento\Core\Model\Store\Group[]
+     * @return \Magento\Store\Model\Store\Group[]
      */
     public function getGroups()
     {
@@ -344,7 +344,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve default group model
      *
-     * @return \Magento\Core\Model\Store\Group
+     * @return \Magento\Store\Model\Store\Group
      */
     public function getDefaultGroup()
     {
@@ -401,7 +401,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve new (not loaded) Store collection object with website filter
      *
-     * @return \Magento\Core\Model\Resource\Store\Collection
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStoreCollection()
     {
@@ -534,8 +534,8 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
      */
     public function getBaseCurrencyCode()
     {
-        if ($this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE)
-            == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
+        if ($this->getConfig(\Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE)
+            == \Magento\Store\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
             return $this->_app->getBaseCurrencyCode();
         } else {

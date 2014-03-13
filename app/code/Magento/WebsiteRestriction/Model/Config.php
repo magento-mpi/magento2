@@ -19,7 +19,7 @@ class Config
     const XML_PATH_RESTRICTION_HTTP_REDIRECT    = 'general/restriction/http_redirect';
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -34,14 +34,14 @@ class Config
      * @param \Magento\WebsiteRestriction\Model\Config\Reader $reader
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param string $cacheId
      */
     public function __construct(
         \Magento\WebsiteRestriction\Model\Config\Reader $reader,
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Config\CacheInterface $cache,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         $cacheId = 'website_restrictions'
     ) {
         $this->_storeConfig = $storeConfig;
@@ -71,7 +71,7 @@ class Config
     /**
      * Define if restriction is active
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return bool
      */
     public function isRestrictionEnabled($store = null)

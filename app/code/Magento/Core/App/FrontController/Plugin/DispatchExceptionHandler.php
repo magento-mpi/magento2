@@ -9,13 +9,13 @@
  */
 namespace Magento\Core\App\FrontController\Plugin;
 
-use Magento\Core\Model\StoreManager,
+use Magento\Store\Model\StoreManager,
     Magento\App\Filesystem;
 
 class DispatchExceptionHandler
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -58,7 +58,7 @@ class DispatchExceptionHandler
         } catch (\Magento\Session\Exception $e) {
             header('Location: ' . $this->_storeManager->getStore()->getBaseUrl());
             exit;
-        } catch (\Magento\Core\Model\Store\Exception $e) {
+        } catch (\Magento\Store\Model\Store\Exception $e) {
             require $this->filesystem->getPath(Filesystem::PUB_DIR) . '/errors/404.php';
             exit;
         }

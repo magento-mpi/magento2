@@ -31,27 +31,27 @@ class Switcher extends \Magento\View\Element\Template
     /**
      * Store factory
      *
-     * @var \Magento\Core\Model\StoreFactory
+     * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeFactory;
 
     /**
      * Store group factory
      *
-     * @var \Magento\Core\Model\Store\GroupFactory
+     * @var \Magento\Store\Model\Store\GroupFactory
      */
     protected $_storeGroupFactory;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\Store\GroupFactory $storeGroupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
-        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\Store\GroupFactory $storeGroupFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
         array $data = array()
     ) {
         $this->_storeGroupFactory = $storeGroupFactory;

@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model\Store;
 
-interface StorageInterface extends \Magento\Core\Model\Store\ListInterface
+interface StorageInterface extends \Magento\Store\Model\Store\ListInterface
 {
     /**
      * Initialize current application store

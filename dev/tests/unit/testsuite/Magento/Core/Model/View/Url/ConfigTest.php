@@ -18,13 +18,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+        $this->_storeConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new \Magento\Core\Model\View\Url\Config($this->_storeConfig);

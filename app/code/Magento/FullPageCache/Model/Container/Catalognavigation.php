@@ -25,7 +25,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      */
@@ -35,7 +35,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {

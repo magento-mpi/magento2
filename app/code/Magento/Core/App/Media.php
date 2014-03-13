@@ -162,7 +162,7 @@ class Media implements LauncherInterface
                 $this->_response->setHttpResponseCode(404);
             }
             return $this->_response;
-        } catch (\Magento\Core\Model\Store\Exception $e) {
+        } catch (\Magento\Store\Model\Store\Exception $e) {
             $this->_response->setHttpResponseCode(404);
             return $this->_response;
         }

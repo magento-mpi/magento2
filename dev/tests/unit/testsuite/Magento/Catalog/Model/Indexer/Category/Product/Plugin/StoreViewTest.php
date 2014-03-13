@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +39,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             $this->indexerMock
         );
         $this->subject = $this->getMock(
-            'Magento\Core\Model\Resource\Store\Group', array(), array(), '', false
+            'Magento\Store\Model\Resource\Store\Group', array(), array(), '', false
         );
     }
 
@@ -47,7 +47,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('isObjectNew')
@@ -59,7 +59,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('dataHasChangedFor')
@@ -72,7 +72,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('dataHasChangedFor')

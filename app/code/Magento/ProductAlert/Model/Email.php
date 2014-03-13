@@ -32,7 +32,7 @@ class Email extends \Magento\Core\Model\AbstractModel
     /**
      * Website Model
      *
-     * @var \Magento\Core\Model\Website
+     * @var \Magento\Store\Model\Website
      */
     protected $_website;
 
@@ -81,12 +81,12 @@ class Email extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -109,8 +109,8 @@ class Email extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
@@ -122,8 +122,8 @@ class Email extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\ProductAlert\Helper\Data $productAlertData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
@@ -164,10 +164,10 @@ class Email extends \Magento\Core\Model\AbstractModel
     /**
      * Set website model
      *
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Store\Model\Website $website
      * @return $this
      */
-    public function setWebsite(\Magento\Core\Model\Website $website)
+    public function setWebsite(\Magento\Store\Model\Website $website)
     {
         $this->_website = $website;
         return $this;

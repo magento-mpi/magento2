@@ -50,19 +50,19 @@ class Hierarchy extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
@@ -139,7 +139,7 @@ class Hierarchy extends \Magento\Backend\App\Action
             $scopeId = (int)str_replace(\Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE, '', $value);
             $scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE;
         }
-        if (!$scopeId || $scopeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+        if (!$scopeId || $scopeId == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $scopeId = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID;
             $scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT;
         }

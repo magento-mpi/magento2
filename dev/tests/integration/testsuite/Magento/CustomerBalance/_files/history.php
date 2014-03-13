@@ -18,7 +18,7 @@ $balance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\CustomerBalance\Model\Balance');
 $balance->setCustomerId($customer->getId())
     ->setWebsiteId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     );
 $balance->save();
@@ -28,7 +28,7 @@ $history = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\CustomerBalance\Model\Balance\History');
 $history->setCustomerId($customer->getId())
     ->setWebsiteId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getWebsiteId()
     )
     ->setBalanceModel($balance);

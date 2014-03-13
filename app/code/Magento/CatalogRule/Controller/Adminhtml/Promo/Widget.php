@@ -132,7 +132,7 @@ class Widget extends Action
         if ($categoryId) {
             $category->load($categoryId);
             if ($storeId) {
-                $rootId = $this->_objectManager->get('Magento\Core\Model\StoreManager')
+                $rootId = $this->_objectManager->get('Magento\Store\Model\StoreManager')
                     ->getStore($storeId)->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
                     $this->_redirect('catalog/*/', array('_current' => true, 'id' => null));

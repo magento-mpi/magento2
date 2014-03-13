@@ -10,7 +10,7 @@ namespace Magento\Integration\Helper\Oauth;
 
 class ConsumerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManagerMock;
 
     /** @var \Magento\Integration\Model\Oauth\Consumer\Factory */
@@ -28,7 +28,7 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Integration\Model\Oauth\Token */
     protected $_tokenMock;
 
-    /** @var \Magento\Core\Model\Store */
+    /** @var \Magento\Store\Model\Store */
     protected $_storeMock;
 
     /** @var \Magento\Integration\Helper\Oauth\Data */
@@ -62,10 +62,10 @@ class ConsumerTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenMock));
 
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
+        $this->_storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_storeManagerMock->expects($this->any())

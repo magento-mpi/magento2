@@ -15,7 +15,7 @@ class Store extends \Magento\Object
 
     /**
      * Website collection
-     * websiteId => \Magento\Core\Model\Website
+     * websiteId => \Magento\Store\Model\Website
      *
      * @var array
      */
@@ -23,7 +23,7 @@ class Store extends \Magento\Object
 
     /**
      * Group collection
-     * groupId => \Magento\Core\Model\Store\Group
+     * groupId => \Magento\Store\Model\Store\Group
      *
      * @var array
      */
@@ -31,7 +31,7 @@ class Store extends \Magento\Object
 
     /**
      * Store collection
-     * storeId => \Magento\Core\Model\Store
+     * storeId => \Magento\Store\Model\Store
      *
      * @var array
      */
@@ -43,7 +43,7 @@ class Store extends \Magento\Object
     private $_isAdminScopeAllowed = true;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -51,9 +51,9 @@ class Store extends \Magento\Object
      * Init model
      * Load Website, Group and Store collections
      *
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
         return $this->reload();
@@ -354,7 +354,7 @@ class Store extends \Magento\Object
      * Retrieve store name with website and website store
      *
      * @param  int $storeId
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getStoreData($storeId)
     {

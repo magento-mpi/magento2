@@ -52,7 +52,7 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -72,7 +72,7 @@ class Observer
      * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Backup\Factory $backupFactory
      */
@@ -80,7 +80,7 @@ class Observer
         \Magento\Backup\Helper\Data $backupData,
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\Filesystem $filesystem,
         \Magento\Backup\Factory $backupFactory
     ) {

@@ -50,8 +50,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $storeFactoryMock = $this->getMock('Magento\Core\Model\StoreFactory', array('create'), array(), '', false);
-        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeFactoryMock = $this->getMock('Magento\Store\Model\StoreFactory', array('create'), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_storeMock));
@@ -86,7 +86,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $websiteCode = 'default';
         $storeCode = 'default';
         $storeId = 1;
-        $websiteMock = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
+        $websiteMock = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
         $websiteMock->expects($this->any())->method('getCode')->will($this->returnValue($websiteCode));
         $this->_storeMock->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteMock));
         $this->_storeMock->expects($this->once())

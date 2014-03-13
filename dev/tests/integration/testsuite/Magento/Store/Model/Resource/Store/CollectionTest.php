@@ -2,26 +2,23 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource\Store;
+namespace Magento\Store\Model\Resource\Store;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Store\Collection
+     * @var \Magento\Store\Model\Resource\Store\Collection
      */
     protected $_collection;
 
     protected function setUp()
     {
         $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Store\Collection');
+            ->create('Magento\Store\Model\Resource\Store\Collection');
     }
 
     public function testSetGetLoadDefault()
@@ -44,10 +41,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Resource\Store\Collection::addGroupFilter
-     * @covers \Magento\Core\Model\Resource\Store\Collection::addIdFilter
-     * @covers \Magento\Core\Model\Resource\Store\Collection::addWebsiteFilter
-     * @covers \Magento\Core\Model\Resource\Store\Collection::addCategoryFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addGroupFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addIdFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addWebsiteFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addCategoryFilter
      */
     public function testAddFilters()
     {
@@ -131,7 +128,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAllIds()
     {
-        $this->assertContains(\Magento\Core\Model\Store::DISTRO_STORE_ID, $this->_collection->getAllIds());
+        $this->assertContains(\Magento\Store\Model\Store::DISTRO_STORE_ID, $this->_collection->getAllIds());
     }
 
     /**

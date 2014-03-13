@@ -32,7 +32,7 @@ class Config extends \Magento\Config\Data
     /**
      * Current store instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store           = null;
 
@@ -45,7 +45,7 @@ class Config extends \Magento\Config\Data
     protected $_defaultTypes    = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -57,14 +57,14 @@ class Config extends \Magento\Config\Data
     /**
      * @param \Magento\Customer\Model\Address\Config\Reader $reader
      * @param \Magento\Config\CacheInterface $cache
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Helper\Address $addressHelper
      * @param string $cacheId
      */
     public function __construct(
         \Magento\Customer\Model\Address\Config\Reader $reader,
         \Magento\Config\CacheInterface $cache,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Helper\Address $addressHelper,
         $cacheId = 'address_format'
     ) {
@@ -76,7 +76,7 @@ class Config extends \Magento\Config\Data
     /**
      * Set store
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)
@@ -88,7 +88,7 @@ class Config extends \Magento\Config\Data
     /**
      * Retrieve store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

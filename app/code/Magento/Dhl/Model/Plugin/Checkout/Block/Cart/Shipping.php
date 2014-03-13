@@ -13,14 +13,14 @@ namespace Magento\Dhl\Model\Plugin\Checkout\Block\Cart;
 class Shipping
 {
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\Config $storeConfig)
+    public function __construct(\Magento\Store\Model\Store\Config $storeConfig)
     {
         $this->_storeConfig = $storeConfig;
     }

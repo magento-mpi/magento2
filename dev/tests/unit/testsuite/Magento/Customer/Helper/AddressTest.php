@@ -19,10 +19,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\View\Element\BlockFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $blockFactory;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
-    /** @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $coreStoreConfig;
 
     /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -36,9 +36,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->context = $this->getMockBuilder('Magento\App\Helper\Context')->disableOriginalConstructor()->getMock();
         $this->blockFactory = $this->getMockBuilder('Magento\View\Element\BlockFactory')
             ->disableOriginalConstructor()->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()->getMock();
-        $this->coreStoreConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+        $this->coreStoreConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()->getMock();
         $this->customerMetadataService = $this->getMockBuilder(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface'
@@ -71,7 +71,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->customerMetadataService->expects($this->any())->method('getAttributeMetadata')
             ->will($this->returnValue($attributeMock));
 
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')->disableOriginalConstructor()->getMock();
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
 
         $this->assertEquals($expectedNumLines, $this->helper->getStreetLines());

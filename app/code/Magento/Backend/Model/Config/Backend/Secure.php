@@ -17,7 +17,7 @@ class Secure extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\View\Asset\MergeService $mergeService
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -27,7 +27,7 @@ class Secure extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\View\Asset\MergeService $mergeService,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

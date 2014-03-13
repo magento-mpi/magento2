@@ -156,7 +156,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     public function testGetCurrentStore()
     {
         $this->assertSame(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore(),
             $this->_model->getCurrentStore()
         );

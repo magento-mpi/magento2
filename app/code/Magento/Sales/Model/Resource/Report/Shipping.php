@@ -111,7 +111,7 @@ class Shipping extends AbstractReport
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new \Zend_Db_Expr(\Magento\Core\Model\Store::DEFAULT_STORE_ID),
+                'store_id'              => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => new \Zend_Db_Expr('SUM(orders_count)'),
@@ -120,7 +120,7 @@ class Shipping extends AbstractReport
             );
 
             $select->from($table, $columns)
-                ->where('store_id != ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+                ->where('store_id != ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
@@ -221,7 +221,7 @@ class Shipping extends AbstractReport
 
             $columns = array(
                 'period'                => 'period',
-                'store_id'              => new \Zend_Db_Expr(\Magento\Core\Model\Store::DEFAULT_STORE_ID),
+                'store_id'              => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
                 'order_status'          => 'order_status',
                 'shipping_description'  => 'shipping_description',
                 'orders_count'          => new \Zend_Db_Expr('SUM(orders_count)'),
@@ -230,7 +230,7 @@ class Shipping extends AbstractReport
             );
 
             $select->from($table, $columns)
-                ->where('store_id != ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+                ->where('store_id != ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             if ($subSelect !== null) {
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));

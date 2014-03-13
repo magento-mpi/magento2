@@ -14,7 +14,7 @@ class SecurityInfo implements \Magento\Url\SecurityInfoInterface
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -33,10 +33,10 @@ class SecurityInfo implements \Magento\Url\SecurityInfoInterface
     protected $_secureUrlCache = array();
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $secureUrlList
      */
-    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager, array $secureUrlList = array())
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager, array $secureUrlList = array())
     {
         $this->_storeManager = $storeManager;
         $this->_secureUrlList = $secureUrlList;
@@ -50,7 +50,7 @@ class SecurityInfo implements \Magento\Url\SecurityInfoInterface
      */
     public function isSecure($url)
     {
-        if (!$this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)) {
+        if (!$this->_storeManager->getStore()->getConfig(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND)) {
             return false;
         }
 

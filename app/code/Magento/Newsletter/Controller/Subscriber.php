@@ -48,7 +48,7 @@ class Subscriber extends \Magento\App\Action\Action
     protected $_subscriberFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -58,7 +58,7 @@ class Subscriber extends \Magento\App\Action\Action
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -66,7 +66,7 @@ class Subscriber extends \Magento\App\Action\Action
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Session $session,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context);
@@ -92,7 +92,7 @@ class Subscriber extends \Magento\App\Action\Action
                     throw new \Magento\Core\Exception(__('Please enter a valid email address.'));
                 }
 
-                if ($this->_objectManager->get('Magento\Core\Model\Store\Config')
+                if ($this->_objectManager->get('Magento\Store\Model\Store\Config')
                         ->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
                     && !$this->_customerSession->isLoggedIn()) {
                     throw new \Magento\Core\Exception(__('Sorry, but the administrator denied subscription for guests. '

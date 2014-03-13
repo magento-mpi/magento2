@@ -19,7 +19,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected $processorMock;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeMock;
 
@@ -34,9 +34,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor', array('markIndexerAsInvalid'), array(), '', false
         );
 
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', array(), array(), '', false);
         $this->storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('getId', '__wakeup', 'dataHasChangedFor'), array(), '', false
+            'Magento\Store\Model\Store', array('getId', '__wakeup', 'dataHasChangedFor'), array(), '', false
         );
     }
 

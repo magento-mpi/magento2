@@ -71,7 +71,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _changeConfig($path, $value)
     {
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore();
+            ->get('Magento\Store\Model\StoreManagerInterface')->getStore();
         $oldValue = $store->getConfig($path);
         $store->setConfig($path, $value);
 
@@ -91,7 +91,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected function _restoreConfig()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->setConfig($this->_rememberedConfig['path'], $this->_rememberedConfig['old_value']);
         $this->_rememberedConfig = null;
         return $this;

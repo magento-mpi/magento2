@@ -30,7 +30,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $coreStoreConfig = $this->getMockBuilder('\Magento\Core\Model\Store\Config')
+        $coreStoreConfig = $this->getMockBuilder('\Magento\Store\Model\Store\Config')
             ->setMethods(array('getConfigFlag', 'getConfig'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -102,10 +102,10 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getDirectoryRead'))
             ->getMock();
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($modulesDirectory));
-        $storeManager = $this->getMockBuilder('\Magento\Core\Model\StoreManager')->disableOriginalConstructor()
+        $storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManager')->disableOriginalConstructor()
             ->setMethods(array('getWebsite'))
             ->getMock();
-        $website = $this->getMockBuilder('\Magento\Core\Model\Website')->disableOriginalConstructor()
+        $website = $this->getMockBuilder('\Magento\Store\Model\Website')->disableOriginalConstructor()
             ->setMethods(array('getBaseCurrencyCode', '__wakeup'))
             ->getMock();
         $website->expects($this->any())->method('getBaseCurrencyCode')->will($this->returnValue('USD'));

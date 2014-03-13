@@ -21,7 +21,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Magento Store
      *
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
@@ -37,7 +37,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param array $data
      */
@@ -45,7 +45,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $store,
+        \Magento\Store\Model\System\Store $store,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         array $data = array()
     ) {

@@ -53,7 +53,7 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     /**
      * Get object store identifier
      *
-     * @return int | string | \Magento\Core\Model\Store
+     * @return int | string | \Magento\Store\Model\Store
      */
     abstract public function getStore();
 

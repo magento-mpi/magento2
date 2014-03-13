@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-/** @var $website \Magento\Core\Model\Website */
+/** @var $website \Magento\Store\Model\Website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Website');
+    ->create('Magento\Store\Model\Website');
 $website->setData(array(
     'code' => 'test',
     'name' => 'Test Website',

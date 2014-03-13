@@ -581,7 +581,7 @@ return array(
     array('Mage_Adminhtml_Model_System_Config_Source_Yesnocustom',
         'Magento\Backend\Model\Config\Source\Yesnocustom'
     ),
-    array('Mage_Adminhtml_Model_System_Store', 'Magento\Core\Model\System\Store'),
+    array('Mage_Adminhtml_Model_System_Store', 'Magento\Store\Model\System\Store'),
     array('Mage_Adminhtml_Model_Url', 'Magento\Backend\Model\UrlInterface'),
     array('Mage_Adminhtml_Rss_CatalogController'),
     array('Mage_Adminhtml_Rss_OrderController'),
@@ -1902,7 +1902,7 @@ return array(
     array('Magento\Core\Model\Theme\Label', 'Magento\View\Design\Theme\Label'),
     array('Magento\Core\Model\Theme\LabelFactory', 'Magento\View\Design\Theme\LabelFactory'),
     array('Magento\Core\Model\DesignLoader', 'Magento\View\DesignLoader'),
-    array('Magento\Page\Block\Switcher', 'Magento\Core\Block\Switcher'),
+    array('Magento\Page\Block\Switcher', 'Magento\Store\Block\Switcher'),
     array('Magento\Core\Model\Layout\PageType\Config', 'Magento\View\Layout\PageType\Config'),
     array('Magento\Core\Model\Layout\PageType\Config\Converter', 'Magento\View\Layout\PageType\Config\Converter'),
     array('Magento\Core\Model\Layout\PageType\Config\Reader', 'Magento\View\Layout\PageType\Config\Reader'),

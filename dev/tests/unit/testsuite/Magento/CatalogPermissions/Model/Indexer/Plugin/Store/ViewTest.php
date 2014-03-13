@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,7 +20,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Resource\Store
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Resource\Store
      */
     protected $subjectMock;
 
@@ -31,7 +31,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store', array(), array(), '', false);
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
@@ -51,7 +51,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('isObjectNew')
@@ -65,7 +65,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('dataHasChangedFor')
@@ -80,7 +80,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNoNeed()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('dataHasChangedFor')

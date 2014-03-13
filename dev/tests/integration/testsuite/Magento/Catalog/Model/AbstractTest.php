@@ -141,7 +141,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $store = $this->_model->getStore();
         $this->assertSame(
             $store,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()
         );
     }
@@ -150,7 +150,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $ids = $this->_model->getWebsiteStoreIds();
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+            ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(array($storeId => $storeId), $ids);
     }
 

@@ -12,16 +12,16 @@ use Magento\Directory\Model\Currency\Filter;
 /**
  * Store model
  *
- * @method \Magento\Core\Model\Store setCode(string $value)
- * @method \Magento\Core\Model\Store setWebsiteId(int $value)
- * @method \Magento\Core\Model\Store setGroupId(int $value)
- * @method \Magento\Core\Model\Store setName(string $value)
+ * @method \Magento\Store\Model\Store setCode(string $value)
+ * @method \Magento\Store\Model\Store setWebsiteId(int $value)
+ * @method \Magento\Store\Model\Store setGroupId(int $value)
+ * @method \Magento\Store\Model\Store setName(string $value)
  * @method int getSortOrder()
  * @method int getStoreId()
- * @method \Magento\Core\Model\Store setSortOrder(int $value)
- * @method \Magento\Core\Model\Store setIsActive(int $value)
+ * @method \Magento\Store\Model\Store setSortOrder(int $value)
+ * @method \Magento\Store\Model\Store setIsActive(int $value)
  */
-class Store extends AbstractModel
+class Store extends \Magento\Core\Model\AbstractModel
     implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface, \Magento\Object\IdentityInterface
 {
     /**
@@ -145,7 +145,7 @@ class Store extends AbstractModel
     /**
      * Group model
      *
-     * @var \Magento\Core\Model\Store\Group
+     * @var \Magento\Store\Model\Store\Group
      */
     protected $_group;
 
@@ -258,7 +258,7 @@ class Store extends AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -291,7 +291,7 @@ class Store extends AbstractModel
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\RequestInterface $request
-     * @param Resource\Config\Data $configDataResource
+     * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\Filesystem $filesystem
      * @param Store\Config $coreStoreConfig
      * @param \Magento\App\ReinitableConfigInterface $coreConfig
@@ -313,10 +313,10 @@ class Store extends AbstractModel
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\ReinitableConfigInterface $coreConfig,
-        \Magento\Core\Model\Resource\Store $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Resource\Store $resource,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Http\Context $httpContext,
@@ -365,7 +365,7 @@ class Store extends AbstractModel
         $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Helper\File\Storage\Database');
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\Store\Config');
+            ->get('Magento\Store\Model\Store\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\App\ReinitableConfigInterface');
         $this->_cookie = \Magento\App\ObjectManager::getInstance()
@@ -379,7 +379,7 @@ class Store extends AbstractModel
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Resource\Store');
+        $this->_init('Magento\Store\Model\Resource\Store');
     }
 
     /**
@@ -1031,7 +1031,7 @@ class Store extends AbstractModel
     /**
      * Set group model for store
      *
-     * @param \Magento\Core\Model\Store\Group $group
+     * @param \Magento\Store\Model\Store\Group $group
      * @return void
      */
     public function setGroup($group)
@@ -1042,7 +1042,7 @@ class Store extends AbstractModel
     /**
      * Retrieve group model
      *
-     * @return \Magento\Core\Model\Store\Group|bool
+     * @return \Magento\Store\Model\Store\Group|bool
      */
     public function getGroup()
     {

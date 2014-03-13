@@ -23,13 +23,13 @@ class SecurityInfoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeMock = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             array('getConfig', '__wakeup'),
             array(),
             '',
             false
         );
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->_model = new \Magento\Core\Model\Url\SecurityInfo(
             $storeManagerMock, array('/account', '/cart')

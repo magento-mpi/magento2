@@ -5,15 +5,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Store\Model\Resource;
 
 class StoreTest extends \PHPUnit_Framework_TestCase
 {
     public function testCountAll()
     {
-        /** @var $model \Magento\Core\Model\Resource\Store */
+        /** @var $model \Magento\Store\Model\Resource\Store */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Store');
+            ->create('Magento\Store\Model\Resource\Store');
         $this->assertEquals(1, $model->countAll());
         $this->assertEquals(1, $model->countAll(false));
         $this->assertEquals(2, $model->countAll(true));

@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_scheduleFactory;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStoreConfig;
 
@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMockBuilder('Magento\Cron\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_coreStoreConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+        $this->_coreStoreConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_collection = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule\Collection')

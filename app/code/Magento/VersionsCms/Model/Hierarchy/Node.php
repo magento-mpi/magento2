@@ -99,7 +99,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -111,12 +111,12 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_cmsHierarchy;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -130,10 +130,10 @@ class Node extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -143,10 +143,10 @@ class Node extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -522,7 +522,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      * Return true if a page binded to a tree node
      *
      * @param string $identifier
-     * @param int|\Magento\Core\Model\Store $storeId
+     * @param int|\Magento\Store\Model\Store $storeId
      * @return bool
      */
     public function checkIdentifier($identifier, $storeId = null)

@@ -21,11 +21,11 @@ abstract class AbstractComposite
     protected $_childrenIterator;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Iterator $childrenIterator
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Iterator $childrenIterator
     ) {
         parent::__construct($storeManager);

@@ -18,14 +18,14 @@ class Config implements \Magento\Module\Output\ConfigInterface
     const XML_PATH_MODULE_OUTPUT_STATUS = 'advanced/modules_disable_output/%s';
 
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\ConfigInterface $storeConfig)
+    public function __construct(\Magento\Store\Model\Store\ConfigInterface $storeConfig)
     {
         $this->_storeConfig =  $storeConfig;
     }

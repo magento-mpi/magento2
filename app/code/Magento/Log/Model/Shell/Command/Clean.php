@@ -7,7 +7,7 @@
  */
 namespace Magento\Log\Model\Shell\Command;
 
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Log\Model\LogFactory;
 
 class Clean implements \Magento\Log\Model\Shell\CommandInterface

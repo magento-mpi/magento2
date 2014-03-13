@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Website\Grid;
+namespace Magento\Store\Model\Resource\Website\Grid;
 
 /**
  * Grid collection
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Website\Collection
+class Collection extends \Magento\Store\Model\Resource\Website\Collection
 {
     /**
      * Join website and store names

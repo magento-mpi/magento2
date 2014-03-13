@@ -50,7 +50,7 @@ use Magento\Core\Exception;
 use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Directory\Model\Currency;
 use Magento\Directory\Model\CurrencyFactory;
 use Magento\Eav\Model\Entity\Attribute as EntityAttribute;

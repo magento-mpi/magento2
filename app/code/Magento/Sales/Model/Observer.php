@@ -50,7 +50,7 @@ class Observer
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -94,7 +94,7 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param Resource\Report\OrderFactory $orderFactory
@@ -108,7 +108,7 @@ class Observer
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
@@ -303,7 +303,7 @@ class Observer
      * Retrieve sales address (order or quote) on which tax calculation must be based
      *
      * @param \Magento\Sales\Model\Order $order
-     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @param \Magento\Store\Model\Store|string|int|null $store
      * @return \Magento\Sales\Model\Order\Address|null
      */
     protected function _getVatRequiredSalesAddress($order, $store = null)

@@ -11,7 +11,7 @@
 namespace Magento\Rma\Model;
 
 use Magento\Rma\Model\Item;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Sales\Model\Order\Address;
 
 /**
@@ -94,7 +94,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -238,7 +238,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
@@ -270,7 +270,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Session $session,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,

@@ -107,11 +107,11 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_storeIdentifier = $this->getMock('Magento\FullPageCache\Model\Store\Identifier', array(),
             array(), '', false
         );
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_cacheTypeList = $this->getMock('Magento\App\Cache\TypeListInterface');
 
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
 
         $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', array(
@@ -172,7 +172,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
+            ->with(\Magento\Store\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(false));
         $expected = 'recently_viewed_count';
 
@@ -183,12 +183,12 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
+            ->with(\Magento\Store\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(true));
 
         $this->_environmentMock->expects($this->once())
             ->method('getCookie')
-            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
+            ->with(\Magento\Store\Model\Store::COOKIE_NAME)
             ->will($this->returnValue('100'));
 
         $expected = 'recently_viewed_count_100';
@@ -200,7 +200,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
+            ->with(\Magento\Store\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(false));
         $expected = 'full_page_cache_session_info';
 
@@ -211,12 +211,12 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_environmentMock->expects($this->once())
             ->method('hasCookie')
-            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
+            ->with(\Magento\Store\Model\Store::COOKIE_NAME)
             ->will($this->returnValue(true));
 
         $this->_environmentMock->expects($this->once())
             ->method('getCookie')
-            ->with(\Magento\Core\Model\Store::COOKIE_NAME)
+            ->with(\Magento\Store\Model\Store::COOKIE_NAME)
             ->will($this->returnValue('100'));
 
         $expected = 'full_page_cache_session_info_100';

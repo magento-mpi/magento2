@@ -99,7 +99,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerAddress = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -109,7 +109,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_configShare;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -165,9 +165,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
@@ -184,9 +184,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
@@ -217,7 +217,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve merchant country code
      *
-     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @param \Magento\Store\Model\Store|string|int|null $store
      * @return string
      */
     public function getMerchantCountryCode($store = null)
@@ -228,7 +228,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve merchant VAT number
      *
-     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @param \Magento\Store\Model\Store|string|int|null $store
      * @return string
      */
     public function getMerchantVatNumber($store = null)
@@ -542,7 +542,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get default customer group id
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return int
      */
     public function getDefaultCustomerGroupId($store = null)
@@ -555,7 +555,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $customerCountryCode
      * @param \Magento\Object $vatValidationResult
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return null|int
      */
     public function getCustomerGroupIdBasedOnVatNumber($customerCountryCode, $vatValidationResult, $store = null)
@@ -669,7 +669,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $customerCountryCode
      * @param \Magento\Object $vatValidationResult
-     * @param \Magento\Core\Model\Store|string|int|null $store
+     * @param \Magento\Store\Model\Store|string|int|null $store
      * @return null|string
      */
     public function getCustomerVatClass($customerCountryCode, $vatValidationResult, $store = null)

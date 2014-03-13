@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -48,10 +48,10 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         $this->stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\State', array('isFlatEnabled'), array(), '', false
         );
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store\Group', array(), array(), '', false);
 
         $this->groupMock =  $this->getMock(
-            'Magento\Core\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
         );
         $this->closureMock = function () {
             return false;
@@ -87,7 +87,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->never())
             ->method('isFlatEnabled');
         $this->groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
         );
         $this->groupMock->expects($this->once())
             ->method('dataHasChangedFor')

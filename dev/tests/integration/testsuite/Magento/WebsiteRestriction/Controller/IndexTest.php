@@ -27,7 +27,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $page->load('page100', 'identifier'); // fixture
 
         $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite('base')->getId(); // fixture, pre-installed
+            ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite('base')->getId(); // fixture, pre-installed
         /**
          * besides more expensive, cleaning by tags currently triggers system setup = DDL = breaks transaction
          * therefore cleanup is performed by cache ID

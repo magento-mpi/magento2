@@ -18,14 +18,14 @@ class Config implements ConfigInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
      */
-    public function __construct(\Magento\Core\Model\Store\ConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\Store\Model\Store\ConfigInterface $coreStoreConfig)
     {
         $this->coreStoreConfig = $coreStoreConfig;
     }
@@ -33,7 +33,7 @@ class Config implements ConfigInterface
     /**
      * Check, whether permissions are enabled
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -44,7 +44,7 @@ class Config implements ConfigInterface
     /**
      * Return category browsing mode
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getCatalogCategoryViewMode($store = null)
@@ -55,7 +55,7 @@ class Config implements ConfigInterface
     /**
      * Return category browsing groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCatalogCategoryViewGroups($store = null)
@@ -69,7 +69,7 @@ class Config implements ConfigInterface
     /**
      * Return display products mode
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getCatalogProductPriceMode($store = null)
@@ -80,7 +80,7 @@ class Config implements ConfigInterface
     /**
      * Return display products groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCatalogProductPriceGroups($store = null)
@@ -94,7 +94,7 @@ class Config implements ConfigInterface
     /**
      * Return adding to cart mode
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getCheckoutItemsMode($store = null)
@@ -105,7 +105,7 @@ class Config implements ConfigInterface
     /**
      * Return adding to cart groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCheckoutItemsGroups($store = null)
@@ -117,7 +117,7 @@ class Config implements ConfigInterface
     /**
      * Return catalog search prohibited groups
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string[]
      */
     public function getCatalogSearchDenyGroups($store = null)
@@ -129,7 +129,7 @@ class Config implements ConfigInterface
     /**
      * Return restricted landing page
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getRestrictedLandingPage($store = null)

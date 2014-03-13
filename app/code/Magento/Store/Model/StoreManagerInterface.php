@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model;
 
-interface StoreManagerInterface extends \Magento\Core\Model\Store\ListInterface
+interface StoreManagerInterface extends \Magento\Store\Model\Store\ListInterface
 {
 
     /**#@+

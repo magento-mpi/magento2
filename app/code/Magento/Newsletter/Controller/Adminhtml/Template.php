@@ -259,7 +259,7 @@ class Template extends \Magento\Backend\App\Action
         }
 
         // set default value for selected store
-        $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
+        $data['preview_store_id'] = $this->_objectManager->get('Magento\Store\Model\StoreManager')
             ->getDefaultStoreView()->getId();
 
         $this->_view->getLayout()->getBlock('preview_form')->setFormData($data);

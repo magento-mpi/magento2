@@ -21,7 +21,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
@@ -68,7 +68,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
         $eavFactoryMock = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', array(), array(), '', false);
 
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->_connectionMock = $this->getMock(
             'Magento\DB\Adapter\Pdo\Mysql', array('getTables', 'dropTable'), array(), '', false
@@ -215,7 +215,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $stores = array();
         foreach ($storeIds as $storeId) {
             $store = $this->getMock(
-                'Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false
+                'Magento\Store\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false
             );
             $store->expects($this->once())
                 ->method('getId')

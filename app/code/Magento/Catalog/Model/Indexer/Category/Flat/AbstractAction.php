@@ -27,7 +27,7 @@ class AbstractAction
     protected $resource;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -47,12 +47,12 @@ class AbstractAction
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper
     ) {
         $this->resource = $resource;
@@ -87,7 +87,7 @@ class AbstractAction
      * @param integer $storeId
      * @return string
      */
-    public function getMainStoreTable($storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+    public function getMainStoreTable($storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID)
     {
         if (is_string($storeId)) {
             $storeId = intval($storeId);
@@ -431,7 +431,7 @@ class AbstractAction
                 ))
             )
             ->where('def.entity_id IN (?)', $entityIds)
-            ->where('def.store_id IN (?)', array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $storeId));
+            ->where('def.store_id IN (?)', array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $storeId));
 
         return $this->getReadAdapter()->fetchAll($select);
     }

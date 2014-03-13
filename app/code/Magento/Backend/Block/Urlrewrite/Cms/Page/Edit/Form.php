@@ -44,7 +44,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
      * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
@@ -59,7 +59,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
         \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
         \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
@@ -132,7 +132,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Store\Exception
      */
     protected function _getEntityStores()
     {
@@ -145,7 +145,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
             $this->_requireStoresFilter = !in_array(0, $entityStores);
 
             if (!$entityStores) {
-                throw new \Magento\Core\Model\Store\Exception(
+                throw new \Magento\Store\Model\Store\Exception(
                     __('Chosen cms page does not associated with any website.')
                 );
             }

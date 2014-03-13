@@ -25,19 +25,19 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_localeResolver;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_localeResolver = $localeResolver;
@@ -88,7 +88,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->where('store_id = ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        $select->where('store_id = ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
         return $select;
     }
 
@@ -125,7 +125,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $bind = array(
             'string'   => $object->getString(),
-            'store_id' => \Magento\Core\Model\Store::DEFAULT_STORE_ID
+            'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID
         );
 
         $object->setId($adapter->fetchOne($select, $bind));
@@ -197,7 +197,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
 
         if ($storeId === false) {
-            $where['store_id > ?'] = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+            $where['store_id > ?'] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         } elseif ($storeId !== null) {
             $where['store_id = ?'] = $storeId;
         }

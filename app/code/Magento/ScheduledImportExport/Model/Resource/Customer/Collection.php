@@ -27,7 +27,7 @@ class Collection
     protected $_usedFiltersNotNull = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -54,7 +54,7 @@ class Collection
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Reward\Model\Resource\Reward $resourceReward
      * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param string $modelName
      * 
@@ -73,7 +73,7 @@ class Collection
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Reward\Model\Resource\Reward $resourceReward,
         \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {
@@ -105,7 +105,7 @@ class Collection
     {
         $joinFlag = 'join_reward_points';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website \Magento\Core\Model\Website */
+            /** @var $website \Magento\Store\Model\Website */
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $tableName  = $this->_resourceReward->getMainTable();
                 $tableAlias = $tableName . $website->getId();
@@ -139,7 +139,7 @@ class Collection
     {
         $joinFlag = 'join_customer_balance';
         if (!$this->getFlag($joinFlag)) {
-            /** @var $website \Magento\Core\Model\Website */
+            /** @var $website \Magento\Store\Model\Website */
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $tableName  = $this->_resourceBalance->getMainTable();
                 $tableAlias = $tableName . $website->getId();

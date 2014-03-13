@@ -11,7 +11,7 @@ namespace Magento\Store\Block;
 class SwitchTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Block\Switcher
+     * @var \Magento\Store\Block\Switcher
      */
     protected $_block;
 
@@ -27,11 +27,11 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject(
-            'Magento\Core\Block\Switcher', array('storeManager' => $this->_storeManagerMock)
+            'Magento\Store\Block\Switcher', array('storeManager' => $this->_storeManagerMock)
         );
     }
 
@@ -40,7 +40,7 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsStoreInUrl($isUseStoreInUrl)
     {
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $storeMock->expects($this->once())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
 

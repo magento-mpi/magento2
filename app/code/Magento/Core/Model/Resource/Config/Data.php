@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\Resource\Config;
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
 
 
 /**

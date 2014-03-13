@@ -94,7 +94,7 @@ class Security
     private function _isFileAccessible()
     {
         $unsecureBaseURL = $this->_config->getValue(
-            \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
+            \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
             'default'
         );
 

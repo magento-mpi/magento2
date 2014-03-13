@@ -25,7 +25,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function _getHelper($store, $config, $factory)
     {
-        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
         $storeManager->expects($this->any())
@@ -172,12 +172,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Create Website Stub
      *
-     * @return \Magento\Core\Model\Website
+     * @return \Magento\Store\Model\Website
      */
     protected function _getWebsiteStub()
     {
         $website = $this->getMock(
-            'Magento\Core\Model\Website',
+            'Magento\Store\Model\Website',
             array('getCode', '__wakeup'),
             array(),
             '',
@@ -194,12 +194,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * Create store stub
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStoreStub()
     {
         $store = $this->getMock(
-            'Magento\Core\Model\Store',
+            'Magento\Store\Model\Store',
             array(),
             array(),
             '',

@@ -21,9 +21,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Mail\Template\TransportBuilder');
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManager');
+            ->get('Magento\Store\Model\StoreManager');
         $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Store\Config');
+            ->get('Magento\Store\Model\Store\Config');
         $filesystem =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\App\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(

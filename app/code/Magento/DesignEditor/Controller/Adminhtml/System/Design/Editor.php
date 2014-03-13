@@ -10,7 +10,7 @@
 
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Core\Exception as CoreException;
 use Magento\View\Design\ThemeInterface;
 
@@ -566,8 +566,8 @@ class Editor extends \Magento\Backend\App\Action
         $defaultStore = -1;
         $emptyStores = -2;
         if ($stores == $defaultStore) {
-            /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-            $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+            /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+            $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
             $ids = array_keys($storeManager->getStores());
             $stores = array(array_shift($ids));
         } elseif ($stores == $emptyStores) {

@@ -28,7 +28,7 @@ class ProductsTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\AdvancedCheckout\Helper\Data')
             ->getSession()->setAffectedItems(array(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId() => array($item)
+                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId() => array($item)
             ));
         $this->assertContains('<form', $block->toHtml());
     }

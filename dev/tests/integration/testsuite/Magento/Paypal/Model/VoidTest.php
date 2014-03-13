@@ -23,12 +23,12 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         $eventManager = $objectManager->get('Magento\Event\ManagerInterface');
         $moduleList = $objectManager->get('Magento\Module\ModuleListInterface');
         $paymentData = $objectManager->get('Magento\Payment\Helper\Data');
-        $coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $coreStoreConfig = $objectManager->get('Magento\Store\Model\Store\Config');
         $logger = $objectManager->get('Magento\Logger');
         $logAdapterFactory = $objectManager->get('Magento\Logger\AdapterFactory');
         $localeDate = $objectManager->get('Magento\Stdlib\DateTime\TimezoneInterface');
         $centinelService = $objectManager->get('Magento\Centinel\Model\Service');
-        $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $configFactory = $objectManager->get('Magento\Paypal\Model\ConfigFactory');
         $mathRandom = $objectManager->get('Magento\Math\Random');
 

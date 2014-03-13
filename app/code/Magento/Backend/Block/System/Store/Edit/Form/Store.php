@@ -22,12 +22,12 @@ class Store
     extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
 {
     /**
-     * @var \Magento\Core\Model\Website\Factory
+     * @var \Magento\Store\Model\Website\Factory
      */
     protected $_websiteFactory;
 
     /**
-     * @var \Magento\Core\Model\Store\Group\Factory
+     * @var \Magento\Store\Model\Store\Group\Factory
      */
     protected $_groupFactory;
 
@@ -35,16 +35,16 @@ class Store
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\Store\Group\Factory $groupFactory
+     * @param \Magento\Store\Model\Website\Factory $websiteFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Store\Group\Factory $groupFactory,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\Store\Group\Factory $groupFactory,
+        \Magento\Store\Model\Website\Factory $websiteFactory,
         array $data = array()
     ) {
         $this->_groupFactory = $groupFactory;

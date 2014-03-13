@@ -8,10 +8,10 @@
 
 namespace Magento\Store\Model\Store;
 
-class Config implements \Magento\Core\Model\Store\ConfigInterface
+class Config implements \Magento\Store\Model\Store\ConfigInterface
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -21,24 +21,24 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Collection
+     * @var \Magento\Store\Model\Resource\Store\Collection
      */
     protected $_storeCollection;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_factory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Resource\Store\CollectionFactory $factory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $factory
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Resource\Store\CollectionFactory $factory
+        \Magento\Store\Model\Resource\Store\CollectionFactory $factory
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -49,7 +49,7 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
      * Retrieve store config value
      *
      * @param string $path
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return string|null
      */
     public function getConfig($path, $store = null)
@@ -61,7 +61,7 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
      * Retrieve store config flag
      *
      * @param string $path
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function getConfigFlag($path, $store = null)
@@ -90,7 +90,7 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
             $this->_storeCollection->setLoadDefault(true);
         }
         $storeValues = array();
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         foreach ($this->_storeCollection as $store) {
             switch ($keyAttribute) {
                 case 'id':

@@ -11,7 +11,7 @@
  */
 namespace Magento\Outbound\Authentication;
 
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Outbound\AuthenticationInterface;
 use Magento\Outbound\UserInterface;
 use Magento\UrlInterface;

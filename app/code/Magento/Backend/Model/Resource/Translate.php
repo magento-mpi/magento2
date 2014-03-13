@@ -22,6 +22,6 @@ class Translate extends \Magento\Core\Model\Resource\Translate
      */
     protected function _getStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 }

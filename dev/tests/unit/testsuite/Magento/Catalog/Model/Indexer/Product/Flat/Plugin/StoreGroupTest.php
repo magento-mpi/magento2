@@ -19,7 +19,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     protected $processorMock;
 
     /**
-     * @var \Magento\Core\Model\Store\Group|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store\Group|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeGroupMock;
 
@@ -34,9 +34,9 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor', array('markIndexerAsInvalid'), array(), '', false
         );
 
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store\Group', array(), array(), '', false);
         $this->storeGroupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getId', '__wakeup', 'dataHasChangedFor'), array(), '', false
+            'Magento\Store\Model\Store\Group', array('getId', '__wakeup', 'dataHasChangedFor'), array(), '', false
         );
     }
 

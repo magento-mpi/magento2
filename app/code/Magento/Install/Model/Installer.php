@@ -95,7 +95,7 @@ class Installer extends \Magento\Object
     /**
      * Store Manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -184,7 +184,7 @@ class Installer extends \Magento\Object
      * @param \Magento\App\Arguments $arguments
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\User\Model\UserFactory $userModelFactory
      * @param Installer\Filesystem $filesystem
      * @param Installer\Pear $installerPear
@@ -211,7 +211,7 @@ class Installer extends \Magento\Object
         \Magento\App\Arguments $arguments,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\User\Model\UserFactory $userModelFactory,
         \Magento\Install\Model\Installer\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Pear $installerPear,
@@ -398,7 +398,7 @@ class Installer extends \Magento\Object
         $setupModel = $this->_setupFactory->create('core_setup', 'Magento_Core');
 
         if (!empty($data['use_rewrites'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_USE_REWRITES, 1);
+            $setupModel->setConfigData(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES, 1);
         }
 
         if (!empty($data['enable_charts'])) {
@@ -414,17 +414,17 @@ class Installer extends \Magento\Object
         $unsecureBaseUrl = $this->_storeManager->getStore()->getBaseUrl('web');
         if (!empty($data['unsecure_base_url'])) {
             $unsecureBaseUrl = $data['unsecure_base_url'];
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
+            $setupModel->setConfigData(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         if (!empty($data['use_secure'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, 1);
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
+            $setupModel->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, 1);
+            $setupModel->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, $data['secure_base_url']);
             if (!empty($data['use_secure_admin'])) {
-                $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
+                $setupModel->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_ADMINHTML, 1);
             }
         } elseif (!empty($data['unsecure_base_url'])) {
-            $setupModel->setConfigData(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
+            $setupModel->setConfigData(\Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL, $unsecureBaseUrl);
         }
 
         /**

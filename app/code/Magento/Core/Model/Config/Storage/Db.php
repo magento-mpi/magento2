@@ -34,7 +34,7 @@ class Db implements \Magento\App\Config\Storage\WriterInterface
      * @param   int $scopeId
      * @return  void
      */
-    public function delete($path, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0)
+    public function delete($path, $scope = \Magento\Store\Model\Store::DEFAULT_CODE, $scopeId = 0)
     {
         $this->_resource->deleteConfig(rtrim($path, '/'), $scope, $scopeId);
     }
@@ -48,7 +48,7 @@ class Db implements \Magento\App\Config\Storage\WriterInterface
      * @param int $scopeId
      * @return void
      */
-    public function save($path, $value, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0)
+    public function save($path, $value, $scope = \Magento\Store\Model\Store::DEFAULT_CODE, $scopeId = 0)
     {
         $this->_resource->saveConfig(rtrim($path, '/'), $value, $scope, $scopeId);
     }

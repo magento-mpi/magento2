@@ -9,7 +9,7 @@
 namespace Magento\Store\Model\Store\Storage;
 
 /**
- * Test class for \Magento\Core\Model\Store\Storage\DefaultStorage
+ * Test class for \Magento\Store\Model\Store\Storage\DefaultStorage
  */
 class DefaultTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,35 +51,35 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_websiteMock = $this->getMock(
-            'Magento\Core\Model\Website',
+            'Magento\Store\Model\Website',
             array('getCode', 'getId', '__wakeup'),
             array(),
             '',
             false,
             false
         );
-        $this->_groupMock = $this->getMock('Magento\Core\Model\Store\Group',
+        $this->_groupMock = $this->getMock('Magento\Store\Model\Store\Group',
             array('getCode', 'getId', '__wakeup'),
             array(),
             '',
             false,
             false
         );
-        $this->_storeFactoryMock = $this->getMock('Magento\Core\Model\StoreFactory',
+        $this->_storeFactoryMock = $this->getMock('Magento\Store\Model\StoreFactory',
             array('create'), array(), '', false, false);
-        $this->_websiteFactoryMock = $this->getMock('Magento\Core\Model\Website\Factory',
+        $this->_websiteFactoryMock = $this->getMock('Magento\Store\Model\Website\Factory',
             array('create'), array(), '', false, false);
         $this->_websiteFactoryMock
             ->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_websiteMock));
-        $this->_groupFactoryMock = $this->getMock('Magento\Core\Model\Store\Group\Factory',
+        $this->_groupFactoryMock = $this->getMock('Magento\Store\Model\Store\Group\Factory',
             array('create'), array(), '', false, false);
         $this->_groupFactoryMock
             ->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_groupMock));
-        $this->_storeMock = $this->getMock('Magento\Core\Model\Store',
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store',
             array('setId', 'setCode', 'getCode', '__sleep', '__wakeup'),
             array(), '', false, false);
         $this->_storeFactoryMock->expects($this->once())
@@ -109,7 +109,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     public function testGetStore()
     {
         $storeId = 'testStore';
-        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore($storeId));
+        $this->assertInstanceOf('Magento\Store\Model\Store', $this->_model->getStore($storeId));
     }
 
     public function testGetStores()
@@ -122,13 +122,13 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     public function testGetWebsite()
     {
         $websiteId = 'testWebsite';
-        $this->assertInstanceOf('Magento\Core\Model\Website', $this->_model->getWebsite($websiteId));
+        $this->assertInstanceOf('Magento\Store\Model\Website', $this->_model->getWebsite($websiteId));
     }
 
     public function testGetWebsiteEmptyString()
     {
         $websiteId = '';
-        $this->assertInstanceOf('Magento\Core\Model\Website', $this->_model->getWebsite($websiteId));
+        $this->assertInstanceOf('Magento\Store\Model\Website', $this->_model->getWebsite($websiteId));
     }
 
     public function testGetWebsitesWithDefault()
@@ -138,7 +138,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $this->_websiteMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
         $this->_websiteMock->expects($this->never())->method('getId');
         $result = $this->_model->getWebsites($withDefault, $codeKey);
-        $this->assertInstanceOf('Magento\Core\Model\Website', $result[0]);
+        $this->assertInstanceOf('Magento\Store\Model\Website', $result[0]);
     }
 
     public function testGetWebsitesWithoutDefault()
@@ -154,7 +154,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     public function testGetGroup()
     {
         $groupId = 'testGroup';
-        $this->assertInstanceOf('Magento\Core\Model\Store\Group', $this->_model->getGroup($groupId));
+        $this->assertInstanceOf('Magento\Store\Model\Store\Group', $this->_model->getGroup($groupId));
     }
 
     public function testGetGroupsWithDefault()
@@ -164,7 +164,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $this->_groupMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
         $this->_groupMock->expects($this->never())->method('getId');
         $result = $this->_model->getGroups($withDefault, $codeKey);
-        $this->assertInstanceOf('Magento\Core\Model\Store\Group', $result[0]);
+        $this->assertInstanceOf('Magento\Store\Model\Store\Group', $result[0]);
     }
 
     public function testGetGroupsWithoutDefault()

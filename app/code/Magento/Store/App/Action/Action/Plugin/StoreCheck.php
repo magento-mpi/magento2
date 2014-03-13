@@ -6,21 +6,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\Store\App\Action\Plugin;
+namespace Magento\Store\App\Action\Action\Plugin;
 
 class StoreCheck
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
     }

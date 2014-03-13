@@ -58,7 +58,6 @@
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
-    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
     <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
     <preference for="Magento\CurrencyInterface" type="Magento\Currency" />
@@ -66,7 +65,6 @@
     <preference for="Magento\Locale\ResolverInterface" type="Magento\Locale\Resolver" />
     <preference for="Magento\Stdlib\DateTime\TimezoneInterface" type="Magento\Stdlib\DateTime\Timezone" />
     <preference for="Magento\Stdlib\DateTime\DateInterface" type="Magento\Stdlib\DateTime\Date" />
-    <preference for="Magento\Locale\ScopeConfigInterface" type="Magento\Core\Model\Store\Config" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
     <type name="Magento\Translate\Inline">
         <arguments>
@@ -103,60 +101,9 @@
             <argument name="cacheLifetime" xsi:type="string">86400</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Store">
-        <arguments>
-            <argument name="isCustomEntryPoint" xsi:type="init_parameter">Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM</argument>
-            <argument name="url" xsi:type="object" shared="false">Magento\UrlInterface</argument>
-        </arguments>
-    </type>
     <type name="Magento\Acl\Cache">
         <arguments>
             <argument name="cacheKey" xsi:type="string">global_acl_resources</argument>
-        </arguments>
-    </type>
-    <virtualType name="Magento\Core\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
-            <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
-            <argument name="cacheTags" xsi:type="array">
-                <item name="storeTag" xsi:type="const">Magento\Core\Model\Website::CACHE_TAG</item>
-            </argument>
-            <argument name="cacheLifetime" xsi:type="boolean">false</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
-            <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
-            <argument name="cacheTags" xsi:type="array">
-                <item name="storeTag" xsi:type="const">Magento\Core\Model\Store\Group::CACHE_TAG</item>
-            </argument>
-            <argument name="cacheLifetime" xsi:type="boolean">false</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="Magento\Core\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
-        <arguments>
-            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
-            <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
-            <argument name="cacheTags" xsi:type="array">
-                <item name="storeTag" xsi:type="const">Magento\Core\Model\Store::CACHE_TAG</item>
-            </argument>
-            <argument name="cacheLifetime" xsi:type="boolean">false</argument>
-        </arguments>
-    </virtualType>
-    <type name="Magento\Core\Model\Resource\Website\Collection">
-        <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Core\Model\Resource\Website\Collection\FetchStrategy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Model\Resource\Store\Group\Collection">
-        <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Core\Model\Resource\Store\Group\Collection\FetchStrategy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Model\Resource\Store\Collection">
-        <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Core\Model\Resource\Store\Collection\FetchStrategy</argument>
         </arguments>
     </type>
     <type name="Magento\View\Asset\Collection" shared="false" />
@@ -384,12 +331,6 @@
             <argument name="saveMethod" xsi:type="init_parameter">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\StoreManager">
-        <arguments>
-            <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
-            <argument name="helper" xsi:type="object">Magento\Core\Helper\Data\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Core\Model\Config\Scope\Processor\Placeholder">
         <arguments>
             <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
@@ -443,11 +384,6 @@
             <argument name="dataStorage" xsi:type="object">Magento\View\Layout\PageType\Config\Data</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Store\Storage\Db">
-        <arguments>
-            <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Core\Model\App\Area">
         <arguments>
             <argument name="translator" xsi:type="object">Magento\Translate</argument>
@@ -461,7 +397,6 @@
     </type>
     <type name="Magento\App\Action\Action">
         <plugin name="installInitializer" type="Magento\Core\App\Action\Plugin\Install" sortOrder="5"/>
-        <plugin name="storeCheck" type="Magento\Core\App\Action\Plugin\StoreCheck" sortOrder="10"/>
         <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="30"/>
     </type>
     <virtualType name="Magento\Core\Model\Session\Storage" type="Magento\Session\Storage">

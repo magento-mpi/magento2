@@ -113,11 +113,11 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory
@@ -131,11 +131,11 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\ImportExport\Model\Resource\Customer\StorageFactory $storageFactory,
@@ -400,7 +400,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
                 $customerId     = $this->_getCustomerId($email, $website);
 
-                $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
                     || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
                 ) {
@@ -443,7 +443,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
                 $website        = $rowData[self::COLUMN_WEBSITE];
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
-                $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+                $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
                     || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
                 ) {

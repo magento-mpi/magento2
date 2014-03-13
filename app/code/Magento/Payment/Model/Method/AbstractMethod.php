@@ -165,7 +165,7 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -188,14 +188,14 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
      *
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
@@ -648,7 +648,7 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
      * Retrieve information from payment configuration
      *
      * @param string $field
-     * @param int|string|null|\Magento\Core\Model\Store $storeId
+     * @param int|string|null|\Magento\Store\Model\Store $storeId
      *
      * @return mixed
      */

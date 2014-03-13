@@ -17,8 +17,8 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
 
-use Magento\Core\Model\Store\Group;
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Store\Group;
+use Magento\Store\Model\Website;
 
 class Websites
     extends \Magento\Backend\Block\Widget

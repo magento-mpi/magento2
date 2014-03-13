@@ -9,18 +9,18 @@
 /**
  * Store group model
  *
- * @method \Magento\Core\Model\Resource\Store\Group _getResource()
- * @method \Magento\Core\Model\Resource\Store\Group getResource()
- * @method \Magento\Core\Model\Store\Group setWebsiteId(int $value)
+ * @method \Magento\Store\Model\Resource\Store\Group _getResource()
+ * @method \Magento\Store\Model\Resource\Store\Group getResource()
+ * @method \Magento\Store\Model\Store\Group setWebsiteId(int $value)
  * @method string getName()
  * @method string getCode()
- * @method \Magento\Core\Model\Store\Group setName(string $value)
- * @method \Magento\Core\Model\Store\Group setRootCategoryId(int $value)
- * @method \Magento\Core\Model\Store\Group setDefaultStoreId(int $value)
+ * @method \Magento\Store\Model\Store\Group setName(string $value)
+ * @method \Magento\Store\Model\Store\Group setRootCategoryId(int $value)
+ * @method \Magento\Store\Model\Store\Group setDefaultStoreId(int $value)
  */
 namespace Magento\Store\Model\Store;
 
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
 
 class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
@@ -45,7 +45,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Group Store collection array
      *
-     * @var \Magento\Core\Model\Resource\Store\Collection[]
+     * @var \Magento\Store\Model\Resource\Store\Collection[]
      */
     protected $_stores;
 
@@ -73,7 +73,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Group default store
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_defaultStore;
 
@@ -88,12 +88,12 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     protected $_configDataResource;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -101,8 +101,8 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
-     * @param \Magento\Core\Model\Store $store
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store $store
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -111,8 +111,8 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
-        \Magento\Core\Model\Store $store,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store $store,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -131,7 +131,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      */
     protected function _construct()
     {
-        $this->_init('Magento\Core\Model\Resource\Store\Group');
+        $this->_init('Magento\Store\Model\Resource\Store\Group');
     }
 
     /**
@@ -157,7 +157,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Set website stores
      *
-     * @param \Magento\Core\Model\Store[] $stores
+     * @param \Magento\Store\Model\Store[] $stores
      * @return void
      */
     public function setStores($stores)
@@ -178,7 +178,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve new (not loaded) Store collection object with group filter
      *
-     * @return \Magento\Core\Model\Resource\Store\Collection
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStoreCollection()
     {
@@ -190,7 +190,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve website store objects
      *
-     * @return \Magento\Core\Model\Resource\Store\Collection[]
+     * @return \Magento\Store\Model\Resource\Store\Collection[]
      */
     public function getStores()
     {
@@ -240,7 +240,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve default store model
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getDefaultStore()
     {
@@ -259,7 +259,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      * If group has no stores - null is returned
      *
      * @param string $locale
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getDefaultStoreByLocale($locale)
     {
@@ -279,13 +279,13 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      * Retrieve list of stores with given locale
      *
      * @param string $locale
-     * @return \Magento\Core\Model\Store[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getStoresByLocale($locale)
     {
         $stores = array();
         foreach ($this->getStores() as $store) {
-            /* @var $store \Magento\Core\Model\Store */
+            /* @var $store \Magento\Store\Model\Store */
             if ($store->getLocaleCode() == $locale) {
                 $stores[] = $store;
             }

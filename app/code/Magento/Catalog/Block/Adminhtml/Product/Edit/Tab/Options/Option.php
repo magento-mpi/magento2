@@ -279,7 +279,7 @@ class Option extends Widget
         if (!$this->_values || $this->getIgnoreCaching()) {
             $showPrice = $this->getCanReadPrice();
             $values = array();
-            $scope = (int)$this->_storeManager->getStore()->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
+            $scope = (int)$this->_storeManager->getStore()->getConfig(\Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE);
             foreach ($optionsArr as $option) {
                 /* @var $option \Magento\Catalog\Model\Product\Option */
 
@@ -325,7 +325,7 @@ class Option extends Widget
                                 $_value->getOptionTypeId());
                             $value['optionValues'][$i]['scopeTitleDisabled'] = is_null($_value->getStoreTitle())
                                 ? 'disabled' : null;
-                            if ($scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE) {
+                            if ($scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE) {
                                 $value['optionValues'][$i]['checkboxScopePrice'] = $this->getCheckboxScopeHtml(
                                     $_value->getOptionId(), 'price', is_null($_value->getstorePrice()),
                                     $_value->getOptionTypeId());
@@ -345,7 +345,7 @@ class Option extends Widget
                     $value['image_size_x'] = $option->getImageSizeX();
                     $value['image_size_y'] = $option->getImageSizeY();
                     if ($this->getProduct()->getStoreId() != '0'
-                        && $scope == \Magento\Core\Model\Store::PRICE_SCOPE_WEBSITE
+                        && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE
                     ) {
                         $value['checkboxScopePrice'] = $this->getCheckboxScopeHtml($option->getOptionId(), 'price',
                             is_null($option->getStorePrice()));

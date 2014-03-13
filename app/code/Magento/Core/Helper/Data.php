@@ -46,12 +46,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -67,15 +67,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
@@ -103,7 +103,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Convert and format price value for specified store
      *
      * @param   float $value
-     * @param   int|\Magento\Core\Model\Store $store
+     * @param   int|\Magento\Store\Model\Store $store
      * @param   bool $format
      * @param   bool $includeContainer
      * @return  float|string
@@ -111,7 +111,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
         try {
-            if (!($store instanceof \Magento\Core\Model\Store)) {
+            if (!($store instanceof \Magento\Store\Model\Store)) {
                 $store = $this->_storeManager->getStore($store);
             }
 
@@ -219,7 +219,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return default country code
      *
-     * @param \Magento\Core\Model\Store|string|int $store
+     * @param \Magento\Store\Model\Store|string|int $store
      * @return string
      */
     public function getDefaultCountry($store = null)

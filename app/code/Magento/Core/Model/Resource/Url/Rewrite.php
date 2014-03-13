@@ -62,7 +62,7 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if (!is_null($object->getStoreId())) {
-            $select->where('store_id IN(?)', array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()));
+            $select->where('store_id IN(?)', array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()));
             $select->order('store_id ' . \Magento\DB\Select::SQL_DESC);
             $select->limit(1);
         }
@@ -74,12 +74,12 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve request_path using id_path and current store's id.
      *
      * @param string $idPath
-     * @param int|\Magento\Core\Model\Store $store
+     * @param int|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getRequestPathByIdPath($idPath, $store)
     {
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $storeId = (int)$store->getId();
         } else {
             $storeId = (int)$store;
@@ -123,7 +123,7 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select  = $adapter->select()
             ->from($this->getMainTable())
             ->where('request_path IN (:' . implode(', :', array_flip($pathBind)) . ')')
-            ->where('store_id IN(?)', array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, (int)$object->getStoreId()));
+            ->where('store_id IN(?)', array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, (int)$object->getStoreId()));
 
         $items = $adapter->fetchAll($select, $pathBind);
 

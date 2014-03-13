@@ -90,7 +90,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     {
         $this->session = $this->_getSessionStub();
 
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStore'), array(), '', false);
         $this->_storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_getStoreStub()));
@@ -339,11 +339,11 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     /**
      * Create store stub
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStoreStub()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $store->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('http://localhost/pub/media/'));

@@ -48,8 +48,8 @@ class Data extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param Session $persistentSession
      * @param \Magento\Module\Dir\Reader $modulesReader
@@ -58,8 +58,8 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         Session $persistentSession,
         \Magento\Module\Dir\Reader $modulesReader,
@@ -82,7 +82,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Checks whether Persistence Functionality is enabled
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -93,7 +93,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Checks whether "Remember Me" enabled
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isRememberMeEnabled($store = null)
@@ -104,7 +104,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Is "Remember Me" checked by default
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isRememberMeCheckedDefault($store = null)
@@ -115,7 +115,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Is shopping cart persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isShoppingCartPersist($store = null)
@@ -126,7 +126,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * Get Persistence Lifetime
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return int
      */
     public function getLifeTime($store = null)

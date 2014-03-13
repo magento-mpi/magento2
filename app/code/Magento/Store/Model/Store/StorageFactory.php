@@ -29,7 +29,7 @@ class StorageFactory
     protected $_installedStoreClassName;
 
     /**
-     * @var \Magento\Core\Model\Store\StorageInterface[]
+     * @var \Magento\Store\Model\Store\StorageInterface[]
      */
     protected $_cache = array();
 
@@ -74,8 +74,8 @@ class StorageFactory
         \Magento\Logger $logger,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\App\State $appState,
-        $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
-        $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db',
+        $defaultStorageClassName = 'Magento\Store\Model\Store\Storage\DefaultStorage',
+        $installedStoreClassName = 'Magento\Store\Model\Store\Storage\Db',
         $writerModel = ''
     ) {
         $this->_objectManager = $objectManager;
@@ -92,7 +92,7 @@ class StorageFactory
      * Get storage instance
      *
      * @param array $arguments
-     * @return \Magento\Core\Model\Store\StorageInterface
+     * @return \Magento\Store\Model\Store\StorageInterface
      * @throws \InvalidArgumentException
      */
     public function get(array $arguments = array())
@@ -102,12 +102,12 @@ class StorageFactory
             $this->_defaultStorageClassName;
 
         if (false == isset($this->_cache[$className])) {
-            /** @var $instance \Magento\Core\Model\Store\StorageInterface */
+            /** @var $instance \Magento\Store\Model\Store\StorageInterface */
             $instance = $this->_objectManager->create($className, $arguments);
 
-            if (false === ($instance instanceof \Magento\Core\Model\Store\StorageInterface)) {
+            if (false === ($instance instanceof \Magento\Store\Model\Store\StorageInterface)) {
                 throw new \InvalidArgumentException($className
-                    . ' doesn\'t implement \Magento\Core\Model\Store\StorageInterface'
+                    . ' doesn\'t implement \Magento\Store\Model\Store\StorageInterface'
                 );
             }
             $this->_cache[$className] = $instance;

@@ -26,7 +26,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_storeManager = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $this->_storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -105,7 +105,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getStoreMock($storeCode)
     {
-        $storeMock = $this->getMockBuilder('\Magento\Core\Model\Store')
+        $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $storeMock->expects($this->any())

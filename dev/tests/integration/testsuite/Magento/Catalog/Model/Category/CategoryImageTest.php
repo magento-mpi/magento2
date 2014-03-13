@@ -32,18 +32,18 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_oldLogActive = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/active');
+            ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/active');
         $this->_oldExceptionFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/exception_file');
+            ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getConfig('dev/log/exception_file');
     }
 
     protected function tearDown()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->setConfig('dev/log/active', $this->_oldLogActive);
         $this->_oldLogActive = null;
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
         $this->_oldExceptionFile = null;
 

@@ -24,7 +24,7 @@ use Magento\Core\Model\Config\Value;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Data\Collection\Db;
 
 class Type extends Value

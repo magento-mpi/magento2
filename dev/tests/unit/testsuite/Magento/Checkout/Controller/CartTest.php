@@ -24,7 +24,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testGoBack()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $responseMock->headersSentThrowsException = false;
@@ -51,10 +51,10 @@ class CartTest extends \PHPUnit_Framework_TestCase
             ->method('redirect')
             ->will($this->returnValue('http://some-url/index.php/checkout/cart/'));
 
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://some-url/'));
 
-        $configMock = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
+        $configMock = $this->getMock('Magento\Store\Model\Store\ConfigInterface');
         $configMock->expects($this->once())
             ->method('getConfig')
             ->with('checkout/cart/redirect_to_cart')

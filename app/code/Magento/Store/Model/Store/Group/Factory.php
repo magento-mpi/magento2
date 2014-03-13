@@ -16,7 +16,7 @@ class Factory
     /**
      * Store group model class name
      */
-    const CLASS_NAME = 'Magento\Core\Model\Store\Group';
+    const CLASS_NAME = 'Magento\Store\Model\Store\Group';
 
     /**
      * Object Manager

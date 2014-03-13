@@ -65,7 +65,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Store model manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -81,7 +81,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param Type $productType
      * @param \Magento\Catalog\Model\Product\Website $productWebsite
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param ItemFactory $stockItemFactory
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -93,7 +93,7 @@ class Status extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         Type $productType,
         \Magento\Catalog\Model\Product\Website $productWebsite,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         ItemFactory $stockItemFactory,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -313,7 +313,7 @@ class Status extends \Magento\Core\Model\AbstractModel
         $websites   = $this->getWebsites($websiteId);
 
         foreach (array_keys($websites) as $websiteId) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
             $statuses[$websiteId] = $status;
         }
 
@@ -529,10 +529,10 @@ class Status extends \Magento\Core\Model\AbstractModel
      * Add stock status to prepare index select
      *
      * @param \Magento\DB\Select $select
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Store\Model\Website $website
      * @return $this
      */
-    public function addStockStatusToSelect(\Magento\DB\Select $select, \Magento\Core\Model\Website $website)
+    public function addStockStatusToSelect(\Magento\DB\Select $select, \Magento\Store\Model\Website $website)
     {
         $this->_getResource()->addStockStatusToSelect($select, $website);
         return $this;

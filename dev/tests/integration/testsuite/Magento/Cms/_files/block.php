@@ -21,7 +21,7 @@ $block->setTitle('CMS Block Title')
 ')
     ->setIsActive(1)
     ->setStores(array(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getId()
     ))
     ->save()

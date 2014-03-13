@@ -11,15 +11,15 @@ namespace Magento\Store\Model\Store\Storage;
 
 use Magento\Core\Exception;
 use Magento\App\State;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\Store\StorageInterface;
-use Magento\Core\Model\Store\Group;
-use Magento\Core\Model\Store\Group\Factory;
-use Magento\Core\Model\Store\Exception as StoreException;
-use Magento\Core\Model\StoreFactory;
-use Magento\Core\Model\StoreManagerInterface;
-use Magento\Core\Model\Website;
-use Magento\Core\Model\Website\Factory as WebsiteFactory;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\Store\StorageInterface;
+use Magento\Store\Model\Store\Group;
+use Magento\Store\Model\Store\Group\Factory;
+use Magento\Store\Model\Store\Exception as StoreException;
+use Magento\Store\Model\StoreFactory;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Model\Website;
+use Magento\Store\Model\Website\Factory as WebsiteFactory;
 use Magento\Profiler;
 
 class Db implements StorageInterface
@@ -199,8 +199,8 @@ class Db implements StorageInterface
     {
         if (empty($this->_store)) {
             $this->_store = $this->_storeFactory->create()
-                ->setId(\Magento\Core\Model\Store::DISTRO_STORE_ID)
-                ->setCode(\Magento\Core\Model\Store::DEFAULT_CODE);
+                ->setId(\Magento\Store\Model\Store::DISTRO_STORE_ID)
+                ->setCode(\Magento\Store\Model\Store::DEFAULT_CODE);
         }
         return $this->_store;
     }
@@ -373,15 +373,15 @@ class Db implements StorageInterface
 
         $this->_website  = null;
 
-        /** @var $websiteCollection \Magento\Core\Model\Resource\Website\Collection */
+        /** @var $websiteCollection \Magento\Store\Model\Resource\Website\Collection */
         $websiteCollection = $this->_websiteFactory->create()->getCollection();
         $websiteCollection->setLoadDefault(true);
 
-        /** @var $groupCollection \Magento\Core\Model\Resource\Store\Group\Collection */
+        /** @var $groupCollection \Magento\Store\Model\Resource\Store\Group\Collection */
         $groupCollection = $this->_groupFactory->create()->getCollection();
         $groupCollection->setLoadDefault(true);
 
-        /** @var $storeCollection \Magento\Core\Model\Resource\Store\Collection */
+        /** @var $storeCollection \Magento\Store\Model\Resource\Store\Collection */
         $storeCollection = $this->_storeFactory->create()->getCollection();
         $storeCollection->setLoadDefault(true);
 

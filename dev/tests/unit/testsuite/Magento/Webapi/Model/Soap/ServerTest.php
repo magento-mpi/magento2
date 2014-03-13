@@ -17,7 +17,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\App */
     protected $_appMock;
 
-    /** @var \Magento\Core\Model\Store */
+    /** @var \Magento\Store\Model\Store */
     protected $_storeMock;
 
     /** @var \Magento\Webapi\Controller\Soap\Request */
@@ -26,7 +26,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManagerMock;
 
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
@@ -37,10 +37,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')->disableOriginalConstructor()->getMock();
+        $this->_storeMock = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $this->_storeMock->expects($this->any())->method('getBaseUrl')->will(
             $this->returnValue('http://magento.com/')
         );

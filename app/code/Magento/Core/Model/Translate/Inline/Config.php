@@ -19,7 +19,7 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -29,11 +29,11 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     protected $_helper;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Helper\Data $helper
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Helper\Data $helper
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

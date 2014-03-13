@@ -109,7 +109,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_isReadonly = false;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -126,7 +126,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_customerData = null;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -184,9 +184,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param ResourceCustomer $resource
      * @param Share $configShare
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
@@ -205,9 +205,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         ResourceCustomer $resource,
         Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -851,7 +851,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store where customer was created
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -907,10 +907,10 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Set store to customer
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return $this
      */
-    public function setStore(\Magento\Core\Model\Store $store)
+    public function setStore(\Magento\Store\Model\Store $store)
     {
         $this->setStoreId($store->getId());
         $this->setWebsiteId($store->getWebsite()->getId());

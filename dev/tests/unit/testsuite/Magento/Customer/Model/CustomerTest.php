@@ -18,10 +18,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Customer */
     protected $_model;
 
-    /** @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\Website|\PHPUnit_Framework_MockObject_MockObject */
     protected $_website;
 
-    /** @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_storeManager;
 
     /** @var \Magento\Eav\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
@@ -30,7 +30,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Eav\Model\Attribute|\PHPUnit_Framework_MockObject_MockObject */
     protected $_attribute;
 
-    /** @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_coreStoreConfigMock;
 
     /** @var \Magento\Mail\Template\TransportBuilder|\PHPUnit_Framework_MockObject_MockObject */
@@ -44,12 +44,12 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_website = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
+        $this->_website = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
         $this->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_attribute = $this->getMock('Magento\Eav\Model\Attribute', array(), array(), '', false);
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $this->_storetMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
-        $this->_coreStoreConfigMock = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storetMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_coreStoreConfigMock = $this->getMock('\Magento\Store\Model\Store\Config', array(), array(), '', false);
         $this->_transportBuilderMock = $this->getMock(
             '\Magento\Mail\Template\TransportBuilder',
             array(),

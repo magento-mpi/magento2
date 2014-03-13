@@ -17,8 +17,8 @@ use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
-use Magento\Core\Model\Store\Config;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\Store\Config;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Data\Collection\Db;
 use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 

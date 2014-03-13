@@ -20,7 +20,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->setFlag('load_default_store_group', false);
-        $this->_init('Magento\Core\Model\Store\Group', 'Magento\Core\Model\Resource\Store\Group');
+        $this->_init('Magento\Store\Model\Store\Group', 'Magento\Store\Model\Resource\Store\Group');
     }
 
     /**

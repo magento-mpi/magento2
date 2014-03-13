@@ -7,12 +7,12 @@
  */
 namespace Magento\Store\Model;
 
-class StoreManager implements \Magento\Core\Model\StoreManagerInterface
+class StoreManager implements \Magento\Store\Model\StoreManagerInterface
 {
     /**
      * Store storage factory model
      *
-     * @var \Magento\Core\Model\Store\StorageFactory
+     * @var \Magento\Store\Model\Store\StorageFactory
      */
     protected $_factory;
 
@@ -64,14 +64,14 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     protected $_helper;
 
     /**
-     * @param \Magento\Core\Model\Store\StorageFactory $factory
+     * @param \Magento\Store\Model\Store\StorageFactory $factory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Helper\Data $helper
      * @param string $scopeCode
      * @param string $scopeType
      */
     public function __construct(
-        \Magento\Core\Model\Store\StorageFactory $factory,
+        \Magento\Store\Model\Store\StorageFactory $factory,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Helper\Data $helper,
         $scopeCode = '',
@@ -87,7 +87,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Get storage instance
      *
-     * @return \Magento\Core\Model\Store\StorageInterface
+     * @return \Magento\Store\Model\Store\StorageInterface
      */
     protected function _getStorage()
     {
@@ -135,7 +135,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
 
     /**
      * @return void
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Store\Exception
      */
     public function throwStoreException()
     {
@@ -179,7 +179,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      *
      * @param null|string|bool|int|Store $storeId
      * @return Store
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Store\Exception
      */
     public function getStore($storeId = null)
     {
@@ -245,8 +245,8 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|\Magento\Core\Model\Store\Group|string $groupId
-     * @return \Magento\Core\Model\Store\Group
+     * @param null|\Magento\Store\Model\Store\Group|string $groupId
+     * @return \Magento\Store\Model\Store\Group
      * @throws \Magento\Core\Exception
      */
     public function getGroup($groupId = null)
@@ -261,7 +261,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store\Group[]
+     * @return \Magento\Store\Model\Store\Group[]
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {

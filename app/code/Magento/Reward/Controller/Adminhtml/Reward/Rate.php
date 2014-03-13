@@ -191,8 +191,8 @@ class Rate extends \Magento\Backend\App\Action
         $response = new \Magento\Object(array('error' => false));
         $post     = $this->getRequest()->getParam('rate');
         $message  = null;
-        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         if ($storeManager->isSingleStoreMode()) {
             $post['website_id'] = $storeManager->getStore(true)->getWebsiteId();
         }

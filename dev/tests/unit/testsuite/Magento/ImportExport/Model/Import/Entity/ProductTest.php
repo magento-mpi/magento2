@@ -40,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $_optionModel;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $_storeManager;
 
@@ -102,7 +102,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_optionFactory->expects($this->atLeastOnce())->method('create')
             ->will($this->returnValue($this->_optionModel));
 
-        $this->_storeManager = $this->getMock('\Magento\Core\Model\StoreManager',
+        $this->_storeManager = $this->getMock('\Magento\Store\Model\StoreManager',
             array('getWebsites', 'getStores'), array(), '', false);
 
         $this->_storeManager->expects($this->atLeastOnce())->method('getWebsites')->will($this->returnValue(array()));

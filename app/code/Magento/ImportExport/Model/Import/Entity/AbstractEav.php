@@ -23,7 +23,7 @@ abstract class AbstractEav
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -79,11 +79,11 @@ abstract class AbstractEav
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
@@ -91,11 +91,11 @@ abstract class AbstractEav
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
@@ -138,7 +138,7 @@ abstract class AbstractEav
      */
     protected function _initWebsites($withDefault = false)
     {
-        /** @var $website \Magento\Core\Model\Website */
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($this->_storeManager->getWebsites($withDefault) as $website) {
             $this->_websiteCodeToId[$website->getCode()] = $website->getId();
         }
@@ -153,7 +153,7 @@ abstract class AbstractEav
      */
     protected function _initStores($withDefault = false)
     {
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         foreach ($this->_storeManager->getStores($withDefault) as $store) {
             $this->_storeCodeToId[$store->getCode()] = $store->getId();
         }
@@ -213,7 +213,7 @@ abstract class AbstractEav
             $index = in_array($attribute->getAttributeCode(), $indexAttributes) ? 'value' : 'label';
 
             // only default (admin) store values used
-            $attribute->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $attribute->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {

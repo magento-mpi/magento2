@@ -24,7 +24,7 @@ use Magento\Eav\Model\Entity\Attribute;
 class Gallery extends AbstractElement
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -38,7 +38,7 @@ class Gallery extends AbstractElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -46,7 +46,7 @@ class Gallery extends AbstractElement
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $data = array()
     ) {
         $this->_layout = $layout;
@@ -210,6 +210,6 @@ class Gallery extends AbstractElement
      */
     protected function _getDefaultStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 }

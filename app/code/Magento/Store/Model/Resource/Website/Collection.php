@@ -2,19 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Website;
+namespace Magento\Store\Model\Resource\Website;
 
 /**
  * Websites collection
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -33,7 +27,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->setFlag('load_default_website', false);
-        $this->_init('Magento\Core\Model\Website', 'Magento\Core\Model\Resource\Website');
+        $this->_init('Magento\Store\Model\Website', 'Magento\Store\Model\Resource\Website');
     }
 
     /**

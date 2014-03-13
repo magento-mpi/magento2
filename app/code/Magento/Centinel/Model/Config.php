@@ -18,7 +18,7 @@ class Config
     /**
      * Store id or store model
      *
-     * @var int|\Magento\Core\Model\Store
+     * @var int|\Magento\Store\Model\Store
      */
     protected $_store = false;
 
@@ -32,7 +32,7 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -51,12 +51,12 @@ class Config
     protected $_encryptor;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
@@ -68,7 +68,7 @@ class Config
     /**
      * Set store to congif model
      *
-     * @param int|\Magento\Core\Model\Store $store
+     * @param int|\Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)
@@ -80,7 +80,7 @@ class Config
     /**
      * Return store
      *
-     * @return int|\Magento\Core\Model\Store
+     * @return int|\Magento\Store\Model\Store
      */
     public function getStore()
     {

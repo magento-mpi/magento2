@@ -20,7 +20,7 @@ class Cart
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_storeConfig;
 
@@ -30,7 +30,7 @@ class Cart
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -46,17 +46,17 @@ class Cart
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param CustomerCart $cart
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Store\Model\Store\ConfigInterface $storeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         CustomerCart $cart
     ) {
@@ -102,7 +102,7 @@ class Cart
     {
         $productId = (int) $this->getRequest()->getParam('product');
         if ($productId) {
-            $storeId = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+            $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
             $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
                 ->setStoreId($storeId)
                 ->load($productId);
@@ -125,7 +125,7 @@ class Cart
             $this->cart->save();
 
             if (!$this->cart->getQuote()->validateMinimumAmount()) {
-                $currencyCode = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()
+                $currencyCode = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()
                     ->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get('Magento\Locale\CurrencyInterface')
                     ->getCurrency($currencyCode)
@@ -617,7 +617,7 @@ class Cart
         /**
          * Url must start from base secure or base unsecure url
          */
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = $this->_storeManager->getStore();
         $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
         $secure = (strpos($url, $store->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, true)) === 0);

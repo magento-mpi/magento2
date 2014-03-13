@@ -330,7 +330,7 @@ class Tools extends \Magento\Backend\App\Action
 
             /** @var $customizationConfig \Magento\Theme\Model\Config\Customization */
             $customizationConfig = $this->_objectManager->get('Magento\Theme\Model\Config\Customization');
-            $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
+            $store = $this->_objectManager->get('Magento\Store\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
                 throw new CoreException(__('This theme is not assigned to a store view #%1.',
@@ -376,7 +376,7 @@ class Tools extends \Magento\Backend\App\Action
 
             /** @var $customizationConfig \Magento\Theme\Model\Config\Customization */
             $customizationConfig = $this->_objectManager->get('Magento\Theme\Model\Config\Customization');
-            $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
+            $store = $this->_objectManager->get('Magento\Store\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
                 throw new CoreException(__('This theme is not assigned to a store view #%1.',

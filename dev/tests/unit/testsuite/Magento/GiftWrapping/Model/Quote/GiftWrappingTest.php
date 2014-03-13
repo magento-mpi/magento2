@@ -57,7 +57,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('isVirtual', '__wakeup'))
             ->getMock();
-        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
+        $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->setMethods(array('convertPrice', 'getId', '__wakeup'))
             ->getMock();

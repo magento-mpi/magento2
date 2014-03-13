@@ -36,7 +36,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $result = $this->_resourceModel->fetchUpdatesByHandle(
             'test_handle',
             $theme,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()
         );
         $this->assertEquals('not_temporary', $result);

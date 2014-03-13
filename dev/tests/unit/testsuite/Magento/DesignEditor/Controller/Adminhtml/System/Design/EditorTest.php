@@ -172,7 +172,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $translate->expects($this->any())->method('translate')
             ->will($this->returnSelf());
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager',
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager',
             array('getStore', 'getBaseUrl'), array(), '', false);
         $storeManager->expects($this->any())->method('getStore')
             ->will($this->returnSelf());
@@ -198,7 +198,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             array('Magento\TranslateInterface', $translate),
             array('Magento\App\ConfigInterface', $configMock),
             array('Magento\Event\ManagerInterface', $eventManager),
-            array('Magento\Core\Model\StoreManager', $storeManager),
+            array('Magento\Store\Model\StoreManager', $storeManager),
             array('Magento\AuthorizationInterface', $authMock),
             array('Magento\Backend\Model\Session', $backendSession),
             array('Magento\Translate\Inline', $inlineMock),

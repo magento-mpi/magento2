@@ -27,7 +27,7 @@ abstract class AbstractConversion extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Validator\ObjectFactory $validatorCompositeFactory
      * @param \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory
@@ -38,7 +38,7 @@ abstract class AbstractConversion extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Validator\ObjectFactory $validatorCompositeFactory,
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,

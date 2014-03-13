@@ -62,7 +62,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         }
         if (is_array($website)) {
             $condition = $adapter->quoteInto('website_id IN(?)', $website);
-        } elseif ($website instanceof \Magento\Core\Model\Website) {
+        } elseif ($website instanceof \Magento\Store\Model\Website) {
             $condition = $adapter->quoteInto('website_id=?', $website->getId());
         } else {
             $condition = $adapter->quoteInto('website_id=?', $website);

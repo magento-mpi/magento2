@@ -171,7 +171,7 @@ class Profile
     /**
      * Return store for current context
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getCurrentStore()
     {

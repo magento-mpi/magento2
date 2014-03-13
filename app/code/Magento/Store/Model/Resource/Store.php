@@ -78,7 +78,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
     {
         $where = array(
-            'scope = ?'    => \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            'scope = ?'    => \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             'scope_id = ?' => $model->getStoreId()
         );
 
@@ -131,7 +131,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
             $storeId = $adapter->fetchOne($select, 'default_store_id');
 
             if ($storeId == $model->getId()) {
-                $bind = array('default_store_id' => \Magento\Core\Model\Store::DEFAULT_STORE_ID);
+                $bind = array('default_store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID);
                 $where = array('group_id = ?' => $model->getOriginalGroupId());
                 $this->_getWriteAdapter()->update($this->getTable('core_store_group'), $bind, $where);
             }

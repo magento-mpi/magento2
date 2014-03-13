@@ -39,7 +39,7 @@ class Server
     /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_request;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
@@ -55,7 +55,7 @@ class Server
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Webapi\Controller\Soap\Request $request
      * @param \Magento\DomDocument\Factory $domDocumentFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory
      * @param \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
      * @throws \Magento\Webapi\Exception
@@ -65,7 +65,7 @@ class Server
         \Magento\Config\ScopeInterface $configScope,
         \Magento\Webapi\Controller\Soap\Request $request,
         \Magento\DomDocument\Factory $domDocumentFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory,
         \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
     ) {

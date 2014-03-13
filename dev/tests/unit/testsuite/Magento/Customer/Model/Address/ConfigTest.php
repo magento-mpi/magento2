@@ -47,14 +47,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->_readerMock = $this->getMock(
             'Magento\Customer\Model\Address\Config\Reader',
             array(), array(), '', false
         );
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->once())
             ->method('getStore')

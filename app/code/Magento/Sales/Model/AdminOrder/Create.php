@@ -1480,7 +1480,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Check whether we need to create new customer (for another website) during order creation
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return bool
      */
     protected function _customerIsInStore($store)
@@ -1534,7 +1534,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if ($this->getQuote()->getCustomerIsGuest()) {
             return $this;
         }
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = $this->getSession()->getStore();
         $customerDataObject = $this->getQuote()->getCustomerData();
         if ($customerDataObject->getId() && !$this->_customerIsInStore($store)) {

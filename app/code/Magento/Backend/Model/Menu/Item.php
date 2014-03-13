@@ -119,7 +119,7 @@ class Item
     protected $_urlModel;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -150,7 +150,7 @@ class Item
     /**
      * @param Item\Validator $validator
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
      * @param \Magento\Backend\Model\UrlInterface $urlModel
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -160,7 +160,7 @@ class Item
     public function __construct(
         \Magento\Backend\Model\Menu\Item\Validator $validator,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\Backend\Model\MenuFactory $menuFactory,
         \Magento\Backend\Model\UrlInterface $urlModel,
         \Magento\Module\ModuleListInterface $moduleList,
@@ -479,7 +479,7 @@ class Item
         $this->_moduleManager = $objectManager->get('Magento\Module\Manager');
         $this->_validator = $objectManager->get('Magento\Backend\Model\Menu\Item\Validator');
         $this->_acl = $objectManager->get('Magento\AuthorizationInterface');
-        $this->_storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+        $this->_storeConfig = $objectManager->get('Magento\Store\Model\Store\Config');
         $this->_menuFactory = $objectManager->get('Magento\Backend\Model\MenuFactory');
         $this->_urlModel = $objectManager->get('Magento\Backend\Model\UrlInterface');
         $this->_moduleList = $objectManager->get('Magento\Module\ModuleListInterface');

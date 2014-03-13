@@ -29,37 +29,37 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_COOKIE_RESTRICTION_LIFETIME = 'web/cookie/cookie_restriction_lifetime';
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_currentStore;
 
     /**
-     * @var \Magento\Core\Model\Website
+     * @var \Magento\Store\Model\Website
      */
     protected $_website;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @throws \InvalidArgumentException
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct($context);
         $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : $storeManager->getStore();
 
-        if (!$this->_currentStore instanceof \Magento\Core\Model\Store) {
+        if (!$this->_currentStore instanceof \Magento\Store\Model\Store) {
             throw new \InvalidArgumentException('Required store object is invalid');
         }
 
         $this->_website = isset($data['website']) ? $data['website'] : $storeManager->getWebsite();
 
-        if (!$this->_website instanceof \Magento\Core\Model\Website) {
+        if (!$this->_website instanceof \Magento\Store\Model\Website) {
             throw new \InvalidArgumentException('Required website object is invalid');
         }
     }

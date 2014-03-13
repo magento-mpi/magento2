@@ -36,14 +36,14 @@ class Config implements \Magento\View\Asset\ConfigInterface
     const XML_PATH_MINIFICATION_ADAPTER = 'dev/%s/minify_adapter';
 
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $storeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\ConfigInterface $storeConfig)
+    public function __construct(\Magento\Store\Model\Store\ConfigInterface $storeConfig)
     {
         $this->storeConfig = $storeConfig;
     }

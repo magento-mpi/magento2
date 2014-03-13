@@ -30,10 +30,10 @@ class Factory
 
     /**
      * @param array $data
-     * @return \Magento\Core\Model\Website
+     * @return \Magento\Store\Model\Website
      */
     public function create(array $data = array())
     {
-        return $this->_objectManager->create('Magento\Core\Model\Website', $data);
+        return $this->_objectManager->create('Magento\Store\Model\Website', $data);
     }
 }

@@ -31,7 +31,7 @@ class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
         $customerWebsite = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER)->getWebsiteId();
         if (!$this->_authorization->isAllowed('Magento_AdvancedCheckout::view')
             && !$this->_authorization->isAllowed('Magento_AdvancedCheckout::update')
-            || $this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getWebsiteId() == $customerWebsite
+            || $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getWebsiteId() == $customerWebsite
         ) {
             return $this;
         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for \Magento\Core\Model\StoreManager
+ * Test class for \Magento\Store\Model\StoreManager
  *
  * {license_notice}
  *
@@ -13,7 +13,7 @@ namespace Magento\Store\Model;
 class StoreManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Store\Model\StoreManager
      */
     protected $_model;
 
@@ -39,12 +39,12 @@ class StoreManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento\Core\Model\Store\StorageFactory', array(), array(), '', false);
+        $this->_factoryMock = $this->getMock('Magento\Store\Model\Store\StorageFactory', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
+        $this->_storage = $this->getMock('Magento\Store\Model\Store\StorageInterface');
 
-        $this->_model = new \Magento\Core\Model\StoreManager(
+        $this->_model = new \Magento\Store\Model\StoreManager(
             $this->_factoryMock,
             $this->_requestMock,
             $this->_helperMock,

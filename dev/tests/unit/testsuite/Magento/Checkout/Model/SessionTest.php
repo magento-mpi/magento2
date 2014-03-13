@@ -162,8 +162,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $orderFactory->expects($this->once())->method('create')->will($this->returnValue($order));
         $quoteFactory = $this->getMock('Magento\Sales\Model\QuoteFactory', ['create'], [], '', false);
         $storage = $this->getMock('Magento\Session\Storage', null);
-        $store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
-        $storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $eventManager = $this->getMockForAbstractClass('Magento\Event\ManagerInterface');
 

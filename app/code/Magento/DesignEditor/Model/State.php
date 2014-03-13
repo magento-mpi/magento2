@@ -71,7 +71,7 @@ class State
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -84,7 +84,7 @@ class State
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\App $application
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
@@ -95,7 +95,7 @@ class State
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\App $application,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_backendSession  = $backendSession;
         $this->_areaEmulator    = $areaEmulator;

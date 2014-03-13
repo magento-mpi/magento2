@@ -120,7 +120,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
             'used_for_sort_by' => '0',
             'apply_to' => array('simple'),
             'frontend_label' => array(
-                \Magento\Core\Model\Store::DEFAULT_STORE_ID => 'string to translate',
+                \Magento\Store\Model\Store::DEFAULT_STORE_ID => 'string to translate',
             ),
         );
     }

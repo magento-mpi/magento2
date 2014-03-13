@@ -23,7 +23,7 @@ use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
 use Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory;
 use Magento\Registry;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Eav\Model\Entity\Attribute;
 

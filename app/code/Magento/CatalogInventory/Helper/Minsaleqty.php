@@ -13,14 +13,14 @@
  */
 namespace Magento\CatalogInventory\Helper;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 class Minsaleqty
 {
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -30,11 +30,11 @@ class Minsaleqty
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Math\Random $mathRandom
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

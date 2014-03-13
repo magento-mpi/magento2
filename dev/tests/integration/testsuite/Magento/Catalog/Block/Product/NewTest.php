@@ -43,7 +43,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(1, array_shift($keys));
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()->getId(),
             $info[1]
         );

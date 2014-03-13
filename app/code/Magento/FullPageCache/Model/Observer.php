@@ -164,7 +164,7 @@ class Observer
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param \Magento\App\Cache\TypeListInterface $typeList
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Catalog\Model\Session $catalogSession
@@ -188,7 +188,7 @@ class Observer
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\App\Cache\TypeListInterface $typeList,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Catalog\Model\Session $catalogSession,

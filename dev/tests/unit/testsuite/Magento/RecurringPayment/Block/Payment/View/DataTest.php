@@ -41,11 +41,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->with('current_recurring_payment')
             ->will($this->returnValue($this->_payment));
 
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMock();

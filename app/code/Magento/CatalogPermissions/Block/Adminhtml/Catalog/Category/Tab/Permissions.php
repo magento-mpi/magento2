@@ -25,7 +25,7 @@ use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Model\Resource\Permission\Collection as PermissionCollection;
 use Magento\Registry;
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use Magento\Json\EncoderInterface;
 

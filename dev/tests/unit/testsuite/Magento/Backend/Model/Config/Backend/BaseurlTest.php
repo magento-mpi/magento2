@@ -13,7 +13,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
     {
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $context = new \Magento\Model\Context(
@@ -32,7 +32,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $mergeService = $this->getMock('Magento\View\Asset\MergeService', array(), array(), '', false);
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $model = $this->getMock(
             'Magento\Backend\Model\Config\Backend\Baseurl',
@@ -51,7 +51,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             ->method('cleanMergedJsCss');
 
         $model->setValue('http://example.com/')
-            ->setPath(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL);
+            ->setPath(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL);
         $model->save();
     }
 }

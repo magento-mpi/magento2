@@ -23,7 +23,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,14 +43,14 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\App\Resource $resource
      * @param \Magento\Logger $logger
      * @param \Magento\Rating\Helper\Data $ratingData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\Resource\Review\Summary $reviewSummary
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Logger $logger,
         \Magento\Rating\Helper\Data $ratingData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\Resource\Review\Summary $reviewSummary
     ) {
         $this->_ratingData = $ratingData;
@@ -97,7 +97,7 @@ class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
         $adapter    = $this->_getReadAdapter();
 
         $table      = $this->getMainTable();
-        $storeId    = (int)$this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId();
+        $storeId    = (int)$this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId();
         $select     = parent::_getLoadSelect($field, $value, $object);
         $codeExpr   = $adapter->getIfNullSql('title.value', "{$table}.rating_code");
 

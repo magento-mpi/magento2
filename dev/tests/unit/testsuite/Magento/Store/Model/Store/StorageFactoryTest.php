@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for \Magento\Core\Model\Store\StorageFactory
+ * Test class for \Magento\Store\Model\Store\StorageFactory
  *
  * {license_notice}
  *
@@ -13,7 +13,7 @@ namespace Magento\Store\Model\Store;
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Store\StorageFactory
+     * @var \Magento\Store\Model\Store\StorageFactory
      */
     protected $_model;
 
@@ -45,12 +45,12 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $_defaultStorage = 'Magento\Core\Model\Store\Storage\DefaultStorage';
+    protected $_defaultStorage = 'Magento\Store\Model\Store\Storage\DefaultStorage';
 
     /**
      * @var string
      */
-    protected $_dbStorage = 'Magento\Core\Model\Store\Storage\Db';
+    protected $_dbStorage = 'Magento\Store\Model\Store\Storage\Db';
 
     /**
      * @var array
@@ -71,9 +71,9 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_sidResolverMock
             = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
+        $this->_storage = $this->getMock('Magento\Store\Model\Store\StorageInterface');
 
-        $this->_model = new \Magento\Core\Model\Store\StorageFactory(
+        $this->_model = new \Magento\Store\Model\Store\StorageFactory(
             $this->_objectManagerMock,
             $this->_eventManagerMock,
             $this->_logMock,
@@ -109,7 +109,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->exactly(2))->method('isInstalled')->will($this->returnValue(true));
 
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->_storage
             ->expects($this->exactly(2))
@@ -157,7 +157,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
-        $invalidObject = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $invalidObject = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->_objectManagerMock
             ->expects($this->once())

@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /*
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store
      */
     protected $_storeMock;
 
@@ -63,12 +63,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('logging'))
             ->will($this->returnValue($loggingConfig));
 
-        $storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_store = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $this->_store = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->setMethods(array('getConfig'))
             ->disableOriginalConstructor()
             ->getMock();

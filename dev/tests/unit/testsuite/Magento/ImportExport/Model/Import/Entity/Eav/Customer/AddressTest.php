@@ -235,7 +235,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Entity\TypeFactory'),
-                    $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
+                    $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Resource\Helper', array(), array(), '', false, false),
                     $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false, false),
 
@@ -320,7 +320,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
             $websiteData = array(
@@ -462,8 +462,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelMock()
     {
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $storeManager = $this->getMock('\Magento\Core\Model\StoreManager', array('getWebsites'), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
         $storeManager->expects($this->once())
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));

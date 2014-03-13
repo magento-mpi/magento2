@@ -11,8 +11,8 @@
  */
 namespace Magento\Store\Block;
 
-use Magento\Core\Model\Store\Group;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store\Group;
+use Magento\Store\Model\Store;
 
 class Switcher extends \Magento\View\Element\Template
 {

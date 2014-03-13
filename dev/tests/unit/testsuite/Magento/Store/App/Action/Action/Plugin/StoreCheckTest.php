@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\Action\Plugin;
+namespace Magento\Store\App\Action\Action\Plugin;
 
 class StoreCheckTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\App\Action\Plugin\StoreCheck
+     * @var \Magento\Store\App\Action\Action\Plugin\StoreCheck
      */
     protected $_plugin;
 
@@ -41,8 +41,8 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
-        $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));
         $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
@@ -50,7 +50,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
             return 'Expected';
         };
         $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->_plugin = new \Magento\Core\App\Action\Plugin\StoreCheck($this->_storeManagerMock);
+        $this->_plugin = new \Magento\Store\App\Action\Action\Plugin\StoreCheck($this->_storeManagerMock);
     }
 
     public function testAroundDispatchWhenStoreNotActive()

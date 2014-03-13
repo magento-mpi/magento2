@@ -32,11 +32,11 @@ class Variables implements \Magento\Option\ArrayInterface
     {
         $this->_configVariables = array(
             array(
-                'value' => \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
+                'value' => \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
                 'label' => __('Base Unsecure URL')
             ),
             array(
-                'value' => \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL,
+                'value' => \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL,
                 'label' => __('Base Secure URL')
             ),
             array(

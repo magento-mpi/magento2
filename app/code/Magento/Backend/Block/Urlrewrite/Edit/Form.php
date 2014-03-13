@@ -52,7 +52,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_adminhtmlData = null;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -78,7 +78,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory
      * @param \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param array $data
      *
@@ -91,7 +91,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Model\Source\Urlrewrite\TypesFactory $typesFactory,
         \Magento\Core\Model\Source\Urlrewrite\OptionsFactory $optionFactory,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Data $adminhtmlData,
         array $data = array()
     ) {

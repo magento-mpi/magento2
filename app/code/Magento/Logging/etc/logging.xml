@@ -920,15 +920,15 @@
         <group name="adminhtml_system_websites">
             <label translate="true">Manage Websites</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Website" />
+                <expected_model class="Magento\Store\Model\Website" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editWebsite"
                        action_alias="view" />
                 <event controller_action="adminhtml_system_store_save" action_alias="save">
                     <expected_models merge_group="true">
-                        <expected_model class="Magento\Core\Model\Store\Group" />
-                        <expected_model class="Magento\Core\Model\Store" />
+                        <expected_model class="Magento\Store\Model\Store\Group" />
+                        <expected_model class="Magento\Store\Model\Store" />
                     </expected_models>
                 </event>
                 <event controller_action="adminhtml_system_store_deleteWebsitePost"
@@ -938,7 +938,7 @@
         <group name="adminhtml_system_store_groups">
             <label translate="true">Manage Stores</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Store" />
+                <expected_model class="Magento\Store\Model\Store" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_editStore"
@@ -950,7 +950,7 @@
         <group name="adminhtml_system_stores">
             <label translate="true">Manage Store Views</label>
             <expected_models>
-                <expected_model class="Magento\Core\Model\Store\Group" />
+                <expected_model class="Magento\Store\Model\Store\Group" />
             </expected_models>
             <events>
                 <event controller_action="adminhtml_system_store_deleteGroupPost"

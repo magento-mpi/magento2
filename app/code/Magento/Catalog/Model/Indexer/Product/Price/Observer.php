@@ -13,7 +13,7 @@ namespace Magento\Catalog\Model\Indexer\Product\Price;
 class Observer
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -48,7 +48,7 @@ class Observer
     protected $_connection;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -56,7 +56,7 @@ class Observer
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Resource $resource,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,

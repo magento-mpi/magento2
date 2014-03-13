@@ -35,7 +35,7 @@ class Observer
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,7 +49,7 @@ class Observer
     /**
      * Core model store configuration
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -85,11 +85,11 @@ class Observer
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
@@ -99,11 +99,11 @@ class Observer
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
@@ -832,7 +832,7 @@ class Observer
      */
     public function prepareCustomerOrphanPoints(\Magento\Event\Observer $observer)
     {
-        /* @var $website \Magento\Core\Model\Website */
+        /* @var $website \Magento\Store\Model\Website */
         $website = $observer->getEvent()->getWebsite();
         $this->_getRewardModel()
             ->prepareOrphanPoints($website->getId(), $website->getBaseCurrencyCode());

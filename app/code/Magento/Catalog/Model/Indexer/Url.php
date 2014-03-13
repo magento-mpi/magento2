@@ -38,10 +38,10 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Catalog\Model\Category::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        \Magento\Core\Model\Store::ENTITY => array(
+        \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        \Magento\Core\Model\Store\Group::ENTITY => array(
+        \Magento\Store\Model\Store\Group::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
         \Magento\App\Config\ValueInterface::ENTITY => array(
@@ -134,14 +134,14 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         }
 
         $entity = $event->getEntity();
-        if ($entity == \Magento\Core\Model\Store::ENTITY) {
+        if ($entity == \Magento\Store\Model\Store::ENTITY) {
             $store = $event->getDataObject();
             if ($store && ($store->isObjectNew() || $store->dataHasChangedFor('group_id'))) {
                 $result = true;
             } else {
                 $result = false;
             }
-        } else if ($entity == \Magento\Core\Model\Store\Group::ENTITY) {
+        } else if ($entity == \Magento\Store\Model\Store\Group::ENTITY) {
             $storeGroup = $event->getDataObject();
             $hasDataChanges = $storeGroup && ($storeGroup->dataHasChangedFor('root_category_id')
                 || $storeGroup->dataHasChangedFor('website_id'));
@@ -185,8 +185,8 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
                 $this->_registerCategoryEvent($event);
                 break;
 
-            case \Magento\Core\Model\Store::ENTITY:
-            case \Magento\Core\Model\Store\Group::ENTITY:
+            case \Magento\Store\Model\Store::ENTITY:
+            case \Magento\Store\Model\Store\Group::ENTITY:
             case \Magento\App\Config\ValueInterface::ENTITY:
                 $process = $event->getProcess();
                 $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);

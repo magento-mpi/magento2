@@ -9,43 +9,43 @@
  */
 namespace Magento\Store\Model\Store\Storage;
 
-class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
+class DefaultStorage implements \Magento\Store\Model\Store\StorageInterface
 {
     /**
      * Application store object
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
      * Application website object
      *
-     * @var \Magento\Core\Model\Website
+     * @var \Magento\Store\Model\Website
      */
     protected $_website;
 
     /**
      * Application website object
      *
-     * @var \Magento\Core\Model\Store\Group
+     * @var \Magento\Store\Model\Store\Group
      */
     protected $_group;
 
     /**
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\Website\Factory $websiteFactory
-     * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\Website\Factory $websiteFactory
+     * @param \Magento\Store\Model\Store\Group\Factory $groupFactory
      */
     public function __construct(
-        \Magento\Core\Model\StoreFactory $storeFactory,
-        \Magento\Core\Model\Website\Factory $websiteFactory,
-        \Magento\Core\Model\Store\Group\Factory $groupFactory
+        \Magento\Store\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\Website\Factory $websiteFactory,
+        \Magento\Store\Model\Store\Group\Factory $groupFactory
     ) {
 
         $this->_store = $storeFactory->create();
-        $this->_store->setId(\Magento\Core\Model\Store::DISTRO_STORE_ID);
-        $this->_store->setCode(\Magento\Core\Model\Store::DEFAULT_CODE);
+        $this->_store->setId(\Magento\Store\Model\Store::DISTRO_STORE_ID);
+        $this->_store->setCode(\Magento\Store\Model\Store::DEFAULT_CODE);
         $this->_website = $websiteFactory->create();
         $this->_group = $groupFactory->create();
     }
@@ -84,8 +84,8 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return \Magento\Core\Model\Store
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
+     * @return \Magento\Store\Model\Store
      */
     public function getStore($storeId = null)
     {
@@ -97,7 +97,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -107,13 +107,13 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\Core\Model\Website
+     * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
+     * @return \Magento\Store\Model\Website
      * @throws \Magento\Core\Exception
      */
     public function getWebsite($websiteId = null)
     {
-        if ($websiteId instanceof \Magento\Core\Model\Website) {
+        if ($websiteId instanceof \Magento\Store\Model\Website) {
             return $websiteId;
         }
 
@@ -125,7 +125,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return \Magento\Core\Model\Website[]
+     * @return \Magento\Store\Model\Website[]
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -142,13 +142,13 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|\Magento\Core\Model\Store\Group|string $groupId
-     * @return \Magento\Core\Model\Store\Group
+     * @param null|\Magento\Store\Model\Store\Group|string $groupId
+     * @return \Magento\Store\Model\Store\Group
      * @throws \Magento\Core\Exception
      */
     public function getGroup($groupId = null)
     {
-        if ($groupId instanceof \Magento\Core\Model\Store\Group) {
+        if ($groupId instanceof \Magento\Store\Model\Store\Group) {
             return $groupId;
         }
 
@@ -162,7 +162,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store\Group[]
+     * @return \Magento\Store\Model\Store\Group[]
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
@@ -188,7 +188,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getDefaultStoreView()
     {
@@ -198,7 +198,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
      * @return void
      */
     public function clearWebsiteCache($websiteId = null)
@@ -209,7 +209,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Get either default or any store view
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getAnyStoreView()
     {
@@ -229,7 +229,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
 
     /**
      * @return void
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Store\Exception
      */
     public function throwStoreException()
     {
