@@ -35,7 +35,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected $eventManagerMock;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var Value\CollectionFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $optionsFactoryMock;
 
