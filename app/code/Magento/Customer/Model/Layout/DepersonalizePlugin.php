@@ -18,11 +18,6 @@ namespace Magento\Customer\Model\Layout;
 class DepersonalizePlugin
 {
     /**
-     * @var \Magento\View\LayoutInterface
-     */
-    protected $layout;
-
-    /**
      * @var \Magento\Session\SessionManagerInterface
      */
     protected $session;
@@ -36,11 +31,6 @@ class DepersonalizePlugin
      * @var \Magento\Customer\Model\Customer
      */
     protected $customer;
-
-    /**
-     * @var \Magento\Event\Manager
-     */
-    protected $eventManager;
 
     /**
      * @var \Magento\App\RequestInterface
@@ -73,32 +63,26 @@ class DepersonalizePlugin
     protected $httpContext;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Event\Manager $eventManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\App\Http\Context $httpContext
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Event\Manager $eventManager,
         \Magento\App\RequestInterface $request,
         \Magento\Module\Manager $moduleManager,
         \Magento\Log\Model\Visitor $visitor,
         \Magento\App\Http\Context $httpContext
     ) {
-        $this->layout           = $layout;
         $this->session          = $session;
         $this->customerSession  = $customerSession;
         $this->customer         = $customerFactory->create();
-        $this->eventManager     = $eventManager;
         $this->request          = $request;
         $this->moduleManager    = $moduleManager;
         $this->visitor          = $visitor;
@@ -137,21 +121,35 @@ class DepersonalizePlugin
     }
 
     /**
-     * After layout generate
+     * Before generate Xml
      *
      * @param \Magento\Core\Model\Layout $subject
-     * @param mixed $result
+     * @return array
+     */
+    public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
+    {
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
+            $this->beforeSessionWriteClose();
+        }
+        return array();
+    }
+
+    /**
+     * After generate Xml
+     *
+     * @param \Magento\Core\Model\Layout $subject
+     * @param $result
      * @return mixed
      */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && !$this->request->isAjax()
-            && $this->layout->isCacheable()
+            && $subject->isCacheable()
         ) {
-            $this->beforeSessionWriteClose();
-            $this->eventManager->dispatch('before_session_write_close');
-            session_write_close();
             $this->afterSessionWriteClose();
         }
         return $result;

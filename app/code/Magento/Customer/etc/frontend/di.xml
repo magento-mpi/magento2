@@ -21,6 +21,7 @@
         </arguments>
     </type>
     <type name="Magento\Core\Model\Layout">
-        <plugin name="customer-session-stab" type="Magento\Customer\Model\Layout\DepersonalizePlugin" sortOrder="20"/>
+        <plugin name="customer-session-depersonalize"
+                type="Magento\Customer\Model\Layout\DepersonalizePlugin" sortOrder="10"/>
     </type>
 </config>

@@ -17,6 +17,8 @@
         <arguments>
             <argument name="area" xsi:type="string">frontend</argument>
         </arguments>
+        <plugin name="core-session-depersonalize"
+                type="Magento\Core\Model\Layout\DepersonalizePlugin" sortOrder="1"/>
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
