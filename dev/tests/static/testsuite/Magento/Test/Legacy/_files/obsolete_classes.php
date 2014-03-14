@@ -2230,4 +2230,11 @@ return array(
     ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    ['Magento\Core\Controller\Ajax', 'Magento\Translation\Controller\Ajax'],
+    ['Magento\Core\Helper\Translate', 'Magento\Translation\Helper\Data'],
+    ['Magento\Core\Model\Translate\Inline\Config', 'Magento\Translation\Model\Inline\Config'],
+    ['Magento\Core\Model\Translate\Inline\Parser', 'Magento\Translation\Model\Inline\Parser'],
+    ['Magento\Core\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
+    ['Magento\Core\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
+    ['Magento\Core\Model\Translate\String', 'Magento\Translation\Model\String'],
 );
