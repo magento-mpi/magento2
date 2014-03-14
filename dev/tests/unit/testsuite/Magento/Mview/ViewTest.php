@@ -120,10 +120,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('disabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
         $this->stateMock->expects($this->once())
             ->method('setMode')
-            ->with('enabled')
+            ->with(\Magento\Mview\View\StateInterface::MODE_ENABLED)
             ->will($this->returnSelf());
         $this->changelogMock->expects($this->once())
             ->method('create');
@@ -141,7 +141,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
         $this->stateMock->expects($this->never())
             ->method('setMode');
         $this->changelogMock->expects($this->never())
@@ -159,7 +159,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('disabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
 
         $this->changelogMock->expects($this->once())
             ->method('create')
@@ -177,14 +177,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
         $this->stateMock->expects($this->once())
             ->method('setVersionId')
             ->with(null)
             ->will($this->returnSelf());
         $this->stateMock->expects($this->once())
             ->method('setMode')
-            ->with('disabled')
+            ->with(\Magento\Mview\View\StateInterface::MODE_DISABLED)
             ->will($this->returnSelf());
         $this->changelogMock->expects($this->once())
             ->method('drop');
@@ -202,7 +202,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('disabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
         $this->stateMock->expects($this->never())
             ->method('setVersionId');
         $this->stateMock->expects($this->never())
@@ -222,7 +222,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
 
         $subscriptionMock = $this->getMock('Magento\Mview\View\Subscription', array('remove'), array(), '', false);
         $subscriptionMock->expects($this->exactly(1))
@@ -256,10 +256,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
         $this->stateMock->expects($this->exactly(2))
             ->method('getStatus')
-            ->will($this->returnValue('idle'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::STATUS_IDLE));
         $this->stateMock->expects($this->exactly(2))
             ->method('setStatus')
             ->will($this->returnSelf());
@@ -308,10 +308,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('setVersionId');
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
         $this->stateMock->expects($this->exactly(2))
             ->method('getStatus')
-            ->will($this->returnValue('idle'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::STATUS_IDLE));
         $this->stateMock->expects($this->exactly(2))
             ->method('setStatus')
             ->will($this->returnSelf());
@@ -347,14 +347,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
         $this->stateMock->expects($this->once())
             ->method('setVersionId')
             ->with(11)
             ->will($this->returnSelf());
         $this->stateMock->expects($this->once())
             ->method('setStatus')
-            ->with('suspended')
+            ->with(\Magento\Mview\View\StateInterface::STATUS_SUSPENDED)
             ->will($this->returnSelf());
         $this->stateMock->expects($this->once())
             ->method('save')
@@ -372,7 +372,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('disabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
         $this->stateMock->expects($this->never())
             ->method('setVersionId');
         $this->stateMock->expects($this->never())
@@ -391,10 +391,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getStatus')
-            ->will($this->returnValue('suspended'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::STATUS_SUSPENDED));
         $this->stateMock->expects($this->once())
             ->method('setStatus')
-            ->with('idle')
+            ->with(\Magento\Mview\View\StateInterface::STATUS_IDLE)
             ->will($this->returnSelf());
         $this->stateMock->expects($this->once())
             ->method('save')
@@ -425,8 +425,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function dataProviderResumeNotSuspended()
     {
         return [
-            ['idle'],
-            ['working'],
+            [\Magento\Mview\View\StateInterface::STATUS_IDLE],
+            [\Magento\Mview\View\StateInterface::STATUS_WORKING],
         ];
     }
 
@@ -434,7 +434,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_ENABLED));
         $this->stateMock->expects($this->once())
             ->method('getVersionId')
             ->will($this->returnValue(11));
@@ -450,7 +450,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->stateMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue('disabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
         $this->stateMock->expects($this->never())
             ->method('getVersionId');
         $this->changelogMock->expects($this->never())
@@ -481,8 +481,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function dataProviderIsEnabled()
     {
         return [
-            ['enabled', true],
-            ['disabled', false],
+            [\Magento\Mview\View\StateInterface::MODE_ENABLED, true],
+            [\Magento\Mview\View\StateInterface::MODE_DISABLED, false],
         ];
     }
 
@@ -502,9 +502,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function dataProviderIsIdle()
     {
         return [
-            ['idle', true],
-            ['working', false],
-            ['suspended', false],
+            [\Magento\Mview\View\StateInterface::STATUS_IDLE, true],
+            [\Magento\Mview\View\StateInterface::STATUS_WORKING, false],
+            [\Magento\Mview\View\StateInterface::STATUS_SUSPENDED, false],
         ];
     }
 
@@ -524,9 +524,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function dataProviderIsWorking()
     {
         return [
-            ['idle', false],
-            ['working', true],
-            ['suspended', false],
+            [\Magento\Mview\View\StateInterface::STATUS_IDLE, false],
+            [\Magento\Mview\View\StateInterface::STATUS_WORKING, true],
+            [\Magento\Mview\View\StateInterface::STATUS_SUSPENDED, false],
         ];
     }
 
@@ -546,9 +546,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function dataProviderIsSuspended()
     {
         return [
-            ['idle', false],
-            ['working', false],
-            ['suspended', true],
+            [\Magento\Mview\View\StateInterface::STATUS_IDLE, false],
+            [\Magento\Mview\View\StateInterface::STATUS_WORKING, false],
+            [\Magento\Mview\View\StateInterface::STATUS_SUSPENDED, true],
         ];
     }
 

@@ -43,7 +43,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $state->expects($this->any())
             ->method('getMode')
-            ->will($this->returnValue('disabled'));
+            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
 
         $view = $this->getMockForAbstractClass(
             'Magento\Mview\ViewInterface', [], '', false, false, true,
@@ -80,12 +80,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $collection = new \Magento\Mview\View\Collection($entityFactory, $config, $statesFactory);
         $this->assertInstanceOf('Magento\Mview\View\Collection', $collection->loadData());
 
-        $views = $collection->getViewsByStateMode('disabled');
+        $views = $collection->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_DISABLED);
         $this->assertCount(2, $views);
         $this->assertInstanceOf('Magento\Mview\ViewInterface', $views[0]);
         $this->assertInstanceOf('Magento\Mview\ViewInterface', $views[1]);
 
-        $views = $collection->getViewsByStateMode('enabled');
+        $views = $collection->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
         $this->assertCount(0, $views);
     }
 }

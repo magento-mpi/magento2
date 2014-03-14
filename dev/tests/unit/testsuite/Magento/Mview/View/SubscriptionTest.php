@@ -102,7 +102,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('triggerName'));
         $triggerMock->expects($this->exactly(3))
             ->method('setTime')
-            ->with('AFTER')
+            ->with(\Magento\DB\Ddl\Trigger::TIME_AFTER)
             ->will($this->returnSelf());
         $triggerMock->expects($this->exactly(3))
             ->method('setEvent')
@@ -164,7 +164,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
         $this->viewCollectionMock->expects($this->exactly(1))
             ->method('getViewsByStateMode')
-            ->with('enabled')
+            ->with(\Magento\Mview\View\StateInterface::MODE_ENABLED)
             ->will($this->returnValue([$this->viewMock, $otherViewMock]));
 
         $this->connectionMock->expects($this->exactly(3))
@@ -191,7 +191,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('triggerName'));
         $triggerMock->expects($this->exactly(3))
             ->method('setTime')
-            ->with('AFTER')
+            ->with(\Magento\DB\Ddl\Trigger::TIME_AFTER)
             ->will($this->returnSelf());
         $triggerMock->expects($this->exactly(3))
             ->method('setEvent')
@@ -239,7 +239,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
 
         $this->viewCollectionMock->expects($this->exactly(1))
             ->method('getViewsByStateMode')
-            ->with('enabled')
+            ->with(\Magento\Mview\View\StateInterface::MODE_ENABLED)
             ->will($this->returnValue([$this->viewMock, $otherViewMock]));
 
         $this->connectionMock->expects($this->exactly(3))
