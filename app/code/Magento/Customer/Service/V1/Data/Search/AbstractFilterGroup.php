@@ -60,11 +60,4 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
         $groups = $this->_get(self::OR_GROUPS);
         return is_null($groups) ? [] : $groups;
     }
-
-    /**
-     * Returns the grouping type such as 'OR' or 'AND'.
-     *
-     * @return string
-     */
-    public abstract function getGroupType();
 }

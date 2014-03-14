@@ -390,7 +390,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
-        $this->addFiltersToCollection($searchCriteria->getAndGroup(), $collection);
+        $this->addFiltersFromRootToCollection($searchCriteria->getAndGroup(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -416,29 +416,25 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * Adds some filters from a filter group to a collection.
+     * Adds some filters from the root filter group to a collection.
      *
-     * @param Data\Search\FilterGroupInterface $filterGroup
+     * @param Data\Search\AndGroup $rootAndGroup
      * @param Collection $collection
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFiltersToCollection(Data\Search\FilterGroupInterface $filterGroup, Collection $collection)
+    protected function addFiltersFromRootToCollection(Data\Search\AndGroup $rootAndGroup, Collection $collection)
     {
-        if (strcasecmp($filterGroup->getGroupType(), 'AND')) {
+        if (count($rootAndGroup->getAndGroups())) {
             throw new InputException('Only AND grouping is currently supported for filters.');
         }
 
-        foreach ($filterGroup->getFilters() as $filter) {
+        foreach ($rootAndGroup->getFilters() as $filter) {
             $this->addFilterToCollection($collection, $filter);
         }
 
-        foreach ($filterGroup->getAndGroups() as $group) {
-            $this->addFilterGroupToCollection($collection, $group);
-        }
-
-        foreach ($filterGroup->getOrGroups() as $group) {
-            $this->addFilterGroupToCollection($collection, $group);
+        foreach ($rootAndGroup->getOrGroups() as $group) {
+            $this->addFilterOrGroupToCollection($collection, $group);
         }
     }
 
@@ -459,18 +455,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Helper function that adds a FilterGroup to the collection.
      *
      * @param Collection $collection
-     * @param Data\Search\FilterGroupInterface $group
+     * @param Data\Search\OrGroup $orGroup
      * @return void
      * @throws \Magento\Exception\InputException
      */
-    protected function addFilterGroupToCollection(Collection $collection, Data\Search\FilterGroupInterface $group)
+    protected function addFilterOrGroupToCollection(Collection $collection, Data\Search\OrGroup $orGroup)
     {
-        if (strcasecmp($group->getGroupType(), 'OR')) {
-            throw new InputException('The only nested groups currently supported for filters are of type OR.');
-        }
         $fields = [];
         $conditions = [];
-        foreach ($group->getFilters() as $filter) {
+        foreach ($orGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
         }

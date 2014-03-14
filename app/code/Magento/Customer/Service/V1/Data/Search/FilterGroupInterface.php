@@ -32,11 +32,4 @@ interface FilterGroupInterface
      * @return \Magento\Customer\Service\V1\Data\Search\OrGroup[]
      */
     public function getOrGroups();
-
-    /**
-     * Returns the grouping type such as 'OR' or 'AND'.
-     *
-     * @return string
-     */
-    public function getGroupType();
 }
