@@ -164,13 +164,17 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Convert items array to hash for select options
      * using fetchItem method
      *
-     * @see _toOptionHashOptimized()
+     * @see fetchItem()
      *
      * @return array
      */
     public function toOptionHashOptimized()
     {
-        return $this->_toOptionHashOptimized('tax_calculation_rate_id', 'code');
+        $result = array();
+        while ($item = $this->fetchItem()) {
+            $result[$item->getData('tax_calculation_rate_id')] = $item->getData('code');
+        }
+        return $result;
     }
 }
 
