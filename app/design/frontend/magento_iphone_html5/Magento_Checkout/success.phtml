@@ -32,16 +32,6 @@
 
     <?php echo $this->getAdditionalInfoHtml() ?>
 
-    <?php if ($profiles = $this->getRecurringProfiles()):?>
-    <p><?php echo __('Your recurring payment profiles:'); ?></p>
-    <ul class="disc">
-    <?php foreach($profiles as $profile):?>
-    <?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id')));?>
-        <li><?php echo __('Payment profile # %1: "%2".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description')))?></li>
-    <?php endforeach;?>
-    </ul>
-    <?php endif;?>
-
     <div class="buttons-set">
         <button type="button" class="button" title="<?php echo __('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo __('Continue Shopping') ?></span></span></button>
     </div>

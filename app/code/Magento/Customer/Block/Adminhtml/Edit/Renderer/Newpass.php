@@ -7,6 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Renderer;
+
+use Magento\Backend\Block\AbstractBlock;
+use Magento\Data\Form\Element\AbstractElement;
+use Magento\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Customer new password field renderer
@@ -15,14 +20,14 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Renderer;
-
-class Newpass
-    extends \Magento\Backend\Block\AbstractBlock
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Newpass extends AbstractBlock implements RendererInterface
 {
 
-    public function render(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    public function render(AbstractElement $element)
     {
         $html = '<div class="field field-'.$element->getHtmlId().'">';
         $html.= $element->getLabelHtml();

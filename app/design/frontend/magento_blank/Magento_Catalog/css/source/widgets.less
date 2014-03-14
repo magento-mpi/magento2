@@ -1,0 +1,50 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.widget.product.link {
+    a {
+        &:extend(.product-link all);
+    }
+}
+
+div.widget.product.link,
+div.widget.category.link {
+    &:extend(.margin-for-blocks-and-widgets all);
+}
+
+.block.widget.new {
+    .pager {
+        margin: 0 0 40px;
+        padding: 10px;
+        background: #f0f0f0;
+
+        .pages {
+            text-align: center;
+        }
+
+        .amount {
+            float: right;
+            margin: 7px 0 0;
+        }
+    }
+}
+
+//
+//    RWD
+//--------------------------------------
+.responsive(@break) when (@break = @mobile) {
+    .block.widget.new {
+        .pager {
+            .amount {
+                float: none;
+                margin: 0 0 7px;
+                text-align: center;
+            }
+        }
+    }
+}

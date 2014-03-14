@@ -416,9 +416,9 @@ class Config implements \Iterator
     /**
      * Get property of key
      *
-     * @param $key
-     * @param $field
-     * @return mixed|null
+     * @param string $key
+     * @param string $field
+     * @return null|string
      */
     public function extractField($key, $field)
     {
@@ -442,8 +442,8 @@ class Config implements \Iterator
     /**
      * Get all Key properties
      *
-     * @param $fld
-     * @return null
+     * @param string $fld
+     * @return string|string[]|int|bool|null
      */
     public function getKey($fld)
     {

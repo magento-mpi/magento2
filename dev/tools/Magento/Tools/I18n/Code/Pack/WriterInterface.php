@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Pack;
 
 use Magento\Tools\I18n\Code\Dictionary;
@@ -30,6 +29,7 @@ interface WriterInterface
      * @param string $packPath
      * @param \Magento\Tools\I18n\Code\Locale $locale
      * @param string $mode One of const of WriterInterface::MODE_
+     * @return void
      */
     public function write(Dictionary $dictionary, $packPath, Locale $locale, $mode);
 }

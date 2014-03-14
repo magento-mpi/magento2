@@ -27,7 +27,6 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
  * @method int getStockStatus()
  * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
  */
-
 class Status extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
@@ -435,7 +434,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Product(s) status
      *
-     * @param $productIds
+     * @param int|int[] $productIds
      * @param int $storeId
      * @return array
      */
@@ -447,7 +446,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Product(s) Data array
      *
-     * @param int|array $productIds
+     * @param int|int[] $productIds
      * @param int $websiteId
      * @param int $stockId
      * @return array

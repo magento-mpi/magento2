@@ -35,6 +35,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
      */
     public function testApplyCustomerGroupCatalogRule()
     {
+        $this->markTestSkipped('MAGETWO-22143');
         // Create Simple Product
         $simpleProductFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);

@@ -21,6 +21,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
      * Execute Rows reindex
      *
      * @param array $ids
+     * @return void
      * @throws \Magento\Catalog\Exception
      */
     public function execute($ids)

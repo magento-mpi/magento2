@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCard\Helper;
 
 /**
  * Giftcard module helper
  */
-namespace Magento\GiftCard\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -34,6 +33,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Instantiate giftardaccounts block when a gift card email should be sent
+     *
      * @return \Magento\View\Element\Template
      */
     public function getEmailGeneratedItemsBlock()

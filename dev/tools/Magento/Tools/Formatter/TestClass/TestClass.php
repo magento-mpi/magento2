@@ -16,6 +16,11 @@ class TestClass
     // Second comment
     const A_CONSTANT = "\n";
 
+    /**
+     * @param string $alpha
+     * @param string $beta
+     * @return void
+     */
     public function betaCall($alpha, $beta)
     {
         $bigString = <<<LOCALXML
@@ -39,6 +44,9 @@ LOCALXML2;
         echo 'And here' . $anotherBigString;
     }
 
+    /**
+     * @return void
+     */
     public function main()
     {
         $this->betaCall(1, 2);

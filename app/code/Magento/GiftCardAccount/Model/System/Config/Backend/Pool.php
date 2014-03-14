@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\System\Config\Backend;
 
 class Pool extends \Magento\Core\Model\Config\Value
@@ -43,6 +42,9 @@ class Pool extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
@@ -54,6 +56,9 @@ class Pool extends \Magento\Core\Model\Config\Value
         parent::_beforeSave();
     }
 
+    /**
+     * @return $this
+     */
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
@@ -65,6 +70,7 @@ class Pool extends \Magento\Core\Model\Config\Value
     /**
      * Check Max Length
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _checkMaxLength()

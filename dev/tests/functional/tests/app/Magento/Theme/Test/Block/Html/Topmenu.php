@@ -13,8 +13,6 @@ namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 
 /**
  * Class Topmenu
@@ -54,6 +52,7 @@ class Topmenu extends Block
      * Select category from top menu by name and click on it
      *
      * @param string $categoryName
+     * @return void
      */
     public function selectCategoryByName($categoryName)
     {
@@ -75,6 +74,7 @@ class Topmenu extends Block
                 }
             );
         }
+        sleep(1); // TODO: sleep should be removed after fix with category sliding
         $category->click();
     }
 

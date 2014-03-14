@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model;
 
 class AreaEmulator
@@ -25,6 +24,7 @@ class AreaEmulator
 
     /**
      * @param string $areaCode
+     * @return void
      */
     public function emulateLayoutArea($areaCode)
     {

@@ -9,10 +9,9 @@
  */
 ?>
 <?php if ($this->checkProductType($this->getItem()->getProduct())): ?>
-    <div class="split button giftregisty add">
-        <span class="label"><?php echo __('Add to Gift Registry');?></span>
-        <span class="action change" data-toggle="dropdown" title="<?php echo __('Add To:') ?>"><span><?php echo __('Add To:') ?></span></span>
-        <ul class="items">
+    <div class="actions dropdown giftregisty add">
+        <span class="action toggle" data-toggle="dropdown" title=""><span><?php echo __('Add to Gift Registry');?></span></span>
+        <ul class="dropdown items">
             <?php foreach ($this->getGiftRegistryList() as $_entity):?>
                 <li data-wishlist-to-giftregistry='{"itemId":"<?php echo $this->getItem()->getId() ?>", "entity":"<?php echo $_entity->getValue()?>", "url":"<?php echo $this->getUrl('giftregistry/index/wishlist') ?>"}' class="item" title="<?php echo $this->escapeHtml($_entity->getTitle())?>"><?php echo $this->escapeHtml($this->truncateString($_entity->getTitle(), 40)); ?></li>
             <?php endforeach;?>

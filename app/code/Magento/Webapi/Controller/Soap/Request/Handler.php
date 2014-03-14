@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
@@ -166,6 +165,10 @@ class Handler
         return $this->_unpackArray($dataObject->__toArray());
     }
 
+    /**
+     * @param array $dataArray
+     * @return \stdClass
+     */
     protected function _unpackArray($dataArray)
     {
         $response = new \stdClass();

@@ -13,18 +13,19 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 /**
  * This class is used as a base class to keep track of node levels while traversing a tree.
  * Class LevelNodeVisitor
- * @package Magento\Tools\Formatter\PrettyPrinter
  */
 abstract class LevelNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * This member holds the current level of traversal (i.e. how many indents are needed).
+     *
      * @var int
      */
     protected $level;
 
     /**
      * This method constructs a new visitor with the given starting level.
+     *
      * @param int $level Starting level for the traversal.
      */
     public function __construct($level = -1)
@@ -34,7 +35,9 @@ abstract class LevelNodeVisitor extends NodeVisitorAbstract
 
     /**
      * This method is called when first visiting a node.
+     *
      * @param TreeNode $treeNode
+     * @return void
      */
     public function nodeEntry(TreeNode $treeNode)
     {
@@ -44,7 +47,9 @@ abstract class LevelNodeVisitor extends NodeVisitorAbstract
 
     /**
      * This method is called when exiting a visited node.
+     *
      * @param TreeNode $treeNode
+     * @return void
      */
     public function nodeExit(TreeNode $treeNode)
     {

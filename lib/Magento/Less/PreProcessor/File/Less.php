@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\PreProcessor\File;
 
 use Magento\View;
@@ -130,6 +129,7 @@ class Less
      * Save file content to publication path
      *
      * @param string $content
+     * @return void
      */
     public function saveContent($content)
     {

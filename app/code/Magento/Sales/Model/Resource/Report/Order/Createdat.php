@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report\Order;
 
 /**
  * Order entity resource model with aggregation by created at
@@ -16,13 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report\Order;
-
 class Createdat extends \Magento\Sales\Model\Resource\Report\AbstractReport
 {
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,9 +31,9 @@ class Createdat extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Orders data by order created at
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Order\Createdat
+     * @param string|int|\Zend_Date|array|null $from
+     * @param string|int|\Zend_Date|array|null $to
+     * @return $this
      */
     public function aggregate($from = null, $to = null)
     {
@@ -44,11 +43,11 @@ class Createdat extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Orders data by custom field
      *
-     * @throws \Exception
      * @param string $aggregationField
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Order\Createdat
+     * @param string|int|\Zend_Date|array|null $from
+     * @param string|int|\Zend_Date|array|null $to
+     * @return $this
+     * @throws \Exception
      */
     protected function _aggregateByField($aggregationField, $from, $to)
     {
@@ -89,8 +88,8 @@ class Createdat extends \Magento\Sales\Model\Resource\Report\AbstractReport
                 'total_income_amount'            => new \Zend_Db_Expr(
                     sprintf('SUM((%s - %s) * %s)',
                         $adapter->getIfNullSql('o.base_grand_total', 0),
-                        $adapter->getIfNullSql('o.base_total_canceled',0),
-                        $adapter->getIfNullSql('o.base_to_global_rate',0)
+                        $adapter->getIfNullSql('o.base_total_canceled', 0),
+                        $adapter->getIfNullSql('o.base_to_global_rate', 0)
                     )
                 ),
                 'total_revenue_amount'           => new \Zend_Db_Expr(

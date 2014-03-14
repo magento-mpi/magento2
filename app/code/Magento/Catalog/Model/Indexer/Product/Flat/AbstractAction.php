@@ -174,7 +174,6 @@ abstract class AbstractAction
      * Return temporary table name by regular table name
      *
      * @param string $tableName
-     *
      * @return string
      */
     protected function _getTemporaryTableName($tableName)
@@ -187,6 +186,7 @@ abstract class AbstractAction
      *
      * @param array $tablesList
      * @param int|string $storeId
+     * @return void
      */
     protected function _cleanOnFailure(array $tablesList, $storeId)
     {
@@ -202,7 +202,7 @@ abstract class AbstractAction
      *
      * @param int $storeId
      * @param array $changedIds
-     *
+     * @return void
      * @throws \Exception
      */
     protected function _reindex($storeId, array $changedIds = array())
@@ -228,6 +228,7 @@ abstract class AbstractAction
      *
      * @param array $ids
      * @param int $storeId
+     * @return void
      */
     protected function _removeDeletedProducts(array &$ids, $storeId)
     {
@@ -521,6 +522,7 @@ abstract class AbstractAction
      *
      * @param int|array $productId
      * @param null|int $storeId
+     * @return void
      */
     public function deleteProductsFromStore($productId, $storeId = null)
     {
@@ -558,55 +560,5 @@ abstract class AbstractAction
         }
 
         return $this->_flatTablesExist[$storeId];
-    }
-
-    /**
-     * set valid state
-     *
-     * @param $versionId
-     */
-    protected function _setValidState($versionId)
-    {
-        $this->_flatProductProcessor
-            ->getIndexer()
-            ->getView()
-            ->getState()
-            ->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_VALID)
-            ->setVersionId($versionId)
-            ->save();
-        $this->_flatProductProcessor
-            ->getIndexer()
-            ->getView()
-            ->getChangelog()
-            ->clear($versionId);
-    }
-
-    /**
-     * Set invalid state
-     */
-    protected function _setInvalidState()
-    {
-        $this->_flatProductProcessor->markIndexerAsInvalid();
-    }
-
-    /**
-     * set processing state
-     */
-    protected function _setProcessingState()
-    {
-        $this->_flatProductProcessor
-            ->getIndexer()
-            ->getState()
-            ->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_WORKING);
-    }
-
-    /**
-     * Is indexer processing
-     *
-     * @return bool
-     */
-    protected function _isProcessing()
-    {
-        return $this->_flatProductProcessor->getIndexer()->isWorking();
     }
 }

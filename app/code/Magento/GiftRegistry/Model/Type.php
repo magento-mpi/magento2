@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model;
+
+use Magento\Core\Model\Store;
 
 /**
  * Gift registry types processing model
@@ -22,12 +25,16 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model;
-
 class Type extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @var Store
+     */
     protected $_store = null;
 
+    /**
+     * @var array
+     */
     protected $_storeData = null;
 
     /**
@@ -52,6 +59,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Intialize model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -89,6 +98,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Perform actions before object save.
+     *
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -103,6 +114,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Perform actions after object save.
+     *
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -115,7 +128,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Perform actions after object load
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -142,7 +155,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Set store id
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @param null|string|bool|int|Store $storeId
+     * @return $this
      */
     public function setStoreId($storeId = null)
     {
@@ -153,7 +167,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getStore()
     {
@@ -177,7 +191,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Save registry type attribute data per store view
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this
      */
     protected function _saveAttributeStoreData()
     {
@@ -202,7 +216,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Clear object model from data that should be deleted
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     protected function _cleanupData()
     {
@@ -247,7 +261,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Assign attributes store data
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     public function assignAttributesStoreData()
     {
@@ -269,7 +283,8 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Assign attributes store data
      *
-     * @return \Magento\GiftRegistry\Model\Type
+     * @param array $attributes
+     * @return array
      */
     public function getAttributesStoreData($attributes)
     {
@@ -405,7 +420,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      *
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
-     * @param \Magento\Logging\Model\Processor
+     * @param \Magento\Logging\Model\Processor $processor
      * @return \Magento\Logging\Model\Event
      */
     public function postDispatchTypeSave($config, $eventModel, $processor)
@@ -419,7 +434,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      * Filter and load post data to object
      *
      * @param array $data
-     * @return \Magento\GiftRegistry\Model\Type
+     * @return $this
      */
     public function loadPost(array $data)
     {

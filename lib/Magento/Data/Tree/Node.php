@@ -7,6 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Tree;
+
+use Magento\Data\Tree;
+use Magento\Data\Tree\Node\Collection;
 
 /**
  * Data tree node
@@ -15,11 +19,6 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Tree;
-
-use Magento\Data\Tree;
-use Magento\Data\Tree\Node\Collection;
-
 class Node extends \Magento\Object
 {
     /**
@@ -81,7 +80,7 @@ class Node extends \Magento\Object
      * Set node id field name
      *
      * @param   string $idField
-     * @return  this
+     * @return  $this
      */
     public function setIdField($idField)
     {
@@ -211,8 +210,8 @@ class Node extends \Magento\Object
     public function getAllChildNodes(&$nodes = array())
     {
         foreach ($this->_childNodes as $node) {
-        	$nodes[$node->getId()] = $node;
-        	$node->getAllChildNodes($nodes);
+            $nodes[$node->getId()] = $node;
+            $node->getAllChildNodes($nodes);
         }
         return $nodes;
     }

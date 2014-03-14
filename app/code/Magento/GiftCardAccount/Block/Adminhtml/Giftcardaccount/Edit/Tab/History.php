@@ -7,12 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
+
+use Magento\GiftCardAccount\Model\Resource\History\Collection;
 
 class History
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    /**
+     * @var Collection
+     */
     protected $_collection;
 
     /**
@@ -48,6 +52,9 @@ class History
         $this->_historyFactory = $historyFactory;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -56,6 +63,9 @@ class History
         $this->setDefaultSort('id');
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_historyFactory->create()
@@ -69,6 +79,9 @@ class History
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('id', array(
@@ -126,6 +139,9 @@ class History
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('adminhtml/*/gridHistory', array('_current' => true));

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer;
 
 /**
  * HTML select element block
@@ -15,8 +16,6 @@
  * @package    Magento_GiftRegistry
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Block\Customer;
-
 class Date extends \Magento\View\Element\Html\Date
 {
     /**

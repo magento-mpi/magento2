@@ -11,11 +11,17 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 
 abstract class AbstractAssignmentOperator extends AbstractInfixOperator
 {
+    /**
+     * {@inheritdoc}
+     */
     public function left()
     {
         return $this->node->var;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function right()
     {
         return $this->node->expr;
@@ -24,6 +30,9 @@ abstract class AbstractAssignmentOperator extends AbstractInfixOperator
     /**
      * We override this from the base class as Assignment operators should not have the conditional line break
      * like the other infix operators.
+     *
+     * @param TreeNode $treeNode
+     * @return void
      */
     protected function addOperatorToLine(TreeNode $treeNode)
     {

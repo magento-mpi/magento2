@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\MultipleWishlist\Model\Search\Strategy;
 
 /**
  * Wishlist search by email strategy
@@ -15,8 +16,6 @@
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\MultipleWishlist\Model\Search\Strategy;
-
 class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyInterface
 {
     /**
@@ -58,6 +57,7 @@ class Email implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyI
      * Set search fields required by search strategy
      *
      * @param array $params
+     * @return void
      * @throws \InvalidArgumentException
      */
     public function setSearchParams(array $params)

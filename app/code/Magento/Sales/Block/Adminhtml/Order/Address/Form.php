@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Address;
 
 /**
@@ -14,6 +13,11 @@ namespace Magento\Sales\Block\Adminhtml\Order\Address;
 class Form
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
 {
+    /**
+     * Address form template
+     *
+     * @var string
+     */
     protected $_template = 'order/address/form.phtml';
 
     /**
@@ -81,7 +85,7 @@ class Form
     /**
      * Define form attributes (id, method, action)
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Billing\Address
+     * @return $this
      */
     protected function _prepareForm()
     {

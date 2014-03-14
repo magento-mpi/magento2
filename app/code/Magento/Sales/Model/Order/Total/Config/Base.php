@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Total\Config;
 
 /**
  * Configuration class for totals
  */
-namespace Magento\Sales\Model\Order\Total\Config;
-
 class Base extends \Magento\Sales\Model\Config\Ordered
 {
     /**

@@ -7,20 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
+
+use Magento\Backend\Block\Widget;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Catalog\Model\Product;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 /**
  * Adminhtml catalog super product configurable tab
  */
-namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
-
-use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
-
-use Magento\Catalog\Model\Product;
-
-class Config
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Config extends Widget implements TabInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/super/config.phtml';
 
     /**
@@ -38,7 +39,7 @@ class Config
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     * @var Configurable
      */
     protected $_configurableType;
 
@@ -70,7 +71,7 @@ class Config
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
+        Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $coreRegistry,
         \Magento\App\ConfigInterface $config,

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml;
 
 /**
  * Adminhtml sales invoices block
@@ -15,12 +16,13 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Sales\Block\Adminhtml;
-
 class Invoice extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'adminhtml_invoice';
@@ -30,6 +32,11 @@ class Invoice extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_removeButton('add');
     }
 
+    /**
+     * Get payment info html
+     *
+     * @return string
+     */
     public function getPaymentInfoHtml()
     {
         return $this->getChildHtml('payment_info');

@@ -7,8 +7,6 @@
  */
 namespace Magento;
 
-use Magento\TranslateInterface;
-
 /**
  * Translate library
  *

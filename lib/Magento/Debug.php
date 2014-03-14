@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
 /**
  * Magento Debug methods
@@ -15,10 +16,11 @@
  * @package     Magento_Debug
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento;
-
 class Debug
 {
+    /**
+     * @var int
+     */
     public static $argLength = 16;
 
     /**

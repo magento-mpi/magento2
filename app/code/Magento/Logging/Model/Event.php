@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Model;
 
 /**
  * Logging event model
  */
-namespace Magento\Logging\Model;
-
 class Event extends \Magento\Core\Model\AbstractModel
 {
     const RESULT_SUCCESS = 'success';
@@ -48,6 +47,8 @@ class Event extends \Magento\Core\Model\AbstractModel
 
     /**
      * Constructor
+     *
+     * @return void
      */
     public function _construct()
     {

@@ -382,7 +382,6 @@ new_product:
                                         add_group_price: //button[span='Add Group Price']
                                         add_tier_price: //button[span='Add Tier']
                                     dropdowns:
-                                        prices_enable_googlecheckout: //select[@id='enable_googlecheckout']
                                         prices_price_view_bundle: //select[@id='price_view']
                                         prices_apply_map: //select[@id='msrp_enabled']
                                         prices_display_actual_price: //select[@id='msrp_display_actual_price_type']
@@ -421,24 +420,24 @@ new_product:
                                         delete_tier_price: //button[@id='tier_price_row_%tierPriceId%_delete_button']
 
                             -
-                                recurring_profile:
-                                    xpath: //div[*/*/span='Recurring Profile']
+                                recurring_payment:
+                                    xpath: //div[*/*/span='Recurring Payment']
                                     dropdowns:
-                                        prices_enable_recurring_profile: //select[@id='is_recurring']
-                                        prices_customer_define_start_date: //select[@id='recurring_profilestart_date_is_editable']
-                                        prices_auto_bill_next_cycle: //select[@id='recurring_profilebill_failed_later']
-                                        prices_billing_period_unit: //select[@id='recurring_profileperiod_unit']
-                                        prices_trial_billing_period_unit: //select[@id='recurring_profiletrial_period_unit']
-                                        prices_allow_initial_fee_failure: //select[@id='recurring_profileinit_may_fail']
+                                        prices_enable_recurring_payment: //select[@id='is_recurring']
+                                        prices_customer_define_start_date: //select[@id='recurring_paymentstart_date_is_editable']
+                                        prices_auto_bill_next_cycle: //select[@id='recurring_paymentbill_failed_later']
+                                        prices_billing_period_unit: //select[@id='recurring_paymentperiod_unit']
+                                        prices_trial_billing_period_unit: //select[@id='recurring_paymenttrial_period_unit']
+                                        prices_allow_initial_fee_failure: //select[@id='recurring_paymentinit_may_fail']
                                     fields:
-                                        prices_schedule_description: //input[@id='recurring_profileschedule_description']
-                                        prices_max_payment_failures: //input[@id='recurring_profilesuspension_threshold']
-                                        prices_billing_frequency: //input[@id='recurring_profileperiod_frequency']
-                                        prices_max_billing_cycles: //input[@id='recurring_profileperiod_max_cycles']
-                                        prices_trial_billing_frequency: //input[@id='recurring_profiletrial_period_frequency']
-                                        prices_max_trial_billing_cycles: //input[@id='recurring_profiletrial_period_max_cycles']
-                                        prices_trial_billing_amount: //input[@id='recurring_profiletrial_billing_amount']
-                                        prices_initial_fee: //input[@id='recurring_profileinit_amount']
+                                        prices_schedule_description: //input[@id='recurring_paymentschedule_description']
+                                        prices_max_payment_failures: //input[@id='recurring_paymentsuspension_threshold']
+                                        prices_billing_frequency: //input[@id='recurring_paymentperiod_frequency']
+                                        prices_max_billing_cycles: //input[@id='recurring_paymentperiod_max_cycles']
+                                        prices_trial_billing_frequency: //input[@id='recurring_paymenttrial_period_frequency']
+                                        prices_max_trial_billing_cycles: //input[@id='recurring_paymenttrial_period_max_cycles']
+                                        prices_trial_billing_amount: //input[@id='recurring_paymenttrial_billing_amount']
+                                        prices_initial_fee: //input[@id='recurring_paymentinit_amount']
                 -
                     meta_information: &metaInformationTab
                         xpath: //a[@title='Search Optimization']
@@ -874,10 +873,10 @@ updating_products:
                                         attributes_change_image_gallery: //*[@id='gallery']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_group_price: //*[@id='group_price']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_tier_price: //*[@id='tier_price']//following-sibling::*//*[@type="checkbox"]
-                                        attributes_change_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
+                                        attributes_change_recurring_payment: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_from_date: //*[@id='news_from_date']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_set_product_as_new_to_date: //*[@id='news_to_date']//following-sibling::*//*[@type="checkbox"]
-                                        attributes_change_enable_recurring_profile: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
+                                        attributes_change_enable_recurring_payment: //*[@id='is_recurring']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_visibility: //*[@id='visibility']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_custom_design: //*[@id='custom_design']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_active_from: //*[@id='custom_design_from']//following-sibling::*//*[@type="checkbox"]
@@ -892,10 +891,9 @@ updating_products:
                                         attributes_change_allow_gift_message: //*[@id='gift_message_available']//following-sibling::*//*[@type="checkbox"]
                                         attributes_ucs_allow_gift_message: //*[@id='use_config_gift_message_available']
                                         attributes_change_tax_class: //*[@id='tax_class_id']//following-sibling::*//*[@type="checkbox"]
-                                        attributes_change_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout']//following-sibling::*//*[@type="checkbox"]
                                         attributes_change_category: //*[@id='category_ids']//following-sibling::*//*[@type="checkbox"]
                                     dropdowns:
-                                        attributes_enable_recurring_profile: //*[@id='is_recurring']
+                                        attributes_enable_recurring_payment: //*[@id='is_recurring']
                                         attributes_visibility: //*[@id='visibility']
                                         attributes_custom_design: //*[@id='custom_design']
                                         attributes_page_layaout: //*[@id='page_layout']
@@ -905,7 +903,6 @@ updating_products:
                                         attributes_display_actual_price: //*[@id='msrp_display_actual_price_type']
                                         attributes_allow_gift_message: //*[@id='gift_message_available']
                                         attributes_tax_class: //*[@id='tax_class_id']
-                                        attributes_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout']
                                     fields:
                                         attributes_name: //input[@id='name']
                                         attributes_description: //textarea[@id='description']

@@ -81,7 +81,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Instantiate pagination
      *
-     * @return \Magento\GiftRegistry\Block\Customer\ListCustomer
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -186,7 +186,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
-     * Retrieve item formated date
+     * Retrieve item formatted date
      *
      * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string

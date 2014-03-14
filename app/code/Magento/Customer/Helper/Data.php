@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Helper;
 
 /**
@@ -95,7 +94,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Customer address
      *
-     * @var \Magento\Customer\Helper\Address
+     * @var Address
      */
     protected $_customerAddress = null;
 
@@ -164,14 +163,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Customer\Helper\Address $customerAddress
+     * @param Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * #param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
@@ -183,7 +182,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Customer\Helper\Address $customerAddress,
+        Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
@@ -715,7 +714,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\RequestInterface $request
      * @param string $formCode The code of EAV form to take the list of attributes from
      * @param string $entityType entity type for the form
-     * @param array $additionalAttributes The list of attribute codes to skip filtration for
+     * @param string[] $additionalAttributes The list of attribute codes to skip filtration for
      * @param string $scope scope of the request
      * @param \Magento\Customer\Model\Metadata\Form $metadataForm to use for extraction
      * @return array Filtered customer data

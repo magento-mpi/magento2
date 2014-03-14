@@ -160,8 +160,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     /**
      * Load collection with filters applied
      *
-     * @param $entityType
-     * @param $formCode
+     * @param string $entityType
+     * @param string $formCode
      * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
      */
     private function _loadAttributesCollection($entityType, $formCode)

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  * Factory class for \Magento\Sales\Model\Order\Total\AbstractTotal
  */
-namespace Magento\Sales\Model\Order;
-
 class TotalFactory
 {
     /**

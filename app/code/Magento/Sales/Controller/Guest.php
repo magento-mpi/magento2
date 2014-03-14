@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller;
 
 /**
  * Sales orders controller
  */
-namespace Magento\Sales\Controller;
-
 class Guest extends \Magento\Sales\Controller\AbstractController
 {
     /**
@@ -43,6 +42,9 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         return false;
     }
 
+    /**
+     * @return void
+     */
     protected function _viewAction()
     {
         if (!$this->_loadValidOrder()) {
@@ -56,6 +58,8 @@ class Guest extends \Magento\Sales\Controller\AbstractController
 
     /**
      * Order view form page
+     *
+     * @return void
      */
     public function formAction()
     {
@@ -69,6 +73,9 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         $this->_view->renderLayout();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printInvoiceAction()
     {
         if (!$this->_loadValidOrder()) {
@@ -94,6 +101,9 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printShipmentAction()
     {
         if (!$this->_loadValidOrder()) {
@@ -118,6 +128,9 @@ class Guest extends \Magento\Sales\Controller\AbstractController
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function printCreditmemoAction()
     {
         if (!$this->_loadValidOrder()) {

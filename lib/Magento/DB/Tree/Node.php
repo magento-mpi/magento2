@@ -7,13 +7,12 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\DB\Tree;
 
 use Magento\DB\Tree\Node\NodeException;
 
-class Node {
+class Node
+{
 
     /**
      * @var int
@@ -64,10 +63,10 @@ class Node {
     /**
      * @param array $nodeData
      * @param array $keys
-     * @return $this
      * @throws NodeException
      */
-    function __construct($nodeData, $keys) {
+    public function __construct($nodeData, $keys)
+    {
         if (empty($nodeData)) {
             throw new NodeException('Empty array of node information');
         }

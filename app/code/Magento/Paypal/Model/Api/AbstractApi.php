@@ -73,13 +73,6 @@ abstract class AbstractApi extends \Magento\Object
     protected $_shippingOptionsExportItemsFormat = array();
 
     /**
-     * Imported recurring profiles array
-     *
-     * @var array
-     */
-    protected $_recurringPaymentProfiles = array();
-
-    /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
@@ -362,20 +355,6 @@ abstract class AbstractApi extends \Magento\Object
     }
 
     /**
-     * Set recurring profiles
-     *
-     * @param array $items
-     * @return $this
-     */
-    public function addRecurringPaymentProfiles(array $items)
-    {
-        if ($items) {
-            $this->_recurringPaymentProfiles = $items;
-        }
-        return $this;
-    }
-
-    /**
      * Export $this public data to private request array
      *
      * @param array $privateRequestMap
@@ -575,6 +554,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param \Magento\Object $address
      * @param array $to
+     * @return void
      */
     protected function _importStreetFromAddress(\Magento\Object $address, array &$to)
     {
@@ -621,6 +601,7 @@ abstract class AbstractApi extends \Magento\Object
      * Log debug data to file
      *
      * @param mixed $debugData
+     * @return void
      */
     protected function _debug($debugData)
     {

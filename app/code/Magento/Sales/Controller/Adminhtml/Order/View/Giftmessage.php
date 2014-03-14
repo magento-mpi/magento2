@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Controller\Adminhtml\Order\View;
 
 /**
  * Adminhtml sales order view gift messages controller
@@ -16,10 +16,11 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml\Order\View;
-
 class Giftmessage extends \Magento\Backend\App\Action
 {
+    /**
+     * @return void
+     */
     public function saveAction()
     {
         try {

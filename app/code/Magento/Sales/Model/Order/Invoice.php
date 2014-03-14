@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice _getResource()
@@ -94,8 +95,6 @@
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Order\Invoice setBaseShippingInclTax(float $value)
  */
-namespace Magento\Sales\Model\Order;
-
 class Invoice extends \Magento\Sales\Model\AbstractModel
 {
     /**
@@ -131,10 +130,24 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     const HISTORY_ENTITY_NAME = 'invoice';
 
+    /**
+     * @var array
+     */
     protected static $_states;
 
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Item\Collection
+     */
     protected $_items;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Order\Invoice\Comment\Collection
+     */
     protected $_comments;
+
+    /**
+     * @var \Magento\Sales\Model\Order
+     */
     protected $_order;
 
     /**
@@ -144,13 +157,24 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     protected $_rounders = array();
 
+    /**
+     * @var bool
+     */
     protected $_saveBeforeDestruct = false;
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'sales_order_invoice';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'invoice';
 
     /**
      * Whether the pay() was called
+     *
      * @var bool
      */
     protected $_wasPayCalled = false;
@@ -272,6 +296,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Initialize invoice resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -282,7 +308,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * Load invoice by increment id
      *
      * @param string $incrementId
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function loadByIncrementId($incrementId)
     {
@@ -320,8 +346,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare order for invoice
      *
-     * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\Sales\Model\Order\Invoice
+     * @param \Magento\Sales\Model\Order $order
+     * @return $this
      */
     public function setOrder(\Magento\Sales\Model\Order $order)
     {
@@ -357,7 +383,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve billing address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getBillingAddress()
     {
@@ -367,7 +393,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve shipping address
      *
-     * @return \Magento\Sales\Model\Order\Address
+     * @return Address
      */
     public function getShippingAddress()
     {
@@ -440,7 +466,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Capture invoice
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function capture()
     {
@@ -454,7 +480,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Pay invoice
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function pay()
     {
@@ -483,6 +509,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
 
     /**
      * Whether pay() method was called (whether order and payment totals were updated)
+     *
      * @return bool
      */
     public function wasPayCalled()
@@ -493,7 +520,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Void invoice
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function void()
     {
@@ -505,7 +532,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Cancel invoice action
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function cancel()
     {
@@ -554,7 +581,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Invoice totals collecting
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function collectTotals()
     {
@@ -781,7 +808,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param string $comment
      * @param bool $notify
      * @param bool $visibleOnFront
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function addComment($comment, $notify = false, $visibleOnFront = false)
     {
@@ -831,8 +858,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      *
      * @param bool $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order\Invoice
-     * @throws \Exception
+     * @return $this
      */
     public function sendEmail($notifyCustomer = true, $comment = '')
     {
@@ -924,7 +950,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      *
      * @param boolean $notifyCustomer
      * @param string $comment
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function sendUpdateEmail($notifyCustomer = true, $comment = '')
     {
@@ -1007,7 +1033,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @param $configPath
+     * @param string $configPath
      * @return array|bool
      */
     protected function _getEmails($configPath)
@@ -1031,7 +1057,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Reset invoice object
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return $this
      */
     public function reset()
     {
@@ -1048,7 +1074,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save manipulations
      *
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -1065,7 +1091,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     /**
      * After object save manipulation
      *
-     * @return \Magento\Sales\Model\Order\Shipment
+     * @return $this
      */
     protected function _afterSave()
     {

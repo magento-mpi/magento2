@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Writer\Csv;
 
 use Magento\Tools\Dependency\Report\Data\ConfigInterface;
@@ -49,6 +48,7 @@ abstract class AbstractWriter implements WriterInterface
      * Template method. Check passed options step
      *
      * @param array $options
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function checkOptions($options)
@@ -71,6 +71,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * @param string $filename
      * @param array $data
+     * @return void
      */
     protected function writeToFile($filename, $data)
     {

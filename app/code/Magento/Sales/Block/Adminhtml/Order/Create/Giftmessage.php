@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 /**
  * Adminhtml order create gift message block
@@ -16,16 +16,18 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create;
-
 class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
+     * Gift message save
+     *
      * @var \Magento\GiftMessage\Model\Save
      */
     protected $_giftMessageSave;
 
     /**
+     * Message helper
+     *
      * @var \Magento\GiftMessage\Helper\Message
      */
     protected $_messageHelper;
@@ -55,7 +57,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
      * Generate form for editing of gift message for entity
      *
      * @param \Magento\Object $entity
-     * @param string        $entityType
+     * @param string $entityType
      * @return string
      */
     public function getFormHtml(\Magento\Object $entity, $entityType='quote') {
@@ -71,7 +73,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
      *
      * If no items available return false.
      *
-     * @return array|boolean
+     * @return array|false
      */
     public function getItems()
     {
@@ -103,5 +105,4 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
     {
         return $this->_giftMessageSave;
     }
-
 }

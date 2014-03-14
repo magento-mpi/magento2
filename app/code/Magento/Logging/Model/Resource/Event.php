@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Logging\Model\Resource;
 
 /**
  * Logging event resource model
  */
-namespace Magento\Logging\Model\Resource;
-
 class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -53,6 +52,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
