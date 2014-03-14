@@ -9,10 +9,10 @@
 namespace Magento\Indexer\Model\Processor;
 
 
-class CacheInvalidateTest extends \PHPUnit_Framework_TestCase
+class InvalidateCacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Indexer\Model\Processor\CacheInvalidate
+     * @var \Magento\Indexer\Model\Processor\InvalidateCache
      */
     protected $plugin;
 
@@ -49,7 +49,7 @@ class CacheInvalidateTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->moduleManager = $this->getMock('Magento\Module\Manager',
             array(), array(), '', false);
-        $this->plugin = new \Magento\Indexer\Model\Processor\CacheInvalidate(
+        $this->plugin = new \Magento\Indexer\Model\Processor\InvalidateCache(
             $this->contextMock, $this->eventManagerMock, $this->moduleManager);
     }
 
