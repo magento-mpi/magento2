@@ -189,11 +189,6 @@
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Product\Flat\Processor">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="true">Magento\Indexer\Model\Indexer</argument>
-        </arguments>
-    </type>
     <type name="Magento\ImportExport\Model\Import">
         <plugin name="catalogProductFlatIndexerImport" type="\Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Import" />
         <plugin name="invalidatePriceIndexerOnImport" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import" />
