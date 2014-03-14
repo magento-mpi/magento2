@@ -50,9 +50,7 @@ class Application
     protected $_applicationBaseDir;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\ToolkitFramework\Config $config
+     * @param string $applicationBaseDir
      * @param \Magento\Shell $shell
      */
     public function __construct($applicationBaseDir, \Magento\Shell $shell)
