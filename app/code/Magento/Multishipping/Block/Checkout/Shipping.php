@@ -9,7 +9,7 @@
  */
 namespace Magento\Multishipping\Block\Checkout;
 
-use Magento\Customer\Model\Address;
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * Mustishipping checkout shipping
@@ -73,7 +73,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     }
 
     /**
-     * @return \Magento\Sales\Model\Quote\Address[]
+     * @return Address[]
      */
     public function getAddresses()
     {
