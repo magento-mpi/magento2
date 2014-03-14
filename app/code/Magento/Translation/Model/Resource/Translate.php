@@ -42,7 +42,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
      */
     protected function _construct()
     {
-        $this->_init('core_translate', 'key_id');
+        $this->_init('translation', 'key_id');
     }
 
     /**

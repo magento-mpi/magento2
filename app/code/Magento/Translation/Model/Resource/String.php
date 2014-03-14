@@ -41,7 +41,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('core_translate', 'key_id');
+        $this->_init('translation', 'key_id');
     }
 
     /**
