@@ -12,6 +12,7 @@
  *
  * @var $this \Magento\Catalog\Block\Product\ProductList\Toolbar
  */
+use \Magento\Catalog\Model\Product\ProductList\Toolbar;
 ?>
 <?php if ($this->getCollection()->getSize()): ?>
 <div class="toolbar products">
@@ -30,7 +31,7 @@
                     <a class="mode <?php echo strtolower($_code); ?>"
                        title="<?php echo $_label ?>"
                        href="#"
-                       onclick="setToolbarCookieAndReloadPage('<?php echo \Magento\Catalog\Model\Product\ProductList\Toolbar::MODE_COOKIE_NAME ?>', '<?php echo $_code ?>');">
+                       onclick="setToolbarCookieAndReloadPage('<?php echo Toolbar::MODE_COOKIE_NAME ?>', '<?php echo $_code ?>');">
                         <span><?php echo $_label ?></span>
                     </a>
                     <?php endif; ?>
@@ -40,7 +41,7 @@
         <?php endif; ?>
         <div class="sorter">
             <label class="label" for="sorter"><?php echo __('Sort By') ?></label>
-            <select id="sorter" onchange="setToolbarCookieAndReloadPage('<?php echo \Magento\Catalog\Model\Product\ProductList\Toolbar::ORDER_COOKIE_NAME ?>', this.options[this.selectedIndex].value);">
+            <select id="sorter" onchange="setToolbarCookieAndReloadPage('<?php echo Toolbar::ORDER_COOKIE_NAME ?>', this.options[this.selectedIndex].value);">
                 <?php foreach ($this->getAvailableOrders() as $_key => $_order): ?>
                     <option value="<?php echo $_key; ?>"
                         <?php if ($this->isOrderCurrent($_key)): ?>
@@ -53,12 +54,12 @@
             </select>
             <?php if ($this->getCurrentDirection() == 'desc'): ?>
                 <a title="<?php echo __('Set Ascending Direction') ?>" href="#" class="action sort desc"
-                   onclick="setToolbarCookieAndReloadPage('<?php echo \Magento\Catalog\Model\Product\ProductList\Toolbar::DIRECTION_COOKIE_NAME ?>', 'asc');">
+                   onclick="setToolbarCookieAndReloadPage('<?php echo Toolbar::DIRECTION_COOKIE_NAME ?>', 'asc');">
                     <span><?php echo __('Set Ascending Direction') ?></span>
                 </a>
             <?php else: ?>
                 <a title="<?php echo __('Set Descending Direction') ?>" href="#" class="action sort asc"
-                   onclick="setToolbarCookieAndReloadPage('<?php echo \Magento\Catalog\Model\Product\ProductList\Toolbar::DIRECTION_COOKIE_NAME ?>', 'desc');">
+                   onclick="setToolbarCookieAndReloadPage('<?php echo Toolbar::DIRECTION_COOKIE_NAME ?>', 'desc');">
                     <span><?php echo __('Set Descending Direction') ?></span>
                 </a>
             <?php endif; ?>
@@ -78,7 +79,7 @@
         </p>
         <div class="limiter">
             <strong class="label"><?php echo __('Show') ?></strong>
-            <select id="limiter" onchange="setToolbarCookieAndReloadPage('<?php echo \Magento\Catalog\Model\Product\ProductList\Toolbar::LIMIT_COOKIE_NAME ?>', this.options[this.selectedIndex].value);">
+            <select id="limiter" onchange="setToolbarCookieAndReloadPage('<?php echo Toolbar::LIMIT_COOKIE_NAME ?>', this.options[this.selectedIndex].value);">
                 <?php foreach ($this->getAvailableLimit() as $_key => $_limit): ?>
                     <option value="<?php echo $_key ?>"<?php if ($this->isLimitCurrent($_key)): ?>
                         selected="selected"<?php endif ?>>

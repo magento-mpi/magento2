@@ -36,6 +36,7 @@ class Context
      * Unset data from vary array
      *
      * @param string $name
+     * @return null
      */
     public function unsValue($name)
     {

@@ -208,7 +208,6 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(), $output);
     }
 
-//*
     /**
      * Test method afterGenerateXml with enabled module PageCache
      */
