@@ -401,6 +401,26 @@ class Generator
                 )
             )
         );
+        $wrappedErrorComplexType = Fault::NODE_DETAIL_WRAPPED_ERROR;
+        $wrappedErrorData = array(
+            'parameters' => array(
+                Fault::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'documentation' => '',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERROR_CODE => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'documentation' => '',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERROR_VALUE => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'documentation' => '',
+                ),
+            )
+        );
         $genericFaultTypeData = array(
             'parameters' => array(
                 Fault::NODE_DETAIL_TRACE => array(
@@ -412,10 +432,16 @@ class Generator
                     'type' => "{$faultParamsComplexType}[]",
                     'required' => false,
                     'documentation' => 'Additional exception parameters.',
+                ),
+                Fault::NODE_DETAIL_WRAPPED_ERRORS => array(
+                    'type' => "{$wrappedErrorComplexType}[]",
+                    'required' => false,
+                    'documentation' => 'Additional wrapped errors.',
                 )
             )
         );
         $this->_typeProcessor->setTypeData($faultParamsComplexType, $faultParamsData);
+        $this->_typeProcessor->setTypeData($wrappedErrorComplexType, $wrappedErrorData);
         $this->_typeProcessor->setTypeData($complexTypeName, $genericFaultTypeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(

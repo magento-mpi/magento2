@@ -573,6 +573,14 @@ GENERIC_FAULT_IN_MESSAGES;
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
+        <xsd:element name="WrappedErrors" type="tns:ArrayOfWrappedError" minOccurs="0">
+            <xsd:annotation>
+                <xsd:documentation>Additional wrapped errors.</xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:natureOfType>array</inf:natureOfType>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
     </xsd:sequence>
 </xsd:complexType>
 GENERIC_FAULT_COMPLEX_TYPE;
@@ -610,6 +618,42 @@ PARAM_COMPLEX_TYPE;
             'Details parameter complex types declaration is invalid.'
         );
 
+        $detailsWrappedErrorType = <<< WRAPPED_ERROR_COMPLEX_TYPE
+<xsd:complexType name="WrappedError">
+    <xsd:sequence>
+        <xsd:element name="fieldName" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation></xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:maxLength/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="code" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation></xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:maxLength/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation></xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:maxLength/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+WRAPPED_ERROR_COMPLEX_TYPE;
+        $this->assertContains(
+            $this->_convertXmlToString($detailsWrappedErrorType),
+            $wsdlContent,
+            'Details wrapped error complex types declaration is invalid.'
+        );
+
         $detailsParametersType = <<< PARAMETERS_COMPLEX_TYPE
 <xsd:complexType name="ArrayOfGenericFaultParameter">
     <xsd:annotation>
@@ -631,6 +675,29 @@ PARAMETERS_COMPLEX_TYPE;
             $this->_convertXmlToString($detailsParametersType),
             $wsdlContent,
             'Details parameters (array of parameters) complex types declaration is invalid.'
+        );
+
+        $detailsWrappedErrorsType = <<< WRAPPED_ERRORS_COMPLEX_TYPE
+<xsd:complexType name="ArrayOfWrappedError">
+    <xsd:annotation>
+        <xsd:documentation>An array of WrappedError items.</xsd:documentation>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="tns:WrappedError">
+            <xsd:annotation>
+                <xsd:documentation>An item of ArrayOfWrappedError.</xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+WRAPPED_ERRORS_COMPLEX_TYPE;
+        // @codingStandardsIgnoreEnd
+        $this->assertContains(
+            $this->_convertXmlToString($detailsWrappedErrorsType),
+            $wsdlContent,
+            'Details wrapped errors (array of wrapped errors) complex types declaration is invalid.'
         );
     }
 }
