@@ -459,15 +459,6 @@ class Account extends \Magento\App\Action\Action
                 $message = InputException::translateError($error);
                 $this->messageManager->addError($this->escaper->escapeHtml($message));
             }
-        } catch (\Magento\Mail\Exception $e) {
-            $this->messageManager->addException(
-                $e,
-                __('Unable to send confirmation email. Please try again in a few minutes.')
-            );
-            $this->getResponse()->setRedirect(
-                $this->_customerHelperData->getEmailConfirmationUrl($customer->getEmail())
-            );
-            return;
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save the customer.'));
         }
@@ -694,15 +685,6 @@ class Account extends \Magento\App\Action\Action
                 $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (StateException $e) {
                 $this->messageManager->addSuccess(__('This email does not require confirmation.'));
-            } catch (\Magento\Mail\Exception $e) {
-                $this->messageManager->addException(
-                    $e,
-                    __('Unable to send confirmation email.  Please try again in a few minutes.')
-                );
-                $this->getResponse()->setRedirect(
-                    $this->_createUrl()->getUrl('*/*/*', array('email' => $email, '_secure' => true))
-                );
-                return;
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));
                 $this->getResponse()->setRedirect(
