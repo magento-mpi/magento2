@@ -31,10 +31,8 @@ class SourceClassWithNamespaceFactory
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace'
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\Code\GeneratorTest\SourceClassWithNamespace')
+    {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }

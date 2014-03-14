@@ -37,14 +37,8 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
      */
     protected $subjectType = null;
 
-    public function __construct(
-        \Magento\ObjectManager $pluginLocator,
-        \Magento\Interception\PluginList $pluginList,
-        \Magento\Interception\Chain $chain,
-        $param1 = '',
-        $param2 = '\\',
-        $param3 = '\''
-    ) {
+    public function __construct(\Magento\ObjectManager $pluginLocator, \Magento\Interception\PluginList $pluginList, \Magento\Interception\Chain $chain, $param1 = '', $param2 = '\\', $param3 = '\'')
+    {
         $this->pluginLocator = $pluginLocator;
         $this->pluginList = $pluginList;
         $this->chain = $chain;
@@ -81,8 +75,7 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
         if (isset($pluginInfo[\Magento\Interception\Definition::LISTENER_BEFORE])) {
             foreach ($pluginInfo[\Magento\Interception\Definition::LISTENER_BEFORE] as $code) {
                 $beforeResult = call_user_func_array(
-                    array($this->pluginList->getPlugin($this->subjectType, $code), 'before' . $capMethod),
-                    array_merge(array($this), $arguments)
+                    array($this->pluginList->getPlugin($this->subjectType, $code), 'before'. $capMethod), array_merge(array($this), $arguments)
                 );
                 if ($beforeResult) {
                     $arguments = $beforeResult;
@@ -106,13 +99,8 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
         }
         if (isset($pluginInfo[\Magento\Interception\Definition::LISTENER_AFTER])) {
             foreach ($pluginInfo[\Magento\Interception\Definition::LISTENER_AFTER] as $code) {
-                $result = $this->pluginList->getPlugin(
-                    $this->subjectType,
-                    $code
-                )->{'after' . $capMethod}(
-                    $this,
-                    $result
-                );
+                $result = $this->pluginList->getPlugin($this->subjectType, $code)
+                    ->{'after' . $capMethod}($this, $result);
             }
         }
         return $result;
@@ -121,13 +109,8 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * {@inheritdoc}
      */
-    public function publicChildMethod(
-        \Zend\Code\Generator\ClassGenerator $classGenerator,
-        $param1 = '',
-        $param2 = '\\',
-        $param3 = '\'',
-        array $array = array()
-    ) {
+    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    {
         $pluginInfo = $this->pluginList->getNext($this->subjectType, 'publicChildMethod');
         if (!$pluginInfo) {
             return parent::publicChildMethod($classGenerator, $param1, $param2, $param3, $array);
@@ -139,11 +122,8 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * {@inheritdoc}
      */
-    public function publicMethodWithReference(
-        \Zend\Code\Generator\ClassGenerator &$classGenerator,
-        &$param1,
-        array &$array
-    ) {
+    public function publicMethodWithReference(\Zend\Code\Generator\ClassGenerator &$classGenerator, &$param1, array &$array)
+    {
         $pluginInfo = $this->pluginList->getNext($this->subjectType, 'publicMethodWithReference');
         if (!$pluginInfo) {
             return parent::publicMethodWithReference($classGenerator, $param1, $array);
@@ -168,13 +148,8 @@ class Interceptor extends \Magento\Code\GeneratorTest\SourceClassWithNamespace
     /**
      * {@inheritdoc}
      */
-    public function publicParentMethod(
-        \Zend\Code\Generator\DocBlockGenerator $docBlockGenerator,
-        $param1 = '',
-        $param2 = '\\',
-        $param3 = '\'',
-        array $array = array()
-    ) {
+    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    {
         $pluginInfo = $this->pluginList->getNext($this->subjectType, 'publicParentMethod');
         if (!$pluginInfo) {
             return parent::publicParentMethod($docBlockGenerator, $param1, $param2, $param3, $array);
