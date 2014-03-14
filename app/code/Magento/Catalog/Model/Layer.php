@@ -81,7 +81,7 @@ class Layer extends \Magento\Object
     /**
      * @var \Magento\Catalog\Model\Layer\Category\StateKey
      */
-    protected $stateKey;
+    protected $stateKeyGenerator;
 
     /**
      * @var \Magento\Catalog\Model\Layer\Category\CollectionFilter
@@ -115,7 +115,7 @@ class Layer extends \Magento\Object
         $this->_storeManager = $storeManager;
         $this->registry = $registry;
         $this->collectionProvider = $context->getCollectionProvider();
-        $this->stateKey = $context->getStateKey();
+        $this->stateKeyGenerator = $context->getStateKey();
         $this->collectionFilter = $context->getCollectionFilter();
         parent::__construct($data);
     }
@@ -127,7 +127,10 @@ class Layer extends \Magento\Object
      */
     public function getStateKey()
     {
-        return $this->stateKey->toString($this->getCurrentCategory());
+        if (!$this->_stateKey) {
+            $this->_stateKey = $this->stateKeyGenerator->toString($this->getCurrentCategory());
+        }
+        return $this->_stateKey;
     }
 
     /**

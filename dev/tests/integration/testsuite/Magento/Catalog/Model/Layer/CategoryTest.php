@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model;
+namespace Magento\Catalog\Model\Layer;
 
 /**
  * Test class for \Magento\Catalog\Model\Layer.
  *
  * @magentoDataFixture Magento/Catalog/_files/categories.php
  */
-class LayerTest extends \PHPUnit_Framework_TestCase
+class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Layer
+     * @var \Magento\Catalog\Model\Layer\Category
      */
     protected $_model;
 
@@ -33,15 +33,6 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     public function testGetStateKey()
     {
         $this->assertEquals('STORE_1_CAT_4_CUSTGROUP_0', $this->_model->getStateKey());
-    }
-
-    public function testGetStateTags()
-    {
-        $this->assertEquals(array('catalog_category4'), $this->_model->getStateTags());
-        $this->assertEquals(
-            array('additional_state_tag1', 'additional_state_tag2', 'catalog_category4'),
-            $this->_model->getStateTags(array('additional_state_tag1', 'additional_state_tag2'))
-        );
     }
 
     public function testGetProductCollection()
@@ -64,7 +55,9 @@ class LayerTest extends \PHPUnit_Framework_TestCase
                     array(
                         'data' => array(
                             'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                                ->create('Magento\Catalog\Model\Layer\Filter\Category'),
+                                ->create(
+                                    'Magento\Catalog\Model\Layer\Filter\Category', array('layer' => $this->_model)
+                                ),
                             'value'  => 'expected-value-string',
                         )
                     )
@@ -76,7 +69,9 @@ class LayerTest extends \PHPUnit_Framework_TestCase
                     array(
                         'data' => array(
                             'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                                ->create('Magento\Catalog\Model\Layer\Filter\Decimal'),
+                                ->create(
+                                    'Magento\Catalog\Model\Layer\Filter\Decimal', array('layer' => $this->_model)
+                                ),
                             'value'  => 1234,
                         )
                     )
@@ -160,22 +155,6 @@ class LayerTest extends \PHPUnit_Framework_TestCase
                 ->getStore(),
             $this->_model->getCurrentStore()
         );
-    }
-
-    public function testGetFilterableAttributes()
-    {
-        /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
-        $collection = $this->_model->getFilterableAttributes();
-        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Attribute\Collection', $collection);
-
-        $items = $collection->getItems();
-        $this->assertInternalType('array', $items);
-        $this->assertEquals(1, count($items), 'Number of items in collection.');
-
-        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $collection->getFirstItem());
-        $this->assertEquals('price', $collection->getFirstItem()->getAttributeCode());
-
-        //$this->assertNotSame($collection, $this->_model->getFilterableAttributes());
     }
 
     public function testGetState()
