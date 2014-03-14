@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$simpleProductsCount = \Magento\TestFramework\Helper\Cli::getOption('simple_products', 180);
+$simpleProductsCount = \Magento\ToolkitFramework\Helper\Cli::getOption('simple_products', 180);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */
@@ -88,7 +88,7 @@ $pattern = array(
     'use_config_enable_qty_inc'     => '1',
     'stock_id'                      => \Magento\CatalogInventory\Model\Stock::DEFAULT_STOCK_ID,
 );
-$generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $simpleProductsCount);
+$generator = new \Magento\ToolkitFramework\ImportExport\Fixture\Generator($pattern, $simpleProductsCount);
 /** @var \Magento\ImportExport\Model\Import $import */
 $import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',

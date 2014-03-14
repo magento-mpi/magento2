@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$categoriesNumber = \Magento\TestFramework\Helper\Cli::getOption('categories', 18);
-$maxNestingLevel = \Magento\TestFramework\Helper\Cli::getOption('categories_nesting_level', 3);
+$categoriesNumber = \Magento\ToolkitFramework\Helper\Cli::getOption('categories', 18);
+$maxNestingLevel = \Magento\ToolkitFramework\Helper\Cli::getOption('categories_nesting_level', 3);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */

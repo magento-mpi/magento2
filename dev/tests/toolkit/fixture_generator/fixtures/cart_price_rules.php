@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$cartPriceRulesCount = \Magento\TestFramework\Helper\Cli::getOption('cart_price_rules', 9);
-$cartPriceRulesProductsFloor = \Magento\TestFramework\Helper\Cli::getOption('cart_price_rules_floor', 3);
+$cartPriceRulesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('cart_price_rules', 9);
+$cartPriceRulesProductsFloor = \Magento\ToolkitFramework\Helper\Cli::getOption('cart_price_rules_floor', 3);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */

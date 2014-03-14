@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$websitesCount = \Magento\TestFramework\Helper\Cli::getOption('websites', 2);
-$storeGroupsCount = \Magento\TestFramework\Helper\Cli::getOption('store_groups', 3);
-$storesCount = \Magento\TestFramework\Helper\Cli::getOption('store_views', 5);
+$websitesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('websites', 2);
+$storeGroupsCount = \Magento\ToolkitFramework\Helper\Cli::getOption('store_groups', 3);
+$storesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('store_views', 5);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */

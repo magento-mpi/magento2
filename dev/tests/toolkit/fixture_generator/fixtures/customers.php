@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$customersNumber = \Magento\TestFramework\Helper\Cli::getOption('customers', 10);
+$customersNumber = \Magento\ToolkitFramework\Helper\Cli::getOption('customers', 10);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */
@@ -68,7 +68,7 @@ $pattern = array(
     '_address_default_billing_'   => '1',
     '_address_default_shipping_'  => '1'
 );
-$generator = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
+$generator = new \Magento\ToolkitFramework\ImportExport\Fixture\Generator($pattern, $customersNumber);
 /** @var Magento\ImportExport\Model\Import $import */
 $import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',

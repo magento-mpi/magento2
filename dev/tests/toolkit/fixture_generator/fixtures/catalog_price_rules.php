@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$catalogPriceRulesCount = \Magento\TestFramework\Helper\Cli::getOption('catalog_price_rules', 3);
+$catalogPriceRulesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('catalog_price_rules', 3);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */

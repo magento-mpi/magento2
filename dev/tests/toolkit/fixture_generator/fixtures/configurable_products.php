@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 /** @var \Magento\TestFramework\Application $this */
-$configurablesCount = \Magento\TestFramework\Helper\Cli::getOption('configurable_products', 90);
+$configurablesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('configurable_products', 90);
 $this->resetObjectManager();
 
 /** @var \Magento\Core\Model\StoreManager $storeManager */
@@ -852,7 +852,7 @@ $rows = array (
 /**
  * Create configurable products
  */
-$pattern = new \Magento\TestFramework\ImportExport\Fixture\Complex\Pattern();
+$pattern = new \Magento\ToolkitFramework\ImportExport\Fixture\Complex\Pattern();
 $pattern->setHeaders($headers);
 $pattern->setRowsSet($rows);
 
@@ -862,7 +862,7 @@ $import = $this->getObjectManager()->create(
     array('data' => array('entity' => 'catalog_product', 'behavior' => 'append'))
 );
 
-$source = new \Magento\TestFramework\ImportExport\Fixture\Complex\Generator($pattern, $configurablesCount);
+$source = new \Magento\ToolkitFramework\ImportExport\Fixture\Complex\Generator($pattern, $configurablesCount);
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($source);
 // this converts import queue into actual entities

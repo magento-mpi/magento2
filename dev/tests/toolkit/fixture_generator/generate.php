@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $config \Magento\TestFramework\Performance\Config */
-$config = require_once __DIR__ . '/../../performance/framework/bootstrap.php';
+$applicationBaseDir = require_once __DIR__ . '/framework/bootstrap.php';
 
 $shell = new Zend_Console_Getopt(array(
     'websites-i'                         => 'Number of websites',
@@ -28,13 +27,9 @@ $shell = new Zend_Console_Getopt(array(
     'catalog_target_rules-i'             => 'Number of catalog target rules.',
 ));
 
-\Magento\TestFramework\Helper\Cli::setOpt($shell);
+\Magento\ToolkitFramework\Helper\Cli::setOpt($shell);
 
 $args = $shell->getOptions();
-if (empty($args)) {
-    /*echo $shell->getUsageMessage();
-    exit(1);*/
-}
 
 $files = array(
     __DIR__ . '/fixtures/stores.php',
@@ -47,6 +42,7 @@ $files = array(
     __DIR__ . '/fixtures/catalog_price_rules.php',
     __DIR__ . '/fixtures/tax_rates.php',
     __DIR__ . '/fixtures/shipping_flatrate_enabled.php',
+    __DIR__ . '/fixtures/catalog_target_rules.php'
 );
 
 $logWriter = new \Zend_Log_Writer_Stream('php://output');
@@ -54,26 +50,14 @@ $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
 
 $shell = new \Magento\Shell(new \Magento\OSInfo(), $logger);
-$scenarioHandler = new \Magento\TestFramework\Performance\Scenario\Handler\FileFormat();
-$scenarioHandler->register('jmx', new \Magento\TestFramework\Performance\Scenario\Handler\Jmeter($shell))
-    ->register('php', new \Magento\TestFramework\Performance\Scenario\Handler\Php($shell));
 
-$testsuite = new \Magento\TestFramework\Performance\Testsuite(
-    $config,
-    new \Magento\TestFramework\Application($config, $shell),
-    $scenarioHandler
-);
+$application = new \Magento\ToolkitFramework\Application($applicationBaseDir, $shell);
 
-$testsuite->getApplication()->reset();
-$testsuite->getApplication()->bootstrap();
+$application->bootstrap();
 
 foreach ($files as $fixture) {
     echo 'Applying fixture ' . $fixture . PHP_EOL;
-    $testsuite->getApplication()->applyFixture($fixture);
+    $application->applyFixture($fixture);
 }
 
-$testsuite->getApplication()->reindex();
-
-$fixture = __DIR__ . '/fixtures/catalog_target_rules.php';
-echo 'Applying fixture ' . $fixture . PHP_EOL;
-$testsuite->getApplication()->applyFixture($fixture);
+$application->reindex();
