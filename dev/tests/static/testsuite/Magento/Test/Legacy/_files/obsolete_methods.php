@@ -1439,7 +1439,6 @@ return array(
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
     array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
     array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage'),
-    array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency')
     array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency'),
     array('getPageVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getOrderVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
