@@ -8,6 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -28,14 +29,14 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
             array(
                 'website_id' => 0,
                 'all_groups' => false,
-                'cust_group' => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+                'cust_group' => CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
                 'price_qty'  => 2,
                 'price'      => 8,
             ),
             array(
                 'website_id' => 0,
                 'all_groups' => true,
-                'cust_group' => true,
+                'cust_group' => CustomerGroupServiceInterface::CUST_GROUP_ALL,
                 'price_qty'  => 21,
                 'price'      => 81,
             )
