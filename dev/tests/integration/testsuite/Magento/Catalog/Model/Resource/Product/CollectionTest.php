@@ -81,14 +81,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddTierPriceData()
     {
         $this->_collection->setFlag('tier_price_added', false);
+        $this->_collection->addIdFilter(2);
         $this->assertInstanceOf(
             '\Magento\Catalog\Model\Resource\Product\Collection',
             $this->_collection->addTierPriceData()
         );
-        $this->assertEquals(
-            CustomerGroupServiceInterface::CUST_GROUP_ALL,
-            current($this->_collection->getFirstItem()->getDataByKey('tier_price'))['cust_group']
-        );
+        $customerGroup = $this->_collection->getFirstItem()->getDataByKey('tier_price');
+        $this->assertEquals(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID, current($customerGroup)['cust_group']);
+        $this->assertEquals(CustomerGroupServiceInterface::CUST_GROUP_ALL, next($customerGroup)['cust_group']);
         $this->assertTrue($this->_collection->getFlag('tier_price_added'));
     }
 }
