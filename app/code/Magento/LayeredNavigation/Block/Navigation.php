@@ -22,41 +22,6 @@ use Magento\View\Element\Template;
 class Navigation extends \Magento\View\Element\Template
 {
     /**
-     * State block name
-     *
-     * @var string
-     */
-    protected $_stateBlockName;
-
-    /**
-     * Category Block Name
-     *
-     * @var string
-     */
-    protected $_categoryBlockName;
-
-    /**
-     * Attribute Filter Block Name
-     *
-     * @var string
-     */
-    protected $_attributeFilterBlockName;
-
-    /**
-     * Price Filter Block Name
-     *
-     * @var string
-     */
-    protected $_priceFilterBlockName;
-
-    /**
-     * Decimal Filter Block Name
-     *
-     * @var string
-     */
-    protected $_decimalFilterBlockName;
-
-    /**
      * Catalog layer
      *
      * @var \Magento\Catalog\Model\Layer

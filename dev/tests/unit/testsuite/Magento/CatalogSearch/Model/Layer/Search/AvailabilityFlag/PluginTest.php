@@ -85,7 +85,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->never())
             ->method('getConfig');
 
-        $proceed = function() {
+        $proceed = function () {
             $this->fail('Proceed should not be called in this scenario');
         };
 
@@ -116,7 +116,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->method('getSize')
             ->will($this->returnValue($collectionSize));
 
-        $proceed = function() {
+        $proceed = function () {
             return true;
         };
 
@@ -159,7 +159,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             ->method('getSize')
             ->will($this->returnValue(15));
 
-        $proceed = function() {
+        $proceed = function () {
             $this->fail('Proceed should not be called in this scenario');
         };
 

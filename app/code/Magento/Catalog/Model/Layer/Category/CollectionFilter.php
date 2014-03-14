@@ -19,7 +19,7 @@ class CollectionFilter implements CollectionFilterInterface
      *
      * @var \Magento\Catalog\Model\Product\Visibility
      */
-    protected $catalogProductVisibility;
+    protected $productVisibility;
 
     /**
      * Catalog config
@@ -28,15 +28,21 @@ class CollectionFilter implements CollectionFilterInterface
      */
     protected $catalogConfig;
 
+    /**
+     * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     */
     public function __construct(
-        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Catalog\Model\Config $catalogConfig
     ) {
-        $this->catalogProductVisibility = $catalogProductVisibility;
+        $this->productVisibility = $productVisibility;
         $this->catalogConfig = $catalogConfig;
     }
 
     /**
+     * Filter product collection
+     *
      * @param $collection
      * @param \Magento\Catalog\Model\Category $category
      */
@@ -50,6 +56,6 @@ class CollectionFilter implements CollectionFilterInterface
             ->addFinalPrice()
             ->addTaxPercents()
             ->addUrlRewrite($category->getId())
-            ->setVisibility($this->catalogProductVisibility->getVisibleInCatalogIds());
+            ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
     }
 } 

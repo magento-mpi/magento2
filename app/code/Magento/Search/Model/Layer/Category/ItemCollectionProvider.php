@@ -17,12 +17,21 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
      */
     protected $engineProvider;
 
+    /**
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
     ) {
         $this->engineProvider = $engineProvider;
     }
 
+    /**
+     * Get item collection
+     *
+     * @param \Magento\Catalog\Model\Category $category
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
+     */
     public function getCollection(\Magento\Catalog\Model\Category $category)
     {
         $collection = $this->engineProvider->get()->getResultCollection();

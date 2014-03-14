@@ -15,6 +15,9 @@ class ItemCollectionProvider
      */
     protected $engineProvider;
 
+    /**
+     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
+     */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
     ) {
@@ -22,6 +25,8 @@ class ItemCollectionProvider
     }
 
     /**
+     * Get item collection
+     *
      * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */

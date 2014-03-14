@@ -63,7 +63,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->helperMock->expects($this->once())->method('isActiveEngine')->will($this->returnValue(true));
         $this->subjectMock->expects($this->once())->method("isEnabled")->will($this->returnValue(false));
 
-        $proceed = function() {
+        $proceed = function () {
             $this->fail('Subject should not be called in this scenario');
         };
         $this->assertFalse($this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array()));
@@ -75,7 +75,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabledWithThirdPartEngineOff()
     {
-        $proceed = function() {
+        $proceed = function () {
             return false;
         };
         $this->assertFalse($this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array()));

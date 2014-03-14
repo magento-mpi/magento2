@@ -44,6 +44,11 @@ class FilterableAttributeList implements FilterableAttributeListInterface
         $this->layer = $layer;
     }
 
+    /**
+     * Retrieve list of filterable attributes
+     *
+     * @return array|\Magento\Catalog\Model\Resource\Product\Attribute\Collection
+     */
     public function getList()
     {
         $setIds = $this->layer->getProductCollection()->getSetIds();
@@ -65,8 +70,8 @@ class FilterableAttributeList implements FilterableAttributeListInterface
     /**
      * Add filters to attribute collection
      *
-     * @param   \Magento\Catalog\Model\Resource\Attribute\Collection $collection
-     * @return  \Magento\Catalog\Model\Resource\Attribute\Collection
+     * @param   \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection
+     * @return  \Magento\Catalog\Model\Resource\Product\Attribute\Collection
      */
     protected function _prepareAttributeCollection($collection)
     {

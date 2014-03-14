@@ -18,12 +18,17 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
      */
     protected $fulltextCollectionFactory;
 
+    /**
+     * @param CollectionFactory $fulltextCollectionFactory
+     */
     function __construct(CollectionFactory $fulltextCollectionFactory)
     {
         $this->fulltextCollectionFactory = $fulltextCollectionFactory;
     }
 
     /**
+     * Retrieve item colleciton
+     *
      * @param $category
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
