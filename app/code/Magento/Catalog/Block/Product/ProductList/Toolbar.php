@@ -30,41 +30,6 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_collection = null;
 
     /**
-     * GET parameter page variable
-     *
-     * @var string
-     */
-    protected $_pageVarName     = 'p';
-
-    /**
-     * GET parameter order variable
-     *
-     * @var string
-     */
-    protected $_orderVarName        = 'order';
-
-    /**
-     * GET parameter direction variable
-     *
-     * @var string
-     */
-    protected $_directionVarName    = 'dir';
-
-    /**
-     * GET parameter mode variable
-     *
-     * @var string
-     */
-    protected $_modeVarName         = 'mode';
-
-    /**
-     * GET parameter limit variable
-     *
-     * @var string
-     */
-    protected $_limitVarName        = 'limit';
-
-    /**
      * List of available order fields
      *
      * @var array
@@ -125,12 +90,10 @@ class Toolbar extends \Magento\View\Element\Template
      */
     protected $_paramsMemorizeAllowed = true;
 
-
     /**
      * @var string
      */
     protected $_template = 'product/list/toolbar.phtml';
-
 
     /**
      * Catalog config
@@ -152,10 +115,22 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_httpContext;
 
     /**
+     * @var \Magento\Catalog\Model\Product\ProductList\Toolbar
+     */
+    protected $_toolbarModel;
+
+    /**
+     * @var \Magento\Catalog\Helper\Data
+     */
+    protected $_catalogHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
+     * @param \Magento\Catalog\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
@@ -163,11 +138,15 @@ class Toolbar extends \Magento\View\Element\Template
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\App\Http\Context $httpContext,
+        \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
+        \Magento\Catalog\Helper\Data $helper,
         array $data = array()
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogConfig = $catalogConfig;
         $this->_httpContext = $httpContext;
+        $this->_toolbarModel = $toolbarModel;
+        $this->_catalogHelper = $helper;
         parent::__construct($context, $data);
     }
 
@@ -210,7 +189,6 @@ class Toolbar extends \Magento\View\Element\Template
                 $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
                 break;
         }
-
     }
 
     /**
@@ -273,66 +251,13 @@ class Toolbar extends \Magento\View\Element\Template
     }
 
     /**
-     * Getter for $_pageVarName
-     *
-     * @return string
-     */
-    public function getPageVarName()
-    {
-        return $this->_pageVarName;
-    }
-
-    /**
-     * Retrieve order field GET var name
-     *
-     * @return string
-     */
-    public function getOrderVarName()
-    {
-        return $this->_orderVarName;
-    }
-
-    /**
-     * Retrieve sort direction GET var name
-     *
-     * @return string
-     */
-    public function getDirectionVarName()
-    {
-        return $this->_directionVarName;
-    }
-
-    /**
-     * Retrieve view mode GET var name
-     *
-     * @return string
-     */
-    public function getModeVarName()
-    {
-        return $this->_modeVarName;
-    }
-
-    /**
-     * Getter for $_limitVarName
-     *
-     * @return string
-     */
-    public function getLimitVarName()
-    {
-        return $this->_limitVarName;
-    }
-
-    /**
      * Return current page from request
      *
      * @return int
      */
     public function getCurrentPage()
     {
-        if ($page = (int) $this->getRequest()->getParam($this->getPageVarName())) {
-            return $page;
-        }
-        return 1;
+        return $this->_toolbarModel->getCurrentPage();
     }
 
     /**
@@ -355,27 +280,18 @@ class Toolbar extends \Magento\View\Element\Template
             $defaultOrder = $keys[0];
         }
 
-        $order = $this->getRequest()->getParam($this->getOrderVarName());
-        if ($order && isset($orders[$order])) {
-            if ($order == $defaultOrder) {
-                $this->_catalogSession->unsSortOrder();
-                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_SORT_ORDER);
-            } else {
-                $this->_memorizeParam('sort_order', $order);
-                if ($this->_catalogSession->hasSortOrder()) {
-                    $this->_httpContext->setValue(
-                        Data::CONTEXT_CATALOG_SORT_ORDER,
-                        $this->_catalogSession->getSortOrder()
-                    );
-                }
-            }
-        } else {
-            $order = $this->_catalogSession->getSortOrder();
-        }
-        // validate session value
+        $order = $this->_toolbarModel->getOrder();
         if (!$order || !isset($orders[$order])) {
             $order = $defaultOrder;
         }
+
+        if ($order == $defaultOrder) {
+            $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_SORT_ORDER);
+        } else {
+            $this->_memorizeParam('sort_order', $order);
+            $this->_httpContext->setValue(Data::CONTEXT_CATALOG_SORT_ORDER, $order);
+        }
+
         $this->setData('_current_grid_order', $order);
         return $order;
     }
@@ -393,27 +309,18 @@ class Toolbar extends \Magento\View\Element\Template
         }
 
         $directions = array('asc', 'desc');
-        $dir = strtolower($this->getRequest()->getParam($this->getDirectionVarName()));
-        if ($dir && in_array($dir, $directions)) {
-            if ($dir == $this->_direction) {
-                $this->_catalogSession->unsSortDirection();
-                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_SORT_DIRECTION);
-            } else {
-                $this->_memorizeParam('sort_direction', $dir);
-                if ($this->_catalogSession->hasSortDirection()) {
-                    $this->_httpContext->setValue(
-                        Data::CONTEXT_CATALOG_SORT_DIRECTION,
-                        $this->_catalogSession->getSortDirection()
-                    );
-                }
-            }
-        } else {
-            $dir = $this->_catalogSession->getSortDirection();
-        }
-        // validate direction
+        $dir = strtolower($this->_toolbarModel->getDirection());
         if (!$dir || !in_array($dir, $directions)) {
             $dir = $this->_direction;
         }
+
+        if ($dir == $this->_direction) {
+            $this->_catalogSession->unsValue(Data::CONTEXT_CATALOG_SORT_DIRECTION);
+        } else {
+            $this->_memorizeParam('sort_direction', $dir);
+            $this->_catalogSession->setValue(Data::CONTEXT_CATALOG_SORT_DIRECTION, $dir);
+        }
+
         $this->setData('_current_grid_direction', $dir);
         return $dir;
     }
@@ -506,31 +413,12 @@ class Toolbar extends \Magento\View\Element\Template
     }
 
     /**
-     * Retrieve Pager URL
-     *
-     * @param string $order
-     * @param string $direction
-     * @return string
-     */
-    public function getOrderUrl($order, $direction)
-    {
-        if (is_null($order)) {
-            $order = $this->getCurrentOrder() ? $this->getCurrentOrder() : $this->_availableOrder[0];
-        }
-        return $this->getPagerUrl(array(
-            $this->getOrderVarName()=>$order,
-            $this->getDirectionVarName()=>$direction,
-            $this->getPageVarName() => null
-        ));
-    }
-
-    /**
      * Return current URL with rewrites and additional parameters
      *
      * @param array $params Query parameters
      * @return string
      */
-    public function getPagerUrl($params=array())
+    public function getPagerUrl($params = array())
     {
         $urlParams = array();
         $urlParams['_current']  = true;
@@ -539,6 +427,12 @@ class Toolbar extends \Magento\View\Element\Template
         $urlParams['_query']    = $params;
         return $this->getUrl('*/*/*', $urlParams);
     }
+
+    public function getPagerEncodedUrl($params = array())
+    {
+        return $this->_catalogHelper->urlEncode($this->getPagerUrl($params));
+    }
+
 
     /**
      * Retrieve current View mode
@@ -553,27 +447,17 @@ class Toolbar extends \Magento\View\Element\Template
         }
         $modes = array_keys($this->_availableMode);
         $defaultMode = current($modes);
-        $mode = $this->getRequest()->getParam($this->getModeVarName());
-        if ($mode) {
-            if ($mode == $defaultMode) {
-                $this->_catalogSession->unsDisplayMode();
-                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_DISPLAY_MODE);
-            } else {
-                $this->_memorizeParam('display_mode', $mode);
-                if ($this->_catalogSession->hasDisplayMode()) {
-                    $this->_httpContext->setValue(
-                        Data::CONTEXT_CATALOG_DISPLAY_MODE,
-                        $this->_catalogSession->getDisplayMode()
-                    );
-                }
-            }
-        } else {
-            $mode = $this->_catalogSession->getDisplayMode();
-        }
-
+        $mode = $this->_toolbarModel->getMode();
         if (!$mode || !isset($this->_availableMode[$mode])) {
             $mode = $defaultMode;
         }
+
+        if ($mode == $defaultMode) {
+            $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_DISPLAY_MODE);
+        } else {
+            $this->_httpContext->setValue(Data::CONTEXT_CATALOG_DISPLAY_MODE, $mode);
+        }
+
         $this->setData('_current_grid_mode', $mode);
         return $mode;
     }
@@ -611,17 +495,6 @@ class Toolbar extends \Magento\View\Element\Template
             $this->_availableMode = $modes;
         }
         return $this;
-    }
-
-    /**
-     * Retrieve URL for view mode
-     *
-     * @param string $mode
-     * @return string
-     */
-    public function getModeUrl($mode)
-    {
-        return $this->getPagerUrl( array($this->getModeVarName()=>$mode, $this->getPageVarName() => null) );
     }
 
     /**
@@ -763,43 +636,20 @@ class Toolbar extends \Magento\View\Element\Template
             $defaultLimit = $keys[0];
         }
 
-        $limit = $this->getRequest()->getParam($this->getLimitVarName());
-        if ($limit && isset($limits[$limit])) {
-            if ($limit == $defaultLimit) {
-                $this->_catalogSession->unsLimitPage();
-                $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_LIMIT);
-            } else {
-                $this->_memorizeParam('limit_page', $limit);
-                if ($this->_catalogSession->hasLimitPage()) {
-                    $this->_httpContext->setValue(
-                        Data::CONTEXT_CATALOG_LIMIT,
-                        $this->_catalogSession->getLimitPage()
-                    );
-                }
-            }
-        } else {
-            $limit = $this->_catalogSession->getLimitPage();
-        }
+        $limit = $this->_toolbarModel->getLimit();
         if (!$limit || !isset($limits[$limit])) {
             $limit = $defaultLimit;
         }
 
+        if ($limit == $defaultLimit) {
+            $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_LIMIT);
+        } else {
+            $this->_memorizeParam('limit_page', $limit);
+            $this->_httpContext->setValue(Data::CONTEXT_CATALOG_LIMIT, $limit);
+        }
+
         $this->setData('_current_limit', $limit);
         return $limit;
-    }
-
-    /**
-     * Retrieve Limit Pager URL
-     *
-     * @param int $limit
-     * @return string
-     */
-    public function getLimitUrl($limit)
-    {
-        return $this->getPagerUrl(array(
-            $this->getLimitVarName() => $limit,
-            $this->getPageVarName() => null
-        ));
     }
 
     /**
@@ -870,9 +720,6 @@ class Toolbar extends \Magento\View\Element\Template
             $pagerBlock->setUseContainer(false)
                 ->setShowPerPage(false)
                 ->setShowAmounts(false)
-//                ->setLimitVarName($this->getLimitVarName())
-//                ->setPageVarName($this->getPageVarName())
-//                ->setLimit($this->getLimit())
                 ->setFrameLength($this->_storeConfig->getConfig('design/pagination/pagination_frame'))
                 ->setJump($this->_storeConfig->getConfig('design/pagination/pagination_frame_skip'))
                 ->setCollection($this->getCollection());
