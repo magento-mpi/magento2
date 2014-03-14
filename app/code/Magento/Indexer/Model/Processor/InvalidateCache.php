@@ -9,9 +9,9 @@
 namespace Magento\Indexer\Model\Processor;
 
 /**
- * Class CacheInvalidate
+ * Class InvalidateCache
  */
-class CacheInvalidate
+class InvalidateCache
 {
     /**
      * @var \Magento\Indexer\Model\CacheContext

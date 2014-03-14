@@ -30,16 +30,19 @@ class VarnishPlugin
     /**
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Version $version
+     * @param \Magento\App\PageCache\MessageBox $msgBox
      * @param \Magento\App\State $state
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Version $version,
+        \Magento\App\PageCache\MessageBox $msgBox,
         \Magento\App\State $state
     ) {
         $this->config = $config;
         $this->version = $version;
         $this->state = $state;
+        $this->msgBox = $msgBox;
     }
 
     /**
@@ -55,6 +58,7 @@ class VarnishPlugin
     ) {
         if ($this->config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->config->isEnabled()) {
             $this->version->process();
+            $this->msgBox->process();
             $response = $proceed($request);
             if ($this->state->getMode() == \Magento\App\State::MODE_DEVELOPER) {
                 $response->setHeader('X-Magento-Debug', 1);
