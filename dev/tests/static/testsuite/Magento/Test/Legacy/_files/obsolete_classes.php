@@ -1551,7 +1551,8 @@ return array(
         'Magento\Checkout\Controller\Adminhtml\Agreement'
     ),
     array('Magento\Core\Model\View\PublicFilesManagerInterface', 'Magento\View\FilesManagerInterface'),
-    array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\View\DeployedFilesManager'),
+    array('Magento\Core\Model\View\DeployedFilesManager', 'Magento\View\AssetInterface'),
+    array('Magento\View\DeployedFilesManager', 'Magento\View\AssetInterface'),
     array('Magento\Core\Model\View\Publisher', 'Magento\View\Publisher'),
     array('Magento\Core\Model\View\FileSystem', 'Magento\View\FileSystem'),
     array('Magento\Core\Model\View\Service', 'Magento\View\Service'),

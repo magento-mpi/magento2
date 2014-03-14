@@ -1319,26 +1319,11 @@ return array(
     ),
     ['_detectMimeType', 'Magento\File\Transfer\Adapter\Http', '\Magento\File\Mime::getMimeType()'],
     ['getPublishedFilePath', 'Magento\View\Publisher'],
-    [
-        'getPublicFilePath',
-        'Magento\View\DeployedFilesManager',
-        'Magento\View\DeployedFilesManager::getPublicViewFile()'
-    ],
-    [
-        'getViewFilePublicPath',
-        'Magento\View\FileResolver',
-        'Magento\View\FileResolver::getPublicViewFile()',
-    ],
-    [
-        'getPublicFilePath',
-        'Magento\View\PublicFilesManagerInterface',
-        'Magento\View\FilesManagerInterface::getPublicViewFile()',
-    ],
-    [
-        'getPublicFilePath',
-        'Magento\View\Publisher',
-        'Magento\View\Publisher::getPublicViewFile()',
-    ],
+    ['getViewFilePublicPath', 'Magento\View\FileResolver', 'Magento\View\AssetInterface'],
+    ['getPublicFilePath', 'Magento\View\PublicFilesManagerInterface', 'Magento\View\AssetInterface'],
+    ['getPublicFilePath', 'Magento\View\Publisher', 'Magento\View\AssetInterface'],
+    ['getPublicViewFile', 'Magento\View\FileResolver', 'Magento\View\AssetInterface'],
+    ['getPublicViewFile', 'Magento\View\Publisher', 'Magento\View\AssetInterface'],
     array('_getVatRequiredCustomerAddress', 'Magento\Sales\Model\Observer'),
     array('_isStaticFilesSigned', 'Magento\View\FileResolver',
         'Magento\Theme\Model\Url\Plugin\Signature::isUrlSignatureEnabled()'),

@@ -23,6 +23,19 @@ class PathGenerator
     /**#@-*/
 
     /**
+     * @var string
+     */
+    protected $appMode;
+
+    /**
+     * @param string $appMode
+     */
+    public function __construct($appMode = \Magento\App\State::MODE_DEFAULT)
+    {
+        $this->appMode = $appMode;
+    }
+
+    /**
      * Get relative path basing on input parameters, taking into account theme path
      *
      * @param string $areaCode
@@ -68,6 +81,9 @@ class PathGenerator
      */
     public function getPath($areaCode, $themePath, $localeCode, $module = '')
     {
-        return $areaCode . '/' . $themePath . '/' . $localeCode . ($module ? '/' . $module : '');
+        if ($this->appMode == \Magento\App\State::MODE_PRODUCTION) {
+            $localeCode = ''; // a workaround while support for locale is not implemented in production mode
+        }
+        return $areaCode . '/' . $themePath . ($localeCode ? '/' . $localeCode : '') . ($module ? '/' . $module : '');
     }
 }

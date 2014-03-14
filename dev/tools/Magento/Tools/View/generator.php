@@ -47,7 +47,10 @@ if (isset($options['help'])) {
 $logger->log('Deploying...', \Zend_Log::INFO);
 try {
     $objectManagerFactory = new \Magento\App\ObjectManagerFactory();
-    $objectManager = $objectManagerFactory->create(BP, array());
+    $objectManager = $objectManagerFactory->create(
+        BP,
+        array(\Magento\App\State::PARAM_MODE => \Magento\App\State::MODE_PRODUCTION)
+    );
 
     /** @var \Magento\Tools\View\Generator\Config $config */
     $config = $objectManager->create('Magento\Tools\View\Generator\Config', array(

@@ -46,7 +46,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             '\Magento\RequireJs\Config\File\Source\Aggregated', array(), array(), '', false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
-        $this->path = $this->getMock('\Magento\View\Asset\PathGenerator');
+        $this->path = $this->getMock('\Magento\View\Asset\PathGenerator', array(), array(), '', false);
         $this->baseUrl = $this->getMockForAbstractClass('\Magento\UrlInterface');
 
         $this->baseDir = $this->getMockForAbstractClass('\Magento\Filesystem\Directory\ReadInterface');

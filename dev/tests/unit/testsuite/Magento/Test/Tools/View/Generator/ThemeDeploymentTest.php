@@ -73,7 +73,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionStorage = $this->getMock('Magento\App\View\Deployment\Version\StorageInterface');
         $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
 
-        $this->path = new \Magento\View\Asset\PathGenerator;
+        $this->path = new \Magento\View\Asset\PathGenerator(\Magento\App\State::MODE_PRODUCTION);
     }
 
     protected function tearDown()

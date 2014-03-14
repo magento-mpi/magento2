@@ -104,21 +104,6 @@ class Publisher implements FilesManagerInterface
     /**
      * {@inheritdoc}
      */
-    public function getPublicViewFile($filePath, array $params)
-    {
-        $sourceFile = $this->getPreProcessedFileObject($filePath, $params);
-
-        if (!$sourceFile->isPublicationAllowed()) {
-            return $sourceFile->getSourcePath();
-        }
-
-        $this->publishFile($sourceFile);
-        return $sourceFile->buildPublicViewFilename();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getViewFile($file, array $params = array())
     {
         $readyFile = $this->getPreProcessedFileObject($file, $params);

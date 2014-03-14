@@ -17,7 +17,7 @@ class PathGeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->object = new PathGenerator;
+        $this->object = new PathGenerator();
     }
 
     public function testGetPathUsingTheme()
@@ -81,5 +81,11 @@ class PathGeneratorTest extends \PHPUnit_Framework_TestCase
             'empty module' => array('2', '3', '4', '', '2/3/4'),
             'no module'    => array('2', '3', '4', null, '2/3/4'),
         );
+    }
+
+    public function testGetPathProductionModeWorkaround()
+    {
+        $object = new PathGenerator(\Magento\App\State::MODE_PRODUCTION);
+        $this->assertEquals('area/theme/module', $object->getPath('area', 'theme', 'locale', 'module'));
     }
 }

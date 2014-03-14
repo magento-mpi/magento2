@@ -76,16 +76,6 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     }
 
     /**
-     * Whether it is allowed to publish view assets
-     *
-     * @return bool
-     */
-    public function isPublishingAllowed()
-    {
-        return $this->appState->getMode() != \Magento\App\State::MODE_PRODUCTION;
-    }
-
-    /**
      * Whether it is prohibited publishing view assets
      *
      * @return bool

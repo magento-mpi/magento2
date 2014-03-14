@@ -26,7 +26,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $viewService = $this->getMock('Magento\View\Service', array(), array(), '', false);
         $this->object = new Service(
             $this->getMockForAbstractClass('\Magento\UrlInterface'),
-            new \Magento\View\Asset\PathGenerator,
+            $this->getMock('\Magento\View\Asset\PathGenerator', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\View\DesignInterface'),
             $this->themeProvider,
             $viewService
