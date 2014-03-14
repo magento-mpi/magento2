@@ -16,12 +16,10 @@ class Context extends \Magento\Catalog\Model\Layer\Context
      * @param CollectionFilter $collectionFilter
      */
     public function __construct(
-        ItemCollectionProvider $collectionProvider,
-        StateKey $stateKey,
-        CollectionFilter $collectionFilter
+        \Magento\Catalog\Model\Layer\Search\ItemCollectionProvider $collectionProvider,
+        \Magento\Catalog\Model\Layer\Search\StateKey $stateKey,
+        \Magento\Catalog\Model\Layer\Search\CollectionFilter $collectionFilter
     ) {
-        $this->collectionProvider = $collectionProvider;
-        $this->stateKey = $stateKey;
-        $this->collectionFilter = $collectionFilter;
+        parent::__construct($collectionProvider, $stateKey, $collectionFilter);
     }
 }

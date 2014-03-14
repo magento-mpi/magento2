@@ -75,7 +75,7 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
         );
         $this->engineProviderMock = $this->getMock(
-            '\Magento\CatalogSearch\Model\Resource\EngineProvider', array(), array(), '',false
+            '\Magento\CatalogSearch\Model\Resource\EngineProvider', array(), array(), '', false
         );
 
         $this->engineProviderMock->expects($this->any())->method('get')->will($this->returnValue($this->engineMock));
