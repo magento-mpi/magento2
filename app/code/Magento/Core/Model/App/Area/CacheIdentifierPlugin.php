@@ -45,7 +45,7 @@ class CacheIdentifierPlugin
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->config->isEnabled()) {
             $ruleDesignException = $this->designExceptions->getThemeForUserAgent($this->request);
             if ($ruleDesignException !== false) {
-                return $result . $ruleDesignException;
+                return $ruleDesignException . $result;
             }
         }
         return $result;
