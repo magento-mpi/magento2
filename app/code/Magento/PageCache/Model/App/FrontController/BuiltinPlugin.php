@@ -35,17 +35,20 @@ class BuiltinPlugin
     /**
      * @param \Magento\PageCache\Model\Config $config
      * @param \Magento\App\PageCache\Version $version
+     * @param \Magento\App\PageCache\MessageBox $msgBox
      * @param \Magento\App\PageCache\Kernel $kernel
      * @param \Magento\App\State $state
      */
     public function __construct(
         \Magento\PageCache\Model\Config $config,
         \Magento\App\PageCache\Version $version,
+        \Magento\App\PageCache\MessageBox $msgBox,
         \Magento\App\PageCache\Kernel $kernel,
         \Magento\App\State $state
     ) {
         $this->config = $config;
         $this->version = $version;
+        $this->msgBox = $msgBox;
         $this->kernel = $kernel;
         $this->state = $state;
     }
@@ -63,6 +66,7 @@ class BuiltinPlugin
     ) {
         if ($this->config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->config->isEnabled()) {
             $this->version->process();
+            $this->msgBox->process();
             $response = $this->kernel->load();
             if ($response === false) {
                 $response = $proceed($request);
