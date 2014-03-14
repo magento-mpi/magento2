@@ -286,7 +286,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
             $iteratorMock->expects($this->at($i))
                 ->method('valid')
                 ->will($this->returnValue(false));
-            $i++;
+            ++$i;
         }
 
         return $iteratorMock;
