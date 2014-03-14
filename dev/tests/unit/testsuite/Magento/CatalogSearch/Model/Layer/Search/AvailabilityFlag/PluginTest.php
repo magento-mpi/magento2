@@ -6,29 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogSearch\Model\Layer;
+namespace Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag;
 
-class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
+class PluginTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var array
-     */
-    protected $filters;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $filterMock;
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $layerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stateMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -56,18 +41,19 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
     protected $collectionMock;
 
     /**
-     * @var \Magento\CatalogSearch\Model\Layer\AvailabilityFlag
+     * @var \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin
      */
     protected $model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
     protected function setUp()
     {
-        $this->filterMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Filter\AbstractFilter', array(), array(), '', false
-        );
-        $this->filters = array($this->filterMock);
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Layer\AvailabilityFlagInterface');
         $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
-        $this->stateMock = $this->getMock('\Magento\Catalog\Model\Layer\State', array(), array(), '', false);
         $this->storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
         $this->engineMock = $this->getMock('\Magento\CatalogSearch\Model\Resource\EngineInterface');
         $this->storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
@@ -83,14 +69,14 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
         $this->layerMock->expects($this->any())->method('getProductCollection')
             ->will($this->returnValue($this->collectionMock));
 
-        $this->model = new AvailabilityFlag($this->storeManagerMock, $this->engineProviderMock);
+        $this->model = new Plugin($this->storeManagerMock, $this->engineProviderMock);
     }
 
     /**
-     * @covers \Magento\CatalogSearch\Model\Layer\Category\AvailabilityFlag::isEnabled
-     * @covers \Magento\CatalogSearch\Model\Layer\Category\AvailabilityFlag::__construct
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::__construct
      */
-    public function testIsEnabledLayeredNavigationIsNotAllowed()
+    public function testaroundIsEnabledLayeredNavigationIsNotAllowed()
     {
         $this->engineMock->expects($this->once())
             ->method('isLayeredNavigationAllowed')
@@ -99,17 +85,23 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
         $this->storeMock->expects($this->never())
             ->method('getConfig');
 
-        $this->assertEquals(false, $this->model->isEnabled($this->layerMock, $this->filters));
+        $proceed = function() {
+            $this->fail('Proceed should not be called in this scenario');
+        };
+
+        $this->assertEquals(
+            false, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
+        );
     }
 
     /**
      * @param int $collectionSize
      * @param int $availableResCount
      *
-     * @dataProvider isEnabledDataProvider
-     * @covers \Magento\CatalogSearch\Model\Layer\Category\AvailabilityFlag::isEnabled
+     * @dataProvider aroundIsEnabledDataProvider
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
      */
-    public function testIsEnabledLayeredNavigationIsAllowedParentLogic($collectionSize, $availableResCount)
+    public function testaroundIsEnabledLayeredNavigationIsAllowedParentLogic($collectionSize, $availableResCount)
     {
         $this->engineMock->expects($this->once())
             ->method('isLayeredNavigationAllowed')
@@ -117,32 +109,26 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
 
         $this->storeMock->expects($this->once())
             ->method('getConfig')
-            ->with(AvailabilityFlag::XML_PATH_DISPLAY_LAYER_COUNT)
+            ->with(Plugin::XML_PATH_DISPLAY_LAYER_COUNT)
             ->will($this->returnValue($availableResCount));
 
         $this->collectionMock->expects($this->once())
             ->method('getSize')
             ->will($this->returnValue($collectionSize));
 
-        $this->layerMock->expects($this->any())
-            ->method('getState')
-            ->will($this->returnValue($this->stateMock));
+        $proceed = function() {
+            return true;
+        };
 
-        $this->stateMock->expects($this->any())
-            ->method('getFilters')
-            ->will($this->returnValue(array('filter')));
-
-        $this->filterMock->expects($this->any())
-            ->method('getItemsCount')
-            ->will($this->returnValue(1));
-
-        $this->assertEquals(true, $this->model->isEnabled($this->layerMock, $this->filters));
+        $this->assertEquals(
+            true, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
+        );
     }
 
     /**
      * @return array
      */
-    public function isEnabledDataProvider()
+    public function aroundIsEnabledDataProvider()
     {
         return array(
             array(
@@ -157,9 +143,9 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\CatalogSearch\Model\Layer\Category\AvailabilityFlag::isEnabled
+     * @covers \Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag\Plugin::aroundIsEnabled
      */
-    public function testIsEnabledLayeredNavigationIsAllowed()
+    public function testaroundIsEnabledLayeredNavigationIsAllowed()
     {
         $this->engineMock->expects($this->once())
             ->method('isLayeredNavigationAllowed')
@@ -173,9 +159,12 @@ class AvailabilityFlagTest extends \PHPUnit_Framework_TestCase
             ->method('getSize')
             ->will($this->returnValue(15));
 
-        $this->layerMock->expects($this->never())
-            ->method('getState');
+        $proceed = function() {
+            $this->fail('Proceed should not be called in this scenario');
+        };
 
-        $this->assertEquals(false, $this->model->isEnabled($this->layerMock, $this->filters));
+        $this->assertEquals(
+            false, $this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array())
+        );
     }
 }

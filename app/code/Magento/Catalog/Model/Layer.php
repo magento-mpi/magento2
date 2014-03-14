@@ -74,7 +74,7 @@ class Layer extends \Magento\Object
     protected $_layerStateFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Layer\Category\ItemCollectionProvider
+     * @var \Magento\Catalog\Model\Layer\ItemCollectionProviderInterface
      */
     protected $collectionProvider;
 

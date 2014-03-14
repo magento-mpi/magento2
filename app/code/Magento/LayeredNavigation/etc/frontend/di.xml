@@ -11,13 +11,14 @@
     <virtualType name="Magento\LayeredNavigation\Block\Navigation\Category" type="Magento\LayeredNavigation\Block\Navigation">
         <arguments>
             <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
+            <argument name="visibilityFlag" xsi:type="object">Magento\Catalog\Model\Layer\Category\AvailabilityFlag</argument>
             <argument name="filterList" xsi:type="object">categoryFilterList</argument>
         </arguments>
     </virtualType>
     <virtualType name="Magento\LayeredNavigation\Block\Navigation\Search" type="Magento\LayeredNavigation\Block\Navigation">
         <arguments>
             <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
-            <argument name="visibilityFlag" xsi:type="object">Magento\CatalogSearch\Model\Layer\AvailabilityFlag</argument>
+            <argument name="visibilityFlag" xsi:type="object">Magento\Catalog\Model\Layer\Search\AvailabilityFlag</argument>
             <argument name="filterList" xsi:type="object">searchFilterList</argument>
         </arguments>
     </virtualType>

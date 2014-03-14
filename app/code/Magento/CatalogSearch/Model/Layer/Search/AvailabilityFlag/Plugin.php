@@ -6,11 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\CatalogSearch\Model\Layer;
+namespace Magento\CatalogSearch\Model\Layer\Search\AvailabilityFlag;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 
-class AvailabilityFlag extends \Magento\Catalog\Model\Layer\Category\AvailabilityFlag
+class Plugin
 {
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 
@@ -37,14 +37,16 @@ class AvailabilityFlag extends \Magento\Catalog\Model\Layer\Category\Availabilit
     }
 
     /**
-     * Is filter enabled
-     *
+     * @param \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject
+     * @param callable $proceed
      * @param \Magento\Catalog\Model\Layer $layer
-     * @param array $filters
+     * @param $filters
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function isEnabled($layer, $filters)
-    {
+    public function aroundIsEnabled(
+        \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject, \Closure $proceed, $layer, $filters
+    ) {
         $_isLNAllowedByEngine = $this->engineProvider->get()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
             return false;
@@ -52,7 +54,7 @@ class AvailabilityFlag extends \Magento\Catalog\Model\Layer\Category\Availabilit
         $availableResCount = (int)$this->storeManager->getStore()->getConfig(self::XML_PATH_DISPLAY_LAYER_COUNT);
 
         if (!$availableResCount || ($availableResCount > $layer->getProductCollection()->getSize())) {
-            return parent::isEnabled($layer, $filters);
+            return $proceed($layer, $filters);
         }
         return false;
     }

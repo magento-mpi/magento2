@@ -286,4 +286,5 @@
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
+    <virtualType name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag" type="Magento\Catalog\Model\Layer\Category\AvailabilityFlag" />
 </config>

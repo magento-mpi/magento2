@@ -687,6 +687,7 @@ return array(
         'Magento\CatalogSearch\Block\Layer\Filter\Attribute',
         'Magento\LayeredNavigation\Block\Navigation\FilterRenderer'
     ),
+    array('Magento\CatalogSearch\Model\Layer', 'Magento\Catalog\Model\Layer'),
     array('Magento\CatalogSearch\Model\Layer\Filter\Attribute'),
     array('Magento\Search\Block\Catalog\Layer\View', 'Magento\LayeredNavigation\Block\Navigation'),
     array(
