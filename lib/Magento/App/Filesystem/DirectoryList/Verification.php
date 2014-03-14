@@ -81,7 +81,6 @@ class Verification
      *
      * @return void
      * @throws BootstrapException
-     *
      */
     public function createAndVerifyDirectories()
     {

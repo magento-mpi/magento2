@@ -13,7 +13,7 @@ require_once 'processor.php';
 
 $processor = new Error_Processor(
     new \Magento\App\Response\Http(
-        new \Magento\Stdlib\Cookie(new \Zend_Controller_Request_Http()),
+        new \Magento\Stdlib\Cookie(),
         new \Magento\App\Http\Context()
     )
 );

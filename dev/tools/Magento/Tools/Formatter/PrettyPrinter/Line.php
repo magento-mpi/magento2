@@ -23,19 +23,22 @@ class Line
     /**
      * This member holds the line break token information, which is compiled information about the
      * occurrences of linebreak in the current token list.
+     *
      * @var array
      */
     protected $lineBreakTokens = array();
 
     /**
      * This member holds the actual tokens in the line
+     *
      * @var array
      */
     protected $tokens = array();
 
     /**
      * This method constructs the new line, adding the first token, if specified.
-     * @param mixed $token Optional token to be added.
+     *
+     * @param array|string|LineCondition|ConditionalLineBreak $token Optional token to be added.
      */
     public function __construct($token = null)
     {
@@ -56,7 +59,8 @@ class Line
 
     /**
      * This method adds the token to the list of tokens.
-     * @param mixed $token The token to be added.
+     *
+     * @param array|string|LineCondition|ConditionalLineBreak $token The token to be added.
      * @return Line
      */
     public function add($token)
@@ -93,6 +97,8 @@ class Line
 
     /**
      * This method returns the first token in the list.
+     *
+     * @return array|string|LineCondition|ConditionalLineBreak
      */
     public function getFirstToken()
     {
@@ -101,6 +107,8 @@ class Line
 
     /**
      * This method returns the last token in the list.
+     *
+     * @return array|string|LineCondition|ConditionalLineBreak
      */
     public function getLastToken()
     {
@@ -110,6 +118,8 @@ class Line
 
     /**
      * This method returns the line as a string.
+     *
+     * @return string
      */
     public function getLine()
     {
@@ -118,6 +128,7 @@ class Line
 
     /**
      * This method returns the line break tokens found in the line.
+     *
      * @return array
      */
     public function getLineBreakTokens()
@@ -127,6 +138,7 @@ class Line
 
     /**
      * This method returns a sorted array of line break sort order values.
+     *
      * @return array
      */
     public function getSortedLineBreaks()
@@ -146,6 +158,8 @@ class Line
 
     /**
      * This method returns the array of tokens that make up the line.
+     *
+     * @return array
      */
     public function getTokens()
     {
@@ -154,6 +168,7 @@ class Line
 
     /**
      * This method returns if the no indent token if found in the string.
+     *
      * @return bool
      */
     public function isNoIndent()
@@ -163,7 +178,9 @@ class Line
 
     /**
      * This method replaces the last n characters of the line, where n is the size of the replacement.
+     *
      * @param string $replacement String containing the replacement value.
+     * @return void
      */
     public function replaceEndOfToken($replacement)
     {
@@ -179,6 +196,9 @@ class Line
 
     /**
      * This member sets the tokens for this line to the passed in values.
+     *
+     * @param array|string|LineCondition|ConditionalLineBreak $tokens
+     * @return void
      */
     public function setTokens(array $tokens)
     {
@@ -193,6 +213,7 @@ class Line
 
     /**
      * This method returns the representation of the line for
+     *
      * @param int $level Indicator for the level you want the lines split at
      * @return array
      */
@@ -204,6 +225,11 @@ class Line
         return $this->getCurrentLines($level);
     }
 
+    /**
+     * @param int $sortOrder
+     * @param array &$lineBreakData
+     * @return array
+     */
     public function splitLineBySortOrder($sortOrder, &$lineBreakData)
     {
         // reset the index information for the line breaks
@@ -214,6 +240,8 @@ class Line
 
     /**
      * This method resets the index values for the line breaks.
+     *
+     * @return void
      */
     protected function resetLineBreakIndex()
     {
@@ -228,7 +256,9 @@ class Line
 
     /**
      * This method saves information about a newly added token that happens to be a line break.
+     *
      * @param LineBreak $lineBreak Token being placed in the string.
+     * @return void
      */
     protected function saveLineBreakToken(LineBreak $lineBreak)
     {
@@ -247,6 +277,10 @@ class Line
         $this->lineBreakTokens[$lineBreakId][self::ATTRIBUTE_TOTAL]++;
     }
 
+    /**
+     * @param int $level
+     * @return array
+     */
     private function getCurrentLines($level)
     {
         $currentLines = array();
@@ -289,8 +323,9 @@ class Line
 
     /**
      * This method breaks the current line into additional lines, based on the sort order.
-     * @param $sortOrder
-     * @param $lineBreakData
+     *
+     * @param int $sortOrder
+     * @param array &$lineBreakData
      * @return array
      */
     private function getCurrentLinesBySortOrder($sortOrder, &$lineBreakData)

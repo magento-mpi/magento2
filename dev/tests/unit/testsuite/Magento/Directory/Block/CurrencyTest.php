@@ -38,8 +38,11 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $currencyFactory = $this->getMock('\Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
         $this->postDataHelper = $this->getMock('\Magento\Core\Helper\PostData', array(), array(), '', false);
 
+        /** @var \Magento\Locale\ResolverInterface $localeResolver */
+        $localeResolver = $this->getMock('\Magento\Locale\ResolverInterface', array(), array(), '', false);
+
         $this->object = new Currency(
-            $context, $currencyFactory, $this->postDataHelper
+            $context, $currencyFactory, $this->postDataHelper, $localeResolver
         );
     }
 

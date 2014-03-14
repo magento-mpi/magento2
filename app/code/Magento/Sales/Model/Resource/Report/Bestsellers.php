@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Report;
 
 /**
  * Bestsellers report resource model
  */
-namespace Magento\Sales\Model\Resource\Report;
-
-class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
+class Bestsellers extends AbstractReport
 {
     const AGGREGATION_DAILY   = 'daily';
     const AGGREGATION_MONTHLY = 'monthly';
@@ -41,7 +40,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Logger $logger
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
@@ -52,7 +51,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Logger $logger,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator,
@@ -60,7 +59,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
         \Magento\Sales\Model\Resource\Helper $salesResourceHelper,
         array $ignoredProductTypes = array()
     ) {
-        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime, $timezoneValidator);
+        parent::__construct($resource, $logger, $localeDate, $reportsFlagFactory, $dateTime, $timezoneValidator);
         $this->_productResource = $productResource;
         $this->_salesResourceHelper = $salesResourceHelper;
         $this->ignoredProductTypes = array_merge($this->ignoredProductTypes, $ignoredProductTypes);
@@ -69,6 +68,8 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
 
     /**
      * Model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -78,9 +79,9 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Orders data by order created at
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
+     * @param string|int|\Zend_Date|array|null $from
+     * @param string|int|\Zend_Date|array|null $to
+     * @return $this
      * @throws \Exception
      */
     public function aggregate($from = null, $to = null)
@@ -262,7 +263,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * Update rating position
      *
      * @param string $aggregation One of \Magento\Sales\Model\Resource\Report\Bestsellers::AGGREGATION_XXX constants
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
+     * @return $this
      */
     protected function _updateRatingPos($aggregation)
     {

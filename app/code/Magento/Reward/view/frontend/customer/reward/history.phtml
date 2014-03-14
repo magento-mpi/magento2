@@ -21,36 +21,39 @@
 
         <?php echo $this->getChildHtml('pager') ?>
 
-        <table class="data table reward history">
-            <thead>
-                <tr>
-                    <th class="col balance"><?php echo __('Balance'); ?></th>
-                    <th class="col amount"><?php echo __('Amount'); ?></th>
-                    <th class="col points"><?php echo __('Points'); ?></th>
-                    <th class="col reason"><?php echo __('Reason'); ?></th>
-                    <th class="col date"><?php echo __('Date'); ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($history as $item): ?>
-                <tr>
-                    <td classs="col balance"><?php echo $this->getPointsBalance($item)?></td>
-                    <td classs="col amount"><?php echo $this->getCurrencyBalance($item)?></td>
-                    <td classs="col points"><?php echo $this->getPointsDelta($item)?></td>
-                    <td classs="col reason">
-                        <?php echo $this->escapeHtml($this->getMessage($item))?>
-                        <?php if ($explanation = $this->getExplanation($item)):?><br /><small><?php echo $this->escapeHtml($explanation);?></small><?php endif;?>
-                    </td>
-                    <td classs="col date">
-                        <span class="datetime"><?php echo $this->getDate($item)?></span>
-                        <?php if ($expirationDate = $this->getExpirationDate($item)):?>
-                        <small><?php echo __('Expires on %1', $expirationDate);?></small>
-                        <?php endif;?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+        <div class="wrapper table reward history">
+            <table class="data table reward history">
+                <caption class="table caption"><?php echo __('Balance History') ?></caption>
+                <thead>
+                    <tr>
+                        <th class="col balance"><?php echo __('Balance'); ?></th>
+                        <th class="col amount"><?php echo __('Amount'); ?></th>
+                        <th class="col points"><?php echo __('Points'); ?></th>
+                        <th class="col reason"><?php echo __('Reason'); ?></th>
+                        <th class="col date"><?php echo __('Date'); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($history as $item): ?>
+                    <tr>
+                        <td classs="col balance"><?php echo $this->getPointsBalance($item)?></td>
+                        <td classs="col amount"><?php echo $this->getCurrencyBalance($item)?></td>
+                        <td classs="col points"><?php echo $this->getPointsDelta($item)?></td>
+                        <td classs="col reason">
+                            <?php echo $this->escapeHtml($this->getMessage($item))?>
+                            <?php if ($explanation = $this->getExplanation($item)):?><br /><small><?php echo $this->escapeHtml($explanation);?></small><?php endif;?>
+                        </td>
+                        <td classs="col date">
+                            <span class="datetime"><?php echo $this->getDate($item)?></span>
+                            <?php if ($expirationDate = $this->getExpirationDate($item)):?>
+                            <small><?php echo __('Expires on %1', $expirationDate);?></small>
+                            <?php endif;?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
         <?php echo $this->getChildHtml('pager') ?>
 

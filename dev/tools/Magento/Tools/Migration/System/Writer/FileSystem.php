@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Writer;
 
 class FileSystem implements \Magento\Tools\Migration\System\WriterInterface
@@ -15,6 +14,7 @@ class FileSystem implements \Magento\Tools\Migration\System\WriterInterface
     /**
      * @param string $fileName
      * @param string $contents
+     * @return void
      */
     public function write($fileName, $contents)
     {
@@ -27,7 +27,8 @@ class FileSystem implements \Magento\Tools\Migration\System\WriterInterface
     /**
      * Remove file
      *
-     * @param $fileName
+     * @param string $fileName
+     * @return void
      */
     public function remove($fileName)
     {

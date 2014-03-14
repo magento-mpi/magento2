@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Checkout\Cart\Item;
 
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer

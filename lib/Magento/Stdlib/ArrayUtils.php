@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib;
 
 /**
@@ -36,7 +35,7 @@ class ArrayUtils
             $locale .= '.UTF8';
         }
 
-        setlocale(LC_COLLATE,  $locale, 'C.UTF-8', 'en_US.utf8');
+        setlocale(LC_COLLATE, $locale, 'C.UTF-8', 'en_US.utf8');
         ksort($sort, SORT_LOCALE_STRING);
         setlocale(LC_COLLATE, $oldLocale);
 
@@ -113,6 +112,7 @@ class ArrayUtils
      * @param string $key
      * @param bool $value
      * @param bool $isSkipped
+     * @return void
      */
     private function _decorateArrayObject($element, $key, $value, $isSkipped)
     {

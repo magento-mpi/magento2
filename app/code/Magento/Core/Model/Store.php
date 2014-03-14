@@ -929,7 +929,7 @@ class Store extends AbstractModel
     /**
      * Set current currency
      *
-     * @param $currency
+     * @param \Magento\Directory\Model\Currency $currency
      * @return $this
      */
     public function setCurrentCurrency($currency)

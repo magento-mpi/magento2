@@ -1,0 +1,34 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+.table.data.grouped {
+    .table-bordered(
+        @_type: horizontal
+    );
+    td {
+        vertical-align: middle;
+    }
+    .product.name {
+        font-weight: @font-weight-base;
+    }
+    .price-box .price {
+        font-weight: @font-weight-base;
+        font-size: @font-size-base;
+    }
+    .col.qty {
+        .stock.unavailable {
+            margin: 0;
+            white-space: nowrap;
+        }
+        .control.qty {
+            .qty {
+                &:extend(.input-qty all);
+            }
+        }
+    }
+}

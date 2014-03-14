@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DB;
+
+use Magento\DB\Adapter\AdapterInterface;
 
 /**
  * Class for SQL SELECT generation and results.
@@ -34,10 +37,6 @@
  * @package     Magento_DB
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\DB;
-
-use Magento\DB\Adapter\AdapterInterface;
-
 class Select extends \Zend_Db_Select
 {
     /**
@@ -259,7 +258,7 @@ class Select extends \Zend_Db_Select
      * as described in the from() method.
      *
      * @param  null|string $type Type of join; inner, left, and null are currently supported
-     * @param  array|string|Zend_Db_Expr $name Table name
+     * @param  array|string|\Zend_Db_Expr $name Table name
      * @param  string $cond Join on this condition
      * @param  array|string $cols The columns to select from the joined table
      * @param  string $schema The database name to specify, if any.

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,6 @@ namespace Magento\AdvancedCheckout\Block\Sku;
 
 /**
  * SKU failed products Block
- *
- * @category   Magento
- * @package    Magento_AdvancedCheckout
  */
 class Products extends \Magento\Checkout\Block\Cart
 {

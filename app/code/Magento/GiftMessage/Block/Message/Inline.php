@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftMessage\Block\Message;
 
+use Magento\GiftMessage\Model\Message;
 
 /**
  * Gift message inline edit form
@@ -16,20 +18,32 @@
  * @package    Magento_GiftMessage
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftMessage\Block\Message;
-
 class Inline extends \Magento\View\Element\Template
 {
+    /**
+     * @var mixed
+     */
     protected $_entity = null;
+
+    /**
+     * @var string|null
+     */
     protected $_type   = null;
+
+    /**
+     * @var Message|null
+     */
     protected $_giftMessage = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'inline.phtml';
 
     /**
      * Gift message message
      *
-     * @var \Magento\GiftMessage\Helper\Message
+     * @var \Magento\GiftMessage\Helper\Message|null
      */
     protected $_giftMessageMessage = null;
 
@@ -75,8 +89,8 @@ class Inline extends \Magento\View\Element\Template
     /**
      * Set entity
      *
-     * @param $entity
-     * @return \Magento\GiftMessage\Block\Message\Inline
+     * @param mixed $entity
+     * @return $this
      */
     public function setEntity($entity)
     {
@@ -87,7 +101,7 @@ class Inline extends \Magento\View\Element\Template
     /**
      * Get entity
      *
-     * @return \Magento\GiftMessage\Block\Message\Inline
+     * @return mixed
      */
     public function getEntity()
     {
@@ -98,7 +112,7 @@ class Inline extends \Magento\View\Element\Template
      * Set type
      *
      * @param string $type
-     * @return \Magento\GiftMessage\Block\Message\Inline
+     * @return $this
      */
     public function setType($type)
     {
@@ -129,7 +143,7 @@ class Inline extends \Magento\View\Element\Template
     /**
      * Init message
      *
-     * @return \Magento\GiftMessage\Block\Message\Inline
+     * @return $this
      */
     protected function _initMessage()
     {
@@ -220,7 +234,7 @@ class Inline extends \Magento\View\Element\Template
     /**
      * Retrieve additional url
      *
-     * @return bool
+     * @return string
      */
     public function getAdditionalUrl()
     {
@@ -297,7 +311,7 @@ class Inline extends \Magento\View\Element\Template
     /**
      * Check availability of giftmessages for specified entity item
      *
-     * @param $item
+     * @param \Magento\Object $item
      * @return bool
      */
     public function isItemMessagesAvailable($item)

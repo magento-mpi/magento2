@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Model\Oauth\Token;
 
 use Magento\Oauth\OauthInterface;
@@ -29,7 +28,7 @@ class Provider implements TokenProviderInterface
     protected $_dataHelper;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_date;
 
@@ -37,13 +36,13 @@ class Provider implements TokenProviderInterface
      * @param \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory
      * @param \Magento\Integration\Model\Oauth\Token\Factory $tokenFactory
      * @param \Magento\Integration\Helper\Oauth\Data $dataHelper
-     * @param \Magento\Core\Model\Date $date
+     * @param \Magento\Stdlib\DateTime\DateTime $date
      */
     public function __construct(
         \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory,
         \Magento\Integration\Model\Oauth\Token\Factory $tokenFactory,
         \Magento\Integration\Helper\Oauth\Data $dataHelper,
-        \Magento\Core\Model\Date $date
+        \Magento\Stdlib\DateTime\DateTime $date
     ) {
         $this->_consumerFactory = $consumerFactory;
         $this->_tokenFactory = $tokenFactory;
@@ -217,7 +216,7 @@ class Provider implements TokenProviderInterface
     /**
      * Get consumer by consumer_id for a given token.
      *
-     * @param $consumerId
+     * @param int $consumerId
      * @return \Magento\Oauth\ConsumerInterface
      * @throws \Magento\Oauth\Exception
      */
@@ -279,9 +278,9 @@ class Provider implements TokenProviderInterface
     /**
      * Check if token belongs to the same consumer.
      *
-     * @param $token \Magento\Integration\Model\Oauth\Token
-     * @param $consumer \Magento\Oauth\ConsumerInterface
-     * @return boolean
+     * @param \Magento\Integration\Model\Oauth\Token $token
+     * @param \Magento\Oauth\ConsumerInterface $consumer
+     * @return bool
      */
     protected function _isTokenAssociatedToConsumer($token, $consumer)
     {

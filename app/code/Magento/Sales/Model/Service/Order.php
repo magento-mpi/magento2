@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Service;
 
 /**
  * Quote submit service model
  */
-namespace Magento\Sales\Model\Service;
-
 class Order
 {
     /**
@@ -52,8 +51,8 @@ class Order
     /**
      * Quote convertor declaration
      *
-     * @param   \Magento\Sales\Model\Convert\Order $convertor
-     * @return  \Magento\Sales\Model\Service\Order
+     * @param \Magento\Sales\Model\Convert\Order $convertor
+     * @return $this
      */
     public function setConvertor(\Magento\Sales\Model\Convert\Order $convertor)
     {
@@ -297,6 +296,7 @@ class Order
      *
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @param array $data
+     * @return void
      */
     protected function _initCreditmemoData($creditmemo, $data)
     {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Banner\Block\Widget;
 
 /**
  * Banner Widget Block
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_Banner
  */
-namespace Magento\Banner\Block\Widget;
-
 class Banner
     extends \Magento\View\Element\Template
     implements \Magento\Widget\Block\BlockInterface, \Magento\View\Block\IdentityInterface
@@ -93,6 +91,8 @@ class Banner
     /**
      * Stores information about process of selecting banners to render
      * E.g. list of banner ids for this user, rendered banner id(s) and so on.
+     *
+     * @var array
      */
     protected $_renderedParams = array();
 

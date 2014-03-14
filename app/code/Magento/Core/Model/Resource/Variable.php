@@ -21,6 +21,7 @@ class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {

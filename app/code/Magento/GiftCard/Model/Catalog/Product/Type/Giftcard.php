@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
+
+use Magento\Core\Exception;
 
 class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
@@ -36,11 +37,9 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_store;
 
     /**
-     * Locale instance
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\FormatInterface
      */
-    protected $_locale;
+    protected $_localeFormat;
 
     /**
      * Array of allowed giftcard amounts
@@ -69,7 +68,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      *
@@ -88,13 +87,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
-        $this->_locale = $locale;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $productFactory,
             $catalogProductOption,
@@ -235,7 +234,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $processMode
-     * @return double|float|mixed
+     * @return mixed
+     * @throws \Magento\Core\Exception
      */
     private function _validate(\Magento\Object $buyRequest, $product, $processMode)
     {
@@ -289,7 +289,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Get custom amount if null
      *
-     * @param $amount
+     * @param mixed $amount
      * @param array $allowedAmounts
      * @return mixed|null
      */
@@ -309,6 +309,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param \Magento\Catalog\Model\Product $product
      * @param bool $isStrictProcessMode
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _checkFields($buyRequest, $product, $isStrictProcessMode)
     {
@@ -369,7 +371,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param int $customAmount
      * @param bool $isStrict
-     * @return int|void
+     * @return int
+     * @throws \Magento\Core\Exception
      */
     protected function _getAmountWithinConstraints($product, $customAmount, $isStrict)
     {
@@ -398,6 +401,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Object $buyRequest
      * @param bool $isPhysical
      * @param int $amount
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {
@@ -442,7 +447,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $customAmount = $buyRequest->getCustomGiftcardAmount();
         $rate = $this->_store->getCurrentCurrencyRate();
         if ($rate != 1 && $customAmount) {
-            $customAmount = $this->_locale->getNumber($customAmount);
+            $customAmount = $this->_localeFormat->getNumber($customAmount);
             if (is_numeric($customAmount) && $customAmount) {
                 $customAmount = $this->_store->roundPrice($customAmount / $rate);
             }
@@ -454,7 +459,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Check if product can be bought
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
@@ -474,7 +479,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * has some required options, at least - recipient name
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard
+     * @return $this
      */
     public function beforeSave($product)
     {
@@ -510,6 +515,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Gift Card product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

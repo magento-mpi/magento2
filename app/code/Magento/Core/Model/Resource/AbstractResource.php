@@ -43,6 +43,8 @@ abstract class AbstractResource
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     abstract protected function _construct();
 
@@ -205,7 +207,7 @@ abstract class AbstractResource
     {
         $type = strtolower($type);
         if ($type == 'decimal' || $type == 'numeric' || $type == 'float') {
-            $value = \Magento\App\ObjectManager::getInstance()->get('Magento\LocaleInterface')
+            $value = \Magento\App\ObjectManager::getInstance()->get('Magento\Locale\FormatInterface')
                 ->getNumber($value);
         }
         return $value;

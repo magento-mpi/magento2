@@ -7,6 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Collection;
+
+use Magento\Data\Collection;
 
 /**
  * Filesystem items collection
@@ -23,10 +26,6 @@
  *
  * At least one target directory must be set
  */
-namespace Magento\Data\Collection;
-
-use Magento\Data\Collection;
-
 class Filesystem extends \Magento\Data\Collection
 {
     /**
@@ -260,16 +259,14 @@ class Filesystem extends \Magento\Data\Collection
                 if ($this->_collectDirs) {
                     if ($this->_dirsFirst) {
                         $this->_collectedDirs[] = $item;
-                    }
-                    else {
+                    } else {
                         $this->_collectedFiles[] = $item;
                     }
                 }
                 if ($this->_collectRecursively) {
                     $this->_collectRecursive($item);
                 }
-            }
-            elseif ($this->_collectFiles && is_file($item)
+            } elseif ($this->_collectFiles && is_file($item)
                 && (!$this->_allowedFilesMask || preg_match($this->_allowedFilesMask, basename($item)))
                 && (!$this->_disallowedFilesMask || !preg_match($this->_disallowedFilesMask, basename($item)))) {
                 $this->_collectedFiles[] = $item;
@@ -365,7 +362,7 @@ class Filesystem extends \Magento\Data\Collection
      *
      * @param array $a
      * @param array $b
-     * @return int
+     * @return int|void
      */
     protected function _usort($a, $b)
     {
@@ -447,8 +444,7 @@ class Filesystem extends \Magento\Data\Collection
                 if (isset($this->_filterBrackets[$i])) {
                     $eval .= $this->_renderConditionBeforeFilterElement($i, $this->_filterBrackets[$i]['is_and'])
                         . $this->_filterBrackets[$i]['value'];
-                }
-                else {
+                } else {
                     $f = '$this->_filters[' . $i . ']';
                     $eval .= $this->_renderConditionBeforeFilterElement($i, $this->_filters[$i]['is_and'])
                         . ($this->_filters[$i]['is_inverted'] ? '!' : '')

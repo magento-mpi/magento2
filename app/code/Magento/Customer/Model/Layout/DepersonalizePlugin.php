@@ -136,6 +136,13 @@ class DepersonalizePlugin
         return $this;
     }
 
+    /**
+     * After layout generate
+     *
+     * @param \Magento\Core\Model\Layout $subject
+     * @param mixed $result
+     * @return mixed
+     */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')

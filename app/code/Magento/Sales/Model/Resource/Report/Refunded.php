@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Report;
 
 /**
  * Refund report resource model
@@ -16,12 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Report;
-
-class Refunded extends \Magento\Sales\Model\Resource\Report\AbstractReport
+class Refunded extends AbstractReport
 {
     /**
      * Model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,9 +31,9 @@ class Refunded extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate Refunded data
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Refunded
+     * @param string|int|\Zend_Date|array|null $from
+     * @param string|int|\Zend_Date|array|null $to
+     * @return $this
      */
     public function aggregate($from = null, $to = null)
     {
@@ -52,9 +52,9 @@ class Refunded extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate refunded data by order created at as period
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Refunded
+     * @param string|null $from
+     * @param string|null $to
+     * @return $this
      * @throws \Exception
      */
     protected function _aggregateByOrderCreatedAt($from, $to)
@@ -132,9 +132,9 @@ class Refunded extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate refunded data by creditmemo created at as period
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Refunded
+     * @param string|null $from
+     * @param string|null $to
+     * @return $this
      * @throws \Exception
      */
     protected function _aggregateByRefundCreatedAt($from, $to)

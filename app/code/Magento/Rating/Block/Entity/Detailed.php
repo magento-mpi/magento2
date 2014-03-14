@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rating\Block\Entity;
 
 /**
  * Entity rating block
@@ -15,8 +16,6 @@
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rating\Block\Entity;
-
 class Detailed extends \Magento\View\Element\Template
 {
     /**

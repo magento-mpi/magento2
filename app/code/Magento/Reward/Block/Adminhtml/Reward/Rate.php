@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Block\Adminhtml\Reward;
 
 /**
  * Reward rate grid container
@@ -16,12 +16,12 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Block\Adminhtml\Reward;
-
 class Rate extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

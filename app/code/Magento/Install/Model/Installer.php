@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Install\Model;
 
 /**
  * Installer model
  */
-namespace Magento\Install\Model;
-
 class Installer extends \Magento\Object
 {
     /**
@@ -167,6 +165,16 @@ class Installer extends \Magento\Object
     protected $messageManager;
 
     /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\App\ReinitableConfigInterface $config
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\App\CacheInterface $cache
@@ -189,6 +197,8 @@ class Installer extends \Magento\Object
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\DependencyManagerInterface $dependencyManager
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -214,6 +224,8 @@ class Installer extends \Magento\Object
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\DependencyManagerInterface $dependencyManager,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_dbUpdater = $dbUpdater;
@@ -238,6 +250,8 @@ class Installer extends \Magento\Object
         $this->moduleList = $moduleList;
         $this->dependencyManager = $dependencyManager;
         $this->messageManager = $messageManager;
+        $this->_localeDate = $localeDate;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($data);
     }
 
@@ -328,6 +342,7 @@ class Installer extends \Magento\Object
     /**
      * Check all necessary extensions are loaded and available
      *
+     * @return void
      * @throws \Exception
      */
     protected function checkExtensionsLoaded()
@@ -417,11 +432,12 @@ class Installer extends \Magento\Object
          */
         $locale = $this->getDataModel()->getLocaleData();
         if (!empty($locale['locale'])) {
-            $setupModel->setConfigData(\Magento\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            $setupModel->setConfigData($this->_localeResolver->getDefaultLocalePath(),
                 $locale['locale']);
         }
         if (!empty($locale['timezone'])) {
-            $setupModel->setConfigData(\Magento\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE,
+            $setupModel->setConfigData(
+                $this->_localeDate->getDefaultTimezonePath(),
                 $locale['timezone']);
         }
         if (!empty($locale['currency'])) {

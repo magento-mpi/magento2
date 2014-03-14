@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * @deprecated after 1.11.2.0
  * Gift registry view block
  */
-namespace Magento\GiftRegistry\Block;
-
 class View extends \Magento\GiftRegistry\Block\Customer\Items
 {
     /**
@@ -106,7 +105,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     public function getFormattedDate($date)
     {
         if ($date) {
-            return $this->formatDate($date, \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM);
+            return $this->formatDate($date, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
         }
         return '';
     }

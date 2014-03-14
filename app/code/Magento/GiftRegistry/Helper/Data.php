@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Helper;
+
+use Magento\Catalog\Model\Product;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Gift Registry helper
  */
-namespace Magento\GiftRegistry\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
@@ -61,14 +63,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Escaper
      */
     protected $_escaper;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -77,8 +84,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\UrlFactory $urlFactory
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -87,8 +95,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\UrlFactory $urlFactory,
-        \Magento\LocaleInterface $locale,
-        \Magento\Escaper $escaper
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Escaper $escaper,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -96,8 +105,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->entityFactory = $entityFactory;
         $this->productFactory = $productFactory;
         $this->urlFactory = $urlFactory;
-        $this->locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_escaper = $escaper;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -233,20 +243,20 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Convert date in from <$formatIn> to internal format
      *
-     * @param   string $value
-     * @param   string $formatIn    -  FORMAT_TYPE_FULL, FORMAT_TYPE_LONG, FORMAT_TYPE_MEDIUM, FORMAT_TYPE_SHORT
-     * @return  string
+     * @param string $value
+     * @param string|bool $formatIn  -  FORMAT_TYPE_FULL, FORMAT_TYPE_LONG, FORMAT_TYPE_MEDIUM, FORMAT_TYPE_SHORT
+     * @return string
      */
     public function _filterDate($value, $formatIn = false)
     {
         if ($formatIn === false) {
             return $value;
         } else {
-            $formatIn = $this->locale->getDateFormat($formatIn);
+            $formatIn = $this->_localeDate->getDateFormat($formatIn);
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
             'date_format' => $formatIn,
-            'locale'      => $this->locale->getLocaleCode()
+            'locale'      => $this->_localeResolver->getLocaleCode()
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
@@ -273,23 +283,23 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if product can be added to gift registry
      *
-     * @param mixed $item
+     * @param Item|Product $item
      * @return bool
      */
     public function canAddToGiftRegistry($item)
     {
-        if ($item->getIsVirtual()){
+        if ($item->getIsVirtual()) {
             return false;
         }
 
-        if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+        if ($item instanceof Item) {
             $productType = $item->getProductType();
         } else {
             $productType = $item->getTypeId();
         }
 
         if ($productType == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD) {
-            if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+            if ($item instanceof Item) {
                 $product = $this->productFactory->create()->load($item->getProductId());
             } else {
                 $product = $item;

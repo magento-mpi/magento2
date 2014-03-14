@@ -13,7 +13,7 @@ use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Core\Exception;
 use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
-use Magento\LocaleInterface;
+use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Registry;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\StoreManagerInterface;
@@ -77,11 +77,9 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     protected $_isReadonly = false;
 
     /**
-     * Locale model
-     *
-     * @var LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * Filesystem facade
@@ -107,7 +105,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      *
      * @param Context $context
      * @param Registry $registry
-     * @param LocaleInterface $locale
+     * @param TimezoneInterface $localeDate
      * @param Filesystem $filesystem
      * @param StoreManagerInterface $storeManager
      * @param DateTime $dateTime
@@ -118,7 +116,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function __construct(
         Context $context,
         Registry $registry,
-        LocaleInterface $locale,
+        TimezoneInterface $localeDate,
         Filesystem $filesystem,
         StoreManagerInterface $storeManager,
         DateTime $dateTime,
@@ -130,7 +128,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
 
         $this->_storeManager = $storeManager;
         $this->_filesystem = $filesystem;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
     }
 
@@ -230,7 +228,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     {
         if ($this->getImage()) {
             return $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . '/'
-                   . self::IMAGE_PATH . '/' . $this->getImage();
+            . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;
@@ -444,7 +442,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function setStoreDateStart($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
+        $date = $this->_localeDate->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
         $this->setData('date_start', $date->toString(DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
@@ -459,7 +457,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function setStoreDateEnd($value, $store = null)
     {
-        $date = $this->_locale->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
+        $date = $this->_localeDate->utcDate($store, $value, true, DateTime::DATETIME_INTERNAL_FORMAT);
         $this->setData('date_end', $date->toString(DateTime::DATETIME_INTERNAL_FORMAT));
         return $this;
     }
@@ -479,7 +477,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
             if (!$value) {
                 return null;
             }
-            $date = $this->_locale->storeDate($store, $value, true);
+            $date = $this->_localeDate->scopeDate($store, $value, true);
             return $date->toString(DateTime::DATETIME_INTERNAL_FORMAT);
         }
 
@@ -501,7 +499,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
             if (!$value) {
                 return null;
             }
-            $date = $this->_locale->storeDate($store, $value, true);
+            $date = $this->_localeDate->scopeDate($store, $value, true);
             return $date->toString(DateTime::DATETIME_INTERNAL_FORMAT);
         }
 

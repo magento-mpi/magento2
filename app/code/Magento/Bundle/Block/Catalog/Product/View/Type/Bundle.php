@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
 /**
  * Catalog bundle product info block
@@ -16,10 +16,11 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Catalog\Product\View\Type;
-
 class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 {
+    /**
+     * @var mixed
+     */
     protected $_options         = null;
 
     /**
@@ -52,6 +53,11 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $jsonEncoder;
 
     /**
+     * @var \Magento\Locale\FormatInterface
+     */
+    protected $_localeFormat;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Registry $registry
@@ -68,6 +74,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Locale\FormatInterface $localeFormat
      * @param array $data
      * @param array $priceBlockTypes
      *
@@ -90,6 +97,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Locale\FormatInterface $localeFormat,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -97,6 +105,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_productPrice = $productPrice;
         $this->coreData = $coreData;
         $this->jsonEncoder = $jsonEncoder;
+        $this->_localeFormat = $localeFormat;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -115,6 +124,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         );
     }
 
+    /**
+     * @return mixed
+     */
     public function getOptions()
     {
         if (!$this->_options) {
@@ -137,6 +149,9 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         return $this->_options;
     }
 
+    /**
+     * @return bool
+     */
     public function hasOptions()
     {
         $this->getOptions();
@@ -256,7 +271,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             'options'       => $options,
             'selected'      => $selected,
             'bundleId'      => $currentProduct->getId(),
-            'priceFormat'   => $this->_locale->getJsPriceFormat(),
+            'priceFormat'   => $this->_localeFormat->getPriceFormat(),
             'basePrice'     => $this->coreData->currency($currentProduct->getPrice(), false, false),
             'priceType'     => $currentProduct->getPriceType(),
             'specialPrice'  => $currentProduct->getSpecialPrice(),

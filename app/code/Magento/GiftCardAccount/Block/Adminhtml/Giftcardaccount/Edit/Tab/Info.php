@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
 class Info
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var string
+     */
     protected $_template = 'edit/tab/info.phtml';
 
     /**
@@ -49,7 +51,7 @@ class Info
     /**
      * Init form fields
      *
-     * @return \Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info
+     * @return $this
      */
     public function initForm()
     {
@@ -139,7 +141,7 @@ class Info
             'label'  => __('Expiration Date'),
             'title'  => __('Expiration Date'),
             'image'  => $this->getViewFileUrl('images/grid-cal.gif'),
-            'date_format' => $this->_locale->getDateFormat(\Magento\LocaleInterface::FORMAT_TYPE_SHORT)
+            'date_format' => $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());

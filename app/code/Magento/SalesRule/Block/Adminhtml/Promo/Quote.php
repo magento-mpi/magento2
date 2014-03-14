@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\SalesRule\Block\Adminhtml\Promo;
 
 /**
  * Catalog price rules
@@ -16,11 +17,13 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\SalesRule\Block\Adminhtml\Promo;
-
 class Quote extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         $this->_controller = 'promo_quote';

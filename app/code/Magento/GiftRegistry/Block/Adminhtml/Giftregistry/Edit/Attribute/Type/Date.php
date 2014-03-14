@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
 class Date
     extends \Magento\Backend\Block\Widget\Form
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'edit/type/date.phtml';
 
     /**
@@ -43,19 +44,19 @@ class Date
     {
          return array(
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_SHORT,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
                 'label' => __('Short')
             ),
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_MEDIUM,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
                 'label' => __('Medium')
             ),
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_LONG,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
                 'label' => __('Long')
             ),
             array(
-                'value' => \Magento\LocaleInterface::FORMAT_TYPE_FULL,
+                'value' => \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
                 'label' => __('Full')
             )
         );

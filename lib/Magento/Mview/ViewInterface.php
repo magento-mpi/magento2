@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Mview;
 
 interface ViewInterface
@@ -66,22 +65,29 @@ interface ViewInterface
     /**
      * Materialize view by IDs in changelog
      *
+     * @return void
      * @throws \Exception
      */
     public function update();
 
     /**
      * Pause view updates and set version ID to changelog's end
+     *
+     * @return void
      */
     public function suspend();
 
     /**
      * Resume view updates
+     *
+     * @return void
      */
     public function resume();
 
     /**
      * Clear precessed changelog entries
+     *
+     * @return void
      */
     public function clearChangelog();
 

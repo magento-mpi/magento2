@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib\DateTime\Timezone;
 
 class Validator
@@ -26,11 +25,14 @@ class Validator
      */
     protected $_yearMinValue;
 
+    /**
+     * @param int $yearMinValue
+     * @param int $yearMaxValue
+     */
     public function __construct(
         $yearMinValue = \Magento\Stdlib\DateTime::YEAR_MIN_VALUE,
         $yearMaxValue = \Magento\Stdlib\DateTime::YEAR_MAX_VALUE
-    )
-    {
+    ) {
         $this->_yearMaxValue = $yearMaxValue;
         $this->_yearMinValue = $yearMinValue;
     }

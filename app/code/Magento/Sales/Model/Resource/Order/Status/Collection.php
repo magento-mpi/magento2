@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Order\Status;
 
 /**
  * Flat sales order status history collection
@@ -15,12 +16,12 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Order\Status;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Internal constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -49,6 +50,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Join order states table
+     *
+     * @return $this
      */
     public function joinStates()
     {
@@ -65,9 +68,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * add state code filter to collection
+     * Add state code filter to collection
      *
      * @param string $state
+     * @return $this
      */
     public function addStateFilter($state)
     {
@@ -80,7 +84,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Define label order
      *
      * @param string $dir
-     * @return \Magento\Sales\Model\Resource\Order\Status\Collection
+     * @return $this
      */
     public function orderByLabel($dir = 'ASC')
     {

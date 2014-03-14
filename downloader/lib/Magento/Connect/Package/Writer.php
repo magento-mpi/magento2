@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect\Package;
 
 /**
  * Class to create archive.
@@ -15,11 +16,8 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect\Package;
-
 class Writer
 {
-
     /**
     * Name of package configuration file
     */
@@ -97,7 +95,7 @@ class Writer
     * Create dir in PATH_TO_TEMPORARY_DIRECTORY and move all files
     * to this dir.
     *
-    * @return \Magento\Connect\Package\Writer
+    * @return $this
     */
     public function composePackage()
     {
@@ -122,11 +120,11 @@ class Writer
     }
 
     /**
-    * Add package.xml to temporary package directory.
-    *
-    * @param $content
-    * @return \Magento\Connect\Package\Writer
-    */
+     * Add package.xml to temporary package directory.
+     *
+     * @param mixed $content
+     * @return $this
+     */
     public function addPackageXml($content)
     {
         file_put_contents($this->_temporaryPackageDir . '/' . self::DEFAULT_NAME_PACKAGE_CONFIG, $content);
@@ -136,7 +134,7 @@ class Writer
     /**
     * Archives package.
     *
-    * @return \Magento\Connect\Package\Writer
+    * @return $this
     */
     public function archivePackage()
     {

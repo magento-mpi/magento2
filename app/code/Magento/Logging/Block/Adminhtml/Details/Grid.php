@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Logging\Block\Adminhtml\Details;
 
 /**
  * Admin Actions Log Archive grid
  *
  */
-namespace Magento\Logging\Block\Adminhtml\Details;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -50,6 +48,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Initialize default sorting and html ID
+     *
+     * @return void
      */
     protected function _construct()
     {

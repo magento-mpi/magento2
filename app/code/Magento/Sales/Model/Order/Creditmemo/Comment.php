@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Order\Creditmemo;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Comment _getResource()
@@ -22,8 +23,6 @@
  * @method string getCreatedAt()
  * @method \Magento\Sales\Model\Order\Creditmemo\Comment setCreatedAt(string $value)
  */
-namespace Magento\Sales\Model\Order\Creditmemo;
-
 class Comment extends \Magento\Sales\Model\AbstractModel
 {
     /**
@@ -41,7 +40,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -51,7 +50,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -59,13 +58,15 @@ class Comment extends \Magento\Sales\Model\AbstractModel
         array $data = array()
     ) {
         parent::__construct(
-            $context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data
+            $context, $registry, $localeDate, $dateTime, $resource, $resourceCollection, $data
         );
         $this->_storeManager = $storeManager;
     }
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -75,8 +76,8 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Declare Creditmemo instance
      *
-     * @param   \Magento\Sales\Model\Order\Creditmemo $creditmemo
-     * @return  \Magento\Sales\Model\Order\Creditmemo\Comment
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
      */
     public function setCreditmemo(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
@@ -110,7 +111,7 @@ class Comment extends \Magento\Sales\Model\AbstractModel
     /**
      * Before object save
      *
-     * @return \Magento\Sales\Model\Order\Creditmemo\Comment
+     * @return $this
      */
     protected function _beforeSave()
     {

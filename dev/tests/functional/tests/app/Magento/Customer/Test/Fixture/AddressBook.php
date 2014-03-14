@@ -56,9 +56,9 @@ class AddressBook extends \Mtf\Fixture\DataFixture
                 . $data['fields']['lastname']['value'] . ', '
                 . $data['fields']['street_1']['value'] . ', '
                 . $data['fields']['city']['value'] . ', '
-                . $data['fields']['region']['value'] . ' '
+                . $data['fields']['region_id']['value'] . ' '
                 . $data['fields']['postcode']['value'] . ', '
-                . $data['fields']['country']['value'],
+                . $data['fields']['country_id']['value'],
             'input' => 'select'
         )));
 

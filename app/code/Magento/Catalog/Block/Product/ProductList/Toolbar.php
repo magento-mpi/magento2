@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Product\ProductList;
 
+use Magento\Catalog\Helper\Data;
 
 /**
  * Product list toolbar
@@ -17,8 +19,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Block\Product\ProductList;
-
-use Magento\Catalog\Helper\Data;
 
 class Toolbar extends \Magento\View\Element\Template
 {
@@ -183,6 +183,8 @@ class Toolbar extends \Magento\View\Element\Template
 
     /**
      * Init Toolbar
+     *
+     * @return void
      */
     protected function _construct()
     {

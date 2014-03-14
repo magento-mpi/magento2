@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftCardAccount\Model;
 
 /**
  * @method \Magento\GiftCardAccount\Model\Resource\Giftcardaccount _getResource()
@@ -32,8 +33,6 @@
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftCardAccount\Model;
-
 class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_DISABLED = 0;
@@ -47,8 +46,16 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     const REDEEMABLE     = 1;
     const NOT_REDEEMABLE = 0;
 
+    /**
+     * @var string
+     */
     protected $_eventPrefix = 'magento_giftcardaccount';
+
+    /**
+     * @var string
+     */
     protected $_eventObject = 'giftcardaccount';
+
     /**
      * Giftcard code that was requested for load
      *
@@ -81,7 +88,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Core date
      *
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate = null;
 
@@ -98,11 +105,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale = null;
+    protected $_localeCurrency;
 
     /**
      * Store Manager
@@ -133,6 +138,11 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     protected $_poolFactory = null;
 
     /**
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $_localeDate;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
@@ -140,12 +150,13 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
-     * @param \Magento\Core\Model\Date $coreDate
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -157,12 +168,13 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
-        \Magento\Core\Model\Date $coreDate,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -175,10 +187,14 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_poolFactory = $poolFactory;
+        $this->_localeDate = $localeDate;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\Giftcardaccount');
@@ -187,7 +203,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel|void
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -195,8 +211,8 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         parent::_beforeSave();
 
         if (!$this->getId()) {
-            $now = $this->_locale->date()
-                ->setTimezone(\Magento\LocaleInterface::DEFAULT_TIMEZONE)
+            $now = $this->_localeDate->date()
+                ->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE)
                 ->toString(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
@@ -220,10 +236,10 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
             $this->setDateExpires(date('Y-m-d', strtotime("now +{$this->getLifetime()}days")));
         } else {
             if ($this->getDateExpires()) {
-                $expirationDate =  $this->_locale->date(
+                $expirationDate =  $this->_localeDate->date(
                     $this->getDateExpires(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
-                $currentDate = $this->_locale->date(
+                $currentDate = $this->_localeDate->date(
                     null, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
@@ -247,6 +263,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         }
     }
 
+    /**
+     * @return $this
+     */
     protected function _afterSave()
     {
         if ($this->getIsNew()) {
@@ -275,7 +294,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * Load gift card account model using specified code
      *
      * @param string $code
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      */
     public function loadByCode($code)
     {
@@ -290,7 +309,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      *
      * @param bool $saveQuote
      * @param \Magento\Sales\Model\Quote|null $quote
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function addToCart($saveQuote = true, $quote = null)
@@ -331,7 +350,8 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      *
      * @param bool $saveQuote
      * @param \Magento\Sales\Model\Quote|null $quote
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this|void
+     * @throws \Magento\Core\Exception
      */
     public function removeFromCart($saveQuote = true, $quote = null)
     {
@@ -442,7 +462,8 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Reduce Gift Card Account balance by specified amount
      *
-     * @param decimal $amount
+     * @param float $amount
+     * @return $this
      */
     public function charge($amount)
     {
@@ -459,7 +480,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * Revert amount to gift card balance if order was not placed
      *
      * @param   float $amount
-     * @return  \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return  $this
      */
     public function revert($amount)
     {
@@ -477,7 +498,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Set state text on after load
      *
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      */
     public function _afterLoad()
     {
@@ -517,7 +538,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      *
      * @param array $ids
      * @param int $state
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      */
     public function updateState($ids, $state)
     {
@@ -531,7 +552,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * Redeem gift card (-gca balance, +cb balance)
      *
      * @param int $customerId
-     * @return \Magento\GiftCardAccount\Model\Giftcardaccount
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function redeem($customerId = null)
@@ -567,6 +588,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         return $this;
     }
 
+    /**
+     * @return void
+     */
     public function sendEmail()
     {
         $recipientName = $this->getRecipientName();
@@ -583,7 +607,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         $balance = $this->getBalance();
         $code = $this->getCode();
 
-        $balance = $this->_locale->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
+        $balance = $this->_localeCurrency->getCurrency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
         $transport = $this->_transportBuilder
             ->setTemplateIdentifier(
@@ -636,9 +660,10 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Obscure real exception message to prevent brute force attacks
      *
-     * @throws \Magento\Core\Exception
      * @param string $realMessage
      * @param string $fakeMessage
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _throwException($realMessage, $fakeMessage = '')
     {

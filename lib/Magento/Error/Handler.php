@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Error;
 
 /**
@@ -70,6 +69,7 @@ class Handler implements HandlerInterface
      * @param string $errorStr
      * @param string $errorFile
      * @param int $errorLine
+     * @return bool
      */
     public function handler($errorNo, $errorStr, $errorFile, $errorLine)
     {

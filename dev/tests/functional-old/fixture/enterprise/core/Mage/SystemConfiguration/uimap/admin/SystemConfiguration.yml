@@ -575,7 +575,7 @@ system_configuration:
                                         magento_bannercustomersegment: //select[@id='Magento_BannerCustomerSegment']
                                         magento_catalogevent: //select[@id='Magento_CatalogEvent']
                                         magento_catalogpermissions: //select[@id='Magento_CatalogPermissions']
-                                        magento_customattribute: //select[@id='Magento_CustomAttribute']
+                                        magento_CustomAttributeManagement: //select[@id='Magento_CustomAttributeManagement']
                                         magento_customerbalance: //select[@id='Magento_CustomerBalance']
                                         magento_customercustomattributes: //select[@id='Magento_CustomerCustomAttributes']
                                         magento_customersegment: //select[@id='Magento_CustomerSegment']

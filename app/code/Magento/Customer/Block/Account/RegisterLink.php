@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account;
 
 /**
@@ -52,7 +51,7 @@ class RegisterLink extends \Magento\View\Element\Html\Link
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _toHtml()
     {

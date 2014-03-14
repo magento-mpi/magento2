@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -28,26 +27,33 @@ class Info extends \Magento\View\Element\Template
      */
     protected $_subscriberFactory;
 
-    /**
-     * @var CustomerMetadataServiceInterface
-     */
-    protected $_metadataService;
+    /** @var \Magento\Customer\Helper\View */
+    protected $_helperView;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerCurrentServiceInterface
      */
     protected $customerCurrentService;
 
+    /**
+     * Constructor
+     *
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
+     * @param \Magento\Customer\Helper\View $helperView
+     * @param array $data
+     */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
-        CustomerMetadataServiceInterface $metadataService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\Customer\Helper\View $helperView,
         array $data = array()
     ) {
         $this->customerCurrentService   = $customerCurrentService;
-        $this->_metadataService         = $metadataService;
         $this->_subscriberFactory       = $subscriberFactory;
+        $this->_helperView = $helperView;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -55,7 +61,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
@@ -70,32 +76,15 @@ class Info extends \Magento\View\Element\Template
      * Get the full name of a customer
      *
      * @return string full name
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getName()
     {
-        $name = '';
-
-        $customer = $this->getCustomer();
-
-        $prefixMetadata = $this->_getAttributeMetadata('prefix');
-        if (!is_null($prefixMetadata) && $prefixMetadata->isVisible() && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
-        }
-        $name .= $customer->getFirstname();
-        $midNameMetadata = $this->_getAttributeMetadata('middlename');
-        if (!is_null($midNameMetadata) && $midNameMetadata->isVisible() && $customer->getMiddlename()) {
-            $name .= ' ' . $customer->getMiddlename();
-        }
-        $name .=  ' ' . $customer->getLastname();
-        $suffixMetadata = $this->_getAttributeMetadata('suffix');
-        if (!is_null($suffixMetadata) && $suffixMetadata->isVisible() && $customer->getSuffix()) {
-            $name .= ' ' . $customer->getSuffix();
-        }
-        return $name;
+        return $this->_helperView->getCustomerName($this->getCustomer());
     }
 
+    /**
+     * @return string
+     */
     public function getChangePasswordUrl()
     {
         return $this->_urlBuilder->getUrl('*/account/edit/changepass/1');
@@ -146,18 +135,5 @@ class Info extends \Magento\View\Element\Template
     protected function _createSubscriber()
     {
         return $this->_subscriberFactory->create();
-    }
-
-    /**
-     * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
-     */
-    protected function _getAttributeMetadata($attributeCode)
-    {
-        try {
-            return $this->_metadataService->getCustomerAttributeMetadata($attributeCode);
-        } catch (NoSuchEntityException $e) {
-            return null;
-        }
     }
 }

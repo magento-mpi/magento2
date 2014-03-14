@@ -26,17 +26,17 @@ class Response extends Http
     /**
      * Constructor
      *
-     * @param \Magento\File\Transfer\Adapter\Http $transferAdapter
      * @param \Magento\Stdlib\Cookie              $cookie
      * @param \Magento\App\Http\Context           $context
+     * @param \Magento\File\Transfer\Adapter\Http $transferAdapter
      */
     public function __construct(
-        \Magento\File\Transfer\Adapter\Http $transferAdapter,
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\Http\Context $context
+        \Magento\App\Http\Context $context,
+        \Magento\File\Transfer\Adapter\Http $transferAdapter
     ) {
-        $this->_transferAdapter = $transferAdapter;
         parent::__construct($cookie, $context);
+        $this->_transferAdapter = $transferAdapter;
     }
 
     /**

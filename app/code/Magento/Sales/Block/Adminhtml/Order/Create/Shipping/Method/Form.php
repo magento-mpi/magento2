@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Method;
 
 /**
  * Adminhtml sales order create shipping method form block
@@ -15,11 +16,14 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Shipping\Method;
-
 class Form
     extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
+    /**
+     * Shipping rates
+     *
+     * @var array
+     */
     protected $_rates;
 
     /**
@@ -47,6 +51,11 @@ class Form
         parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -79,8 +88,8 @@ class Form
     /**
      * Rertrieve carrier name from store configuration
      *
-     * @param   string $carrierCode
-     * @return  string
+     * @param string $carrierCode
+     * @return string
      */
     public function getCarrierName($carrierCode)
     {
@@ -103,8 +112,8 @@ class Form
     /**
      * Check activity of method by code
      *
-     * @param   string $code
-     * @return  bool
+     * @param string $code
+     * @return bool
      */
     public function isMethodActive($code)
     {
@@ -114,7 +123,7 @@ class Form
     /**
      * Retrieve rate of active shipping method
      *
-     * @return \Magento\Sales\Model\Quote\Address\Rate || false
+     * @return \Magento\Sales\Model\Quote\Address\Rate|false
      */
     public function getActiveMethodRate()
     {
@@ -131,11 +140,23 @@ class Form
         return false;
     }
 
+    /**
+     * Get rate request
+     *
+     * @return mixed
+     */
     public function getIsRateRequest()
     {
         return $this->getRequest()->getParam('collect_shipping_rates');
     }
 
+    /**
+     * Get shipping price
+     *
+     * @param float $price
+     * @param bool $flag
+     * @return float
+     */
     public function getShippingPrice($price, $flag)
     {
         return $this->getQuote()->getStore()->convertPrice(

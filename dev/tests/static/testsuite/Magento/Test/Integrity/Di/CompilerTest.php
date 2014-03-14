@@ -320,7 +320,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected function validatePlugins($plugin, $type)
     {
         try {
-            $this->pluginValidator->validate($plugin, $type);
+            $module = \Magento\TestFramework\Utility\Classes::getClassModuleName($type);
+            if (\Magento\TestFramework\Utility\Files::init()->isModuleExists($module)) {
+                $this->pluginValidator->validate($plugin, $type);
+            }
         } catch (\Magento\Interception\Code\ValidatorException $exception) {
             $this->fail($exception->getMessage());
         }

@@ -9,6 +9,10 @@
  */
 namespace Magento\Rss\App\Action\Plugin;
 
+use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
+use Magento\Backend\App\AbstractAction;
+
 class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
     /**
@@ -41,7 +45,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     /**
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\UrlInterface $url
-     * @param \Magento\App\ResponseInterface $response
+     * @param ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\HTTP\Authentication $httpAuthentication
@@ -51,7 +55,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\UrlInterface $url,
-        \Magento\App\ResponseInterface $response,
+        ResponseInterface $response,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\HTTP\Authentication $httpAuthentication,
@@ -67,17 +71,16 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
     /**
      * Replace standard admin login form with HTTP Basic authentication
      *
-     * @param \Magento\Backend\App\AbstractAction $subject
+     * @param AbstractAction $subject
      * @param callable $proceed
-     * @param \Magento\App\RequestInterface $request
-     *
-     * @return \Magento\App\ResponseInterface
+     * @param RequestInterface $request
+     * @return ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundDispatch(
-        \Magento\Backend\App\AbstractAction $subject,
+        AbstractAction $subject,
         \Closure $proceed,
-        \Magento\App\RequestInterface $request
+        RequestInterface $request
     ) {
         $resource = isset($this->_aclResources[$request->getControllerName()])
             ? (isset($this->_aclResources[$request->getControllerName()][$request->getActionName()])

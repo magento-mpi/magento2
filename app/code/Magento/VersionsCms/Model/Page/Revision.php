@@ -83,7 +83,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate;
 
@@ -101,7 +101,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -112,7 +112,7 @@ class Revision extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        \Magento\Core\Model\Date $coreDate,
+        \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

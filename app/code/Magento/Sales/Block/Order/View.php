@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order view block
  */
-namespace Magento\Sales\Block\Order;
-
 class View extends \Magento\View\Element\Template
 {
     /**
@@ -58,6 +57,9 @@ class View extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');

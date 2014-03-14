@@ -196,8 +196,8 @@ class Attribute extends \Magento\Backend\App\Action
         if ($this->getRequest()->isPost() && $data) {
             /* @var $attributeObject \Magento\Rma\Model\Item\Attribute */
             $attributeObject = $this->_initAttribute();
-            /* @var $helper \Magento\CustomAttribute\Helper\Data */
-            $helper = $this->_objectManager->get('Magento\CustomAttribute\Helper\Data');
+            /* @var $helper \Magento\CustomAttributeManagement\Helper\Data */
+            $helper = $this->_objectManager->get('Magento\CustomAttributeManagement\Helper\Data');
 
             try {
                 $data = $helper->filterPostData($data);

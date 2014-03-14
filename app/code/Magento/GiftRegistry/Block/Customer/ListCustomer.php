@@ -7,8 +7,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\LocaleInterface;
-use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
@@ -40,7 +39,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
@@ -51,7 +50,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
@@ -62,7 +61,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerService, $addressService, $data
+            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
         );
         $this->currentCustomer = $currentCustomer;
     }
@@ -90,7 +89,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Instantiate pagination
      *
-     * @return \Magento\GiftRegistry\Block\Customer\ListCustomer
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -195,14 +194,14 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     }
 
     /**
-     * Retrieve item formated date
+     * Retrieve item formatted date
      *
      * @param \Magento\GiftRegistry\Model\Entity $item
      * @return string
      */
     public function getFormattedDate($item)
     {
-        return $this->formatDate($item->getCreatedAt(), LocaleInterface::FORMAT_TYPE_MEDIUM);
+        return $this->formatDate($item->getCreatedAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
     }
 
     /**

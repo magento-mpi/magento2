@@ -9,12 +9,12 @@ namespace Magento\Sales\Model\Quote\Address\RateResult;
 
 /**
  * Fields:
- * - carrier: ups
- * - carrierTitle: United Parcel Service
- * - method: 2day
- * - methodTitle: UPS 2nd Day Priority
- * - price: $9.40 (cost+handling)
- * - cost: $8.00
+ * - carrier: carrier code
+ * - carrierTitle: carrier title
+ * - method: carrier method
+ * - methodTitle: method title
+ * - price: cost+handling
+ * - cost: cost
  */
 class Method extends AbstractResult
 {
@@ -39,7 +39,7 @@ class Method extends AbstractResult
      * Round shipping carrier's method price
      *
      * @param string|float|int $price
-     * @return \Magento\Sales\Model\Quote\Address\RateResult\Method
+     * @return $this
      */
     public function setPrice($price)
     {

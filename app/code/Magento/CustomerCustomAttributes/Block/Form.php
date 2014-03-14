@@ -16,7 +16,7 @@ namespace Magento\CustomerCustomAttributes\Block;
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Form extends \Magento\CustomAttribute\Block\Form
+class Form extends \Magento\CustomAttributeManagement\Block\Form
 {
     /**
      * @var \Magento\Customer\Model\Metadata\Form

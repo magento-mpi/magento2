@@ -7,16 +7,17 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Migration\Acl\Db\Logger;
 
 /**
  * Db migration logger. Output result print to console
  */
-namespace Magento\Tools\Migration\Acl\Db\Logger;
-
 class Console extends \Magento\Tools\Migration\Acl\Db\AbstractLogger
 {
     /**
      * Print logs to console
+     *
+     * @return void
      */
     public function report()
     {

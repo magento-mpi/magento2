@@ -10,7 +10,7 @@ namespace Magento\Catalog\Model;
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Category
+     * @var Category
      */
     protected $model;
 
@@ -19,10 +19,16 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectManager;
 
+    /**
+     * @var \Magento\Filter\FilterManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filter;
+
     protected function setUp()
     {
+        $this->filter = $this->getMock('Magento\Filter\FilterManager', ['translitUrl'], [], '', false);
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $this->objectManager->getObject('Magento\Catalog\Model\Category');
+        $this->model = $this->objectManager->getObject('Magento\Catalog\Model\Category', ['filter' => $this->filter]);
     }
 
     /**
@@ -72,5 +78,18 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
                 true
             ),
         );
+    }
+
+    public function testFormatUrlKey()
+    {
+        $strIn = 'Some string';
+        $resultString = 'some';
+
+        $this->filter->expects($this->once())
+            ->method('translitUrl')
+            ->with($strIn)
+            ->will($this->returnValue($resultString));
+
+        $this->assertEquals($resultString, $this->model->formatUrlKey($strIn));
     }
 }

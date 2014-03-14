@@ -16,6 +16,8 @@ class Guest extends \Magento\Core\Helper\Data
 {
     /**
      * Cookie params
+     *
+     * @var string
      */
     protected $_cookieName  = 'guest-view';
 
@@ -55,7 +57,6 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
@@ -69,7 +70,6 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         \Magento\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
@@ -89,7 +89,6 @@ class Guest extends \Magento\Core\Helper\Data
             $context,
             $coreStoreConfig,
             $storeManager,
-            $locale,
             $appState,
             $dbCompatibleMode
         );
@@ -98,7 +97,9 @@ class Guest extends \Magento\Core\Helper\Data
     /**
      * Try to load valid order by $_POST or $_COOKIE
      *
-     * @return bool|null
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\App\ResponseInterface $response
+     * @return bool
      */
     public function loadValidOrder(\Magento\App\RequestInterface $request, \Magento\App\ResponseInterface $response)
     {
@@ -175,6 +176,8 @@ class Guest extends \Magento\Core\Helper\Data
 
     /**
      * Get Breadcrumbs for current controller action
+     *
+     * @return void
      */
     public function getBreadcrumbs()
     {

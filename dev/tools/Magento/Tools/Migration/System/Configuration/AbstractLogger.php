@@ -7,12 +7,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Migration\System\Configuration;
 
 /**
  * System configuration migration logger
  */
-namespace Magento\Tools\Migration\System\Configuration;
-
 abstract class AbstractLogger
 {
     CONST FILE_KEY_VALID = 'valid';
@@ -74,7 +73,7 @@ abstract class AbstractLogger
     /**
      * Generate report
      *
-     * @abstract
+     * @return void
      */
     public abstract function report();
 }

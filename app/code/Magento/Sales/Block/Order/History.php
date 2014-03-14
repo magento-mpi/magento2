@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Order;
 
 /**
  * Sales order history block
  */
-namespace Magento\Sales\Block\Order;
-
 class History extends \Magento\View\Element\Template
 {
     /**
@@ -56,6 +55,9 @@ class History extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -74,7 +76,7 @@ class History extends \Magento\View\Element\Template
     }
 
     /**
-     * @return $this|\Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

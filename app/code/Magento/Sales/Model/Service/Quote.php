@@ -5,15 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Service;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponse;
+use Magento\Customer\Service\V1\Data\AddressBuilder;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
+use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 
 /**
  * Quote submit service model
@@ -73,11 +71,6 @@ class Quote
     protected $_transactionFactory;
 
     /**
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @var CustomerAccountServiceInterface
      */
     protected $_customerAccountService;
@@ -93,9 +86,14 @@ class Quote
     protected $_customerAddressBuilder;
 
     /**
-     * @var CreateCustomerAccountResponse
+     * @var  CustomerDetailsBuilder
      */
-    protected $_createCustomerResponse;
+    protected $_customerDetailsBuilder;
+
+    /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
 
     /**
      * Class constructor
@@ -105,10 +103,11 @@ class Quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
-     * @param CustomerServiceInterface $customerService
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
+     * @param CustomerDetailsBuilder $customerDetailsBuilder
+     * @param AddressConverter $addressConverter
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -116,27 +115,29 @@ class Quote
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
-        CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
-        AddressBuilder $customerAddressBuilder
+        AddressBuilder $customerAddressBuilder,
+        CustomerDetailsBuilder $customerDetailsBuilder,
+        AddressConverter $addressConverter
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
-        $this->_customerService = $customerService;
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
+        $this->addressConverter = $addressConverter;
     }
 
     /**
      * Quote convertor declaration
      *
-     * @param   \Magento\Sales\Model\Convert\Quote $convertor
-     * @return  \Magento\Sales\Model\Service\Quote
+     * @param \Magento\Sales\Model\Convert\Quote $convertor
+     * @return $this
      */
     public function setConvertor(\Magento\Sales\Model\Convert\Quote $convertor)
     {
@@ -158,7 +159,7 @@ class Quote
      * Specify additional order data
      *
      * @param array $data
-     * @return \Magento\Sales\Model\Service\Quote
+     * @return $this
      */
     public function setOrderData(array $data)
     {
@@ -169,9 +170,9 @@ class Quote
     /**
      * Submit the quote. Quote submit process will create the order based on quote data
      *
-     * @deprecated
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
+     * @deprecated in favor of submitOrderWithDataObject which is using Service Layer
      */
     public function submitOrder()
     {
@@ -182,7 +183,8 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
         if ($quote->getCustomerId()) {
-            $transaction->addObject($quote->getCustomer());
+            $customer = $quote->getCustomer();
+            $transaction->addObject($customer);
         }
         $transaction->addObject($quote);
 
@@ -193,14 +195,12 @@ class Quote
             $order = $this->_convertor->addressToOrder($quote->getShippingAddress());
         }
         $order->setBillingAddress($this->_convertor->addressToOrderAddress($quote->getBillingAddress()));
-        if ($quote->getBillingAddress()->getCustomerAddress()) {
-            $order->getBillingAddress()->setCustomerAddress($quote->getBillingAddress()->getCustomerAddress());
-        }
+        $order->getBillingAddress()->setCustomerAddressData($quote->getBillingAddress()->getCustomerAddressData());
         if (!$isVirtual) {
             $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
-            if ($quote->getShippingAddress()->getCustomerAddress()) {
-                $order->getShippingAddress()->setCustomerAddress($quote->getShippingAddress()->getCustomerAddress());
-            }
+            $order->getShippingAddress()->setCustomerAddressData(
+                $quote->getShippingAddress()->getCustomerAddressData()
+            );
         }
         $order->setPayment($this->_convertor->paymentToOrderPayment($quote->getPayment()));
 
@@ -289,7 +289,7 @@ class Quote
      * @return \Magento\Sales\Model\Order
      * @throws \Exception
      */
-    public function submitOrderWithDto()
+    public function submitOrderWithDataObject()
     {
         $this->_deleteNominalItems();
         $this->_validate();
@@ -298,30 +298,20 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
 
-        $originalCustomerDto = null;
-        $customerDto = null;
+        $customerData = null;
         if (!$quote->getCustomerIsGuest()) {
-            $customerDto = $quote->getCustomerData();
+            $customerData = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
-            if ($customerDto->getCustomerId()) {
-                //cache the original customer data for rollback if needed
-                $originalCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
-                $originalAddresses = $this->_customerAddressService->getAddresses($customerDto->getCustomerId());
-                //Save updated data
-                $this->_customerService->saveCustomer($customerDto);
-                $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $addresses);
+            if ($customerData->getId()) {
+                $this->_customerAccountService->saveCustomer($customerData);
+                $this->_customerAddressService->saveAddresses($customerData->getId(), $addresses);
             } else { //for new customers
-                $this->_createCustomerResponse = $this->_customerAccountService->createAccount(
-                    $customerDto,
-                    $addresses,
-                    null,
-                    '',
-                    '',
-                    $quote->getStoreId()
-                );
-                $customerDto = $this->_customerService->getCustomer($this->_createCustomerResponse->getCustomerId());
+                $customerDetails =
+                    $this->_customerDetailsBuilder->setCustomer($customerData)->setAddresses($addresses)->create();
+                $customerData = $this->_customerAccountService->createAccount(
+                    $customerDetails);
                 $addresses = $this->_customerAddressService->getAddresses(
-                    $this->_createCustomerResponse->getCustomerId()
+                    $customerData->getId()
                 );
                 //Update quote address information
                 foreach ($addresses as $address) {
@@ -340,7 +330,7 @@ class Quote
                 }
             }
 
-            $quote->setCustomerData($customerDto)->setCustomerAddressData($addresses);
+            $quote->setCustomerData($customerData)->setCustomerAddressData($addresses);
         }
         $transaction->addObject($quote);
 
@@ -376,8 +366,8 @@ class Quote
             $order->addItem($orderItem);
         }
 
-        if ($customerDto) {
-            $order->setCustomerId($customerDto->getCustomerId());
+        if ($customerData) {
+            $order->setCustomerId($customerData->getId());
         }
         $order->setQuote($quote);
 
@@ -413,15 +403,6 @@ class Quote
                 )
             );
         } catch (\Exception $e) {
-            if ($originalCustomerDto) { //Restore original customer data if existing customer was updated
-                $this->_customerService->saveCustomer($originalCustomerDto);
-                $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $originalAddresses);
-            } else if ($customerDto->getCustomerId()) { // Delete if new customer created
-                $this->_customerService->deleteCustomer($customerDto->getCustomerId());
-                $order->setCustomerId(null);
-                $quote->setCustomerData(new CustomerDto([]));
-            }
-
             //reset order ID's on exception, because order not saved
             $order->setId(null);
             /** @var $item \Magento\Sales\Model\Order\Item */
@@ -453,7 +434,7 @@ class Quote
     /**
      * Submit nominal items
      *
-     * @return array
+     * @return void
      */
     public function submitNominalItems()
     {
@@ -466,6 +447,10 @@ class Quote
     /**
      * Submit all available items
      * All created items will be set to the object
+     *
+     * @return void
+     * @throws \Exception
+     * @deprecated in favor of submitAllWithDataObject which is using Service Layer
      */
     public function submitAll()
     {
@@ -490,8 +475,11 @@ class Quote
     /**
      * Submit all available items
      * All created items will be set to the object
+     *
+     * @return void
+     * @throws \Exception
      */
-    public function submitAllWithDto()
+    public function submitAllWithDataObject()
     {
         // don't allow submitNominalItems() to inactivate quote
         $inactivateQuoteOld = $this->_shouldInactivateQuote;
@@ -508,7 +496,7 @@ class Quote
             $this->_inactivateQuote();
             return;
         }
-        $this->submitOrderWithDto();
+        $this->submitOrderWithDataObject();
     }
 
     /**
@@ -524,7 +512,7 @@ class Quote
     /**
      * Inactivate quote
      *
-     * @return \Magento\Sales\Model\Service\Quote
+     * @return $this
      */
     protected function _inactivateQuote()
     {
@@ -537,7 +525,7 @@ class Quote
     /**
      * Validate quote data before converting to order
      *
-     * @return \Magento\Sales\Model\Service\Quote
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _validate()
@@ -573,6 +561,8 @@ class Quote
 
     /**
      * Get rid of all nominal items
+     *
+     * @return void
      */
     protected function _deleteNominalItems()
     {

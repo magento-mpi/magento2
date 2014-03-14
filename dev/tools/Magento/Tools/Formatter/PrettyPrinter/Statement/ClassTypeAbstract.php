@@ -16,7 +16,9 @@ abstract class ClassTypeAbstract extends AbstractStatement
 {
     /**
      * This method adds the body of the class to the tree.
+     *
      * @param TreeNode $treeNode Node to used as the sibling of the opening brace.
+     * @return TreeNode
      */
     protected function addBody(TreeNode $treeNode)
     {
@@ -30,6 +32,7 @@ abstract class ClassTypeAbstract extends AbstractStatement
 
     /**
      * This method processes the newly added node.
+     *
      * @param TreeNode $originatingNode Node where new nodes are originating from
      * @param TreeNode $newNode Newly added node containing the statement
      * @param int $index 0 based index of the new node
@@ -51,6 +54,7 @@ abstract class ClassTypeAbstract extends AbstractStatement
 
     /**
      * We should trim these comments
+     *
      * @return bool
      */
     public function isTrimComments()

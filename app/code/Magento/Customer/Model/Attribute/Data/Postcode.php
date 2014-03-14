@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Model\Attribute\Data;
 
 /**
  * Customer Address Postal/Zip Code Attribute Data Model
@@ -17,8 +17,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Attribute\Data;
-
 class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
 {
     /**
@@ -36,21 +34,27 @@ class Postcode extends \Magento\Eav\Model\Attribute\Data\Text
     protected $_directoryData = null;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\String $stringHelper,
         \Magento\Directory\Helper\Data $directoryData
     ) {
         $this->_directoryData = $directoryData;
-        parent::__construct($locale, $logger, $stringHelper);
+        parent::__construct($localeDate, $logger, $localeResolver, $stringHelper);
     }
 
+    /**
+     * @param string $value
+     * @return true|string[]
+     */
     public function validateValue($value)
     {
         $countryId      = $this->getExtractedData('country_id');

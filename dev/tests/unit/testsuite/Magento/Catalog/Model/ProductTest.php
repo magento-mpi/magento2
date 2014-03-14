@@ -26,7 +26,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Flat\Processor|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_processor;
+    protected $_productFlatProcessor;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_productPriceProcessor;
 
     /**
      * @var Product\Type|\PHPUnit_Framework_MockObject_MockObject
@@ -38,13 +43,18 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->categoryIndexerMock = $this->getMockForAbstractClass(
             '\Magento\Indexer\Model\IndexerInterface', array(), '', false, false, true, array()
         );
-        $this->_processor = $this->getMock(
+
+        $this->_productFlatProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(), array(), '', false
         );
         $this->_productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+
+        $this->_productPriceProcessor = $this->getMock(
+            'Magento\Catalog\Model\Indexer\Product\Price\Processor', array(), array(), '', false
+        );
+
         $stateMock = $this->getMock(
-            'Magento\App\State',
-            array('getAreaCode'), array(), '', false
+            'Magento\App\State', array('getAreaCode'), array(), '', false
         );
 
         $stateMock->expects($this->any())
@@ -52,13 +62,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
 
         $eventManagerMock = $this->getMock(
-            'Magento\Event\ManagerInterface',
-            array(), array(), '', false
+            'Magento\Event\ManagerInterface', array(), array(), '', false
         );
 
         $cacheInterfaceMock = $this->getMock(
-            'Magento\App\CacheInterface',
-            array(), array(), '', false
+            'Magento\App\CacheInterface', array(), array(), '', false
         );
 
 
@@ -105,7 +113,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
             $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
             $this->categoryIndexerMock,
-            $this->_processor,
+            $this->_productFlatProcessor,
+            $this->_productPriceProcessor,
             array('id' => 1)
         );
     }
@@ -114,7 +123,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->categoryIndexerMock->expects($this->once())
             ->method('reindexRow');
-        $this->_processor->expects($this->once())
+        $this->_productFlatProcessor->expects($this->once())
+            ->method('reindexRow');
+        $this->_productPriceProcessor->expects($this->once())
             ->method('reindexRow');
 
         $this->_model->delete();
@@ -124,10 +135,18 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->categoryIndexerMock->expects($this->once())
             ->method('reindexRow');
-        $this->_processor->expects($this->once())
+        $this->_productFlatProcessor->expects($this->once())
             ->method('reindexRow');
 
         $this->_model->reindex();
+    }
+
+    public function testPriceReindexCallback()
+    {
+        $this->_productPriceProcessor->expects($this->once())
+            ->method('reindexRow');
+
+        $this->_model->priceReindexCallback();
     }
 
     /**

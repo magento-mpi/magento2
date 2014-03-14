@@ -63,6 +63,7 @@ class Circular
      * Init data before building
      *
      * @param array $dependencies
+     * @return void
      */
     protected function init($dependencies)
     {
@@ -76,6 +77,7 @@ class Circular
      *
      * @param string $vertex
      * @param array $path nesting path
+     * @return void
      */
     protected function expandDependencies($vertex, $path = [])
     {
@@ -85,6 +87,10 @@ class Circular
 
         $path[] = $vertex;
         foreach ($this->dependencies[$vertex] as $dependency) {
+            if (!isset($this->dependencies[$dependency])) {
+                // dependency vertex is not described in basic definition
+                continue;
+            }
             $relations = $this->graph->getRelations();
             if (isset($relations[$vertex][$dependency])) {
                 continue;
@@ -106,6 +112,7 @@ class Circular
      * Build all circular dependencies based on chain
      *
      * @param array $modules
+     * @return void
      */
     protected function buildCircular($modules)
     {

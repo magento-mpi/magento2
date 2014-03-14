@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 /**
@@ -64,6 +63,9 @@ class Cart
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -73,6 +75,9 @@ class Cart
         $this->setFilterVisibility(false);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $quote = $this->salesQuoteFactory->create();
@@ -86,6 +91,9 @@ class Cart
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('product_id', array(
@@ -135,7 +143,7 @@ class Cart
     /**
      * Prepare mass action options for this grid
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Cart
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -153,6 +161,7 @@ class Cart
     /**
      * Return grid row url
      *
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

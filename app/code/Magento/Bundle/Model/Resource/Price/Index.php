@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model\Resource\Price;
 
+use Magento\Core\Model\Website;
 
 /**
  * Bundle Product Price Index Resource model
@@ -16,8 +18,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Resource\Price;
-
 class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -30,7 +30,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Websites cache
      *
-     * @var array
+     * @var Website[]
      */
     protected $_websites;
 
@@ -64,9 +64,9 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_catalogRuleFactory;
 
     /**
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -76,7 +76,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory
      * @param \Magento\Customer\Model\GroupFactory $customerGroup
      * @param \Magento\Catalog\Model\Config $config
@@ -85,7 +85,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleFactory,
         \Magento\Customer\Model\GroupFactory $customerGroup,
         \Magento\Catalog\Model\Config $config,
@@ -96,13 +96,14 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_config = $config;
         $this->_customerGroup = $customerGroup;
         $this->_catalogRuleFactory = $catalogRuleFactory;
-        $this->_locale = $locale;
+        $this->_localeDate = $localeDate;
         $this->_storeManager = $storeManager;
     }
 
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -127,7 +128,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve websites collection array
      *
-     * @return array
+     * @return Website[]
      */
     protected function _getWebsites()
     {
@@ -207,7 +208,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Reindex Bundle product Price Index
      *
      * @param \Magento\Catalog\Model\Product|\Magento\Catalog\Model\Product\Condition\ConditionInterface|array|int $products
-     * @return \Magento\Bundle\Model\Resource\Price\Index
+     * @return $this
      */
     public function reindex($products = null)
     {
@@ -232,7 +233,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $productId
      * @param int $priceType
-     * @return \Magento\Bundle\Model\Resource\Price\Index
+     * @return $this
      */
     protected function _reindexProduct($productId, $priceType)
     {
@@ -254,7 +255,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
             $priceData = $this->getProductsPriceData($productId, $website);
             $priceData = $priceData[$productId];
 
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website Website */
             foreach ($this->_getCustomerGroups() as $group) {
                 /* @var $group \Magento\Customer\Model\Group */
                 if ($priceType == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED) {
@@ -288,7 +289,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $groupId
      * @param float $minPrice
      * @param float $maxPrice
-     * @return \Magento\Bundle\Model\Resource\Price\Index
+     * @return $this
      */
     protected function _savePriceIndex($productId, $websiteId, $groupId, $minPrice, $maxPrice)
     {
@@ -356,10 +357,10 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve salable product statuses
      *
      * @param int|array $products
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @return array
      */
-    public function getProductsSalableStatus($products, \Magento\Core\Model\Website $website)
+    public function getProductsSalableStatus($products, Website $website)
     {
         $read = $this->_getReadAdapter();
         $productsData = array();
@@ -438,10 +439,10 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve product(s) price data
      *
      * @param int|array $products
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @return array
      */
-    public function getProductsPriceData($products, \Magento\Core\Model\Website $website)
+    public function getProductsPriceData($products, Website $website)
     {
         $productsData = array();
         $read = $this->_getReadAdapter();
@@ -472,11 +473,10 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\DB\Select $select
      * @param string $attributeCode
-     * @param \Magento\Core\Model\Website $website
-     * @return \Magento\Bundle\Model\Resource\Price\Index
+     * @param Website $website
+     * @return $this
      */
-    protected function _addAttributeDataToSelect(\Magento\DB\Select $select, $attributeCode,
-        \Magento\Core\Model\Website $website)
+    protected function _addAttributeDataToSelect(\Magento\DB\Select $select, $attributeCode, Website $website)
     {
         $attribute  = $this->_getAttribute($attributeCode);
         $store      = $website->getDefaultStore();
@@ -522,14 +522,14 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $productId
      * @param array $priceData
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @param \Magento\Customer\Model\Group $customerGroup
      * @return float
      */
     protected function _getBasePrice($productId, array $priceData, $website, $customerGroup)
     {
         $store          = $website->getDefaultStore();
-        $storeTimeStamp = $this->_locale->storeTimeStamp($store);
+        $storeTimeStamp = $this->_localeDate->scopeTimeStamp($store);
         $finalPrice     = $this->_calculateSpecialPrice($priceData['price'], $priceData, $website);
 
         $rulePrice = $this->_catalogRuleFactory->create()
@@ -546,10 +546,10 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve custom options for product
      *
      * @param int $productId
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @return array
      */
-    public function getCustomOptions($productId, \Magento\Core\Model\Website $website)
+    public function getCustomOptions($productId, Website $website)
     {
         $options = array();
         $store   = $website->getDefaultStore();
@@ -737,7 +737,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param float $basePrice
      * @param array $priceData
      * @param array $priceIndex
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @param \Magento\Customer\Model\Group $group
      * @return array
      */
@@ -817,16 +817,16 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param float $finalPrice
      * @param array $priceData
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @return float
      */
-    public function _calculateSpecialPrice($finalPrice, array $priceData, \Magento\Core\Model\Website $website)
+    public function _calculateSpecialPrice($finalPrice, array $priceData, Website $website)
     {
         $store              = $website->getDefaultStore();
         $specialPrice       = $priceData['special_price'];
 
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if ($this->_locale->isStoreDateInInterval($store, $priceData['special_from_date'],
+            if ($this->_localeDate->isScopeDateInInterval($store, $priceData['special_from_date'],
             $priceData['special_to_date'])) {
                 $specialPrice   = ($finalPrice * $specialPrice) / 100;
                 $finalPrice     = min($finalPrice, $specialPrice);

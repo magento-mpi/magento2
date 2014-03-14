@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model;
 
 class Cron
@@ -19,17 +18,17 @@ class Cron
     protected $_giftCAFactory = null;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var \Magento\Stdlib\DateTime\DateTime
      */
     protected $_coreDate = null;
 
     /**
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Core\Model\Date $coreDate
+     * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      */
     public function __construct(
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Core\Model\Date $coreDate
+        \Magento\Stdlib\DateTime\DateTime $coreDate
     ) {
         $this->_giftCAFactory = $giftCAFactory;
         $this->_coreDate = $coreDate;
@@ -38,7 +37,7 @@ class Cron
     /**
      * Update Gift Card Account states by cron
      *
-     * @return \Magento\GiftCardAccount\Model\Cron
+     * @return $this
      */
     public function updateStates()
     {

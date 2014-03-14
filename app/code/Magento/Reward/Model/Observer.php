@@ -9,6 +9,8 @@
  */
 namespace Magento\Reward\Model;
 
+use Magento\Customer\Model\Converter;
+
 /**
  * Reward observer
  *
@@ -77,7 +79,7 @@ class Observer
      */
     protected $_rateFactory;
 
-    /** @var \Magento\Customer\Model\Converter */
+    /** @var Converter */
     protected $_customerConverter;
 
     /**
@@ -92,6 +94,7 @@ class Observer
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
+     * @param Converter $customerConverter
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -105,7 +108,7 @@ class Observer
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Customer\Model\Converter $customerConverter
+        Converter $customerConverter
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -136,7 +139,7 @@ class Observer
         $request = $observer->getEvent()->getRequest();
         $data = $request->getPost('reward');
         if ($data && !empty($data['points_delta'])) {
-            /** @var \Magento\Customer\Service\V1\Dto\Customer $customer */
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
             $customer = $observer->getEvent()->getCustomer();
 
             if (!isset($data['store_id'])) {
@@ -146,7 +149,7 @@ class Observer
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
-            $customerModel = $this->_customerConverter->getCustomerModel($customer->getCustomerId());
+            $customerModel = $this->_customerConverter->getCustomerModel($customer->getId());
             /** @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_getRewardModel();
             $reward->setCustomer($customerModel)
@@ -174,24 +177,30 @@ class Observer
         }
 
         $request = $observer->getEvent()->getRequest();
-        /** @var \Magento\Customer\Service\V1\Dto\CustomerBuilder $customer */
+        /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder $customer */
         $customerBuilder = $observer->getEvent()->getCustomer();
-        // FIXME: This is an ugly use case
+
+        /*
+         * Customer builder was passed to event in order to provide possibility to observer to change
+         * the data of the Customer Data Object.
+         * Now we're constructing the Customer object from the builder in order to read the data
+         * and populate Builder back with it.
+         */
         $customer = $customerBuilder->create();
         $customerBuilder->populate($customer);
 
         $data = $request->getPost('reward');
         // If new customer
-        if (!$customer->getCustomerId()) {
+        if (!$customer->getId()) {
             $subscribeByDefault = (int)$this->_rewardData
                 ->getNotificationConfig('subscribe_by_default', (int)$customer->getWebsiteId());
             $data['reward_update_notification']  = $subscribeByDefault;
             $data['reward_warning_notification'] = $subscribeByDefault;
         }
 
-        $customerBuilder->setAttribute('set_reward_update_notification',
+        $customerBuilder->setCustomAttribute('reward_update_notification',
             (empty($data['reward_update_notification']) ? 0 : 1));
-        $customerBuilder->setAttribute('set_reward_warning_notification',
+        $customerBuilder->setCustomAttribute('reward_warning_notification',
             (empty($data['reward_warning_notification']) ? 0 : 1));
 
         return $this;
@@ -342,7 +351,11 @@ class Observer
                 ->updateRewardPoints();
             if ($reward->getRewardPointsUpdated() && $reward->getPointsDelta()) {
                 $order->addStatusHistoryComment(
-                    __('The customer earned %1 for this order.', $this->_rewardData->formatReward($reward->getPointsDelta()))
+                    __(
+                        'The customer earned %1 for this order.',
+                        $this->_rewardData->formatReward($reward->getPointsDelta()
+                        )
+                    )
                 )->save();
             }
         }

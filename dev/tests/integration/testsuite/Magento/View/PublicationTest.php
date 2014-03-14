@@ -74,7 +74,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->_initTestTheme($allowDuplication);
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\LocaleInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Locale\ResolverInterface')
             ->setLocale($locale);
         $url = $this->viewUrl->getViewFileUrl($file);
         $this->assertStringEndsWith($expectedUrl, $url);
@@ -298,7 +298,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             trim(file_get_contents($this->fileSystem->getViewFile($contentFile, $designParams))),
-            file_get_contents($expectedFile)
+            trim(file_get_contents($expectedFile))
         );
     }
 

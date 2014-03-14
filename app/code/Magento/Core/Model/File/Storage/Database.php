@@ -50,7 +50,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Helper\File\Media $mediaHelper
      * @param \Magento\Core\Model\Resource\File\Storage\Database $resource
@@ -63,7 +63,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\Database $resource,

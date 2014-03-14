@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model;
 
 class Observer extends \Magento\Core\Model\AbstractModel
@@ -74,18 +73,16 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_layout;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Locale\CurrencyInterface
      */
-    protected $_locale;
+    protected $_localeCurrency;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
@@ -104,7 +101,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
-        \Magento\LocaleInterface $locale,
+        \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
@@ -118,7 +115,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
-        $this->_locale = $locale;
+        $this->_localeCurrency = $localeCurrency;
         $this->_itemsFactory = $itemsFactory;
         $this->_transportBuilder = $transportBuilder;
         $this->_invoiceFactory = $invoiceFactory;
@@ -133,6 +130,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Set attribute renderer on catalog product edit page
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setAmountsRendererInForm(\Magento\Event\Observer $observer)
     {
@@ -151,6 +149,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Set giftcard amounts field as not used in mass update
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function updateExcludedFieldList(\Magento\Event\Observer $observer)
     {
@@ -166,7 +165,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Generate gift card accounts after order save
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCard\Model\Observer
+     * @return $this
      */
     public function generateGiftCardAccounts(\Magento\Event\Observer $observer)
     {
@@ -270,7 +269,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             ->setCodes($codes)
                             ->setIsRedeemable($isRedeemable)
                             ->setStore($this->_storeManager->getStore($order->getStoreId()));
-                        $balance = $this->_locale->currency(
+                        $balance = $this->_localeCurrency->getCurrency(
                             $this->_storeManager->getStore($order->getStoreId())->getBaseCurrencyCode()
                         )->toCurrency($amount);
 
@@ -328,7 +327,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Process `giftcard_amounts` attribute afterLoad logic on loading by collection
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCard\Model\Observer
+     * @return $this
      */
     public function loadAttributesAfterCollectionLoad(\Magento\Event\Observer $observer)
     {
@@ -349,7 +348,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * Initialize product options renderer with giftcard specific params
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\GiftCard\Model\Observer
+     * @return $this
      */
     public function initOptionRenderer(\Magento\Event\Observer $observer)
     {

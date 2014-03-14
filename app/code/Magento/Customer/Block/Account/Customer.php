@@ -8,17 +8,12 @@
 
 namespace Magento\Customer\Block\Account;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+
 class Customer extends \Magento\View\Element\Template
 {
-    /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
-    protected $_customerService;
+    /** @var CustomerAccountServiceInterface */
+    protected $_customerAccountService;
 
     /** @var \Magento\Customer\Helper\View */
     protected $_viewHelper;
@@ -35,8 +30,7 @@ class Customer extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $session
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $viewHelper
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
@@ -44,20 +38,18 @@ class Customer extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $session,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_customerSession = $session;
-        $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_viewHelper = $viewHelper;
-        $this->_isScopePrivate = true;
         $this->httpContext = $httpContext;
         $this->currentCustomer = $currentCustomer;
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -78,7 +70,7 @@ class Customer extends \Magento\View\Element\Template
     public function getCustomerName()
     {
         try {
-            $customer = $this->_customerService->getCustomer($this->currentCustomer->getCustomerId());
+            $customer = $this->_customerAccountService->getCustomer($this->currentCustomer->getCustomerId());
             return $this->escapeHtml($this->_viewHelper->getCustomerName($customer));
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;

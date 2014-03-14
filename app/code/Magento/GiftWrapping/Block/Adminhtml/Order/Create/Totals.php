@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
 /**
  * Gift wrapping total block for admin checkout
  *
  */
-namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
-
 class Totals
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
     /**
      * Gift wrapping data
      *
-     * @var \Magento\GiftWrapping\Helper\Data
+     * @var \Magento\GiftWrapping\Helper\Data|null
      */
     protected $_giftWrappingData = null;
 

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Reorder;
 
 /**
  * Sales order view block
  */
-namespace Magento\Sales\Block\Reorder;
-
 class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Block\IdentityInterface
 {
     /**
@@ -66,6 +65,8 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
 
     /**
      * Init orders
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -77,6 +78,8 @@ class Sidebar extends \Magento\View\Element\Template implements \Magento\View\Bl
 
     /**
      * Init customer order for display on front
+     *
+     * @return void
      */
     public function initOrders()
     {

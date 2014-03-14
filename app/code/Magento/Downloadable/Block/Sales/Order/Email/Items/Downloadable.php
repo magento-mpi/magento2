@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloadable\Block\Sales\Order\Email\Items;
 
+use Magento\Downloadable\Model\Link\Purchased\Item;
+use Magento\Downloadable\Model\Link\Purchased;
 
 /**
  * Downlaodable Sales Order Email items renderer
@@ -16,12 +19,10 @@
  * @package    Magento_Downloadable
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Block\Sales\Order\Email\Items;
-
 class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
 {
     /**
-     * @var \Magento\Downloadable\Model\Link\Purchased
+     * @var Purchased
      */
     protected $_purchased;
 
@@ -61,7 +62,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
     /**
      * Enter description here...
      *
-     * @return \Magento\Downloadable\Model\Link\Purchased
+     * @return Purchased
      */
     public function getLinks()
     {
@@ -73,6 +74,9 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
         return $this->_purchased;
     }
 
+    /**
+     * @return null|string
+     */
     public function getLinksTitle()
     {
         if ($this->_purchased->getLinkSectionTitle()) {
@@ -81,6 +85,10 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
         return $this->_storeConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
     }
 
+    /**
+     * @param Item $item
+     * @return string
+     */
     public function getPurchasedLinkUrl($item)
     {
         return $this->_urlBuilder->getUrl('downloadable/download/link', array(

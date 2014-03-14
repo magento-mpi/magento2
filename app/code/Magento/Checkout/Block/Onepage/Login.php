@@ -2,24 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Checkout\Block\Onepage;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as CustomerAddressService;
+use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Message\Collection;
 
 /**
  * One page checkout status
- *
- * @category   Magento
- * @category   Magento
- * @package    Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
+class Login extends AbstractOnepage
 {
     /**
      * Checkout data
@@ -41,9 +37,12 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param \Magento\Checkout\Model\Session $resourceSession
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param CustomerAccountService $customerAccountService
+     * @param CustomerAddressService $customerAddressService
+     * @param AddressConfig $addressConfig
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -54,6 +53,9 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Checkout\Model\Session $resourceSession,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        CustomerAccountService $customerAccountService,
+        CustomerAddressService $customerAddressService,
+        AddressConfig $addressConfig,
         \Magento\App\Http\Context $httpContext,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Message\ManagerInterface $messageManager,
@@ -70,6 +72,9 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $resourceSession,
             $countryCollectionFactory,
             $regionCollectionFactory,
+            $customerAccountService,
+            $customerAddressService,
+            $addressConfig,
             $httpContext,
             $data
         );

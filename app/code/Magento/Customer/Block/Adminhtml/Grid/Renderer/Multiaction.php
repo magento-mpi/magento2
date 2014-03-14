@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Grid\Renderer;
 
 /**
  * Adminhtml customers wishlist grid item action renderer for few action controls in one cell
@@ -15,10 +16,7 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Grid\Renderer;
-
-class Multiaction
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
+class Multiaction extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
      * Renders column
@@ -55,7 +53,7 @@ class Multiaction
      *
      * @param  array $action
      * @param  \Magento\Object $row
-     * @return bool|string
+     * @return string|false
      */
     protected function _toLinkHtml($action, \Magento\Object $row)
     {

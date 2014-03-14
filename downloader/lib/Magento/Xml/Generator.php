@@ -16,12 +16,24 @@ class Generator
      */
     const DEFAULT_ENTITY_ITEM_NAME = 'item';
 
+    /**
+     * @var \DOMDocument|null
+     */
     protected $_dom = null;
+
+    /**
+     * @var \DOMDocument
+     */
     protected $_currentDom;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $_defaultIndexedArrayItemName;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->_dom = new \DOMDocument('1.0');
@@ -30,16 +42,26 @@ class Generator
         return $this;
     }
 
+    /**
+     * @return \DOMDocument|null
+     */
     public function getDom()
     {
         return $this->_dom;
     }
 
+    /**
+     * @return \DOMDocument
+     */
     protected function _getCurrentDom()
     {
         return $this->_currentDom;
     }
 
+    /**
+     * @param \DOMDocument $node
+     * @return $this
+     */
     protected function _setCurrentDom($node)
     {
         $this->_currentDom = $node;
@@ -47,8 +69,9 @@ class Generator
     }
 
     /**
-    * @param array $content
-    */
+     * @param array $content
+     * @return $this
+     */
     public function arrayToXml($content)
     {
         $parentNode = $this->_getCurrentDom();
@@ -94,11 +117,18 @@ class Generator
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getDom()->saveXML();
     }
 
+    /**
+     * @param string $file
+     * @return $this
+     */
     public function save($file)
     {
         $this->getDom()->save($file);
@@ -108,8 +138,8 @@ class Generator
     /**
      * Set xml node name to use instead of numeric index during numeric arrays conversion.
      *
-     * @param $name
-     * @return \Magento\Xml\Generator
+     * @param string $name
+     * @return $this
      */
     public function setIndexedArrayItemName($name)
     {

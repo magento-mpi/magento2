@@ -8,15 +8,15 @@
 
 namespace Magento\TestModule5\Service\V1\Entity;
 
-use Magento\Service\Entity\AbstractDto;
+use Magento\Service\Data\AbstractObject;
 
 /**
- * Some DTO short description.
+ * Some Data Object short description.
  *
- * DTO long
+ * Data Object long
  * multi line description.
  */
-class AllSoapAndRest extends AbstractDto
+class AllSoapAndRest extends AbstractObject
 {
     const ID = 'id';
     const NAME = 'name';

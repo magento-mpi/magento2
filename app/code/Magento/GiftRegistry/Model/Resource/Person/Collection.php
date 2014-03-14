@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GiftRegistry\Model\Resource\Person;
 
 /**
  * Gift registry entity registrants collection
@@ -16,13 +16,12 @@
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GiftRegistry\Model\Resource\Person;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -33,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Apply entity filter to collection
      *
      * @param int $entityId
-     * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
+     * @return $this
      */
     public function addRegistryFilter($entityId)
     {

@@ -5,13 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Block\Backend;
 
 class Container extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize object state with incoming parameters
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -24,7 +25,7 @@ class Container extends \Magento\Backend\Block\Widget\Grid\Container
     /**
      * Prepare layout, remove button
      *
-     * @return $this|\Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

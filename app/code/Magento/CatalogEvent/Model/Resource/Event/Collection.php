@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CatalogEvent\Model\Resource\Event;
 
 /**
  * Catalog Event resource collection
@@ -16,8 +16,6 @@
  * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogEvent\Model\Resource\Event;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -70,8 +68,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * Intialize collection
+     * Initialize collection
      *
+     * @return void
      */
     protected function _construct()
     {

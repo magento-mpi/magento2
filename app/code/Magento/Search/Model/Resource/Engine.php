@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Search\Model\Resource;
 
 /**
  * Search engine resource model
@@ -15,8 +16,6 @@
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Model\Resource;
-
 class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
     /**
@@ -29,27 +28,23 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Advanced index fields prefix
      *
-     * @deprecated after 1.11.2.0
-     *
      * @var string
+     * @deprecated after 1.11.2.0
      */
     protected $_advancedIndexFieldsPrefix = '#';
 
     /**
      * List of static fields for index
      *
+     * @var string[]
      * @deprecated after 1.11.2.0
-     *
-     * @var array
      */
     protected $_advancedStaticIndexFields = array('#visibility');
 
     /**
      * List of obligatory dynamic fields for index
      *
-     * @deprecated after 1.11.2.0
-     *
-     * @var array
+     * @var string[]
      */
     protected $_advancedDynamicIndexFields = array(
         '#position_category_',
@@ -85,6 +80,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     protected $_searchCollectionFactory;
 
     /**
+     * Search resource
+     *
      * @var \Magento\Search\Model\Resource\Advanced
      */
     protected $_searchResource;
@@ -103,7 +100,16 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected $_storeManager;
 
-
+    /**
+     * @param \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext
+     * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Search\Model\Resource\Advanced $searchResource
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Search\Model\Factory\Factory $searchFactory
+     */
     public function __construct(
         \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,
@@ -158,7 +164,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Initialize search engine adapter
      *
-     * @return \Magento\Search\Model\Resource\Engine
+     * @return $this
      */
     protected function _initAdapter()
     {
@@ -219,9 +225,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Get stat info using engine search stats component
      *
-     * @param  string $query
-     * @param  array  $params
-     * @param  string $entityType 'product'|'cms'
+     * @param string $query
+     * @param array  $params
+     * @param string $entityType 'product'|'cms'
      * @return array
      */
     public function getStats($query, $params = array(), $entityType = 'product')
@@ -236,8 +242,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param int $storeId
      * @param array $index
      * @param string $entityType 'product'|'cms'
-     *
-     * @return \Magento\Search\Model\Resource\Engine
+     * @return $this
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entityType = 'product')
     {
@@ -250,8 +255,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param int $storeId
      * @param array $entityIndexes
      * @param string $entityType 'product'|'cms'
-     *
-     * @return \Magento\Search\Model\Resource\Engine
+     * @return $this
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entityType = 'product')
     {
@@ -266,10 +270,10 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      *
      * For deletion of all documents parameters should be null. Empty array will do nothing.
      *
-     * @param  int|array|null $storeIds
-     * @param  int|array|null $entityIds
-     * @param  string $entityType 'product'|'cms'
-     * @return \Magento\Search\Model\Resource\Engine
+     * @param int|array|null $storeIds
+     * @param int|array|null $entityIds
+     * @param string $entityType 'product'|'cms'
+     * @return $this
      */
     public function cleanIndex($storeIds = null, $entityIds = null, $entityType = 'product')
     {
@@ -336,7 +340,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Define if current search engine supports advanced index
      *
-     * @return bool
+     * @return true
      */
     public function allowAdvancedIndex()
     {
@@ -345,8 +349,6 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 
     /**
      * Retrieve allowed visibility values for current engine
-     *
-     * @see
      *
      * @return array
      */
@@ -359,7 +361,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * Prepare index array
      *
      * @param array $index
-     * @param string $separator
+     * @param string|null $separator
      * @return array
      */
     public function prepareEntityIndex($index, $separator = null)
@@ -370,7 +372,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Define if Layered Navigation is allowed
      *
-     * @return bool
+     * @return true
      */
     public function isLayeredNavigationAllowed()
     {
@@ -390,7 +392,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Optimize search engine index
      *
-     * @return \Magento\Search\Model\Resource\Engine
+     * @return $this
      */
     public function optimizeIndex()
     {
@@ -401,7 +403,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Commit search engine index changes
      *
-     * @return \Magento\Search\Model\Resource\Engine
+     * @return $this
      */
     public function commitChanges()
     {
@@ -443,8 +445,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Define if third party search engine index needs optimization
      *
-     * @param  bool $state
-     * @return \Magento\Search\Model\Resource\Engine
+     * @param bool $state
+     * @return $this
      */
     public function setIndexNeedsOptimization($state = true)
     {
@@ -462,13 +464,18 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         return $this->_adapter->getIndexNeedsOptimization();
     }
 
+    /**
+     * Searchable Attributes
+     *
+     * @var null
+     */
     protected $_searchableAttributes = null;
 
     /**
      * Store searchable attributes
      *
      * @param array $attributes
-     * @return \Magento\Search\Model\Resource\Engine
+     * @return $this
      */
     public function storeSearchableAttributes(array $attributes)
     {
@@ -479,10 +486,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Retrieve attribute field name for search engine
      *
-     * @param   $attribute
-     * @param   string $target
-     *
-     * @return  string|bool
+     * @param \Magento\Catalog\Model\Resource\Eav\Attribute|string $attribute
+     * @param string $target
+     * @return string|bool
      */
     public function getSearchEngineFieldName($attribute, $target = 'default')
     {
@@ -492,9 +498,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Refresh products indexes affected on category update
      *
-     * @param  array $productIds
-     * @param  array $categoryIds
-     * @return \Magento\Search\Model\Resource\Engine
+     * @param array $productIds
+     * @param array $categoryIds
+     * @return $this
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {
@@ -512,9 +518,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Returns advanced index fields prefix
      *
-     * @deprecated after 1.11.2.0
-     *
      * @return string
+     * @deprecated after 1.11.2.0
      */
     public function getFieldsPrefix()
     {
@@ -524,15 +529,12 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Prepare advanced index for products
      *
-     * @deprecated after 1.11.2.0
-     *
-     * @see \Magento\CatalogSearch\Model\Resource\Fulltext->_getSearchableProducts()
-     *
      * @param array $index
      * @param int $storeId
-     * @param array | null $productIds
-     *
+     * @param array|null $productIds
      * @return array
+     * @deprecated after 1.11.2.0
+     * @see \Magento\CatalogSearch\Model\Resource\Fulltext->_getSearchableProducts()
      */
     public function addAdvancedIndex($index, $storeId, $productIds = null)
     {
@@ -542,11 +544,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Add to index fields that allowed in advanced index
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param array $productData
-     *
      * @return array
+     * @deprecated after 1.11.2.0
      */
     public function addAllowedAdvancedIndexField($productData)
     {
@@ -568,11 +568,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Define if field is dynamic index field
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param string $field
-     *
      * @return bool
+     * @deprecated after 1.11.2.0
      */
     protected function _isDynamicField($field)
     {

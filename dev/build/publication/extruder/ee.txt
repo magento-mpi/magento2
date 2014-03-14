@@ -3,7 +3,6 @@
 #
 LICENSE_EE.html
 LICENSE_EE.txt
-app/design/adminhtml/magento_backend/css/styles-ee.css
 app/design/adminhtml/magento_backend/css/admin-ee.css
 app/design/adminhtml/magento_backend/css/styles-ie8-ee.css
 app/design/adminhtml/magento_backend/less/styles-ee.less
@@ -15,9 +14,17 @@ app/design/frontend/magento_plushe/Magento_Enterprise
 app/design/frontend/magento_plushe/Magento_GiftCardAccount
 app/design/frontend/magento_plushe/Magento_Reward
 app/design/frontend/magento_plushe/Magento_WebsiteRestriction
-app/design/frontend/magento_plushe/less/styles-ee.less
-app/design/frontend/magento_plushe/less/responsive/responsive-ee.less
-app/design/frontend/magento_plushe/css/styles-ee.css
+app/design/frontend/magento_plushe/css/styles-ee.less
+app/design/frontend/magento_plushe/css/source/responsive/responsive-ee.less
+app/design/frontend/magento_blank/Magento_AdvancedCheckout
+app/design/frontend/magento_blank/Magento_Banner
+app/design/frontend/magento_blank/Magento_CatalogEvent
+app/design/frontend/magento_blank/Magento_GiftCard
+app/design/frontend/magento_blank/Magento_GiftCardAccount
+app/design/frontend/magento_blank/Magento_GiftRegistry
+app/design/frontend/magento_blank/Magento_GroupedProduct
+app/design/frontend/magento_blank/Magento_MultipleWishlist
+app/design/frontend/magento_blank/Magento_VersionsCms
 app/design/install/magento_enterprise
 app/etc/enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
@@ -125,7 +132,7 @@ app/code/Magento/TargetRule
 dev/tests/integration/testsuite/Magento/TargetRule
 app/code/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/WebsiteRestriction
-app/code/Magento/CustomAttribute
+app/code/Magento/CustomAttributeManagement
 app/code/Magento/AdvancedCheckout
 dev/tests/unit/testsuite/Magento/AdvancedCheckout
 dev/tests/integration/testsuite/Magento/AdvancedCheckout

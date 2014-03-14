@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block;
 
 /**
  * Front end helper block to show giftregistry items
  */
-namespace Magento\GiftRegistry\Block;
-
 class Items extends \Magento\Checkout\Block\Cart
 {
     /**
@@ -132,7 +129,7 @@ class Items extends \Magento\Checkout\Block\Cart
                     ->setOptions($item->getOptions());
 
                 $product->setCustomOptions($item->getOptionsByCode());
-                if ($this->_catalogData->canApplyMsrp($product)) {
+                if ($this->_catalogHelper->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
                         $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(

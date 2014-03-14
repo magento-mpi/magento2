@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 class File extends AbstractData
@@ -37,20 +36,22 @@ class File extends AbstractData
     protected $_fileSystem;
 
     /**
-     * @param \Magento\LocaleInterface $locale
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Logger $logger
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param null $value
-     * @param $entityTypeCode
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
      * @param \Magento\App\Filesystem $fileSystem
      */
     public function __construct(
-        \Magento\LocaleInterface $locale,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Logger $logger,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value = null,
         $entityTypeCode,
         $isAjax = false,
@@ -58,7 +59,7 @@ class File extends AbstractData
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         \Magento\App\Filesystem $fileSystem
     ) {
-        parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
+        parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
         $this->_fileSystem = $fileSystem;
@@ -123,7 +124,7 @@ class File extends AbstractData
      * Return array of errors
      *
      * @param array $value
-     * @return array
+     * @return string[]
      */
     protected function _validateByRules($value)
     {
@@ -220,6 +221,8 @@ class File extends AbstractData
 
     /**
      * {@inheritdoc}
+     *
+     * @return $this|string
      */
     public function compactValue($value)
     {

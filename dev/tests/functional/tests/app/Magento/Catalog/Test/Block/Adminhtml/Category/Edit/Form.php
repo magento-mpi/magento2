@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @spi
  * @category    Mtf
  * @package     Mtf
  * @subpackage  functional_tests
@@ -12,7 +11,7 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category\Edit;
 
-use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
@@ -31,17 +30,21 @@ class Form extends FormTabs
     protected $saveButton = '[data-ui-id=category-edit-form-save-button]';
 
     /**
-     * Custom tab classes for product form
+     * Category Products grid
      *
-     * @var array
+     * @var string
      */
-    protected $tabClasses = array(
-        'category_info_tabs_group_4' => '\\Magento\\Catalog\\Test\\Block\\Adminhtml\\Category\\Tab\\Attributes'
-    );
+    protected $productsGridBlock = '#catalog_category_products';
 
-    public function getCategoryId()
+    /**
+     * Get Category edit form
+     *
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid
+     */
+    public function getCategoryProductsGrid()
     {
-        $idField = $this->_rootElement->find('group_4id', Locator::SELECTOR_ID);
-        return $idField->getValue();
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryTabProductGrid(
+            $this->_rootElement->find($this->productsGridBlock)
+        );
     }
 }

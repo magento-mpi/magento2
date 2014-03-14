@@ -25,6 +25,9 @@ class Grouped
      */
     protected $priceHelper;
 
+    /**
+     * @var string
+     */
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 
     /**
@@ -93,6 +96,8 @@ class Grouped
     /**
      * Redefine default price block
      * Set current customer to tax calculation
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -150,7 +155,7 @@ class Grouped
     /**
      * Set preconfigured values to grouped associated products
      *
-     * @return \Magento\GroupedProduct\Block\Product\View\Type\Grouped
+     * @return $this
      */
     public function setPreconfiguredValue()
     {

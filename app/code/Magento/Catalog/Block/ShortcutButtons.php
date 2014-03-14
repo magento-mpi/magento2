@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block;
 
 use Magento\View\Element\Template;
@@ -55,6 +54,7 @@ class ShortcutButtons extends Template
      * Add shortcut button
      *
      * @param Template $block
+     * @return void
      */
     public function addShortcut(Template $block)
     {

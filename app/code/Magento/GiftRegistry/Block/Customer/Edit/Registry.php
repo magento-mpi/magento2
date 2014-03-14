@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Customer\Edit;
 
 /**
  * Customer giftregistry edit block
  */
-namespace Magento\GiftRegistry\Block\Customer\Edit;
-
-class Registry extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
+class Registry extends AbstractEdit
 {
     /**
      * Scope Selector 'registry/registrant'

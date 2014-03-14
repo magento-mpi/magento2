@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect;
 
 /**
  * Class to work with remote FTP server
@@ -15,8 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect;
-
 class Ftp
 {
     /**
@@ -56,6 +55,7 @@ class Ftp
      *
      * @param string $path
      * @param int $mode
+     * @return bool
      */
     public function mkdirRecursive($path, $mode = 0777)
     {
@@ -84,7 +84,7 @@ class Ftp
      * @param string $login
      * @param string $password
      * @throws \Exception on invalid login credentials
-     * @return boolean
+     * @return bool
      */
     public function login($login = "anonymous", $password = "test@gmail.com")
     {
@@ -157,7 +157,7 @@ class Ftp
      * @param resource $handle
      * @param int $mode  FTP_BINARY | FTP_ASCII
      * @param int $startPos
-     * @return boolean
+     * @return bool
      */
     public function fput($remoteFile, $handle, $mode = FTP_BINARY, $startPos = 0)
     {
@@ -172,7 +172,7 @@ class Ftp
      * @param string $localFile
      * @param int $mode FTP_BINARY | FTP_ASCII
      * @param int $startPos
-     * @return boolean
+     * @return bool
      */
     public function put($remoteFile, $localFile, $mode = FTP_BINARY, $startPos = 0)
     {
@@ -223,7 +223,7 @@ class Ftp
      * @param string $local
      * @param int $dirMode
      * @param int $fileMode
-     * @return boolean
+     * @return bool
      */
     public function upload($remote, $local, $dirMode = 0777, $fileMode=0)
     {
@@ -265,7 +265,7 @@ class Ftp
         if($fileMode){
             $res=$this->chmod($fileMode, $remote);
         }
-        return (boolean)$res;
+        return (bool)$res;
     }
 
     /**
@@ -274,7 +274,7 @@ class Ftp
      * @param string $remote
      * @param string $local
      * @param int $ftpMode  FTP_BINARY|FTP_ASCII
-     * @return boolean
+     * @return bool
      */
     public function download($remote, $local, $ftpMode = FTP_BINARY)
     {
@@ -285,13 +285,13 @@ class Ftp
     /**
      * ftp_pasv wrapper
      *
-     * @param boolean $pasv
-     * @return boolean
+     * @param bool $pasv
+     * @return bool
      */
     public function pasv($pasv)
     {
         $this->checkConnected();
-        return @ftp_pasv($this->_conn, (boolean) $pasv);
+        return @ftp_pasv($this->_conn, (bool) $pasv);
     }
 
     /**
@@ -309,9 +309,9 @@ class Ftp
     /**
      * ftp_chmod wrapper
      *
-     * @param $mode
-     * @param $remoteFile
-     * @return boolean
+     * @param int $mode
+     * @param string $remoteFile
+     * @return bool
      */
     public function chmod($mode, $remoteFile)
     {
@@ -323,7 +323,7 @@ class Ftp
      * ftp_chdir wrapper
      *
      * @param string $dir
-     * @return boolean
+     * @return bool
      */
     public function chdir($dir)
     {
@@ -334,7 +334,7 @@ class Ftp
     /**
      * ftp_cdup wrapper
      *
-     * @return boolean
+     * @return bool
      */
     public function cdup()
     {
@@ -349,7 +349,7 @@ class Ftp
      * @param string $remoteFile
      * @param int $fileMode         FTP_BINARY | FTP_ASCII
      * @param int $resumeOffset
-     * @return boolean
+     * @return bool
      */
     public function get($localFile, $remoteFile, $fileMode = FTP_BINARY, $resumeOffset = 0)
     {
@@ -362,7 +362,7 @@ class Ftp
      * ftp_nlist wrapper
      *
      * @param string $dir
-     * @return boolean
+     * @return bool
      */
     public function nlist($dir = "/")
     {
@@ -375,7 +375,7 @@ class Ftp
      * ftp_rawlist wrapper
      *
      * @param string $dir
-     * @param boolean $recursive
+     * @param bool $recursive
      * @return array
      */
     public function rawlist( $dir = "/", $recursive = false )
@@ -416,8 +416,8 @@ class Ftp
      * Checks file exists
      *
      * @param string $path
-     * @param boolean $excludeIfIsDir
-     * @return boolean
+     * @param bool $excludeIfIsDir
+     * @return bool
      */
     public function fileExists($path, $excludeIfIsDir = true)
     {
@@ -442,7 +442,7 @@ class Ftp
      * Get directory contents in PHP array
      *
      * @param string $dir
-     * @param boolean $recursive
+     * @param bool $recursive
      * @return array
      */
     public function ls($dir = "/", $recursive = false)
@@ -481,7 +481,7 @@ class Ftp
     /**
      * Correct file path
      *
-     * @param $str
+     * @param string $str
      * @return string
      */
     public function correctFilePath($str)
@@ -495,7 +495,7 @@ class Ftp
      * Delete file
      *
      * @param string $file
-     * @return boolean
+     * @return bool
      */
     public function delete($file)
     {
@@ -508,7 +508,7 @@ class Ftp
      * Remove directory
      *
      * @param string $dir
-     * @return boolean
+     * @return bool
      */
     public function rmdir($dir)
     {

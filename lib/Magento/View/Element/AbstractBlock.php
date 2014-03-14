@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -147,11 +146,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $filterManager;
 
     /**
-     * Locale
-     *
-     * @var \Magento\LocaleInterface
+     * @var \Magento\Stdlib\DateTime\TimezoneInterface
      */
-    protected $_locale;
+    protected $_localeDate;
 
     /**
      * The property is used to define content-scope of block. Can be private or public.
@@ -185,7 +182,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_logger          = $context->getLogger();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
-        $this->_locale          = $context->getLocale();
+        $this->_localeDate      = $context->getLocaleDate();
+        $this->_isScopePrivate  = false;
         parent::__construct($data);
         $this->_construct();
     }
@@ -703,7 +701,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param array $params
      * @return string
      */
-
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
@@ -730,29 +727,29 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * Retrieve formatting date
      *
-     * @param   string $date
+     * @param   \Zend_Date|string|null $date
      * @param   string $format
      * @param   bool $showTime
      * @return  string
      */
     public function formatDate(
-        $date = null, $format =  \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
+        $date = null, $format =  \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->_locale->formatDate($date, $format, $showTime);
+        return $this->_localeDate->formatDate($date, $format, $showTime);
     }
 
     /**
      * Retrieve formatting time
      *
-     * @param   string $time
+     * @param   \Zend_Date|string|null $time
      * @param   string $format
      * @param   bool $showDate
      * @return  string
      */
     public function formatTime(
-        $time = null, $format = \Magento\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
+        $time = null, $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->_locale->formatTime($time, $format, $showDate);
+        return $this->_localeDate->formatTime($time, $format, $showDate);
     }
 
     /**

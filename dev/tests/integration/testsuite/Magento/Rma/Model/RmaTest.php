@@ -42,7 +42,7 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $rmaData = array(
             'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested'        => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\Date')->gmtDate(),
+                ->get('Magento\Stdlib\DateTime\DateTime')->gmtDate(),
             'order_id'              => $order->getId(),
             'order_increment_id'    => $order->getIncrementId(),
             'store_id'              => $order->getStoreId(),

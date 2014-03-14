@@ -18,14 +18,17 @@ use PHPParser_Node_Scalar;
 /**
  * This class will return the string passed in.
  * Class ScalarReference
- * @package Magento\Tools\Formatter\PrettyPrinter\Reference
  */
 class AbstractScalarReference extends AbstractReference
 {
+    /**
+     * @var mixed
+     */
     protected $result;
 
     /**
      * This method constructs a new statement based on the specified scalar.
+     *
      * @param PHPParser_Node_Scalar $node
      * @param mixed $result Optional value to return in resolve.
      */
@@ -54,8 +57,11 @@ class AbstractScalarReference extends AbstractReference
 
     /**
      * This method reproduces the heredoc structure.
+     *
+     * @param TreeNode $treeNode
      * @param string $heredocCloseTag String containing the value of the heredoc tag
      * @param string|array $bodyLines string or Array containing the body lines of the heredoc.
+     * @return void
      */
     protected function processHeredoc(TreeNode $treeNode, $heredocCloseTag, $bodyLines)
     {

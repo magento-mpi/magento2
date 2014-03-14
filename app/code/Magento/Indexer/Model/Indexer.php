@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model;
 
 class Indexer extends \Magento\Object implements IndexerInterface
@@ -182,6 +181,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      * Turn scheduled mode on/off
      *
      * @param bool $scheduled
+     * @return void
      */
     public function setScheduled($scheduled)
     {
@@ -225,6 +225,8 @@ class Indexer extends \Magento\Object implements IndexerInterface
 
     /**
      * Set indexer invalid
+     *
+     * @return void
      */
     public function invalidate()
     {
@@ -254,8 +256,8 @@ class Indexer extends \Magento\Object implements IndexerInterface
             if (!$this->getState()->getUpdated()) {
                 return $this->getView()->getUpdated();
             }
-            $indexerUpdatedDate = new \Zend_Date($this->getState()->getUpdated());
-            $viewUpdatedDate = new \Zend_Date($this->getView()->getUpdated());
+            $indexerUpdatedDate = new \Magento\Stdlib\DateTime\Date($this->getState()->getUpdated());
+            $viewUpdatedDate = new \Magento\Stdlib\DateTime\Date($this->getView()->getUpdated());
             if ($viewUpdatedDate->compare($indexerUpdatedDate) == 1) {
                 return $this->getView()->getUpdated();
             }
@@ -276,6 +278,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     /**
      * Regenerate full index
      *
+     * @return void
      * @throws \Exception
      */
     public function reindexAll()
@@ -305,6 +308,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      * Regenerate one row in index by ID
      *
      * @param int $id
+     * @return void
      */
     public function reindexRow($id)
     {
@@ -316,6 +320,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      * Regenerate rows in index by ID list
      *
      * @param int[] $ids
+     * @return void
      */
     public function reindexList($ids)
     {

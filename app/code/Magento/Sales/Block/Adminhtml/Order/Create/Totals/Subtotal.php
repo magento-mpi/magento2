@@ -7,20 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
 /**
  * Subtotal Total Row Renderer
  *
  * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
-
 class Subtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\DefaultTotals
 {
+    /**
+     * Template
+     *
+     * @var string
+     */
     protected $_template = 'order/create/totals/subtotal.phtml';
 
     /**
+     * Tax config
+     *
      * @var \Magento\Tax\Model\Config
      */
     protected $_taxConfig;

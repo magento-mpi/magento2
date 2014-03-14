@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend;
 
 /**
  * Quote address attribute backend child resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend;
-
 class Child
     extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -25,7 +23,7 @@ class Child
      * Set store id to the attribute
      *
      * @param \Magento\Object $object
-     * @return \Magento\Sales\Model\Resource\Quote\Address\Attribute\Backend\Child
+     * @return $this
      */
     public function beforeSave($object)
     {

@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Address;
+
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer address book block
@@ -15,8 +19,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Address;
-
 class Book extends \Magento\View\Element\Template
 {
     /**
@@ -25,12 +27,12 @@ class Book extends \Magento\View\Element\Template
     protected $currentCustomer;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     * @var CustomerAccountServiceInterface
      */
-    protected $_customerService;
+    protected $_customerAccountService;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     * @var CustomerAddressServiceInterface
      */
     protected $_addressService;
 
@@ -41,28 +43,31 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
+     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
-     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
-     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
+        CustomerAccountServiceInterface $customerAccountService,
+        CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
-        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
-        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
+        $this->_customerAccountService = $customerAccountService;
         $this->currentCustomer = $currentCustomer;
-        $this->_customerService = $customerService;
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')
@@ -71,11 +76,17 @@ class Book extends \Magento\View\Element\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getAddAddressUrl()
     {
         return $this->getUrl('customer/address/new', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         if ($this->getRefererUrl()) {
@@ -84,6 +95,9 @@ class Book extends \Magento\View\Element\Template
         return $this->getUrl('customer/account/', array('_secure'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteUrl()
     {
         return $this->getUrl('customer/address/delete');
@@ -107,7 +121,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
+     * @return \Magento\Customer\Service\V1\Data\Address[]|bool
      */
     public function getAdditionalAddresses()
     {
@@ -128,28 +142,28 @@ class Book extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param \Magento\Customer\Service\V1\Data\Address $address
      * @return string
      */
-    public function getAddressHtml(\Magento\Customer\Service\V1\Dto\Address $address = null)
+    public function getAddressHtml(\Magento\Customer\Service\V1\Data\Address $address = null)
     {
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
             $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-            return $renderer->renderArray($address->getAttributes());
+            return $renderer->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address));
         }
         return '';
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     * @return \Magento\Customer\Service\V1\Data\Customer|null
      */
     public function getCustomer()
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
             try {
-                $customer = $this->_customerService->getCustomer($this->currentCustomer->getCustomerId());
+                $customer = $this->_customerAccountService->getCustomer($this->currentCustomer->getCustomerId());
             } catch (\Magento\Exception\NoSuchEntityException $e) {
                 return null;
             }
@@ -159,7 +173,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getDefaultBilling()
     {
@@ -173,19 +187,19 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param int $addressId
-     * @return \Magento\Customer\Service\V1\Dto\Address|null
+     * @return \Magento\Customer\Service\V1\Data\Address|null
      */
     public function getAddressById($addressId)
     {
         try {
-            return $this->_addressService->getAddressById($addressId);
+            return $this->_addressService->getAddress($addressId);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return null;
         }
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getDefaultShipping()
     {

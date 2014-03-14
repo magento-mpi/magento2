@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Wishlist;
 
 /**
  * Wishlist view block
  */
-namespace Magento\GiftRegistry\Block\Wishlist;
-
 class View extends \Magento\Wishlist\Block\Customer\Wishlist
 {
     /**
@@ -97,7 +96,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     /**
      * Prepare block layout, override wishlist block with different template
      *
-     * @return \Magento\GiftRegistry\Block\Wishlist\View
+     * @return $this
      */
     protected function _prepareLayout()
     {

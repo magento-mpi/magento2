@@ -67,7 +67,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection.
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Wishlist
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -85,7 +85,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns.
      *
-     * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Wishlist
+     * @return $this
      */
     protected function _prepareColumns()
     {
