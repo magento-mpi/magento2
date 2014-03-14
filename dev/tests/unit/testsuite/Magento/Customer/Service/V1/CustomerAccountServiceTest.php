@@ -97,6 +97,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_urlMock;
 
     /**
+     * @var \Magento\Logger | \Magento\UrlInterface
+     */
+    private $_loggerMock;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data
      */
     private $_customerHelperMock;
@@ -228,6 +233,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
+        $this->_loggerMock = $this->getMockBuilder('\Magento\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
 
@@ -1631,6 +1639,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,
+            $this->_loggerMock,
             $this->_objectManagerMock
         );
         return $customerService;

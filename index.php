@@ -17,5 +17,7 @@
  * @license    {license_link}
  */
 require __DIR__ . '/app/bootstrap.php';
+$_SERVER['MAGE_MODE'] = 'developer';
+ini_set('display_errors', 1);
 $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $_SERVER);
 $entryPoint->run('Magento\App\Http');
