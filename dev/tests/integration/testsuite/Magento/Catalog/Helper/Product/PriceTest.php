@@ -29,7 +29,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helper = Bootstrap::getObjectManager()->get('Magento\Catalog\Helper\Product\Price');
-        $this->_customerAccountService = Bootstrap::getObjectManager() > get(
+        $this->_customerAccountService = Bootstrap::getObjectManager()->get(
                 'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
             );
 
