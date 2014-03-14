@@ -25,4 +25,9 @@
             <argument name="stateCollection" xsi:type="object" shared="false">Magento\Indexer\Model\Resource\Indexer\State\Collection</argument>
         </arguments>
     </type>
+    <type name="Magento\Mview\View\Subscription">
+        <arguments>
+            <argument name="viewCollection" xsi:type="object" shared="false">Magento\Mview\View\CollectionInterface</argument>
+        </arguments>
+    </type>
 </config>

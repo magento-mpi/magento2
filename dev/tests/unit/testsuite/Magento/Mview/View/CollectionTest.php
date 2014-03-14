@@ -9,7 +9,7 @@ namespace Magento\Mview\View;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testLoadData()
+    public function testLoadDataAndGetViewsByStateMode()
     {
         $indexerIdOne = 'first_indexer_id';
         $indexerIdSecond = 'second_indexer_id';
@@ -32,31 +32,38 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $state = $this->getMockBuilder('Magento\Mview\View\State')
-            ->setMethods(array('getViewId', '__wakeup'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $state = $this->getMockForAbstractClass(
+            'Magento\Mview\View\StateInterface', [], '', false, false, true,
+            ['getViewId', 'getMode', '__wakeup']
+        );
 
         $state->expects($this->any())
             ->method('getViewId')
             ->will($this->returnValue('second_indexer_id'));
 
-        $indexer = $this->getMockBuilder('Magento\Object')
-            ->setMethods(array('load', 'setState'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $state->expects($this->any())
+            ->method('getMode')
+            ->will($this->returnValue('disabled'));
 
-        $indexer->expects($this->once())
+        $view = $this->getMockForAbstractClass(
+            'Magento\Mview\ViewInterface', [], '', false, false, true,
+            ['load', 'setState', 'getState', '__wakeup']
+        );
+
+        $view->expects($this->once())
             ->method('setState')
             ->with($state);
-        $indexer->expects($this->any())
+        $view->expects($this->any())
+            ->method('getState')
+            ->will($this->returnValue($state));
+        $view->expects($this->any())
             ->method('load')
             ->with($this->logicalOr($indexerIdOne, $indexerIdSecond));
 
         $entityFactory->expects($this->any())
             ->method('create')
             ->with('Magento\Mview\ViewInterface')
-            ->will($this->returnValue($indexer));
+            ->will($this->returnValue($view));
 
         $statesFactory->expects($this->once())
             ->method('create')
@@ -72,5 +79,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $collection = new \Magento\Mview\View\Collection($entityFactory, $config, $statesFactory);
         $this->assertInstanceOf('Magento\Mview\View\Collection', $collection->loadData());
+
+        $views = $collection->getViewsByStateMode('disabled');
+        $this->assertCount(2, $views);
+        $this->assertInstanceOf('Magento\Mview\ViewInterface', $views[0]);
+        $this->assertInstanceOf('Magento\Mview\ViewInterface', $views[1]);
+
+        $views = $collection->getViewsByStateMode('enabled');
+        $this->assertCount(0, $views);
     }
 }
