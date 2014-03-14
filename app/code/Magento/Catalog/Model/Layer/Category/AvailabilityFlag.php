@@ -16,11 +16,11 @@ class AvailabilityFlag implements AvailabilityFlagInterface
     /**
      * Is filter enabled
      *
-     * @param $layer
-     * @param $filters
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param array $filters
      * @return bool
      */
-    public function isEnabled($layer, $filters)
+    public function isEnabled($layer, array $filters = array())
     {
         return $this->canShowOptions($filters) || count($layer->getState()->getFilters());
     }

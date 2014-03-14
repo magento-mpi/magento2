@@ -19,6 +19,8 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
     protected $fulltextCollectionFactory;
 
     /**
+     * ItemCollectionProvider constructor
+     *
      * @param CollectionFactory $fulltextCollectionFactory
      */
     function __construct(CollectionFactory $fulltextCollectionFactory)
@@ -29,7 +31,7 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
     /**
      * Retrieve item colleciton
      *
-     * @param $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getCollection(\Magento\Catalog\Model\Category $category)

@@ -29,7 +29,7 @@ class Plugin
      * @param \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject
      * @param callable $proceed
      * @param \Magento\Catalog\Model\Layer $layer
-     * @param $filters
+     * @param array $filters
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

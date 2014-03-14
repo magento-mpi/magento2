@@ -29,6 +29,8 @@ class CollectionFilter implements CollectionFilterInterface
     protected $catalogConfig;
 
     /**
+     * CollectionFilter constructor
+     *
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
      */
@@ -43,8 +45,9 @@ class CollectionFilter implements CollectionFilterInterface
     /**
      * Filter product collection
      *
-     * @param $collection
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\Catalog\Model\Category $category
+     * @return void
      */
     public function filter(
         $collection,

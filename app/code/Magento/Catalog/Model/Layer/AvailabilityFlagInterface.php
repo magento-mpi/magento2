@@ -11,9 +11,11 @@ namespace Magento\Catalog\Model\Layer;
 interface AvailabilityFlagInterface
 {
     /**
-     * @param $layer
-     * @param $filters
+     * Is filter enabled
+     *
+     * @param \Magento\Catalog\Model\Layer $layer
+     * @param array $filters
      * @return bool
      */
-    public function isEnabled($layer, $filters);
+    public function isEnabled($layer, array $filters = array());
 } 

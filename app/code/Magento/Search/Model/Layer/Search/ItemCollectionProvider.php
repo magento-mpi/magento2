@@ -16,6 +16,8 @@ class ItemCollectionProvider
     protected $engineProvider;
 
     /**
+     * Layer Search constructor
+     *
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      */
     public function __construct(

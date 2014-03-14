@@ -64,7 +64,7 @@ class FilterList
     /**
      * Retrieve list of filters
      *
-     * @param $layer
+     * @param \Magento\Catalog\Model\Layer $layer
      * @return array|Filter\AbstractFilter[]
      */
     public function getFilters(\Magento\Catalog\Model\Layer $layer)

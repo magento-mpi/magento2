@@ -18,6 +18,8 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
     protected $engineProvider;
 
     /**
+     * ItemCollectionProvider constructor
+     *
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      */
     public function __construct(

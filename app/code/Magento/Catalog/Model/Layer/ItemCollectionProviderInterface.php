@@ -13,7 +13,7 @@ namespace Magento\Catalog\Model\Layer;
 interface ItemCollectionProviderInterface
 {
     /**
-     * @param $category
+     * @param \Magento\Catalog\Model\Category $category
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getCollection(\Magento\Catalog\Model\Category $category);

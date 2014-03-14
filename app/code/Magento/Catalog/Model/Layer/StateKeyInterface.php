@@ -11,7 +11,9 @@ namespace Magento\Catalog\Model\Layer;
 interface StateKeyInterface
 {
     /**
-     * @param $category
+     * Build state key
+     *
+     * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
     public function toString($category);
