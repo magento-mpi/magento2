@@ -52,8 +52,8 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     ) {
         $this->_resource = $filterAttributeFactory->create();
         $this->string = $string;
-        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'attribute';
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
     }
 
     /**

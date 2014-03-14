@@ -71,6 +71,9 @@ abstract class AbstractFilter extends \Magento\Object
         $this->_storeManager = $storeManager;
         $this->_catalogLayer = $layer;
         parent::__construct($data);
+        if ($this->hasAttributeModel()) {
+            $this->_requestVar = $this->getAttributeModel()->getAttributeCode();
+        }
     }
 
     /**
