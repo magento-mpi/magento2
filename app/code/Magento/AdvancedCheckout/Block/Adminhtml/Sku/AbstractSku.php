@@ -140,6 +140,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             'dataContainerId' => $this->getDataContainerId(),
             'deleteButtonHtml' => $this->getDeleteButtonHtml(),
             'fileUploaded' => \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
+            // All functions requiring listType affects error grid only
             'listType' => \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
             'errorGridId' => $this->getErrorGridId(),
             'fileFieldName' => \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE,

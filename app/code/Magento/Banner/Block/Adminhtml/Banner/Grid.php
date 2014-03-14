@@ -97,7 +97,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => $this->_bannerConfig->toOptionArray(true, false),
                 'index' => 'types',
                 'width' => 250,
-                'filter' => false
+                'filter' => false // TODO implement
             )
         );
 

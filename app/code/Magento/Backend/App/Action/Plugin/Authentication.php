@@ -18,7 +18,13 @@ class Authentication
     /**
      * @var string[]
      */
-    protected $_openActions = array('forgotpassword', 'resetpassword', 'resetpasswordpost', 'logout', 'refresh');
+    protected $_openActions = array(
+        'forgotpassword',
+        'resetpassword',
+        'resetpasswordpost',
+        'logout',
+        'refresh' // captcha refresh
+    );
 
     /**
      * @var \Magento\Backend\Model\UrlInterface

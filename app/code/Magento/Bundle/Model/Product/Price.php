@@ -287,6 +287,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
                             }
 
                             $multiTypes = array(
+                                //Magento_Catalog_Model_Product_Option::OPTION_TYPE_DROP_DOWN,
                                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX,
                                 \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE
                             );

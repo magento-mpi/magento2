@@ -151,6 +151,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     }
                 }
             } catch (\Magento\Core\Exception $e) {
+                // redirect later from non-existing website
             }
         }
 
@@ -315,6 +316,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     if ($parentId) {
                         $forward = !$this->_validateCatalogSubCategoryAddPermission($parentId);
                     } else {
+                        // no adding root categories
                         $forward = true;
                     }
                 } else {
@@ -324,6 +326,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                         $controller->getRequest()->getParam('id')
                     );
                     if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
+                        // no viewing wrong categories
                         $forward = true;
                     }
                 }
@@ -428,6 +431,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!$this->_role->getWebsiteIds()) {
             return $this->_forward();
         }
+
+        // check whether there is disallowed website in request?
     }
 
     // TODO allow viewing sales information only from allowed websites
@@ -505,6 +510,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     if (!$this->_role->getWebsiteIds()) {
                         return $this->_forward();
                     }
+                    // preventing saving stores/groups for wrong website is handled by their models
                 }
                 break;
             case 'newWebsite':

@@ -956,6 +956,7 @@ class Index extends \Magento\Backend\App\Action
 
                 foreach ($items as $itemId => $info) {
                     if (!is_array($info)) {
+                        // For sure to filter incoming data
                         $info = array();
                     }
 

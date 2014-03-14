@@ -1006,7 +1006,11 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         $stream->unlock();
         $stream->close();
 
-        return array('type' => 'filename', 'value' => $file, 'rm' => true);
+        return array(
+            'type' => 'filename',
+            'value' => $file,
+            'rm' => true  // can delete file after use
+        );
     }
 
     /**
@@ -1142,7 +1146,11 @@ class Extended extends \Magento\Backend\Block\Widget\Grid implements \Magento\Ba
         $stream->unlock();
         $stream->close();
 
-        return array('type' => 'filename', 'value' => $file, 'rm' => true);
+        return array(
+            'type' => 'filename',
+            'value' => $file,
+            'rm' => true // can delete file after use
+        );
     }
 
     /**

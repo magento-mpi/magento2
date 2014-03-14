@@ -48,5 +48,6 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         } else {
             return array(array('neq' => $this->getColumn()->getValue()), array('is' => new \Zend_Db_Expr('NULL')));
         }
+        // return array('like'=>'%'.$this->getValue().'%');
     }
 }

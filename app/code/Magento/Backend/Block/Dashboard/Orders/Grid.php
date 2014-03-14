@@ -97,6 +97,8 @@ class Grid extends \Magento\Backend\Block\Dashboard\Grid
     protected function _preparePage()
     {
         $this->getCollection()->setPageSize($this->getParam($this->getVarNameLimit(), $this->_defaultLimit));
+        // Remove count of total orders
+        // $this->getCollection()->setCurPage($this->getParam($this->getVarNamePage(), $this->_defaultPage));
     }
 
     /**

@@ -103,6 +103,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'date_from',
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $dateFormat
+                //'required' => true
             )
         );
         $fieldset->addField(
@@ -114,6 +115,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => 'date_to',
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $dateFormat
+                //'required' => true
             )
         );
 

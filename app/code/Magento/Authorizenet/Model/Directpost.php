@@ -694,6 +694,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
 
             $this->_quoteFactory->create()->load($order->getQuoteId())->setIsActive(false)->save();
         } catch (\Exception $e) {
+            // do not cancel order if we couldn't send email
         }
     }
 
@@ -756,6 +757,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
 
                 $order->save();
             } catch (\Exception $e) {
+                //if we couldn't capture order, just leave it as NEW order.
                 $this->_logger->logException($e);
             }
         }

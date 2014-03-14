@@ -190,7 +190,9 @@ class Banner extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
+                // @codingStandardsIgnoreStart
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
+                // @codingStandardsIgnoreEnd
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 // save data in session
@@ -228,7 +230,9 @@ class Banner extends \Magento\Backend\App\Action
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(
+                // @codingStandardsIgnoreStart
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
+                // @codingStandardsIgnoreEnd
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 return;

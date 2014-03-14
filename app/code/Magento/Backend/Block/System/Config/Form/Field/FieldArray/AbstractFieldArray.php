@@ -129,6 +129,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
      */
     protected function _prepareArrayRow(\Magento\Object $row)
     {
+        // override in descendants
     }
 
     /**
@@ -241,6 +242,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
      */
     protected function _prepareToRender()
     {
+        // Override in descendants to add columns, change add button label etc
     }
 
     /**

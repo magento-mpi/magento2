@@ -339,6 +339,7 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
+                // END SIMPLE ENCODING
             } else {
                 // EXTENDED ENCODING
                 for ($j = 0; $j < sizeof($thisdataarray); $j++) {
@@ -365,6 +366,7 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
+                // ============= END EXTENDED ENCODING =============
             }
             $chartdata[] = $dataSetdelimiter;
         }

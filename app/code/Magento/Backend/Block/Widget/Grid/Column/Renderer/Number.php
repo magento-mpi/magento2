@@ -38,6 +38,7 @@ class Number extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
             if ($sign) {
                 $value = $sign . $value;
             }
+            // fixed for showing zero in grid
             return $value ? $value : '0';
         }
         return $this->getColumn()->getDefault();

@@ -518,7 +518,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             $selectionsCollection = $this->_bundleCollection->create()->addAttributeToSelect(
                 $this->_config->getProductAttributes()
             )->addAttributeToSelect(
-                'tax_class_id'
+                'tax_class_id'  //used for calculation item taxes in Bundle with Dynamic Price
             )->setFlag(
                 'require_stock_items',
                 true
