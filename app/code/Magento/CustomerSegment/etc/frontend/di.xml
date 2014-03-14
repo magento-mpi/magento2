@@ -9,6 +9,7 @@
 -->
 <config>
     <type name="Magento\Core\Model\Layout">
-        <plugin name="customer-segment-session-stab" type="Magento\CustomerSegment\Model\Layout\DepersonalizePlugin" sortOrder="15"/>
+        <plugin name="customer-segment-session-depersonalize"
+                type="Magento\CustomerSegment\Model\Layout\DepersonalizePlugin" sortOrder="15"/>
     </type>
 </config>
