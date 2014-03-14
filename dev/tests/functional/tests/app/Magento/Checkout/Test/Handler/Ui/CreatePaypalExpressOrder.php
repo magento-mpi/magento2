@@ -32,6 +32,11 @@ class CreatePaypalExpressOrder extends Ui
      */
     public function persist(FixtureInterface $fixture = null)
     {
+        //Ensure shopping cart is empty
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
         $products = $fixture->getProducts();
 
         foreach ($products as $product) {
