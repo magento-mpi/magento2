@@ -697,6 +697,9 @@ class Config extends AbstractRepository
                                     ),
                                     'centinel' => array( //3D Secure Card Validation
                                         'value' => self::NO_VALUE
+                                    ),
+                                    'debug' => array( // Debug Mode
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -857,6 +860,9 @@ class Config extends AbstractRepository
                                                         'fields' => array(
                                                             'centinel' => array( //3D Secure Card Validation
                                                                 'value' => 0
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -933,6 +939,17 @@ class Config extends AbstractRepository
                                                         'value' => 'Authorization' //Authorization
                                                     )
                                                 ),
+                                            ),
+                                            'settings_express_checkout' => array(
+                                                'groups' => array(
+                                                    'settings_express_checkout_advanced' => array( // Advanced Settings
+                                                        'fields' => array(
+                                                            'debug' => array(
+                                                                'value' => self::YES_VALUE // Debug Mode
+                                                            )
+                                                        )
+                                                    )
+                                                )
                                             )
                                         )
                                     )
@@ -996,6 +1013,9 @@ class Config extends AbstractRepository
                                                             ),
                                                             'verify_peer' => array( //Enable SSL verification
                                                                 'value' => 0 //No
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )
@@ -1070,8 +1090,8 @@ class Config extends AbstractRepository
                                                 'groups' => array(
                                                     'settings_ec_advanced' => array(
                                                         'fields' => array(
-                                                            'debug' => array(
-                                                                'value' => 0
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         ),
                                                     )
@@ -1156,6 +1176,15 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
                                                     )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payflow_link_express_checkout_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
+                                                            )
+                                                        )
+                                                    )
                                                 )
                                             )
                                         )
@@ -1233,6 +1262,9 @@ class Config extends AbstractRepository
                                                         'fields' => array(
                                                             'centinel' => array( //3D Secure Card Validation
                                                                 'value' => 0
+                                                            ),
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
                                                             )
                                                         )
                                                     )

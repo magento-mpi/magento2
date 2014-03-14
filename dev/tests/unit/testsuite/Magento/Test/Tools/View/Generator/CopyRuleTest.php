@@ -98,6 +98,11 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
         ;
         $this->_directoryMock
             ->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0))
+        ;
+        $this->_directoryMock
+            ->expects($this->any())
             ->method('getAbsolutePath')
             ->will($this->returnArgument(0))
         ;

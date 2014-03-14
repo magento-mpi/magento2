@@ -14,10 +14,6 @@ namespace Magento\Customer\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
-use Magento\Customer\Test\Block\Account\Dashboard\Address;
-use Magento\Theme\Test\Block\Html\Title;
 
 /**
  * Frontend Customer Dashboard page
@@ -34,23 +30,23 @@ class CustomerAccountIndex extends Page
     /**
      * Messages block
      *
-     * @var Messages
+     * @var string
      */
-    protected $messages;
+    protected $messagesBlock = '.page.messages';
 
     /**
      * Address Book block
      *
-     * @var Address
+     * @var string
      */
-    protected $dashboardAddress;
+    protected $dashboardAddressBlock = '.block.dashboard.addresses';
 
     /**
      * Dashboard title
      *
-     * @var Title
+     * @var string
      */
-    protected $titleBlock;
+    protected $titleBlock = '.page.title';
 
     /**
      * Account menu selector
@@ -65,46 +61,40 @@ class CustomerAccountIndex extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        $this->messages = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('//ul[@class="messages"]', Locator::SELECTOR_XPATH)
-        );
-        $this->dashboardAddress = Factory::getBlockFactory()->getMagentoCustomerAccountDashboardAddress(
-            $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS)
-        );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
-            $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
-        );
     }
 
     /**
      * Get Messages block
      *
-     * @return Messages
+     * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessages()
     {
-        return $this->messages;
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messagesBlock));
     }
 
     /**
      * Get Address Book block
      *
-     * @return Address
+     * @return \Magento\Customer\Test\Block\Account\Dashboard\Address
      */
     public function getDashboardAddress()
     {
-        return $this->dashboardAddress;
+        return Factory::getBlockFactory()->getMagentoCustomerAccountDashboardAddress(
+            $this->_browser->find($this->dashboardAddressBlock)
+        );
     }
 
     /**
      * Get title block
      *
-     * @return Title
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {
-        return $this->titleBlock;
+        return $this->titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
+            $this->_browser->find($this->titleBlock)
+        );
     }
 
     /**
@@ -115,7 +105,7 @@ class CustomerAccountIndex extends Page
     public function getAccountMenuBlock()
     {
         return Factory::getBlockFactory()->getMagentoCustomerAccountMenu(
-            $this->_browser->find($this->accountMenuSelector, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->accountMenuSelector)
         );
     }
 }
