@@ -2,17 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
 
 /**
  * Recurring profile attribute edit renderer
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
-
 class Recurring
     extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element
 {
