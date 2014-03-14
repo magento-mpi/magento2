@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Service\Data\FilterBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 
 class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 {

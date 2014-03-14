@@ -12,7 +12,7 @@ use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
-use Magento\Service\AuthorizationException;
+use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 /**

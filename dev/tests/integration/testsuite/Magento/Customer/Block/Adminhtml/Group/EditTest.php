@@ -11,7 +11,7 @@ namespace Magento\Customer\Block\Adminhtml\Group;
 use Magento\Backend\App\Area\FrontNameResolver;
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
-use Magento\Service\Data\FilterBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;

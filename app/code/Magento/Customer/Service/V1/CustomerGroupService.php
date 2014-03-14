@@ -15,7 +15,7 @@ use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
-use Magento\Service\Data\Filter;
+use Magento\Service\V1\Data\Filter;
 
 /**
  * Class CustomerGroupService

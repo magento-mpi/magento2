@@ -15,7 +15,7 @@ interface FilterGroupInterface
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Service\Data\Filter[]
+     * @return \Magento\Service\V1\Data\Filter[]
      */
     public function getFilters();
 

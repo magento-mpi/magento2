@@ -205,8 +205,8 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForSendResponseExceptions()
     {
         return array(
-            'Magento\Service\ResourceNotFoundException' => array(
-                new \Magento\Service\ResourceNotFoundException('Resource not found', 2345, null,
+            'Magento\Webapi\ServiceResourceNotFoundException' => array(
+                new \Magento\Webapi\ServiceResourceNotFoundException('Resource not found', 2345, null,
                     array('datail1' => 'value1'), 'resourceNotFound', 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 'Resource not found',
@@ -214,15 +214,15 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
             'Magento_Service_ResourceNotFoundException (Empty message)' => array(
-                new \Magento\Service\ResourceNotFoundException('', 2345, null,
+                new \Magento\Webapi\ServiceResourceNotFoundException('', 2345, null,
                     array('datail1' => 'value1'), 'resourceNotFound', 'resource10'),
                 \Magento\Webapi\Exception::HTTP_NOT_FOUND,
                 "Resource with ID 'resource10' not found.",
                 2345,
                 array('datail1' => 'value1', 'resource_id' => 'resource10')
             ),
-            'Magento\Service\AuthorizationException' => array(
-                new \Magento\Service\AuthorizationException(
+            'Magento\Webapi\ServiceAuthorizationException' => array(
+                new \Magento\Webapi\ServiceAuthorizationException(
                     'Service authorization exception',
                     345,
                     null,
@@ -236,22 +236,22 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                 345,
                 array('user_id' => 3, 'resource_id' => 4)
             ),
-            'Magento\Service\AuthorizationException (Empty message)' => array(
-                new \Magento\Service\AuthorizationException('', 345, null, array(), 'authorization', 3, 4),
+            'Magento\Webapi\ServiceAuthorizationException (Empty message)' => array(
+                new \Magento\Webapi\ServiceAuthorizationException('', 345, null, array(), 'authorization', 3, 4),
                 \Magento\Webapi\Exception::HTTP_UNAUTHORIZED,
                 "User with ID '3' is not authorized to access resource with ID '4'.",
                 345,
                 array('user_id' => 3, 'resource_id' => 4)
             ),
-            'Magento\Service\Exception' => array(
-                new \Magento\Service\Exception('Generic service exception', 4567),
+            'Magento\Webapi\ServiceException' => array(
+                new \Magento\Webapi\ServiceException('Generic service exception', 4567),
                 \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
                 'Generic service exception',
                 4567,
                 array()
             ),
-            'Magento\Service\Exception\With\Parameters' => array(
-                new \Magento\Service\Exception('Parameterized service exception', 1234, null, array("P1", "P2")),
+            'Magento\Webapi\ServiceException\With\Parameters' => array(
+                new \Magento\Webapi\ServiceException('Parameterized service exception', 1234, null, array("P1", "P2")),
                 \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
                 'Parameterized service exception',
                 1234,

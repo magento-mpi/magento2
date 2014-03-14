@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Service\AuthorizationException;
+use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Exception as WebapiException;
 
 /**

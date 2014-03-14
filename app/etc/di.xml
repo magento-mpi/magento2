@@ -72,7 +72,7 @@
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
-    <type name="Magento\Service\Data\FilterBuilder" shared="false" />
+    <type name="Magento\Service\V1\Data\FilterBuilder" shared="false" />
     <type name="Magento\Message\Manager">
         <arguments>
             <argument name="session" xsi:type="object">Magento\Message\Session\Proxy</argument>

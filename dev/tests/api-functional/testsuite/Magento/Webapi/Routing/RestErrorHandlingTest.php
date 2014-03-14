@@ -42,7 +42,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        // \Magento\Service\ResourceNotFoundException
+        // \Magento\Webapi\ServiceResourceNotFoundException
         $this->_errorTest(
             $serviceInfo,
             array(),
@@ -60,7 +60,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        // \Magento\Service\AuthorizationException
+        // \Magento\Webapi\ServiceAuthorizationException
         $this->_errorTest(
             $serviceInfo,
             array(),
@@ -78,7 +78,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             ),
         );
 
-        // \Magento\Service\Exception
+        // \Magento\Webapi\ServiceException
         $this->_errorTest(
             $serviceInfo,
             array(),
@@ -102,7 +102,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             )
         );
         $expectedExceptionParameters = array('key1' => 'value1', 'key2' => 'value2');
-        // \Magento\Service\Exception (with parameters)
+        // \Magento\Webapi\ServiceException (with parameters)
         $this->_errorTest(
             $serviceInfo,
             $arguments,

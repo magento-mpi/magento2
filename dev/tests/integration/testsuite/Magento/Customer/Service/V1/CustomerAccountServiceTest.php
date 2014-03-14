@@ -5,7 +5,7 @@ use Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
-use Magento\Service\Data\FilterBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAccountService
@@ -1114,8 +1114,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \Magento\Service\Data\Filter[] $filters
-     * @param \Magento\Service\Data\Filter[] $orGroup
+     * @param \Magento\Service\V1\Data\Filter[] $filters
+     * @param \Magento\Service\V1\Data\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchCustomersDataProvider

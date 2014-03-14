@@ -20,7 +20,7 @@ use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Math\Random;
 use Magento\UrlInterface;
-use Magento\Service\Data\Filter;
+use Magento\Service\V1\Data\Filter;
 
 /**
  * Handle various customer account actions

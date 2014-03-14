@@ -47,7 +47,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Service\Exception
+     * @expectedException \Magento\Webapi\ServiceException
      */
     public function testRemovePermissionsException()
     {

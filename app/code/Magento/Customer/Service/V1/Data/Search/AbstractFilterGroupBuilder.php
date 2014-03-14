@@ -9,7 +9,7 @@
 namespace Magento\Customer\Service\V1\Data\Search;
 
 use Magento\Service\Data\AbstractObjectBuilder;
-use Magento\Service\Data\Filter;
+use Magento\Service\V1\Data\Filter;
 
 /**
  * Abstract Builder for AbstractFilterGroup DATA.
@@ -19,10 +19,10 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
     /**
      * Add filter
      *
-     * @param \Magento\Service\Data\Filter $filter
+     * @param \Magento\Service\V1\Data\Filter $filter
      * @return $this
      */
-    public function addFilter(\Magento\Service\Data\Filter $filter)
+    public function addFilter(\Magento\Service\V1\Data\Filter $filter)
     {
         return $this->setFilterGroupData(AbstractFilterGroup::FILTERS, $filter);
     }
@@ -30,7 +30,7 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
     /**
      * Set filters
      *
-     * @param \Magento\Service\Data\Filter[] $filters
+     * @param \Magento\Service\V1\Data\Filter[] $filters
      * @return $this
      */
     public function setFilters($filters)
