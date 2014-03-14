@@ -1,0 +1,38 @@
+<?php
+/**
+ * Product attribute edit form observer
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\LayeredNavigation\Block\Adminhtml\Product\Attribute\Grid;
+
+use Magento\Backend\Model\Config\Source;
+
+class Observer
+{
+    /**
+     * @param \Magento\Event $event
+     * @return void
+     */
+    public function observe($event)
+    {
+        /** @var \Magento\Catalog\Block\Adminhtml\Product\Attribute\Grid $grid */
+        $grid = $event->getGrid();
+
+        $grid->addColumnAfter('is_filterable', array(
+            'header'=>__('Use in Layered Navigation'),
+            'sortable'=>true,
+            'index'=>'is_filterable',
+            'type' => 'options',
+            'options' => array(
+                '1' => __('Filterable (with results)'),
+                '2' => __('Filterable (no results)'),
+                '0' => __('No'),
+            ),
+            'align' => 'center',
+        ), 'is_searchable');
+    }
+}
