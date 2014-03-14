@@ -330,6 +330,7 @@ class Advanced extends AbstractModel
             $value = $attribute->getSource()->getOptionText($value);
             if (is_array($value)) {
                 $value = $value['label'];
+            }
         } elseif ($attribute->getFrontendInput() == 'boolean') {
             $value = $value == 1
                 ? __('Yes')
