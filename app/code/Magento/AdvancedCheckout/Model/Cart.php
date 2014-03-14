@@ -643,7 +643,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             if ($moveTo[0] == 'wishlist') {
                 $wishlist = null;
                 if (!isset($moveTo[1])) {
-                    $wishlist = $this->_wishlistFactory->create()->loadByCustomer($this->getCustomer(), true);
+                    $wishlist = $this->_wishlistFactory->create()->loadByCustomerId($this->getCustomer()->getId(), true);
                 } else {
                     $wishlist = $this->_wishlistFactory->create()->load($moveTo[1]);
                     if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getCustomer()->getId()) {

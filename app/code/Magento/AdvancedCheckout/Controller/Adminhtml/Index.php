@@ -284,7 +284,7 @@ class Index extends \Magento\Backend\App\Action
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customer)
+                $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomerId($customer->getId())
                     ->setStore($store)
                     ->setSharedStoreIds($store->getWebsite()->getStoreIds());
                 if ($wishlist->getId()) {
