@@ -1306,5 +1306,13 @@ return array(
     array('sendTransactional', 'Magento\Email\Model\Template'),
     array('_getMail', 'Magento\Email\Model\Template'),
     array('send', 'Magento\Email\Model\Template'),
-    array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency')
+    array('getSwitchCurrencyUrl', 'Magento\Directory\Block\Currency'),
+    array('getPageVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getOrderVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getDirectionVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getModeVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getLimitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getOrderUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getModeUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar')
 );

@@ -23,6 +23,11 @@ use Magento\Catalog\Helper\Data;
 class Toolbar extends \Magento\View\Element\Template
 {
     /**
+     * List mode configuration path
+     */
+    const XML_PATH_LIST_MODE = 'catalog/frontend/list_mode';
+
+    /**
      * Products collection
      *
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -110,11 +115,6 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_catalogSession;
 
     /**
-     * @var \Magento\App\Http\Context
-     */
-    protected $_httpContext;
-
-    /**
      * @var \Magento\Catalog\Model\Product\ProductList\Toolbar
      */
     protected $_toolbarModel;
@@ -128,7 +128,6 @@ class Toolbar extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
      * @param \Magento\Catalog\Helper\Data $helper
      * @param array $data
@@ -137,27 +136,15 @@ class Toolbar extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
         \Magento\Catalog\Helper\Data $helper,
         array $data = array()
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogConfig = $catalogConfig;
-        $this->_httpContext = $httpContext;
         $this->_toolbarModel = $toolbarModel;
         $this->_catalogHelper = $helper;
         parent::__construct($context, $data);
-    }
-
-    /**
-     * Retrieve Catalog Config object
-     *
-     * @return \Magento\Catalog\Model\Config
-     */
-    protected function _getConfig()
-    {
-        return $this->_catalogConfig;
     }
 
     /**
@@ -170,9 +157,9 @@ class Toolbar extends \Magento\View\Element\Template
             \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
-        $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
+        $this->_availableOrder = $this->_catalogConfig->getAttributeUsedForSortByArray();
 
-        switch ($this->_storeConfig->getConfig('catalog/frontend/list_mode')) {
+        switch ($this->_storeConfig->getConfig(self::XML_PATH_LIST_MODE)) {
             case 'grid':
                 $this->_availableMode = array('grid' => __('Grid'));
                 break;
@@ -285,11 +272,8 @@ class Toolbar extends \Magento\View\Element\Template
             $order = $defaultOrder;
         }
 
-        if ($order == $defaultOrder) {
-            $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_SORT_ORDER);
-        } else {
+        if ($order != $defaultOrder) {
             $this->_memorizeParam('sort_order', $order);
-            $this->_httpContext->setValue(Data::CONTEXT_CATALOG_SORT_ORDER, $order);
         }
 
         $this->setData('_current_grid_order', $order);
@@ -314,11 +298,8 @@ class Toolbar extends \Magento\View\Element\Template
             $dir = $this->_direction;
         }
 
-        if ($dir == $this->_direction) {
-            $this->_catalogSession->unsValue(Data::CONTEXT_CATALOG_SORT_DIRECTION);
-        } else {
+        if ($dir != $this->_direction) {
             $this->_memorizeParam('sort_direction', $dir);
-            $this->_catalogSession->setValue(Data::CONTEXT_CATALOG_SORT_DIRECTION, $dir);
         }
 
         $this->setData('_current_grid_direction', $dir);
@@ -450,12 +431,6 @@ class Toolbar extends \Magento\View\Element\Template
         $mode = $this->_toolbarModel->getMode();
         if (!$mode || !isset($this->_availableMode[$mode])) {
             $mode = $defaultMode;
-        }
-
-        if ($mode == $defaultMode) {
-            $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_DISPLAY_MODE);
-        } else {
-            $this->_httpContext->setValue(Data::CONTEXT_CATALOG_DISPLAY_MODE, $mode);
         }
 
         $this->setData('_current_grid_mode', $mode);
@@ -641,11 +616,8 @@ class Toolbar extends \Magento\View\Element\Template
             $limit = $defaultLimit;
         }
 
-        if ($limit == $defaultLimit) {
-            $this->_httpContext->unsValue(Data::CONTEXT_CATALOG_LIMIT);
-        } else {
+        if ($limit != $defaultLimit) {
             $this->_memorizeParam('limit_page', $limit);
-            $this->_httpContext->setValue(Data::CONTEXT_CATALOG_LIMIT, $limit);
         }
 
         $this->setData('_current_limit', $limit);
