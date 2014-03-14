@@ -20,8 +20,8 @@
             if ($(this.options.msgBoxSelector).text().trim().length > 0) {
                 var cookieExpires = new Date(new Date().getTime() + 315360000);
                 $.mage.cookies.set(this.options.msgBoxCookieName, 1, {expires: cookieExpires});
-                $(this.options.msgBoxSelector).show();
-            } else {
+            } else if ($.mage.cookies.get(this.options.msgBoxCookieName)) {
+                console.log(1);
                 $(this.options.msgBoxSelector).hide();
             }
         }

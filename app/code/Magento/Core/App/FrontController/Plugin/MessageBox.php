@@ -68,10 +68,8 @@ class MessageBox
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterDispatch(\Magento\App\FrontController $subject, \Magento\App\ResponseInterface $response) {
-        if ($this->request->isPost() && $this->config->isEnabled()) {
-            if ($this->cookie->get(self::COOKIE_NAME)) {
-                $this->cookie->set(self::COOKIE_NAME, null, 0, '/');
-            }
+        if ($this->request->isPost() && $this->config->isEnabled() && $this->cookie->get(self::COOKIE_NAME)) {
+            $this->cookie->set(self::COOKIE_NAME, null, null, '/');
         }
         return $response;
     }
