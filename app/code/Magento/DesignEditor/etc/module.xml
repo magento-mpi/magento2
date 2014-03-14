@@ -17,7 +17,6 @@
             <module name="Magento_Backend"/>
             <module name="Magento_Core"/>
             <module name="Magento_Eav"/>
-            <module name="Magento_Translation"/>
         </depends>
     </module>
 </config>
