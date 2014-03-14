@@ -74,6 +74,7 @@ class Item extends \Magento\Object
     {
         $query = array(
             $this->getFilter()->getRequestVar() => $this->getValue(),
+            // exclude current page from urls
             $this->_htmlPagerBlock->getPageVarName() => null
         );
         return $this->_url->getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_query' => $query));

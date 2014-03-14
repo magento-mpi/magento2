@@ -78,6 +78,7 @@ class Row extends AbstractCategory
             'delete_button',
             'Magento\Backend\Block\Widget\Button',
             array(
+                //'label' => __('Remove Permission'),
                 'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
                 'disabled' => $this->isReadonly(),
                 'type' => 'button',

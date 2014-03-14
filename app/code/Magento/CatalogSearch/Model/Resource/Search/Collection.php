@@ -239,7 +239,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
         $sql = $this->_getSearchInOptionSql($query);
         if ($sql) {
-            $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql";
+            $selects[] = "SELECT * FROM ({$sql}) AS inoptionsql"; // inherent unions may be inside
         }
 
         $sql = $this->getConnection()->select()->union($selects, \Zend_Db_Select::SQL_UNION_ALL);

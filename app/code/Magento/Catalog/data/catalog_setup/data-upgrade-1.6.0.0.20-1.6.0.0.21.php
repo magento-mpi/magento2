@@ -64,6 +64,7 @@ $this->updateAttributeGroup($entityTypeId, $attributeSetId, 'Autosettings', 'tab
 //New attributes order and properties
 $properties = array('is_required', 'default_value', 'frontend_input_renderer');
 $attributesOrder = array(
+    //Product Details tab
     'name' => array($newGeneralTabName => 10),
     'sku' => array($newGeneralTabName => 20),
     'price' => array($newGeneralTabName => 30),
@@ -78,6 +79,7 @@ $attributesOrder = array(
         'default_value' => 1,
         'frontend_input_renderer' => 'Magento\Data\Form\Element\Hidden'
     ),
+    //Autosettings tab
     'short_description' => array($autosettingsTabName => 0, 'is_required' => 0),
     'url_key' => array($autosettingsTabName => 10),
     'visibility' => array($autosettingsTabName => 20, 'is_required' => 0),

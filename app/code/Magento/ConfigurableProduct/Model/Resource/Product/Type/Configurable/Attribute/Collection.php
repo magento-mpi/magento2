@@ -190,7 +190,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function _addAssociatedProductFilters()
     {
-        $this->getProductType()->getUsedProducts($this->getProduct(), $this->getColumnValues('attribute_id'));
+        $this->getProductType()->getUsedProducts(
+            $this->getProduct(), $this->getColumnValues('attribute_id') // Filter associated products
+        );
         return $this;
     }
 

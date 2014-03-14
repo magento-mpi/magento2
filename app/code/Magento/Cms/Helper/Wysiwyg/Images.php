@@ -186,7 +186,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
             $html = sprintf('<img src="%s" alt="" />', $this->isUsingStaticUrlsAllowed() ? $fileurl : $directive);
         } else {
             if ($this->isUsingStaticUrlsAllowed()) {
-                $html = $fileurl;
+                $html = $fileurl; // $mediaPath;
             } else {
                 $directive = $this->_coreData->urlEncode($directive);
                 $html = $this->_backendData->getUrl('cms/wysiwyg/directive', array('___directive' => $directive));

@@ -98,6 +98,7 @@ class Rewrite extends \Magento\App\Helper\AbstractHelper
     public function validateSuffix($suffix)
     {
         try {
+            // Suffix itself must be a valid request path
             $this->_validateRequestPath($suffix);
         } catch (\Exception $e) {
             // Make message saying about suffix, not request path

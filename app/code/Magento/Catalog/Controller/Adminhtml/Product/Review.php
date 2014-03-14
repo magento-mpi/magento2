@@ -360,17 +360,12 @@ class Review extends \Magento\Backend\App\Action
             $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
 
             try {
-                $review->setEntityId(
-                    1
-                )->setEntityPkValue(
-                    $productId
-                )->setStoreId(
-                    $product->getStoreId()
-                )->setStatusId(
-                    $data['status_id']
-                )->setCustomerId(
-                    null
-                )->save();
+                $review->setEntityId(1) // product
+                    ->setEntityPkValue($productId)
+                    ->setStoreId($product->getStoreId())
+                    ->setStatusId($data['status_id'])
+                    ->setCustomerId(null)//null is for administrator only
+                    ->save();
 
                 $arrRatingId = $this->getRequest()->getParam('ratings', array());
                 foreach ($arrRatingId as $ratingId => $optionId) {

@@ -363,6 +363,7 @@ class Attribute extends \Magento\Backend\App\Action
             }
 
             if (!$model->getIsUserDefined() && $model->getId()) {
+                // Unset attribute field for system attributes
                 unset($data['apply_to']);
             }
 

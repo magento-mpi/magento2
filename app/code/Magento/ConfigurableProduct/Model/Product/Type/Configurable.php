@@ -764,12 +764,10 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
                         }
                     }
 
-                    $_result[0]->setParentProductId(
-                        $product->getId()
-                    )->addCustomOption(
-                        'parent_product_id',
-                        $product->getId()
-                    );
+                    $_result[0]->setParentProductId($product->getId())
+                        // add custom option to simple product for protection of process
+                        //when we add simple product separately
+                        ->addCustomOption('parent_product_id', $product->getId());
                     if ($this->_isStrictProcessMode($processMode)) {
                         $_result[0]->setCartQty(1);
                     }

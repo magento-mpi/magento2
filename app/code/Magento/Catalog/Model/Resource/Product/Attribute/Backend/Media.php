@@ -57,7 +57,7 @@ class Media extends \Magento\Core\Model\Resource\Db\AbstractDb
             array('value' => $this->getTable(self::GALLERY_VALUE_TABLE)),
             $adapter->quoteInto('main.value_id = value.value_id AND value.store_id = ?', (int)$product->getStoreId()),
             array('label', 'position', 'disabled')
-        )->joinLeft(
+        )->joinLeft( // Joining default values
             array('default_value' => $this->getTable(self::GALLERY_VALUE_TABLE)),
             'main.value_id = default_value.value_id AND default_value.store_id = 0',
             array('label_default' => 'label', 'position_default' => 'position', 'disabled_default' => 'disabled')

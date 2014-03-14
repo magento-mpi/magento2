@@ -352,6 +352,7 @@ class Onepage
             try {
                 $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (Exception $e) {
+                /** Address does not exist */
             }
             if (isset($customerAddress)) {
                 if ($customerAddress->getCustomerId() != $this->getQuote()->getCustomerId()) {
@@ -401,9 +402,11 @@ class Onepage
             if ($this->_customerEmailExists($address->getEmail(), $this->_storeManager->getWebsite()->getId())) {
                 return array(
                     'error' => 1,
+                    // @codingStandardsIgnoreStart
                     'message' => __(
                         'There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.'
                     )
+                    // @codingStandardsIgnoreEnd
                 );
             }
         }
@@ -590,6 +593,7 @@ class Onepage
             try {
                 $addressData = $this->_customerAddressService->getAddress($customerAddressId);
             } catch (NoSuchEntityException $e) {
+                // do nothing if customer is not found by id
             }
 
             if ($addressData->getCustomerId() != $this->getQuote()->getCustomerId()) {
@@ -845,10 +849,12 @@ class Onepage
         if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
             $this->messageManager->addSuccess(
+                // @codingStandardsIgnoreStart
                 __(
                     'Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.',
                     $url
                 )
+                // @codingStandardsIgnoreEnd
             );
         } else {
             $this->getCustomerSession()->loginById($customer->getId());

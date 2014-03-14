@@ -1248,7 +1248,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
         // Remove all store catalog rewrites that are for some category or cartegory/product not within store categories
         $where = array(
             'store_id = ?' => $storeId,
-            'category_id IS NOT NULL',
+            'category_id IS NOT NULL', // For sure check that it's a catalog rewrite
             'category_id NOT IN (?)' => $categoryIds
         );
 

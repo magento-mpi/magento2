@@ -197,6 +197,7 @@ class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Typ
      */
     protected function _isAttributeRequiredCheckNeeded($attrCode)
     {
+        // do not check super attributes
         return !$this->_isAttributeSuper($attrCode);
     }
 
@@ -350,6 +351,7 @@ class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Typ
 
                     foreach ($superData['used_attributes'] as $usedAttrId => $usedValues) {
                         if (empty($skuSuperValues[$usedAttrId]) || !isset($usedValues[$skuSuperValues[$usedAttrId]])) {
+                            // invalid value or value does not exists for associated product
                             continue;
                         }
                         $usedCombParts[] = $skuSuperValues[$usedAttrId];
@@ -358,6 +360,7 @@ class Configurable extends \Magento\ImportExport\Model\Import\Entity\Product\Typ
                     $comb = implode('|', $usedCombParts);
 
                     if (isset($usedCombs[$comb])) {
+                        // super attributes values combination was already used
                         continue;
                     }
                     $usedCombs[$comb] = true;

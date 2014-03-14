@@ -184,6 +184,7 @@ class Schedule extends \Magento\Core\Model\AbstractModel
             $from = 0;
             $to = 60;
         } elseif (strpos($expr, '-') !== false) {
+            // handle range
             $e = explode('-', $expr);
             if (sizeof($e) !== 2) {
                 throw new Exception("Invalid cron expression, expecting 'from-to' structure: " . $expr);
@@ -192,6 +193,7 @@ class Schedule extends \Magento\Core\Model\AbstractModel
             $from = $this->getNumeric($e[0]);
             $to = $this->getNumeric($e[1]);
         } else {
+            // handle regular token
             $from = $this->getNumeric($expr);
             $to = $from;
         }

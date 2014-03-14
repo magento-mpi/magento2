@@ -145,6 +145,7 @@ class Rewrite extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $foundItem = $item;
                 $currentPenalty = $penalty;
                 if (!$currentPenalty) {
+                    // Found best matching item with zero penalty, no reason to continue
                     break;
                 }
             }

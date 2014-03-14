@@ -1129,6 +1129,8 @@ $table = $installer->getConnection()->newTable(
     null,
     array('nullable' => false, 'default' => '0'),
     'Position'
+    /*    ->addIndex($installer->getIdxName('catalog_category_product', array('category_id')),
+            array('category_id'))*/
 )->addIndex(
     $installer->getIdxName('catalog_category_product', array('product_id')),
     array('product_id')

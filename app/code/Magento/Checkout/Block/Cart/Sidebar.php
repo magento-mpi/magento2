@@ -322,7 +322,12 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart implements \Mage
             $this->_getRendererList()->getNameInLayout()
         ) as $alias => $block) {
             /** @var $block \Magento\View\Element\Template */
-            $result[] = implode('|', array($alias, get_class($block), $block->getTemplate()));
+            $result[] = implode('|', array(
+                // skip $this->getNameInLayout() and '.'
+                $alias,
+                get_class($block),
+                $block->getTemplate()
+            ));
         }
         return implode('|', $result);
     }

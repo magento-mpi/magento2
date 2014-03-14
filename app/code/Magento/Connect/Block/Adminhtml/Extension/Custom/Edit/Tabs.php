@@ -81,5 +81,13 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _getTabHtml($tab)
     {
+        //        $classNameParts = explode('_', $tab);
+        //        foreach ($classNameParts as $key => $part) {
+        //            $classNameParts[$key] = ucfirst($part);
+        //        }
+        //        return $this->getLayout()
+        //            ->createBlock('Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab\\' . implode('_', $classNameParts))
+        //            ->initForm()
+        //            ->toHtml();
     }
 }

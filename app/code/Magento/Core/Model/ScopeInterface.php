@@ -15,4 +15,5 @@ interface ScopeInterface
     const SCOPE_STORES = 'stores';
 
     const SCOPE_WEBSITES = 'websites';
+    /**#@-*/
 }

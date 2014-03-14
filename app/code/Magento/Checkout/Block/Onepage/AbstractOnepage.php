@@ -253,22 +253,18 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
 
                     $addressId = $address->getId();
                 } catch (NoSuchEntityException $e) {
+                    // Do nothing
                 }
             }
 
-            $select = $this->getLayout()->createBlock(
-                'Magento\View\Element\Html\Select'
-            )->setName(
-                $type . '_address_id'
-            )->setId(
-                $type . '-address-select'
-            )->setClass(
-                'address-select'
-            )->setValue(
-                $addressId
-            )->setOptions(
-                $options
-            );
+            $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
+                ->setName($type . '_address_id')
+                ->setId($type . '-address-select')
+                ->setClass('address-select')
+                //->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
+                // temp disable inline javascript, need to clean this later
+                ->setValue($addressId)
+                ->setOptions($options);
 
             $select->addOption('', __('New Address'));
 

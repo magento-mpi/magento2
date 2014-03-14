@@ -84,16 +84,19 @@ class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attribute
 
         /* Standard attributes */
         foreach ($attributes as $attribute) {
-            if ($attribute->getIsRequired() && $attribute->getApplyTo() && !in_array(
-                \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
-                $attribute->getApplyTo()
-            ) && !in_array(
-                $attribute->getId(),
-                $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct())
-            ) || in_array(
-                $attribute->getAttributeCode(),
-                $attributesConfig['additional']
-            )
+            if (($attribute->getIsRequired() && $attribute->getApplyTo()
+                    // If not applied to configurable
+                    && !in_array(
+                        \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
+                        $attribute->getApplyTo()
+                    )
+                    // If not used in configurable
+                    && !in_array(
+                        $attribute->getId(),
+                        $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))
+                )
+                // Or in additional
+                || in_array($attribute->getAttributeCode(), $attributesConfig['additional'])
             ) {
                 $inputType = $attribute->getFrontend()->getInputType();
                 if (!in_array($inputType, $availableTypes)) {

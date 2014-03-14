@@ -75,6 +75,7 @@ foreach ($groups as $k => $groupProp) {
 // update attributes group and sort
 $attributes = array(
     'custom_design' => array('group' => 'design', 'sort' => 10),
+    // 'custom_design_apply' => array('group' => 'design', 'sort' => 20),
     'custom_design_from' => array('group' => 'design', 'sort' => 30),
     'custom_design_to' => array('group' => 'design', 'sort' => 40),
     'page_layout' => array('group' => 'design', 'sort' => 50),

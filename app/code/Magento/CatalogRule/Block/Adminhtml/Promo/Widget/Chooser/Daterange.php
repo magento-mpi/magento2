@@ -85,9 +85,11 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
                 "{$key}_{$idSuffix}",
                 'date',
                 array(
+                    // hardcoded because hardcoded values delimiter
                     'format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     'label' => $label,
                     'image' => $this->getViewFileUrl('images/grid-cal.gif'),
+                    // won't work through Event.observe()
                     'onchange' => "dateTimeChoose_{$idSuffix}()",
                     'value' => $this->_rangeValues[$key]
                 )

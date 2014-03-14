@@ -557,7 +557,7 @@ class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Contro
     {
         $code = (string)$this->getRequest()->getParam('estimate_method');
         if (!empty($code)) {
-            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)->save();
+            $this->cart->getQuote()->getShippingAddress()->setShippingMethod($code)/*->collectTotals()*/->save();
         }
         $this->_goBack();
     }

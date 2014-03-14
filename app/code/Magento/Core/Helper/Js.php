@@ -436,6 +436,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
             'Your order cannot be completed at this time as there is no payment methods available for it.',
             __('Your order cannot be completed at this time as there is no payment methods available for it.')
         );
+        // @codingStandardsIgnoreEnd
     }
 
     /**

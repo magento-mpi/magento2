@@ -508,6 +508,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
      */
     protected function _gc()
     {
+        //do nothing
     }
 
     /**

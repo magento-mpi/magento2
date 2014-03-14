@@ -226,6 +226,7 @@ class Images extends \Magento\Backend\App\Action
             $image->open($thumb);
             $this->getResponse()->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
         } else {
+            // todo: generate some placeholder
         }
     }
 

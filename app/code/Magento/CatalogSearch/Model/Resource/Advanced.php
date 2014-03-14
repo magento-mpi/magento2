@@ -111,7 +111,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
         } else {
             if (strlen($value) > 0) {
                 if (in_array($attribute->getBackendType(), array('varchar', 'text', 'static'))) {
-                    $condition = array('like' => '%' . $value . '%');
+                    $condition = array('like' => '%' . $value . '%'); // text search
                 } else {
                     $condition = $value;
                 }

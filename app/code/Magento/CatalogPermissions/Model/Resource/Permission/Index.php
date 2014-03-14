@@ -139,6 +139,7 @@ class Index extends \Magento\Core\Model\Resource\Db\AbstractDb
         } elseif (!empty($restrictedCatIds) && $this->helper->isAllowedCategoryView()) {
             $select->where('entity_id IN(?)', $restrictedCatIds);
         } elseif ($this->helper->isAllowedCategoryView()) {
+            // category view allowed for all
             $select->where('1 = 0');
         }
 
