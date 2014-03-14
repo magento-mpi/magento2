@@ -16,9 +16,9 @@ use Magento\Catalog\Helper\Data;
 class ContextPlugin
 {
     /**
-     * @var \Magento\Catalog\Model\Session
+     * @var \Magento\Catalog\Model\Product\ProductList\Toolbar
      */
-    protected $session;
+    protected $toolbarModel;
 
     /**
      * @var \Magento\App\Http\Context
@@ -26,14 +26,14 @@ class ContextPlugin
     protected $httpContext;
 
     /**
-     * @param \Magento\Catalog\Model\Session $session
+     * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
      * @param \Magento\App\Http\Context $httpContext
      */
     public function __construct(
-        \Magento\Catalog\Model\Session $session,
+        \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
         \Magento\App\Http\Context $httpContext
     ) {
-        $this->session = $session;
+        $this->toolbarModel = $toolbarModel;
         $this->httpContext = $httpContext;
     }
 
@@ -44,17 +44,17 @@ class ContextPlugin
      */
     public function beforeLaunch(\Magento\LauncherInterface $subject)
     {
-        if ($this->session->hasSortDirection()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_SORT_DIRECTION, $this->session->getSortDirection());
+        if ($this->toolbarModel->getDirection()) {
+            $this->httpContext->setValue(Data::CONTEXT_CATALOG_SORT_DIRECTION, $this->toolbarModel->getDirection());
         }
-        if ($this->session->hasSortOrder()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_SORT_ORDER, $this->session->getSortOrder());
+        if ($this->toolbarModel->getOrder()) {
+            $this->httpContext->setValue(Data::CONTEXT_CATALOG_SORT_ORDER, $this->toolbarModel->getOrder());
         }
-        if ($this->session->hasDisplayMode()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_DISPLAY_MODE, $this->session->getDisplayMode());
+        if ($this->toolbarModel->getMode()) {
+            $this->httpContext->setValue(Data::CONTEXT_CATALOG_DISPLAY_MODE, $this->toolbarModel->getMode());
         }
-        if ($this->session->hasLimitPage()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_LIMIT, $this->session->getLimitPage());
+        if ($this->toolbarModel->getLimit()) {
+            $this->httpContext->setValue(Data::CONTEXT_CATALOG_LIMIT, $this->toolbarModel->getLimit());
         }
     }
 }

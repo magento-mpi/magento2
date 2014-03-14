@@ -12,7 +12,6 @@
 switch($type = $this->getType()) {
 
     case 'related-rule':
-        /** @var \Magento\TargetRule\Block\Catalog\Product\ProductList\Related $this */
         if ($exist = $this->hasItems()) {
             $type = 'related';
             $class = $type;
@@ -54,7 +53,6 @@ switch($type = $this->getType()) {
     break;
 
     case 'upsell-rule':
-        /** @var \Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell $this */
         if ($exist = $this->hasItems()) {
             $type = 'upsell';
             $class = $type;
