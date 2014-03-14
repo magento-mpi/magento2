@@ -326,11 +326,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 $customer->getStoreId()
             );
         } else {
-            $customerModel->sendNewAccountEmail(
-                self::NEW_ACCOUNT_EMAIL_REGISTERED,
-                $redirectUrl,
-                $customer->getStoreId()
-            );
+            try {
+                $customerModel->sendNewAccountEmail(
+                    self::NEW_ACCOUNT_EMAIL_REGISTERED,
+                    $redirectUrl,
+                    $customer->getStoreId()
+                );
+            } catch (\Magento\Mail\Exception $e) {
+                // If we are not able to send a new account email, this should be ignored
+            }
         }
         return $this->_converter->createCustomerFromModel($customerModel);
     }
