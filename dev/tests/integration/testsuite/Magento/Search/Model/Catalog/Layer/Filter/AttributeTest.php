@@ -50,7 +50,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Search\Model\Layer\Category\Filter\Attribute
          */
         $selectModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Search\Model\Catalog\Layer\Filter\Attribute');
+            ->create('Magento\Search\Model\Catalog\Layer\Filter\Attribute', array('layer' => $layer));
         $selectModel->setAttributeModel($attribute)->setLayer($layer);
 
         $selectModel->applyFilterToCollection($selectModel, $givenValue);

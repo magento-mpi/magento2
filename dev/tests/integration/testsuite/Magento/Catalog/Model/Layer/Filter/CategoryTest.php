@@ -33,14 +33,12 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->_category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category');
         $this->_category->load(5);
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Category');
-        $this->_model->setData(array(
-            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Category', array(
                 'data' => array('current_category' => $this->_category)
-            )),
-        ));
+            ));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Filter\Category', array('layer' => $layer));
     }
 
     public function testGetResetValue()

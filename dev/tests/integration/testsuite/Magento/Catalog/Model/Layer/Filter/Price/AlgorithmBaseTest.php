@@ -46,10 +46,8 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
         $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Category');
         $this->_filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Price');
-        $this->_filter
-            ->setLayer($this->_layer)
-            ->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
+            ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $this->_layer));
+        $this->_filter->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
     }
 
     /**

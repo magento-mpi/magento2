@@ -46,7 +46,7 @@ class AlgorithmAdvancedTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Layer\State'));
         /** @var $filter \Magento\Catalog\Model\Layer\Filter\Price */
         $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Price');
+            ->create('Magento\Catalog\Model\Layer\Filter\Price', array('layer' => $layer));
         $filter->setLayer($layer)->setAttributeModel(new \Magento\Object(array('attribute_code' => 'price')));
         if (!is_null($request)) {
             $filter->apply(
