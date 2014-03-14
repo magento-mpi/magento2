@@ -87,7 +87,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * Get storage instance
      *
-     * @return \Magento\Core\Model\Store\StorageInterface
+     * @return \Magento\Core\Model\StoreManagerInterface
      */
     protected function _getStorage()
     {
@@ -98,27 +98,6 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
             'scopeType' => $this->_scopeType,
         );
         return $this->_factory->get($arguments);
-    }
-
-    /**
-     * Retrieve application store object without Store_Exception
-     *
-     * @param string|int|Store $storeId
-     * @throws \Magento\Core\Exception
-     * @return Store
-     */
-    public function getSafeStore($storeId = null)
-    {
-        try {
-            return $this->getStore($storeId);
-        } catch (\Exception $e) {
-            if ($this->_getStorage()->getCurrentStore()) {
-                $this->_request->setActionName('noroute');
-                return new \Magento\Object();
-            }
-
-            throw new \Magento\Core\Exception(__('Requested invalid store "%1"', $storeId));
-        }
     }
 
     /**

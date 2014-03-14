@@ -45,7 +45,7 @@ class StoreManagerTest extends \PHPUnit_Framework_TestCase
         $this->_factoryMock = $this->getMock('Magento\Core\Model\Store\StorageFactory', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
+        $this->_storage = $this->getMock('Magento\Core\Model\StoreManagerInterface');
 
         $this->_model = new \Magento\Core\Model\StoreManager(
             $this->_factoryMock,
@@ -153,44 +153,5 @@ class StoreManagerTest extends \PHPUnit_Framework_TestCase
         $this->_factoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_storage));
 
         $this->assertFalse($this->_model->isSingleStoreMode());
-    }
-
-    public function testGetSafeStoreWithoutException()
-    {
-        $this->_factoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_storage));
-        $this->_storage->expects($this->once())->method('getStore')->with(10)->will($this->returnValue('storeObject'));
-        $this->_requestMock->expects($this->never())->method('setActionName');
-        $this->_model->getSafeStore(10);
-    }
-
-    public function testGetSafeStoreWithExceptionWithCurrentStore()
-    {
-        $this->_factoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_storage));
-        $this->_storage->expects($this->once())
-            ->method('getStore')
-            ->with(10)
-            ->will($this->throwException(new \Exception('test')));
-
-        $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue('current'));
-        $this->_requestMock->expects($this->once())->method('setActionName')->with('noroute');
-
-        $this->assertInstanceOf('Magento\Object', $this->_model->getSafeStore(10));
-    }
-
-    /**
-     * @expectedException \Magento\Core\Exception
-     */
-    public function testGetSafeStoreWithExceptionAndWithoutCurrentStore()
-    {
-        $this->_factoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_storage));
-        $this->_storage->expects($this->once())
-            ->method('getStore')
-            ->with(10)
-            ->will($this->throwException(new \Exception('test')));
-
-        $this->_storage->expects($this->once())->method('getCurrentStore')->will($this->returnValue(false));
-        $this->_requestMock->expects($this->never())->method('setActionName');
-
-        $this->_model->getSafeStore(10);
     }
 }

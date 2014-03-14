@@ -12,32 +12,15 @@ namespace Magento\Core\Model\Store\Storage;
 use Magento\Core\Exception;
 use Magento\App\State;
 use Magento\Core\Model\Store;
-use Magento\Core\Model\Store\StorageInterface;
 use Magento\Core\Model\Store\Group;
 use Magento\Core\Model\Store\Group\Factory;
 use Magento\Core\Model\Store\Exception as StoreException;
 use Magento\Core\Model\StoreFactory;
-use Magento\Core\Model\StoreManagerInterface;
 use Magento\Core\Model\Website;
 use Magento\Core\Model\Website\Factory as WebsiteFactory;
-use Magento\Profiler;
 
-class Db implements StorageInterface
+class Db implements \Magento\Core\Model\StoreManagerInterface
 {
-    /**
-     * Requested scope code
-     *
-     * @var string
-     */
-    protected $_scopeCode;
-
-    /**
-     * Requested scope type
-     *
-     * @var string
-     */
-    protected $_scopeType;
-
     /**
      * Flag that shows that system has only one store view
      *
@@ -142,9 +125,9 @@ class Db implements StorageInterface
     protected $_url;
 
     /**
-     * @var \Magento\App\Http\Context
+     * @var \Magento\Core\Helper\Data
      */
-    protected $_httpContext;
+    protected $_helper;
 
     /**
      * @param StoreFactory $storeFactory
@@ -154,10 +137,8 @@ class Db implements StorageInterface
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
      * @param \Magento\Backend\Model\UrlInterface $url
-     * @param \Magento\App\Http\Context $httpContext
-     * @param $isSingleStoreAllowed
-     * @param $scopeCode
-     * @param $scopeType
+     * @param \Magento\Core\Helper\Data $helper
+     * @param bool $isSingleStoreAllowed
      * @param null $currentStore
      */
     public function __construct(
@@ -168,23 +149,19 @@ class Db implements StorageInterface
         \Magento\Stdlib\Cookie $cookie,
         State $appState,
         \Magento\Backend\Model\UrlInterface $url,
-        \Magento\App\Http\Context $httpContext,
+        \Magento\Core\Helper\Data $helper,
         $isSingleStoreAllowed,
-        $scopeCode,
-        $scopeType,
         $currentStore = null
     ) {
         $this->_storeFactory = $storeFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_groupFactory = $groupFactory;
-        $this->_scopeCode = $scopeCode;
-        $this->_scopeType = $scopeType ?: StoreManagerInterface::SCOPE_TYPE_STORE;
         $this->_config = $config;
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
         $this->_url = $url;
-        $this->_httpContext = $httpContext;
+        $this->_helper = $helper;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
         }
@@ -203,160 +180,6 @@ class Db implements StorageInterface
                 ->setCode(\Magento\Core\Model\Store::DEFAULT_CODE);
         }
         return $this->_store;
-    }
-
-    /**
-     * Initialize currently ran store
-     *
-     * @return void
-     * @throws StoreException
-     */
-    public function initCurrentStore()
-    {
-        Profiler::start('init_stores');
-        $this->_initStores();
-        Profiler::stop('init_stores');
-
-        if (empty($this->_scopeCode) && false == is_null($this->_website)) {
-            $this->_scopeCode = $this->_website->getCode();
-            $this->_scopeType = StoreManagerInterface::SCOPE_TYPE_WEBSITE;
-        }
-        switch ($this->_scopeType) {
-            case StoreManagerInterface::SCOPE_TYPE_STORE:
-                $this->_currentStore = $this->_scopeCode;
-                break;
-            case StoreManagerInterface::SCOPE_TYPE_GROUP:
-                $this->_currentStore = $this->_getStoreByGroup($this->_scopeCode);
-                break;
-            case StoreManagerInterface::SCOPE_TYPE_WEBSITE:
-                $this->_currentStore = $this->_getStoreByWebsite($this->_scopeCode);
-                break;
-            default:
-                $this->throwStoreException();
-        }
-
-        if (!empty($this->_currentStore)) {
-            $this->_checkCookieStore($this->_scopeType);
-            $this->_checkGetStore($this->_scopeType);
-        }
-    }
-
-    /**
-     * Check get store
-     *
-     * @param string $type
-     * @return void
-     */
-    protected function _checkGetStore($type)
-    {
-        if (empty($_GET)) {
-            return;
-        }
-
-        if (!isset($_GET['___store'])) {
-            return;
-        }
-
-        $store = $_GET['___store'];
-        if (!isset($this->_stores[$store])) {
-            return;
-        }
-
-        $storeObj = $this->_stores[$store];
-        if (!$storeObj->getId() || !$storeObj->getIsActive()) {
-            return;
-        }
-
-        /**
-         * prevent running a store from another website or store group,
-         * if website or store group was specified explicitly
-         */
-        $curStoreObj = $this->_stores[$this->_currentStore];
-        if ($type == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
-            $this->_currentStore = $store;
-        } elseif ($type == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
-            $this->_currentStore = $store;
-        } elseif ($type == 'store') {
-            $this->_currentStore = $store;
-        }
-
-        if ($this->_currentStore == $store) {
-            $store = $this->getStore($store);
-            if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
-                $this->_cookie->set(Store::COOKIE_NAME, null);
-            } else {
-                $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
-                $this->_httpContext->setValue(Store::ENTITY, $this->_currentStore);
-            }
-        }
-        return;
-    }
-
-    /**
-     * Check cookie store
-     *
-     * @param string $type
-     * @return void
-     */
-    protected function _checkCookieStore($type)
-    {
-        if (!$this->_cookie->get()) {
-            return;
-        }
-
-        $store = $this->_cookie->get(Store::COOKIE_NAME);
-        if ($store && isset($this->_stores[$store])
-            && $this->_stores[$store]->getId()
-            && $this->_stores[$store]->getIsActive()
-        ) {
-            if ($type == 'website'
-                && $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()
-            ) {
-                $this->_currentStore = $store;
-            }
-            if ($type == 'group'
-                && $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()
-            ) {
-                $this->_currentStore = $store;
-            }
-            if ($type == 'store') {
-                $this->_currentStore = $store;
-            }
-        }
-    }
-
-    /**
-     * Retrieve store code or null by store group
-     *
-     * @param int $group
-     * @return string|null
-     */
-    protected function _getStoreByGroup($group)
-    {
-        if (!isset($this->_groups[$group])) {
-            return null;
-        }
-        if (!$this->_groups[$group]->getDefaultStoreId()) {
-            return null;
-        }
-        return $this->_stores[$this->_groups[$group]->getDefaultStoreId()]->getCode();
-    }
-
-    /**
-     * Retrieve store code or null by website
-     *
-     * @param int|string $website
-     * @return string|null
-     */
-    protected function _getStoreByWebsite($website)
-    {
-        if (!isset($this->_websites[$website])) {
-            return null;
-        }
-        if (!$this->_websites[$website]->getDefaultGroupId()) {
-            return null;
-        }
-        return $this->_getStoreByGroup($this->_websites[$website]->getDefaultGroupId());
     }
 
     /**
@@ -465,6 +288,16 @@ class Db implements StorageInterface
     public function hasSingleStore()
     {
         return $this->_hasSingleStore;
+    }
+
+    /**
+     * Check if system is run in the single store mode
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
+    {
+        return $this->hasSingleStore() && $this->_helper->isSingleStoreModeEnabled();
     }
 
     /**

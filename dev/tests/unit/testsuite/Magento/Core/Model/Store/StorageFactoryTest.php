@@ -46,6 +46,16 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     protected $_appStateMock;
 
     /**
+     * @var \Magento\Stdlib\Cookie
+     */
+    protected $_cookie;
+
+    /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $_httpContext;
+
+    /**
      * @var string
      */
     protected $_defaultStorage = 'Magento\Core\Model\Store\Storage\DefaultStorage';
@@ -67,14 +77,16 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_arguments = array('test' => 'argument');
+        $this->_arguments = array('test' => 'argument', 'scopeCode' => '', 'scopeType' => '');
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_sidResolverMock
             = $this->getMock('\Magento\Session\SidResolverInterface', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_storage = $this->getMock('Magento\Core\Model\Store\StorageInterface');
+        $this->_storage = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
+        $this->_httpContext = $this->getMock('Magento\App\Http\Context', [], [], '', false);
 
         $this->_model = new \Magento\Core\Model\Store\StorageFactory(
             $this->_objectManagerMock,
@@ -82,6 +94,8 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             $this->_logMock,
             $this->_sidResolverMock,
             $this->_appStateMock,
+            $this->_cookie,
+            $this->_httpContext,
             $this->_defaultStorage,
             $this->_dbStorage
         );
@@ -177,5 +191,49 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 
         /** test read instance from internal cache */
         $this->assertEquals($this->_storage, $this->_model->get($this->_arguments));
+    }
+
+    public function testGetWishStoresReinit()
+    {
+        $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
+
+        $website = $this->getMock('Magento\Core\Model\Website', [], [], '', false);
+        $website->expects($this->once())->method('getCode')->will($this->returnValue('code'));
+        $website->expects($this->any())->method('getDefaultGroupId')->will($this->returnValue(1));
+
+        $group = $this->getMock(
+            'Magento\Core\Model\Store\Group',
+            ['getDefaultStoreId', '__sleep', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $group->expects($this->any())->method('getDefaultStoreId')->will($this->returnValue(1));
+
+        $store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
+        $store->expects($this->once())->method('getCode')->will($this->returnValue(1));
+        $store->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $store->expects($this->once())->method('getIsActive')->will($this->returnValue(true));
+        $store->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue(1));
+
+        $storage = $this->getMock('Magento\Core\Model\Store\Storage\Db', [], [], '', false);
+        $storage->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
+        $storage->expects($this->any())->method('getWebsites')->will($this->returnValue(['code' => $website]));
+        $storage->expects($this->any())->method('getGroups')->will($this->returnValue(['1' => $group]));
+        $storage->expects($this->any())->method('getStores')->will($this->returnValue(['1' => $store]));
+        $storage->expects($this->any())->method('setCurrentStore')->with('1');
+        $storage->expects($this->any())->method('getCurrentStore')->will($this->returnValue(1));
+        $storage->expects($this->any())->method('getStore')->will($this->returnValue($store));
+
+        $this->_objectManagerMock
+            ->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($storage));
+
+        $this->_cookie->expects($this->any())->method('get')->will($this->returnValue(1));
+
+        $this->assertEquals($storage, $this->_model->get($this->_arguments));
     }
 }

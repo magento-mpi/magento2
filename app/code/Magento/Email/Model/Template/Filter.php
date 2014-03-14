@@ -504,6 +504,7 @@ class Filter extends \Magento\Filter\Template
      * also allow additional parameter "store"
      *
      * @param string[] $construction
+     * @throws \Magento\Core\Exception
      * @return string
      */
     public function protocolDirective($construction)
@@ -511,7 +512,11 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $store = null;
         if (isset($params['store'])) {
-            $store = $this->_storeManager->getSafeStore($params['store']);
+            try {
+                $store = $this->_storeManager->getStore($params['store']);
+            } catch (\Exception $e) {
+                throw new \Magento\Core\Exception(__('Requested invalid store "%1"', $params['store']));
+            }
         }
         $isSecure = $this->_storeManager->getStore($store)->isCurrentlySecure();
         $protocol = $isSecure ? 'https' : 'http';

@@ -83,11 +83,6 @@ class Session extends \Magento\Session\SessionManager
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Store\StorageInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\App\Http\Context
      */
     protected $_httpContext;
@@ -112,7 +107,6 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
      * @param Converter $converter
      * @param CustomerAccountServiceInterface $customerAccountService
@@ -133,7 +127,6 @@ class Session extends \Magento\Session\SessionManager
         \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Model\Converter $converter,
         CustomerAccountServiceInterface $customerAccountService,
@@ -148,7 +141,6 @@ class Session extends \Magento\Session\SessionManager
         $this->_session = $session;
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
-        $this->_storeManager = $storeManager;
         $this->_httpContext = $httpContext;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);

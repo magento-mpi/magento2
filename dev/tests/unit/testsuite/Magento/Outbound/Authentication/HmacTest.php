@@ -68,7 +68,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockStoreManager->expects($this->once())
-            ->method('getSafeStore')
+            ->method('getStore')
             ->will($this->returnValue($store));
         $store->expects($this->once())
             ->method('getBaseUrl')

@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Store\Storage;
 
-class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
+class DefaultStorage implements \Magento\Core\Model\StoreManagerInterface
 {
     /**
      * Application store object
@@ -51,16 +51,6 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     }
 
     /**
-     * Initialize current application store
-     *
-     * @return void
-     */
-    public function initCurrentStore()
-    {
-        //not applicable for default storage
-    }
-
-    /**
      * Allow or disallow single store mode
      *
      * @param bool $value
@@ -77,6 +67,16 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
      * @return bool
      */
     public function hasSingleStore()
+    {
+        return false;
+    }
+
+    /**
+     * Check if system is run in the single store mode
+     *
+     * @return bool
+     */
+    public function isSingleStoreMode()
     {
         return false;
     }
