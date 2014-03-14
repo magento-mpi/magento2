@@ -390,7 +390,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
             ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
             ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
-        $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
+        $this->addFiltersToCollection($searchCriteria->getAndGroup(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -433,7 +433,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $this->addFilterToCollection($collection, $filter);
         }
 
-        foreach ($filterGroup->getGroups() as $group) {
+        foreach ($filterGroup->getAndGroups() as $group) {
+            $this->addFilterGroupToCollection($collection, $group);
+        }
+
+        foreach ($filterGroup->getOrGroups() as $group) {
             $this->addFilterGroupToCollection($collection, $group);
         }
     }

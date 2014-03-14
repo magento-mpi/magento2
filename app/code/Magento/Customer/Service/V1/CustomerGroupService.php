@@ -96,7 +96,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $groups = array();
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
-        $this->addFiltersToCollection($searchCriteria->getFilters(), $collection);
+        $this->addFiltersToCollection($searchCriteria->getAndGroup(), $collection);
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         $sortOrders = $searchCriteria->getSortOrders();
         if ($sortOrders) {
@@ -137,7 +137,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $this->addFilterToCollection($collection, $filter);
         }
 
-        foreach ($filterGroup->getGroups() as $group) {
+        foreach ($filterGroup->getOrGroups() as $group) {
+            $this->addFilterGroupToCollection($collection, $group);
+        }
+
+        foreach ($filterGroup->getAndGroups() as $group) {
             $this->addFilterGroupToCollection($collection, $group);
         }
     }

@@ -22,9 +22,16 @@ interface FilterGroupInterface
     /**
      * Returns a list of filter groups in this group
      *
-     * @return \Magento\Customer\Service\V1\Data\Search\FilterGroupInterface[]
+     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup[]
      */
-    public function getGroups();
+    public function getAndGroups();
+
+    /**
+     * Returns a list of filter groups in this group
+     *
+     * @return \Magento\Customer\Service\V1\Data\Search\OrGroup[]
+     */
+    public function getOrGroups();
 
     /**
      * Returns the grouping type such as 'OR' or 'AND'.
