@@ -141,7 +141,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * Parse the Authorization header and return the access token e.g. Authorization: Bearer <access-token>
      *
      * @return string Access token
-     * @throws AuthorizationException
+     * @throws ServiceAuthorizationException
      */
     protected function _getAccessToken()
     {
@@ -151,9 +151,9 @@ class Soap implements \Magento\App\FrontControllerInterface
             if (isset($token[1]) && is_string($token[1])) {
                 return $token[1];
             }
-            throw new AuthorizationException(__('Authentication header format is invalid.'));
+            throw new ServiceAuthorizationException(__('Authentication header format is invalid.'));
         }
-        throw new AuthorizationException(__('Authentication header is absent.'));
+        throw new ServiceAuthorizationException(__('Authentication header is absent.'));
     }
 
     /**
