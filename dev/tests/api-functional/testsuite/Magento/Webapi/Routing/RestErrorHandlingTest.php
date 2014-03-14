@@ -133,29 +133,54 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         );
     }
 
-    public function testInputException()
+    public function testEmptyInputException()
     {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/inputexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-        );
+        $expectedWrappedErrors = [];
+        $this->_testWrappedError($expectedWrappedErrors);
+    }
+
+    public function testSingleWrappedErrorException()
+    {
+        $expectedWrappedErrors = [
+            ['fieldName' => 'key1', 'code' => 'code1', 'value' => 'value1']
+        ];
+        $this->_testWrappedError($expectedWrappedErrors);
+    }
+
+    public function testMultipleWrappedErrorException()
+    {
+        $expectedWrappedErrors = [
+            ['fieldName' => 'key1', 'code' => 'code1', 'value' => 'value1'],
+            ['fieldName' => 'key2', 'code' => 'code2', 'value' => 'value2']
+        ];
+        $this->_testWrappedError($expectedWrappedErrors);
+    }
+
+    protected function _testWrappedError($expectedWrappedErrors)
+    {
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => '/V1/errortest/inputException',
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ],
+        ];
 
         $expectedException = new \Magento\Exception\InputException();
-        $expectedException->addError("1234", "First name", "empty");
+        foreach ($expectedWrappedErrors as $error) {
+            $expectedException->addError(
+                $error['code'],
+                $error['fieldName'],
+                $error['value']
+            );
+        }
 
-        $expectedWrappedErrors = [
-            [
-                'fieldName' => 'First name',
-                'code' => 1234,
-                'value' => 'empty',
-            ]
+        $arguments = [
+            'wrappedErrorParameters' => $expectedWrappedErrors
         ];
 
         $this->_errorTest(
             $serviceInfo,
-            array(),
+            $arguments,
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
             $expectedException->getMessage(),
             [],
@@ -207,7 +232,16 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             }
 
             if ($wrappedErrors) {
-                $this->assertEquals($wrappedErrors, $body['errors'][0]['wrapped_errors'], 'Checking body wrapped errors');
+                $this->assertEquals(
+                    $wrappedErrors,
+                    $body['errors'][0]['wrapped_errors'],
+                    'Checking body wrapped errors'
+                );
+            } else {
+                $this->assertFalse(
+                    isset($body['errors'][0]['wrapped_errors']),
+                    'Expected wrapped_errors not to be set'
+                );
             }
         }
     }

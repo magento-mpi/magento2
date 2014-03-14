@@ -55,7 +55,8 @@ interface ErrorInterface
     public function returnIncompatibleDataType();
 
     /**
+     * @param \Magento\TestModule3\Service\V1\Entity\WrappedErrorParameter[] $wrappedErrorParameters
      * @return int Status
      */
-    public function inputException();
+    public function inputException($wrappedErrorParameters);
 }

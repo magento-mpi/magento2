@@ -9,6 +9,7 @@
  */
 namespace Magento\TestModule3\Service\V1;
 
+use Magento\Exception\InputException;
 use Magento\TestModule3\Service\V1\Entity\Parameter;
 use Magento\TestModule3\Service\V1\Entity\ParameterBuilder;
 
@@ -85,9 +86,14 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
     /**
      * {@inheritdoc}
      */
-    public function inputException()
+    public function inputException($wrappedErrorParameters)
     {
-        $inputException = \Magento\Exception\InputException::create(1234, "First name", "empty");
-        throw $inputException;
+        $exception = new InputException();
+        if ($wrappedErrorParameters) {
+            foreach ($wrappedErrorParameters as $error) {
+                $exception->addError($error->getCode(), $error->getFieldName(), $error->getValue());
+            }
+        }
+        throw $exception;
     }
 }
