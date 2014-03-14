@@ -240,10 +240,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getClearListUrl()
     {
-        $params = array(
-            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-        );
-        return $this->_getUrl('catalog/product_compare/clear', $params);
+        return $this->_getUrl('catalog/product_compare/clear');
     }
 
     /**
@@ -253,7 +250,11 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getPostDataClearList()
     {
-        return $this->_coreHelper->getPostData($this->_getUrl('catalog/product_compare/clear'));
+        $refererUrl = $this->_getRequest()->getServer('HTTP_REFERER');
+        $params = array(
+            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->urlEncode($refererUrl)
+        );
+        return $this->_coreHelper->getPostData($this->getClearListUrl(), $params);
     }
 
     /**
