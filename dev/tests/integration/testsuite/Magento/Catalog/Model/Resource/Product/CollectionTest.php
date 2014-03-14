@@ -86,9 +86,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Resource\Product\Collection',
             $this->_collection->addTierPriceData()
         );
-        $customerGroup = $this->_collection->getFirstItem()->getDataByKey('tier_price');
-        $this->assertEquals(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID, current($customerGroup)['cust_group']);
-        $this->assertEquals(CustomerGroupServiceInterface::CUST_GROUP_ALL, next($customerGroup)['cust_group']);
+        $tierPrice = $this->_collection->getFirstItem()->getDataByKey('tier_price');
+        $this->assertEquals(CustomerGroupServiceInterface::NOT_LOGGED_IN_ID, current($tierPrice)['cust_group']);
+        $this->assertEquals(CustomerGroupServiceInterface::CUST_GROUP_ALL, next($tierPrice)['cust_group']);
         $this->assertTrue($this->_collection->getFlag('tier_price_added'));
     }
 }
