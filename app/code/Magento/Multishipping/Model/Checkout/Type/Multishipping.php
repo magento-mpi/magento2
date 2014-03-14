@@ -369,6 +369,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
             try {
                 $address = $this->_customerAddressService->getAddress($addressId);
             } catch (\Exception $e) {
+                /** Customer address does not exist. */
             }
             if (isset($address)) {
                 if (!($quoteAddress = $this->getQuote()->getShippingAddressByCustomerAddressId($address->getId()))) {
@@ -403,6 +404,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         try {
             $address = $this->_customerAddressService->getAddress($addressId);
         } catch (\Exception $e) {
+            /** Customer address does not exist. */
         }
         if (isset($address)) {
             $this->getQuote()->getShippingAddressByCustomerAddressId(
@@ -428,6 +430,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         try {
             $address = $this->_customerAddressService->getAddress($addressId);
         } catch (\Exception $e) {
+            /** Customer address does not exist. */
         }
         if (isset($address)) {
             $this->getQuote()->getBillingAddress($addressId)->importCustomerAddressData($address)->collectTotals();

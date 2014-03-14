@@ -351,6 +351,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         } else {
             if (!$request) {
                 $request = new \Magento\Object();
+                //Bundle options mocking for compatibility
                 $request->setBundleOption(array());
             }
             $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);

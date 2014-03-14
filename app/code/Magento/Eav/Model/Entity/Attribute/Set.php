@@ -128,15 +128,12 @@ class Set extends \Magento\Core\Model\AbstractModel
 
             $newAttributes = array();
             foreach ($groupAttributesCollection as $attribute) {
-                $newAttribute = $this->_attributeFactory->create()->setId(
-                    $attribute->getId()
-                )->setAttributeSetId(
-                    $this->getId()
-                )->setEntityTypeId(
-                    $this->getEntityTypeId()
-                )->setSortOrder(
-                    $attribute->getSortOrder()
-                );
+                $newAttribute = $this->_attributeFactory->create()
+                    ->setId($attribute->getId())
+                    //->setAttributeGroupId($newGroup->getId())
+                    ->setAttributeSetId($this->getId())
+                    ->setEntityTypeId($this->getEntityTypeId())
+                    ->setSortOrder($attribute->getSortOrder());
                 $newAttributes[] = $newAttribute;
             }
             $newGroup->setAttributes($newAttributes);

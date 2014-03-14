@@ -345,10 +345,10 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
                 }
             }
             $cards[] = array(
-                'i' => $this->getId(),
-                'c' => $this->getCode(),
-                'a' => $this->getBalance(),
-                'ba' => $this->getBalance()
+                'i'=>$this->getId(),        // id
+                'c'=>$this->getCode(),      // code
+                'a'=>$this->getBalance(),   // amount
+                'ba'=>$this->getBalance(),  // base amount
             );
             $this->_giftCardAccountData->setCards($quote, $cards);
 

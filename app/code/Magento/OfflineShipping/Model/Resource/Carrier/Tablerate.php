@@ -189,6 +189,8 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
             array(
                 "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = :postcode",
                 "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = ''",
+
+                // Handle asterix in dest_zip field
                 "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = '*'",
                 "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
                 "dest_country_id = '0' AND dest_region_id = :region_id AND dest_zip = '*'",
@@ -480,13 +482,13 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importUniqueHash[$hash] = true;
 
         return array(
-            $this->_importWebsiteId,
-            $countryId,
-            $regionId,
-            $zipCode,
-            $this->_importConditionName,
-            $value,
-            $price
+            $this->_importWebsiteId,    // website_id
+            $countryId,                 // dest_country_id
+            $regionId,                  // dest_region_id,
+            $zipCode,                   // dest_zip
+            $this->_importConditionName,// condition_name,
+            $value,                     // condition_value
+            $price                      // price
         );
     }
 

@@ -590,8 +590,8 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
             '9' => __('Europack'),
             'B' => __('Break bulk express'),
             'C' => __('Medical express'),
-            'D' => __('Express worldwide'),
-            'U' => __('Express worldwide'),
+            'D' => __('Express worldwide'), // product content code: DOX
+            'U' => __('Express worldwide'), // product content code: ECX
             'K' => __('Express 9:00'),
             'L' => __('Express 10:30'),
             'G' => __('Domestic economy select'),

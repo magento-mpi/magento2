@@ -105,11 +105,13 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
         if ($this->getHasThemeAssigned()) {
             // @codingStandardsIgnoreStart
             $message = __('You chose a new theme for your live store. Click "OK" to replace your current theme.');
+            // @codingStandardsIgnoreEnd
         } else {
             // @codingStandardsIgnoreStart
             $message = __(
                 'You chose a theme for your new store. Click "OK" to go live. You can always modify or switch themes in "My Customizations" and "Available Themes."'
             );
+            // @codingStandardsIgnoreEnd
         }
         $themeId = $themeBlock->getTheme()->getId();
 

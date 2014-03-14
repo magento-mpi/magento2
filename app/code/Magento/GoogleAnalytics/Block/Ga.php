@@ -128,7 +128,7 @@ class Ga extends \Magento\View\Element\Template
                     $order->getIncrementId(),
                     $this->escapeJsQuote($item->getSku()),
                     $this->escapeJsQuote($item->getName()),
-                    null,
+                    null, // there is no "category" defined for the order item
                     $item->getBasePrice(),
                     $item->getQtyOrdered()
                 );

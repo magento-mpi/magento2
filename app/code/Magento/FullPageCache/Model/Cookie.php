@@ -219,6 +219,7 @@ class Cookie extends \Magento\Stdlib\Cookie
             } else {
                 $cookieIds = array();
             }
+            // append to the beginning
             array_splice($cookieIds, 0, 0, $productIds);
         } else {
             $cookieIds = $productIds;

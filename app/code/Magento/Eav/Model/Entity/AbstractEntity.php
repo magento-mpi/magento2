@@ -859,6 +859,10 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
             $prefix = (string)$this->getEntityType()->getValueTablePrefix();
             if (!empty($prefix)) {
                 $this->_valueTablePrefix = $prefix;
+                /**
+                 * entity type prefix include DB table name prefix
+                 */
+                //$this->_resource->getTableName($prefix);
             } else {
                 $this->_valueTablePrefix = $this->getEntityTable();
             }

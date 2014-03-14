@@ -75,11 +75,17 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         'ACCEPTURL',
         'ADDMATCH',
         'ADDRMATCH',
+        // airline tickets - not implemented
+//        'AIAIRNAME', 'AIAIRTAX', /*'AIBOOKIND*XX*', 'AICARRIER*XX*',*/ 'AICHDET', /*'AICLASS*XX*',*/ 'AICONJTI',
+//        /*'AIDESTCITY*XX*', 'AIDESTCITYL*XX*', 'AIEXTRAPASNAME*XX*',*/ 'AIEYCD', /*'AIFLDATE*XX*', 'AIFLNUM*XX*',*/
+//        'AIIRST', /*'AIORCITY*XX*', 'AIORCITYL*XX*',*/ 'AIPASNAME', /*'AISTOPOV*XX*',*/ 'AITIDATE', 'AITINUM',
+//        'AITYPCH', 'AIVATAMNT', 'AIVATAPPL',
         'ALIAS',
         'ALIASOPERATION',
         'ALIASUSAGE',
         'ALLOWCORRECTION',
         'AMOUNT',
+        /*'AMOUNT*XX*',*/
         'AMOUNTHTVA',
         'AMOUNTTVA',
         'BACKURL',
@@ -147,6 +153,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         'EMAIL',
         'EXCEPTIONURL',
         'EXCLPMLIST',
+        /*'EXECUTIONDATE*XX*',*/
         'FIRSTCALL',
         'FLAG3D',
         'FONTTYPE',
@@ -176,8 +183,12 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         'INVLEVEL',
         'INVORDERID',
         'ISSUERID',
+        // cart items - not implemented
+//        'ITEMCATEGORY*XX*', 'ITEMDISCOUNT*XX*', 'ITEMID*XX*', 'ITEMNAME*XX*', 'ITEMPRICE*XX*', 'ITEMQUANT*XX*',
+//        'ITEMUNITOFMEASURE*XX*', 'ITEMVAT*XX*', 'ITEMVATCODE*XX*',
         'LANGUAGE',
         'LEVEL1AUTHCPC',
+        /*'LIDEXCL*XX*',*/
         'LIMITCLIENTSCRIPTUSAGE',
         'LINE_REF',
         'LIST_BIN',
@@ -250,6 +261,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         'SUB_STARTDATE',
         'SUB_STATUS',
         'TAAL',
+        /*'TAXINCLUDED*XX*',*/
         'TBLBGCOLOR',
         'TBLTXTCOLOR',
         'TID',

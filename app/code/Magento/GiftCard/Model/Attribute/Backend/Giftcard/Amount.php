@@ -156,11 +156,23 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      * Delete amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return $This
+     * @return $this
      */
     public function afterDelete($object)
     {
         $this->_amountResource->deleteProductData($object, $this->getAttribute());
         return $this;
     }
+
+    /**
+     * Retrieve storage table
+     *
+     * @return string
+     */
+    /*
+        public function getTable()
+        {
+            return $this->_amountResource->getMainTable();
+        }
+    */
 }
