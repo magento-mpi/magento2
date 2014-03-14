@@ -56,7 +56,7 @@
             }, this));
 
             $(document).on('click', $.proxy(function() {
-                $('#map-popup').removeClass('active').hide()
+                $('#map-popup').removeClass('active').hide();
                 return false;
             }, this));
 

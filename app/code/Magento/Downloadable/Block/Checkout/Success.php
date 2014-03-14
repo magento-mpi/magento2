@@ -31,7 +31,6 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
@@ -42,7 +41,6 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\App\Http\Context $httpContext,
         \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
@@ -53,7 +51,6 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
             $checkoutSession,
             $customerSession,
             $orderFactory,
-            $recurringProfileCollectionFactory,
             $orderConfig,
             $httpContext,
             $data

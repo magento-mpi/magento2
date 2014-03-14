@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: tshevchenko
- * Date: 14.03.14
- * Time: 12:28
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\App\PageCache;
