@@ -415,9 +415,9 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _shouldBeSecure($path)
     {
-        return parse_url($this->_storeConfig->getValue('web/unsecure/base_url'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) === 'https'
+        return parse_url($this->_storeConfig->getValue('web/unsecure/base_url', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE), PHP_URL_SCHEME) === 'https'
             || $this->_storeConfig->isSetFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-                && parse_url($this->_storeConfig->getValue('web/secure/base_url'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) == 'https'
+                && parse_url($this->_storeConfig->getValue('web/secure/base_url', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE), PHP_URL_SCHEME) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
     }
 }

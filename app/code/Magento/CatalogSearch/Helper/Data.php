@@ -82,7 +82,7 @@ class Data extends AbstractHelper
     /**
      * Core store config
      *
-     * @var ConfigInterface
+     * @var ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -108,7 +108,7 @@ class Data extends AbstractHelper
      *
      * @param Context $context
      * @param String $string
-     * @param ConfigInterface $coreStoreConfig
+     * @param ScopeConfigInterface $coreStoreConfig
      * @param QueryFactory $queryFactory
      * @param Escaper $escaper
      * @param FilterManager $filter
@@ -116,7 +116,7 @@ class Data extends AbstractHelper
     public function __construct(
         Context $context,
         String $string,
-        ConfigInterface $coreStoreConfig,
+        ScopeConfigInterface $coreStoreConfig,
         QueryFactory $queryFactory,
         Escaper $escaper,
         FilterManager $filter

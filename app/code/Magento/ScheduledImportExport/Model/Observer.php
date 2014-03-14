@@ -109,7 +109,7 @@ class Observer
     {
         $result = false;
         if (!$this->_storeConfig->getValue(self::CRON_STRING_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            && (!$forceRun || !$this->_storeConfig->getValue(self::LOG_CLEANING_ENABLE_PATH), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            && (!$forceRun || !$this->_storeConfig->getValue(self::LOG_CLEANING_ENABLE_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
         ) {
             return;
         }

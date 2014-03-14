@@ -40,27 +40,19 @@ class Config implements \Magento\App\Config\ScopeConfigInterface
     }
 
     /**
-     * Retrieve store config value
-     *
-     * @param string $path
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return string|null
+     * {@inheritdoc}
      */
-    public function getConfig($path, $store = null)
+    public function getValue($path, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
     {
-        return $this->_storeManager->getStore($store)->getConfig($path);
+        return $this->_storeManager->getStore($scopeCode)->getConfig($path);
     }
 
     /**
-     * Retrieve store config flag
-     *
-     * @param string $path
-     * @param null|string|bool|int|\Magento\Store\Model\Store $store
-     * @return bool
+     * {@inheritdoc}
      */
-    public function getConfigFlag($path, $store = null)
+    public function isSetFlag($path, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
     {
-        $flag = strtolower($this->getConfig($path, $store));
+        $flag = strtolower($this->getValue($path, $scope, $scopeCode));
         return !empty($flag) && 'false' !== $flag;
     }
 }

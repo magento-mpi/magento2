@@ -115,8 +115,8 @@ class Catalog extends \Magento\App\Helper\AbstractHelper
     public function getSitemapValidPaths()
     {
         return array_merge(
-            $this->_storeConfig->getValue(self::XML_PATH_SITEMAP_VALID_PATHS), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
-            $this->_storeConfig->getValue(self::XML_PATH_PUBLIC_FILES_VALID_PATHS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            $this->_storeConfig->getValue(self::XML_PATH_SITEMAP_VALID_PATHS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+            $this->_storeConfig->getValue(self::XML_PATH_PUBLIC_FILES_VALID_PATHS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         );
     }
 }

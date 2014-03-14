@@ -214,7 +214,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         $websiteStores = array();
         $websiteGroups = array();
         $groupStores   = array();
-
         foreach ($storeCollection as $store) {
             /** @var $store Store */
             $store->setWebsite($websiteCollection->getItemById($store->getWebsiteId()));

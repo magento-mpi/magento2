@@ -89,7 +89,7 @@ class Query extends AbstractModel
     /**
      * Core store config
      *
-     * @var Config
+     * @var ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -133,7 +133,7 @@ class Query extends AbstractModel
         QueryCollectionFactory $queryCollectionFactory,
         CollectionFactory $searchCollectionFactory,
         StoreManagerInterface $storeManager,
-        Config $coreStoreConfig,
+        ScopeConfigInterface $coreStoreConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
         array $data = array()

@@ -44,8 +44,10 @@ class Config
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig
     ) {
-        $emailLimitInConfig = (int)$storeConfig->getConfig(self::XML_PATH_SHARING_EMAIL_LIMIT);
-        $textLimitInConfig = (int)$storeConfig->getConfig(self::XML_PATH_SHARING_TEXT_LIMIT);
+        $emailLimitInConfig = (int)$storeConfig->getValue(self::XML_PATH_SHARING_EMAIL_LIMIT,
+            \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $textLimitInConfig = (int)$storeConfig->getValue(self::XML_PATH_SHARING_TEXT_LIMIT,
+            \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $this->_sharingEmailLimit = $emailLimitInConfig ?: self::SHARING_EMAIL_LIMIT;
         $this->_sharignTextLimit = $textLimitInConfig ?: self::SHARING_TEXT_LIMIT;
         $this->_catalogConfig = $catalogConfig;

@@ -245,7 +245,7 @@ class Account extends \Magento\Customer\Controller\Account
                         __(
                             'Your invitation is not valid. Please contact us at %1.',
                             $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
-                                ->getConfig('trans_email/ident_support/email')
+                                ->getValue('trans_email/ident_support/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                         )
                     );
                     $this->_redirect('customer/account/login');

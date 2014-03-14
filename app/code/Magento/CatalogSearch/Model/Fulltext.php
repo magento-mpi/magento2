@@ -62,7 +62,7 @@ class Fulltext extends AbstractModel
     /**
      * Core store config
      *
-     * @var Config
+     * @var ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -70,7 +70,7 @@ class Fulltext extends AbstractModel
      * @param Context $context
      * @param Registry $registry
      * @param Data $catalogSearchData
-     * @param Config $coreStoreConfig
+     * @param ScopeConfigInterface $coreStoreConfig
      * @param AbstractResource $resource
      * @param Db $resourceCollection
      * @param array $data
@@ -79,7 +79,7 @@ class Fulltext extends AbstractModel
         Context $context,
         Registry $registry,
         Data $catalogSearchData,
-        Config $coreStoreConfig,
+        ScopeConfigInterface $coreStoreConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
         array $data = array()

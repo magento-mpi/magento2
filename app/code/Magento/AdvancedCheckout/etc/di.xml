@@ -15,7 +15,7 @@
             <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="customerSession" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
             <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-            <argument name="coreStoreConfig" xsi:type="object">Magento\Store\Model\Config\Proxy</argument>
+            <argument name="coreStoreConfig" xsi:type="object">Magento\App\Config\ScopeConfigInterface\Proxy</argument>
         </arguments>
     </type>
 </config>

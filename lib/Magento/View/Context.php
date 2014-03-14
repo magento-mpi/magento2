@@ -12,7 +12,7 @@ use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
 
 use Magento\TranslateInterface;
-use Magento\Store\Model\Config as StoreConfig;
+use Magento\App\Config\ScopeConfigInterface;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
@@ -87,7 +87,7 @@ class Context
     /**
      * Store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $storeConfig;
 
@@ -157,7 +157,7 @@ class Context
      * @param Cache $cache
      * @param DesignInterface $design
      * @param SessionManager $session
-     * @param StoreConfig $storeConfig
+     * @param ScopeConfigInterface $storeConfig
      * @param FrontControllerInterface $frontController
      * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
@@ -178,7 +178,7 @@ class Context
         Cache $cache,
         DesignInterface $design,
         SessionManager $session,
-        StoreConfig $storeConfig,
+        ScopeConfigInterface $storeConfig,
         FrontControllerInterface $frontController,
         ViewUrl $viewUrl,
         ViewConfig $viewConfig,
@@ -277,7 +277,7 @@ class Context
     /**
      * Retrieve store config
      *
-     * @return \Magento\Store\Model\Config
+     * @return \Magento\App\Config\ScopeConfigInterface
      */
     public function getStoreConfig()
     {

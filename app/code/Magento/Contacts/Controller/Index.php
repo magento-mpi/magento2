@@ -54,7 +54,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getConfigFlag(self::XML_PATH_ENABLED)) {
+        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->isSetFlag(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
@@ -121,14 +121,14 @@ class Index extends \Magento\App\Action\Action
                 $storeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 $transport = $this->_transportBuilder
-                    ->setTemplateIdentifier($storeConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE))
+                    ->setTemplateIdentifier($storeConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                     ->setTemplateOptions(array(
                         'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                         'store' => $storeManager->getStore()->getId()
                     ))
                     ->setTemplateVars(array('data' => $postObject))
-                    ->setFrom($storeConfig->getConfig(self::XML_PATH_EMAIL_SENDER))
-                    ->addTo($storeConfig->getConfig(self::XML_PATH_EMAIL_RECIPIENT))
+                    ->setFrom($storeConfig->getValue(self::XML_PATH_EMAIL_SENDER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                    ->addTo($storeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                     ->setReplyTo($post['email'])
                     ->getTransport();
 

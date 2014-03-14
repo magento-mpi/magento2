@@ -35,7 +35,7 @@ class Resolver extends \Magento\Locale\Resolver
     protected $_localeValidator;
 
     /**
-     * @param \Magento\Locale\ScopeConfigInterface $scopeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\AppInterface $app
      * @param \Magento\LocaleFactory $localeFactory
      * @param string $defaultLocalePath
@@ -47,7 +47,7 @@ class Resolver extends \Magento\Locale\Resolver
      * @param string|null $locale
      */
     public function __construct(
-        \Magento\Locale\ScopeConfigInterface $scopeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\AppInterface $app,
         \Magento\LocaleFactory $localeFactory,
         $defaultLocalePath,

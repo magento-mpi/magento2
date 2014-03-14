@@ -167,16 +167,16 @@ class Image extends AbstractHelper
         $this->setProduct($product);
 
         $this->setWatermark(
-            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_image")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel()->getDestinationSubdir()}_image", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         );
         $this->setWatermarkImageOpacity(
-            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_imageOpacity")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel()->getDestinationSubdir()}_imageOpacity", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         );
         $this->setWatermarkPosition(
-            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_position")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel()->getDestinationSubdir()}_position", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         );
         $this->setWatermarkSize(
-            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_size")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel()->getDestinationSubdir()}_size", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         );
 
         if ($imageFile) {

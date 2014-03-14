@@ -295,8 +295,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     'customerEmail' => $checkout->getCustomerEmail(),
                     'billingAddress' => $checkout->getBillingAddress(),
                     'shippingAddress' => $checkout->getShippingAddress(),
-                    'shippingMethod' => $this->_storeConfig->getValue('carriers/'.$shippingMethod.'/title'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
-                    'paymentMethod' => $this->_storeConfig->getValue('payment/'.$paymentMethod.'/title'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    'shippingMethod' => $this->_storeConfig->getValue('carriers/'.$shippingMethod.'/title', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+                    'paymentMethod' => $this->_storeConfig->getValue('payment/'.$paymentMethod.'/title', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
                     'items' => nl2br($items),
                     'total' => $total
                 ))

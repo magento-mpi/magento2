@@ -27,7 +27,7 @@ class Index extends \Magento\App\Action\Action
     public function indexAction($coreRoute = null)
     {
         $pageId = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
-            ->getConfig(\Magento\Cms\Helper\Page::XML_PATH_HOME_PAGE);
+            ->getValue(\Magento\Cms\Helper\Page::XML_PATH_HOME_PAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultIndex');
         }
@@ -70,8 +70,8 @@ class Index extends \Magento\App\Action\Action
      */
     public function noCookiesAction()
     {
-        $pageId = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
-            ->getConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE);
+        $pageId = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->getValue(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoCookies');;
         }

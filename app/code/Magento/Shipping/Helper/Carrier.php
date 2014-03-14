@@ -75,7 +75,8 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     public function getCarrierConfigValue($carrierCode, $configPath, $store = null)
     {
         return $this->storeConfig->getValue(
-            sprintf('%s/%s/%s', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, self::XML_PATH_CARRIERS_ROOT, $carrierCode , $configPath),
+            sprintf('%s/%s/%s', self::XML_PATH_CARRIERS_ROOT, $carrierCode , $configPath),
+            \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
     }

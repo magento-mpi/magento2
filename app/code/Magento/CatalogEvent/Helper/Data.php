@@ -29,17 +29,17 @@ class Data extends AbstractHelper
     /**
      * Core store config
      *
-     * @var Config
+     * @var ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param Context $context
-     * @param Config $coreStoreConfig
+     * @param ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         Context $context,
-        Config $coreStoreConfig
+        ScopeConfigInterface $coreStoreConfig
     ) {
         $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context);

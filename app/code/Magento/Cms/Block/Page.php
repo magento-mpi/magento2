@@ -97,8 +97,8 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
         // show breadcrumbs
         if ($this->_storeConfig->getValue('web/default/show_cms_breadcrumbs', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs'))
-            && ($page->getIdentifier()!==$this->_storeConfig->getValue('web/default/cms_home_page'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            && ($page->getIdentifier()!==$this->_storeConfig->getValue('web/default/cms_no_route'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+            && ($page->getIdentifier()!==$this->_storeConfig->getValue('web/default/cms_home_page', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+            && ($page->getIdentifier()!==$this->_storeConfig->getValue('web/default/cms_no_route', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))) {
                 $breadcrumbs->addCrumb('home', array('label'=>__('Home'), 'title'=>__('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()));
                 $breadcrumbs->addCrumb('cms_page', array('label'=>$page->getTitle(), 'title'=>$page->getTitle()));

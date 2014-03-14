@@ -460,7 +460,7 @@ class Image extends \Magento\Core\Model\AbstractModel
             $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
             $isConfigPlaceholder = $this->_storeConfig->getValue(
-                "catalog/placeholder/{$this->getDestinationSubdir(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE}_placeholder"
+                "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
             );
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
             if (!empty($isConfigPlaceholder) && $this->_fileExists($baseDir . $configPlaceholder)) {
