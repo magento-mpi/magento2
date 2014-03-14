@@ -337,6 +337,7 @@ FAULT_MESSAGE;
      *
      * @param array $parameters
      * @return string
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _getWrappedErrorsXml($wrappedErrors)
     {
