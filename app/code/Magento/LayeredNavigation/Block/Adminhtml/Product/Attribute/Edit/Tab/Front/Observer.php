@@ -10,6 +10,7 @@
 namespace Magento\LayeredNavigation\Block\Adminhtml\Product\Attribute\Edit\Tab\Front;
 
 use Magento\Backend\Model\Config\Source;
+use Magento\Module\Manager;
 
 class Observer
 {
@@ -19,11 +20,18 @@ class Observer
     protected $optionList;
 
     /**
+     * @var \Magento\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
+     * @param Manager $moduleManager
      * @param Source\Yesno $optionList
      */
-    public function __construct(Source\Yesno $optionList)
+    public function __construct(Manager $moduleManager, Source\Yesno $optionList)
     {
         $this->optionList = $optionList;
+        $this->moduleManager = $moduleManager;
     }
 
     /**
@@ -32,6 +40,10 @@ class Observer
      */
     public function observe($event)
     {
+        if (!$this->moduleManager->isOutputEnabled('Magento_LayeredNavigation')) {
+            return;
+        }
+
         /** @var \Magento\Data\Form\AbstractForm $form */
         $form = $event->getForm();
 

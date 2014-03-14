@@ -9,16 +9,33 @@
  */
 namespace Magento\LayeredNavigation\Block\Adminhtml\Product\Attribute\Grid;
 
-use Magento\Backend\Model\Config\Source;
+use Magento\Module\Manager;
 
 class Observer
 {
+    /**
+     * @var \Magento\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
+     * @param Manager $moduleManager
+     */
+    public function __construct(Manager $moduleManager)
+    {
+        $this->moduleManager = $moduleManager;
+    }
+
     /**
      * @param \Magento\Event $event
      * @return void
      */
     public function observe($event)
     {
+        if (!$this->moduleManager->isOutputEnabled('Magento_LayeredNavigation')) {
+            return;
+        }
+
         /** @var \Magento\Catalog\Block\Adminhtml\Product\Attribute\Grid $grid */
         $grid = $event->getGrid();
 
