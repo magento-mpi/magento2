@@ -156,6 +156,7 @@ class JcbTest extends \PHPUnit_Framework_TestCase
      * Data for successful authentication
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getAuthenticationSuccessfulData()
     {
@@ -318,6 +319,7 @@ class JcbTest extends \PHPUnit_Framework_TestCase
      * Data for unavailable authentication
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getAuthenticationUnavailableData()
     {
@@ -492,6 +494,7 @@ class JcbTest extends \PHPUnit_Framework_TestCase
      * Data for attempts performed processing
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getProcessingAttemptsPerformedData()
     {

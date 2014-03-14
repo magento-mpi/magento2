@@ -227,6 +227,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
      * @param bool $makeResultFile
      * @param bool $fileExists
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareMocksForValidateData(
         $classExistsFirst = true,

@@ -247,21 +247,24 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             "add/update behavior and row with delete in action column" => array(
                 '$inputBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
                 '$rowData' => array(
-                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                        \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
             ),
             "delete behavior and row with delete in action column" => array(
                 '$inputBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
                 '$rowData' => array(
-                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                        \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
             "custom behavior and row with delete in action column" => array(
                 '$inputBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData' => array(
-                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                        \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
             ),
@@ -349,7 +352,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             "custom behavior and row with delete in action column and empty available behaviors" => array(
                 '$inputBehavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
                 '$rowData' => array(
-                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION => \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
+                    \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION =>
+                        \Magento\ImportExport\Model\Import\AbstractEntity::COLUMN_ACTION_VALUE_DELETE
                 ),
                 '$expectedBehavior' => \Magento\ImportExport\Model\Import\AbstractEntity::getDefaultBehavior(),
                 '$availableBehaviors' => array()

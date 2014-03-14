@@ -105,6 +105,10 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     protected $_cacheTypeList = array('type1', 'type2');
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_backendSession = $this->getMock(

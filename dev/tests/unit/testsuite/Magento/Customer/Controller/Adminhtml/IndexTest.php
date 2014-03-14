@@ -70,6 +70,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Prepare required values
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function setUp()
     {

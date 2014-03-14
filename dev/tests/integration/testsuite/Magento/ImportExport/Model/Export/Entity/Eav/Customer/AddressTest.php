@@ -67,7 +67,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
 
         // Get customer default addresses column name to customer attribute mapping array.
-        $defaultAddressMap = \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
+        $defaultAddressMap =
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping();
 
         $this->_model->setWriter(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

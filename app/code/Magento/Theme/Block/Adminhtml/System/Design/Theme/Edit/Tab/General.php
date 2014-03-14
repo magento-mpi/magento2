@@ -96,6 +96,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
      * @param \Magento\Data\Form $form
      * @param array $formData
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _addThemeFieldset($form, $formData)
     {

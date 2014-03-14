@@ -46,9 +46,10 @@ class DownloadableTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->downloadablePlugin = new \Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable(
-            $this->requestMock
-        );
+        $this->downloadablePlugin =
+            new \Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable(
+                $this->requestMock
+            );
     }
 
     public function testAfterInitializeIfDownloadableExist()

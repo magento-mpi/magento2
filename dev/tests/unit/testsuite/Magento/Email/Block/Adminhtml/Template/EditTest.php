@@ -110,6 +110,10 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_block = $objectManager->getObject('Magento\Email\Block\Adminhtml\Template\Edit', $arguments);
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testGetUsedCurrentlyForPaths()
     {
         $sectionMock = $this->getMock(

@@ -57,6 +57,7 @@ class ToPercentTest extends \PHPUnit_Framework_TestCase
      * @param $expectedRuleDiscountQty
      * @param $expectedDiscountData
      * @dataProvider calculateDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testCalculate(
         $qty,

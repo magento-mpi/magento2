@@ -57,6 +57,10 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testGetFiles()
     {
         $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');

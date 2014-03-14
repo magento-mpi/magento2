@@ -216,7 +216,9 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
          * calculate average and total amount
          */
         $expr = $storeId ==
-            0 ? "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate" : "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
+            0 ?
+            "(orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}) * orders.base_to_global_rate" :
+            "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
 
         $this->getSelect()->columns(
             array("orders_avg_amount" => "AVG({$expr})")
@@ -266,7 +268,9 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             $baseSubtotalRefunded = $adapter->getIfNullSql('orders.base_subtotal_refunded', 0);
             $baseSubtotalCanceled = $adapter->getIfNullSql('orders.base_subtotal_canceled', 0);
 
-            $totalExpr = $this->_addOrderStatFilter ? "(orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded})*orders.base_to_global_rate" : "orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded}";
+            $totalExpr = $this->_addOrderStatFilter ?
+                "(orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded})*orders.base_to_global_rate" :
+                "orders.base_subtotal-{$baseSubtotalCanceled}-{$baseSubtotalRefunded}";
 
             $select = $this->getConnection()->select();
             $select->from(

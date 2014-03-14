@@ -60,8 +60,10 @@ return array(
             "Element 'attribute', attribute " .
             "'code': 'code1' is not a valid value of the atomic type 'identifierType'.",
             "Element 'attribute', attribute " .
-            "'code': Warning: No precomputed value available, the value was either invalid or something strange happend.",
-            "Element 'field', attribute 'code': [facet 'pattern'] The value 'code::one' is not accepted by the pattern '" .
+            "'code': Warning: No precomputed value available, ".
+            "the value was either invalid or something strange happend.",
+            "Element 'field', attribute 'code': [facet 'pattern'] ".
+            "The value 'code::one' is not accepted by the pattern '" .
             "[a-z_]+'.",
             "Element 'field', attribute 'code': 'code::one' is not a valid value of the atomic type " .
             "'identifierType'.",

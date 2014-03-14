@@ -50,6 +50,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Controller\Adminhtml\System\Design\Theme::saveAction
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testSaveAction()
     {

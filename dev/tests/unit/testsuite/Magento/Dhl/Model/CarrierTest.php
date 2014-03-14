@@ -26,6 +26,10 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function setUp()
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);

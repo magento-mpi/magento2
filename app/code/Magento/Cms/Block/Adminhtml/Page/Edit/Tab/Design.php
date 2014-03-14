@@ -61,6 +61,7 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
      * Initialise form fields
      *
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {

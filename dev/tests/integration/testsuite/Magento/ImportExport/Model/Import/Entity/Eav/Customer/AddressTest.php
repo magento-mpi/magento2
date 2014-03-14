@@ -336,7 +336,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // set customer defaults
         $defaults = array();
-        foreach (\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::getDefaultAddressAttributeMapping() as $attributeCode) {
+        foreach (\Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address::
+                     getDefaultAddressAttributeMapping() as $attributeCode) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $attribute = $addressCustomer->getAttribute($attributeCode);
             $attributeTable = $attribute->getBackend()->getTable();

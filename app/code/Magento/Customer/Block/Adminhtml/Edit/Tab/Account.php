@@ -275,9 +275,15 @@ class Account extends GenericMetadata
             }
             $sendEmail->setAfterElementHtml(
                 '<script type="text/javascript">' .
-                "\n                document.observe('dom:loaded', function(){\n                    \$('{$prefix}website_id').disableSendemail = function() {\n                        \$('{$prefix}sendemail').disabled = ('' == this.value || '0' == this.value);" .
+                "\n                document.observe('dom:loaded', function()".
+                "{\n                    \$('{$prefix}website_id').disableSendemail = function() ".
+                "{\n                        \$('{$prefix}sendemail').disabled = ('' == this.value || ".
+                "'0' == this.value);" .
                 $_disableStoreField .
-                "\n}.bind(\$('{$prefix}website_id'));\n                    Event.observe('{$prefix}website_id', 'change', \$('{$prefix}website_id').disableSendemail);\n                    \$('{$prefix}website_id').disableSendemail();\n                });\n                " .
+                "\n}.bind(\$('{$prefix}website_id'));\n                    ".
+                "Event.observe('{$prefix}website_id', 'change', \$('{$prefix}website_id').disableSendemail);".
+                "\n                    \$('{$prefix}website_id').disableSendemail();\n                });".
+                "\n                " .
                 '</script>'
             );
         }
@@ -318,9 +324,14 @@ class Account extends GenericMetadata
                 $this->_jsonEncoder->encode(
                     $websites
                 ) .
-                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem){\n                        return {$prefix}_websites[elem.value] == true;\n                    },\n                    '" .
+                ";\n                jQuery.validator.addMethod('validate-website-has-store', function(v, elem)".
+                "{\n                        return {$prefix}_websites[elem.value] == true;\n                    },".
+                "\n                    '" .
                 $note .
-                "'\n                );\n                Element.observe('{$prefix}website_id', 'change', function(){\n                    jQuery.validator.validateElement('#{$prefix}website_id');\n                }.bind(\$('{$prefix}website_id')));\n                " .
+                "'\n                );\n                ".
+                "Element.observe('{$prefix}website_id', 'change', function()".
+                "{\n                    jQuery.validator.validateElement('#{$prefix}website_id');".
+                "\n                }.bind(\$('{$prefix}website_id')));\n                " .
                 '</script>'
             );
             $renderer = $this->getLayout()->createBlock(

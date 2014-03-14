@@ -44,6 +44,10 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testGetOptionHtml()
     {
         $layout = $this->getMock(

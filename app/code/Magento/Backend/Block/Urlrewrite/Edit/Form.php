@@ -149,6 +149,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Prepare the form layout
      *
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {

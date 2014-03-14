@@ -46,7 +46,8 @@ return array(
         array(
             "Element 'add', attribute 'dependsOnConfig': [facet 'pattern'] The value '' is not accepted by the " .
             "pattern '[A-Za-z0-9_/]{3,}'.",
-            "Element 'add', attribute 'dependsOnConfig': '' is not a valid value of the atomic type 'typeDependsConfig'."
+            "Element 'add', attribute 'dependsOnConfig': '' ".
+            "is not a valid value of the atomic type 'typeDependsConfig'."
         )
     ),
     'add_dependsOnConfig_attribute_less_minLenght_value' => array(
@@ -136,7 +137,8 @@ return array(
         array(
             "Element 'add', attribute 'id': [facet 'pattern'] The value 'Magento)value::some_value' is not " .
             "accepted by the pattern '[A-Za-z0-9/_:]{3,}'.",
-            "Element 'add', attribute 'id': 'Magento)value::some_value' is not a valid value of the atomic type 'typeId'.",
+            "Element 'add', attribute 'id': 'Magento)value::some_value' ".
+            "is not a valid value of the atomic type 'typeId'.",
             "Element 'add', attribute 'id': Warning: No precomputed value available, the value was either invalid or " .
             "something strange happend."
         )
@@ -198,7 +200,8 @@ return array(
         array(
             "Element 'add', attribute 'parent': [facet 'pattern'] The value 'Some#Name::system_other_settings' " .
             "is not accepted by the pattern '[A-Za-z0-9/_:]{3,}'.",
-            "Element 'add', attribute 'parent': 'Some#Name::system_other_settings' is not a valid value of the atomic " .
+            "Element 'add', attribute 'parent': 'Some#Name::system_other_settings' ".
+            "is not a valid value of the atomic " .
             "type 'typeId'."
         )
     ),
@@ -275,7 +278,8 @@ return array(
         array(
             "Element 'add', attribute 'resource': [facet 'pattern'] The value 'Test_Value::' is not " .
             "accepted by the pattern '[A-Z]+[a-z0-9]{1,}_[A-Z]+[A-Z0-9a-z]{1,}::[A-Za-z_0-9]{1,}'.",
-            "Element 'add', attribute 'resource': 'Test_Value::' is not a valid value of the atomic type 'typeResource'."
+            "Element 'add', attribute 'resource': 'Test_Value::' ".
+            "is not a valid value of the atomic type 'typeResource'."
         )
     ),
     'add_sortOrder_attribute_empty_value' => array(
@@ -704,7 +708,8 @@ return array(
         array(
             "Element 'update', attribute 'title': [facet 'maxLength'] The value 'Lorem ipsum dolor sit amet, " .
             "consectetur adipisicing' has a length of '51'; this exceeds the allowed maximum length of '50'.",
-            "Element 'update', attribute 'title': 'Lorem ipsum dolor sit amet, consectetur adipisicing' is not a valid " .
+            "Element 'update', attribute 'title': 'Lorem ipsum dolor sit amet, ".
+            "consectetur adipisicing' is not a valid " .
             "value of the atomic type 'typeTitle'."
         )
     ),

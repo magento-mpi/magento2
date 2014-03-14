@@ -64,6 +64,7 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
      *
      * @param \Magento\Data\Form $form
      * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareStoreFieldset(\Magento\Data\Form $form)
     {

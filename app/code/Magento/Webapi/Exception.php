@@ -96,7 +96,9 @@ class Exception extends \RuntimeException
     public function getOriginator()
     {
         return $this->getHttpCode() <
-            500 ? \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER : \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER;
+            500 ?
+            \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_SENDER :
+            \Magento\Webapi\Model\Soap\Fault::FAULT_CODE_RECEIVER;
     }
 
     /**

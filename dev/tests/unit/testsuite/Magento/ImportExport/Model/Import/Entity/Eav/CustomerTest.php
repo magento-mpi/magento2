@@ -51,7 +51,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'website1'
         ),
         'delete' => array(
-            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION => \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION_VALUE_DELETE,
+            \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION =>
+                \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_ACTION_VALUE_DELETE,
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL => 'delete@email.com',
             \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE => 'website1'
         )

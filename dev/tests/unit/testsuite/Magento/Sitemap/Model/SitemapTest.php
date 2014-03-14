@@ -383,6 +383,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
      * @param int $expectedWrites
      * @param array $robotsInfo
      * @return \Magento\Sitemap\Model\Sitemap|PHPUnit_Framework_MockObject_MockObject
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareSitemapModelMock(
         &$actualData,

@@ -92,7 +92,8 @@ return array(
             "of '2'.",
             "Element 'field', attribute 'id': 'f' is not a valid value of the atomic type 'typeId'.",
             "Element" .
-            " 'field', attribute 'id': Warning: No precomputed value available, the value was either invalid or something" .
+            " 'field', attribute 'id': ".
+            "Warning: No precomputed value available, the value was either invalid or something" .
             " strange happend.",
             "Element 'tab', attribute 'id': [facet 'minLength'] The value 'h' has a length of '1'; " .
             "this underruns the allowed minimum length of '2'.",
@@ -167,7 +168,8 @@ return array(
     'config_without_required_attributes' => array(
         '<?xml version="1.0"?><config><system><section><group>' .
         '<label>Label</label><attribute/><field><depends><field/></depends><options><option/></options></field>' .
-        '</group><group id="group2"><label>Label_One</label></group></section><tab><label>Label</label></tab></system>' .
+        '</group><group id="group2"><label>Label_One'.
+        '</label></group></section><tab><label>Label</label></tab></system>' .
         '</config>',
         array(
             "Element 'section': The attribute 'id' is required but missing.",

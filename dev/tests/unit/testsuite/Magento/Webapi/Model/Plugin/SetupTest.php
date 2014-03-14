@@ -96,6 +96,10 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->apiSetupPlugin->afterInitIntegrationProcessing($this->subjectMock, array());
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testAfterInitIntegrationProcessingSuccess()
     {
         $testIntegration1Resource = array(

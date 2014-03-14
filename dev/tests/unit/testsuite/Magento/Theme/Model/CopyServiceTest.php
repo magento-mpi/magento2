@@ -79,6 +79,10 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
 
     protected $_dirWriteMock;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $sourceFileOne = $this->getMock(
@@ -326,6 +330,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Theme\Model\CopyService::_copyDatabaseCustomization
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testCopyDatabaseCustomization()
     {

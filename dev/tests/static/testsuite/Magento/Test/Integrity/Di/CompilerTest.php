@@ -303,7 +303,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $autoloader,
             $generatorIo,
             array(
-                \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE => 'Magento\ObjectManager\Code\Generator\Factory'
+                \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE
+                => 'Magento\ObjectManager\Code\Generator\Factory'
             )
         );
         $autoloader = new \Magento\Code\Generator\Autoloader($generator);

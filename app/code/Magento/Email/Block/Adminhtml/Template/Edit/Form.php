@@ -82,8 +82,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add fields to form and create template info form
      *
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @return \Magento\Backend\Block\Widget\Form
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {

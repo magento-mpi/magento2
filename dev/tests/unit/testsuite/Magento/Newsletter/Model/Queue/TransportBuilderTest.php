@@ -19,6 +19,13 @@ class TransportBuilderTest extends \Magento\Mail\Template\TransportBuilderTest
      */
     protected $builder;
 
+    /**
+     * @param int $templateType
+     * @param string $messageType
+     * @param string $bodyText
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testGetTransport(
         $templateType = \Magento\App\TemplateTypesInterface::TYPE_HTML,
         $messageType = \Magento\Mail\Message::TYPE_HTML,

@@ -94,6 +94,9 @@ class WizardTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Set up before test
+     *
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function setUp()
     {

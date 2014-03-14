@@ -57,6 +57,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     protected $_fieldsetFactoryMock;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_systemConfigMock = $this->getMock(
@@ -179,6 +183,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_formMock, $this->_object->getForm());
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testInitGroup()
     {
         $this->_formFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_formMock));
@@ -285,6 +293,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider initFieldsDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testInitFields($backendConfigValue, $configValue, $configPath, $inherit, $expectedValue)
     {

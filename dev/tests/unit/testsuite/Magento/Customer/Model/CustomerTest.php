@@ -87,6 +87,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('hash', $this->_model->hashPassword('password', 'salt'));
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testSendPasswordResetConfirmationEmail()
     {
         $storeId = 1;

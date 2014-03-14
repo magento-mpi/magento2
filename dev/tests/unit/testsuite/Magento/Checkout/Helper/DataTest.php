@@ -83,6 +83,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testSendPaymentFailedEmail()
     {
         $shippingAddress = new \Magento\Object(array('shipping_method' => 'ground_transportation'));

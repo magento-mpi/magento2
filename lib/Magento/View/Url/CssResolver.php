@@ -15,7 +15,8 @@ class CssResolver
     /**
      * PCRE that matches non-absolute URLs in CSS content
      */
-    const REGEX_CSS_RELATIVE_URLS = '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
+    const REGEX_CSS_RELATIVE_URLS =
+        '#url\s*\(\s*(?(?=\'|").)(?!http\://|https\://|/|data\:)(.+?)(?:[\#\?].*?|[\'"])?\s*\)#';
 
     /**
      * File system

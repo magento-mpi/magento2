@@ -91,7 +91,9 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
                 'class' => 'validate-parent-category',
                 'name' => 'new_category_parent',
                 'note' => __(
-                    'If there are no custom parent categories, please use the default parent category. You can reassign the category at any time in <a href="%1" target="_blank">Products > Categories</a>.',
+                    'If there are no custom parent categories, please use the default parent category. ' .
+                    'You can reassign the category at any time in ' .
+                    '<a href="%1" target="_blank">Products > Categories</a>.',
                     $this->getUrl('catalog/category')
                 )
             )

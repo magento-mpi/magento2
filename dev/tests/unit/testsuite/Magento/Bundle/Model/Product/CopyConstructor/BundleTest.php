@@ -51,6 +51,10 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         $this->model->build($this->product, $this->duplicate);
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testBuildPositive()
     {
         //prepare mocks and data samples

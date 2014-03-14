@@ -330,6 +330,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      * @param bool $addExpectations
      * @param bool $doubleOptions
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _getSourceDataMocks($addExpectations, $doubleOptions)
     {

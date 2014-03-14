@@ -235,7 +235,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                 $options[$productAttributeId][$attributeValue][] = $productId;
                 !$product->getImage() ||
                     $product->getImage() ===
-                    'no_selection' ? $options['images'][$productAttributeId][$attributeValue][$productId] = null : ($options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image);
+                    'no_selection' ? $options['images'][$productAttributeId][$attributeValue][$productId] = null :
+                    ($options['images'][$productAttributeId][$attributeValue][$productId] = (string)$image);
             }
         }
 

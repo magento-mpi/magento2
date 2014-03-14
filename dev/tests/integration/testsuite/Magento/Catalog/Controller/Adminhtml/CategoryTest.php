@@ -52,7 +52,8 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         foreach ($attributesSaved as $attribute => $value) {
             $actualValue = $category->getData($attribute);
             if ($value !== $actualValue) {
-                $errors[] = "value for '{$attribute}' attribute must be '{$value}', but '{$actualValue}' is found instead";
+                $errors[] =
+                    "value for '{$attribute}' attribute must be '{$value}', but '{$actualValue}' is found instead";
             }
         }
 

@@ -66,7 +66,8 @@ return array(
             "Element 'router', attribute 'id': [facet 'pattern'] The value '' is not accepted by the " .
             "pattern '[A-Za-z0-9\-_]{3,}'.",
             "Element 'router', attribute 'id': '' is not a valid value of the atomic type 'routerIdType'.",
-            "Element 'router', attribute 'id': Warning: No precomputed value available, the value was either invalid or " .
+            "Element 'router', attribute 'id': ".
+            "Warning: No precomputed value available, the value was either invalid or " .
             "something strange happend."
         )
     ),
@@ -77,7 +78,8 @@ return array(
             "Element 'router', attribute 'id': [facet 'pattern'] The value 'as' is not accepted by the " .
             "pattern '[A-Za-z0-9\-_]{3,}'.",
             "Element 'router', attribute 'id': 'as' is not a valid value of the atomic type 'routerIdType'.",
-            "Element 'router', attribute 'id': Warning: No precomputed value available, the value was either invalid or " .
+            "Element 'router', attribute 'id': ".
+            "Warning: No precomputed value available, the value was either invalid or " .
             "something strange happend."
         )
     ),
@@ -88,7 +90,8 @@ return array(
             "Element 'router', attribute 'id': [facet 'pattern'] The value '#%#%#' is not accepted by the " .
             "pattern '[A-Za-z0-9\-_]{3,}'.",
             "Element 'router', attribute 'id': '#%#%#' is not a valid value of the atomic type 'routerIdType'.",
-            "Element 'router', attribute 'id': Warning: No precomputed value available, the value was either invalid or " .
+            "Element 'router', attribute 'id': ".
+            "Warning: No precomputed value available, the value was either invalid or " .
             "something strange happend."
         )
     ),
@@ -193,7 +196,8 @@ return array(
         )
     ),
     'route_module_after_attribute_value_regexp1' => array(
-        '<?xml version="1.0"?><config><router id="first"><route id="test"><module name="Some_ModuleName" after="sd" />' .
+        '<?xml version="1.0"?><config><router id="first">'.
+        '<route id="test"><module name="Some_ModuleName" after="sd" />' .
         '</route></router></config>',
         array(
             "Element 'module', attribute 'after': [facet 'pattern'] The value 'sd' is not accepted by" .

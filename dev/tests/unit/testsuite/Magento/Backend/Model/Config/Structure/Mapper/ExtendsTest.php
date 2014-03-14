@@ -80,7 +80,8 @@ class ExtendsTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result['config']['system']['sections']['section2']['children'] = $source['config']['system']['sections']['section1']['children'];
+        $result['config']['system']['sections']['section2']['children'] =
+            $source['config']['system']['sections']['section1']['children'];
 
         return array($source, $result);
     }
@@ -108,9 +109,12 @@ class ExtendsTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $result['config']['system']['sections']['section1']['children']['child1']['children']['subchild2']['some'] = 'Data';
-        $result['config']['system']['sections']['section1']['children']['child1']['children']['subchild2']['for'] = 'node';
-        $result['config']['system']['sections']['section1']['children']['child1']['children']['subchild2']['being'] = 'extended';
+        $result['config']['system']['sections']['section1']['children']['child1']['children']['subchild2']['some'] =
+            'Data';
+        $result['config']['system']['sections']['section1']['children']['child1']['children']['subchild2']['for'] =
+            'node';
+        $result['config']['system']['sections']['section1']['children']['child1']['children']['subchild2']['being'] =
+            'extended';
 
         return array($source, $result);
     }

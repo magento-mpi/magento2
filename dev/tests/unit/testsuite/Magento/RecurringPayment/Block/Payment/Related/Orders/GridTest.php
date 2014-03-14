@@ -22,6 +22,10 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testPrepareLayout()
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);

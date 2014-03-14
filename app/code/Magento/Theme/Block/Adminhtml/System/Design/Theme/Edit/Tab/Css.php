@@ -141,6 +141,7 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
      * Set custom css fieldset
      *
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _addCustomCssFieldset()
     {
@@ -195,7 +196,8 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
                     array(
                         'target_element_id' => 'custom_css_content',
                         \Magento\Theme\Helper\Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
-                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
+                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE =>
+                            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
                     )
                 ) . "', null, null,'" . $this->escapeQuote(
                     __('Upload Images'),
@@ -223,7 +225,8 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
                     array(
                         'target_element_id' => 'custom_css_content',
                         \Magento\Theme\Helper\Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
-                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
+                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE =>
+                            \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
                     )
                 ) . "', null, null,'" . $this->escapeQuote(
                     __('Upload Fonts'),

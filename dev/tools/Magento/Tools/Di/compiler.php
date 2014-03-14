@@ -75,7 +75,8 @@ try {
         null,
         $generatorIo,
         array(
-            \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE => 'Magento\Interception\Code\Generator\Interceptor',
+            \Magento\Interception\Code\Generator\Interceptor::ENTITY_TYPE =>
+                'Magento\Interception\Code\Generator\Interceptor',
             \Magento\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE => 'Magento\ObjectManager\Code\Generator\Proxy',
             \Magento\ObjectManager\Code\Generator\Factory::ENTITY_TYPE => 'Magento\ObjectManager\Code\Generator\Factory'
         )

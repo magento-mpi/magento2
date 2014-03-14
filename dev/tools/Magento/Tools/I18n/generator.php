@@ -12,7 +12,8 @@ try {
     $console = new \Zend_Console_Getopt(
         array(
             'directory|d=s' => 'Path to base directory for parsing',
-            'output|o=s' => 'Path(with filename) to output file, by default output the results into standard output stream',
+            'output|o=s' => 'Path(with filename) to output file, '.
+            'by default output the results into standard output stream',
             'magento|m=s' => 'Indicates whether directory for parsing is Magento directory, "no" by default'
         )
     );

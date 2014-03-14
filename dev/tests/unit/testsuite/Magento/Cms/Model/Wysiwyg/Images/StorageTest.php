@@ -94,6 +94,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected $_driverMock;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);

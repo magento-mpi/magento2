@@ -203,6 +203,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      * Builder configurations data provider
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function configurationDataProvider()
     {

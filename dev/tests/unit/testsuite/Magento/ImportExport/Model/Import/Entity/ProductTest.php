@@ -84,6 +84,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $_groupColFactory;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $this->_eavConfig = $this->getMock(

@@ -188,7 +188,9 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string[] $testConfig
+     * @return void
      * @dataProvider getPublicFilePathDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testGetPublicFilePath($testConfig)
     {

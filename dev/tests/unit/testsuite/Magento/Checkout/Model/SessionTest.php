@@ -142,6 +142,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      * @param bool $hasOrderId
      * @param bool $hasQuoteId
      * @dataProvider restoreQuoteDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testRestoreQuote($hasOrderId, $hasQuoteId)
     {

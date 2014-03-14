@@ -106,7 +106,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
                 false,
                 false,
                 array(
-                    \Magento\Core\Model\Layout\Update\Validator::XML_INVALID => 'Please correct the XML data and try again. validation exception'
+                    \Magento\Core\Model\Layout\Update\Validator::XML_INVALID =>
+                        'Please correct the XML data and try again. validation exception'
                 )
             )
         );
@@ -178,14 +179,16 @@ XML;
                 $insecureHelper,
                 false,
                 array(
-                    \Magento\Core\Model\Layout\Update\Validator::HELPER_ARGUMENT_TYPE => 'Helper arguments should not be used in custom layout updates.'
+                    \Magento\Core\Model\Layout\Update\Validator::HELPER_ARGUMENT_TYPE =>
+                        'Helper arguments should not be used in custom layout updates.'
                 )
             ),
             array(
                 $insecureUpdater,
                 false,
                 array(
-                    \Magento\Core\Model\Layout\Update\Validator::UPDATER_MODEL => 'Updater model should not be used in custom layout updates.'
+                    \Magento\Core\Model\Layout\Update\Validator::UPDATER_MODEL =>
+                        'Updater model should not be used in custom layout updates.'
                 )
             ),
             array($secureLayout, true, array())

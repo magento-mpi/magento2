@@ -89,6 +89,7 @@ class Edit extends \Magento\Backend\Block\Widget
      * Prepare layout
      *
      * @return $this
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareLayout()
     {

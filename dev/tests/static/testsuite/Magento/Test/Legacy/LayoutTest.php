@@ -110,7 +110,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                         $selectorHeadBlock .
                         ')]'
                     ),
-                    'Blocks \Magento\Theme\Block\Html\Head\{Css,Link,Script} are allowed within the "head" block only. ' .
+                    'Blocks \Magento\Theme\Block\Html\Head\{Css,Link,Script} '.
+                    'are allowed within the "head" block only. ' .
                     'Verify integrity of the nodes nesting.'
                 );
                 $this->assertSame(

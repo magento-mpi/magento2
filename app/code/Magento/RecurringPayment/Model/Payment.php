@@ -308,6 +308,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Takes arbitrary number of \Magento\Object instances to be treated as items for new order
      *
      * @return \Magento\Sales\Model\Order
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function createOrder()
     {
