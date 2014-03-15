@@ -243,7 +243,6 @@ class Dom
     ) {
         libxml_use_internal_errors(true);
         try {
-            $xml = $dom->saveXML();
             $result = $dom->schemaValidate($schemaFileName);
             $errors = array();
             if (!$result) {
