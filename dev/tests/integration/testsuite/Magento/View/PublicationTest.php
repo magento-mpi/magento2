@@ -43,6 +43,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete(
+            'MAGETWO-21944 This test needs to be either refactored into use of asset services or deleted'
+        );
+
         $objectManager = Bootstrap::getObjectManager();
         $this->assetService = $objectManager->create('Magento\View\Asset\Service');
         $this->fileSystem = $objectManager->create('Magento\View\FileSystem');
