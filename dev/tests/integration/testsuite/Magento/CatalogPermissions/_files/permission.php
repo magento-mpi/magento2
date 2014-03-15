@@ -49,7 +49,7 @@ $product->setTypeId(
 )->setName(
     'Simple Product Two'
 )->setSku(
-    '12345'
+    '12345' // SKU intentionally contains digits only
 )->setPrice(
     45.67
 )->setWeight(

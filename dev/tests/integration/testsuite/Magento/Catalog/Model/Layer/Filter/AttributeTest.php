@@ -57,7 +57,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testOptionIdNotEmpty()
     {
-        $this->assertNotEmpty($this->_attributeOptionId, 'Fixture attribute option id.');
+        $this->assertNotEmpty($this->_attributeOptionId, 'Fixture attribute option id.'); // just in case
     }
 
     public function testApplyInvalid()

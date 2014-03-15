@@ -204,7 +204,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
             '$sourceFile' => $filesDirectory . self::UPDATE_FILE_NAME,
             '$dataBefore' => $this->_beforeImport,
             '$dataAfter' => $this->_afterImport,
-            '$errors' => array(array(6))
+            '$errors' => array(array(6)) // row #6 has no website
         );
 
         return $sourceData;

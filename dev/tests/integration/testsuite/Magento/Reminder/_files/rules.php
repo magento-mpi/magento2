@@ -42,6 +42,14 @@ $rule->setData(
         'default_label' => null,
         'default_description' => null,
         'from_date' => null,
-        'to_date' => date('Y-m-d', time() + 172800)
-    )
-)->save();
+        /**
+         * For some reason any values in columns from_date and to_date are ignored
+         * This has to be fixed in scope of MAGE-5166
+         *
+         * Also make sure that dates will be properly formatted through \Magento\DB\Adapter\*::formatDate()
+         */
+        'to_date' => date('Y-m-d', time() + 172800),
+    ))->save();
+
+//$adapter = $rule->getResource()->getReadConnection();
+//print_r($adapter->fetchAll('SELECT * FROM magento_reminder_rule'));

@@ -60,6 +60,6 @@ class DashboardTest extends \Magento\Backend\Utility\Controller
         $hash = $helper->getChartDataHash($gaFixture);
         $this->getRequest()->setParam('ga', $gaFixture)->setParam('h', $hash);
         $this->dispatch('backend/admin/dashboard/tunnel');
-        $this->assertStringStartsWith("\x89\x50\x4E\x47", $this->getResponse()->getBody());
+        $this->assertStringStartsWith("\x89\x50\x4E\x47", $this->getResponse()->getBody()); // PNG header
     }
 }

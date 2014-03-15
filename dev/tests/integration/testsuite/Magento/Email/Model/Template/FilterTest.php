@@ -31,9 +31,11 @@ class FilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewDirective()
     {
-        $url = $this->_model->viewDirective(
-            array('{{view url="Magento_Theme::favicon.ico"}}', 'view', ' url="Magento_Theme::favicon.ico"')
-        );
+        $url = $this->_model->viewDirective(array(
+            '{{view url="Magento_Theme::favicon.ico"}}',
+            'view',
+            ' url="Magento_Theme::favicon.ico"', // note leading space
+        ));
         $this->assertStringEndsWith('favicon.ico', $url);
     }
 

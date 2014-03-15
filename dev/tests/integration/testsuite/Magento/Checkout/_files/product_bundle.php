@@ -57,7 +57,7 @@ $bundleProduct->setTypeId(
     array(
         array(
             array(
-                'product_id' => 1,
+                'product_id' => 1, // fixture product
                 'selection_qty' => 1,
                 'selection_can_change_qty' => 1,
                 'delete' => '',

@@ -81,6 +81,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         foreach ($attributes as $attribute) {
             $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $attribute);
         }
+        /* possibility of fatal error if passing null instead of product */
     }
 
     public function testAttributesCompare()

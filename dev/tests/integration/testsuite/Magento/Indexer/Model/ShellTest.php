@@ -49,7 +49,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $model = $this->getModel('testme.php');
         $result = $this->runModel($model);
         $this->assertContains('testme.php', $result);
-        $this->assertContains('index', $result);
+        $this->assertContains('index', $result); // Something about indexes
     }
 
     public function testRunIndexList()

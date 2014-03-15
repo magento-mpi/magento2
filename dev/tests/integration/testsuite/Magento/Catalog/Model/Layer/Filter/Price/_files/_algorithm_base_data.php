@@ -13,17 +13,21 @@
  * Test cases for pricesSegmentationDataProvider
  */
 $testCases = array(
+    // no products, no prices
     array(array(), 1, array()),
+    // small prices
     array(
         range(0.01, 0.08, 0.01),
         2,
         array(array('from' => 0, 'to' => 0.05, 'count' => 4), array('from' => 0.05, 'to' => '', 'count' => 4))
     ),
+    // zero price test
     array(
         array(0, 0.71, 0.89),
         2,
         array(array('from' => 0, 'to' => 0, 'count' => 1), array('from' => 0.5, 'to' => '', 'count' => 2))
     ),
+    // first quantile should be skipped
     array(
         array(
             0.01,
@@ -51,11 +55,13 @@ $testCases = array(
         3,
         array(array('from' => 0, 'to' => 0.05, 'count' => 12), array('from' => 0.05, 'to' => '', 'count' => 9))
     ),
+    // test if best rounding factor is used
     array(
         array(10.19, 10.2, 10.2, 10.2, 10.21),
         2,
         array(array('from' => 10.19, 'to' => 10.19, 'count' => 1), array('from' => 10.2, 'to' => '', 'count' => 4))
     ),
+    // quantiles interception
     array(
         array(
             5.99,
@@ -86,11 +92,13 @@ $testCases = array(
             array('from' => 10, 'to' => '', 'count' => 10)
         )
     ),
+    // test if best rounding factor is used
     array(
         array(10.18, 10.19, 10.19, 10.19, 10.2),
         2,
         array(array('from' => 0, 'to' => 10.2, 'count' => 4), array('from' => 10.2, 'to' => 10.2, 'count' => 1))
     ),
+    // test many equal values
     array(
         array_merge(array(10.57), array_fill(0, 20, 10.58), array(10.59)),
         6,
@@ -100,6 +108,7 @@ $testCases = array(
             array('from' => 10.59, 'to' => 10.59, 'count' => 1)
         )
     ),
+    // test preventing low count in interval and rounding factor to have lower priority
     array(
         array(
             0.01,
@@ -160,6 +169,7 @@ $testCases = array(
         7,
         array(
             array('from' => 0, 'to' => 0.05, 'count' => 10),
+            // this is important, that not 0.06 is used to prevent low count in interval
             array('from' => 0.05, 'to' => 0.07, 'count' => 7),
             array('from' => 0.07, 'to' => 5, 'count' => 5),
             array('from' => 5.99, 'to' => 5.99, 'count' => 9),
@@ -168,6 +178,7 @@ $testCases = array(
             array('from' => 500, 'to' => '', 'count' => 8)
         )
     ),
+    // large numbers test
     array(
         array(100000, 400000, 600000, 900000),
         2,

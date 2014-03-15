@@ -42,16 +42,19 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             $fixtureFirstAddressId = 1;
             $this->customerAddressService->deleteAddress($fixtureFirstAddressId);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
+            /** First address fixture was not used */
         }
         try {
             $fixtureSecondAddressId = 2;
             $this->customerAddressService->deleteAddress($fixtureSecondAddressId);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
+            /** Second address fixture was not used */
         }
         try {
             $fixtureCustomerId = 1;
             $this->customerService->deleteCustomer($fixtureCustomerId);
         } catch (\Magento\Exception\NoSuchEntityException $e) {
+            /** Customer fixture was not used */
         }
         parent::tearDown();
     }

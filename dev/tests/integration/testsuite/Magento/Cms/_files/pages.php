@@ -11,7 +11,7 @@
 
 /** @var $page \Magento\Cms\Model\Page */
 $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Cms\Model\Page');
-$page->setTitle(
+$page->setTitle( //->setId(100) // doesn't work: it triggers update
     'Cms Page 100'
 )->setIdentifier(
     'page100'

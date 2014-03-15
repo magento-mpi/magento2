@@ -19,6 +19,12 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $module
+             * @param string $template
+             * @param string $class
+             * @param string $area
+             */
             function ($module, $template, $class, $area) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\View\DesignInterface'

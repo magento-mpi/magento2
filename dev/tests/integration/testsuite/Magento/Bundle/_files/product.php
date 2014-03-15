@@ -40,4 +40,5 @@ $product->setTypeId(
     array(array('title' => 'Bundle Product Items', 'type' => 'select', 'required' => 1, 'delete' => ''))
 )->setBundleSelectionsData(
     array(array(array('product_id' => 1, 'selection_qty' => 1, 'selection_can_change_qty' => 1, 'delete' => '')))
+    // fixture product
 )->save();

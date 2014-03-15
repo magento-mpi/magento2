@@ -48,7 +48,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function testGetStores()
     {
         $stores = $this->_model->getStores();
-        $this->assertArrayHasKey(1, $stores);
+        $this->assertArrayHasKey(1, $stores); /* Current store identifier */
     }
 
     public function testGetResource()

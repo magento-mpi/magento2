@@ -42,7 +42,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     public function providerNotValidFiles()
     {
-        return array(array('invalid.csv'));
+        return array(array('invalid.csv')); //File does not exist
     }
 
     /**

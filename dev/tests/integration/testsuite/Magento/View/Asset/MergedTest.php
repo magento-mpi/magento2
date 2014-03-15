@@ -164,7 +164,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                     'h1.gif',
                     'images/h2.gif',
                     'Namespace_Module/absolute_valid_module.gif',
-                    'Magento_Theme/favicon.ico'
+                    'Magento_Theme/favicon.ico', // non-fixture file from real module
                 )
             ),
             array(

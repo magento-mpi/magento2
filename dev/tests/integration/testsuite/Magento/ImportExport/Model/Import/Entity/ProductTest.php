@@ -467,6 +467,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $data = implode(
             ',',
             array(
+                // minimum required set of attributes + media images
                 'sku',
                 '_attribute_set',
                 '_type',

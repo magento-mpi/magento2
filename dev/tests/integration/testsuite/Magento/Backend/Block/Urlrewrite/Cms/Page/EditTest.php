@@ -283,6 +283,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         );
 
         return array(
+            // Creating URL rewrite when CMS page selected
             array(
                 array('cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite),
                 array(
@@ -296,6 +297,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'cms_pages_grid' => false
                 )
             ),
+            // Creating URL rewrite when CMS page not selected
             array(
                 array('url_rewrite' => $urlRewrite),
                 array(
@@ -309,6 +311,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'cms_pages_grid' => true
                 )
             ),
+            // Editing existing URL rewrite with CMS page
             array(
                 array('url_rewrite' => $existingUrlRewrite, 'cms_page' => $cmsPage),
                 array(

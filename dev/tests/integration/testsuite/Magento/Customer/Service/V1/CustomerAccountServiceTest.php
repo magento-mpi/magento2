@@ -383,6 +383,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->setResetPasswordData($resetToken, 'Y-m-d');
         $this->_customerAccountService->resetPassword(1, $resetToken, $password);
+        //TODO assert
     }
 
     /**
@@ -472,6 +473,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResendConfirmation()
     {
         $this->_customerAccountService->resendConfirmation('customer@needAconfirmation.com', 1);
+        //TODO assert
     }
 
     /**

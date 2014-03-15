@@ -99,7 +99,7 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdBySku()
     {
-        $this->assertEquals(1, $this->_model->getIdBySku('simple'));
+        $this->assertEquals(1, $this->_model->getIdBySku('simple')); // fixture
     }
 
     public function testGetAttributes()

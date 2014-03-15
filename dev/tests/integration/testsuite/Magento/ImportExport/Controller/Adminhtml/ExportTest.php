@@ -32,6 +32,7 @@ class ExportTest extends \Magento\Backend\Utility\Controller
         return array(
             'products' => array('$entityType' => 'catalog_product'),
             'customers' => array('$entityType' => 'customer'),
+            // customer entities
             'customers_customer_entities' => array('$entityType' => 'customer', '$customerEntityType' => 'customer')
         );
     }

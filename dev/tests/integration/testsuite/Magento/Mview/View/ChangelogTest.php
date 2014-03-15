@@ -96,7 +96,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $this->connection->insert($changelogName, array('version_id' => 1, 'entity_id' => 1));
         $this->assertEquals(1, $this->model->getVersion());
         $this->model->clear(1);
-        $this->assertEquals(1, $this->model->getVersion());
+        $this->assertEquals(1, $this->model->getVersion()); //the same that a table is empty
     }
 
     /**
@@ -118,16 +118,11 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
             $this->connection->insert($changelogName, $data);
         }
         $this->assertEquals(5, $this->model->getVersion());
-        $this->assertEquals(3, count($this->model->getList(0, 5)));
-        //distinct entity_ids
-        $this->assertEquals(3, count($this->model->getList(2, 5)));
-        //distinct entity_ids
-        $this->assertEquals(2, count($this->model->getList(0, 3)));
-        //distinct entity_ids
-        $this->assertEquals(1, count($this->model->getList(0, 2)));
-        //distinct entity_ids
-        $this->assertEquals(1, count($this->model->getList(2, 3)));
-        //distinct entity_ids
-        $this->assertEquals(0, count($this->model->getList(4, 3)));
+        $this->assertEquals(3, count($this->model->getList(0, 5)));//distinct entity_ids
+        $this->assertEquals(3, count($this->model->getList(2, 5)));//distinct entity_ids
+        $this->assertEquals(2, count($this->model->getList(0, 3)));//distinct entity_ids
+        $this->assertEquals(1, count($this->model->getList(0, 2)));//distinct entity_ids
+        $this->assertEquals(1, count($this->model->getList(2, 3)));//distinct entity_ids
+        $this->assertEquals(0, count($this->model->getList(4, 3)));//because fromVersionId > toVersionId
     }
 }

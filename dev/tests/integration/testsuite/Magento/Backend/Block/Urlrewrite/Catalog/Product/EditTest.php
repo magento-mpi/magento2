@@ -366,7 +366,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array('data' => array('url_rewrite_id' => 1))
         );
         return array(
-            array(
+            array( // Creating URL rewrite when product and category are not selected
                 array('url_rewrite' => $urlRewrite),
                 array(
                     'selector' => true,
@@ -382,7 +382,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'skip_categories' => false
                 )
             ),
-            array(
+            array( // Creating URL rewrite when product selected and category tree active
                 array('product' => $product, 'url_rewrite' => $urlRewrite, 'is_category_mode' => true),
                 array(
                     'selector' => false,
@@ -398,7 +398,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'skip_categories' => true
                 )
             ),
-            array(
+            array( // Creating URL rewrite when product selected and category tree inactive
                 array('product' => $product, 'url_rewrite' => $urlRewrite),
                 array(
                     'selector' => false,
@@ -414,7 +414,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'skip_categories' => false
                 )
             ),
-            array(
+            array( // Creating URL rewrite when product selected and category selected
                 array('product' => $product, 'category' => $category, 'url_rewrite' => $urlRewrite),
                 array(
                     'selector' => false,
@@ -430,7 +430,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'skip_categories' => false
                 )
             ),
-            array(
+            array( // Editing existing URL rewrite with product and category
                 array('product' => $product, 'category' => $category, 'url_rewrite' => $existingUrlRewrite),
                 array(
                     'selector' => false,

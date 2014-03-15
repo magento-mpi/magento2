@@ -154,6 +154,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         );
 
         return array(
+            // Creating new URL rewrite
             array(
                 array('url_rewrite' => $urlRewrite),
                 array(
@@ -165,6 +166,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'form' => array('url_rewrite' => $urlRewrite)
                 )
             ),
+            // Editing URL rewrite
             array(
                 array('url_rewrite' => $existingUrlRewrite),
                 array(

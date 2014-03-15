@@ -43,15 +43,28 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_updateData = array(
-        'address' => array(
-            'update' => '19107',
-            'new' => '85034',
-            'no_customer' => '33602',
-            'new_no_address_id' => '32301'
+        'address' => array( // address records
+            'update' => '19107',  // address with updates
+            'new' => '85034',  // new address
+            'no_customer' => '33602',  // there is no customer with this primary key (email+website)
+            'new_no_address_id' => '32301',  // new address without address id
         ),
-        'update' => array('19107' => array('firstname' => 'Katy', 'middlename' => 'T.')),
-        'remove' => array('19107' => array('city' => 'Philadelphia', 'region' => 'Pennsylvania')),
-        'default' => array('billing' => '85034', 'shipping' => '19107')
+        'update' => array( // this data is changed in CSV file
+            '19107' => array(
+                'firstname' => 'Katy',
+                'middlename' => 'T.',
+            ),
+        ),
+        'remove' => array( // this data is not set in CSV file
+            '19107' => array(
+                'city' => 'Philadelphia',
+                'region' => 'Pennsylvania',
+            ),
+        ),
+        'default' => array( // new default billing/shipping addresses
+            'billing' => '85034',
+            'shipping' => '19107',
+        ),
     );
 
     /**
@@ -59,7 +72,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_deleteData = array('delete' => '19107', 'not_delete' => '72701');
+    protected $_deleteData = array(
+        'delete' => '19107',  // deleted address
+        'not_delete' => '72701',  // not deleted address
+    );
 
     /**
      * Init new instance of address entity adapter

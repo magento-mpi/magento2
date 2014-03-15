@@ -111,6 +111,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
         );
         return array(
             array(
+                // Zip as range but no range values provided
                 array(
                     'rate' => rand(1, 10000),
                     'tax_country_id' => 'US',
@@ -123,6 +124,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
                 ),
                 $expectedData
             ),
+            // Code is empty
             array(
                 array(
                     'rate' => rand(1, 10000),
@@ -136,6 +138,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
                 ),
                 $expectedData
             ),
+            // Country ID empty
             array(
                 array(
                     'rate' => rand(1, 10000),
@@ -149,6 +152,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
                 ),
                 $expectedData
             ),
+            // Rate empty
             array(
                 array(
                     'rate' => '',
@@ -162,6 +166,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
                 ),
                 $expectedData
             ),
+            // Tax zip code is empty
             array(
                 array(
                     'rate' => rand(1, 10000),
@@ -175,6 +180,7 @@ class RateTest extends \Magento\Backend\Utility\Controller
                 ),
                 $expectedData
             ),
+            // All params empty
             array(
                 array(
                     'rate' => '',

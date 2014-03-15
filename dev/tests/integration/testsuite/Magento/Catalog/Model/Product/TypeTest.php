@@ -125,6 +125,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $options = $this->_productType->getAllOption();
         $this->assertTrue(isset($options[0]['value']));
         $this->assertTrue(isset($options[0]['label']));
+        // doesn't make sense to test other values, because the structure of resulting array is inconsistent
     }
 
     public function testGetAllOptions()
@@ -170,6 +171,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('label', $type);
             $this->assertArrayHasKey('model', $type);
             $this->assertArrayHasKey('composite', $type);
+            // possible bug: index_priority is not defined for each type
         }
     }
 

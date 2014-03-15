@@ -89,7 +89,11 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
         $testCases = include __DIR__ . '/_files/_algorithm_base_data.php';
         $result = array();
         foreach ($testCases as $index => $testCase) {
-            $result[] = array($index + 4, $testCase[1], $testCase[2]);
+            $result[] = array(
+                $index + 4, //category id
+                $testCase[1],
+                $testCase[2]
+            );
         }
 
         return $result;

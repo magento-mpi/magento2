@@ -19,6 +19,7 @@ class PaymentTest extends \Magento\TestFramework\TestCase\AbstractController
         // @codingStandardsIgnoreStart
         $this->assertContains(
             'authorizenet/directpost_payment/redirect/success/0/error_msg/The transaction was declined because the response hash validation failed.',
+            // @codingStandardsIgnoreEnd
             $this->getResponse()->getBody()
         );
     }

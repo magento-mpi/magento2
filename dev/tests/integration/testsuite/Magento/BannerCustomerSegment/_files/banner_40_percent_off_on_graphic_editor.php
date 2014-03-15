@@ -25,7 +25,7 @@ $banner->setData(
     array(
         'name' => 'Get 40% Off on Graphic Editors',
         'is_enabled' => \Magento\Banner\Model\Banner::STATUS_ENABLED,
-        'types' => array(),
+        'types' => array(), /*Any Banner Type*/
         'store_contents' => array('<img src="http://example.com/banner_40_percent_off_on_graphic_editor.png" />'),
         'banner_sales_rules' => array($rule->getId()),
         'customer_segment_ids' => array($segment->getId())

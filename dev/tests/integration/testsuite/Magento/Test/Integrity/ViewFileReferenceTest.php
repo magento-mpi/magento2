@@ -106,7 +106,9 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
         $themePath = '/' . $theme->getFullPath() . '/';
         foreach ($patternDirs as $patternDir) {
             $patternPath = $patternDir . '/';
-            if (strpos($patternPath, $themePath) !== false && strpos($patternPath, $localePlaceholder) !== false) {
+            if ((strpos($patternPath, $themePath) !== false) // It is theme's directory
+                && (strpos($patternPath, $localePlaceholder) !== false) // It is localized directory
+            ) {
                 return $patternDir;
             }
         }

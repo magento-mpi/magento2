@@ -30,7 +30,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        self::$_cachedFiles = array();
+        self::$_cachedFiles = array(); // Free memory
     }
 
     /**
@@ -103,6 +103,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param \Magento\View\Design\ThemeInterface $theme
+             */
             function (\Magento\View\Design\ThemeInterface $theme) {
                 $xml = $this->_composeXml($theme);
 
@@ -134,6 +137,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check whether page types are declared only in layout update files allowed for it - base ones
+             */
             function (\Magento\View\Layout\File $layout) {
                 $content = simplexml_load_file($layout->getFilename());
                 $this->assertEmpty(
@@ -183,6 +189,12 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check, that for an overriding file ($themeFile) in a theme ($theme), there is a corresponding base file
+             *
+             * @param \Magento\View\Layout\File $themeFile
+             * @param \Magento\View\Design\ThemeInterface $theme
+             */
             function ($themeFile, $theme) {
                 $baseFiles = self::_getCachedFiles($theme->getArea(), 'Magento\View\Layout\File\Source\Base', $theme);
                 $fileKey = $themeFile->getModule() . '/' . $themeFile->getName();
@@ -200,6 +212,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check, that for an ancestor-overriding file ($themeFile) in a theme ($theme),
+             * there is a corresponding file in that ancestor theme
+             *
+             * @param \Magento\View\Layout\File $themeFile
+             * @param \Magento\View\Design\ThemeInterface $theme
+             */
             function ($themeFile, $theme) {
                 // Find an ancestor theme, where a file is to be overridden
                 $ancestorTheme = $theme;

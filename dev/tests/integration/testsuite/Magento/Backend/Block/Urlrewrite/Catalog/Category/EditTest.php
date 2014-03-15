@@ -283,6 +283,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         );
 
         return array(
+            // Creating URL rewrite when category selected
             array(
                 array('category' => $category, 'url_rewrite' => $urlRewrite),
                 array(
@@ -296,6 +297,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'categories_tree' => false
                 )
             ),
+            // Creating URL rewrite when category not selected
             array(
                 array('url_rewrite' => $urlRewrite),
                 array(
@@ -309,6 +311,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'categories_tree' => true
                 )
             ),
+            // Editing URL rewrite with category
             array(
                 array('url_rewrite' => $existingUrlRewrite, 'category' => $category),
                 array(

@@ -116,16 +116,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                     'suffix'
                 )->create(),
                 'prefix FirstName MiddleName LastName suffix',
-                true,
-                true,
-                true
+                true, // $isPrefixAllowed
+                true, // $isMiddleNameAllowed
+                true //$isSuffixAllowed
             ),
             'Empty prefix, middle name, suffix' => array(
                 $customerBuilder->setFirstname('FirstName')->setLastname('LastName')->create(),
                 'FirstName LastName',
-                true,
-                true,
-                true
+                true, // $isPrefixAllowed
+                true, // $isMiddleNameAllowed
+                true //$isSuffixAllowed
             ),
             'Empty prefix and suffix, not empty middle name' => array(
                 $customerBuilder->setFirstname(
@@ -136,9 +136,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                     'LastName'
                 )->create(),
                 'FirstName MiddleName LastName',
-                true,
-                true,
-                true
+                true, // $isPrefixAllowed
+                true, // $isMiddleNameAllowed
+                true //$isSuffixAllowed
             )
         );
     }

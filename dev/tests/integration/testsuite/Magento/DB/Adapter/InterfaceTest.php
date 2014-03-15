@@ -204,7 +204,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                 array(array(1, 2), array(3, 4)),
                 array(array('column1' => 1, 'column2' => 2), array('column1' => 3, 'column2' => 4))
             ),
-            'several columns with identity' => array(
+            'several columns with identity' => array( // test possibility to insert data with filled identity field
                 array('id', 'column1', 'column2'),
                 array(array(1, 0, 0), array(2, 1, 1), array(3, 2, 2)),
                 array(

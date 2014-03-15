@@ -119,6 +119,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
                 'company' => 'Ebay',
                 'telephone' => '1112223333',
                 'fax' => '2223334444',
+                // omit street and city to fail validation
                 'region_id' => '12',
                 'region' => 'California',
                 'postcode' => '55555',

@@ -37,7 +37,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             /**
              * Note that $code is not whatever the payment method getCode() returns
              */
-            $this->fail("Model of '{$code}' payment method is not found.");
+            $this->fail("Model of '{$code}' payment method is not found."); // prevent fatal error
         }
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($methodClass);
         $this->assertNotEmpty($model->getTitle());

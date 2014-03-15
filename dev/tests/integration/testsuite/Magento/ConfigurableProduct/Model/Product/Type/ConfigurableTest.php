@@ -179,7 +179,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $ids = $this->_model->getUsedProductIds($this->_product);
         $this->assertInternalType('array', $ids);
-        $this->assertTrue(2 === count($ids));
+        $this->assertTrue(2 === count($ids)); // impossible to check actual IDs, they are dynamic in the fixture
     }
 
     public function testGetUsedProducts()
@@ -354,6 +354,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $option = new \Magento\Object();
         $this->_model->assignProductToOption('test', $option, $this->_product);
         $this->assertEquals('test', $option->getProduct());
+        // other branch of logic depends on \Magento\Sales module
     }
 
     public function testGetProductsToPurchaseByReqGroups()

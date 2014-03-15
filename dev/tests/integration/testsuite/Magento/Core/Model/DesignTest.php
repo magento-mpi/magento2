@@ -54,6 +54,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             array(
                 'store_id' => 1,
                 'design' => 'magento_blank',
+                /* Note: in order to load a design change it should be active within the store's time zone */
                 'date_from' => date('Y-m-d', strtotime('-1 day')),
                 'date_to' => date('Y-m-d', strtotime('+1 day'))
             )
@@ -72,6 +73,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
                 $model->save();
                 $this->fail('A validation failure is expected.');
             } catch (\Magento\Core\Exception $e) {
+                // intentionally swallow exception
             }
 
             $this->_model->delete();
@@ -207,10 +209,26 @@ class DesignTest extends \PHPUnit_Framework_TestCase
          * that the proper design change is chosen for the timezone with the date different from the UTC.
          */
         return array(
-            'default store - UTC+12:00' => array('default', 'Etc/GMT-12', '+12 hours'),
-            'default store - UTC-12:00' => array('default', 'Etc/GMT+12', '-12 hours'),
-            'admin store - UTC+12:00' => array('admin', 'Etc/GMT-12', '+12 hours'),
-            'admin store - UTC-12:00' => array('admin', 'Etc/GMT+12', '-12 hours')
+            'default store - UTC+12:00' => array(
+                'default',
+                'Etc/GMT-12',  // "GMT-12", not "GMT+12", see http://www.php.net/manual/en/timezones.others.php#64310
+                '+12 hours',
+            ),
+            'default store - UTC-12:00' => array(
+                'default',
+                'Etc/GMT+12',
+                '-12 hours',
+            ),
+            'admin store - UTC+12:00' => array(
+                'admin',
+                'Etc/GMT-12',
+                '+12 hours',
+            ),
+            'admin store - UTC-12:00' => array(
+                'admin',
+                'Etc/GMT+12',
+                '-12 hours',
+            ),
         );
     }
 }

@@ -18,7 +18,7 @@ $banner->setData(
     array(
         'name' => 'Get 40% Off on Large Orders',
         'is_enabled' => \Magento\Banner\Model\Banner::STATUS_DISABLED,
-        'types' => array(),
+        'types' => array(), /*Any Banner Type*/
         'store_contents' => array('<img src="http://example.com/banner_40_percent_off.png" />'),
         'banner_sales_rules' => array($rule->getId())
     )

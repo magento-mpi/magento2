@@ -65,6 +65,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $theme->setArea('frontend');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             * @param string $area
+             */
             function ($file, $area) use ($lessPreProcessor, $directoryRead, $theme) {
                 $fileInfo = pathinfo($file);
                 if ($fileInfo['extension'] == 'css') {
@@ -99,6 +103,11 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $viewService = $this->objectManager->get('Magento\View\Service');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             * @param string $area
+             * @param string $themeId
+             */
             function ($file, $area, $themeId) use ($directoryRead, $viewService) {
                 $params = array('area' => $area, 'themeId' => $themeId);
                 $file = $viewService->extractScope($file, $params);
@@ -336,7 +345,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         return array(
             array('media/editor.swf'),
-            array('media/flex.swf'),
+            array('media/flex.swf'), // looks like this one is not used anywhere
             array('media/uploader.swf'),
             array('media/uploaderSingle.swf')
         );

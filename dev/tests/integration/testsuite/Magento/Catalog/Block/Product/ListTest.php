@@ -63,11 +63,9 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
         $parent->setChild('toolbar', $toolbar);
         /* In order to initialize toolbar collection block toHtml should be called before toolbar toHtml */
-        $this->assertEmpty($parent->toHtml(), 'Block HTML');
-        /* Template not specified */
-        $this->assertEquals('grid', $parent->getMode(), 'Default Mode');
-        /* default mode */
-        $this->assertNotEmpty($parent->getToolbarHtml(), 'Toolbar HTML');
+        $this->assertEmpty($parent->toHtml(), 'Block HTML'); /* Template not specified */
+        $this->assertEquals('grid', $parent->getMode(), 'Default Mode'); /* default mode */
+        $this->assertNotEmpty($parent->getToolbarHtml(), 'Toolbar HTML'); /* toolbar for one simple product */
     }
 
     public function testGetAdditionalHtmlEmpty()

@@ -30,7 +30,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 )
             )
             ) {
-                continue;
+                continue; // $this->markTestIncomplete('MAGETWO-9806');
             }
 
             $params = array('area' => $area, 'themeId' => $themeId, 'module' => $module);

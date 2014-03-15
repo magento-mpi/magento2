@@ -16,6 +16,10 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $application
+             * @param string $file
+             */
             function ($application, $file) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\Core\Model\App'
@@ -121,6 +125,12 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * getViewUrl() hard-coded in the php-files
+             *
+             * @param string $application
+             * @param string $file
+             */
             function ($application, $file) {
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\App\State'

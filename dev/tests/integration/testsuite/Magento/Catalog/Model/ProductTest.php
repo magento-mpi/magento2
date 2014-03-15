@@ -403,6 +403,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         // impossible to test $_optionInstance
         $this->assertEquals(array(), $model->getOptions());
         $this->assertFalse($model->canAffectOptions());
+        // impossible to test $_errors
     }
 
     /**

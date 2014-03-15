@@ -148,11 +148,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $html = $this->_block->getTierPriceHtml();
         $this->assertNotEmpty($html);
-        $this->assertContains('2', $html);
-        /* Buy 2 */
-        $this->assertContains('8', $html);
-        /* Price 8 */
-        $this->assertContains('5', $html);
+        $this->assertContains('2', $html); /* Buy 2 */
+        $this->assertContains('8', $html); /* Price 8 */
+        $this->assertContains('5', $html); /* Buy 5 and price 5 */
     }
 
     public function testGetTierPrices()

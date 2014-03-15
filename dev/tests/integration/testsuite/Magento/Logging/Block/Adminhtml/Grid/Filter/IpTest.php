@@ -42,6 +42,6 @@ class IpTest extends \PHPUnit_Framework_TestCase
         $this->_block->setValue('127');
         $condition = $this->_block->getCondition();
         $this->assertContains('127', (string)$condition['like']);
-        $this->assertNotEquals('127', (string)$condition['like']);
+        $this->assertNotEquals('127', (string)$condition['like']); // DB-depended placeholder symbols were added
     }
 }

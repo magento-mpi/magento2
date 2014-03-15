@@ -42,7 +42,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
         $this->_resourceModel->saveBannerSegments($bannerId, $segmentIds);
 
         $actualSegmentIds = $this->_resourceModel->loadBannerSegments($bannerId);
-        $this->assertEquals($segmentIds, $actualSegmentIds, '', 0, 10, true);
+        $this->assertEquals($segmentIds, $actualSegmentIds, '', 0, 10, true); // ignore order
     }
 
     public function saveLoadBannerSegmentsDataProvider()
@@ -86,7 +86,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNotEquals($initialSql, (string)$select, 'Query is expected to be modified.');
         $actualBannerIds = $select->getAdapter()->fetchCol($select);
-        $this->assertEquals($expectedBannerIds, $actualBannerIds, '', 0, 10, true);
+        $this->assertEquals($expectedBannerIds, $actualBannerIds, '', 0, 10, true); // ignore order
     }
 
     public function addBannerSegmentFilterDataProvider()

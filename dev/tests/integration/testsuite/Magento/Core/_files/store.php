@@ -17,7 +17,7 @@ $groupId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Core\Model\StoreManagerInterface'
 )->getWebsite()->getDefaultGroupId();
 $store->setCode(
-    'fixturestore'
+    'fixturestore' // fixture_store conflicts with "current_store" notation
 )->setWebsiteId(
     $websiteId
 )->setGroupId(

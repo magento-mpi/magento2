@@ -52,7 +52,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $model = $this->_getModel('testme.php');
         $result = $this->_run($model);
         $this->assertContains('testme.php', $result);
-        $this->assertContains('log', $result);
+        $this->assertContains('log', $result); // Something about logs
     }
 
     public function testRunLogStatus()
