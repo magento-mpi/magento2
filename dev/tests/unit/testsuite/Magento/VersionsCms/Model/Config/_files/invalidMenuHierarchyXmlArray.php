@@ -41,7 +41,8 @@ return array(
         )
     ),
     'optional_attributes_with_invalid_names' => array(
-        '<?xml version="1.0"?><config><menuLayout name="name_one" label="label12" handle="handle123" isDefault="12" />' .
+        '<?xml version="1.0"?><config><menuLayout name="name_one" '.
+        'label="label12" handle="handle123" isDefault="12" />' .
         '</config>',
         array(
             "Element 'menuLayout', attribute 'handle': [facet 'pattern'] The value 'handle123' is not accepted by the" .

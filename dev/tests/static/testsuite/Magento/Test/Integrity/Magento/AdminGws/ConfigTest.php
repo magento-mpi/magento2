@@ -14,7 +14,8 @@ namespace Magento\Test\Integrity\Magento\AdminGws;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
-    const CLASSES_XPATH = '/config/adminhtml/magento/admingws/*[name()!="controller_predispatch" and name()!="acl_deny"]/*';
+    const CLASSES_XPATH =
+        '/config/adminhtml/magento/admingws/*[name()!="controller_predispatch" and name()!="acl_deny"]/*';
 
     public function testEventSubscriberFormat()
     {

@@ -77,21 +77,26 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
             // prepare correct data
             $correctCustomerData = array(
-                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL => $objectManager->get(
-                    'Magento\Registry'
-                )->registry(
-                    'customer_finance_email'
-                ),
-                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Core\Model\StoreManagerInterface'
-                )->getStore()->getWebsite()->getCode(),
-                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE => $websiteCode,
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE => $objectManager->get(
+                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_EMAIL =>
+                    $objectManager->get(
+                        'Magento\Registry'
+                    )->registry(
+                        'customer_finance_email'
+                    ),
+                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE =>
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                        'Magento\Core\Model\StoreManagerInterface'
+                    )->getStore()->getWebsite()->getCode(),
+                \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE =>
+                    $websiteCode,
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                COLUMN_CUSTOMER_BALANCE => $objectManager->get(
                     'Magento\Registry'
                 )->registry(
                     'customer_balance_' . $websiteCode
                 ),
-                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS => $objectManager->get(
+                \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+                COLUMN_REWARD_POINTS => $objectManager->get(
                     'Magento\Registry'
                 )->registry(
                     'reward_point_balance_' . $websiteCode
@@ -155,7 +160,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getRecordByFinanceWebsite(array $records, $website)
     {
-        $financeWebsiteKey = \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteKey =
+            \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE;
         foreach ($records as $record) {
             if ($record[$financeWebsiteKey] == $website) {
                 return $record;

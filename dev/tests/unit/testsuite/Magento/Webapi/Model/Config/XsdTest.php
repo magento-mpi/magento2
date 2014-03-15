@@ -114,7 +114,8 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     </service>
                 </config>',
                 array(
-                    "Element 'rest-route': Element content is not allowed, because the content type is a simple type definition."
+                    "Element 'rest-route': ".
+                    "Element content is not allowed, because the content type is a simple type definition."
                 )
             ),
             'irrelevant root node' => array(

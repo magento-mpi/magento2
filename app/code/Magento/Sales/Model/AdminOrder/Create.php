@@ -1670,7 +1670,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $existingAddressDataObject,
                 $customerAddressDataObject
             );
-        } elseif ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING ) {
+        } elseif ($addressType == CustomerAddressDataObject::ADDRESS_TYPE_SHIPPING) {
             try {
                 $billingAddressDataObject = $this->_customerAddressService->getDefaultBillingAddress($customerId);
             } catch (\Exception $e) {

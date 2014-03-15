@@ -99,8 +99,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $model->validateData();
         $model->importData();
 
-        $rewardPointsKey = \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
-        $customerBalanceKey = \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
+        $rewardPointsKey =
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
+        $customerBalanceKey =
+            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::
+            COLUMN_CUSTOMER_BALANCE;
 
         $customerCollection = $objectManager->create('Magento\Customer\Model\Resource\Customer\Collection');
         /** @var $customer \Magento\Customer\Model\Customer */
