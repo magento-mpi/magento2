@@ -50,10 +50,10 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
 
         if ($this->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getParam('store'));
-        } elseif ($this->getParam('website')){
+        } elseif ($this->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
-        } elseif ($this->getParam('group')){
+        } elseif ($this->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $this->_collection->addFieldToFilter('store_id', array('in' => implode(',', $storeIds)));
         } elseif (!$this->_collection->isLive()) {

@@ -47,6 +47,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_role;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $websiteOne = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);

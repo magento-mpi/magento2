@@ -175,7 +175,7 @@ class AbstractCategory extends \Magento\Backend\Block\Template
             $root = $tree->getNodeById($rootId);
             if ($root && $rootId != \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
                 $root->setIsVisible(true);
-            } else if($root && $root->getId() == \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
+            } elseif ($root && $root->getId() == \Magento\Catalog\Model\Category::TREE_ROOT_ID) {
                 $root->setName(__('Root'));
             }
 

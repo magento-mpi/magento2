@@ -117,6 +117,10 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function _preConditions()
     {
         $this->_store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));

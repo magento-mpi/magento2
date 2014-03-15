@@ -15,6 +15,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
     /**
      * @param bool|null $firstCaptureFlag
      * @dataProvider authorizeDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testAuthorize($firstCaptureFlag)
     {

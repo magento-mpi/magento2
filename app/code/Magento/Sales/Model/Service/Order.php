@@ -341,7 +341,7 @@ class Order
                     }
                 }
                 return false;
-            } else if($item->getParentItem()) {
+            } elseif ($item->getParentItem()) {
                 $parent = $item->getParentItem();
                 if (empty($qtys)) {
                     return $parent->getQtyToInvoice() > 0;
@@ -387,7 +387,7 @@ class Order
                     }
                 }
                 return false;
-            } else if($item->getParentItem()) {
+            } elseif ($item->getParentItem()) {
                 $parent = $item->getParentItem();
                 if (empty($qtys)) {
                     return $parent->getQtyToShip() > 0;
@@ -424,7 +424,7 @@ class Order
                     }
                 }
                 return false;
-            } else if($item->getParentItem()) {
+            } elseif ($item->getParentItem()) {
                 $parent = $item->getParentItem();
                 if (empty($qtys)) {
                     return $this->_canRefundNoDummyItem($parent, $invoiceQtysRefundLimits);

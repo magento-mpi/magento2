@@ -103,9 +103,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
             }
 
             $this->_setFilterValues($data);
-        } else if ($filter && is_array($filter)) {
+        } elseif ($filter && is_array($filter)) {
             $this->_setFilterValues($filter);
-        } else if(0 !== sizeof($this->_defaultFilter)) {
+        } elseif (0 !== sizeof($this->_defaultFilter)) {
             $this->_setFilterValues($this->_defaultFilter);
         }
 

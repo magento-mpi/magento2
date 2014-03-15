@@ -68,6 +68,10 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         $this->model->handle($this->productMock);
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testHandleWithBundleOptions()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

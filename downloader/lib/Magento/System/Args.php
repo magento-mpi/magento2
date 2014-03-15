@@ -79,7 +79,7 @@ class Args
                     $this->flags[$str[1]] = $argv[$i + 1];
                     $argv[$i + 1] = null;
                 }
-            } else if(!is_null($str)) {
+            } elseif (!is_null($str)) {
                 $this->filtered[] = $str;
             }
         }

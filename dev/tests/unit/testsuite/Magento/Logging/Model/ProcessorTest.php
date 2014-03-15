@@ -301,6 +301,10 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_model, $this->_model->logAction());
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function _setUpModelActionAfter()
     {
         $eventGroupNode = array('expected_models' => array('Magento\Sales\Model\Quote' => array()));

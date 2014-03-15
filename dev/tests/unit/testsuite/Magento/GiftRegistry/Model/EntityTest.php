@@ -38,6 +38,10 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     private $_transportBuilderMock;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);

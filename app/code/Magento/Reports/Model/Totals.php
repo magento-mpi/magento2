@@ -65,7 +65,7 @@ class Totals
                 if ($field !== '') {
                     $data[$field] = $a['value'];
                 }
-            } elseif (strpos($a['total'], '/') !== FALSE) {
+            } elseif (strpos($a['total'], '/') !== false) {
                 if ($field !== '') {
                     $data[$field] = 0;
                 }

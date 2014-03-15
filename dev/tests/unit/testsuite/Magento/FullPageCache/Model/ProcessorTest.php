@@ -77,6 +77,10 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
      */
     protected $_cacheTypeList;
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);

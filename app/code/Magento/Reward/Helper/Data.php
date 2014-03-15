@@ -429,13 +429,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (isset($this->_ratesArray[$customerGroupId])) {
             if (isset($this->_ratesArray[$customerGroupId][$websiteId])) {
                 $rate = $this->_ratesArray[$customerGroupId][$websiteId];
-            } elseif (isset($this->_ratesArray[$customerGroupId][0])){
+            } elseif (isset($this->_ratesArray[$customerGroupId][0])) {
                 $rate = $this->_ratesArray[$customerGroupId][0];
             }
-        } else if (isset($this->_ratesArray[0])) {
+        } elseif (isset($this->_ratesArray[0])) {
             if (isset($this->_ratesArray[0][$websiteId])) {
                 $rate = $this->_ratesArray[0][$websiteId];
-            } else if (isset($this->_ratesArray[0][0])) {
+            } elseif (isset($this->_ratesArray[0][0])) {
                 $rate = $this->_ratesArray[0][0];
             }
         }

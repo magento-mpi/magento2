@@ -206,7 +206,7 @@ class General extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Ab
                     'label'    => __('Theme Preview Image'),
                     'title'    => __('Theme Preview Image'),
                     'name'     => 'preview',
-                    'after_element_html' => '<img width="50" src="' 
+                    'after_element_html' => '<img width="50" src="'
                     . $this->_themeImagePath->getPreviewImageDirectoryUrl()
                     . $formData['preview_image'] . '" />'
                 )
