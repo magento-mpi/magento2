@@ -11,9 +11,9 @@ namespace Magento\Data\Argument\Interpreter;
 class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Data\Argument\InterpreterInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Data\Argument\InterpreterInterface
      */
-    protected $_interpreter;
+    protected $_itemInterpreter;
 
     /**
      * @var ArrayType
@@ -22,8 +22,8 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_interpreter = $this->getMockForAbstractClass('Magento\Data\Argument\InterpreterInterface');
-        $this->_model = new ArrayType($this->_interpreter);
+        $this->_itemInterpreter = $this->getMockForAbstractClass('Magento\Data\Argument\InterpreterInterface');
+        $this->_model = new ArrayType($this->_itemInterpreter);
     }
 
     /**
@@ -40,21 +40,52 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
     public function evaluateExceptionDataProvider()
     {
         return array(
-            'no item' => array(array()),
             'non-array item' => array(array('item' => 'non-array')),
         );
     }
 
-    public function testEvaluate()
+    /**
+     * @param array $input
+     * @param array $expected
+     *
+     * @dataProvider evaluateDataProvider
+     */
+    public function testEvaluate(array $input, array $expected)
     {
-        $this->_interpreter->expects($this->any())
+        $this->_itemInterpreter->expects($this->any())
             ->method('evaluate')
             ->will($this->returnCallback(function ($input) {
                 return '-' . $input['value'] . '-';
             }));
-        $input = array(array('value' => 'value 1'), array('value' => 'value 2'), array('value' => 'value 3'));
-        $expected = array('-value 1-', '-value 2-', '-value 3-');
-        $actual = $this->_model->evaluate(array('item' => $input));
+        $actual = $this->_model->evaluate($input);
         $this->assertSame($expected, $actual);
+    }
+
+    public function evaluateDataProvider()
+    {
+        return array(
+            'empty array items' => array(
+                array('item' => array()),
+                array(),
+            ),
+            'absent array items' => array(
+                array(),
+                array(),
+            ),
+            'present array items' => array(
+                array(
+                    'item' => array(
+                        'key1' => array('value' => 'value 1'),
+                        'key2' => array('value' => 'value 2'),
+                        'key3' => array('value' => 'value 3'),
+                    ),
+                ),
+                array(
+                    'key1' => '-value 1-',
+                    'key2' => '-value 2-',
+                    'key3' => '-value 3-',
+                ),
+            ),
+        );
     }
 }
