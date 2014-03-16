@@ -96,33 +96,4 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
         throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
-
-    /**
-     * Convert Data Object getter name into field name.
-     *
-     * @param string $getterName
-     * @return string
-     */
-    public function dataObjectGetterNameToFieldName($getterName)
-    {
-        if ((strpos($getterName, 'get') === 0)) {
-            /** Remove 'get' prefix and make the first letter lower case */
-            $fieldName = substr($getterName, strlen('get'));
-        } else {
-            /** If methods are with 'is' or 'has' prefix */
-            $fieldName = $getterName;
-        }
-        return lcfirst($fieldName);
-    }
-
-    /**
-     * Convert Data Object field name into setter name.
-     *
-     * @param string $fieldName
-     * @return string
-     */
-    public function dataObjectFieldNameToSetterName($fieldName)
-    {
-        return 'set' . ucfirst($fieldName);
-    }
 }

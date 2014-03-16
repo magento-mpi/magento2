@@ -267,6 +267,8 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             array_walk($soapResult, function ($value, $key) use (&$_data) {
                 if (is_object($value) || is_array($value)) {
                     $_data[$key] = $this->_soapResultToArray($value);
+                } else {
+                    $_data[$key] = $value;
                 }
             });
             return $_data;

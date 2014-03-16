@@ -177,7 +177,10 @@ class Handler
                 $fieldValue = $this->_unpackDataObject($fieldValue);
             }
             if (is_array($fieldValue)) {
-                $fieldValue = $this->_unpackArray($fieldValue);
+                $isAssociative = array_keys($fieldValue) !== range(0, count($fieldValue) - 1);
+                if ($isAssociative) {
+                    $fieldValue = $this->_unpackArray($fieldValue);
+                }
             }
             $fieldName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
             $response->$fieldName = $fieldValue;
