@@ -83,6 +83,10 @@ class Response extends \Magento\Webapi\Controller\Response
             if ($maskedException->getDetails()) {
                 $messageData['parameters'] = $maskedException->getDetails();
             }
+            if ($maskedException->getWrappedErrors()) {
+                $messageData['wrapped_errors'] = $maskedException->getWrappedErrors();
+            }
+
             if ($this->_app->isDeveloperMode()) {
                 $messageData['trace'] = $exception->getTraceAsString();
             }

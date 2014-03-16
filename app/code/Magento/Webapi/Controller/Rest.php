@@ -130,7 +130,7 @@ class Rest implements \Magento\App\FrontControllerInterface
 
             if (!$this->_authorizationService->isAllowed($route->getAclResources())) {
                 // TODO: Consider passing Integration ID instead of Consumer ID
-                throw new \Magento\Service\AuthorizationException(
+                throw new \Magento\Webapi\ServiceAuthorizationException(
                     "Not Authorized.",
                     0,
                     null,

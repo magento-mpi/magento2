@@ -15,21 +15,21 @@ interface FilterGroupInterface
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Service\Data\Filter[]
+     * @return \Magento\Service\V1\Data\Filter[]
      */
     public function getFilters();
 
     /**
      * Returns a list of filter groups in this group
      *
-     * @return \Magento\Customer\Service\V1\Data\Search\FilterGroupInterface[]
+     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup[]
      */
-    public function getGroups();
+    public function getAndGroups();
 
     /**
-     * Returns the grouping type such as 'OR' or 'AND'.
+     * Returns a list of filter groups in this group
      *
-     * @return string
+     * @return \Magento\Customer\Service\V1\Data\Search\OrGroup[]
      */
-    public function getGroupType();
+    public function getOrGroups();
 }

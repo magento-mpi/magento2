@@ -8,6 +8,7 @@
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\Data\Search\OrGroupBuilder;
+use Magento\Service\Data\AbstractObject;
 use Magento\Service\Data\AbstractObjectBuilder;
 
 /**
@@ -22,26 +23,43 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
      */
     public function create()
     {
-        $this->_data['filters'] = $this->getFilterGroup()->create();
+        $this->_data[SearchCriteria::ROOT_GROUP_TYPE] = $this->getFilterGroup() instanceof AbstractObject
+            ? $this->getFilterGroup()
+            : $this->getFilterGroup()->create();
         return parent::create();
     }
 
     /**
      * Add filter
      *
-     * @param \Magento\Service\Data\Filter $filter
+     * @param \Magento\Service\V1\Data\Filter $filter
      * @return $this
      */
-    public function addFilter(\Magento\Service\Data\Filter $filter)
+    public function addFilter(\Magento\Service\V1\Data\Filter $filter)
     {
         $this->getFilterGroup()->addFilter($filter);
         return $this;
     }
 
     /**
+     * Set filters
+     *
+     * @param \Magento\Customer\Service\V1\Data\Search\AndGroup $filterGroup
+     * @return $this
+     */
+    public function setAndGroup($filterGroup)
+    {
+        // TODO : Fix AbstractFilterGroupBuilder to override _setDataValues to set Filter object correctly
+        //Check ex. \Magento\Customer\Service\V1\Data\AddressBuilder::_setDataValues
+        //(new Search\AndGroupBuilder())->populate($filterGroup);
+        $this->_data[SearchCriteria::ROOT_GROUP_TYPE] = $filterGroup;
+        return $this;
+    }
+
+    /**
      * Add an OR grouping of filters to this SearchCriteria.
      *
-     * @param \Magento\Service\Data\Filter[] $filters
+     * @param \Magento\Service\V1\Data\Filter[] $filters
      * @return $this
      */
     public function addOrGroup($filters)
@@ -50,7 +68,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
         foreach ($filters as $filter) {
             $orGroup->addFilter($filter);
         }
-        $this->getFilterGroup()->addGroup($orGroup->create());
+        $this->getFilterGroup()->addOrGroup($orGroup->create());
         return $this;
     }
 
@@ -61,10 +79,10 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
      */
     private function getFilterGroup()
     {
-        if (!isset($this->_data['filters'])) {
-            $this->_data['filters'] = new Search\AndGroupBuilder();
+        if (!isset($this->_data[SearchCriteria::ROOT_GROUP_TYPE])) {
+            $this->_data[SearchCriteria::ROOT_GROUP_TYPE] = new Search\AndGroupBuilder();
         }
-        return $this->_data['filters'];
+        return $this->_data[SearchCriteria::ROOT_GROUP_TYPE];
     }
 
     /**

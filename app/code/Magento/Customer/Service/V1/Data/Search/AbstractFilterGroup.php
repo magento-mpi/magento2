@@ -16,7 +16,8 @@ use Magento\Service\Data\AbstractObject;
 abstract class AbstractFilterGroup extends AbstractObject implements FilterGroupInterface
 {
     const FILTERS = 'filters';
-    const GROUPS = 'groups';
+    const AND_GROUPS = 'andGroups';
+    const OR_GROUPS = 'orGroups';
 
     /**
      * {@inheritdoc}
@@ -24,13 +25,13 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     public function __construct(AbstractFilterGroupBuilder $filterGroupBuilder)
     {
         parent::__construct($filterGroupBuilder);
-        $this->_data['group_type'] = $this->getGroupType();
+        //$this->_data['group_type'] = $this->getGroupType();
     }
 
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Service\Data\Filter[]
+     * @return \Magento\Service\V1\Data\Filter[]
      */
     public function getFilters()
     {
@@ -41,18 +42,22 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     /**
      * Returns a list of filter groups in this group
      *
-     * @return \Magento\Customer\Service\V1\Data\Search\FilterGroupInterface[]
+     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup[]
      */
-    public function getGroups()
+    public function getAndGroups()
     {
-        $groups = $this->_get(self::GROUPS);
+        $groups = $this->_get(self::AND_GROUPS);
         return is_null($groups) ? [] : $groups;
     }
 
     /**
-     * Returns the grouping type such as 'OR' or 'AND'.
+     * Returns a list of filter groups in this group
      *
-     * @return string
+     * @return \Magento\Customer\Service\V1\Data\Search\OrGroup[]
      */
-    public abstract function getGroupType();
+    public function getOrGroups()
+    {
+        $groups = $this->_get(self::OR_GROUPS);
+        return is_null($groups) ? [] : $groups;
+    }
 }

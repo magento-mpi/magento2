@@ -12,7 +12,7 @@ use Magento\Service\Data\AbstractObject;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
-use Magento\Service\AuthorizationException;
+use Magento\Webapi\ServiceAuthorizationException;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 /**
@@ -79,7 +79,7 @@ class Handler
      * @return \stdClass|null
      * @throws WebapiException
      * @throws \LogicException
-     * @throws AuthorizationException
+     * @throws ServiceAuthorizationException
      */
     public function __call($operation, $arguments)
     {
@@ -95,7 +95,7 @@ class Handler
 
         if (!$this->_authorizationService->isAllowed($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES])) {
             // TODO: Consider passing Integration ID instead of Consumer ID
-            throw new AuthorizationException(
+            throw new ServiceAuthorizationException(
                 "Not Authorized.",
                 0,
                 null,

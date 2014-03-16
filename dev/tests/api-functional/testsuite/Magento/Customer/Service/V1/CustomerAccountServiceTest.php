@@ -7,10 +7,10 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Service\Data\Filter;
-use Magento\Service\Data\FilterBuilder;
+use Magento\Service\V1\Data\Filter;
+use Magento\Service\V1\Data\FilterBuilder;
 use Magento\Customer\Service\V1\Data\SearchCriteriaBuilder;
-use \Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\CustomerDetails;
 use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
@@ -506,6 +506,72 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
 
+    public function testSearchCustomers()
+    {
+        $customerData = $this->_createSampleCustomer();
+        $searchBuilder = new SearchCriteriaBuilder();
+        $searchBuilder->addFilter(
+            (new FilterBuilder())->setField('email')->setValue($customerData[Customer::EMAIL])->create()
+        );
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $searchData = $searchBuilder->create()->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+    }
+
+    public function testSearchCustomersMultipleFilters()
+    {
+        $customerData1 = $this->_createSampleCustomer();
+        $customerData2 = $this->_createSampleCustomer();
+        $searchBuilder = new SearchCriteriaBuilder();
+        $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
+        $filter2 = (new FilterBuilder())->setField('email')->setValue($customerData2[Customer::EMAIL])->create();
+        $filter3 = (new FilterBuilder())->setField('lastname')
+            ->setValue($customerData1[Customer::LASTNAME])->create();
+        $searchBuilder->addOrGroup([$filter1, $filter2]);
+        $searchBuilder->addFilter($filter3);
+        $searchCriteria = $searchBuilder->create();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(2, $searchResults['total_count']);
+        $this->assertEquals($customerData1[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
+        $this->assertEquals($customerData2[Customer::ID], $searchResults['items'][1]['customer'][Customer::ID]);
+
+        //Verify negative test case using And-ed non-existent lastname
+        $searchBuilder = new SearchCriteriaBuilder();
+        $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
+        $filter2 = (new FilterBuilder())->setField('email')->setValue($customerData2[Customer::EMAIL])->create();
+        $filter3 = (new FilterBuilder())->setField('lastname')
+            ->setValue('INVALID')->create();
+        $searchBuilder->addOrGroup([$filter1, $filter2]);
+        $searchBuilder->addFilter($filter3);
+        $searchCriteria = $searchBuilder->create();
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . '/search',
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ]
+        ];
+        $searchData = $searchCriteria->__toArray();
+        $requestData = ['searchCriteria' => $searchData];
+        $searchResults = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertEquals(0, $searchResults['total_count'], 'No results expected for non-existent email.');
+    }
+
     /**
      * @return CustomerDetails
      */
@@ -571,7 +637,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData = [
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME => self::LASTNAME,
-            Customer::EMAIL => 'janedoe' . md5(rand()) . '@example.com',
+            Customer::EMAIL => 'janedoe' . md5(mt_rand()) . '@example.com',
             Customer::CONFIRMATION => self::CONFIRMATION,
             Customer::CREATED_AT => self::CREATED_AT,
             Customer::CREATED_IN => self::STORE_NAME,

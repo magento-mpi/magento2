@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\Data;
+namespace Magento\Service\V1\Data;
 
 /**
  * Builder for Filter Service Data Object.
  *
- * @method \Magento\Service\Data\Filter create()
+ * @method \Magento\Service\V1\Data\Filter create()
  */
 class FilterBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {

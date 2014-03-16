@@ -13,7 +13,7 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
-use Magento\Service\Data\FilterBuilder;
+use Magento\Service\V1\Data\FilterBuilder;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Service\Data;
+namespace Magento\Service\V1\Data;
 
 /**
  * Filter which can be used by any methods from service layer.
