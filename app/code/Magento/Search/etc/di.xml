@@ -62,7 +62,7 @@
             <argument name="filterableAttributes" xsi:type="object">Magento\Search\Model\Layer\Search\FilterableAttributeList</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
+    <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
         <plugin name="search" type="Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
-    </virtualType>
+    </type>
 </config>
