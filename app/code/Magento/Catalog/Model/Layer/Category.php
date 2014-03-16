@@ -26,24 +26,17 @@ class Category extends \Magento\Catalog\Model\Layer
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\Layer\Category\Context $context,
-        \Magento\Catalog\Model\Layer\StateFactory $layerStateFactory,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Catalog\Model\Resource\Product $catalogProduct,
+        Category\Context $context,
+        StateFactory $layerStateFactory,
+        CategoryFactory $categoryFactory,
+        Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        Resource\Product $catalogProduct,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $layerStateFactory,
-            $categoryFactory,
-            $attributeCollectionFactory,
-            $catalogProduct,
-            $storeManager,
-            $registry,
-            $data
+        parent::__construct($context, $layerStateFactory, $categoryFactory, $attributeCollectionFactory,
+            $catalogProduct, $storeManager, $registry,$data
         );
     }
 } 
