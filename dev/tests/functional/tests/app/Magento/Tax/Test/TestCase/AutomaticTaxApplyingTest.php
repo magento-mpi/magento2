@@ -135,6 +135,7 @@ class AutomaticTaxApplyingTest extends Functional
      */
     protected function tearDown()
     {
+        $this->markTestSkipped('MAGETWO-21975');
         Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->fixture);
 
         $config = Factory::getFixtureFactory()->getMagentoCoreConfig();

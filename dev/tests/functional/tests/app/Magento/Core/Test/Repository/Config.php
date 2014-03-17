@@ -1079,7 +1079,7 @@ class Config extends AbstractRepository
                                                     'enable_express_checkout' => array( //Enable this Solution
                                                         'value' => self::YES_VALUE
                                                     )
-                                                ),
+                                                )
                                             ),
                                             'settings_ec' => array( //Basic Settings - PayPal Payments Pro
                                                 'fields' => array(
@@ -1093,9 +1093,9 @@ class Config extends AbstractRepository
                                                             'debug' => array( // Debug Mode
                                                                 'value' => self::YES_VALUE
                                                             )
-                                                        ),
+                                                        )
                                                     )
-                                                ),
+                                                )
                                             )
                                         )
                                     )
@@ -1132,19 +1132,19 @@ class Config extends AbstractRepository
                                                     'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
-                                                                'value' => 'rlus_1349181941_biz@ebay.com'
+                                                                'value' => 'mtf_payflowlink@ebay.com'
                                                             ),
                                                             'partner' => array( // Partner
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'mtfpayflowlink'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'mtfpayflowlink'
                                                             ),
                                                             'pwd' => array( // API Password
-                                                                'value' => 'Temp1234'
+                                                                'value' => '123123mtf'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => self::YES_VALUE
@@ -1169,21 +1169,21 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
                                                     )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payflow_link_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array( // Debug Mode
+                                                                'value' => self::YES_VALUE
+                                                            )
+                                                        )
+                                                    )
                                                 )
                                             ),
                                             'settings_payflow_link_express_checkout' => array( // Basic Settings - PayPal Express Checkout
                                                 'fields' => array(
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
-                                                    )
-                                                ),
-                                                'groups' => array(
-                                                    'settings_payflow_link_express_checkout_advanced' => array(
-                                                        'fields' => array(
-                                                            'debug' => array( // Debug Mode
-                                                                'value' => self::YES_VALUE
-                                                            )
-                                                        )
                                                     )
                                                 )
                                             )
