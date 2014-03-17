@@ -15,6 +15,9 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
  */
 class Share extends \Magento\Customer\Block\Account\Dashboard
 {
+    /**
+     * @var mixed
+     */
     protected $_formData = null;
 
     /**
@@ -103,7 +106,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      * Retrieve entered data by key
      *
      * @param string $key
-     * @return mixed
+     * @return string|null
      */
     public function getFormData($key)
     {

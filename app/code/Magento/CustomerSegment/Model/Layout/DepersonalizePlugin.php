@@ -56,6 +56,7 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
      * Before layout generate
      *
      * @param \Magento\Core\Model\Layout $subject
+     * @return void
      */
     public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
     {
@@ -66,7 +67,7 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
      * After layout generate
      *
      * @param \Magento\Core\Model\Layout $subject
-     * @param $result
+     * @param mixed $result
      * @return mixed
      */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)

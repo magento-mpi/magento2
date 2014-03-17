@@ -100,7 +100,16 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     protected $_storeManager;
 
-
+    /**
+     * @param \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext
+     * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
+     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
+     * @param \Magento\Search\Model\Resource\Advanced $searchResource
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Search\Model\Factory\Factory $searchFactory
+     */
     public function __construct(
         \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,

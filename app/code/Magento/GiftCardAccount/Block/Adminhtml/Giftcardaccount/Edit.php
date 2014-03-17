@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
@@ -33,6 +32,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'id';
@@ -70,11 +72,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         ));
     }
 
+    /**
+     * @return mixed
+     */
     public function getGiftcardaccountId()
     {
         return $this->_coreRegistry->registry('current_giftcardaccount')->getId();
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         if ($this->_coreRegistry->registry('current_giftcardaccount')->getId()) {

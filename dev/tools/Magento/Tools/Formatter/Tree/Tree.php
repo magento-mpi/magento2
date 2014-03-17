@@ -10,17 +10,19 @@ namespace Magento\Tools\Formatter\Tree;
 /**
  * This class is used to hold the source representation in tree format. Child in the trees represent indentation levels.
  * Class Tree
- * @package Magento\Tools\Formatter\PrettyPrinter
  */
 class Tree implements Node
 {
     /**
      * This member holds the root(s) of the tree.
+     *
+     * @var TreeNode[]
      */
     protected $rootNode;
 
     /**
      * This method adds the named child to the end of the children nodes
+     *
      * @param TreeNode $newChild Child node to be added
      * @param TreeNode $adjacentNode Optional child node to place new node next to
      * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
@@ -38,6 +40,7 @@ class Tree implements Node
     /**
      * This method makes the passed in node a root node. If there is no root node, the new node will be the root. If
      * there are existing roots, an array of roots will be generated.
+     *
      * @param TreeNode $treeNode Node to be added as a root.
      * @param TreeNode $adjacentNode Optional root node to place new node next to
      * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
@@ -68,6 +71,7 @@ class Tree implements Node
 
     /**
      * This method adds a sibling node to the roots nodes.
+     *
      * @param TreeNode $newSibling Sibling node to be added
      * @param bool $after Flag indicating that the sibling should be added after this node. If false, the sibling is
      * added prior to this node.
@@ -83,6 +87,8 @@ class Tree implements Node
 
     /**
      * This method clears the contents of the tree.
+     *
+     * @return void
      */
     public function clear()
     {
@@ -91,7 +97,8 @@ class Tree implements Node
 
     /**
      * This method returns the array of children. For the tree, the children are the roots..
-     * @return array
+     *
+     * @return TreeNode[]
      */
     public function getChildren()
     {
@@ -100,7 +107,9 @@ class Tree implements Node
 
     /**
      * This method removes the specified child from the child list.
+     *
      * @param TreeNode $existingChild Node representing an existing child.
+     * @return void
      */
     public function removeChild(TreeNode $existingChild)
     {
@@ -114,7 +123,9 @@ class Tree implements Node
 
     /**
      * This method traverses the tree and allows the passed in visitor to visit every node in the tree.
+     *
      * @param NodeVisitor $visitor Instance doing the visiting.
+     * @return void
      */
     public function traverse(NodeVisitor $visitor)
     {
@@ -135,8 +146,10 @@ class Tree implements Node
 
     /**
      * This method visits the passed in node and recursively calls the method to process all the children.
+     *
      * @param TreeNode $treeNode Node to traversed.
      * @param NodeVisitor $visitor Instance doing the visiting.
+     * @return void
      */
     protected function traverseNode(TreeNode $treeNode, NodeVisitor $visitor)
     {

@@ -9,28 +9,31 @@
 ?>
 
 <?php if (count($this->getItems()) > 0): ?>
-<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="gift-registry-items-form" class="form giftregistry">
+<form action="<?php echo $this->getActionUpdateUrl() ?>" method="post" id="gift-registry-items-form" class="form giftregistry items">
     <fieldset class="fieldset">
         <?php echo $this->getBlockHtml('formkey')?>
-        <table id="shopping-cart-table" class="data table giftregistry">
-            <thead>
-                <tr>
-                    <th class="col product"><?php echo __('Product') ?></th>
-                    <th class="col name"><?php echo __('Product Name') ?></th>
-                    <th class="col note"><?php echo __('Note') ?></th>
-                    <th class="col date"><?php echo __('Added On') ?></th>
-                    <th class="col qty"><?php echo __('Qty') ?></th>
-                    <th class="col fulfilled"><?php echo __('Qty Fulfilled') ?></th>
-                    <th class="col actions"><?php echo __('Delete') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php foreach($this->getItems() as $_item): ?>
-                <?php echo $this->getItemHtml($_item) ?>
-            <?php endforeach ?>
-            </tbody>
-        </table>
-        <div class="actions">
+        <div class="wrapper table giftregistry">
+            <table id="shopping-cart-table" class="data table giftregistry">
+                <caption class="table caption"><?php echo __('Gift Registry') ?></caption>
+                <thead>
+                    <tr>
+                        <th class="col product"><?php echo __('Product') ?></th>
+                        <th class="col name"><?php echo __('Product Name') ?></th>
+                        <th class="col note"><?php echo __('Note') ?></th>
+                        <th class="col date"><?php echo __('Added On') ?></th>
+                        <th class="col qty"><?php echo __('Qty') ?></th>
+                        <th class="col fulfilled"><?php echo __('Qty Fulfilled') ?></th>
+                        <th class="col actions"><?php echo __('Delete') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach($this->getItems() as $_item): ?>
+                    <?php echo $this->getItemHtml($_item) ?>
+                <?php endforeach ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="actions toolbar">
             <div class="primary">
                 <button type="submit" class="action primary update">
                     <span><?php echo __('Update Gift Registry') ?></span>
@@ -52,7 +55,7 @@
 <?php else: ?>
     <div class="message info empty"><span><?php echo __('This gift registry has no items.') ?></span></div>
 <?php endif ?>
-<div class="actions">
+<div class="actions toolbar">
     <div class="secondary">
         <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
     </div>

@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order\Creditmemo\Total;
 
-class Tax extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractTotal
+class Tax extends AbstractTotal
 {
+    /**
+     * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
+     * @return $this
+     */
     public function collect(\Magento\Sales\Model\Order\Creditmemo $creditmemo)
     {
         $shippingTaxAmount     = 0;

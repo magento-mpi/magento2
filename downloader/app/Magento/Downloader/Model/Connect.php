@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloader\Model;
 
 include_once "Magento/Connect.php";
@@ -35,7 +34,9 @@ class Connect extends \Magento\Downloader\Model
     /**
      * Install All Magento
      *
-     * @param boolean $force
+     * @param bool $force
+     * @param string $chanName
+     * @return void
      */
     public function installAll($force=false, $chanName='')
     {
@@ -211,6 +212,8 @@ class Connect extends \Magento\Downloader\Model
      * Run packages action
      *
      * @param mixed $packages
+     * @param string $ignoreLocalModification
+     * @return void
      */
     public function applyPackagesActions($packages, $ignoreLocalModification='')
     {
@@ -275,7 +278,10 @@ class Connect extends \Magento\Downloader\Model
         $this->controller()->endInstall();
     }
 
-
+    /**
+     * @param string $file file path
+     * @return void
+     */
     public function installUploadedPackage($file)
     {
         $this->controller()->startInstall();
@@ -296,7 +302,8 @@ class Connect extends \Magento\Downloader\Model
      * Install package by id
      *
      * @param string $id
-     * @param boolean $force
+     * @param bool $force
+     * @return void
      */
     public function installPackage($id, $force=false)
     {
@@ -363,6 +370,7 @@ class Connect extends \Magento\Downloader\Model
      * Validate settings post data.
      *
      * @param array $p
+     * @return string[]
      */
     public function validateConfigPost($p)
     {
@@ -424,10 +432,12 @@ class Connect extends \Magento\Downloader\Model
         //$this->controller()->session()->addMessage('success', 'Settings has been successfully saved');
         return $errors;
     }
+
     /**
      * Save settings.
      *
      * @param array $p
+     * @return $this
      */
     public function saveConfigPost($p)
     {

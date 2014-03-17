@@ -22,6 +22,10 @@ class CustomerAddressCurrentService implements \Magento\Customer\Service\V1\Cust
      */
     protected $customerAddressService;
 
+    /**
+     * @param CustomerCurrentService $customerCurrentService
+     * @param CustomerAddressService $customerAddressService
+     */
     public function __construct(
         \Magento\Customer\Service\V1\CustomerCurrentService $customerCurrentService,
         \Magento\Customer\Service\V1\CustomerAddressService $customerAddressService

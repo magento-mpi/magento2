@@ -7,18 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Controller\Adminhtml;
+
+use Magento\App\ResponseInterface;
 
 /**
  * Adminhtml sales orders controller
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml;
-
 class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShipment
 {
     /**
      * Export shipment grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -28,7 +31,9 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     }
 
     /**
-     *  Export shipment grid to Excel XML format
+     * Export shipment grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportExcelAction()
     {

@@ -408,9 +408,7 @@ class Session extends \Magento\Session\SessionManager
         $this->setRedirectUrl(null)
             ->setLastOrderId(null)
             ->setLastRealOrderId(null)
-            ->setLastRecurringProfileIds(null)
-            ->setAdditionalMessages(null)
-        ;
+            ->setAdditionalMessages(null);
     }
 
     /**

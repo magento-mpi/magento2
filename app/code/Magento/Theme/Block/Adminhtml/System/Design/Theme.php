@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Theme\Block\Adminhtml\System\Design;
 
 /**
  *  Container for theme grid
  */
-namespace Magento\Theme\Block\Adminhtml\System\Design;
-
 class Theme extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize grid container and prepare controls
+     *
+     * @return void
      */
     public function _construct()
     {

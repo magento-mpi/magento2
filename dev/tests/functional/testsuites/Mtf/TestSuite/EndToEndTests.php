@@ -14,7 +14,7 @@ class EndToEndTests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('End-to-end Scenarios without 3-rd Party Solutions');
+        $suite = new TestSuite('End-to-end Scenarios without 3-rd Party Solutions');
 
         // Products
         // Simple
@@ -44,8 +44,8 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
 
         // Shopping Cart
-        // Simple product with recurring profile
-        $suite->addTestSuite('Magento\Payment\Test\TestCase\RecurringProfileTest');
+        // Simple product with recurring payment
+        $suite->addTestSuite('Magento\RecurringPayment\Test\TestCase\RecurringPaymentTest');
 
         // Product search
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');

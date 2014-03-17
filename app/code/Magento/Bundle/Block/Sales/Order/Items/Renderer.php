@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Block\Sales\Order\Items;
 
 /**
  * Order item render block
@@ -15,10 +16,12 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Sales\Order\Items;
-
 class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
 {
+    /**
+     * @param mixed $item
+     * @return bool
+     */
     public function isShipmentSeparately($item = null)
     {
         if ($item) {
@@ -58,6 +61,10 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
         return false;
     }
 
+    /**
+     * @param mixed $item
+     * @return bool
+     */
     public function isChildCalculated($item = null)
     {
         if ($item) {
@@ -97,6 +104,10 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
         return false;
     }
 
+    /**
+     * @param mixed $item
+     * @return mixed|null
+     */
     public function getSelectionAttributes($item) {
         if ($item instanceof \Magento\Sales\Model\Order\Item) {
             $options = $item->getProductOptions();
@@ -109,6 +120,10 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
         return null;
     }
 
+    /**
+     * @param mixed $item
+     * @return string
+     */
     public function getValueHtml($item)
     {
         if ($attributes = $this->getSelectionAttributes($item)) {
@@ -155,6 +170,10 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
         }
     }
 
+    /**
+     * @param mixed $item
+     * @return bool
+     */
     public function canShowPriceInfo($item)
     {
         if (($item->getOrderItem()->getParentItem() && $this->isChildCalculated())

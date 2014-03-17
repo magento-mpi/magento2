@@ -21,6 +21,10 @@ abstract class AbstractInfixOperator extends AbstractOperator
         . $this->pPrec($rightNode, $precedence, $associativity, 1);
     }
     */
+    /**
+     * @param TreeNode $treeNode
+     * @return string
+     */
     protected function resolveInfixOperator(TreeNode $treeNode)
     {
         // Resolve the children according to precedence.
@@ -31,6 +35,9 @@ abstract class AbstractInfixOperator extends AbstractOperator
 
     /**
      * This method adds the operator to the line object with any required line breaks
+     *
+     * @param TreeNode $treeNode
+     * @return void
      */
     protected function addOperatorToLine(TreeNode $treeNode)
     {
@@ -39,6 +46,7 @@ abstract class AbstractInfixOperator extends AbstractOperator
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode
      */
@@ -48,11 +56,21 @@ abstract class AbstractInfixOperator extends AbstractOperator
         return $this->resolveInfixOperator($treeNode);
     }
 
+    /**
+     * Returns left side of operator
+     *
+     * @return mixed
+     */
     public function left()
     {
         return $this->node->left;
     }
 
+    /**
+     * Returns right side of operator
+     *
+     * @return mixed
+     */
     public function right()
     {
         return $this->node->right;

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Customer\Attribute\Source;
 
 /**
  * Customer website attribute source
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Customer\Attribute\Source;
-
 class Website extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
@@ -40,6 +39,9 @@ class Website extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         $this->_store = $store;
     }
 
+    /**
+     * @return array
+     */
     public function getAllOptions()
     {
         if (!$this->_options) {
@@ -49,15 +51,19 @@ class Website extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         return $this->_options;
     }
 
+    /**
+     * @param int|string $value
+     * @return string|false
+     */
     public function getOptionText($value)
     {
         if (!$this->_options) {
-          $this->_options = $this->getAllOptions();
+            $this->_options = $this->getAllOptions();
         }
         foreach ($this->_options as $option) {
-          if ($option['value'] == $value) {
-            return $option['label'];
-          }
+            if ($option['value'] == $value) {
+                return $option['label'];
+            }
         }
         return false;
     }

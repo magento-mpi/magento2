@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource;
 
 /**
  * Quote resource model
  */
-class Quote extends \Magento\Sales\Model\Resource\AbstractResource
+class Quote extends AbstractResource
 {
     /**
      * @var \Magento\Eav\Model\Config
@@ -36,6 +35,8 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
 
     /**
      * Initialize table nad PK name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -71,7 +72,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
      *
      * @param \Magento\Sales\Model\Quote $quote
      * @param int $customerId
-     * @return \Magento\Sales\Model\Resource\Quote
+     * @return $this
      */
     public function loadByCustomerId($quote, $customerId)
     {
@@ -97,7 +98,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
      *
      * @param \Magento\Sales\Model\Quote $quote
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Resource\Quote
+     * @return $this
      */
     public function loadActive($quote, $quoteId)
     {
@@ -120,7 +121,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
      *
      * @param \Magento\Sales\Model\Quote $quote
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Resource\Quote
+     * @return $this
      */
     public function loadByIdWithoutStore($quote, $quoteId)
     {
@@ -156,7 +157,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
      * Check is order increment id use in sales/order table
      *
      * @param int $orderIncrementId
-     * @return boolean
+     * @return bool
      */
     public function isOrderIncrementIdUsed($orderIncrementId)
     {
@@ -176,7 +177,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
     /**
      * Mark quotes - that depend on catalog price rules - to be recollected on demand
      *
-     * @return \Magento\Sales\Model\Resource\Quote
+     * @return $this
      */
     public function markQuotesRecollectOnCatalogRules()
     {
@@ -205,7 +206,7 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
      * Subtract product from all quotes quantities
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Sales\Model\Resource\Quote
+     * @return $this
      */
     public function substractProductFromQuotes($product)
     {
@@ -241,8 +242,8 @@ class Quote extends \Magento\Sales\Model\Resource\AbstractResource
     /**
      * Mark recollect contain product(s) quotes
      *
-     * @param array|int|Zend_Db_Expr $productIds
-     * @return \Magento\Sales\Model\Resource\Quote
+     * @param array|int|\Zend_Db_Expr $productIds
+     * @return $this
      */
     public function markQuotesRecollect($productIds)
     {

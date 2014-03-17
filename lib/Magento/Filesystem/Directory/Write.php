@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Filesystem\Directory;
 
 use Magento\Filesystem\FilesystemException;
@@ -49,6 +48,7 @@ class Write extends Read implements WriteInterface
      * Set properties from config
      *
      * @param array $config
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function setProperties(array $config)

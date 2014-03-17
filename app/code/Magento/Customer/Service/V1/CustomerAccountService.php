@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 use Magento\Core\Model\StoreManagerInterface;
@@ -29,7 +28,9 @@ use Magento\UrlInterface;
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
-    /** @var CustomerFactory */
+    /**
+     * @var CustomerFactory
+     */
     private $_customerFactory;
 
     /** @var Data\CustomerBuilder */
@@ -48,7 +49,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     private $_eventManager;
 
-    /** @var StoreManagerInterface */
+    /**
+     * @var StoreManagerInterface
+     */
     private $_storeManager;
 
     /**
@@ -416,6 +419,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @param Data\Search\FilterGroupInterface $filterGroup
      * @param Collection $collection
+     * @return void
      * @throws \Magento\Exception\InputException
      */
     protected function addFiltersToCollection(Data\Search\FilterGroupInterface $filterGroup, Collection $collection)
@@ -438,6 +442,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @param Collection $collection
      * @param Data\Filter $filter
+     * @return void
      */
     protected function addFilterToCollection(Collection $collection, Data\Filter $filter)
     {
@@ -450,6 +455,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @param Collection $collection
      * @param Data\Search\FilterGroupInterface $group
+     * @return void
      * @throws \Magento\Exception\InputException
      */
     protected function addFilterGroupToCollection(Collection $collection, Data\Search\FilterGroupInterface $group)
@@ -633,7 +639,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @param $attributeCode
+     * @param string $attributeCode
      * @return Data\Eav\AttributeMetadata|null
      */
     private function _getAttributeMetadata($attributeCode)

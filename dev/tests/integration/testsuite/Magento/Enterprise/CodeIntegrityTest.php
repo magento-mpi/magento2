@@ -20,7 +20,7 @@ class CodeIntegrityTest extends \PHPUnit_Framework_TestCase
     {
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\View\Design');
-        $this->assertEquals('magento_plushe', $design->getConfigurationDesignTheme('frontend'));
+        $this->assertEquals('magento_blank', $design->getConfigurationDesignTheme('frontend'));
         $this->assertEquals('magento_enterprise', $design->getConfigurationDesignTheme('install'));
         $this->assertEquals('magento_backend', $design->getConfigurationDesignTheme('adminhtml'));
     }

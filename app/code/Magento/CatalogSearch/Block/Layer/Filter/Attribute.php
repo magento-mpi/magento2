@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogSearch\Block\Layer\Filter;
 
 /**
  * CatalogSearch attribute layer filter
  *
  */
-namespace Magento\CatalogSearch\Block\Layer\Filter;
-
 class Attribute extends \Magento\Catalog\Block\Layer\Filter\Attribute
 {
     /**
      * Set filter model name
      *
+     * @return void
      */
     public function _construct()
     {

@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Model\Sales\Order\Pdf\Items;
 
 /**
  * Sales Order Shipment Pdf items renderer
  */
-class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
+class Shipment extends AbstractItems
 {
     /**
      * @var \Magento\Stdlib\String
@@ -57,6 +56,8 @@ class Shipment extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
 
     /**
      * Draw item line
+     *
+     * @return void
      */
     public function draw()
     {

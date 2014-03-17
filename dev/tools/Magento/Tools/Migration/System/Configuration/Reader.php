@@ -7,12 +7,11 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Migration\System\Configuration;
 
 /**
  * System configuration migration reader
  */
-namespace Magento\Tools\Migration\System\Configuration;
-
 class Reader
 {
     /**
@@ -43,7 +42,7 @@ class Reader
     /**
      * @param \Magento\Tools\Migration\System\FileManager $fileManager
      * @param \Magento\Tools\Migration\System\Configuration\Parser $parser
-     * @param Tools_Migration_System_Configuration_Mapper $mapper
+     * @param \Magento\Tools\Migration\System\Configuration\Mapper $mapper Tools_Migration_System_Configuration_Mapper
      */
     public function __construct(
         \Magento\Tools\Migration\System\FileManager $fileManager,
@@ -85,7 +84,7 @@ class Reader
     /**
      * Create Dom document from xml string
      *
-     * @param $xml
+     * @param string $xml
      * @return \DOMDocument
      */
     protected function _getDOMDocument($xml)

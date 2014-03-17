@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model;
 
 /**
  * Bundle Selection Model
@@ -36,8 +37,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model;
-
 class Selection extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -69,6 +68,8 @@ class Selection extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -79,7 +80,7 @@ class Selection extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Bundle\Model\Selection
+     * @return $this
      */
     protected function _beforeSave()
     {

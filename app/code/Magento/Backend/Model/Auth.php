@@ -204,6 +204,7 @@ class Auth
      *
      * @param string $msg
      * @param string $code
+     * @return void
      * @throws \Magento\Backend\Model\Auth\Exception
      * @static
      */

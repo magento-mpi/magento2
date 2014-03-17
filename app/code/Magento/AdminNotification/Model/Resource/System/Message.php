@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\AdminNotification\Model\Resource\System;
 
 class Message extends \Magento\Core\Model\Resource\Db\AbstractDb
@@ -19,6 +18,8 @@ class Message extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

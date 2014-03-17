@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Indexer\Model;
 
 interface IndexerInterface
@@ -87,6 +86,7 @@ interface IndexerInterface
      * Turn scheduled mode on/off
      *
      * @param bool $scheduled
+     * @return void
      */
     public function setScheduled($scheduled);
 
@@ -113,6 +113,8 @@ interface IndexerInterface
 
     /**
      * Set indexer invalid
+     *
+     * @return void
      */
     public function invalidate();
 
@@ -133,6 +135,7 @@ interface IndexerInterface
     /**
      * Regenerate full index
      *
+     * @return void
      * @throws \Exception
      */
     public function reindexAll();
@@ -141,6 +144,7 @@ interface IndexerInterface
      * Regenerate one row in index by ID
      *
      * @param int $id
+     * @return void
      */
     public function reindexRow($id);
 
@@ -148,6 +152,7 @@ interface IndexerInterface
      * Regenerate rows in index by ID list
      *
      * @param int[] $ids
+     * @return void
      */
     public function reindexList($ids);
 }

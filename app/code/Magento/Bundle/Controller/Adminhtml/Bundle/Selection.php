@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Controller\Adminhtml\Bundle;
 
 /**
  * Adminhtml selection grid controller
@@ -15,10 +16,11 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Controller\Adminhtml\Bundle;
-
 class Selection extends \Magento\Backend\App\Action
 {
+    /**
+     * @return mixed
+     */
     public function searchAction()
     {
         return $this->getResponse()->setBody(
@@ -30,6 +32,9 @@ class Selection extends \Magento\Backend\App\Action
            );
     }
 
+    /**
+     * @return mixed
+     */
     public function gridAction()
     {
         return $this->getResponse()->setBody(
@@ -40,5 +45,4 @@ class Selection extends \Magento\Backend\App\Action
                 ->toHtml()
            );
     }
-
 }

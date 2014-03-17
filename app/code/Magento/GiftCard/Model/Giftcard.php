@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Model;
 
 class Giftcard extends \Magento\Core\Model\AbstractModel

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Dictionary\Writer;
 
 use Magento\Tools\I18n\Code\Dictionary\WriterInterface;
@@ -73,6 +72,8 @@ class Csv implements WriterInterface
 
     /**
      * Close file handler
+     *
+     * @return void
      */
     public function __destructor()
     {

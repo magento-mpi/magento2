@@ -32,7 +32,6 @@ use PHPParser_PrettyPrinter_Default;
 
 /**
  * Class PrettyPrinter
- * @package Magento\Tools\Formatter
  *
  * In all likelihood, this class is going away, so don't really care about coupling.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -47,8 +46,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method dumps the pieces of the passed in array as strings.
+     *
      * @param array $encapsList
-     * @param $quote
      * @return string
      */
     public function pEncapsListNoEscape(array $encapsList)
@@ -68,6 +67,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
     /**
      * This method print out an array declaration. If more than a single element in an array is present, multi-line is
      * forced.
+     *
      * @param PHPParser_Node_Expr_Array $node
      * @return string
      */
@@ -82,6 +82,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out the closure statement. This is overridden to place a space after the use statement.
+     *
      * @param PHPParser_Node_Expr_Closure $node
      * @return string
      */
@@ -97,6 +98,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method returns constant values and defaults are ensured to return in lowercase.
+     *
      * @param PHPParser_Node_Expr_ConstFetch $node
      * @return string
      */
@@ -112,6 +114,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out a function call. This method deals with split parameters if they span multiple lines.
+     *
      * @param PHPParser_Node_Expr_FuncCall $node
      * @return string
      */
@@ -122,6 +125,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out a method call. This method deals with split parameters if they span multiple lines.
+     *
      * @param PHPParser_Node_Expr_MethodCall $node
      * @return string
      */
@@ -133,6 +137,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out a new class call. This method deals with split parameters if they span multiple lines.
+     *
      * @param PHPParser_Node_Expr_New $node
      * @return string
      */
@@ -144,6 +149,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
     /**
      * This method prints out a static function call. This method deals with split parameters if they span multiple
      * lines.
+     *
      * @param PHPParser_Node_Expr_StaticCall $node
      * @return string
      */
@@ -157,7 +163,8 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints the modifiers according to PSR-2, 4.5
-     * @param $modifiers
+     *
+     * @param int $modifiers
      * @return string
      */
     public function pModifiers($modifiers)
@@ -174,7 +181,6 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      * Pretty prints an array of statements.
      *
      * @param PHPParser_Node[] $statements Array of statements
-     *
      * @return string Pretty printed statements
      */
     public function prettyPrint(array $statements)
@@ -200,6 +206,12 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
         return $result;
     }
 
+    /**
+     * Override method for handling encapsed scalars
+     *
+     * @param PHPParser_Node_Scalar_Encapsed $node
+     * @return string
+     */
     public function pScalar_Encapsed(PHPParser_Node_Scalar_Encapsed $node)
     {
         $result = '';
@@ -214,6 +226,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out the strings found in the code. If there are special
+     *
      * @param PHPParser_Node_Scalar_String $node
      * @return string
      */
@@ -232,6 +245,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out a constant in a class. It is overridden to generate a newline after every class.
+     *
      * @param PHPParser_Node_Stmt_ClassConst $node
      * @return string
      */
@@ -243,6 +257,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
     /**
      * This method prints out a method in a class. It is overridden to generate multi-line parameters if needed, and put
      * a newline after every method.
+     *
      * @param PHPParser_Node_Stmt_ClassMethod $node
      * @return string
      */
@@ -273,6 +288,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
     /**
      * This method is used to print an echo statement. It is overridden to handle a special case of echoing just a
      * HEREDOC.
+     *
      * @param PHPParser_Node_Stmt_Echo $node
      * @return string
      */
@@ -283,6 +299,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method dumps a integer number. This method uses the original value, if available.
+     *
      * @param PHPParser_Node_Scalar_LNumber $node
      * @return string
      */
@@ -297,6 +314,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method dumps a decimal number. This method uses the original value, if available.
+     *
      * @param PHPParser_Node_Scalar_DNumber $node
      * @return string
      */
@@ -311,6 +329,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method prints out a property in a class. It is overridden to generate a newline after every property.
+     *
      * @param PHPParser_Node_Stmt_Property $node
      * @return string
      */
@@ -321,6 +340,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method is used to print out the use statements.
+     *
      * @param PHPParser_Node_Stmt_Use $node
      * @return string
      */
@@ -336,6 +356,9 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method counts the number of lines that the passed array of strings represent.
+     *
+     * @param string $source
+     * @return int The number of new lines
      */
     protected function countNewlines($source)
     {
@@ -346,6 +369,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      * This method returns the nodes formatted appropriately.
      *
      * @param PHPParser_Node[] $nodes Array of Nodes to be printed
+     * @return string Comma separated pretty printed parameters
      */
     protected function getParametersForCall(array $nodes)
     {
@@ -362,6 +386,9 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method is used to replace internal newlines in the string with a newline followed by indention.
+     *
+     * @param string $source
+     * @return string
      */
     protected function indent($source)
     {
@@ -372,7 +399,6 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      * Pretty prints an array of nodes and implodes the printed values with commas.
      *
      * @param PHPParser_Node[] $nodes Array of Nodes to be printed
-     *
      * @return string Comma separated pretty printed nodes
      */
     protected function pCommaSeparated(array $nodes)
@@ -406,7 +432,9 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
     /**
      * This method prevents the source string front being indented by using the no indent token on all newlines found
      * in the string.
-     * @param $source
+     *
+     * @param string $source
+     * @return string
      */
     protected function preventIndent($source)
     {
@@ -415,8 +443,10 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
 
     /**
      * This method reproduces the heredoc structure.
-     * @param $heredocCloseTag
-     * @param $body
+     *
+     * @param string $heredocCloseTag
+     * @param string $body
+     * @return string
      */
     protected function processHeredoc($heredocCloseTag, $body)
     {
@@ -431,7 +461,6 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      *
      * @param PHPParser_Node[] $nodes  Array of nodes
      * @param bool             $indent Whether to indent the printed nodes
-     *
      * @return string Pretty printed statements
      */
     protected function pStmts(array $nodes, $indent = true)

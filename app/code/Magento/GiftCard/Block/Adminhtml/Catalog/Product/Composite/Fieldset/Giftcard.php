@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
 
 class Giftcard extends \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Form;
 
 /**
  * Abstract block to render form elements
  */
-namespace Magento\GiftRegistry\Block\Form;
-
 class Element extends \Magento\View\Element\Template
 {
     /**
@@ -30,7 +29,14 @@ class Element extends \Magento\View\Element\Template
      */
     protected $_configCacheType;
 
+    /**
+     * @var mixed
+     */
     protected $_countryCollection;
+
+    /**
+     * @var \Magento\Directory\Model\Resource\Region\Collection
+     */
     protected $_regionCollection;
 
     /**
@@ -104,8 +110,10 @@ class Element extends \Magento\View\Element\Template
         return $options;
     }
 
-    /** Get field name
+    /**
+     * Get field name
      *
+     * @param string $name
      * @return string
      */
     protected function _getFieldName($name)
@@ -118,8 +126,10 @@ class Element extends \Magento\View\Element\Template
         return $name;
     }
 
-    /** Get field name
+    /**
+     * Get field id
      *
+     * @param string $id
      * @return string
      */
     protected function _getFieldId($id)
@@ -127,7 +137,8 @@ class Element extends \Magento\View\Element\Template
         return $this->getFieldIdPrefix() . $id;
     }
 
-    /** Get field id prefix
+    /**
+     * Get field id prefix
      *
      * @return string
      */
@@ -136,7 +147,8 @@ class Element extends \Magento\View\Element\Template
         return $this->getData('field_id_prefix');
     }
 
-    /** Get field name prefix
+    /**
+     * Get field name prefix
      *
      * @return string
      */
@@ -145,7 +157,8 @@ class Element extends \Magento\View\Element\Template
         return $this->getData('field_name_prefix');
     }
 
-    /** Get field name container
+    /**
+     * Get field name container
      *
      * @return string
      */

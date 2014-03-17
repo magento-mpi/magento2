@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
 
 /**
  * Bundle option multi select type renderer
@@ -16,11 +16,12 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Options\Type;
-
 class Multi
     extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi
 {
+    /**
+     * @var string
+     */
     protected $_template = 'product/composite/fieldset/options/type/multi.phtml';
 
     /**

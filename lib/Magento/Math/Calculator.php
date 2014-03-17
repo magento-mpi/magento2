@@ -29,7 +29,7 @@ class Calculator
     /**
      * Initialize calculator
      *
-     * @param \Magento\BaseScopeInterface
+     * @param \Magento\BaseScopeInterface $scope
      */
     public function __construct(\Magento\BaseScopeInterface $scope)
     {

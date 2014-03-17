@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect\Loader;
 
 /**
  * Class for ftp loader which using in the Rest
@@ -15,8 +16,6 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect\Loader;
-
 class Ftp
 {
 
@@ -67,6 +66,9 @@ class Ftp
         $this->_ftpPassword = self::FTP_PASS;
     }
 
+    /**
+     * @return \Magento\Connect\Ftp|null
+     */
     public function getFtp()
     {
         return $this->_ftp;

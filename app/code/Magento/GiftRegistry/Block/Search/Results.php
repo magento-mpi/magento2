@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Search;
 
 /**
  * Gift registry search results
@@ -14,12 +15,13 @@
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-namespace Magento\GiftRegistry\Block\Search;
-
 class Results extends \Magento\View\Element\Template
 {
     /**
      * Set search results and create html pager block
+     *
+     * @param mixed $results
+     * @return void
      */
     public function setSearchResults($results)
     {

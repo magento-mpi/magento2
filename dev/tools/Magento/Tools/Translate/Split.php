@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Tools\Translate;
 
 /*
 
@@ -14,7 +15,6 @@ Usage:
  php -f split.php -- --input <file> --locale <locale_NAME>
 
 */
-namespace Magento\Tools\Translate;
 
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
@@ -216,6 +216,11 @@ class Split
         return implode('\n', $result);
     }
 
+    /**
+     * @param int $type
+     * @param string $message
+     * @return void
+     */
     private function _addMessage($type, $message)
     {
         $this->_messages[] = array('type'=>$type, 'text'=>$message);

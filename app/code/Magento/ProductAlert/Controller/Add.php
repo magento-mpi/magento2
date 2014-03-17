@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ProductAlert\Controller;
+
+use Magento\App\Action\Context;
+use Magento\App\RequestInterface;
 
 /**
  * ProductAlert controller
@@ -15,11 +19,6 @@
  * @package    Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ProductAlert\Controller;
-
-use Magento\App\Action\Context;
-use Magento\App\RequestInterface;
-
 class Add extends \Magento\App\Action\Action
 {
     /**
@@ -57,6 +56,9 @@ class Add extends \Magento\App\Action\Action
         return parent::dispatch($request);
     }
 
+    /**
+     * @return void
+     */
     public function testObserverAction()
     {
         $object = new \Magento\Object();
@@ -64,6 +66,9 @@ class Add extends \Magento\App\Action\Action
         $observer->process($object);
     }
 
+    /**
+     * @return void
+     */
     public function priceAction()
     {
         $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
@@ -102,6 +107,9 @@ class Add extends \Magento\App\Action\Action
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
+    /**
+     * @return void
+     */
     public function stockAction()
     {
         $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);

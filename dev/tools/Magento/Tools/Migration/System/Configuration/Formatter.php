@@ -15,6 +15,7 @@ class Formatter
     /**
      * @param string $string
      * @param string $parameters
+     * @return string
      */
     public function parseString($string, $parameters)
     {

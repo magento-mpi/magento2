@@ -166,6 +166,8 @@ class Arguments
 
     /**
      * Reload local.xml
+     *
+     * @return void
      */
     public function reload()
     {

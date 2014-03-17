@@ -7,6 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Data\Form\Element;
+
+use Magento\Escaper;
 
 /**
  * Form editor element
@@ -15,10 +18,6 @@
  * @package    Magento_Data
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Data\Form\Element;
-
-use Magento\Escaper;
-
 class Editor extends Textarea
 {
     /**
@@ -35,7 +34,7 @@ class Editor extends Textarea
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
 
-        if($this->isEnabled()) {
+        if ($this->isEnabled()) {
             $this->setType('wysiwyg');
             $this->setExtType('wysiwyg');
         } else {
@@ -73,8 +72,7 @@ class Editor extends Textarea
             //]]>
             </script>';
 
-        if($this->isEnabled())
-        {
+        if ($this->isEnabled()) {
             // add Firebug notice translations
             $warn = 'Firebug is known to make the WYSIWYG editor slow unless it is turned off or configured properly.';
             $this->getConfig()->addData(array(
@@ -147,7 +145,7 @@ class Editor extends Textarea
      */
     public function getTheme()
     {
-        if(!$this->hasData('theme')) {
+        if (!$this->hasData('theme')) {
             return 'simple';
         }
 
@@ -193,7 +191,7 @@ class Editor extends Textarea
      * Prepare Html buttons for additional WYSIWYG features
      *
      * @param bool $visible Display button or not
-     * @return void
+     * @return string
      */
     protected function _getPluginButtonsHtml($visible = true)
     {
@@ -223,7 +221,7 @@ class Editor extends Textarea
                                . "')",
             'class'     => 'action-add-image plugin',
             'style'     => $visible ? '' : 'display:none',
-        ));
+            ));
         }
 
         foreach ($this->getConfig('plugins') as $plugin) {

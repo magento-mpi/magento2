@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 class Form
@@ -372,6 +371,7 @@ class Form
      * Set whether invisible attributes should be ignored.
      *
      * @param bool $ignoreInvisible
+     * @return void
      */
     public function setInvisibleIgnored($ignoreInvisible)
     {

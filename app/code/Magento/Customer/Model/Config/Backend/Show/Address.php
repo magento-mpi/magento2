@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Config\Backend\Show;
+
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 /**
  * Customer Show Address Model
@@ -15,15 +18,12 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Config\Backend\Show;
-
-class Address
-    extends \Magento\Customer\Model\Config\Backend\Show\Customer
+class Address extends Customer
 {
     /**
      * Retrieve attribute objects
      *
-     * @return array
+     * @return AbstractAttribute[]
      */
     protected function _getAttributeObjects()
     {
