@@ -29,9 +29,14 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\LauncherInterface
+     * @var \Magento\LauncherInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $launcherMock;
+
+    /**
+     * @var \Magento\Catalog\Helper\Product\ProductList|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productListHelperMock;
 
     /**
      * Set up
@@ -52,86 +57,61 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->launcherMock = $this->getMock('Magento\App\Http', array(), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
-        $this->plugin = new ContextPlugin($this->toolbarModelMock, $this->httpContextMock);
+        $this->productListHelperMock = $this->getMock('Magento\Catalog\Helper\Product\ProductList',
+            array(), array(), '', false);
+        $this->plugin = new ContextPlugin(
+            $this->toolbarModelMock,
+            $this->httpContextMock,
+            $this->productListHelperMock
+        );
     }
 
     public function testBeforeLaunchHasSortDirection()
     {
-        $this->toolbarModelMock->expects($this->exactly(2))
+        $this->toolbarModelMock->expects($this->exactly(1))
             ->method('getDirection')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue('asc'));
         $this->toolbarModelMock->expects($this->once())
             ->method('getOrder')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue('Name'));
         $this->toolbarModelMock->expects($this->once())
             ->method('getMode')
-            ->will($this->returnValue(false));
+            ->will($this->returnValue('list'));
         $this->toolbarModelMock->expects($this->once())
             ->method('getLimit')
-            ->will($this->returnValue(false));
-        $this->httpContextMock->expects($this->once())
+            ->will($this->returnValue(array(1 => 1, 2 => 2)));
+        $this->productListHelperMock->expects($this->once())
+            ->method('getDefaultSortField')
+            ->will($this->returnValue('Field'));
+        $this->productListHelperMock->expects($this->exactly(2))
+            ->method('getDefaultViewMode')
+            ->will($this->returnValue('grid'));
+        $this->productListHelperMock->expects($this->once())
+            ->method('getDefaultLimitPerPageValue')
+            ->will($this->returnValue(array(10=>10)));
+        $this->httpContextMock->expects($this->exactly(4))
             ->method('setValue')
-            ->with(\Magento\Catalog\Helper\Data::CONTEXT_CATALOG_SORT_DIRECTION, true);
-        $this->plugin->beforeLaunch($this->launcherMock);
-    }
-
-    public function testBeforeLaunchHasSortOrder()
-    {
-        $this->toolbarModelMock->expects($this->exactly(2))
-            ->method('getOrder')
-            ->will($this->returnValue(true));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getDirection')
-            ->will($this->returnValue(false));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue(false));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getLimit')
-            ->will($this->returnValue(false));
-        $this->httpContextMock->expects($this->once())
-            ->method('setValue')
-            ->with(\Magento\Catalog\Helper\Data::CONTEXT_CATALOG_SORT_ORDER, true);
-        $this->plugin->beforeLaunch($this->launcherMock);
-    }
-
-    public function testBeforeLaunchHasDisplayMode()
-    {
-        $this->toolbarModelMock->expects($this->exactly(2))
-            ->method('getMode')
-            ->will($this->returnValue(true));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getDirection')
-            ->will($this->returnValue(false));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getOrder')
-            ->will($this->returnValue(false));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getLimit')
-            ->will($this->returnValue(false));
-        $this->httpContextMock->expects($this->once())
-            ->method('setValue')
-            ->with(\Magento\Catalog\Helper\Data::CONTEXT_CATALOG_DISPLAY_MODE, true);
-        $this->plugin->beforeLaunch($this->launcherMock);
-    }
-
-    public function testBeforeLaunchHasLimitPage()
-    {
-        $this->toolbarModelMock->expects($this->exactly(2))
-            ->method('getLimit')
-            ->will($this->returnValue(true));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getDirection')
-            ->will($this->returnValue(false));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue(false));
-        $this->toolbarModelMock->expects($this->once())
-            ->method('getOrder')
-            ->will($this->returnValue(false));
-        $this->httpContextMock->expects($this->once())
-            ->method('setValue')
-            ->with(\Magento\Catalog\Helper\Data::CONTEXT_CATALOG_LIMIT, true);
-        $this->plugin->beforeLaunch($this->launcherMock);
+            ->will($this->returnValueMap(array(
+                array(
+                    \Magento\Catalog\Helper\Data::CONTEXT_CATALOG_SORT_DIRECTION,
+                    'asc',
+                    \Magento\Catalog\Helper\Product\ProductList::DEFAULT_SORT_DIRECTION,
+                    $this->httpContextMock
+                ), array(
+                    \Magento\Catalog\Helper\Data::CONTEXT_CATALOG_SORT_ORDER,
+                    'Name',
+                    'Field',
+                    $this->httpContextMock
+                ), array(
+                    \Magento\Catalog\Helper\Data::CONTEXT_CATALOG_DISPLAY_MODE,
+                    'list',
+                    'grid',
+                    $this->httpContextMock
+                ), array(
+                    \Magento\Catalog\Helper\Data::CONTEXT_CATALOG_LIMIT,
+                    array(1 => 1, 2 => 2), array (10 => 10)
+                )
+            )));
+        $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
     }
 }
