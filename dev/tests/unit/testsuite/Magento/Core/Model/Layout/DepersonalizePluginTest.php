@@ -53,7 +53,6 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
         $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
-//
         $this->plugin = new \Magento\Core\Model\Layout\DepersonalizePlugin(
             $this->requestMock,
             $this->moduleManagerMock,
