@@ -51,13 +51,6 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * MessageBox instance
-     *
-     * @var \Magento\App\PageCache\MessageBox|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $msgBoxMock;
-
-    /**
      * SetUp
      */
     public function setUp()
@@ -74,7 +67,6 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->msgBoxMock = $this->getMock('Magento\App\PageCache\MessageBox', array('process'), array(), '', false);
         $response = $this->responseMock;
         $this->closure = function () use ($response) {
             return $response;
@@ -82,7 +74,6 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
         $this->plugin = new VarnishPlugin(
             $this->configMock,
             $this->versionMock,
-            $this->msgBoxMock,
             $this->stateMock
         );
     }
@@ -101,9 +92,6 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::VARNISH));
         $this->versionMock
-            ->expects($this->once())
-            ->method('process');
-        $this->msgBoxMock
             ->expects($this->once())
             ->method('process');
         $this->stateMock->expects($this->any())
@@ -130,9 +118,6 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getType')
             ->will($this->returnValue(null));
         $this->versionMock
-            ->expects($this->never())
-            ->method('process');
-        $this->msgBoxMock
             ->expects($this->never())
             ->method('process');
         $this->stateMock->expects($this->any())

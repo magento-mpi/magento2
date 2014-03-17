@@ -56,13 +56,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
     protected $requestMock;
 
     /**
-     * MessageBox instance
-     *
-     * @var \Magento\App\PageCache\MessageBox|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $msgBoxMock;
-
-    /**
      * SetUp
      */
     public function setUp()
@@ -80,7 +73,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->msgBoxMock = $this->getMock('Magento\App\PageCache\MessageBox', array('process'), array(), '', false);
         $response = $this->responseMock;
         $this->closure = function () use ($response) {
             return $response;
@@ -88,7 +80,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
         $this->plugin = new BuiltinPlugin(
             $this->configMock,
             $this->versionMock,
-            $this->msgBoxMock,
             $this->kernelMock,
             $this->stateMock
         );
@@ -107,9 +98,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->versionMock
-            ->expects($this->once())
-            ->method('process');
-        $this->msgBoxMock
             ->expects($this->once())
             ->method('process');
         $this->kernelMock
@@ -152,9 +140,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
         $this->versionMock
             ->expects($this->once())
             ->method('process');
-        $this->msgBoxMock
-            ->expects($this->once())
-            ->method('process');
         $this->kernelMock
             ->expects($this->once())
             ->method('load')
@@ -187,9 +172,6 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->versionMock
-            ->expects($this->never())
-            ->method('process');
-        $this->msgBoxMock
             ->expects($this->never())
             ->method('process');
         $this->stateMock->expects($this->any())
