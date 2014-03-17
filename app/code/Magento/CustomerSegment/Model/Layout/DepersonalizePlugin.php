@@ -101,7 +101,7 @@ class DepersonalizePlugin
             && !$this->request->isAjax()
             && $subject->isCacheable()
         ) {
-            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds);
+            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds, array());
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
         return $result;
