@@ -37,9 +37,29 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpRequestMock;
 
     /**
-     * @var \Magento\LauncherInterface
+     * @var \Magento\LauncherInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $launcherMock;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeManagerMock;
+
+    /**
+     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeMock;
+
+    /**
+     * @var \Magento\Directory\Model\Currency|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $currencyMock;
+
+    /**
+     * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $websiteMock;
 
     /**
      * Set up
@@ -53,11 +73,21 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context',
             array(), array(), '', false);
         $this->httpRequestMock = $this->getMock('Magento\App\Request\Http',
-            array(), array(), '', false);
+            array('getCookie', 'getParam'), array(), '', false);
+        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager',
+            array('getWebsite', '__wakeup'), array(), '', false);
+        $this->storeMock = $this->getMock('Magento\Core\Model\Store',
+            array('__wakeup', 'getDefaultCurrency'), array(), '', false);
+        $this->currencyMock = $this->getMock('Magento\Directory\Model\Currency',
+            array('getCode', '__wakeup'), array(), '', false);
+        $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
+            array('getDefaultStore', '__wakeup'), array(), '', false);
+
         $this->plugin = new \Magento\Core\Model\App\ContextPlugin(
             $this->sessionMock,
             $this->httpContextMock,
-            $this->httpRequestMock
+            $this->httpRequestMock,
+            $this->storeManagerMock
         );
     }
 
@@ -66,22 +96,37 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeLaunch()
     {
+        $this->storeManagerMock->expects($this->exactly(2))
+            ->method('getWebsite')
+            ->will($this->returnValue($this->websiteMock));
+        $this->websiteMock->expects($this->exactly(2))
+            ->method('getDefaultStore')
+            ->will($this->returnValue($this->storeMock));
+        $this->storeMock->expects($this->once())
+            ->method('getDefaultCurrency')
+            ->will($this->returnValue($this->currencyMock));
+        $this->currencyMock->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue('UAH'));
         $this->sessionMock->expects($this->once())
             ->method('getCurrencyCode')
             ->will($this->returnValue('UAH'));
+
         $this->httpRequestMock->expects($this->once())
             ->method('getParam')
             ->with($this->equalTo('___store'))
-            ->will($this->returnValue(0));
+            ->will($this->returnValue('default'));
+
         $this->httpRequestMock->expects($this->once())
             ->method('getCookie')
             ->with($this->equalTo(\Magento\Core\Model\Store::COOKIE_NAME))
             ->will($this->returnValue(null));
+
         $this->httpContextMock->expects($this->atLeastOnce())
             ->method('setValue')
             ->will($this->returnValueMap(array(
-                array(\Magento\Core\Helper\Data::CONTEXT_CURRENCY, 'UAH', $this->httpContextMock),
-                array(\Magento\Core\Helper\Data::CONTEXT_STORE, 0, $this->httpContextMock),
+                array(\Magento\Core\Helper\Data::CONTEXT_CURRENCY, 'UAH', 'UAH', $this->httpContextMock),
+                array(\Magento\Core\Helper\Data::CONTEXT_STORE, 'default', 'default', $this->httpContextMock),
             )));
         $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
     }

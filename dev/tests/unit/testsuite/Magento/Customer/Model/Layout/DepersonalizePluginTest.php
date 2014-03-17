@@ -64,6 +64,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $visitorMock;
 
     /**
+     * @var \Magento\PageCache\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cacheConfigMock;
+    /**
      * SetUp
      */
     public function setUp()
@@ -103,6 +107,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->customerFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->customerMock));
+        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
 
         $this->plugin = new DepersonalizePlugin(
             $this->sessionMock,
@@ -110,7 +115,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             $this->customerFactoryMock,
             $this->requestMock,
             $this->moduleManagerMock,
-            $this->visitorMock
+            $this->visitorMock,
+            $this->cacheConfigMock
         );
     }
 
@@ -123,6 +129,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('isEnabled')
             ->with('Magento_PageCache')
+            ->will($this->returnValue(true));
+        $this->cacheConfigMock
+            ->expects($this->once())
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock
             ->expects($this->once())
@@ -168,6 +178,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->with('Magento_PageCache')
             ->will($this->returnValue(true));
+        $this->cacheConfigMock
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->requestMock
             ->expects($this->once())
             ->method('isAjax')
@@ -187,6 +201,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('isEnabled')
             ->with('Magento_PageCache')
+            ->will($this->returnValue(true));
+        $this->cacheConfigMock
+            ->expects($this->once())
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock
             ->expects($this->once())
@@ -211,6 +229,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('isEnabled')
             ->with('Magento_PageCache')
+            ->will($this->returnValue(true));
+        $this->cacheConfigMock
+            ->expects($this->once())
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock
             ->expects($this->once())
@@ -285,6 +307,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->with('Magento_PageCache')
             ->will($this->returnValue(true));
+        $this->cacheConfigMock
+            ->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->requestMock
             ->expects($this->once())
             ->method('isAjax')
@@ -305,6 +331,10 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('isEnabled')
             ->with('Magento_PageCache')
+            ->will($this->returnValue(true));
+        $this->cacheConfigMock
+            ->expects($this->once())
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock
             ->expects($this->once())
