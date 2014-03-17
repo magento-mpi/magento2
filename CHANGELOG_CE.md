@@ -38,6 +38,7 @@
   * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
   * Fixed JS/CSS merging functionality (MAGETWO-21924)
   * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
+  * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
 * Modularity improvements:
   * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
