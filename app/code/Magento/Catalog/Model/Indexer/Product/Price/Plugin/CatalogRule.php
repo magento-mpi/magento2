@@ -28,6 +28,8 @@ class CatalogRule
      *
      * @param \Magento\CatalogRule\Model\Rule $subject
      *
+     * @return void
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterApplyAll(\Magento\CatalogRule\Model\Rule $subject)
@@ -42,6 +44,8 @@ class CatalogRule
      * @param callable $proceed
      * @param int|\Magento\Catalog\Model\Product $product
      * @param null|array $websiteIds
+     *
+     * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -62,6 +66,8 @@ class CatalogRule
      * @param callable $proceed
      * @param int|\Magento\Catalog\Model\Product $product
      *
+     * @return void
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundApplyAllRulesToProduct(
@@ -77,6 +83,8 @@ class CatalogRule
      * Reindex product price
      *
      * @param int|\Magento\Catalog\Model\Product $product
+     *
+     * @return void
      */
     protected function _reindexProduct($product)
     {
