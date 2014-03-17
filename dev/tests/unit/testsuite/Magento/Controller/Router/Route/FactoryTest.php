@@ -77,7 +77,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager->expects($this->once())
             ->method('create')
-            ->will($this->returnValue($this->getMockBuilder('StdClass')->getMock()));
+            ->will($this->returnValue(new \StdClass));
 
         $object = new \Magento\Controller\Router\Route\Factory($this->objectManager);
         $object->createRoute(
