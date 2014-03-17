@@ -235,7 +235,7 @@ class Cache
         }
 
         if (isset($this->_objectReferences[$idx])) {
-            foreach ($references as $r=>$dummy) {
+            foreach ($this->_references as $r=>$dummy) {
                 unset($this->_references[$r]);
             }
             unset($this->_objectReferences[$idx]);
@@ -351,7 +351,7 @@ class Cache
                 if (isset($objects[$idx])) {
                     continue;
                 }
-                $objects[$ids] = $this->load($idx);
+                $objects[$idx] = $this->load($idx);
             }
         }
         return $objects;

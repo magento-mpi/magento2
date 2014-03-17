@@ -22,6 +22,5 @@
                 </action>
             </block>
         </block>
-        <block class="Magento\Catalog\Block\Layer\View" name="catalog.leftnav" after="-" template="layer/view.phtml"/>
     </referenceContainer>
 </layout>

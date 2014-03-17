@@ -23,20 +23,6 @@ class Observer
     protected $_indexer;
 
     /**
-     * Search catalog layer
-     *
-     * @var \Magento\Search\Model\Catalog\Layer
-     */
-    protected $_searchCatalogLayer = null;
-
-    /**
-     * Search search layer
-     *
-     * @var \Magento\Search\Model\Search\Layer
-     */
-    protected $_searchSearchLayer = null;
-
-    /**
      * Search recommendations factory
      *
      * @var \Magento\Search\Model\Resource\RecommendationsFactory
@@ -86,24 +72,18 @@ class Observer
     protected $_request;
 
     /**
-     * Construct
-     *
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
-     * @param \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory
-     * @param \Magento\Search\Model\Search\Layer $searchSearchLayer
-     * @param \Magento\Search\Model\Catalog\Layer $searchCatalogLayer
+     * @param Resource\RecommendationsFactory $searchRecommendationsFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Search\Model\Source\Weight $sourceWeight
+     * @param Source\Weight $sourceWeight
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
-        \Magento\Search\Model\Search\Layer $searchSearchLayer,
-        \Magento\Search\Model\Catalog\Layer $searchCatalogLayer,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Search\Helper\Data $searchData,
@@ -113,8 +93,6 @@ class Observer
     ) {
         $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
-        $this->_searchSearchLayer = $searchSearchLayer;
-        $this->_searchCatalogLayer = $searchCatalogLayer;
         $this->_indexer = $indexer;
         $this->_engineProvider = $engineProvider;
         $this->_searchData = $searchData;
@@ -272,32 +250,6 @@ class Observer
 
         if (!empty($storeIds)) {
             $this->_engineProvider->get()->cleanIndex($storeIds);
-        }
-    }
-
-    /**
-     * Reset search engine if it is enabled for catalog navigation
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function resetCurrentCatalogLayer(EventObserver $observer)
-    {
-        if ($this->_searchData->getIsEngineAvailableForNavigation()) {
-            $this->_coreRegistry->register('current_layer', $this->_searchCatalogLayer);
-        }
-    }
-
-    /**
-     * Reset search engine if it is enabled for search navigation
-     *
-     * @param EventObserver $observer
-     * @return void
-     */
-    public function resetCurrentSearchLayer(EventObserver $observer)
-    {
-        if ($this->_searchData->getIsEngineAvailableForNavigation(false)) {
-            $this->_coreRegistry->register('current_layer', $this->_searchSearchLayer);
         }
     }
 
