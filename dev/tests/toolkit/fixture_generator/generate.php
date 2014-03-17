@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     performance_tests
+ * @package     toolkit_framework
  * @copyright   {copyright}
  * @license     {license_link}
  */

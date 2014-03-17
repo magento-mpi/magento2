@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $simpleProductsCount = \Magento\ToolkitFramework\Helper\Cli::getOption('simple_products', 180);
 $this->resetObjectManager();
 

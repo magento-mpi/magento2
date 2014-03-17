@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 define('ATTRIBUTE_SET_ID', 4);
 $this->resetObjectManager();
 

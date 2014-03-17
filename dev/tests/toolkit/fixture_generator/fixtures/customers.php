@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $customersNumber = \Magento\ToolkitFramework\Helper\Cli::getOption('customers', 10);
 $this->resetObjectManager();
 

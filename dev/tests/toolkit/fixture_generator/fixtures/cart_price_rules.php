@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $cartPriceRulesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('cart_price_rules', 9);
 $cartPriceRulesProductsFloor = \Magento\ToolkitFramework\Helper\Cli::getOption('cart_price_rules_floor', 3);
 $this->resetObjectManager();

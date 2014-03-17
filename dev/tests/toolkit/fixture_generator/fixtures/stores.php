@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $websitesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('websites', 2);
 $storeGroupsCount = \Magento\ToolkitFramework\Helper\Cli::getOption('store_groups', 3);
 $storesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('store_views', 5);

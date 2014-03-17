@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $this->resetObjectManager();
 /** Clean predefined tax rates to maintain consistency */
 /** @var $collection Magento\Tax\Model\Resource\Calculation\Rate\Collection */

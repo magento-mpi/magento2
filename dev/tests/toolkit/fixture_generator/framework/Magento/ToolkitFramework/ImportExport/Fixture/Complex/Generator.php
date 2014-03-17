@@ -19,7 +19,7 @@ class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
     /**
      * Data row pattern
      *
-     * @var \Magento\TestFramework\ImportExport\Fixture\Complex\Pattern
+     * @var \Magento\ToolkitFramework\ImportExport\Fixture\Complex\Pattern
      */
     protected $_pattern;
 

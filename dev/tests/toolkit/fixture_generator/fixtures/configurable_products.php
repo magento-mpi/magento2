@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $configurablesCount = \Magento\ToolkitFramework\Helper\Cli::getOption('configurable_products', 90);
 $this->resetObjectManager();
 

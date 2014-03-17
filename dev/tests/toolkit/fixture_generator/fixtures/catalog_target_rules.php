@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\TestFramework\Application $this */
+/** @var \Magento\ToolkitFramework\Application $this */
 $catalogTargetRules = \Magento\ToolkitFramework\Helper\Cli::getOption('catalog_target_rules', 3);
 $this->resetObjectManager();
 
