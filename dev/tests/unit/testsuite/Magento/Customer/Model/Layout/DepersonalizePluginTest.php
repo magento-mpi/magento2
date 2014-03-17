@@ -206,7 +206,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlPageCacheEnabled()
     {
-        $expectedResult = 'expected-result-fake';
+        $expectedResult = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -261,7 +261,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlPageCacheDisabled()
     {
-        $expectedResult = 'expected-result-fake';
+        $expectedResult = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -279,7 +279,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlRequestIsAjax()
     {
-        $expectedResult = 'expected-result-fake';
+        $expectedResult = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
@@ -300,7 +300,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlLayoutIsNotCacheable()
     {
-        $expectedResult = 'expected-result-fake';
+        $expectedResult = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')

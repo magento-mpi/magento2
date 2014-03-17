@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\Paypal\Block\Standard\Redirect" output="1" name="standard.redirect"/>
+    <block class="Magento\Paypal\Block\Standard\Redirect" output="1" name="standard.redirect" cacheable="false"/>
 </layout>

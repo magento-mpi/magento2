@@ -36,7 +36,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider stringParamProduvider
+     * @dataProvider stringParamProvider
      * @param $param
      */
     public function testGetOrder($param)
@@ -49,7 +49,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider stringParamProduvider
+     * @dataProvider stringParamProvider
      * @param $param
      */
     public function testGetDirection($param)
@@ -62,7 +62,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider stringParamProduvider
+     * @dataProvider stringParamProvider
      * @param $param
      */
     public function testGetMode($param)
@@ -75,7 +75,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider stringParamProduvider
+     * @dataProvider stringParamProvider
      * @param $param
      */
     public function testGetLimit($param)
@@ -88,7 +88,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider intParamProduvider
+     * @dataProvider intParamProvider
      * @param $param
      */
     public function testGetCurrentPage($param)
@@ -109,14 +109,14 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->toolbarModel->getCurrentPage());
     }
 
-    public function stringParamProduvider()
+    public function stringParamProvider()
     {
         return array(
             array('stringParam')
         );
     }
 
-    public function intParamProduvider()
+    public function intParamProvider()
     {
         return array(
             array('2'),
