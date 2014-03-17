@@ -20,6 +20,7 @@ class RecurringPaymentTest extends Functional
      */
     public function testRecurringOptionsInCart()
     {
+        $this->markTestSkipped('MAGETWO-18482');
         $billingCycle = '12';
         $product = Factory::getFixtureFactory()->getMagentoRecurringPaymentSimpleProductWithRecurringPayment(
             array('recurring_billing_cycle' => $billingCycle, 'recurring_period' => 'month')
