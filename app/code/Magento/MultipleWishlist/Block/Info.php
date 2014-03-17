@@ -23,7 +23,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     protected $_customerFactory;
 
     /**
-     * @var
+     * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
 
