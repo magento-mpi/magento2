@@ -46,10 +46,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($attribute));
 
         $result = $this->_helper->getAttributeMetadata('customer', 'lastname');
+        $expected = [
+            'entity_type_id' => '1',
+            'attribute_id' => '2',
+            'attribute_table' => 'customer_entity_varchar',
+            'backend_type' => 'varchar'
+        ];
 
-        $expectedKeys = ['entity_type_id', 'attribute_id', 'attribute_table', 'backend_type'];
-        $resultKeys = array_keys($result);
 
-        $this->assertEmpty(array_diff($expectedKeys, $resultKeys));
+        foreach ($result as $key => $value) {
+            if (!isset($expected[$key])) {
+                $this->fail('Attribute metadata with key "' . $key . '" not found.');
+            }
+
+            if ($expected[$key] != $value) {
+                $this->fail('Attribute metadata with key "' . $key . '" has invalid value.');
+            }
+        }
     }
 }

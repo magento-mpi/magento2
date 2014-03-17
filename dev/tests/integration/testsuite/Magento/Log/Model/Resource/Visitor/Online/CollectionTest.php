@@ -25,24 +25,24 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $visitorOnlineCollection->addCustomerData();
 
         $this->assertEquals(1, $visitorOnlineCollection->count(), "Invalid collection items quantity.");
-        /** @var \Magento\Log\Model\Visitor\Online $visitorOnline */
-        $visitorOnline = $visitorOnlineCollection->getFirstItem();
+        /** @var \Magento\Log\Model\Visitor\Online $collectionItem */
+        $collectionItem = $visitorOnlineCollection->getFirstItem();
 
-        $expectedData = [
-            'visitor_type' => 'c',
-            'remote_addr' => '10101010',
-            'first_visit_at' => '2014-03-02 00:00:00',
-            'last_visit_at' => '2014-03-02 01:01:01',
-            'customer_id' => 1,
-            'last_url' => 'http://last_url',
+        /** @var \Magento\Log\Model\Visitor\Online $visitorOnline */
+        $visitorOnline = Bootstrap::getObjectManager()
+            ->create('Magento\Log\Model\Visitor\Online')
+            ->load(1);
+
+        $visitorOnline->addData([
             'customer_email' => 'customer@example.com',
             'customer_firstname' => 'Firstname',
             'customer_lastname' => 'Lastname'
-        ];
-        foreach ($expectedData as $field => $expectedValue) {
+        ]);
+
+        foreach ($visitorOnline->getData() as $field => $expectedValue) {
             $this->assertEquals(
                 $expectedValue,
-                $visitorOnline->getData($field),
+                $collectionItem->getData($field),
                 "'{$field}' field value is invalid."
             );
         }

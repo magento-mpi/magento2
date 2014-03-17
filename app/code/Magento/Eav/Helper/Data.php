@@ -166,6 +166,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *      'entity_type_id' => $entityTypeId,
      *      'attribute_id' => $attributeId,
      *      'attribute_table' => $attributeTable
+     *      'backend_type' => $backendType
      * ]</pre>
      */
     public function getAttributeMetadata($entityTypeCode, $attributeCode)
