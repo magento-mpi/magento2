@@ -84,7 +84,7 @@ class Aggregated implements SourceInterface
         $files = array();
         if ($this->libDirectory->isExist($filePath)) {
             $filename = $this->libDirectory->getAbsolutePath($filePath);
-            $files[] = $this->fileFactory->create($filename, null);
+            $files[] = $this->fileFactory->create($filename);
         }
 
         $files = array_merge($files, $this->baseFiles->getFiles($theme, $filePath));

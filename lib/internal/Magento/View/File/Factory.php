@@ -41,7 +41,7 @@ class Factory
      * @param ThemeInterface|null $theme
      * @return \Magento\View\File
      */
-    public function create($filename, $module, ThemeInterface $theme = null)
+    public function create($filename, $module = '', ThemeInterface $theme = null)
     {
         return $this->objectManager->create(
             'Magento\View\File',

@@ -93,10 +93,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->with($theme, Config::CONFIG_FILE_NAME)
             ->will($this->returnValue(array($fileOne, $fileTwo)));
 
-        $testPattern = 'relative/%s/paths-updater.js content';
-        $testString = 'relative/C:\www\htdocs\magento2.lh\lib\internal\Magento\RequireJs/paths-updater.js content';
-        $this->assertStringMatchesFormat($testPattern, $testString);
-
         $expected = <<<expected
 (function(require){
 relative/%s/paths-updater.js content

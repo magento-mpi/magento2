@@ -14,7 +14,7 @@ var PathsUpdaterTest = TestCase('PathsUpdaterTest');
 PathsUpdaterTest.prototype.testUpdateConfigPaths = function() {
     var config = {paths: { simplePath: "simple/path.js", relativePath: "./relative/path.js" }};
     var expected = {paths: { simplePath: "simple/path.js", relativePath: "relative/path.js" }};
-    assertEquals(expected, mageUpdateConfigPaths(config));
+    assertEquals(expected, mageUpdateConfigPaths(config, ''));
 };
 
 PathsUpdaterTest.prototype.testUpdateConfigPathsWithContext = function() {

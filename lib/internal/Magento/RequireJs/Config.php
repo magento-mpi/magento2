@@ -24,6 +24,11 @@ class Config
     const CONFIG_FILE_NAME = 'requirejs-config.js';
 
     /**
+     * Path to normalization plugin in RequireJs format
+     */
+    const NORMALIZE_PLUGIN_PATH = 'mage/requirejs/plugin/id-normalizer';
+
+    /**
      * Template for combined RequireJs config file
      */
     const FULL_CONFIG_TEMPLATE = <<<config
@@ -116,7 +121,7 @@ config;
     }
 
     /**
-     * Get path to config file relative to directory for, where all config files with different context are located
+     * Get path to config file relative to directory, where all config files with different context are located
      *
      * @return string
      */
@@ -135,7 +140,7 @@ config;
         $config = array(
             'baseUrl' => $this->getBaseUrl() . $this->getContextPath(),
             'paths' => array(
-                'magento' => 'mage/requirejs/plugin/id-normalizer',
+                'magento' => self::NORMALIZE_PLUGIN_PATH,
             ),
             //Disable the timeout, so that normalizer plugin and other JS modules are waited to be loaded
             // independent of server load time and network speed
@@ -152,7 +157,7 @@ config;
      */
     public function getConfigUrl()
     {
-        return $this->getBaseUrl() . self::DIR_NAME . '/' . $this->getContextPath() . '/' . self::CONFIG_FILE_NAME;
+        return $this->getBaseUrl() . $this->getConfigFileRelativePath();
     }
 
     /**
@@ -163,22 +168,6 @@ config;
     public function getBaseUrl()
     {
         return $this->baseUrl->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_STATIC));
-    }
-
-    /**
-     * Wrap config object with paths updater call
-     *
-     * @param string $config
-     * @param string $moduleContext
-     * @return string
-     */
-    protected function wrapConfig($config, $moduleContext = '')
-    {
-        $config = trim($config);
-        if ($moduleContext) {
-            $moduleContext = ", '$moduleContext'";
-        }
-        return "require.config(mageUpdateConfigPaths({$config}{$moduleContext}));\n";
     }
 
     /**
