@@ -68,5 +68,13 @@ class Observer
             'note' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
             'values' => $this->optionList->toOptionArray(),
         ));
+
+        $fieldset->addField('position', 'text', array(
+            'name' => 'position',
+            'label' => __('Position'),
+            'title' => __('Position in Layered Navigation'),
+            'note' => __('Position of attribute in layered navigation block'),
+            'class' => 'validate-digits'
+        ));
     }
 }

@@ -104,14 +104,6 @@ class Front extends Generic
             'values' => $yesnoSource,
         ));
 
-        $fieldset->addField('position', 'text', array(
-            'name' => 'position',
-            'label' => __('Position'),
-            'title' => __('Position in Layered Navigation'),
-            'note' => __('Position of attribute in layered navigation block'),
-            'class' => 'validate-digits'
-        ));
-
         $fieldset->addField('is_wysiwyg_enabled', 'select', array(
             'name' => 'is_wysiwyg_enabled',
             'label' => __('Enable WYSIWYG'),
