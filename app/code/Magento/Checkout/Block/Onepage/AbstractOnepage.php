@@ -79,6 +79,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @var CustomerAddressService
      */
     protected $_customerAddressService;
+
     /**
      * @var \Magento\Customer\Model\Address\Config
      */
