@@ -91,7 +91,7 @@
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
         <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install"/>
+            <arg line="install --prefer-source --no-interaction"/>
         </exec>
 
         <script language="javascript"><![CDATA[
@@ -198,7 +198,7 @@
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
         <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
-            <arg line="install"/>
+            <arg line="install --prefer-source --no-interaction"/>
         </exec>
 
         <script language="javascript"><![CDATA[
@@ -223,6 +223,7 @@
 
         <exec executable="phpunit" failonerror="true" dir="${dir.build_directory}/instance-0/dev/tests/functional/">
             <arg line="--log-junit ${basedir}/test-cases-report.xml
+                --bootstrap config/bootstrap-with-cleanup-enabled.php
                  ${env.bamboo_executer_options}
                 "/>
         </exec>
