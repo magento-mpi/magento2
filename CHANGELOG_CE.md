@@ -28,6 +28,7 @@
   * Fedex Shipping Carrier Module introduced
   * UPS Shipping Carrier Module introduced
   * USPS Shipping Carrier Module introduced
+  * Move indexers related logic from Core Module to Indexer Module
 * Framework Improvements:
   * Added ability to intercept of internal public calls
   * Added ability to access public interface of intercepted object
