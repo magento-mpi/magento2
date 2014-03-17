@@ -207,6 +207,27 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedFileName, $filename);
     }
 
+    public function testGetViewFileAdditionalExtension()
+    {
+        $filesystem = $this->getFileSystemMock('found_folder/file.less');
+
+        $fallback = new Fallback(
+            $filesystem,
+            $this->fallbackFactory
+        );
+        $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => 'Namespace', 'module' => 'Module',
+            'locale' => 'locale');
+
+        $this->fallbackViewFile->expects($this->exactly(2))
+            ->method('getPatternDirs')
+            ->with($params)
+            ->will($this->returnValue(array('found_folder')));
+
+        $filename = $fallback->getViewFile('area', $this->theme, 'locale', 'file.css', 'Namespace_Module');
+
+        $this->assertSame('found_folder/file.less', $filename);
+    }
+
     /**
      * @param string $targetFile
      * @return \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
