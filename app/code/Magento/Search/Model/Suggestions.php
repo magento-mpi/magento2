@@ -21,15 +21,15 @@ class Suggestions
     /**
      * Search layer
      *
-     * @var \Magento\Search\Model\Search\Layer
+     * @var \Magento\Catalog\Model\Layer\Search
      */
     protected $_searchLayer;
 
     /**
-     * @param \Magento\Search\Model\Search\Layer $searchLayer
+     * @param \Magento\Catalog\Model\Layer\Search $searchLayer
      */
     function __construct(
-        \Magento\Search\Model\Search\Layer $searchLayer
+        \Magento\Catalog\Model\Layer\Search $searchLayer
     ) {
         $this->_searchLayer = $searchLayer;
     }

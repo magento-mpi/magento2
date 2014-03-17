@@ -31,7 +31,7 @@ class Recommendations
     protected $_searchData = null;
 
     /**
-     * @var \Magento\Search\Model\Search\Layer
+     * @var \Magento\Catalog\Model\Layer\Search
      */
     protected $_searchLayer;
 
@@ -42,13 +42,13 @@ class Recommendations
 
     /**
      * @param \Magento\Search\Model\Resource\RecommendationsFactory $recommendationsFactory
-     * @param \Magento\Search\Model\Search\Layer $searchLayer
+     * @param \Magento\Catalog\Model\Layer\Search $searchLayer
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      */
     public function __construct(
         \Magento\Search\Model\Resource\RecommendationsFactory $recommendationsFactory,
-        \Magento\Search\Model\Search\Layer $searchLayer,
+        \Magento\Catalog\Model\Layer\Search $searchLayer,
         \Magento\Search\Helper\Data $searchData,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData
     ) {

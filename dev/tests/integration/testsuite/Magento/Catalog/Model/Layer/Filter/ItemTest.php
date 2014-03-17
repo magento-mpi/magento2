@@ -23,11 +23,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('\Magento\Catalog\Model\Layer\Category');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Filter\Item', array(
             'data' => array(
                 'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Category'),
+            ->create('Magento\Catalog\Model\Layer\Filter\Category', array('layer' => $layer)),
                 'value'  => array('valuePart1', 'valuePart2'),
             )
         ));

@@ -17,25 +17,15 @@
             <argument name="suggestions" xsi:type="object">Magento\Search\Model\Suggestions\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Search\Block\Catalog\Layer\View">
-        <arguments>
-            <argument name="searchLayer" xsi:type="object">Magento\Search\Model\Catalog\Layer\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Search\Block\Catalogsearch\Layer">
-        <arguments>
-            <argument name="searchLayer" xsi:type="object">Magento\Search\Model\Search\Layer\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Search\Model\Catalog\Layer\Filter\Price">
+    <type name="Magento\Search\Model\Layer\Category\Filter\Price">
         <arguments>
             <argument name="resourceEngine" xsi:type="object">Magento\Search\Model\Resource\Engine\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Search\Model\Observer">
         <arguments>
-            <argument name="searchSearchLayer" xsi:type="object">Magento\Search\Model\Search\Layer\Proxy</argument>
-            <argument name="searchCatalogLayer" xsi:type="object">Magento\Search\Model\Catalog\Layer\Proxy</argument>
+            <argument name="searchSearchLayer" xsi:type="object">Magento\Catalog\Model\Layer\Search\Proxy</argument>
+            <argument name="searchCatalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category\Proxy</argument>
             <argument name="indexer" xsi:type="object">Magento\Index\Model\Indexer\Proxy</argument>
             <argument name="searchData" xsi:type="object">Magento\Search\Helper\Data\Proxy</argument>
             <argument name="coreRegistry" xsi:type="object">Magento\Registry\Proxy</argument>
@@ -55,5 +45,24 @@
             <argument name="resourceIndex" xsi:type="object">Magento\Search\Model\Resource\Index\Proxy</argument>
             <argument name="resourceFulltext" xsi:type="object">Magento\CatalogSearch\Model\Resource\Fulltext\Proxy</argument>
         </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Category">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Search\Model\Layer\Category\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Search">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Search\Model\Layer\Search\Context</argument>
+        </arguments>
+    </type>
+    <virtualType name="categoryFilterList" type="Magento\Search\Model\Layer\Category\FilterList"/>
+    <virtualType name="categorySearchList" type="Magento\Search\Model\Layer\Search\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Search\Model\Layer\Search\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Model\Layer\Search\AvailabilityFlag">
+        <plugin name="search" type="Magento\Search\Model\Layer\Search\AvailabilityFlag\Plugin" sortOrder="10"/>
     </type>
 </config>

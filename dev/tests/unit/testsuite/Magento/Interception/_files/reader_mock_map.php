@@ -57,6 +57,13 @@ return array(
                         'instance' => 'Magento\Interception\Custom\Module\Model\ItemPlugin\Advanced'
                     )
                 )
+            ),
+            'SomeType' => array(
+                'plugins' => array(
+                    'simple_plugin' => array(
+                        'instance' => 'NonExistingPluginClass'
+                    )
+                )
             )
         )
     ),

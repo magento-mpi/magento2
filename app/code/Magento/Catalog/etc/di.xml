@@ -100,11 +100,6 @@
             <argument name="options" xsi:type="string">5,10,15,20,25</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Block\Layer\View">
-        <arguments>
-            <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>
             <argument name="resourceTypes" xsi:type="array">
@@ -256,10 +251,34 @@
             <argument name="flatTableBuilder" xsi:type="object">rowsFlatTableBuilder</argument>
         </arguments>
     </type>
-
     <type name="Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder">
         <arguments>
             <argument name="tableData" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\TableData</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <arguments>
+            <argument name="catalogLayer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
+        </arguments>
+    </type>
+    <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Category\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="searchFilterList" type="Magento\Catalog\Model\Layer\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Search\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Model\Layer\Category\FilterableAttributeList">
+        <arguments>
+            <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\Category</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Layer\Search\FilterableAttributeList">
+        <arguments>
+            <argument name="layer" xsi:type="object">Magento\Catalog\Model\Layer\Search</argument>
         </arguments>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\Processor">
