@@ -5,7 +5,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Customer
+ * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -73,10 +73,10 @@ class DepersonalizePlugin
     /**
      * Before layout generate
      *
-     * @param \Magento\Core\Model\Layout $subject
+     * @param \Magento\View\LayoutInterface $subject
      * @return void
      */
-    public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
+    public function beforeGenerateXml(\Magento\View\LayoutInterface $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()
@@ -90,11 +90,11 @@ class DepersonalizePlugin
     /**
      * After layout generate
      *
-     * @param \Magento\Core\Model\Layout $subject
+     * @param \Magento\View\LayoutInterface $subject
      * @param \Magento\View\LayoutInterface $result
      * @return \Magento\View\LayoutInterface
      */
-    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
+    public function afterGenerateXml(\Magento\View\LayoutInterface $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
             && $this->cacheConfig->isEnabled()
