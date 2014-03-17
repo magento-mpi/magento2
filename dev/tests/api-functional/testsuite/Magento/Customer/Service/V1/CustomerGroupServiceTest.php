@@ -177,6 +177,42 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify the retrieval of a non-existent storeId will return an expected fault.
+     */
+    public function testGetDefaultGroupNonExistentStore()
+    {
+        /* Store id should not exist */
+        $nonExistentStoreId = 9876;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/default/$nonExistentStoreId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1GetDefaultGroup'
+            ]
+        ];
+        $requestData = ['storeId' => $nonExistentStoreId];
+        $expectedMessage = "No such entity with storeId = $nonExistentStoreId";
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
+    }
+
+    /**
      * Verify that the group with the specified Id can or cannot be deleted.
      *
      * @param int $groupId The group Id

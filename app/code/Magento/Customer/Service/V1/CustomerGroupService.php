@@ -10,6 +10,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Core\Model\Store\Config as StoreConfig;
+use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
@@ -35,6 +36,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_storeConfig;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $_storeManager;
+
+    /**
      * @var Data\SearchResultsBuilder
      */
     private $_searchResultsBuilder;
@@ -53,11 +59,13 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     public function __construct(
         GroupFactory $groupFactory,
         StoreConfig $storeConfig,
+        StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
         Data\CustomerGroupBuilder $customerGroupBuilder
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_storeConfig = $storeConfig;
+        $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
     }
@@ -218,6 +226,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getDefaultGroup($storeId)
     {
+        try {
+            $this->_storeManager->getStore($storeId);
+        } catch (\Exception $e) {
+            throw new NoSuchEntityException('storeId', $storeId);
+        }
+
         $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
         try {
             return $this->getGroup($groupId);
