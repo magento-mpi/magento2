@@ -74,9 +74,9 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers getLayer()
-     * @covers getFilers()
-     * @covers canShowBlock()
+     * @covers \Magento\LayeredNavigation\Block\Navigation::getLayer()
+     * @covers \Magento\LayeredNavigation\Block\Navigation::getFilers()
+     * @covers \Magento\LayeredNavigation\Block\Navigation::canShowBlock()
      */
     public function testCanShowBlock()
     {
