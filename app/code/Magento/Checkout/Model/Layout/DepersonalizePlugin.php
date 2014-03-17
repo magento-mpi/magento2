@@ -49,8 +49,8 @@ class DepersonalizePlugin
      * After generate Xml
      *
      * @param \Magento\Core\Model\Layout $subject
-     * @param mixed $result
-     * @return mixed
+     * @param \Magento\View\LayoutInterface $result
+     * @return \Magento\View\LayoutInterface
      */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {

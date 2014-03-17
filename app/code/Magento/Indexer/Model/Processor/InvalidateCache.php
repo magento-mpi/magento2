@@ -47,14 +47,12 @@ class InvalidateCache
      * Update indexer views
      *
      * @param \Magento\Indexer\Model\Processor $subject
-     * @param mixed $result
-     * @return mixed
+     * @return void
      */
-    public function afterUpdateMview(\Magento\Indexer\Model\Processor $subject, $result)
+    public function afterUpdateMview(\Magento\Indexer\Model\Processor $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')) {
             $this->eventManager->dispatch('clean_cache_after_reindex', array('object' => $this->context));
         }
-        return $result;
     }
 }
