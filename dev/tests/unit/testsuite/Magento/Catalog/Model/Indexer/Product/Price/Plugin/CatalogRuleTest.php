@@ -66,7 +66,13 @@ class CatalogRuleTest extends \PHPUnit_Framework_TestCase
             ->with($expectedIdCall);
 
         $ruleMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
-        $this->_model->aroundApplyToProduct($ruleMock, function () {}, $product);
+        $this->_model->aroundApplyToProduct(
+            $ruleMock,
+            function () {
+
+            },
+            $product
+        );
     }
 
     /**
@@ -81,7 +87,13 @@ class CatalogRuleTest extends \PHPUnit_Framework_TestCase
             ->with($expectedIdCall);
 
         $ruleMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
-        $this->_model->aroundApplyToProduct($ruleMock, function () {}, $product);
+        $this->_model->aroundApplyToProduct(
+            $ruleMock,
+            function () {
+
+            },
+            $product
+        );
     }
 
     /**
