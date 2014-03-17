@@ -46,12 +46,12 @@ class ContextPlugin
     }
 
     /**
-     * Before launch plugin
+     * Before dispatch plugin
      *
-     * @param \Magento\LauncherInterface $subject
-     * @return void
+     * @param \Magento\App\FrontController $subject
+     * @return null
      */
-    public function beforeLaunch(\Magento\LauncherInterface $subject)
+    public function beforeDispatch(\Magento\App\FrontController $subject)
     {
         $this->httpContext->setValue(
             Data::CONTEXT_CATALOG_SORT_DIRECTION,
@@ -73,5 +73,6 @@ class ContextPlugin
             $this->toolbarModel->getLimit(),
             $this->productListHelper->getDefaultLimitPerPageValue($this->productListHelper->getDefaultViewMode())
         );
+        return;
     }
 }

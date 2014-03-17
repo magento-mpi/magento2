@@ -42,4 +42,7 @@
             <argument name="isAvailable" xsi:type="boolean">true</argument>
         </arguments>
     </type>
+    <type name="Magento\App\FrontController">
+        <plugin name="catalog-app-frontController-context-plugin" type="Magento\Catalog\Model\App\ContextPlugin" sortOrder="1000"/>
+    </type>
 </config>

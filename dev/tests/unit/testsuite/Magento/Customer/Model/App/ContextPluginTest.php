@@ -32,9 +32,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\LauncherInterface
+     * @var \Magento\App\FrontController
      */
-    protected $launcherMock;
+    protected $frontControllerMock;
 
     /**
      * Set up
@@ -45,7 +45,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context',
             array(), array(), '', false);
-        $this->launcherMock = $this->getMock('Magento\App\Http',
+        $this->frontControllerMock = $this->getMock('Magento\App\FrontController',
             array(), array(), '', false);
         $this->plugin = new \Magento\Customer\Model\App\ContextPlugin(
             $this->customerSessionMock,
@@ -56,7 +56,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     /**
      * Test beforeLaunch
      */
-    public function testBeforeLaunch()
+    public function testBeforeDispatch()
     {
         $this->customerSessionMock->expects($this->once())
             ->method('getCustomerGroupId')
@@ -70,6 +70,6 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                 array(\Magento\Customer\Helper\Data::CONTEXT_GROUP, 'UAH', $this->httpContextMock),
                 array(\Magento\Customer\Helper\Data::CONTEXT_AUTH, 0, $this->httpContextMock),
             )));
-        $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
+        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
     }
 }

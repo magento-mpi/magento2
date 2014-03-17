@@ -29,9 +29,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\LauncherInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\FrontController|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $launcherMock;
+    protected $frontControllerMock;
 
     /**
      * @var \Magento\Catalog\Helper\Product\ProductList|\PHPUnit_Framework_MockObject_MockObject
@@ -55,7 +55,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->launcherMock = $this->getMock('Magento\App\Http', array(), array(), '', false);
+        $this->frontControllerMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
         $this->productListHelperMock = $this->getMock('Magento\Catalog\Helper\Product\ProductList',
             array(), array(), '', false);
@@ -66,7 +66,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testBeforeLaunchHasSortDirection()
+    public function testBeforeDispatchHasSortDirection()
     {
         $this->toolbarModelMock->expects($this->exactly(1))
             ->method('getDirection')
@@ -112,6 +112,6 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                     array(1 => 1, 2 => 2), array (10 => 10)
                 )
             )));
-        $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
+        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
     }
 }
