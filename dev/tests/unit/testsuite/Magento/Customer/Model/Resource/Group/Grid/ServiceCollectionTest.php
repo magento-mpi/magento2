@@ -35,7 +35,8 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->filterBuilder = new \Magento\Service\V1\Data\FilterBuilder();
-        $this->searchCriteriaBuilder = new \Magento\Customer\Service\V1\Data\SearchCriteriaBuilder();
+        $this->searchCriteriaBuilder = $this->objectManager
+            ->getObject('\Magento\Customer\Service\V1\Data\SearchCriteriaBuilder');
         $this->groupServiceMock = $this->getMockBuilder('\Magento\Customer\Service\V1\CustomerGroupServiceInterface')
             ->getMock();
         $this->searchResults = (new \Magento\Customer\Service\V1\Data\SearchResultsBuilder())->create();

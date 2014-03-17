@@ -18,8 +18,6 @@ use Magento\Service\V1\Data\FilterBuilder;
 abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
 {
     /**
-     * Filer builder
-     *
      * @var FilterBuilder
      */
     protected $_filterBuilder;

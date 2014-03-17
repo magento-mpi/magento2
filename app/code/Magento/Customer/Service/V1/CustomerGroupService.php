@@ -130,7 +130,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     protected function addFiltersFromRootToCollection(Data\Search\AndGroup $rootAndGroup, Collection $collection)
     {
         if (count($rootAndGroup->getAndGroups())) {
-            throw new InputException('Only AND grouping is currently supported for filters.');
+            throw new InputException('Only OR groups are supported as nested groups.');
         }
 
         foreach ($rootAndGroup->getFilters() as $filter) {

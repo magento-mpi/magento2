@@ -6,6 +6,7 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Service\V1\Data\FilterBuilder;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAccountService
@@ -45,7 +46,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_objectManager = Bootstrap::getObjectManager();
         $this->_customerAccountService = $this->_objectManager
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_customerAddressService =
@@ -1125,7 +1126,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomers($filters, $orGroup, $expectedResult)
     {
-        $searchBuilder = new Data\SearchCriteriaBuilder();
+        $searchBuilder = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Service\V1\Data\SearchCriteriaBuilder'
+        );
         foreach ($filters as $filter) {
             $searchBuilder->addFilter($filter);
         }
@@ -1195,7 +1198,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchCustomersOrder()
     {
-        $searchBuilder = new Data\SearchCriteriaBuilder();
+        $searchBuilder = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\Data\SearchCriteriaBuilder');
 
         // Filter for 'firstname' like 'First'
         $filterBuilder = new FilterBuilder();

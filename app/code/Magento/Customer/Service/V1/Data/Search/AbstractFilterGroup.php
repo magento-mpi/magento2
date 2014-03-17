@@ -13,7 +13,7 @@ use Magento\Service\Data\AbstractObject;
 /**
  * Groups two or more filters together using a logical group type
  */
-abstract class AbstractFilterGroup extends AbstractObject implements FilterGroupInterface
+abstract class AbstractFilterGroup extends AbstractObject
 {
     const FILTERS = 'filters';
     const AND_GROUPS = 'andGroups';

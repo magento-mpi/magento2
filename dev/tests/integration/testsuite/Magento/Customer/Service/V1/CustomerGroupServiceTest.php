@@ -10,6 +10,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Service\V1\Data\FilterBuilder;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -161,7 +162,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchGroups($filters, $orGroup, $expectedResult)
     {
-        $searchBuilder = new Data\SearchCriteriaBuilder();
+        $searchBuilder = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\Data\SearchCriteriaBuilder');
         foreach ($filters as $filter) {
             $searchBuilder->addFilter($filter);
         }

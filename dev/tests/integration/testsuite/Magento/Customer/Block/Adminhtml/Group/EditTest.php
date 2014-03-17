@@ -82,7 +82,8 @@ class EditTest extends AbstractController
      */
     public function testDeleteButtonExistInCustomGroup()
     {
-        $searchCriteria = (new SearchCriteriaBuilder())
+        $searchCriteria = Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Service\V1\Data\SearchCriteriaBuilder')
             ->addFilter((new FilterBuilder())->setField('code')->setValue('custom_group')->create())->create();
         /** @var CustomerGroup $customerGroup */
         $customerGroup = $this->customerGroupService->searchGroups($searchCriteria)->getItems()[0];

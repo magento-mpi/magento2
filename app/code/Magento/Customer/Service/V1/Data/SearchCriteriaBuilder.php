@@ -22,12 +22,14 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
     protected $_andGroupBuilder;
 
     /**
-     * {@inheritdoc}
+     * Constructor
+     *
+     * @param Search\AndGroupBuilder $andGroupBuilder
      */
-    public function __construct()
+    public function __construct(Search\AndGroupBuilder $andGroupBuilder)
     {
         parent::__construct();
-        $this->_andGroupBuilder = new Search\AndGroupBuilder(new FilterBuilder());
+        $this->_andGroupBuilder = $andGroupBuilder;
     }
 
     /**
