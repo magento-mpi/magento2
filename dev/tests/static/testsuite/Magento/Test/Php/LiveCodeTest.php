@@ -89,9 +89,6 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $reportFile,
             'Expected ' . $reportFile . ' to be created by phpcs run with PSR2 standard'
         );
-        $this->markTestIncomplete(
-            "PHP Code Sniffer has found {$result} error(s): See detailed report in {$reportFile}"
-        );
         $this->assertEquals(
             0,
             $result,
