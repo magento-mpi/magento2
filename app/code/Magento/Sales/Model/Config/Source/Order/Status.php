@@ -15,9 +15,10 @@ namespace Magento\Sales\Model\Config\Source\Order;
 
 class Status implements \Magento\Option\ArrayInterface
 {
-    // set null to enable all possible
+    const PLEASE_SELECT_LABEL = '-- Please Select --';
+
     /**
-     * @var array
+     * @var string[]
      */
     protected $_stateStatuses = array(
         \Magento\Sales\Model\Order::STATE_NEW,
@@ -46,21 +47,13 @@ class Status implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        if ($this->_stateStatuses) {
-            $statuses = $this->_orderConfig->getStateStatuses($this->_stateStatuses);
-        } else {
-            $statuses = $this->_orderConfig->getStatuses();
-        }
-        $options = array();
-        $options[] = array(
-           'value' => '',
-           'label' => __('-- Please Select --')
-        );
+        $statuses = $this->_stateStatuses
+            ? $this->_orderConfig->getStateStatuses($this->_stateStatuses)
+            : $this->_orderConfig->getStatuses();
+
+        $options = [['value' => '', 'label' => __(self::PLEASE_SELECT_LABEL)]];
         foreach ($statuses as $code => $label) {
-            $options[] = array(
-               'value' => $code,
-               'label' => $label
-            );
+            $options[] = ['value' => $code, 'label' => $label];
         }
         return $options;
     }
