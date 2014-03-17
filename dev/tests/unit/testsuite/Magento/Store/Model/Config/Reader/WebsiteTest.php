@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Scope\Reader;
+namespace Magento\Store\Model\Config\Reader;
 
 class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope\Reader\Website
+     * @var \Magento\Store\Model\Config\Reader\Website
      */
     protected $_model;
 
@@ -61,7 +61,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue(true));
 
-        $this->_model = new \Magento\Core\Model\Config\Scope\Reader\Website(
+        $this->_model = new \Magento\Store\Model\Config\Reader\Website(
             $this->_initialConfigMock,
             $this->_scopePullMock,
             new \Magento\App\Config\Scope\Converter(),

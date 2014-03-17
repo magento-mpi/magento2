@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Config\Scope\Reader;
+namespace Magento\Store\Model\Config\Reader;
 
 class DefaultReader implements \Magento\App\Config\Scope\ReaderInterface
 {

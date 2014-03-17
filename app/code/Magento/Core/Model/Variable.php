@@ -144,7 +144,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
 
     /**
      * Retrieve variables option array
-     *
+     * @todo: extract method as separate class
      * @param bool $withGroup
      * @return array
      */

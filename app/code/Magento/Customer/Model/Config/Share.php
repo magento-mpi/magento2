@@ -44,6 +44,9 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     protected $_customerResource;
 
+    /** @var  \Magento\Core\Model\StoreManagerInterface */
+    protected $_storeManager;
+
     /**
      * Constructor
      *
@@ -60,8 +63,8 @@ class Share extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -69,8 +72,9 @@ class Share extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         $this->_customerResource = $customerResource;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

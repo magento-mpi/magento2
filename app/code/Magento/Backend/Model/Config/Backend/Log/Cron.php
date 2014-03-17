@@ -31,7 +31,6 @@ class Cron extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -42,7 +41,6 @@ class Cron extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -52,7 +50,7 @@ class Cron extends \Magento\Core\Model\Config\Value
     ) {
         $this->_configValueFactory = $configValueFactory;
         $this->_runModelPath = $runModelPath;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

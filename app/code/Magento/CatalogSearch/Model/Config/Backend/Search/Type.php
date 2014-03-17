@@ -24,7 +24,6 @@ use Magento\Core\Model\Config\Value;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
-use Magento\Core\Model\StoreManagerInterface;
 use Magento\Data\Collection\Db;
 
 class Type extends Value
@@ -39,7 +38,6 @@ class Type extends Value
     /**
      * @param Context $context
      * @param Registry $registry
-     * @param StoreManagerInterface $storeManager
      * @param ConfigInterface $config
      * @param Fulltext $catalogSearchFulltext
      * @param AbstractResource $resource
@@ -49,7 +47,6 @@ class Type extends Value
     public function __construct(
         Context $context,
         Registry $registry,
-        StoreManagerInterface $storeManager,
         ConfigInterface $config,
         Fulltext $catalogSearchFulltext,
         AbstractResource $resource = null,
@@ -57,7 +54,7 @@ class Type extends Value
         array $data = array()
     ) {
         $this->_catalogSearchFulltext = $catalogSearchFulltext;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

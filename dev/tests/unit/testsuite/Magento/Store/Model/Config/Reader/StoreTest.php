@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Scope\Reader;
+namespace Magento\Store\Model\Config\Reader;
 
 class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope\Reader\Store
+     * @var \Magento\Store\Model\Config\Reader\Store
      */
     protected $_model;
 
@@ -71,7 +71,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $placeholderProcessor->expects($this->any())
             ->method('process')
             ->will($this->returnArgument(0));
-        $this->_model = new \Magento\Core\Model\Config\Scope\Reader\Store(
+        $this->_model = new \Magento\Store\Model\Config\Reader\Store(
             $this->_initialConfigMock,
             $this->_scopePullMock,
             new \Magento\Core\Model\Config\Scope\Store\Converter($placeholderProcessor),

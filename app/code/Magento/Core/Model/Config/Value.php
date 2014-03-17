@@ -13,7 +13,6 @@ namespace Magento\Core\Model\Config;
 /**
  * Config data model
  *
- * @method \Magento\Core\Model\Resource\Config\Data _getResource()
  * @method \Magento\Core\Model\Resource\Config\Data getResource()
  * @method string getScope()
  * @method \Magento\App\Config\ValueInterface setScope(string $value)
@@ -21,7 +20,6 @@ namespace Magento\Core\Model\Config;
  * @method \Magento\App\Config\ValueInterface setScopeId(int $value)
  * @method string getPath()
  * @method \Magento\App\Config\ValueInterface setPath(string $value)
- * @method string getValue()
  * @method \Magento\App\Config\ValueInterface setValue(string $value)
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
@@ -45,11 +43,6 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
     protected $_eventObject = 'config_data';
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\App\ConfigInterface
      */
     protected $_config;
@@ -57,7 +50,6 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -66,13 +58,11 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_config = $config;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -114,17 +104,11 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
      */
     public function getOldValue()
     {
-        $storeCode   = $this->getStoreCode();
-        $websiteCode = $this->getWebsiteCode();
-        $path        = $this->getPath();
-
-        if ($storeCode) {
-            return $this->_storeManager->getStore($storeCode)->getConfig($path);
-        }
-        if ($websiteCode) {
-            return $this->_storeManager->getWebsite($websiteCode)->getConfig($path);
-        }
-        return (string) $this->_config->getValue($path, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
+        return (string) $this->_config->getValue(
+            $this->getPath(),
+            $this->getScope() ?: \Magento\BaseScopeInterface::SCOPE_DEFAULT,
+            $this->getScopeCode()
+        );
     }
 
 

@@ -26,7 +26,6 @@ class Mode extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Indexer\Model\Indexer\State $indexerState
@@ -37,7 +36,6 @@ class Mode extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Indexer\Model\IndexerInterface $indexer,
         \Magento\Indexer\Model\Indexer\State $indexerState,
@@ -47,7 +45,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     ) {
         $this->indexer = $indexer;
         $this->indexerState = $indexerState;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

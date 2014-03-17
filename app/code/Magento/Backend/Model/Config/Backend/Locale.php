@@ -38,7 +38,6 @@ class Locale extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
@@ -53,7 +52,6 @@ class Locale extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configsFactory,
         \Magento\Core\Model\Website\Factory $websiteFactory,
@@ -67,7 +65,7 @@ class Locale extends \Magento\Core\Model\Config\Value
         $this->_websiteFactory = $websiteFactory;
         $this->_storeFactory = $storeFactory;
         $this->_localeCurrency = $localeCurrency;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

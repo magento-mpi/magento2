@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Config\Scope;
+namespace Magento\Store\Model\Config\Reader;
 
 class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
 {

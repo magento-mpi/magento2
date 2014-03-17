@@ -42,7 +42,7 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

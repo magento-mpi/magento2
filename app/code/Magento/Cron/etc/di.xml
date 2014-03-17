@@ -11,7 +11,7 @@
     <preference for="Magento\Cron\Model\ConfigInterface" type="Magento\Cron\Model\Config" />
     <type name="Magento\Cron\Model\Config\Reader\Db">
         <arguments>
-            <argument name="defaultReader" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\DefaultReader</argument>
+            <argument name="defaultReader" xsi:type="object">Magento\Store\Model\Config\Reader\DefaultReader</argument>
         </arguments>
     </type>
     <type name="Magento\App\Cron">

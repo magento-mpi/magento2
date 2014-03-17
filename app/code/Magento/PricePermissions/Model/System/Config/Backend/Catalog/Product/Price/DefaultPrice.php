@@ -27,7 +27,6 @@ class DefaultPrice
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -37,7 +36,6 @@ class DefaultPrice
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -45,7 +43,7 @@ class DefaultPrice
         array $data = array()
     ) {
         $this->_pricePermData = $pricePermData;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
