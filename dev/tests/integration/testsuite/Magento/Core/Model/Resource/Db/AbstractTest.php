@@ -53,7 +53,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTableName()
     {
-        $tableNameOrig ='store_website\'';
+        $tableNameOrig ='store_website';
         $tableSuffix = 'suffix';
         $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\App\Resource', array('tablePrefix' => 'prefix_')
