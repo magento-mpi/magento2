@@ -20,15 +20,6 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     const OR_GROUPS = 'orGroups';
 
     /**
-     * {@inheritdoc}
-     */
-    public function __construct(AbstractFilterGroupBuilder $filterGroupBuilder)
-    {
-        parent::__construct($filterGroupBuilder);
-        //$this->_data['group_type'] = $this->getGroupType();
-    }
-
-    /**
      * Returns a list of filters in this group
      *
      * @return \Magento\Service\V1\Data\Filter[]
