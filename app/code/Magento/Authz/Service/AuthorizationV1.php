@@ -110,7 +110,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         try {
             $role = $this->_getUserRole($userIdentifier);
             if (!$role) {
-                throw new ResourceNotFoundException(
+                throw new ServiceResourceNotFoundException(
                     __(
                         'Role for user with ID "%1" and user type "%2" cannot be found.',
                         $userIdentifier->getUserId(),

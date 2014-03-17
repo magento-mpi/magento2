@@ -10,12 +10,31 @@ namespace Magento\Customer\Service\V1\Data\Search;
 
 use Magento\Service\Data\AbstractObjectBuilder;
 use Magento\Service\V1\Data\Filter;
+use Magento\Service\V1\Data\FilterBuilder;
 
 /**
  * Abstract Builder for AbstractFilterGroup DATA.
  */
 abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
 {
+    /**
+     * Filer builder
+     *
+     * @var FilterBuilder
+     */
+    protected $_filterBuilder;
+
+    /**
+     * Constructor
+     *
+     * @param FilterBuilder $filterBuilder
+     */
+    public function __construct(FilterBuilder $filterBuilder)
+    {
+        parent::__construct();
+        $this->_filterBuilder = $filterBuilder;
+    }
+
     /**
      * Add filter
      *
@@ -99,5 +118,35 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
         }
         $this->_data[$key][] = $data;
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _setDataValues(array $data)
+    {
+        $newData = [];
+        if (isset($data[AbstractFilterGroup::FILTERS])) {
+            $filters = [];
+            foreach ($data[AbstractFilterGroup::FILTERS] as $filter) {
+                $filters[] = $this->_filterBuilder->populateWithArray($filter)->create();
+            }
+            $newData[AbstractFilterGroup::FILTERS] = $filters;
+        }
+        if (isset($data[AbstractFilterGroup::AND_GROUPS])) {
+            $andGroups = [];
+            foreach ($data[AbstractFilterGroup::AND_GROUPS] as $andGroup) {
+                $andGroups[] = (new AndGroupBuilder(new FilterBuilder()))->populateWithArray($andGroup)->create();
+            }
+            $newData[AbstractFilterGroup::AND_GROUPS] = $andGroups;
+        }
+        if (isset($data[AbstractFilterGroup::OR_GROUPS])) {
+            $orGroups = [];
+            foreach ($data[AbstractFilterGroup::OR_GROUPS] as $orGroup) {
+                $orGroups[] = (new OrGroupBuilder(new FilterBuilder()))->populateWithArray($orGroup)->create();
+            }
+            $newData[AbstractFilterGroup::OR_GROUPS] = $orGroups;
+        }
+        return parent::_setDataValues($newData);
     }
 }

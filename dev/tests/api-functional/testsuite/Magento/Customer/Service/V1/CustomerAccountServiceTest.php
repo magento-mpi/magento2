@@ -17,7 +17,6 @@ use Magento\Customer\Service\V1\Data\CustomerDetailsBuilder;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
 use Magento\Customer\Service\V1\Data\AddressBuilder;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -637,7 +636,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData = [
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME => self::LASTNAME,
-            Customer::EMAIL => 'janedoe' . md5(mt_rand()) . '@example.com',
+            Customer::EMAIL => 'janedoe' . $this->getRandomString() . '@example.com',
             Customer::CONFIRMATION => self::CONFIRMATION,
             Customer::CREATED_AT => self::CREATED_AT,
             Customer::CREATED_IN => self::STORE_NAME,
@@ -687,5 +686,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
         //Remove line breaks and replace with space
         $error['message'] = trim(preg_replace('/\s+/', ' ', $error['message']));
         return $error;
+    }
+
+    /**
+     * Generate a random string
+     * 
+     * @return string
+     */
+    private function getRandomString()
+    {
+        return substr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", mt_rand(0, 50), 1) .
+        substr(md5(time()), 1);
     }
 }
