@@ -74,7 +74,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXml()
     {
-        $expectedResult = 'result';
+        $expectedResult = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->moduleManagerMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))

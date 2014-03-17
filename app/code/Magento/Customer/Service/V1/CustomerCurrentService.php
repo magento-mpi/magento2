@@ -121,7 +121,7 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      * Set customer id
      *
      * @param int|null $customerId
-     * @return int|null
+     * @return void
      */
     public function setCustomerId($customerId)
     {

@@ -2057,7 +2057,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * @param $identities
+     * @param array $identities
      * @return array
      */
     protected function _getCategoryIdentities($identities)
@@ -2073,7 +2073,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * @param $identities
+     * @param array $identities
      * @return array
      */
     protected function _getCategoryProductIdentities($identities)

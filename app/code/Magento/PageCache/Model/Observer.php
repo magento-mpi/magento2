@@ -176,6 +176,7 @@ class Observer
      * Register form key in session from cookie value
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function registerFormKeyFromCookie(\Magento\Event\Observer $observer)
     {

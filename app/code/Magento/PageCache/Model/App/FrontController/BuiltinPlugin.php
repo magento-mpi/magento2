@@ -89,6 +89,7 @@ class BuiltinPlugin
      * @param \Magento\App\Response\Http $response
      * @param string $name
      * @param string $value
+     * @return void
      */
     protected function addDebugHeader(\Magento\App\Response\Http $response, $name, $value)
     {
