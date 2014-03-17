@@ -15,6 +15,9 @@ class SystemConfigTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $configFile
+             */
             function ($configFile) {
                 $dom = new \DOMDocument();
                 $dom->loadXML(file_get_contents($configFile));

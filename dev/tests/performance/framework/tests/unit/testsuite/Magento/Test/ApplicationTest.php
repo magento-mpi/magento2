@@ -71,6 +71,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         );
         $this->_object->expects($this->any())->method('_reindex')->will($this->returnValue($this->_object));
 
+        // For fixture testing
         $this->_object->applied = array();
     }
 
@@ -221,6 +222,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplyFixturesSuperSetNoInstallation()
     {
+        // Initial uninstall/install only
         $this->_shell->expects($this->exactly(8))->method('execute');
 
         $fixture1 = $this->_getFixtureFiles(array('fixture1'));

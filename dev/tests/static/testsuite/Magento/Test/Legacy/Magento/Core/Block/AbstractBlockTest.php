@@ -20,6 +20,11 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Tests if methods are used with correct count of parameters
+             *
+             * @param string $file
+             */
             function ($file) {
                 $result = \Magento\TestFramework\Utility\Classes::getAllMatches(
                     file_get_contents($file),

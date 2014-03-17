@@ -20,6 +20,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $filePath
+             */
             function ($filePath) {
                 $tables = self::extractTables($filePath);
                 $legacyTables = array();

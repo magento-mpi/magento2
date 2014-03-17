@@ -28,6 +28,9 @@ class ConcreteImplementationTest extends \PHPUnit_Framework_TestCase
 
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $content = file_get_contents($file);
 

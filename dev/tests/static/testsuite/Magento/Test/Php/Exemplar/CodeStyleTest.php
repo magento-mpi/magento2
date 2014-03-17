@@ -65,6 +65,10 @@ class CodeStyleTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $inputFile
+             * @param string $expectedResultFile
+             */
             function ($inputFile, $expectedResultFile) {
                 $expectedXml = simplexml_load_file($expectedResultFile);
 

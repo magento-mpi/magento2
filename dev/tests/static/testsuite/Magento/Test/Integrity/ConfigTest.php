@@ -54,6 +54,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Verify whether all payment methods are declared in appropriate modules
+             */
             function ($configFile, $moduleName) {
                 $config = simplexml_load_file($configFile);
                 $nodes = $config->xpath('/config/default/payment/*/model') ?: array();

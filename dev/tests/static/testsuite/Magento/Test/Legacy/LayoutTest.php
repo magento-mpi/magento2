@@ -92,6 +92,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $layoutFile
+             */
             function ($layoutFile) {
                 $layoutXml = simplexml_load_file($layoutFile);
 
@@ -204,6 +207,9 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $layoutFile
+             */
             function ($layoutFile) {
                 $layoutXml = simplexml_load_file($layoutFile);
                 $methodFilter = '@method!="' . implode('" and @method!="', $this->getAllowedActionNodeMethods()) . '"';

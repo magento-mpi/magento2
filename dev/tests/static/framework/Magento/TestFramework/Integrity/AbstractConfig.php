@@ -15,6 +15,9 @@ abstract class AbstractConfig extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $configFile
+             */
             function ($configFile) {
                 $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getXsd();
                 $fileSchema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . $this->_getFileXsd();

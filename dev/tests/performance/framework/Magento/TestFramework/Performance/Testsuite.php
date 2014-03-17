@@ -115,6 +115,7 @@ class Testsuite
                     );
                     $this->_scenarioHandler->run($scenarioWarmUp);
                 } catch (\Magento\TestFramework\Performance\Scenario\FailureException $scenarioFailure) {
+                    // do not notify about failed warm up
                 }
             }
 

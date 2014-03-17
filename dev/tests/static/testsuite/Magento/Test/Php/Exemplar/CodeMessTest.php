@@ -93,6 +93,10 @@ class CodeMessTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $inputFile
+             * @param string|array $expectedXpaths
+             */
             function ($inputFile, $expectedXpaths) {
                 $this->assertNotEquals(
                     \PHP_PMD_TextUI_Command::EXIT_SUCCESS,

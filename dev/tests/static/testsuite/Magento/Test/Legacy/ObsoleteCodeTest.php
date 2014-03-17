@@ -119,6 +119,9 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_testObsoleteClasses($content);
@@ -140,6 +143,9 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_assertNotRegExp(
@@ -156,6 +162,9 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_testObsoleteClasses($content, $file);
@@ -169,6 +178,9 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $content = file_get_contents($file);
                 $this->_testObsoletePropertySkipCalculate($content);
@@ -519,6 +531,11 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check absence of obsolete Mage class usages
+             *
+             * @param string $file
+             */
             function ($file) {
                 $this->_assertNotRegExp(
                     '/[^a-z\d_]Mage\s*::/i',

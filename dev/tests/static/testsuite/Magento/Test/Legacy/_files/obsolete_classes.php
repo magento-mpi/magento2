@@ -98,7 +98,7 @@ return array(
     array('Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid'),
     array('Mage_Adminhtml_Block_Report_Search_Grid'),
     array('Mage_Adminhtml_Block_Sales'),
-    array('Magento\GoogleCheckout'),
+    array('Magento\GoogleCheckout'), // removed module
     array('Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Form', 'Magento\Shipping\Block\Adminhtml\Create\Form'),
     array(
         'Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Items',
@@ -1879,7 +1879,7 @@ return array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped',
         'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped'
     ),
-    array('CollFactory', 'CollectionFactory'),
+    array('CollFactory', 'CollectionFactory'), // no need to shorten anymore
     array(
         'Magento\Shipping\Model\Rate\Result\AbstractResult',
         'Magento\Sales\Model\Quote\Address\RateResult\AbstractResult'
@@ -1979,8 +1979,8 @@ return array(
     array('Magento\Core\Model\Context', 'Magento\Model\Context'),
     array('Magento\Core\Model\Registry', 'Magento\Registry'),
     array('Magento\Code\Plugin\InvocationChain'),
-    array('RecurringProfile', 'RecurringPayment'),
-    array('Recurring\Profile', 'Recurring\Payment'),
+    array('RecurringProfile', 'RecurringPayment'), // recurring profile was renamed to recurring payment
+    array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
     array('Magento\Core\App\Action\Plugin\Session', 'Magento\Core\Block\RequireCookie'),

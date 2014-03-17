@@ -231,6 +231,12 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check undeclared modules dependencies for specified file
+             *
+             * @param string $fileType
+             * @param string $file
+             */
             function ($fileType, $file) {
                 // Validates file when it is belonged to default themes
                 $filename = self::_getRelativeFilename($file);

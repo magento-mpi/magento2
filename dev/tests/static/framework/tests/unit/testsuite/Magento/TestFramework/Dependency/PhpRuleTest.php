@@ -44,7 +44,7 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
     public function getDependencyInfoDataProvider()
     {
         return array(
-            array('Magento\SomeModule', 'something extends \Magento\SomeModule\Any\ClassName {', array()),
+            array('Magento\SomeModule', 'something extends \Magento\SomeModule\Any\ClassName {', array()), //1
             array(
                 'Magento\AnotherModule',
                 'something extends \Magento\SomeModule\Any\ClassName {',
@@ -55,12 +55,12 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
                         'source' => 'Magento\SomeModule\Any\ClassName'
                     )
                 )
-            ),
+            ), // 2
             array(
                 'Magento\SomeModule',
                 '$this->getViewFileUrl("Magento_SomeModule::js/order-by-sku-failure.js")',
                 array()
-            ),
+            ), // 3
             array(
                 'Magento\AnotherModule',
                 '$this->getViewFileUrl("Magento_SomeModule::js/order-by-sku-failure.js")',
@@ -71,8 +71,8 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
                         'source' => 'Magento_SomeModule'
                     )
                 )
-            ),
-            array('Magento\SomeModule', '$this->helper("Magento\SomeModule\Any\ClassName")', array()),
+            ), //4
+            array('Magento\SomeModule', '$this->helper("Magento\SomeModule\Any\ClassName")', array()), //5
             array(
                 'Magento\AnotherModule',
                 '$this->helper("Magento\SomeModule\Any\ClassName")',
@@ -83,8 +83,8 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
                         'source' => 'Magento\SomeModule\Any\ClassName'
                     )
                 )
-            ),
-            array('Magento\SomeModule', '$this->getUrl("someModule")', array()),
+            ), //6
+            array('Magento\SomeModule', '$this->getUrl("someModule")', array()), // 7
             array(
                 'Magento\AnotherModule',
                 '$this->getUrl("anotherModule")',
@@ -95,8 +95,8 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
                         'source' => 'getUrl("anotherModule"'
                     )
                 )
-            ),
-            array('Magento\SomeModule', '$this->getLayout()->getBlock(\'block.name\');', array()),
+            ), //8
+            array('Magento\SomeModule', '$this->getLayout()->getBlock(\'block.name\');', array()), // 9
             array(
                 'Magento\AnotherModule',
                 '$this->getLayout()->getBlock(\'block.name\');',
@@ -107,7 +107,7 @@ class PhpRuleTest extends \PHPUnit_Framework_TestCase
                         'source' => 'getBlock(\'block.name\')'
                     )
                 )
-            )
+            ) // 10
         );
     }
 

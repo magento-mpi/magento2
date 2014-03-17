@@ -15,6 +15,9 @@ class WidgetConfigTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $configFile
+             */
             function ($configFile) {
                 $schema = \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
                     '/app/code/Magento/Widget/etc/widget.xsd';

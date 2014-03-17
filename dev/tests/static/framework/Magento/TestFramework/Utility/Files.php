@@ -224,7 +224,7 @@ class Files
                 'app/etc/*/config.xml',
                 'app/etc/local.xml',
                 'app/code/*/*/etc/config.xml',
-                'app/code/*/*/etc/config.*.xml'
+                'app/code/*/*/etc/config.*.xml' // Module DB-specific configs, e.g. config.mysql4.xml
             );
             $files = array();
             foreach ($globPaths as $globPath) {

@@ -20,6 +20,11 @@ class ThemeHandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check that all handles declared in a theme layout are declared in base layouts
+             *
+             * @param string $handleName
+             */
             function ($handleName) {
                 $this->assertContains(
                     $handleName,

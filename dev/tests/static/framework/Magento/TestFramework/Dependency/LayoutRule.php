@@ -407,6 +407,7 @@ class LayoutRule implements \Magento\TestFramework\Dependency\RuleInterface
     {
         $chunks = explode('_', $handle);
         if (count($chunks) > 1) {
+            // Remove 'action' part from handle name
             array_pop($chunks);
         }
         $router = implode('_', $chunks);

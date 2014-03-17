@@ -20,6 +20,9 @@ class ObsoleteAclTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $aclFile
+             */
             function ($aclFile) {
                 $aclXml = simplexml_load_file($aclFile);
                 $xpath = '/config/acl/*[boolean(./children) or boolean(./title)]';

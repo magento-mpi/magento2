@@ -87,6 +87,9 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $filename
+             */
             function ($filename) {
                 $cmd = new \Magento\TestFramework\Inspection\JsHint\Command($filename, self::$_reportFile);
                 $result = false;

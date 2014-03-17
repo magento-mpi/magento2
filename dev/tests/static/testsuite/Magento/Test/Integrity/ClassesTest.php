@@ -31,6 +31,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $contents = file_get_contents($file);
                 $classes = \Magento\TestFramework\Utility\Classes::getAllMatches(
@@ -94,6 +97,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $path
+             */
             function ($path) {
                 $classes = \Magento\TestFramework\Utility\Classes::collectClassesInConfig(simplexml_load_file($path));
                 $this->_assertClassesExist($classes, $path);
@@ -106,6 +112,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $path
+             */
             function ($path) {
                 $xml = simplexml_load_file($path);
 
@@ -188,6 +197,11 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Assert PHP classes have valid formal namespaces according to file locations
+             *
+             * @param array $file
+             */
             function ($file) {
                 $relativePath = str_replace(
                     \Magento\TestFramework\Utility\Files::init()->getPathToSource() . "/",
@@ -294,6 +308,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $relativePath = str_replace(
                     \Magento\TestFramework\Utility\Files::init()->getPathToSource(),

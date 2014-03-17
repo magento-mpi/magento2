@@ -20,6 +20,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $file
+             */
             function ($file) {
                 $classes = \Magento\TestFramework\Utility\Classes::collectPhpCodeClasses(file_get_contents($file));
                 $this->_assertNonFactoryName($classes, $file);
@@ -32,6 +35,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $path
+             */
             function ($path) {
                 $xml = simplexml_load_file($path);
 
@@ -49,6 +55,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * @param string $path
+             */
             function ($path) {
                 $xml = simplexml_load_file($path);
                 $classes = \Magento\TestFramework\Utility\Classes::collectLayoutClasses($xml);

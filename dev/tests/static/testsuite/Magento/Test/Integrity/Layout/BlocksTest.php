@@ -50,6 +50,13 @@ class BlocksTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Check that containers are not used as blocks in templates
+             *
+             * @param string $alias
+             * @param string $file
+             * @throws \Exception|PHPUnit_Framework_ExpectationFailedException
+             */
             function ($alias, $file) {
                 if (isset(self::$_containerAliases[$alias])) {
                     if (!isset(self::$_blockAliases[$alias])) {

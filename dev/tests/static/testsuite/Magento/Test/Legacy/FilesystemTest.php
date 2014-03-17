@@ -17,6 +17,11 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
+            /**
+             * Directories may re-appear again during merging, therefore ensure they were properly relocated
+             *
+             * @param string $path
+             */
             function ($path) {
                 $this->assertFileNotExists(
                     \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/' . $path
