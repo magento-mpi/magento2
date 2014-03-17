@@ -153,6 +153,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         }
 
         $address->delete();
+        return true;
     }
 
     /**

@@ -179,11 +179,12 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
-                'operation' => self::SOAP_SERVICE_NAME . 'GetDefaultShippingAddress'
+                'operation' => self::SOAP_SERVICE_NAME . 'DeleteAddress'
             ]
         ];
         $requestData = ['addressId' => $fixtureAddressId];
-        $this->_webApiCall($serviceInfo, $requestData);
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($response, 'Expected response should be true.');
 
         $this->setExpectedException('Magento\Exception\NoSuchEntityException', 'No such entity with addressId = 1');
         $this->customerAddressService->getAddress($fixtureAddressId);
