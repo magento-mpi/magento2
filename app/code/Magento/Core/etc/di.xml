@@ -51,7 +51,6 @@
     <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
     <preference for="Magento\Mview\ViewInterface" type="Magento\Mview\View" />
     <preference for="Magento\Mview\ProcessorInterface" type="Magento\Mview\Processor" />
-    <preference for="Magento\Mview\View\State\CollectionInterface" type="Magento\Core\Model\Resource\Mview\View\State\Collection" />
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
