@@ -21,11 +21,6 @@ use Magento\Catalog\Helper\Data;
 class Toolbar extends \Magento\View\Element\Template
 {
     /**
-     * List mode configuration path
-     */
-    const XML_PATH_LIST_MODE = 'catalog/frontend/list_mode';
-
-    /**
      * Products collection
      *
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -72,7 +67,7 @@ class Toolbar extends \Magento\View\Element\Template
      *
      * @var string
      */
-    protected $_direction           = 'asc';
+    protected $_direction           = \Magento\Catalog\Helper\Product\ProductList::DEFAULT_SORT_DIRECTION;
 
     /**
      * Default View mode
@@ -80,13 +75,6 @@ class Toolbar extends \Magento\View\Element\Template
      * @var string
      */
     protected $_viewMode            = null;
-
-    /**
-     * Default limits per page
-     *
-     * @var array
-     */
-    protected $_defaultAvailableLimit  = array(10=>10,20=>20,50=>50);
 
     /**
      * @var bool $_paramsMemorizeAllowed
@@ -118,6 +106,11 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_toolbarModel;
 
     /**
+     * @var \Magento\Catalog\Helper\Product\ProductList
+     */
+    protected $_productListHelper;
+
+    /**
      * @var \Magento\Catalog\Helper\Data
      */
     protected $_catalogHelper;
@@ -127,7 +120,8 @@ class Toolbar extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
-     * @param \Magento\Catalog\Helper\Data $helper
+     * @param Data $helper
+     * @param \Magento\Catalog\Helper\Product\ProductList $productListHelper
      * @param array $data
      */
     public function __construct(
@@ -136,46 +130,26 @@ class Toolbar extends \Magento\View\Element\Template
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
         \Magento\Catalog\Helper\Data $helper,
+        \Magento\Catalog\Helper\Product\ProductList $productListHelper,
         array $data = array()
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogConfig = $catalogConfig;
         $this->_toolbarModel = $toolbarModel;
         $this->_catalogHelper = $helper;
+        $this->_productListHelper = $productListHelper;
         parent::__construct($context, $data);
     }
 
     /**
      * Init Toolbar
-     *
-     * @return void
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = $this->_storeConfig->getConfig(
-            \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
-        );
-
+        $this->_orderField  = $this->_productListHelper->getDefaultSortField();
         $this->_availableOrder = $this->_catalogConfig->getAttributeUsedForSortByArray();
-
-        switch ($this->_storeConfig->getConfig(self::XML_PATH_LIST_MODE)) {
-            case 'grid':
-                $this->_availableMode = array('grid' => __('Grid'));
-                break;
-
-            case 'list':
-                $this->_availableMode = array('list' => __('List'));
-                break;
-
-            case 'grid-list':
-                $this->_availableMode = array('grid' => __('Grid'), 'list' =>  __('List'));
-                break;
-
-            case 'list-grid':
-                $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
-                break;
-        }
+        $this->_availableMode = $this->_productListHelper->getAvailableViewMode();
     }
 
     /**
@@ -430,8 +404,7 @@ class Toolbar extends \Magento\View\Element\Template
         if ($mode) {
             return $mode;
         }
-        $modes = array_keys($this->_availableMode);
-        $defaultMode = current($modes);
+        $defaultMode = $this->_productListHelper->getDefaultViewMode($this->_availableMode);
         $mode = $this->_toolbarModel->getMode();
         if (!$mode || !isset($this->_availableMode[$mode])) {
             $mode = $defaultMode;
@@ -547,19 +520,13 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function getDefaultPerPageValue()
     {
-        if ($this->getCurrentMode() == 'list') {
-            if ($default = $this->getDefaultListPerPage()) {
-                return $default;
-            }
-            return $this->_storeConfig->getConfig('catalog/frontend/list_per_page');
+        if ($this->getCurrentMode() == 'list' && $default = $this->getDefaultListPerPage()) {
+            return $default;
         }
-        elseif ($this->getCurrentMode() == 'grid') {
-            if ($default = $this->getDefaultGridPerPage()) {
-                return $default;
-            }
-            return $this->_storeConfig->getConfig('catalog/frontend/grid_per_page');
+        elseif ($this->getCurrentMode() == 'grid' && $default = $this->getDefaultGridPerPage()) {
+            return $default;
         }
-        return 0;
+        return $this->_productListHelper->getDefaultLimitPerPageValue($this->getCurrentMode());
     }
 
     /**
@@ -569,31 +536,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function getAvailableLimit()
     {
-        $currentMode = $this->getCurrentMode();
-        if (in_array($currentMode, array('list', 'grid'))) {
-            return $this->_getAvailableLimit($currentMode);
-        } else {
-            return $this->_defaultAvailableLimit;
-        }
-    }
-
-    /**
-     * Retrieve available limits for specified view mode
-     *
-     * @param string $mode
-     * @return array
-     */
-    protected function _getAvailableLimit($mode)
-    {
-        $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
-        $perPageValues = (string)$this->_storeConfig->getConfig($perPageConfigKey);
-        $perPageValues = explode(',', $perPageValues);
-        $perPageValues = array_combine($perPageValues, $perPageValues);
-        if ($this->_storeConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
-            return ($perPageValues + array('all'=>__('All')));
-        } else {
-            return $perPageValues;
-        }
+        return $this->_productListHelper->getAvailableLimit($this->getCurrentMode());
     }
 
     /**

@@ -60,11 +60,13 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
      */
     public function sendVary()
     {
-        $data = array_filter($this->context->getData());
-        if ($data) {
+        $data = $this->context->getData();
+        if (!empty($data)) {
             ksort($data);
             $vary = sha1(serialize($data));
             $this->cookie->set(self::COOKIE_VARY_STRING, $vary, null, '/');
+        } else {
+            $this->cookie->set(self::COOKIE_VARY_STRING, null, -1, '/');
         }
     }
 

@@ -178,7 +178,11 @@ class Session extends \Magento\Session\SessionManager
         if ($customer === null) {
             $this->setCustomerId(null);
         } else {
-            $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP, $customer->getGroupId());
+            $this->_httpContext->setValue(
+                \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                $customer->getGroupId(),
+                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+            );
             $this->setCustomerId($customer->getId());
         }
         return $this;
@@ -234,7 +238,11 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomer(Customer $customerModel)
     {
         $this->_customerModel = $customerModel;
-        $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP, $customerModel->getGroupId());
+        $this->_httpContext->setValue(
+            \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+            $customerModel->getGroupId(),
+            \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+        );
         $this->setCustomerId($customerModel->getId());
         if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
             $customerModel->setConfirmation(null)->save();

@@ -59,7 +59,7 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
 
         $storeConfig = array(
             array(\Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY, null, 'name'),
-            array(Toolbar::XML_PATH_LIST_MODE, null, 'grid-list'),
+            array(\Magento\Catalog\Helper\Product\ProductList::XML_PATH_LIST_MODE, null, 'grid-list'),
             array('catalog/frontend/list_per_page_values', null, '10,20,30'),
             array('catalog/frontend/grid_per_page_values', null, '10,20,30'),
             array('catalog/frontend/list_allow_all', null, false)

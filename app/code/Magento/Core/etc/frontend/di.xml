@@ -43,4 +43,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\App\Http">
+        <plugin name="core-app-http-context-plugin" type="Magento\Core\Model\App\ContextPlugin" sortOrder="1000"/>
+    </type>
 </config>

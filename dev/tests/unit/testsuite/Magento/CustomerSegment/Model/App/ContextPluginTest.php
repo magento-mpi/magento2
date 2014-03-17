@@ -32,9 +32,24 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\LauncherInterface
+     * @var \Magento\CustomerSegment\Model\Customer|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerSegmentMock;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $storeManagerMock;
+
+    /**
+     * @var \Magento\LauncherInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $launcherMock;
+
+    /**
+     * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $websiteMock;
 
     /**
      * Set up
@@ -42,14 +57,36 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
-            array('getCustomerSegmentIds'), array(), '', false);
-        $this->httpContextMock = $this->getMock('Magento\App\Http\Context',
-            array(), array(), '', false);
-        $this->launcherMock = $this->getMock('Magento\App\Http',
-            array(), array(), '', false);
+            array('getCustomerId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $this->httpContextMock = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
+        $this->customerSegmentMock = $this->getMock('Magento\CustomerSegment\Model\Customer',
+            array('getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'),
+            array(),
+            '',
+            false
+        );
+        $this->storeManagerMock = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface',
+            array(),
+            '',
+            false
+        );
+        $this->launcherMock = $this->getMock('Magento\App\Http', array(), array(), '', false);
+        $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
+            array('__wakeup', 'getId'),
+            array(),
+            '',
+            false
+        );
+
         $this->plugin = new \Magento\CustomerSegment\Model\App\ContextPlugin(
             $this->customerSessionMock,
-            $this->httpContextMock
+            $this->httpContextMock,
+            $this->customerSegmentMock,
+            $this->storeManagerMock
         );
     }
 
@@ -58,17 +95,34 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeLaunch()
     {
-        $this->customerSessionMock->expects($this->once())
-            ->method('getCustomerSegmentIds')
-            ->will($this->returnValue(array(1, 2, 3)));
+        $customerId = 1;
+        $customerSegmentIds = array(1, 2, 3);
+        $websiteId  = 1;
+
+        $this->customerSessionMock->expects($this->exactly(2))
+            ->method('getCustomerId')
+            ->will($this->returnValue($customerId));
+
+        $this->storeManagerMock->expects($this->once())
+            ->method('getWebsite')
+            ->will($this->returnValue($this->websiteMock));
+
+        $this->websiteMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($websiteId));
+
+        $this->customerSegmentMock->expects($this->once())
+            ->method('getCustomerSegmentIdsForWebsite')
+            ->with($this->equalTo($customerId), $this->equalTo($websiteId))
+            ->will($this->returnValue($customerSegmentIds));
 
         $this->httpContextMock->expects($this->once())
             ->method('setValue')
             ->with(
                 $this->equalTo(\Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT),
-                $this->equalTo(array(1, 2, 3))
-            )
-            ->will($this->returnValue($this->httpContextMock));
+                $this->equalTo($customerSegmentIds)
+            );
+
         $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
     }
 }

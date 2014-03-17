@@ -26,15 +26,23 @@ class ContextPlugin
     protected $httpContext;
 
     /**
+     * @var \Magento\Catalog\Helper\Product\ProductList
+     */
+    protected $productListHelper;
+    
+    /**
      * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
      * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Catalog\Helper\Product\ProductList $productListHelper
      */
     public function __construct(
         \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
-        \Magento\App\Http\Context $httpContext
+        \Magento\App\Http\Context $httpContext,
+        \Magento\Catalog\Helper\Product\ProductList $productListHelper
     ) {
         $this->toolbarModel = $toolbarModel;
         $this->httpContext = $httpContext;
+        $this->productListHelper = $productListHelper;
     }
 
     /**
@@ -45,17 +53,25 @@ class ContextPlugin
      */
     public function beforeLaunch(\Magento\LauncherInterface $subject)
     {
-        if ($this->toolbarModel->getDirection()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_SORT_DIRECTION, $this->toolbarModel->getDirection());
-        }
-        if ($this->toolbarModel->getOrder()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_SORT_ORDER, $this->toolbarModel->getOrder());
-        }
-        if ($this->toolbarModel->getMode()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_DISPLAY_MODE, $this->toolbarModel->getMode());
-        }
-        if ($this->toolbarModel->getLimit()) {
-            $this->httpContext->setValue(Data::CONTEXT_CATALOG_LIMIT, $this->toolbarModel->getLimit());
-        }
+        $this->httpContext->setValue(
+            Data::CONTEXT_CATALOG_SORT_DIRECTION,
+            $this->toolbarModel->getDirection(),
+            \Magento\Catalog\Helper\Product\ProductList::DEFAULT_SORT_DIRECTION
+        );
+        $this->httpContext->setValue(
+            Data::CONTEXT_CATALOG_SORT_ORDER,
+            $this->toolbarModel->getOrder(),
+            $this->productListHelper->getDefaultSortField()
+        );
+        $this->httpContext->setValue(
+            Data::CONTEXT_CATALOG_DISPLAY_MODE,
+            $this->toolbarModel->getMode(),
+            $this->productListHelper->getDefaultViewMode()
+        );
+        $this->httpContext->setValue(
+            Data::CONTEXT_CATALOG_LIMIT,
+            $this->toolbarModel->getLimit(),
+            $this->productListHelper->getDefaultLimitPerPageValue($this->productListHelper->getDefaultViewMode())
+        );
     }
 }
