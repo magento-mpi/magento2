@@ -56,7 +56,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get confirmation
      *
-     * @return string
+     * @return string|null
      */
     public function getConfirmation()
     {
