@@ -27,8 +27,6 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $this->customerAddressService = $objectManager->get(
             'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
         );
-        //Temporarily adding it here to avoid making changes to tear down
-        $this->_markTestAsRestOnly();
         parent::setUp();
     }
 
@@ -78,7 +76,11 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         ];
         $requestData = ['addressId' => $fixtureAddressId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($this->getFirstFixtureAddressData(), $addressData, "Address data is invalid.");
+        $this->assertEquals(
+            $this->getFirstFixtureAddressData(),
+            $this->toSnakeCase($addressData),
+            "Address data is invalid."
+        );
     }
 
     /**
@@ -103,7 +105,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressesData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             [$this->getFirstFixtureAddressData(), $this->getSecondFixtureAddressData()],
-            $addressesData,
+            $this->toSnakeCase($addressesData),
             "Addresses list is invalid."
         );
     }
@@ -130,7 +132,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
-            $addressData,
+            $this->toSnakeCase($addressData),
             "Default billing address data is invalid."
         );
     }
@@ -157,7 +159,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
-            $addressData,
+            $this->toSnakeCase($addressData),
             "Default shipping address data is invalid."
         );
     }
@@ -219,11 +221,19 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
 
         $firstAddressStoredData = $this->customerAddressService->getAddress($createdAddressesIds[0])->__toArray();
         unset($firstAddressStoredData['id']);
-        $this->assertEquals($firstAddressData, $firstAddressStoredData, "First address was stored incorrectly.");
+        $this->assertEquals(
+            $firstAddressData,
+            $this->toSnakeCase($firstAddressStoredData),
+            "First address was stored incorrectly."
+        );
 
         $secondAddressStoredData = $this->customerAddressService->getAddress($createdAddressesIds[1])->__toArray();
         unset($secondAddressStoredData['id']);
-        $this->assertEquals($secondAddressData, $secondAddressStoredData, "Second address was stored incorrectly.");
+        $this->assertEquals(
+            $secondAddressData,
+            $this->toSnakeCase($secondAddressStoredData),
+            "Second address was stored incorrectly."
+        );
     }
 
     /**
@@ -241,7 +251,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'postcode' => '75477',
             'telephone' => '3468676',
             'street' => ['Green str, 67'],
-            'id' => '1',
+            'id' => 1,
             'default_billing' => true,
             'default_shipping' => true,
             'customer_id' => '1',
@@ -264,7 +274,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
             'postcode' => '47676',
             'telephone' => '3234676',
             'street' => ['Black str, 48',],
-            'id' => '2',
+            'id' => 2,
             'default_billing' => false,
             'default_shipping' => false,
             'customer_id' => '1',
