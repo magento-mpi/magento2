@@ -45,6 +45,25 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         );
 
+        $customerMock= $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
+            ->disableOriginalConstructor()
+            ->setMethods(['getId'])
+            ->getMock();
+        $customerMock
+            ->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
+
+        $priceHelperMock = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCustomer'])
+            ->getMock();
+
+        $priceHelperMock
+            ->expects($this->any())
+            ->method('getCustomer')
+            ->will($this->returnValue($customerMock));
+
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $objectHelper->getObject(
             'Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped',
@@ -52,6 +71,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
                 'registry' => $this->registryMock,
                 'storeManager' => $this->storeManagerMock,
                 'coreHelper' => $this->coreHelperMock,
+                'priceHelper' => $priceHelperMock,
                 'data' => array(
                     'product' => $this->productMock
                 )
