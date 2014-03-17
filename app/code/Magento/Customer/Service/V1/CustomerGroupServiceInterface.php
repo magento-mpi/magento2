@@ -78,6 +78,7 @@ interface CustomerGroupServiceInterface
      *
      * @param int $groupId
      * @throws \Magento\Exception\NoSuchEntityException If $groupId is not found
+     * @throws \Magento\Exception\StateException Thrown if cannot delete group
      * @throws \Exception If something goes wrong during delete
      * @return bool True if the group was deleted
      */

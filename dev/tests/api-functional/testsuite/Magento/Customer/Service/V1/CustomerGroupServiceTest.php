@@ -477,6 +477,45 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify that the group with the specified Id cannot be deleted because it is the default group and a proper
+     * fault is returned.
+     */
+    public function testDeleteGroupCannotDelete()
+    {
+        $groupIdAssignedDefault = 1;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/$groupIdAssignedDefault",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1DeleteGroup'
+            ]
+        ];
+
+        $requestData = ['groupId' => $groupIdAssignedDefault];
+        $expectedMessage = "Cannot delete group.";
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
+
+        $this->assertNotNull($this->groupService->getGroup($groupIdAssignedDefault));
+    }
+
+    /**
      * Create a test group.
      *
      * @param CustomerGroup $group The group to create and save.

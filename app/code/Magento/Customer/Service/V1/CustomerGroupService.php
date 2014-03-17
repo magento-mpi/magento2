@@ -16,6 +16,7 @@ use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Exception\StateException;
 use Magento\Service\V1\Data\Filter;
 
 /**
@@ -271,6 +272,10 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function deleteGroup($groupId)
     {
+        if (!$this->canDelete($groupId)) {
+            throw new StateException(__("Cannot delete group."));
+        }
+
         // Get group so we can throw an exception if it doesn't exist
         $this->getGroup($groupId);
         $customerGroup = $this->_groupFactory->create();
