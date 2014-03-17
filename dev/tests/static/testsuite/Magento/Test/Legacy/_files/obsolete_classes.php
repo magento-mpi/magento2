@@ -2230,4 +2230,6 @@ return array(
     ['Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'],
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    ['Magento\PubSub'], // unused library code which was removed
+    ['Magento\Outbound'], // unused library code which was removed
 );
