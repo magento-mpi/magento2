@@ -52,12 +52,12 @@ class ContextPlugin
     }
 
     /**
-     * Before launch plugin
+     * Before dispatch plugin
      *
-     * @param \Magento\LauncherInterface $subject
-     * @return void
+     * @param \Magento\App\FrontController $subject
+     * @return null
      */
-    public function beforeLaunch(\Magento\LauncherInterface $subject)
+    public function beforeDispatch(\Magento\App\FrontController $subject)
     {
         if ($this->customerSession->getCustomerId()) {
             $customerSegmentIds = $this->customerSegment->getCustomerSegmentIdsForWebsite(
@@ -76,5 +76,6 @@ class ContextPlugin
                 array()
             );
         }
+        return;
     }
 }

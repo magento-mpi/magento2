@@ -37,9 +37,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpRequestMock;
 
     /**
-     * @var \Magento\LauncherInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\FrontController|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $launcherMock;
+    protected $frontControllerMock;
 
     /**
      * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
@@ -68,7 +68,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->sessionMock = $this->getMock('Magento\Core\Model\Session',
             array('getCurrencyCode'), array(), '', false);
-        $this->launcherMock = $this->getMock('Magento\App\Http',
+        $this->frontControllerMock = $this->getMock('Magento\App\FrontController',
             array(), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context',
             array(), array(), '', false);
@@ -94,7 +94,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     /**
      * Test beforeLaunch
      */
-    public function testBeforeLaunch()
+    public function testBeforeDispatch()
     {
         $this->storeManagerMock->expects($this->exactly(2))
             ->method('getWebsite')
@@ -128,6 +128,6 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                 array(\Magento\Core\Helper\Data::CONTEXT_CURRENCY, 'UAH', 'UAH', $this->httpContextMock),
                 array(\Magento\Core\Helper\Data::CONTEXT_STORE, 'default', 'default', $this->httpContextMock),
             )));
-        $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
+        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
     }
 }

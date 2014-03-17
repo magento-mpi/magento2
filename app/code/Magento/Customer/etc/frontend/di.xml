@@ -24,8 +24,8 @@
         <plugin name="customer-session-depersonalize"
                 type="Magento\Customer\Model\Layout\DepersonalizePlugin" sortOrder="10"/>
     </type>
-    <type name="Magento\App\Http">
-        <plugin name="customer-app-http-context-plugin"
+    <type name="Magento\App\FrontController">
+        <plugin name="customer-app-frontController-context-plugin"
                 type="Magento\Customer\Model\App\ContextPlugin" sortOrder="1000"/>
     </type>
 </config>

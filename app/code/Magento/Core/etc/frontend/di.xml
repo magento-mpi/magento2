@@ -23,6 +23,7 @@
     <type name="Magento\App\FrontController">
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
         <plugin name="urlRewrite" type="Magento\Core\App\FrontController\Plugin\UrlRewrite" sortOrder="60"/>
+        <plugin name="core-app-frontController-context-plugin" type="Magento\Core\Model\App\ContextPlugin" sortOrder="1000"/>
     </type>
     <type name="Magento\App\Action\Action">
         <plugin name="lastUrl" type="Magento\Core\App\Action\Plugin\LastUrl" sortOrder="70"/>
@@ -42,8 +43,5 @@
                 </item>
             </argument>
         </arguments>
-    </type>
-    <type name="Magento\App\Http">
-        <plugin name="core-app-http-context-plugin" type="Magento\Core\Model\App\ContextPlugin" sortOrder="1000"/>
     </type>
 </config>

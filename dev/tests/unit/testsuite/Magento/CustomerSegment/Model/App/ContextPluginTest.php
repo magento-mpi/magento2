@@ -42,9 +42,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\LauncherInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\FrontController|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $launcherMock;
+    protected $frontControllerMock;
 
     /**
      * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
@@ -74,7 +74,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->launcherMock = $this->getMock('Magento\App\Http', array(), array(), '', false);
+        $this->frontControllerMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
             array('__wakeup', 'getId'),
             array(),
@@ -91,9 +91,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test beforeLaunch
+     * Test beforeDispatch
      */
-    public function testBeforeLaunch()
+    public function testBeforeDispatch()
     {
         $customerId = 1;
         $customerSegmentIds = array(1, 2, 3);
@@ -123,6 +123,6 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo($customerSegmentIds)
             );
 
-        $this->assertNull($this->plugin->beforeLaunch($this->launcherMock));
+        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
     }
 }
