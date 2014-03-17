@@ -442,8 +442,8 @@ $CONFIG['translates'] = array(
         'app/code/Magento/Adminhtml/',
         'app/design/adminhtml/default/default/layout/',
         'app/design/adminhtml/default/default/template/',
-        '!app/design/adminhtml/default/default/layout/enterprise/',
-        '!app/design/adminhtml/default/default/template/enterprise/'
+        '!app/design/adminhtml/default/default/layout/enterprise/', // ! = exclude
+        '!app/design/adminhtml/default/default/template/enterprise/' // ! = exclude
     ),
     'Magento_Webapi' => array(
         'app/code/Magento/Webapi/',

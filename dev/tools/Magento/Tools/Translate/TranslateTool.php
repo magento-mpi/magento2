@@ -279,6 +279,19 @@ class TranslateTool
             }
             self::_saveInBatchMode($dir_en);
         }
+        /*
+        if(isset($files_name_changed) && $level==0){
+            print "Created files:\n";
+            foreach ($files_name_changed as $val){
+                print "\t".$val.".".EXTENSION."\n";
+            }
+            print "Created diffs:\n";
+            foreach ($files_name_changed as $val){
+                print "\t".$val.".changes.".EXTENSION."\n";
+            }
+
+        }
+         */
     }
 
     /**

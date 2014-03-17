@@ -22,6 +22,7 @@ class NodeVisitorAbstract implements NodeVisitor
      */
     public function nodeEntry(TreeNode $treeNode)
     {
+        // by default, do nothing
     }
 
     /**
@@ -32,5 +33,6 @@ class NodeVisitorAbstract implements NodeVisitor
      */
     public function nodeExit(TreeNode $treeNode)
     {
+        // by default, do nothing
     }
 }

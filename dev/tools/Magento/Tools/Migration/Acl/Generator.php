@@ -196,7 +196,7 @@ class Generator
      */
     public function getValidNodeTypes()
     {
-        return array(1);
+        return array(1); //DOMElement
     }
 
     /**
