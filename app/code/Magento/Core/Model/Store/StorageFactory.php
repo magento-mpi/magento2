@@ -222,7 +222,7 @@ class StorageFactory
      */
     protected function _getStoreByWebsite($scopeCode)
     {
-        $websites = $this->_storage->getWebsites(true);
+        $websites = $this->_storage->getWebsites(true, true);
         if (!isset($websites[$scopeCode])) {
             return null;
         }
