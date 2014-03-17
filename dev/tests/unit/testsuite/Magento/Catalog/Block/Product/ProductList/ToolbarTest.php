@@ -39,6 +39,11 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
      */
     protected $catalogConfig;
 
+    /**
+     * @var \Magento\Catalog\Helper\Product\ProductList|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $productListHelper;
+
     protected function setUp()
     {
         $this->model = $this->getMock(
@@ -93,6 +98,17 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())
             ->method('getStoreConfig')
             ->will($this->returnValue($this->storeConfig));
+
+        $this->productListHelper = $this->getMock('Magento\Catalog\Helper\Product\ProductList',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->productListHelper->expects($this->any())
+            ->method('getAvailableViewMode')
+            ->will($this->returnValue(array('list' => 'List')));
+
         $this->helper = $this->getMock('Magento\Catalog\Helper\Data', array('urlEncode'), array(), '', false);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $objectManager->getObject(
@@ -101,7 +117,8 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
                 'context' => $context,
                 'catalogConfig' => $this->catalogConfig,
                 'toolbarModel' => $this->model,
-                'helper' => $this->helper
+                'helper' => $this->helper,
+                'productListHelper' => $this->productListHelper
             )
         );
     }
@@ -180,6 +197,13 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
         $this->model->expects($this->once())
             ->method('getLimit')
             ->will($this->returnValue($limit));
+        $this->productListHelper->expects($this->once())
+            ->method('getAvailableLimit')
+            ->will($this->returnValue(array(10 => 10, 20 => 20)));
+        $this->productListHelper->expects($this->once())
+            ->method('getDefaultLimitPerPageValue')
+            ->with($this->equalTo('list'))
+            ->will($this->returnValue(10));
 
         $this->assertEquals($limit, $this->block->getLimit());
     }
