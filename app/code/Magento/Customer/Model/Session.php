@@ -411,7 +411,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function setCustomerDataAsLoggedIn($customer)
     {
-        $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true);
+        $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
         $this->setCustomerData($customer);
         
         $customerModel = $this->_converter->createCustomerModel($customer);

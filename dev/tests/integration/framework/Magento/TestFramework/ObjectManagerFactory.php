@@ -132,6 +132,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                     'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
                     'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
                     'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
                 )
             );
         }
