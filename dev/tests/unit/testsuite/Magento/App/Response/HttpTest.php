@@ -55,7 +55,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $vary = array('some-vary-key' => 'some-vary-value');
         $expected = sha1(serialize($vary));
 
-        $this->_context->setValue('some-vary-key', 'some-vary-value');
+        $this->_context->setValue('some-vary-key', 'some-vary-value', 'default');
         $this->_cookieMock
             ->expects($this->once())
             ->method('set')
