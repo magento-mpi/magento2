@@ -21,10 +21,6 @@ use Magento\Catalog\Model\Product;
  * @method \Magento\Catalog\Model\Product\Compare\Item setProductId(int $value)
  * @method int getStoreId()
  * @method \Magento\Catalog\Model\Product\Compare\Item setStoreId(int $value)
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {

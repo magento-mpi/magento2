@@ -75,13 +75,6 @@ class Compare extends \Magento\App\Action\Action
     protected $_compareItemFactory;
 
     /**
-     * Customer factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -93,7 +86,6 @@ class Compare extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
@@ -106,7 +98,6 @@ class Compare extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
@@ -118,7 +109,6 @@ class Compare extends \Magento\App\Action\Action
         FormKeyValidator $formKeyValidator
     ) {
         $this->_storeManager = $storeManager;
-        $this->_customerFactory = $customerFactory;
         $this->_compareItemFactory = $compareItemFactory;
         $this->_productFactory = $productFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
