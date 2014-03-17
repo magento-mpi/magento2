@@ -1,13 +1,12 @@
 <?php
 /**
-/**
-* {license_notice}
-*
-* @category    Magento
-* @package     Magento_Gdata
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Gdata
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /**
  * Extension for <scp:shipping> element
