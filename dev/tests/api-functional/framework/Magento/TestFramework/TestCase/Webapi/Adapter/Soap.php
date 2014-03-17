@@ -61,19 +61,6 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 
         /** Remove result wrappers */
         $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
-        if (isset($result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME])) {
-            /** Eliminate 'item' node if present. It is wrapping all data, declared in WSDL as array */
-            $item = $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME];
-            if (is_array($item)) {
-                $isAssociative = array_keys($item) !== range(0, count($item) - 1);
-                /**
-                 * In case when only one array element is present, it will not be wrapped into a subarray
-                 * within item node. If several array elements are passed, they will be wrapped into
-                 * an indexed array within item node.
-                 */
-                $result = $isAssociative ? [$item] : $item;
-            }
-        }
         return $result;
     }
 
@@ -240,9 +227,18 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
                 $value = $this->_replaceComplexObjectArray($value);
             }
             if ('complexObjectArray' == $key) {
-                $key = count($data);
+                $data[] = $value;
+            } else if ($key == WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME) {
+                if (is_array($value) && array_keys($value) === range(0, count($value) - 1)) {
+                    foreach ($value as $item) {
+                        $data[] = $item;
+                    }
+                } else {
+                    $data[] = $value;
+                }
+            } else {
+                $data[$key] = $value;
             }
-            $data[$key] = $value;
         }
         return isset($arg['complexObjectArray']) ? reset($data) : $data;
     }
@@ -267,8 +263,6 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             array_walk($soapResult, function ($value, $key) use (&$_data) {
                 if (is_object($value) || is_array($value)) {
                     $_data[$key] = $this->_soapResultToArray($value);
-                } else {
-                    $_data[$key] = $value;
                 }
             });
             return $_data;
