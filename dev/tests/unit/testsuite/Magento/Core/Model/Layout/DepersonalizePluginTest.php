@@ -39,6 +39,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $eventManagerMock;
 
     /**
+     * @var \Magento\PageCache\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cacheConfigMock;
+
+    /**
      * SetUp
      */
     public function setUp()
@@ -47,10 +52,13 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
+        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
+//
         $this->plugin = new \Magento\Core\Model\Layout\DepersonalizePlugin(
             $this->requestMock,
             $this->moduleManagerMock,
-            $this->eventManagerMock
+            $this->eventManagerMock,
+            $this->cacheConfigMock
         );
     }
 
