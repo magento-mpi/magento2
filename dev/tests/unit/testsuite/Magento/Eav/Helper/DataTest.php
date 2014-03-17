@@ -53,15 +53,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'backend_type' => 'varchar'
         ];
 
-
         foreach ($result as $key => $value) {
-            if (!isset($expected[$key])) {
-                $this->fail('Attribute metadata with key "' . $key . '" not found.');
-            }
-
-            if ($expected[$key] != $value) {
-                $this->fail('Attribute metadata with key "' . $key . '" has invalid value.');
-            }
+            $this->assertArrayHasKey($key, $expected, 'Attribute metadata with key "' . $key . '" not found.');
+            $this->assertEquals($expected[$key], $value,
+                'Attribute metadata with key "' . $key . '" has invalid value.'
+            );
         }
     }
 }
