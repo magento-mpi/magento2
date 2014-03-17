@@ -41,6 +41,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $moduleManagerMock;
 
     /**
+     * @var \Magento\PageCache\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cacheConfigMock;
+
+    /**
      * SetUp
      */
     public function setUp()
@@ -61,11 +66,13 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
+        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
 
         $this->plugin = new \Magento\Checkout\Model\Layout\DepersonalizePlugin(
             $this->checkoutSessionMock,
             $this->moduleManagerMock,
-            $this->requestMock
+            $this->requestMock,
+            $this->cacheConfigMock
         );
     }
 
@@ -78,6 +85,9 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))
+            ->will($this->returnValue(true));
+        $this->cacheConfigMock->expects($this->once())
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->once($this->once()))
             ->method('isAjax')
