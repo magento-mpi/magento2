@@ -217,10 +217,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
      *
      * @param int $groupId The group Id
      * @param bool $isDeleteable Whether the group can or cannot be deleted.
+     * @param bool $isExceptionExpected Whether an exception is expected
      *
      * @dataProvider canDeleteDataProvider
      */
-    public function testCanDelete($groupId, $isDeleteable)
+    public function testCanDelete($groupId, $isDeleteable, $isExceptionExpected = false)
     {
         $serviceInfo = [
             'rest' => [
@@ -235,11 +236,29 @@ class CustomerGroupServiceTest extends WebapiAbstract
         ];
 
         $requestData = ['groupId' => $groupId];
-        $canDelete = $this->_webApiCall($serviceInfo, $requestData);
 
-        $failureMessage = $isDeleteable
-            ? 'The group should be deleteable.' : 'The group should not be deleteable.';
-        $this->assertEquals($isDeleteable, $canDelete, $failureMessage);
+        if ($isExceptionExpected) {
+            $expectedMessage = "No such entity with groupId = $groupId";
+
+            try {
+                $this->_webApiCall($serviceInfo, $requestData);
+                $this->fail("Expected exception.");
+            } catch (\SoapFault $e) {
+                $this->assertContains(
+                    $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+                );
+            } catch (\Exception $e) {
+                $this->assertContains(
+                    $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+                );
+            }
+        } else {
+            $canDelete = $this->_webApiCall($serviceInfo, $requestData);
+
+            $failureMessage = $isDeleteable
+                ? 'The group should be deleteable.' : 'The group should not be deleteable.';
+            $this->assertEquals($isDeleteable, $canDelete, $failureMessage);
+        }
     }
 
     /**
@@ -253,7 +272,8 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'NOT LOGGED IN' => [0, false],
             'General' => [1, false],
             'Wholesale' => [2, true],
-            'Retailer' => [3, true]
+            'Retailer' => [3, true],
+            'Random Non-Existent Group' => [9999, false, true]
         ];
     }
 
