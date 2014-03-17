@@ -28,7 +28,6 @@ $shell = new Zend_Console_Getopt(array(
 ));
 
 \Magento\ToolkitFramework\Helper\Cli::setOpt($shell);
-
 $args = $shell->getOptions();
 
 $files = array(
@@ -52,7 +51,6 @@ $logger = new \Zend_Log($logWriter);
 $shell = new \Magento\Shell(new \Magento\OSInfo(), $logger);
 
 $application = new \Magento\ToolkitFramework\Application($applicationBaseDir, $shell);
-
 $application->bootstrap();
 
 foreach ($files as $fixture) {

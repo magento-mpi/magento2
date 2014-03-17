@@ -1,11 +1,11 @@
 <?php
 /**
- * Performance framework bootstrap script
+ * Toolkit framework bootstrap script
  *
  * {license_notice}
  *
  * @category    Magento
- * @package     performance_tests
+ * @package     toolkit_framework
  * @copyright   {copyright}
  * @license     {license_link}
  */
