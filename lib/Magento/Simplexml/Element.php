@@ -39,6 +39,7 @@ class Element extends \SimpleXMLElement
      */
     public function setParent($element)
     {
+        //$this->_parent = $element;
     }
 
     /**

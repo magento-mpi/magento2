@@ -223,6 +223,7 @@ class Manager implements ManagerInterface
             if ($message instanceof MessageInterface) {
                 $text = $message->getText();
             } else {
+                // Some unknown object, add it anyway
                 continue;
             }
 

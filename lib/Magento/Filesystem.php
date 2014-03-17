@@ -160,6 +160,7 @@ class Filesystem
         if (empty($protocol)) {
             $protocol = strtolower(parse_url($path, PHP_URL_SCHEME));
             if ($protocol) {
+                // Strip down protocol from path
                 $path = preg_replace('#.+://#', '', $path);
             }
         }

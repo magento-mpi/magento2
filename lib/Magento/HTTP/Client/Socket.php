@@ -439,6 +439,7 @@ class Socket implements \Magento\HTTP\IClient
      */
     protected function processRedirect()
     {
+        // TODO: implement redirects support
     }
 
     /**
@@ -526,6 +527,7 @@ class Socket implements \Magento\HTTP\IClient
      */
     public function setOptions($arr)
     {
+        // Stub
     }
 
     /**
@@ -537,5 +539,6 @@ class Socket implements \Magento\HTTP\IClient
      */
     public function setOption($name, $value)
     {
+        // Stub
     }
 }

@@ -83,9 +83,11 @@ class Less implements PreProcessorInterface
             }
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
+            // It has 'null' source path
             return $publisherFile;
         } catch (Adapter\AdapterException $e) {
             $this->logger->logException($e);
+            // It has 'null' source path
             return $publisherFile;
         } catch (\Less_Exception_Compiler $e) {
             $this->logger->logException($e);

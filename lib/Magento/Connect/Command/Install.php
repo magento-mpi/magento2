@@ -174,6 +174,7 @@ final class Install extends \Magento\Connect\Command
                     $withDepsMode
                 );
                 $packagesToInstall = $packagesToInstall['result'];
+                //var_dump($packagesToInstall);
             } else {
                 if (empty($params[0])) {
                     $channels = $cache->getChannelNames();
@@ -260,6 +261,8 @@ final class Install extends \Magento\Connect\Command
                                     $this->ui()->output($row);
                                 }
                             }
+                            /*$this->ui()->confirm('Do you want rewrite all files?');
+                             continue;*/
                         }
                     }
 

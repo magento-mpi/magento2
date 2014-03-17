@@ -801,5 +801,6 @@ class Db extends \Magento\Data\Collection
      */
     protected function _initSelect()
     {
+        // no implementation, should be overridden in children classes
     }
 }

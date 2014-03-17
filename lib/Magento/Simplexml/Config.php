@@ -553,7 +553,9 @@ class Config
                     $target->extend($source);
                 }
             } else {
+                #echo "Not found extend: ".(string)$target['extends'];
             }
+            #unset($target['extends']);
         }
         return $this;
     }

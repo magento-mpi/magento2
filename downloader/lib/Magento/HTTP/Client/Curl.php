@@ -186,6 +186,8 @@ class Curl implements \Magento\HTTP\IClient
     {
         $this->_auth['login'] = $login;
         $this->_auth['password'] = $pass;
+        //$val= base64_encode( "$login:$pass" );
+        //$this->addHeader( "Authorization", "Basic $val" );
     }
 
     /**

@@ -36,12 +36,12 @@ class Link extends \Magento\View\Element\Template
             'coords',
             'tabindex',
             'onfocus',
-            'onblur',
+            'onblur', // %attrs
             'id',
             'class',
-            'style',
+            'style', // %coreattrs
             'lang',
-            'dir',
+            'dir', // %i18n
             'onclick',
             'ondblclick',
             'onmousedown',
@@ -51,7 +51,7 @@ class Link extends \Magento\View\Element\Template
             'onmouseout',
             'onkeypress',
             'onkeydown',
-            'onkeyup'
+            'onkeyup' // %events
         );
 
         $attributes = array();

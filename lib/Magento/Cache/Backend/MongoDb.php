@@ -40,9 +40,13 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      * @var array
      */
     protected $_options = array(
+        /** MongoDB connection string */
         'connection_string' => 'mongodb://localhost:27017',
+        /** MongoDB connection options */
         'mongo_options' => array(),
+        /** Name of a database to be used for cache storage */
         'db' => '',
+        /** Name of a collection to be used for cache storage */
         'collection' => 'cache'
     );
 

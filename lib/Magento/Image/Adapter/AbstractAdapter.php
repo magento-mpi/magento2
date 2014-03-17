@@ -551,6 +551,7 @@ abstract class AbstractAdapter implements AdapterInterface
         return array(
             'src' => array('x' => $srcX, 'y' => $srcY),
             'dst' => array('x' => $dstX, 'y' => $dstY, 'width' => $dstWidth, 'height' => $dstHeight),
+            // size for new image
             'frame' => array('width' => $frameWidth, 'height' => $frameHeight)
         );
     }

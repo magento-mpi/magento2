@@ -76,8 +76,13 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      * @param bool $canSaveMap
      * @throws \InvalidArgumentException
      */
-    public function __construct(Fallback $fallback, Filesystem $filesystem, $mapDir, $baseDir, $canSaveMap = true)
-    {
+    public function __construct(
+        Fallback $fallback,
+        Filesystem $filesystem,
+        $mapDir,
+        $baseDir, // magento root
+        $canSaveMap = true
+    ) {
         $this->fallback = $fallback;
         $this->varDirectory = $filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
         $rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);

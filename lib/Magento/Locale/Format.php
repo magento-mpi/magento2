@@ -115,6 +115,7 @@ class Format implements \Magento\Locale\FormatInterface
         $integerRequired = strpos($format, '.') - strpos($format, '0');
 
         $result = array(
+            //TODO: change interface
             'pattern' => $this->_scopeResolver->getScope()->getCurrentCurrency()->getOutputFormat(),
             'precision' => $totalPrecision,
             'requiredPrecision' => $requiredPrecision,

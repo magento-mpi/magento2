@@ -52,6 +52,7 @@ class Mysql extends \Zend_Db_Statement_Pdo
 
             if ($param instanceof Parameter) {
                 if ($param->getIsBlob()) {
+                    // Nothing to do there - default options are fine for MySQL driver
                 } else {
                     $dataType = $param->getDataType();
                     $length = $param->getLength();

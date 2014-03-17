@@ -153,6 +153,7 @@ class Pear
                     $key,
                     preg_replace('#^' . preg_quote($mageDir) . '#', $this->getBaseDir(), $config->get($key))
                 );
+                #echo $key.' : '.$config->get($key).'<br>';
             }
 
             $reg = $this->getRegistry();
@@ -197,6 +198,13 @@ class Pear
             if ($changed) {
                 $this->_registry = new PearRegistry($this->getPearDir() . '/php');
             }
+//            if ($changed && self::$reloadOnRegistryUpdate && empty($_GET['pear_registry'])) {
+//                echo "TEST:";
+//                echo self::$reloadOnRegistryUpdate;
+//                //TODO:refresh registry in memory to reflect discovered channels without redirect
+//                #header("Location: ".$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING'].'&pear_registry=1');
+//                exit;
+//            }
         }
         return $this->_registry;
     }
@@ -257,7 +265,7 @@ class Pear
      * @param string $uri
      * @return $this
      */
-    public function setRemoteConfig($uri)
+    public function setRemoteConfig($uri) #$host, $user, $password, $path='', $port=null)
     {
         #$uri = 'ftp://' . $user . ':' . $password . '@' . $host . (is_numeric($port) ? ':' . $port : '') . '/' . trim($path, '/') . '/';
         $this->run('config-set', array(), array('remote_config', $uri));

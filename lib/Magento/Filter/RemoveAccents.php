@@ -35,6 +35,7 @@ class RemoveAccents implements \Zend_Filter_Interface
 
         if (empty($replacements[$this->german])) {
             $substitutions = array(
+                // single ISO-8859-1 letters
                 192 => 'A',
                 193 => 'A',
                 194 => 'A',
@@ -96,6 +97,7 @@ class RemoveAccents implements \Zend_Filter_Interface
                 253 => 'y',
                 255 => 'y',
                 158 => 'z',
+                // HTML entities
                 258 => 'A',
                 260 => 'A',
                 262 => 'C',
@@ -148,6 +150,7 @@ class RemoveAccents implements \Zend_Filter_Interface
                 369 => 'u',
                 378 => 'z',
                 380 => 'z',
+                // ligatures
                 198 => 'Ae',
                 230 => 'ae',
                 140 => 'Oe',

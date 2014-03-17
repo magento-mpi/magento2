@@ -788,21 +788,21 @@ class File extends AbstractIo
     protected function _parsePermissions($mode)
     {
         if ($mode & 0x1000) {
-            $type = 'p';
+            $type = 'p'; /* FIFO pipe */
         } elseif ($mode & 0x2000) {
-            $type = 'c';
+            $type = 'c'; /* Character special */
         } elseif ($mode & 0x4000) {
-            $type = 'd';
+            $type = 'd'; /* \Directory */
         } elseif ($mode & 0x6000) {
-            $type = 'b';
+            $type = 'b'; /* Block special */
         } elseif ($mode & 0x8000) {
-            $type = '-';
+            $type = '-'; /* Regular */
         } elseif ($mode & 0xA000) {
-            $type = 'l';
+            $type = 'l'; /* Symbolic Link */
         } elseif ($mode & 0xC000) {
-            $type = 's';
+            $type = 's'; /* Socket */
         } else {
-            $type = 'u';
+            $type = 'u'; /* UNKNOWN */
         }
 
         /* Determine permissions */
