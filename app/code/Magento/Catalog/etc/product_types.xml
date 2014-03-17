@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/product_types.xsd">
     <type name="simple" label="Simple Product" modelInstance="Magento\Catalog\Model\Product\Type\Simple" indexPriority="10">
         <customAttributes>
             <attribute name="refundable" value="true"/>

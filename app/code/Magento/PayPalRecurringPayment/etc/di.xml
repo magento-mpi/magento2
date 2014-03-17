@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\RecurringPayment\Model\ManagerInterface" type="Magento\PayPalRecurringPayment\Model\Express" />
     <preference for="Magento\Paypal\Model\Api\Nvp" type="Magento\PayPalRecurringPayment\Model\Api\Nvp" />
     <type name="Magento\Paypal\Model\IpnFactory">

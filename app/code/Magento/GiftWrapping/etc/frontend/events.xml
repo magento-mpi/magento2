@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="checkout_controller_onepage_save_shipping_method">
         <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="checkoutProcessWrappingInfo" />
     </event>

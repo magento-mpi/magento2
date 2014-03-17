@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../../../lib/Magento/Object/etc/fieldset_file.xsd">
     <global>
         <fieldsets>
             <sales_copy_order>

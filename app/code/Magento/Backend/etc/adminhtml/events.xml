@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="translate_initialization_before">
         <observer name="initialize_translation" instance="Magento\Backend\Model\Observer" method="initializeTranslation" />
     </event>

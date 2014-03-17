@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
         <add id="Magento_Invitation::customer_magento_invitation" title="Invitations" module="Magento_Invitation" sortOrder="20" parent="Magento_Enterprise::private_sales" action="invitations/index" dependsOnModule="Magento_Invitation" dependsOnConfig="magento_invitation/general/enabled" resource="Magento_Invitation::magento_invitation"/>
         <add id="Magento_Invitation::report_magento_invitation" title="Private Sales" module="Magento_Invitation" sortOrder="70" parent="Magento_Reports::report" dependsOnModule="Magento_Invitation" dependsOnConfig="magento_invitation/general/enabled" resource="Magento_Invitation::report_magento_invitation"/>
