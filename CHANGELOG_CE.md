@@ -38,6 +38,7 @@
   * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
   * Fixed JS/CSS merging functionality (MAGETWO-21924)
   * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
+  * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
   * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
   * Fixed ability to check Solr connection (MAGETWO-19110)
   * Fixed ability to use of custom module front name (MAGETWO-16160)
