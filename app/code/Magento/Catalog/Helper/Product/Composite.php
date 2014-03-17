@@ -176,6 +176,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
             }
             if ($currentCustomer) {
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $currentCustomer);
+                $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $currentCustomer->getId());
             }
 
             // Prepare buy request values

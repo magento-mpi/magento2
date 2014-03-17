@@ -11,6 +11,7 @@ namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
 use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -59,6 +60,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $priceModifier;
 
     /**
+     * @var CustomerAccountService
+     */
+    protected $_customerAccountService;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Registry $registry
@@ -75,6 +81,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param \Magento\Catalog\Model\Product\PriceModifierInterface $priceModifier
+     * @param CustomerAccountService $customerAccountService
      * @param array $data
      * @param array $priceBlockTypes
      *
@@ -96,6 +103,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Product\Price $priceHelper,
+        CustomerAccountService $customerAccountService,
         PriceModifierInterface $priceModifier,
         array $data = array(),
         array $priceBlockTypes = array()
@@ -105,6 +113,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_jsonEncoder = $jsonEncoder;
         $this->priceHelper = $priceHelper;
         $this->priceModifier = $priceModifier;
+        $this->_customerAccountService = $customerAccountService;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -311,8 +320,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        if (!$this->priceHelper->getCustomer() && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER)) {
-            $this->priceHelper->setCustomer($this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER));
+        if (is_null($this->priceHelper->getCustomer()->getId()) && $this->_coreRegistry->registry(
+                RegistryConstants::CURRENT_CUSTOMER
+            )
+        ) {
+            $this->priceHelper->setCustomer(
+                $this->_customerAccountService->getCustomer(RegistryConstants::CURRENT_CUSTOMER_ID)
+            );
         }
 
         $_request = $this->priceHelper->getRateRequest(false, false, false);
