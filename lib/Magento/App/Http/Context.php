@@ -66,19 +66,6 @@ class Context
     }
 
     /**
-     * Set default values
-     *
-     * @param $name
-     * @param $value
-     * @return \Magento\App\Http\Context
-     */
-    public function setDefaultValue($name, $value)
-    {
-        $this->default[$name] = $value;
-        return $this;
-    }
-
-    /**
      * Return all data
      *
      * @return array
