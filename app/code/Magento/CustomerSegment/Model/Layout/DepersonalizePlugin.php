@@ -45,21 +45,29 @@ class DepersonalizePlugin
     protected $moduleManager;
 
     /**
+     * @var \Magento\PageCache\Model\Config
+     */
+    protected $cacheConfig;
+
+    /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\PageCache\Model\Config $cacheConfig
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\App\RequestInterface $request,
         \Magento\Module\Manager $moduleManager,
-        \Magento\App\Http\Context $httpContext
+        \Magento\App\Http\Context $httpContext,
+        \Magento\PageCache\Model\Config $cacheConfig
     ) {
         $this->customerSession = $customerSession;
         $this->request = $request;
         $this->moduleManager = $moduleManager;
         $this->httpContext = $httpContext;
+        $this->cacheConfig = $cacheConfig;
     }
 
     /**
@@ -71,6 +79,7 @@ class DepersonalizePlugin
     public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && $this->cacheConfig->isEnabled()
             && !$this->request->isAjax()
             && $subject->isCacheable()
         ) {
@@ -88,6 +97,7 @@ class DepersonalizePlugin
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && $this->cacheConfig->isEnabled()
             && !$this->request->isAjax()
             && $subject->isCacheable()
         ) {
