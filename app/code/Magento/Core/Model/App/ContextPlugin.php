@@ -29,18 +29,26 @@ class ContextPlugin
     protected $httpRequest;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\App\Request\Http $httpRequest
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Session\SessionManagerInterface $session,
         \Magento\App\Http\Context $httpContext,
-        \Magento\App\Request\Http $httpRequest
+        \Magento\App\Request\Http $httpRequest,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->session      = $session;
         $this->httpContext  = $httpContext;
         $this->httpRequest  = $httpRequest;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -51,11 +59,20 @@ class ContextPlugin
      */
     public function beforeLaunch(\Magento\LauncherInterface $subject)
     {
-        $this->httpContext->setValue(\Magento\Core\Helper\Data::CONTEXT_CURRENCY,
-            $this->session->getCurrencyCode());
-        $this->httpContext->setValue(\Magento\Core\Helper\Data::CONTEXT_STORE,
-            $this->httpRequest->getParam('___store',
-                $this->httpRequest->getCookie(\Magento\Core\Model\Store::COOKIE_NAME))
-            );
+        $this->httpContext->setValue(
+            \Magento\Core\Helper\Data::CONTEXT_CURRENCY,
+            $this->session->getCurrencyCode(),
+            $this->storeManager->getWebsite()->getDefaultStore()->getDefaultCurrency()->getCode()
+        );
+
+        $this->httpContext->setValue(
+            \Magento\Core\Helper\Data::CONTEXT_STORE,
+            $this->httpRequest->getParam(
+                '___store',
+                $this->httpRequest->getCookie(\Magento\Core\Model\Store::COOKIE_NAME)
+            ),
+            $this->storeManager->getWebsite()->getDefaultStore()->getCode()
+        );
+        return;
     }
 }

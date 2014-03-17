@@ -21,15 +21,25 @@ class Context
     protected $data = array();
 
     /**
+     * @var array
+     */
+    protected $default = array();
+
+    /**
      * Data setter
      *
      * @param string $name
      * @param mixed $value
-     * @return void
+     * @param mixed $default
+     * @return \Magento\App\Http\Context
      */
-    public function setValue($name, $value)
+    public function setValue($name, $value, $default)
     {
+        if ($default !== null) {
+            $this->default[$name] = $default;
+        }
         $this->data[$name] = $value;
+        return $this;
     }
 
     /**
@@ -41,6 +51,7 @@ class Context
     public function unsValue($name)
     {
         unset($this->data[$name]);
+        return;
     }
 
     /**
@@ -51,7 +62,20 @@ class Context
      */
     public function getValue($name)
     {
-        return isset($this->data[$name]) ? $this->data[$name] : null;
+        return isset($this->data[$name]) ? $this->data[$name] : $this->default[$name];
+    }
+
+    /**
+     * Set default values
+     *
+     * @param $name
+     * @param $value
+     * @return \Magento\App\Http\Context
+     */
+    public function setDefaultValue($name, $value)
+    {
+        $this->default[$name] = $value;
+        return $this;
     }
 
     /**
@@ -61,6 +85,12 @@ class Context
      */
     public function getData()
     {
-        return $this->data;
+        $data = [];
+        foreach ($this->data as $name => $value) {
+            if ($value && $value != $this->default[$name]) {
+                $data[$name] = $value;
+            }
+        }
+        return $data;
     }
 }
