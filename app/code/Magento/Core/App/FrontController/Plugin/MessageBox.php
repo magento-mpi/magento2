@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_PageCache
+ * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -44,18 +44,26 @@ class MessageBox
     protected $config;
 
     /**
+     * @var \Magento\View\Element\Messages
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Request\Http $request
      * @param \Magento\PageCache\Model\Config $config
+     * @param \Magento\View\Element\Messages $messageManager
      */
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Request\Http $request,
-        \Magento\PageCache\Model\Config $config
+        \Magento\PageCache\Model\Config $config,
+        \Magento\View\Element\Messages $messageManager
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
         $this->config = $config;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -67,10 +75,22 @@ class MessageBox
      * @return \Magento\App\ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterDispatch(\Magento\App\FrontController $subject, \Magento\App\ResponseInterface $response) {
-        if ($this->request->isPost() && $this->config->isEnabled() && $this->cookie->get(self::COOKIE_NAME)) {
-            $this->cookie->set(self::COOKIE_NAME, null, null, '/');
+    public function afterDispatch(\Magento\App\FrontController $subject, \Magento\App\ResponseInterface $response)
+    {
+        if ($this->request->isPost() && $this->config->isEnabled() && $this->isMessage()) {
+            $this->cookie->set(self::COOKIE_NAME, 1, self::COOKIE_PERIOD, '/');
         }
         return $response;
+    }
+
+    /**
+     * Return true if there any messages for customer
+     * false - another case
+     *
+     * @return bool
+     */
+    protected function isMessage()
+    {
+        return $this->messageManager->getMessageCollection() ? true : false;
     }
 }
