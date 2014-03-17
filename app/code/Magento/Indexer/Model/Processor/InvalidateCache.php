@@ -47,7 +47,8 @@ class InvalidateCache
      * Update indexer views
      *
      * @param \Magento\Indexer\Model\Processor $subject
-     * @param $result
+     * @param mixed $result
+     * @return mixed
      */
     public function afterUpdateMview(\Magento\Indexer\Model\Processor $subject, $result)
     {

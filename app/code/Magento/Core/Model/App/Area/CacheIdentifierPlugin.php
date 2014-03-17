@@ -37,7 +37,7 @@ class CacheIdentifierPlugin
      * Adds a theme key to identifier for a built-in cache if user-agent theme rule is actual
      *
      * @param \Magento\App\PageCache\Identifier $identifier
-     * @param string
+     * @param string $result
      * @return string
      */
     public function afterGetValue(\Magento\App\PageCache\Identifier $identifier, $result)

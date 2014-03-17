@@ -21,9 +21,9 @@ abstract class AbstractFilterGroup extends AbstractObject implements FilterGroup
     /**
      * {@inheritdoc}
      */
-    public function __construct(AbstractFilterGroupBuilder $filterGroupBuilder)
+    public function __construct(AbstractFilterGroupBuilder $builder)
     {
-        parent::__construct($filterGroupBuilder);
+        parent::__construct($builder);
         $this->_data['group_type'] = $this->getGroupType();
     }
 

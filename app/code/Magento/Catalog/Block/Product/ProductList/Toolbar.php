@@ -18,8 +18,6 @@ use Magento\Catalog\Helper\Data;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\ProductList;
-
 class Toolbar extends \Magento\View\Element\Template
 {
     /**
@@ -411,6 +409,10 @@ class Toolbar extends \Magento\View\Element\Template
         return $this->getUrl('*/*/*', $urlParams);
     }
 
+    /**
+     * @param array $params
+     * @return string
+     */
     public function getPagerEncodedUrl($params = array())
     {
         return $this->_catalogHelper->urlEncode($this->getPagerUrl($params));

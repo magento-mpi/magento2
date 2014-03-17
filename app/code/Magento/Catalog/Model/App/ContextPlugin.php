@@ -41,6 +41,7 @@ class ContextPlugin
      * Before launch plugin
      *
      * @param \Magento\LauncherInterface $subject
+     * @return void
      */
     public function beforeLaunch(\Magento\LauncherInterface $subject)
     {
