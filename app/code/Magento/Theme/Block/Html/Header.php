@@ -37,6 +37,7 @@ class Header extends \Magento\View\Element\Template
      */
     protected $httpContext;
 
+
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
@@ -55,6 +56,7 @@ class Header extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;
+        $this->_isScopePrivate = true;
     }
 
     /**
