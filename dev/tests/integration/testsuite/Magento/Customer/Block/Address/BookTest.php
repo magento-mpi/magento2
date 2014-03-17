@@ -161,9 +161,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultBilling($customerId, $expected)
     {
-        if (!empty($customerId)) {
-            $this->currentCustomer->setCustomerId($customerId);
-        }
+        $this->currentCustomer->setCustomerId($customerId);
         $this->assertEquals($expected, $this->_block->getDefaultBilling());
     }
 
