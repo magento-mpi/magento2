@@ -66,6 +66,11 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     protected $moduleManagerMock;
 
     /**
+     * @var \Magento\PageCache\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cacheConfig;
+
+    /**
      * SetUp
      */
     public function setUp()
@@ -81,11 +86,14 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         );
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
 
+        $this->cacheConfig = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
+
         $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
             $this->customerSessionMock,
             $this->requestMock,
             $this->moduleManagerMock,
-            $this->httpContextMock
+            $this->httpContextMock,
+            $this->cacheConfig
         );
     }
 
@@ -95,9 +103,13 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     public function testBeforeGenerateXml()
     {
         $expectedCustomerSegmentIds = array(1, 2, 3);
+        $defaultCustomerSegmentIds = array();
         $this->moduleManagerMock->expects($this->exactly(2))
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))
+            ->will($this->returnValue(true));
+        $this->cacheConfig->expects($this->exactly(2))
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->exactly(2))
             ->method('isAjax')
@@ -113,8 +125,10 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($expectedCustomerSegmentIds));
         $this->httpContextMock->expects($this->once())
             ->method('setValue')
-            ->with($this->equalTo(\Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT),
-                $this->equalTo($expectedCustomerSegmentIds)
+            ->with(
+                $this->equalTo(\Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT),
+                $this->equalTo($expectedCustomerSegmentIds),
+                $this->equalTo($defaultCustomerSegmentIds)
             );
         $this->plugin->beforeGenerateXml($this->layoutMock);
         $result = 'data';
@@ -129,6 +143,9 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock->expects($this->exactly(2))
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))
+            ->will($this->returnValue(true));
+        $this->cacheConfig->expects($this->exactly(2))
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->exactly(2))
             ->method('isAjax')
@@ -148,6 +165,9 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock->expects($this->exactly(2))
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))
+            ->will($this->returnValue(true));
+        $this->cacheConfig->expects($this->exactly(2))
+            ->method('isEnabled')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->exactly(2))
             ->method('isAjax')
