@@ -29,14 +29,28 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
     {
         $this->_pathGenerator = $this->getMock('\Magento\View\Asset\PathGenerator', array(), array(), '', false );
         $this->_fileSource = $this->getMock('\Magento\View\Asset\SourceFileInterface', array(), array(), '', false );
-        $this->_asset = new \Magento\View\Asset\FileId(
-            $this->_pathGenerator,
-            $this->_fileSource,
-            'Module_One::fileId.ext',
-            'baseUrl',
-            'areaCode',
-            'themePath',
-            'localeCode'
+        $this->_asset = $this->createAsset('Fixture_Module::fileId.ext');
+    }
+
+    /**
+     * Return newly created asset instance
+     *
+     * @param string $fileId
+     * @param string $baseUrl
+     * @param string $areaCode
+     * @param string $themePath
+     * @param string $localeCode
+     * @return FileId
+     */
+    protected function createAsset(
+        $fileId,
+        $baseUrl = 'http://127.0.0.1',
+        $areaCode = 'fixture_area',
+        $themePath = 'fixture_theme',
+        $localeCode = 'fixture_locale'
+    ) {
+        return new FileId(
+            $this->_pathGenerator, $this->_fileSource, $fileId, $baseUrl, $areaCode, $themePath, $localeCode
         );
     }
 
@@ -46,15 +60,7 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new \Magento\View\Asset\FileId(
-            $this->_pathGenerator,
-            $this->_fileSource,
-            'fileNoExt',
-            'baseUrl',
-            'areaCode',
-            'themePath',
-            'localeCode'
-        );
+        $this->createAsset('fileNoExt');
     }
 
     /**
@@ -81,36 +87,110 @@ class FileIdTest extends \PHPUnit_Framework_TestCase
     {
         $this->_pathGenerator->expects($this->once())
             ->method('getPath')
-            ->with('areaCode', 'themePath', 'localeCode', 'Module_One')
+            ->with('fixture_area', 'fixture_theme', 'fixture_locale', 'Fixture_Module')
             ->will($this->returnValue('generatedPath'));
         $this->assertEquals('generatedPath/fileId.ext', $this->_asset->getRelativePath());
     }
 
     public function testGetModule()
     {
-        $this->assertEquals('Module_One', $this->_asset->getModule());
+        $this->assertEquals('Fixture_Module', $this->_asset->getModule());
     }
 
     public function testGetAreaCode()
     {
-        $this->assertEquals('areaCode', $this->_asset->getAreaCode());
+        $this->assertEquals('fixture_area', $this->_asset->getAreaCode());
     }
 
     public function testThemePath()
     {
-        $this->assertEquals('themePath', $this->_asset->getThemePath());
+        $this->assertEquals('fixture_theme', $this->_asset->getThemePath());
     }
 
     public function testGetLocaleCode()
     {
-        $this->assertEquals('localeCode', $this->_asset->getLocaleCode());
+        $this->assertEquals('fixture_locale', $this->_asset->getLocaleCode());
     }
 
-    public function testCreateSimilar()
+    /**
+     * @param string $fixtureFileId
+     * @param string $relativeFileId
+     * @param array $expectedAssetData
+     *
+     * @dataProvider createRelativeDataProvider
+     */
+    public function testCreateRelative(
+        $fixtureFileId, $relativeFileId, array $expectedAssetData
+    ) {
+        $fixtureAsset = $this->createAsset($fixtureFileId);
+        $expectedAssetData['areaCode'] = $fixtureAsset->getAreaCode();
+        $expectedAssetData['themePath'] = $fixtureAsset->getThemePath();
+        $expectedAssetData['localeCode'] = $fixtureAsset->getLocaleCode();
+
+        $actualResult = $fixtureAsset->createRelative($relativeFileId);
+        $actualAssetData = $this->retrieveDataViaGetters($actualResult, array_keys($expectedAssetData));
+
+        $this->assertEquals($expectedAssetData, $actualAssetData);
+        $this->assertNotSame($fixtureAsset, $actualResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function createRelativeDataProvider()
     {
-        $similarAsset = $this->_asset->createSimilar('Module_One::fileId.ext');
-        $this->assertEquals($this->_asset, $similarAsset);
-        $this->assertNotSame($this->_asset, $similarAsset);
+        return array(
+            'absolute modular file id' => array(
+                'Fixture_ModuleOne::fixture_dir/fileId.ext',
+                'Fixture_ModuleTwo::anotherFileId.ext',
+                array(
+                    'relativePath'  => '/anotherFileId.ext',
+                    'module'        => 'Fixture_ModuleTwo',
+                    'url'           => 'http://127.0.0.1/anotherFileId.ext',
+                    'contentType'   => 'ext',
+                    'filePath'      => 'anotherFileId.ext',
+                )
+            ),
+            'relative to modular file id' => array(
+                'Fixture_Module::fixture_dir/fileId.ext',
+                'relative/path/anotherFileId.ext',
+                array(
+                    'relativePath'  => '/fixture_dir/relative/path/anotherFileId.ext',
+                    'module'        => 'Fixture_Module',
+                    'url'           => 'http://127.0.0.1/fixture_dir/relative/path/anotherFileId.ext',
+                    'contentType'   => 'ext',
+                    'filePath'      => 'fixture_dir/relative/path/anotherFileId.ext',
+                )
+            ),
+            'relative to non-modular file id' => array(
+                'fixture_dir/fileId.ext',
+                'relative/path/anotherFileId.ext',
+                array(
+                    'relativePath'  => '/fixture_dir/relative/path/anotherFileId.ext',
+                    'module'        => '',
+                    'url'           => 'http://127.0.0.1/fixture_dir/relative/path/anotherFileId.ext',
+                    'contentType'   => 'ext',
+                    'filePath'      => 'fixture_dir/relative/path/anotherFileId.ext',
+                )
+            ),
+        );
+    }
+
+    /**
+     * Retrieve values of object properties by calling corresponding conventionally named getter methods
+     *
+     * @param object $object
+     * @param array $properties
+     * @return array
+     */
+    protected function retrieveDataViaGetters($object, array $properties)
+    {
+        $result = array();
+        foreach ($properties as $propertyName) {
+            $getterName = 'get' . ucfirst($propertyName);
+            $result[$propertyName] = $object->$getterName();
+        }
+        return $result;
     }
 
     /**

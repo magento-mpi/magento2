@@ -144,14 +144,23 @@ class FileId extends File
     }
 
     /**
-     * Spawn a new instance of self class with all the same parameter and internal state, but a different fileId
+     * Spawn a new instance of self class with identical parameters, but a new fileId relative to the current asset
      *
-     * @param string $fileId
+     * @param string $relativeFileId
      * @return FileId
      */
-    public function createSimilar($fileId)
+    public function createRelative($relativeFileId)
     {
-        return new FileId(
+        if (strpos($relativeFileId, self::FILE_ID_SEPARATOR) === false) {
+            $thisPath = dirname($this->getFilePath());
+            $fileId = \Magento\View\FileSystem::normalizePath($thisPath . '/' . $relativeFileId);
+            if ($this->getModule()) {
+                $fileId = $this->getModule() . self::FILE_ID_SEPARATOR . $fileId;
+            }
+        } else {
+            $fileId = $relativeFileId;
+        }
+        return new self(
             $this->pathGenerator,
             $this->fileSource,
             $fileId,

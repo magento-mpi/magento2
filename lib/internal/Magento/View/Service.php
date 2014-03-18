@@ -8,8 +8,6 @@
 
 namespace Magento\View;
 
-use Magento\UrlInterface;
-
 /**
  * A repository for view assets
  *
@@ -131,15 +129,16 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
         if ($file) {
             $origContent = file_get_contents($file);
             $origContentType = pathinfo($file, PATHINFO_EXTENSION);
+            $targetContentType = $asset->getContentType();
             $content = $origContent;
             $contentType = $origContentType;
-            foreach ($this->preprocessorFactory->getPreProcessors($origContentType) as $processor) {
+            foreach ($this->preprocessorFactory->getPreProcessors($origContentType, $targetContentType) as $processor) {
                 list($content, $contentType) = $processor->process($content, $contentType, $asset);
             }
-            if ($contentType !== $asset->getContentType()) {
+            if ($contentType !== $targetContentType) {
                 // impose an integrity check to avoid generating mismatching content type
                 throw new \LogicException(
-                    "The requested asset type was '{$asset->getContentType()}', but ended up with '{$contentType}'"
+                    "The requested asset type was '{$targetContentType}', but ended up with '{$contentType}'"
                 );
             }
             if ($origContent != $content || $origContentType != $contentType) {

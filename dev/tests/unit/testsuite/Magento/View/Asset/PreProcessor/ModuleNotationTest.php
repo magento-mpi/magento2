@@ -73,7 +73,7 @@ class ModuleNotationTest extends \PHPUnit_Framework_TestCase
             ->method('getRelativePath')
             ->will($this->returnValue($assetRelPath));
         $this->assetMock->expects($this->once())
-            ->method('createSimilar')
+            ->method('createRelative')
             ->with($relatedFieldId)
             ->will($this->returnValue($similarAssetMock));
         $this->assertEquals(

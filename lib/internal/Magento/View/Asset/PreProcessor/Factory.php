@@ -29,23 +29,26 @@ class Factory
     }
 
     /**
-     * Get a list of preprocessors for specified content type
+     * Retrieve preprocessors instances suitable to convert source content type into a destination one
      *
-     * @param string $contentType
+     * @param string $sourceContentType
+     * @param string $targetContentType
      * @return \Magento\View\Asset\PreProcessorInterface[]
      */
-    public function getPreProcessors($contentType)
+    public function getPreProcessors($sourceContentType, $targetContentType)
     {
-        switch ($contentType) {
-            case 'css':
-                return array(
-                    $this->objectManager->get('Magento\View\Asset\PreProcessor\ModuleNotation'),
-                );
-            case 'less':
-                // not implemented yet
-                return array();
-            default:
-                return array();
+        $result = array();
+        if ($sourceContentType == 'less') {
+            if ($targetContentType == 'css') {
+                $result[] = $this->objectManager->get('Magento\Css\PreProcessor\Less');
+            } else if ($targetContentType == 'less') {
+                $result[] = $this->objectManager->get('Magento\Less\PreProcessor\Instruction\MagentoImport');
+                $result[] = $this->objectManager->get('Magento\Less\PreProcessor\Instruction\Import');
+            }
         }
+        if ($targetContentType == 'css') {
+            $result[] = $this->objectManager->get('Magento\View\Asset\PreProcessor\ModuleNotation');
+        }
+        return $result;
     }
 } 

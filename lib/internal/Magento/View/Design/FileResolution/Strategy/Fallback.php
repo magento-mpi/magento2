@@ -71,7 +71,7 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     public function __construct(
         Filesystem $filesystem,
         Factory $fallbackFactory,
-        array $staticExtensionRule = array('css' => array('less'))
+        array $staticExtensionRule = array()
     ) {
         $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         $this->fallbackFactory = $fallbackFactory;

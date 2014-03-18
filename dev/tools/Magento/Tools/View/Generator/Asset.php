@@ -37,9 +37,9 @@ class Asset extends \Magento\View\Asset\FileId
      * @param string $fileId
      * @return Asset|\Magento\View\Asset\FileId
      */
-    public function createSimilar($fileId)
+    public function createRelative($fileId)
     {
-        return new Asset($this->pathGenerator, $fileId, $this->area, $this->themePath);
+        return new self($this->pathGenerator, $fileId, $this->area, $this->themePath);
     }
 
     /**

@@ -213,7 +213,8 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
         $fallback = new Fallback(
             $filesystem,
-            $this->fallbackFactory
+            $this->fallbackFactory,
+            array('css' => array('less'))
         );
         $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => 'Namespace', 'module' => 'Module',
             'locale' => 'locale');

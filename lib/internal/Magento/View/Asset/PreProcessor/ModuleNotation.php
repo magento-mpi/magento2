@@ -72,7 +72,7 @@ class ModuleNotation implements Asset\PreProcessorInterface
             return $relatedFileId;
         }
         $thisPath = $thisAsset->getRelativePath();
-        $relatedPath = $thisAsset->createSimilar($relatedFileId)->getRelativePath();
+        $relatedPath = $thisAsset->createRelative($relatedFileId)->getRelativePath();
         $offset = FileSystem::offsetPath($relatedPath, $thisPath);
         return FileSystem::normalizePath($offset . '/' . basename($relatedPath));
     }

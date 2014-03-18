@@ -8,22 +8,15 @@
 
 namespace Magento\Css\PreProcessor;
 
-use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\View\Asset\PreProcessorInterface;
+use Magento\View\Asset\LocalInterface;
 
-/**
- * Css pre-processor less
- */
 class Less implements PreProcessorInterface
 {
     /**
-     * Temporary directory prefix
+     * @var \Magento\Less\FileGenerator
      */
-    const TMP_LESS_DIR = 'less';
-
-    /**
-     * @var \Magento\Less\PreProcessor
-     */
-    protected $lessPreProcessor;
+    protected $fileGenerator;
 
     /**
      * @var AdapterInterface
@@ -36,85 +29,34 @@ class Less implements PreProcessorInterface
     protected $logger;
 
     /**
-     * @var \Magento\View\Publisher\FileFactory
-     */
-    protected $fileFactory;
-
-    /**
-     * @param \Magento\Less\PreProcessor $lessPreProcessor
+     * @param \Magento\Less\FileGenerator $fileGenerator
      * @param AdapterInterface $adapter
      * @param \Magento\Logger $logger
-     * @param \Magento\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Less\PreProcessor $lessPreProcessor,
+        \Magento\Less\FileGenerator $fileGenerator,
         AdapterInterface $adapter,
-        \Magento\Logger $logger,
-        \Magento\View\Publisher\FileFactory $fileFactory
+        \Magento\Logger $logger
     ) {
-        $this->lessPreProcessor = $lessPreProcessor;
+        $this->fileGenerator = $fileGenerator;
         $this->adapter = $adapter;
         $this->logger = $logger;
-        $this->fileFactory = $fileFactory;
     }
 
     /**
-     * Process LESS file content
-     *
-     * @param \Magento\View\Publisher\FileInterface $publisherFile
-     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return \Magento\View\Publisher\FileInterface
+     * {@inheritdoc}
      */
-    public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
+    public function process($content, $contentType, LocalInterface $asset)
     {
-        // if css file has being already found_by_fallback or prepared_by_previous_pre-processor
-        if ($publisherFile->getSourcePath()) {
-            return $publisherFile;
-        }
-
         try {
-            $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions(
-                $this->replaceExtension($publisherFile->getFilePath(), 'css', 'less'),
-                $publisherFile->getViewParams()
-            );
-            $cssContent = $this->adapter->process($preparedLessFileSourcePath);
+            $tmpLessFile = $this->fileGenerator->generateLessFileTree($content, $asset);
+            $content = $this->adapter->process($tmpLessFile);
+            $contentType = 'css';
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
-            return $publisherFile; // It has 'null' source path
         } catch (Adapter\AdapterException $e) {
             $this->logger->logException($e);
-            return $publisherFile; // It has 'null' source path
         }
-
-
-        $tmpFilePath = \Magento\View\Service::TMP_MATERIALIZATION_DIR
-            . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->buildUniquePath()
-        ;
-        $targetDirectory->writeFile($tmpFilePath, $cssContent);
-
-        $processedFile = $this->fileFactory->create(
-            $publisherFile->getFilePath(),
-            $publisherFile->getViewParams(),
-            $targetDirectory->getAbsolutePath($tmpFilePath)
-        );
-
-        return $processedFile;
-    }
-
-    /**
-     * @param string $filePath
-     * @param string $search
-     * @param string $replace
-     * @return string
-     */
-    protected function replaceExtension($filePath, $search, $replace)
-    {
-        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        if ($extension === $search) {
-            $dotPosition = strrpos($filePath, '.');
-            $filePath = substr($filePath, 0, $dotPosition + 1) . $replace;
-        }
-
-        return $filePath;
+        return array($content, $contentType);
     }
 }

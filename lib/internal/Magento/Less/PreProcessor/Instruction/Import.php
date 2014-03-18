@@ -8,9 +8,10 @@
 
 namespace Magento\Less\PreProcessor\Instruction;
 
-use Magento\Less\PreProcessorInterface;
-use Magento\Less\PreProcessor;
-use Magento\View;
+use Magento\View\Asset\PreProcessorInterface;
+use Magento\View\Asset\LocalInterface;
+use Magento\View\Asset\FileId;
+use Magento\View\Asset\PreProcessor\ModuleNotation;
 
 /**
  * Less @import instruction preprocessor
@@ -24,120 +25,80 @@ class Import implements PreProcessorInterface
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
-     * @var PreProcessor\File\FileList
+     * @var array
      */
-    protected $fileList;
-
-    /**
-     * Pre-processor file factory
-     *
-     * @var PreProcessor\File\LessFactory
-     */
-    protected $fileFactory;
-
-    /**
-     * Pre-processor error handler
-     *
-     * @var PreProcessor\ErrorHandlerInterface
-     */
-    protected $errorHandler;
-
-    /**
-     * Related file
-     *
-     * @var View\RelatedFile
-     */
-    protected $relatedFile;
-
-    /**
-     * @param View\RelatedFile $relatedFile
-     * @param PreProcessor\ErrorHandlerInterface $errorHandler
-     * @param PreProcessor\File\FileList $fileList
-     * @param PreProcessor\File\LessFactory $fileFactory
-     */
-    public function __construct(
-        View\RelatedFile $relatedFile,
-        PreProcessor\ErrorHandlerInterface $errorHandler,
-        PreProcessor\File\FileList $fileList,
-        PreProcessor\File\LessFactory $fileFactory
-    ) {
-        $this->relatedFile = $relatedFile;
-        $this->errorHandler = $errorHandler;
-        $this->fileList = $fileList;
-        $this->fileFactory = $fileFactory;
-    }
-
-    /**
-     * Explode import paths
-     *
-     * @param \Magento\Less\PreProcessor\File\Less $lessFile
-     * @param array $matchedPaths
-     * @return array
-     */
-    protected function generatePaths(PreProcessor\File\Less $lessFile, $matchedPaths)
-    {
-        $importPaths = array();
-        foreach ($matchedPaths as $path) {
-            try {
-                $viewParams = $lessFile->getViewParams();
-                $resolvedPath = $this->relatedFile->buildPath(
-                    $this->preparePath($path),
-                    $lessFile->getFilePath(),
-                    $viewParams
-                );
-                $importedLessFile = $this->fileFactory->create([
-                    'filePath'   => $resolvedPath,
-                    'viewParams' => $viewParams
-                ]);
-                $this->fileList->addFile($importedLessFile);
-                $importPaths[$path] = $importedLessFile->getPublicationPath();
-            } catch (\Magento\Filesystem\FilesystemException $e) {
-                $this->errorHandler->processException($e);
-            }
-        }
-        return $importPaths;
-    }
-
-    /**
-     * Prepare relative path to less compatible state
-     *
-     * @param string $lessSourcePath
-     * @return string
-     */
-    protected function preparePath($lessSourcePath)
-    {
-        return pathinfo($lessSourcePath, PATHINFO_EXTENSION) ? $lessSourcePath : $lessSourcePath . '.less';
-    }
+    protected $relatedFiles = array();
 
     /**
      * {@inheritdoc}
      */
-    public function process(PreProcessor\File\Less $lessFile, $lessContent)
+    public function process($content, $contentType, LocalInterface $asset)
     {
-        $matches = [];
-        preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);
-        $importPaths = $this->generatePaths($lessFile, $matches['path']);
-        $replaceCallback = function ($matchContent) use ($importPaths) {
-            return $this->replace($matchContent, $importPaths);
+        $replaceCallback = function ($matchContent) use ($asset) {
+            return $this->replace($matchContent, $asset);
         };
-        return preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $lessContent);
+        $content = preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $content);
+        return array($content, $contentType);
     }
 
     /**
-     * Replace import path to file
+     * Retrieve information on all related files, processed so far
      *
-     * @param array $matchContent
-     * @param array $importPaths
+     * @return array
+     */
+    public function getRelatedFiles()
+    {
+        return $this->relatedFiles;
+    }
+
+    /**
+     * Clear the record of related files, processed so far
+     */
+    public function resetRelatedFiles()
+    {
+        $this->relatedFiles = array();
+    }
+
+    /**
+     * Add related file to the record of processed files
+     *
+     * @param string $matchedFileId
+     * @param FileId $asset
+     */
+    protected function recordRelatedFile($matchedFileId, FileId $asset)
+    {
+        $this->relatedFiles[] = array($matchedFileId, $asset);
+    }
+
+    /**
+     * Return replacement of an original @import directive
+     *
+     * @param array $matchedContent
+     * @param FileId $asset
      * @return string
      */
-    protected function replace($matchContent, $importPaths)
+    protected function replace(array $matchedContent, FileId $asset)
     {
-        if (empty($importPaths[$matchContent['path']])) {
-            return '';
+        $matchedFileId = $this->fixFileExtension($matchedContent['path']);
+        $this->recordRelatedFile($matchedFileId, $asset);
+        $resolvedPath = ModuleNotation::convertModuleNotationToPath($asset, $matchedFileId);
+        $typeString = empty($matchedContent['type']) ? '' : '(' . $matchedContent['type'] . ') ';
+        $mediaString = empty($matchedContent['media']) ? '' : ' ' . $matchedContent['media'];
+        return "@import {$typeString}'{$resolvedPath}'{$mediaString};";
+    }
+
+    /**
+     * Resolve extension of imported asset according to the specification of LESS format
+     *
+     * @param string $fileId
+     * @return string
+     * @link http://lesscss.org/features/#import-directives-feature-file-extensions
+     */
+    protected function fixFileExtension($fileId)
+    {
+        if (!pathinfo($fileId, PATHINFO_EXTENSION)) {
+            $fileId .= '.less';
         }
-        $filePath = $importPaths[$matchContent['path']];
-        $typeString = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';
-        $mediaString = empty($matchContent['media']) ? '' : ' ' . $matchContent['media'];
-        return "@import {$typeString}'{$filePath}'{$mediaString};";
+        return $fileId;
     }
 }

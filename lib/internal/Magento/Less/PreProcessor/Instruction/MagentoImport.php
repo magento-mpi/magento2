@@ -8,104 +8,85 @@
 
 namespace Magento\Less\PreProcessor\Instruction;
 
-use Magento\Less\PreProcessor;
-use Magento\Less\PreProcessorInterface;
-use Magento\View;
+use Magento\Less\PreProcessor\ErrorHandlerInterface;
+use Magento\View\Asset\PreProcessorInterface;
+use Magento\View\Asset\LocalInterface;
+use Magento\View\Asset\FileId;
+use Magento\View\Asset\PreProcessor\ModuleNotation;
+use Magento\View\DesignInterface;
+use Magento\View\File\SourceInterface;
 
 /**
- * Less @magento_import instruction preprocessor
+ * LESS @magento_import instruction preprocessor
  */
 class MagentoImport implements PreProcessorInterface
 {
     /**
-     * Pattern of @import less instruction
+     * PCRE pattern that matches @magento_import LESS instruction
      */
     const REPLACE_PATTERN = '#//@magento_import\s+[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?;#';
 
     /**
-     * Layout file source
-     *
-     * @var \Magento\View\File\SourceInterface
+     * @var DesignInterface
+     */
+    protected $design;
+
+    /**
+     * @var SourceInterface
      */
     protected $fileSource;
 
     /**
-     * Pre-processor error handler
-     *
-     * @var PreProcessor\ErrorHandlerInterface
+     * @var ErrorHandlerInterface
      */
     protected $errorHandler;
 
     /**
-     * Related file
-     *
-     * @var \Magento\View\RelatedFile
-     */
-    protected $relatedFile;
-
-    /**
-     * View service
-     *
-     * @var \Magento\View\Asset\Service
-     */
-    protected $assetService;
-
-    /**
-     * @param View\File\SourceInterface $fileSource
-     * @param View\Asset\Service $assetService
-     * @param View\RelatedFile $relatedFile
-     * @param PreProcessor\ErrorHandlerInterface $errorHandler
+     * @param DesignInterface $design
+     * @param SourceInterface $fileSource
+     * @param ErrorHandlerInterface $errorHandler
      */
     public function __construct(
-        View\File\SourceInterface $fileSource,
-        View\Asset\Service $assetService,
-        View\RelatedFile $relatedFile,
-        PreProcessor\ErrorHandlerInterface $errorHandler
+        DesignInterface $design,
+        SourceInterface $fileSource,
+        ErrorHandlerInterface $errorHandler
     ) {
+        $this->design = $design;
         $this->fileSource = $fileSource;
-        $this->assetService = $assetService;
-        $this->relatedFile = $relatedFile;
         $this->errorHandler = $errorHandler;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function process(PreProcessor\File\Less $lessFile, $lessContent)
+    public function process($content, $contentType, LocalInterface $asset)
     {
-        $viewParams = $lessFile->getViewParams();
-        $parentPath = $lessFile->getFilePath();
-        $this->assetService->updateDesignParams($viewParams);
-        $replaceCallback = function ($matchContent) use ($viewParams, $parentPath) {
-            return $this->replace($matchContent, $viewParams, $parentPath);
+        $replaceCallback = function ($matchContent) use ($asset) {
+            return $this->replace($matchContent, $asset);
         };
-        return preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $lessContent);
+        $content = preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $content);
+        return array($content, $contentType);
     }
 
     /**
      * Replace @magento_import to @import less instructions
      *
-     * @param array $matchContent
-     * @param array $viewParams
-     * @param string $parentPath
+     * @param array $matchedContent
+     * @param FileId $asset
      * @return string
      */
-    protected function replace($matchContent, $viewParams, $parentPath)
+    protected function replace(array $matchedContent, FileId $asset)
     {
         $importsContent = '';
         try {
-            $resolvedPath = $this->relatedFile->buildPath($matchContent['path'], $parentPath, $viewParams);
-
-            $filePath = pathinfo($resolvedPath, PATHINFO_EXTENSION)
-                ? $resolvedPath
-                : rtrim($resolvedPath, '.') . '.less';
-
-            $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $filePath);
+            $matchedFileId = $matchedContent['path'];
+            $resolvedPath = ModuleNotation::convertModuleNotationToPath($asset, $matchedFileId);
+            $importFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), $resolvedPath);
             /** @var $importFile \Magento\View\File */
             foreach ($importFiles as $importFile) {
-                $importsContent .=  $importFile->getModule()
-                    ? "@import '{$importFile->getModule()}::{$resolvedPath}';\n"
-                    : "@import '{$matchContent['path']}';\n";
+                $importsContent .= $importFile->getModule()
+                    ? "@import '{$importFile->getModule()}::{$importFile->getFilename()}';\n"
+                    : "@import '{$importFile->getFilename()}';\n";
             }
         } catch (\LogicException $e) {
             $this->errorHandler->processException($e);
