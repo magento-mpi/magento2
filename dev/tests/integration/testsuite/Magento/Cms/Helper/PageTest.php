@@ -22,8 +22,11 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderPage()
     {
+
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $httpContext = $objectManager->get('Magento\App\Http\Context');
+        $httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $arguments = array(
             'request' => $objectManager->get('Magento\TestFramework\Request'),
