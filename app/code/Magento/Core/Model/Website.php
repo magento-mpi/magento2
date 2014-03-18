@@ -157,9 +157,9 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
     protected $_storeManager;
 
     /**
-     * @var App
+     * @var \Magento\App\ConfigInterface
      */
-    protected $_app;
+    protected $_configuration;
 
     /**
      * @var \Magento\Directory\Model\CurrencyFactory
@@ -169,13 +169,13 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param Resource\Config\Data $configDataResource
      * @param \Magento\App\ConfigInterface $coreConfig
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
-     * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
-     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\App $app
+     * @param StoreFactory $storeFactory
+     * @param Store\GroupFactory $storeGroupFactory
+     * @param WebsiteFactory $websiteFactory
+     * @param StoreManagerInterface $storeManager
+     * @param \Magento\App\ConfigInterface $configuration
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -190,7 +190,7 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
         \Magento\Core\Model\WebsiteFactory $websiteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\App $app,
+        \Magento\App\ConfigInterface $configuration,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -203,7 +203,7 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         $this->_storeGroupFactory = $storeGroupFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeManager = $storeManager;
-        $this->_app = $app;
+        $this->_configuration = $configuration;
         $this->_currencyFactory = $currencyFactory;
     }
 
@@ -539,10 +539,14 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         if ($this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE)
             == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
-            return $this->_app->getBaseCurrencyCode();
+            $currencyCode = $this->_configuration
+                ->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
+
         } else {
-            return $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
+            $currencyCode =  $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
         }
+
+        return $currencyCode;
     }
 
     /**

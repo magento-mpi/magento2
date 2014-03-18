@@ -69,13 +69,6 @@ class App implements \Magento\AppInterface
     protected $_areas = array();
 
     /**
-     * Application configuration object
-     *
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Cache object
      *
      * @var \Magento\App\CacheInterface
@@ -126,7 +119,6 @@ class App implements \Magento\AppInterface
     protected $_configScope;
 
     /**
-     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -134,14 +126,12 @@ class App implements \Magento\AppInterface
      * @param \Magento\Config\Scope $configScope
      */
     public function __construct(
-        \Magento\App\ConfigInterface $config,
         \Magento\App\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\State $appState,
         \Magento\Config\Scope $configScope
     ) {
-        $this->_config = $config;
         $this->_cache = $cache;
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
@@ -197,26 +187,6 @@ class App implements \Magento\AppInterface
     public function getLayout()
     {
         return $this->_objectManager->get('Magento\View\LayoutInterface');
-    }
-
-    /**
-     * Retrieve application base currency code
-     *
-     * @return string
-     */
-    public function getBaseCurrencyCode()
-    {
-        return $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
-    }
-
-    /**
-     * Retrieve configuration object
-     *
-     * @return \Magento\App\ConfigInterface
-     */
-    public function getConfig()
-    {
-        return $this->_config;
     }
 
     /**

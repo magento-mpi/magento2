@@ -48,20 +48,6 @@ interface AppInterface
     public function getLayout();
 
     /**
-     * Retrieve application base currency code
-     *
-     * @return string
-     */
-    public function getBaseCurrencyCode();
-
-    /**
-     * Retrieve configuration object
-     *
-     * @return \Magento\App\ConfigInterface
-     */
-    public function getConfig();
-
-    /**
      * Retrieve cache object
      *
      * @return \Zend_Cache_Core

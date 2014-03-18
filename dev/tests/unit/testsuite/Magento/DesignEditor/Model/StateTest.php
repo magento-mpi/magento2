@@ -82,9 +82,9 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_application;
+    protected $_configMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -120,8 +120,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
             array(), '', false);
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_application = $this->getMock('Magento\Core\Model\App', array('getStore', 'getConfig'),
-            array(), '', false);
 
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('setConfig'), array(), '', false);
         $storeManager->expects($this->any())
@@ -132,18 +130,14 @@ class StateTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnSelf());
 
-        $configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
-        $configMock->expects($this->any())
+        $this->_configMock = $this->getMock('Magento\App\ConfigInterface');
+        $this->_configMock->expects($this->any())
             ->method('setNode')
             ->with(
                 $this->equalTo('default/' . \Magento\View\DesignInterface::XML_PATH_THEME_ID),
                 $this->equalTo(self::THEME_ID)
             )
             ->will($this->returnSelf());
-
-        $this->_application->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnValue($configMock));
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('getId', '__wakeup'), array(), '', false);
         $this->_theme->expects($this->any())
@@ -163,7 +157,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             $this->_cacheStateMock,
             $this->_dataHelper,
             $this->_objectManager,
-            $this->_application,
+            $this->_configMock,
             $this->_themeContext,
             $storeManager
         );
