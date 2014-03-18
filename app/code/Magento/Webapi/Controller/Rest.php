@@ -40,6 +40,9 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\AppInterface */
     protected $_application;
 
+    /** @var \Magento\View\LayoutInterface */
+    protected $_layout;
+
     /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
@@ -56,7 +59,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     protected $_errorProcessor;
 
     /**
-     * Initialize dependencies.
+     * Initialize dependencies
      *
      * @param RestRequest $request
      * @param RestResponse $response
@@ -64,6 +67,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
      * @param \Magento\AppInterface $application
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
@@ -80,6 +84,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
         \Magento\AppInterface $application,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
@@ -92,6 +97,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_objectManager = $objectManager;
         $this->_appState = $appState;
         $this->_application = $application;
+        $this->_layout = $layout;
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
@@ -111,7 +117,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
         $this->_application->loadAreaPart(
-            $this->_application->getLayout()->getArea(),
+            $this->_layout->getArea(),
             \Magento\Core\Model\App\Area::PART_TRANSLATE
         );
         try {

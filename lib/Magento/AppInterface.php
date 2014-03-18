@@ -32,11 +32,4 @@ interface AppInterface
      * @return  \Magento\Core\Model\App\Area
      */
     public function getArea($code);
-
-    /**
-     * Retrieve layout object
-     *
-     * @return \Magento\View\LayoutInterface
-     */
-    public function getLayout();
 }

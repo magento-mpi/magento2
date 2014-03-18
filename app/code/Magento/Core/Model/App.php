@@ -113,14 +113,4 @@ class App implements \Magento\AppInterface
         }
         return $this->_areas[$code];
     }
-
-    /**
-     * Retrieve layout object
-     *
-     * @return \Magento\View\LayoutInterface
-     */
-    public function getLayout()
-    {
-        return $this->_objectManager->get('Magento\View\LayoutInterface');
-    }
 }

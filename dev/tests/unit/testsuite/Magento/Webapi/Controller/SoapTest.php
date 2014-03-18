@@ -85,15 +85,8 @@ class SoapTest extends \PHPUnit_Framework_TestCase
 
         $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
             ->disableOriginalConstructor()
-            ->setMethods(array('getLocale', 'isDeveloperMode'))
             ->getMock();
-
-        $this->_applicationMock =  $this->getMockBuilder('Magento\Core\Model\App')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_applicationMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
-        $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
-        $this->_applicationMock->expects($this->once())->method('getLayout')->will($this->returnValue($layoutMock));
+        $layoutMock = $this->getMock('Magento\View\LayoutInterface');
 
         $this->_oauthServiceMock = $this->getMockBuilder('Magento\Oauth\Oauth')
             ->disableOriginalConstructor()
@@ -112,6 +105,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             $this->_errorProcessorMock,
             $this->_appStateMock,
             $this->_applicationMock,
+            $layoutMock,
             $this->_oauthServiceMock,
             $localeResolverMock
         );

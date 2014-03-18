@@ -47,6 +47,9 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var \Magento\AppInterface */
     protected $_application;
 
+    /** @var \Magento\View\LayoutInterface */
+    protected $_layout;
+
     /**
      * @var \Magento\Oauth\OauthInterface
      */
@@ -65,6 +68,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param ErrorProcessor $errorProcessor
      * @param \Magento\App\State $appState
      * @param \Magento\AppInterface $application
+     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
      */
@@ -76,6 +80,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         ErrorProcessor $errorProcessor,
         \Magento\App\State $appState,
         \Magento\AppInterface $application,
+        \Magento\View\LayoutInterface $layout,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Locale\ResolverInterface $localeResolver
     ) {
@@ -88,6 +93,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_application = $application;
         $this->_oauthService = $oauthService;
         $this->_localeResolver = $localeResolver;
+        $this->_layout = $layout;
     }
 
     /**
@@ -102,7 +108,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
         $this->_application->loadAreaPart(
-            $this->_application->getLayout()->getArea(),
+            $this->_layout->getArea(),
             \Magento\Core\Model\App\Area::PART_TRANSLATE
         );
         try {
@@ -175,7 +181,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
         $soapFault = new \Magento\Webapi\Model\Soap\Fault(
-            $this->_application,
+            $this->_request,
             $this->_soapServer,
             $maskedException,
             $this->_localeResolver,
