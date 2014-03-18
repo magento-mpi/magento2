@@ -122,44 +122,12 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Load subscriber by customer id
+     * Load subscriber by customer
      *
      * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @return array
      */
-    public function loadByCustomerData($customer)
-    {
-        $select = $this->_read->select()
-            ->from($this->getMainTable())
-            ->where('customer_id=:customer_id');
-
-        $result = $this->_read->fetchRow($select, array('customer_id'=>$customer->getId()));
-
-        if ($result) {
-            return $result;
-        }
-
-        $select = $this->_read->select()
-            ->from($this->getMainTable())
-            ->where('subscriber_email=:subscriber_email');
-
-        $result = $this->_read->fetchRow($select, array('subscriber_email'=>$customer->getEmail()));
-
-        if ($result) {
-            return $result;
-        }
-
-        return array();
-    }
-
-    /**
-     * Load subscriber by customer
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return array
-     * @deprecated use loadByCustomerData
-     */
-    public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
+    public function loadByCustomerData(\Magento\Customer\Service\V1\Data\Customer $customer)
     {
         $select = $this->_read->select()
             ->from($this->getMainTable())

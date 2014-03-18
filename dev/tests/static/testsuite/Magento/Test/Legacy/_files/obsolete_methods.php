@@ -635,6 +635,7 @@ return array(
     array('load', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
     array('loadBaseContents', 'Magento\Email\Model\Template'),
     array('loadBase', 'Magento\Core\Model\Config'),
+    array('loadByCustomer', 'Magento\Newsletter\Model\Resource\Subscriber', 'loadByCustomerData'),
     array('loadDb', 'Magento\Core\Model\Config'),
     array('loadDiConfiguration', 'Magento\Core\Model\Config'),
     array('loadEventObservers', 'Magento\Core\Model\Config'),
@@ -1036,7 +1037,9 @@ return array(
         '\Magento\App\Response\RedirectInterface::getRefererUrl'
     ),
     array('_isUrlInternal', '\Magento\Core\Controller\Varien\Action'),
-    array('_filterDateTime', '\Magento\Core\Controller\Varien\Action', '\Magento\Stdlib\DateTime\Filter\DateTime::filter'),
+    array('_filterDateTime', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\Stdlib\DateTime\Filter\DateTime::filter'
+    ),
     array('_filterDates', '\Magento\Core\Controller\Varien\Action', '\Magento\Stdlib\DateTime\Filter\Date::filter'),
 
     array('_initDesign', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Model\DesignLoader::load'),
