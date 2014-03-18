@@ -58,7 +58,7 @@ class ScopePool
      * Retrieve config section
      *
      * @param string $scopeType
-     * @param string $scopeCode
+     * @param string|\Magento\Object $scopeCode
      * @return \Magento\App\Config\DataInterface
      */
     public function getScope($scopeType, $scopeCode = null)

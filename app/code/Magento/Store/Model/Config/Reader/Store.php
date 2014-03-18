@@ -58,8 +58,9 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
         \Magento\App\Config\ScopePool $scopePool,
         \Magento\Config\ConverterInterface $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
-        \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\App\State $appState
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\App\State $appState,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_scopePool = $scopePool;
