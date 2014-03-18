@@ -117,12 +117,18 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_catalogHelper;
 
     /**
+     * @var \Magento\Core\Helper\PostData
+     */
+    protected $_postDataHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param ToolbarModel $toolbarModel
      * @param Data $helper
      * @param \Magento\Catalog\Helper\Product\ProductList $productListHelper
+     * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param array $data
      */
     public function __construct(
@@ -132,6 +138,7 @@ class Toolbar extends \Magento\View\Element\Template
         ToolbarModel $toolbarModel,
         \Magento\Catalog\Helper\Data $helper,
         \Magento\Catalog\Helper\Product\ProductList $productListHelper,
+        \Magento\Core\Helper\PostData $postDataHelper,
         array $data = array()
     ) {
         $this->_catalogSession = $catalogSession;
@@ -139,6 +146,7 @@ class Toolbar extends \Magento\View\Element\Template
         $this->_toolbarModel = $toolbarModel;
         $this->_catalogHelper = $helper;
         $this->_productListHelper = $productListHelper;
+        $this->_postDataHelper = $postDataHelper;
         parent::__construct($context, $data);
     }
 
@@ -655,19 +663,23 @@ class Toolbar extends \Magento\View\Element\Template
     /**
      * Retrieve widget options in json format
      *
+     * @param array $customOptions Optional parameter for passing custom selectors from template
      * @return string
      */
-    public function getWidgetOptionsJson()
+    public function getWidgetOptionsJson(array $customOptions = array())
     {
-        return json_encode(
-            array(
-                'productListToolbarForm' => array(
-                    'modeCookie' => ToolbarModel::MODE_COOKIE_NAME,
-                    'directionCookie' => ToolbarModel::DIRECTION_COOKIE_NAME,
-                    'orderCookie' => ToolbarModel::ORDER_COOKIE_NAME,
-                    'limitCookie' => ToolbarModel::LIMIT_COOKIE_NAME
-                )
-            )
+        $postData = $this->_postDataHelper->getPostData(
+            $this->getPagerUrl(),
+            array(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getPagerEncodedUrl())
         );
+        $options = array(
+            'modeCookie' => ToolbarModel::MODE_COOKIE_NAME,
+            'directionCookie' => ToolbarModel::DIRECTION_COOKIE_NAME,
+            'orderCookie' => ToolbarModel::ORDER_COOKIE_NAME,
+            'limitCookie' => ToolbarModel::LIMIT_COOKIE_NAME,
+            'postData' => json_decode($postData)
+        );
+        $options = array_merge($options, $customOptions);
+        return json_encode(array('productListToolbarForm' => $options));
     }
 }

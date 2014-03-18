@@ -19,7 +19,8 @@
             modeCookie: 'product_list_mode',
             directionCookie: 'product_list_dir',
             orderCookie: 'product_list_order',
-            limitCookie: 'product_list_limit'
+            limitCookie: 'product_list_limit',
+            postData: {}
         },
 
         _create: function() {
@@ -48,7 +49,7 @@
         _processLink: function(event) {
             event.preventDefault();
             this._setCookie(event.data.cookieName, $(event.currentTarget).data('value'));
-            this.element.submit();
+            $.mage.dataPost().postData(this.options.postData);
         },
 
         _processSelect: function(event) {
@@ -56,7 +57,7 @@
                 event.data.cookieName,
                 event.currentTarget.options[event.currentTarget.selectedIndex].value
             );
-            this.element.submit();
+            $.mage.dataPost().postData(this.options.postData);
         },
 
         _setCookie: function(cookieName, cookieValue) {
