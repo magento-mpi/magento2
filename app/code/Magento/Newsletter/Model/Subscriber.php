@@ -7,6 +7,8 @@
  */
 namespace Magento\Newsletter\Model;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+
 /**
  * Subscriber model
  *
@@ -26,6 +28,9 @@ namespace Magento\Newsletter\Model;
  * @method $this setSubscriberConfirmCode(string $value)
  * @method int getSubscriberId()
  * @method Subscriber setSubscriberId(int $value)
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
 class Subscriber extends \Magento\Core\Model\AbstractModel
 {
@@ -101,14 +106,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     protected $_storeManager;
 
-    /**
-     * Customer factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface  */
+    /** @var  CustomerAccountServiceInterface  */
     protected $_customerAccountService;
 
     /**
@@ -119,18 +117,20 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Construct
      *
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Newsletter\Helper\Data $newsletterData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
+     * @param \Magento\Model\Context                                       $context
+     * @param \Magento\Registry                                            $registry
+     * @param \Magento\Newsletter\Helper\Data                              $newsletterData
+     * @param \Magento\Core\Model\Store\Config                             $coreStoreConfig
+     * @param \Magento\Mail\Template\TransportBuilder                      $transportBuilder
+     * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
+     * @param \Magento\TranslateInterface                                  $translate
+     * @param \Magento\Customer\Model\Session                              $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Core\Model\Resource\AbstractResource                $resource
+     * @param \Magento\Data\Collection\Db                                  $resourceCollection
+     * @param array                                                        $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Model\Context $context,
@@ -138,20 +138,18 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        CustomerAccountServiceInterface $customerAccountService,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_newsletterData = $newsletterData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_transportBuilder = $transportBuilder;
-        $this->_customerFactory = $customerFactory;
         $this->_storeManager = $storeManager;
         $this->_translate = $translate;
         $this->_customerSession = $customerSession;
@@ -302,7 +300,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      *
      * @return boolean
      */
-    public function getIsStatusChanged()
+    public function isStatusChanged()
     {
         return $this->_isStatusChanged;
     }
@@ -341,15 +339,17 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function loadByCustomer($customerId)
     {
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_customerFactory->create()->load($customerId);
-        $data = $this->getResource()->loadByCustomer($customer);
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customerData */
+        $customerData = $this->_customerAccountService->getCustomer($customerId);
+        $data = $this->getResource()->loadByCustomerData($customerData);
         $this->addData($data);
-        if (!empty($data) && $customer->getId() && !$this->getCustomerId()) {
-            $this->setCustomerId($customer->getId());
+        if (!empty($data) && $customerData->getId() && !$this->getCustomerId()) {
+            $this->setCustomerId($customerData->getId());
             $this->setSubscriberConfirmCode($this->randomSequence());
             if ($this->getStatus() == self::STATUS_NOT_ACTIVE) {
-                $this->setStatus($customer->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED);
+                $this->setStatus(
+                    $customerData->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED
+                );
             }
             $this->save();
         }
@@ -382,6 +382,9 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param string $email
      * @throws \Exception
      * @return int
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function subscribe($email)
     {
@@ -393,11 +396,11 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
 
         $isConfirmNeed = ($this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
-        $ownerId = $this->_customerFactory->create()
-            ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-            ->loadByEmail($email)
-            ->getId();
-        $isSubscribeOwnEmail = $this->_customerSession->isLoggedIn() && $ownerId == $this->_customerSession->getId();
+
+        $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+        $isSubscribeOwnEmail = $this->_customerSession->isLoggedIn()
+            && $this->_customerSession->getCustomerDataObject()->getEmail() !== $email
+            && !$this->_customerAccountService->isEmailAvailable($email, $websiteId);
 
         if (!$this->getId() || $this->getStatus() == self::STATUS_UNSUBSCRIBED
             || $this->getStatus() == self::STATUS_NOT_ACTIVE
@@ -417,8 +420,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         }
 
         if ($isSubscribeOwnEmail) {
-            /** @var \Magento\Customer\Model\Customer $customer */
-            $customer = $this->_customerFactory->create()->load($this->_customerSession->getCustomerId());
+            $customer = $this->_customerAccountService->getCustomer($this->_customerSession->getCustomerId());
             $this->setStoreId($customer->getStoreId());
             $this->setCustomerId($customer->getId());
         } else {
@@ -462,121 +464,45 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Update newsletter subscription for given customer
+     * Subscribe the customer with the id provided
      *
      * @param int $customerId
-     * @param bool $subscribe
-     *
-     * @return  \Magento\Newsletter\Model\Subscriber
-     */
-    public function updateSubscription($customerId, $subscribe)
-    {
-        /** @var \Magento\Customer\Model\Customer $customerModel */
-        $customerModel = $this->_customerFactory->create()->load($customerId);
-        $customerModel->setIsSubscribed($subscribe);
-        $this->subscribeCustomer($customerModel);
-
-        return $this;
-    }
-
-    /**
-     * Saving customer subscription status
-     *
-     * @param int $customerId
-     * @return  $this
+     * @return $this
      */
     public function subscribeCustomerById($customerId)
     {
-        $this->loadByCustomer($customerId);
-        $customer = $this->_customerFactory->create()->load($customerId);
+        $this->updateCustomerSubscription($customerId, true);
+        return $this;
+    }
 
-        if ($customer->getImportMode()) {
-            $this->setImportMode(true);
-        }
-
-        if (!$customer->getIsSubscribed() && !$this->getId()) {
-            // If subscription flag not set or customer is not a subscriber
-            // and no subscribe below
-            return $this;
-        }
-
-        if (!$this->getId()) {
-            $this->setSubscriberConfirmCode($this->randomSequence());
-        }
-
-        /*
-         * Logical mismatch between customer registration confirmation code and customer password confirmation
-         */
-        $confirmation = null;
-        if ($customer->isConfirmationRequired() && ($customer->getConfirmation() != $customer->getPassword())) {
-            $confirmation = $customer->getConfirmation();
-        }
-
-        $sendInformationEmail = false;
-        if ($customer->hasIsSubscribed()) {
-            $status = $customer->getIsSubscribed()
-                ? (!is_null($confirmation) ? self::STATUS_UNCONFIRMED : self::STATUS_SUBSCRIBED)
-                : self::STATUS_UNSUBSCRIBED;
-            /**
-             * If subscription status has been changed then send email to the customer
-             */
-            if ($status != self::STATUS_UNCONFIRMED && $status != $this->getStatus()) {
-                $sendInformationEmail = true;
-            }
-        } elseif (($this->getStatus() == self::STATUS_UNCONFIRMED) && (is_null($confirmation))) {
-            $status = self::STATUS_SUBSCRIBED;
-            $sendInformationEmail = true;
-        } else {
-            $status = ($this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus());
-        }
-
-        if ($status != $this->getStatus()) {
-            $this->setIsStatusChanged(true);
-        }
-
-        $this->setStatus($status);
-
-        if (!$this->getId()) {
-            $storeId = $customer->getStoreId();
-            if ($customer->getStoreId() == 0) {
-                $storeId = $this->_storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
-            }
-            $this->setStoreId($storeId)
-                ->setCustomerId($customer->getId())
-                ->setEmail($customer->getEmail());
-        } else {
-            $this->setStoreId($customer->getStoreId())
-                ->setEmail($customer->getEmail());
-        }
-
-        $this->save();
-        $sendSubscription = $customer->getData('sendSubscription') || $sendInformationEmail;
-        if (is_null($sendSubscription) xor $sendSubscription) {
-            if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
-                $this->sendUnsubscriptionEmail();
-            } elseif ($this->getIsStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
-                $this->sendConfirmationSuccessEmail();
-            }
-        }
+    /**
+     * unsubscribe the customer with the id provided
+     *
+     * @param int $customerId
+     * @return $this
+     */
+    public function unsubscribeCustomerById($customerId)
+    {
+        $this->updateCustomerSubscription($customerId, false);
         return $this;
     }
 
     /**
      * Saving customer subscription status
      *
-     * @param   \Magento\Customer\Model\Customer $customer
+     * @param int $customerId
+     * @param bool $subscribe indicates whether the customer should be subscribed or unsubscribed
      * @return  $this
-     * @deprecated use subscribeCustomerById
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function subscribeCustomer(\Magento\Customer\Model\Customer $customer)
+    public function updateCustomerSubscription($customerId, $subscribe)
     {
-        $this->loadByCustomer($customer->getId());
+        $this->loadByCustomer($customerId);
+        $customerData = $this->_customerAccountService->getCustomer($customerId);
 
-        if ($customer->getImportMode()) {
-            $this->setImportMode(true);
-        }
-
-        if (!$customer->getIsSubscribed() && !$this->getId()) {
+        if (!$subscribe && !$this->getId()) {
             // If subscription flag not set or customer is not a subscriber
             // and no subscribe below
             return $this;
@@ -586,30 +512,22 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
-        /*
-         * Logical mismatch between customer registration confirmation code and customer password confirmation
-         */
-        $confirmation = null;
-        if ($customer->isConfirmationRequired() && ($customer->getConfirmation() != $customer->getPassword())) {
-            $confirmation = $customer->getConfirmation();
-        }
-
         $sendInformationEmail = false;
-        if ($customer->hasIsSubscribed()) {
-            $status = $customer->getIsSubscribed()
-                ? (!is_null($confirmation) ? self::STATUS_UNCONFIRMED : self::STATUS_SUBSCRIBED)
-                : self::STATUS_UNSUBSCRIBED;
-            /**
-             * If subscription status has been changed then send email to the customer
-             */
-            if ($status != self::STATUS_UNCONFIRMED && $status != $this->getStatus()) {
-                $sendInformationEmail = true;
+        $status = self::STATUS_SUBSCRIBED;
+        if ($subscribe) {
+            if (CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED
+                == $this->_customerAccountService->getConfirmationStatus($customerId)
+            ) {
+                $status = self::STATUS_UNCONFIRMED;
             }
-        } elseif (($this->getStatus() == self::STATUS_UNCONFIRMED) && (is_null($confirmation))) {
-            $status = self::STATUS_SUBSCRIBED;
-            $sendInformationEmail = true;
         } else {
-            $status = ($this->getStatus() == self::STATUS_NOT_ACTIVE ? self::STATUS_UNSUBSCRIBED : $this->getStatus());
+            $status = self::STATUS_UNSUBSCRIBED;
+        }
+        /**
+         * If subscription status has been changed then send email to the customer
+         */
+        if ($status != self::STATUS_UNCONFIRMED && $status != $this->getStatus()) {
+            $sendInformationEmail = true;
         }
 
         if ($status != $this->getStatus()) {
@@ -619,24 +537,24 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $this->setStatus($status);
 
         if (!$this->getId()) {
-            $storeId = $customer->getStoreId();
-            if ($customer->getStoreId() == 0) {
-                $storeId = $this->_storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore()->getId();
+            $storeId = $customerData->getStoreId();
+            if ($customerData->getStoreId() == 0) {
+                $storeId = $this->_storeManager->getWebsite($customerData->getWebsiteId())->getDefaultStore()->getId();
             }
             $this->setStoreId($storeId)
-                ->setCustomerId($customer->getId())
-                ->setEmail($customer->getEmail());
+                ->setCustomerId($customerData->getId())
+                ->setEmail($customerData->getEmail());
         } else {
-            $this->setStoreId($customer->getStoreId())
-                ->setEmail($customer->getEmail());
+            $this->setStoreId($customerData->getStoreId())
+                ->setEmail($customerData->getEmail());
         }
 
         $this->save();
-        $sendSubscription = $customer->getData('sendSubscription') || $sendInformationEmail;
+        $sendSubscription = $sendInformationEmail;
         if (is_null($sendSubscription) xor $sendSubscription) {
-            if ($this->getIsStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
+            if ($this->isStatusChanged() && $status == self::STATUS_UNSUBSCRIBED) {
                 $this->sendUnsubscriptionEmail();
-            } elseif ($this->getIsStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
+            } elseif ($this->isStatusChanged() && $status == self::STATUS_SUBSCRIBED) {
                 $this->sendConfirmationSuccessEmail();
             }
         }

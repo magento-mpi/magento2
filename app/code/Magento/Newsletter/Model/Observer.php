@@ -57,7 +57,7 @@ class Observer
     {
         $customer = $observer->getEvent()->getCustomer();
         if (($customer instanceof \Magento\Customer\Model\Customer)) {
-            $this->_subscriberFactory->create()->subscribeCustomer($customer);
+            $this->_subscriberFactory->create()->subscribeCustomerById($customer->getId());
         }
         return $this;
     }
@@ -73,7 +73,7 @@ class Observer
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->_subscriberFactory->create();
         $subscriber->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
-        if($subscriber->getId()) {
+        if ($subscriber->getId()) {
             $subscriber->delete();
         }
         return $this;
@@ -84,11 +84,12 @@ class Observer
      *
      * @param Schedule $schedule
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function scheduledSend($schedule)
     {
         $countOfQueue  = 3;
-        $countOfSubscritions = 20;
+        $countOfSubscriptions = 20;
 
         /** @var \Magento\Newsletter\Model\Resource\Queue\Collection $collection */
         $collection = $this->_queueCollectionFactory->create();
@@ -97,6 +98,6 @@ class Observer
             ->addOnlyForSendingFilter()
             ->load();
 
-         $collection->walk('sendPerSubscriber', array($countOfSubscritions));
+         $collection->walk('sendPerSubscriber', array($countOfSubscriptions));
     }
 }

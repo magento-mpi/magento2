@@ -170,7 +170,7 @@ class ManageTest extends \PHPUnit_Framework_TestCase
         $this->_controller->saveAction();
     }
 
-    public function testSaveActionSaveSubscritpion()
+    public function testSaveActionSaveSubscription()
     {
         $this->_formKeyValidatorMock->expects($this->once())
             ->method('validate')
@@ -219,8 +219,8 @@ class ManageTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($subscriberMock));
         $subscriberMock->expects($this->once())
-            ->method('updateSubscription')
-            ->with(1, true);
+            ->method('subscribeCustomerById')
+            ->with(1);
         $this->_redirectMock->expects($this->once())
             ->method('redirect')
             ->with($this->_responseMock, 'customer/account/', []);
@@ -281,8 +281,8 @@ class ManageTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($subscriberMock));
         $subscriberMock->expects($this->once())
-            ->method('updateSubscription')
-            ->with(1, false);
+            ->method('unsubscribeCustomerById')
+            ->with(1);
         $this->_redirectMock->expects($this->once())
             ->method('redirect')
             ->with($this->_responseMock, 'customer/account/', []);

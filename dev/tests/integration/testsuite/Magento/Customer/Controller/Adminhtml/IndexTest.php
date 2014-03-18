@@ -753,8 +753,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Setup
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $subscriberFactory->create()->updateSubscription(1, true);
-        $subscriberFactory->create()->updateSubscription(2, true);
+        $subscriberFactory->create()->subscribeCustomerById(1);
+        $subscriberFactory->create()->subscribeCustomerById(2);
         $this->getRequest()->setParam('customer', [1, 2]);
 
         // Test
@@ -808,8 +808,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Setup
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $subscriberFactory->create()->updateSubscription(1, true);
-        $subscriberFactory->create()->updateSubscription(2, true);
+        $subscriberFactory->create()->subscribeCustomerById(1);
+        $subscriberFactory->create()->subscribeCustomerById(2);
         $this->getRequest()->setParam('customer', [1, 4200, 2]);
 
         // Test
