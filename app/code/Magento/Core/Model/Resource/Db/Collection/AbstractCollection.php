@@ -236,7 +236,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
                 if ($alias !== null && in_array(
                     $alias,
                     $columnsToSelect
-                    ) ||
+                ) ||
                     // If field already joined from another table
                     $alias === null && isset($alias, $columnsToSelect)
                 ) {

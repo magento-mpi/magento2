@@ -93,7 +93,8 @@ class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attribute
                     // If not used in configurable
                     && !in_array(
                         $attribute->getId(),
-                        $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))
+                        $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct())
+                    )
                 )
                 // Or in additional
                 || in_array($attribute->getAttributeCode(), $attributesConfig['additional'])
