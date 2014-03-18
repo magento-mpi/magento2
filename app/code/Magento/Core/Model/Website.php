@@ -157,11 +157,6 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\ConfigInterface
-     */
-    protected $_configuration;
-
-    /**
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
@@ -175,7 +170,6 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
      * @param Store\GroupFactory $storeGroupFactory
      * @param WebsiteFactory $websiteFactory
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $configuration
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -190,7 +184,6 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
         \Magento\Core\Model\WebsiteFactory $websiteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $configuration,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -203,7 +196,6 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         $this->_storeGroupFactory = $storeGroupFactory;
         $this->_websiteFactory = $websiteFactory;
         $this->_storeManager = $storeManager;
-        $this->_configuration = $configuration;
         $this->_currencyFactory = $currencyFactory;
     }
 
@@ -539,7 +531,7 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         if ($this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE)
             == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL
         ) {
-            $currencyCode = $this->_configuration
+            $currencyCode = $this->_coreConfig
                 ->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default');
 
         } else {
