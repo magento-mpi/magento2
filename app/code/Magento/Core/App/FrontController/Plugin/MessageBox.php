@@ -91,6 +91,6 @@ class MessageBox
      */
     protected function hasMessages()
     {
-        return ($this->messageManager->getMessages()->getCount()) ? true : false;
+        return ($this->messageManager->getMessages()->getCount() > 0);
     }
 }
