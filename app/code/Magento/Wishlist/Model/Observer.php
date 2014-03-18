@@ -156,7 +156,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
             if ($this->_customerSession->isLoggedIn()) {
                 $wishlist = $this->_wishlistFactory->create()
-                        ->loadByCustomerId($this->_customerSession->getCustomer()->getId(), true);
+                        ->loadByCustomerId($this->_customerSession->getCustomerId(), true);
             } else if ($sharedWishlist) {
                 $wishlist = $this->_wishlistFactory->create()->loadByCode($sharedWishlist);
             } else {

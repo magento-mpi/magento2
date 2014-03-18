@@ -81,12 +81,10 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
     {
         if (is_null($this->_wishlist)) {
             $this->_wishlist = $this->_wishlistFactory->create();
-            $wishlistId = $this->getRequest()->getParam('wishlist_id');
+
+            $wishlistId = $this->_getRequest()->getParam('wishlist_id');
             if ($wishlistId) {
                 $this->_wishlist->load($wishlistId);
-                if ($this->_wishlist->getCustomerId() != $this->getCustomer()->getId()) {
-                    $this->_wishlist->unsetData();
-                }
             } else {
                 if ($this->getCustomer()->getId()) {
                     $this->_wishlist->loadByCustomerId($this->getCustomer()->getId());
@@ -106,7 +104,7 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
         if (is_null($this->_customer)) {
             $this->_customer = $this->_customerBuilder->create();
 
-            $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
+            $params = $this->_coreData->urlDecode($this->_getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
             if ($cId && ($cId == $this->_customerSession->getCustomerId()) ) {

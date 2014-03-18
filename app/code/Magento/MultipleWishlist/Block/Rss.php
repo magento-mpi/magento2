@@ -126,8 +126,8 @@ class Rss extends \Magento\Rss\Block\Wishlist
             /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
             $customer = $this->_customerAccountService->getCustomer($this->_getWishlist()->getCustomerId());
         }
-        if ($this->_wishlistHelper->isWishlistDefault($this->_getWishlist())
-            && $this->_getWishlist()->getName() == $this->_wishlistHelper->getDefaultWishlistName()
+        if ($this->_getHelper()->isWishlistDefault($this->_getWishlist())
+            && $this->_getWishlist()->getName() == $this->_getHelper()->getDefaultWishlistName()
         ) {
             return __("%1's Wish List", $this->_customerViewHelper->getCustomerName($customer));
         } else {
