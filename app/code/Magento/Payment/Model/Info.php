@@ -38,7 +38,7 @@ class Info extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -47,7 +47,7 @@ class Info extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

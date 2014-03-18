@@ -61,7 +61,7 @@ class Wrapping extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -72,7 +72,7 @@ class Wrapping extends \Magento\Model\AbstractModel
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

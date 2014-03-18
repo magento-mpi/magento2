@@ -70,7 +70,7 @@ class Set extends \Magento\Model\AbstractModel
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -81,7 +81,7 @@ class Set extends \Magento\Model\AbstractModel
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $attrGroupFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute $resourceAttribute,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -116,7 +116,7 @@ class Visitor extends \Magento\Model\AbstractModel
      * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Module\Manager $moduleManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $ignoredUserAgents
      * @param array $ignores
@@ -136,7 +136,7 @@ class Visitor extends \Magento\Model\AbstractModel
         \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Module\Manager $moduleManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
         array $ignores = array(),

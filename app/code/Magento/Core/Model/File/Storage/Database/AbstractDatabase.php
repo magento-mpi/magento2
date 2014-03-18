@@ -47,7 +47,7 @@ abstract class AbstractDatabase extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string|null $connectionName
      * @param array $data
@@ -58,7 +58,7 @@ abstract class AbstractDatabase extends \Magento\Model\AbstractModel
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
         array $data = array()
@@ -91,7 +91,7 @@ abstract class AbstractDatabase extends \Magento\Model\AbstractModel
     /**
      * Get resource instance
      *
-     * @return \Magento\Core\Model\Resource\AbstractResource
+     * @return \Magento\Model\Resource\AbstractResource
      */
     protected function _getResource()
     {

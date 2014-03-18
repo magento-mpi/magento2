@@ -31,7 +31,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Image\AdapterFactory $imageFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -41,7 +41,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Image\AdapterFactory $imageFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

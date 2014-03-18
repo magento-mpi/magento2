@@ -45,7 +45,7 @@ class Feed extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,7 +54,7 @@ class Feed extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

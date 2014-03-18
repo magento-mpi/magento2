@@ -77,7 +77,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -87,7 +87,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -114,7 +114,7 @@ class Email extends \Magento\Model\AbstractModel
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -127,7 +127,7 @@ class Email extends \Magento\Model\AbstractModel
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

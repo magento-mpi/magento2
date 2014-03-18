@@ -186,7 +186,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF
      * @param \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -201,7 +201,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF,
         \Magento\SalesRule\Model\Resource\Coupon\Collection $couponCollection,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

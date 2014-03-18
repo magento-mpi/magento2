@@ -153,7 +153,7 @@ class Transaction extends \Magento\Model\AbstractModel
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -163,7 +163,7 @@ class Transaction extends \Magento\Model\AbstractModel
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

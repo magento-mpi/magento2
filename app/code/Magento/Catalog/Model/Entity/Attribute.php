@@ -87,7 +87,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param LockValidatorInterface $lockValidator
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -104,7 +104,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
         \Magento\Locale\ResolverInterface $localeResolver,
         LockValidatorInterface $lockValidator,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -30,7 +30,7 @@ class DefaultPrice
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -40,7 +40,7 @@ class DefaultPrice
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\PricePermissions\Helper\Data $pricePermData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

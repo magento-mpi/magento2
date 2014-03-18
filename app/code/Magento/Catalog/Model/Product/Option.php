@@ -100,7 +100,7 @@ class Option extends AbstractModel
      * @param Option\Value $productOptionValue
      * @param \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -110,7 +110,7 @@ class Option extends AbstractModel
         Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

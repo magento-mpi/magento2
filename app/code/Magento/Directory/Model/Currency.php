@@ -74,7 +74,7 @@ class Currency extends \Magento\Model\AbstractModel
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param Currency\FilterFactory $currencyFilterFactory
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -86,7 +86,7 @@ class Currency extends \Magento\Model\AbstractModel
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Directory\Model\Currency\FilterFactory $currencyFilterFactory,
         \Magento\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

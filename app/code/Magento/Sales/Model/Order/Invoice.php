@@ -256,7 +256,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -276,7 +276,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

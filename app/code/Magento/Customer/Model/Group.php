@@ -74,7 +74,7 @@ class Group extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -83,7 +83,7 @@ class Group extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Index\Model\Indexer $indexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

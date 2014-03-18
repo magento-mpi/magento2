@@ -152,7 +152,7 @@ class Sitemap extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -169,7 +169,7 @@ class Sitemap extends \Magento\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

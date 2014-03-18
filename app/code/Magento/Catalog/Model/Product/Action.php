@@ -43,7 +43,7 @@ class Action extends \Magento\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -53,7 +53,7 @@ class Action extends \Magento\Model\AbstractModel
         \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

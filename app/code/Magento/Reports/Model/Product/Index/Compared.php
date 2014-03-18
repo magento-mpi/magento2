@@ -52,7 +52,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Helper\Product\Compare $productCompare
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -66,7 +66,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Helper\Product\Compare $productCompare,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

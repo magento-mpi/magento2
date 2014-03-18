@@ -74,7 +74,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -85,7 +85,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

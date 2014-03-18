@@ -30,7 +30,7 @@ class Active
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\SalesArchive\Model\Archive $archive
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -41,7 +41,7 @@ class Active
         \Magento\App\ConfigInterface $config,
         \Magento\SalesArchive\Model\Archive $archive,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

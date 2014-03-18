@@ -72,7 +72,7 @@ abstract class AbstractItems extends \Magento\Model\AbstractModel
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\App\Filesystem $filesystem ,
      * @param \Magento\Filter\FilterManager $filterManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -82,7 +82,7 @@ abstract class AbstractItems extends \Magento\Model\AbstractModel
         \Magento\Tax\Helper\Data $taxData,
         \Magento\App\Filesystem $filesystem,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

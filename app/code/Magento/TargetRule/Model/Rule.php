@@ -134,7 +134,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -147,7 +147,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\TargetRule\Model\Rule\Condition\CombineFactory $ruleFactory,
         \Magento\TargetRule\Model\Actions\Condition\CombineFactory $actionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

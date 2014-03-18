@@ -70,7 +70,7 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory,
      * @param \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
      * @param \Magento\Catalog\Model\Resource\Url $resourceUrl
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -80,7 +80,7 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Model\Item\OptionFactory $optionFactory,
         \Magento\Catalog\Model\Resource\Url $resourceUrl,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

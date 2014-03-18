@@ -107,7 +107,7 @@ class Sendfriend extends \Magento\Model\AbstractModel
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -120,7 +120,7 @@ class Sendfriend extends \Magento\Model\AbstractModel
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

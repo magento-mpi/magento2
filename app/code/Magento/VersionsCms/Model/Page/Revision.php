@@ -104,7 +104,7 @@ class Revision extends \Magento\Model\AbstractModel implements \Magento\Object\I
      * @param \Magento\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -115,7 +115,7 @@ class Revision extends \Magento\Model\AbstractModel implements \Magento\Object\I
         \Magento\Stdlib\DateTime\DateTime $coreDate,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

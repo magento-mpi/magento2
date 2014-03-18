@@ -53,7 +53,7 @@ class Share extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -64,7 +64,7 @@ class Share extends \Magento\Core\Model\Config\Value
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $customerResource,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

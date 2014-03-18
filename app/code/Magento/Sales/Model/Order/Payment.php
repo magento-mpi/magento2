@@ -197,7 +197,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
      * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -210,7 +210,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

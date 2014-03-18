@@ -90,7 +90,7 @@ class Observer extends \Magento\Model\AbstractModel
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      *
@@ -109,7 +109,7 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {

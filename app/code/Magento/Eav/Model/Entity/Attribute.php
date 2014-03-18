@@ -76,7 +76,7 @@ class Attribute
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -92,7 +92,7 @@ class Attribute
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

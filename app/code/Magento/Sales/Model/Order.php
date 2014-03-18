@@ -588,7 +588,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory
      * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
      * @param Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -619,7 +619,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -84,7 +84,7 @@ class Status extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param ItemFactory $stockItemFactory
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -96,7 +96,7 @@ class Status extends \Magento\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         ItemFactory $stockItemFactory,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

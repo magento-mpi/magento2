@@ -86,7 +86,7 @@ class Version extends \Magento\Model\AbstractModel
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      *
@@ -100,7 +100,7 @@ class Version extends \Magento\Model\AbstractModel
         \Magento\VersionsCms\Model\Resource\Increment $cmsResourceIncrement,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

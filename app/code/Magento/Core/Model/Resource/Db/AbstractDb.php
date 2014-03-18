@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource\Db;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
+abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
 {
     /**
      * Cached resources singleton

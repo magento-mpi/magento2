@@ -59,7 +59,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
      * @param \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -69,7 +69,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,
         \Magento\Stdlib\DateTime\DateTimeFactory $dateFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

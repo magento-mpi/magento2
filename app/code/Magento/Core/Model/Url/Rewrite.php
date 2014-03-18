@@ -80,7 +80,7 @@ class Rewrite extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -91,7 +91,7 @@ class Rewrite extends \Magento\Model\AbstractModel
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

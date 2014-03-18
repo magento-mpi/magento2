@@ -43,7 +43,7 @@ class Translate extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -54,7 +54,7 @@ class Translate extends \Magento\Core\Model\Config\Value
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

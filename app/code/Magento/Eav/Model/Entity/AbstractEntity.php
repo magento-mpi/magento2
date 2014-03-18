@@ -25,7 +25,7 @@ use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResource
+abstract class AbstractEntity extends \Magento\Model\Resource\AbstractResource
     implements EntityInterface
 {
     /**

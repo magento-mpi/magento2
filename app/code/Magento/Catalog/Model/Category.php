@@ -185,7 +185,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Indexer\Model\IndexerInterface $productIndexer
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -206,7 +206,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Indexer\Model\IndexerInterface $productIndexer,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

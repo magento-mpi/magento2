@@ -170,7 +170,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param Shipment\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -188,7 +188,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

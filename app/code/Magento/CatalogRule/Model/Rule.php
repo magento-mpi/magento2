@@ -167,7 +167,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
      * @param \Magento\App\Cache\TypeListInterface $cacheTypesList
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $relatedCacheTypes
      * @param array $data
@@ -188,7 +188,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\App\Cache\TypeListInterface $cacheTypesList,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),
         array $data = array()

@@ -112,7 +112,7 @@ class Validator extends \Magento\Model\AbstractModel
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory
      * @param \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -125,7 +125,7 @@ class Validator extends \Magento\Model\AbstractModel
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\SalesRule\Model\Rule\CustomerFactory $customerFactory,
         \Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory $calculatorFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

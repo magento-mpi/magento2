@@ -191,7 +191,7 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -208,7 +208,7 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Math\Division $mathDivision,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

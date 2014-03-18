@@ -177,7 +177,7 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -192,7 +192,7 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\App $app,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

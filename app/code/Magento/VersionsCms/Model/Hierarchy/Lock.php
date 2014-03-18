@@ -58,7 +58,7 @@ class Lock extends \Magento\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -67,7 +67,7 @@ class Lock extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

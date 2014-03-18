@@ -176,7 +176,7 @@ class Image extends \Magento\Model\AbstractModel
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -191,7 +191,7 @@ class Image extends \Magento\Model\AbstractModel
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

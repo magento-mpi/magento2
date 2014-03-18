@@ -49,7 +49,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $giftCardCodeParams
      * @param array $data
@@ -58,7 +58,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $giftCardCodeParams = array(),
         array $data = array()

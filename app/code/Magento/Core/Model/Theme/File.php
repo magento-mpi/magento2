@@ -57,7 +57,7 @@ class File extends AbstractModel implements FileInterface
      * @param \Magento\Registry $registry
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
      * @param \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -66,7 +66,7 @@ class File extends AbstractModel implements FileInterface
         \Magento\Registry $registry,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Customization\FileServiceFactory $fileServiceFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

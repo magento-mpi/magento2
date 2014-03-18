@@ -145,7 +145,7 @@ class Reward extends \Magento\Model\AbstractModel
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -161,7 +161,7 @@ class Reward extends \Magento\Model\AbstractModel
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

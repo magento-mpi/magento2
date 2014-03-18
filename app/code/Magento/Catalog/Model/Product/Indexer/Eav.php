@@ -53,7 +53,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -61,7 +61,7 @@ class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

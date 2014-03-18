@@ -62,7 +62,7 @@ class Massgenerator extends \Magento\Model\AbstractModel
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -73,7 +73,7 @@ class Massgenerator extends \Magento\Model\AbstractModel
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

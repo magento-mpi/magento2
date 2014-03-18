@@ -110,7 +110,7 @@ class Process extends \Magento\Model\AbstractModel
      * @param \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig
      * @param \Magento\Index\Model\Lock\Storage $lockStorage
      * @param \Magento\Index\Model\EventRepository $eventRepository
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -123,7 +123,7 @@ class Process extends \Magento\Model\AbstractModel
         \Magento\Index\Model\Indexer\ConfigInterface $indexerConfig,
         \Magento\Index\Model\Lock\Storage $lockStorage,
         \Magento\Index\Model\EventRepository $eventRepository,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

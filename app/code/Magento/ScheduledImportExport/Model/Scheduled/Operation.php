@@ -128,7 +128,7 @@ class Operation extends \Magento\Model\AbstractModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -144,7 +144,7 @@ class Operation extends \Magento\Model\AbstractModel
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

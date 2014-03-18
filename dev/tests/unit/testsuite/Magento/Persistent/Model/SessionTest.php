@@ -26,7 +26,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $_cookieMock;
 
     /**
-     * @var \Magento\Core\Model\Resource\AbstractResource|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\Resource\AbstractResource|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_resource;
 

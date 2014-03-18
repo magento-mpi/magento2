@@ -134,7 +134,7 @@ class User
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -152,7 +152,7 @@ class User
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
