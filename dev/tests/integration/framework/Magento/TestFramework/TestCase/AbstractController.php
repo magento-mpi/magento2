@@ -99,7 +99,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     /**
      * Request getter
      *
-     * @return \Magento\App\RequestInterface
+     * @return \Magento\TestFramework\Request
      */
     public function getRequest()
     {
@@ -112,7 +112,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     /**
      * Response getter
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\TestFramework\Response
      */
     public function getResponse()
     {
@@ -188,17 +188,22 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
      *
      * @param \PHPUnit_Framework_Constraint $constraint Constraint to compare actual messages against
      * @param string|null $messageType Message type filter, one of the constants \Magento\Message\MessageInterface::*
-     * @param string $messageManager Class of the session model that manages messages
+     * @param string $messageManagerClass Class of the session model that manages messages
      */
     public function assertSessionMessages(
-        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManagerClass = 'Magento\Message\Manager'
     ) {
         $this->_assertSessionErrors = false;
-        /** @var $messages \Magento\Message\ManagerInterface */
-        $messages = $this->_objectManager->get($messageManager);
-        $actualMessages = array();
-        /** @var $message \Magento\Message\AbstractMessage */
-        foreach ($messages->getMessages()->getItemsByType($messageType) as $message) {
+        /** @var $messageManager \Magento\Message\ManagerInterface */
+        $messageManager = $this->_objectManager->get($messageManagerClass);
+        /** @var $messages \Magento\Message\AbstractMessage[] */
+        if (is_null($messageType)) {
+            $messages = $messageManager->getMessages()->getItems();
+        } else {
+            $messages = $messageManager->getMessages()->getItemsByType($messageType);
+        }
+        $actualMessages = [];
+        foreach ($messages as $message) {
             $actualMessages[] = $message->getText();
         }
         $this->assertThat(

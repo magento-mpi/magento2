@@ -167,8 +167,9 @@ class Subscriber extends \Magento\App\Action\Action
     /**
      * Validates that the email address isn't being used by a different account.
      *
-     * @param $email
+     * @param string $email
      * @throws \Magento\Core\Exception
+     * @return void
      */
     protected function validateEmailAvailable($email)
     {
@@ -184,6 +185,7 @@ class Subscriber extends \Magento\App\Action\Action
      * Validates that if the current user is a guest, that they can subscribe to a newsletter.
      *
      * @throws \Magento\Core\Exception
+     * @return void
      */
     protected function validateGuestSubscription()
     {
@@ -200,8 +202,9 @@ class Subscriber extends \Magento\App\Action\Action
     /**
      * Validates the format of the email address
      *
-     * @param $email
+     * @param string $email
      * @throws \Magento\Core\Exception
+     * @return void
      */
     protected function validateEmailFormat($email)
     {
