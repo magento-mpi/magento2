@@ -679,7 +679,7 @@ class Toolbar extends \Magento\View\Element\Template
             'limitCookie' => ToolbarModel::LIMIT_COOKIE_NAME,
             'postData' => json_decode($postData)
         );
-        $options = array_merge($options, $customOptions);
+        $options = array_replace_recursive($options, $customOptions);
         return json_encode(array('productListToolbarForm' => $options));
     }
 }
