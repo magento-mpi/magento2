@@ -86,7 +86,14 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     ->setCurrentScope($area);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
                     ->setAreaCode($area);
-
+                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\App\Http\Context');
+                $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+                $context->setValue(
+                    \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
+                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+                );
                 $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();
                 if ($template) {
