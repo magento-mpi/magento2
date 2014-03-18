@@ -30,7 +30,7 @@ class LockValidator implements LockValidatorInterface
      *
      * @param \Magento\Model\AbstractModel $object
      * @param null $attributeSet
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      *
      * @return void
      */
@@ -55,7 +55,7 @@ class LockValidator implements LockValidatorInterface
         }
 
         if ($adapter->fetchOne($select, $bind)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('This attribute is used in configurable products.')
             );
         }

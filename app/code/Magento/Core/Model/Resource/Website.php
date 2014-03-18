@@ -47,12 +47,12 @@ class Website extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            throw new \Magento\Core\Exception(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+            throw new \Magento\Model\Exception(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
         }
 
         return parent::_beforeSave($object);

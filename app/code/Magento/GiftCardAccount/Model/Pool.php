@@ -80,7 +80,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
      * Generate Pool
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function generatePool()
     {
@@ -93,7 +93,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
             $attempt = 0;
             do {
                 if ($attempt>=self::CODE_GENERATION_ATTEMPTS) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('We were unable to create full code pool size. Please check settings and try again.')
                     );
                 }

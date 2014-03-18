@@ -126,12 +126,12 @@ class Template extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if ($this->checkCodeUsage($object)) {
-            throw new \Magento\Core\Exception(__('Duplicate template code'));
+            throw new \Magento\Model\Exception(__('Duplicate template code'));
         }
 
         if (!$object->hasTemplateActual()) {

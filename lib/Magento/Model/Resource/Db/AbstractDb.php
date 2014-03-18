@@ -217,13 +217,13 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
     /**
      * Get primary key field name
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return string
      */
     public function getIdFieldName()
     {
         if (empty($this->_idFieldName)) {
-            throw new \Magento\Core\Exception(__('Empty identifier field name'));
+            throw new \Magento\Model\Exception(__('Empty identifier field name'));
         }
         return $this->_idFieldName;
     }
@@ -232,13 +232,13 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      * Returns main table name - extracted from "module/table" style and
      * validated by db adapter
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return string
      */
     public function getMainTable()
     {
         if (empty($this->_mainTable)) {
-            throw new \Magento\Core\Exception(__('Empty main table name'));
+            throw new \Magento\Model\Exception(__('Empty main table name'));
         }
         return $this->getTable($this->_mainTable);
     }
@@ -563,7 +563,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _checkUnique(\Magento\Model\AbstractModel $object)
     {
@@ -610,7 +610,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
             } else {
                 $error = __('%1 already exist.', implode(', ', $existent));
             }
-            throw new \Magento\Core\Exception($error);
+            throw new \Magento\Model\Exception($error);
         }
         return $this;
     }

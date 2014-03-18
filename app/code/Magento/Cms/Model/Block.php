@@ -59,7 +59,7 @@ class Block extends \Magento\Model\AbstractModel implements \Magento\Object\Iden
      * Prevent blocks recursion
      *
      * @return \Magento\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -67,7 +67,7 @@ class Block extends \Magento\Model\AbstractModel implements \Magento\Object\Iden
         if (false == strstr($this->getContent(), $needle)) {
             return parent::_beforeSave();
         }
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Model\Exception(
             __('Make sure that static block content does not reference the block itself.')
         );
     }

@@ -50,7 +50,7 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function _beforeSave(\Magento\Model\AbstractModel $object)
     {
@@ -69,7 +69,7 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
         if (!is_null($object->getDateFrom())
             && !is_null($object->getDateTo())
             && $this->dateTime->toTimestamp($object->getDateFrom()) > $this->dateTime->toTimestamp($object->getDateTo())) {
-            throw new \Magento\Core\Exception(__('Start date cannot be greater than end date.'));
+            throw new \Magento\Model\Exception(__('Start date cannot be greater than end date.'));
         }
 
         $check = $this->_checkIntersection(
@@ -80,7 +80,7 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
         );
 
         if ($check) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Your design change for the specified store intersects with another one, please specify another date range.')
             );
         }

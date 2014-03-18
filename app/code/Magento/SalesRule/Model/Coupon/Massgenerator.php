@@ -144,7 +144,7 @@ class Massgenerator extends \Magento\Model\AbstractModel
     /**
      * Generate Coupons Pool
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     public function generatePool()
@@ -178,7 +178,7 @@ class Massgenerator extends \Magento\Model\AbstractModel
             $attempt = 0;
             do {
                 if ($attempt >= $maxAttempts) {
-                    throw new \Magento\Core\Exception(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
+                    throw new \Magento\Model\Exception(__('We cannot create the requested Coupon Qty. Please check your settings and try again.'));
                 }
                 $code = $this->generateCode();
                 $attempt++;

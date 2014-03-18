@@ -252,7 +252,7 @@ class Observer extends \Magento\Model\AbstractModel
                             ));
                             $codes[] = $code->getCode();
                             $goodCodes++;
-                        } catch (\Magento\Core\Exception $e) {
+                        } catch (\Magento\Model\Exception $e) {
                             $hasFailedCodes = true;
                             $codes[] = null;
                         }

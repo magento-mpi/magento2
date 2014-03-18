@@ -261,7 +261,7 @@ class User extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $user
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function delete(\Magento\Model\AbstractModel $user)
     {
@@ -277,7 +277,7 @@ class User extends \Magento\Model\Resource\Db\AbstractDb
 
             $adapter->delete($this->getMainTable(), $conditions);
             $adapter->delete($this->getTable('admin_role'), $conditions);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             throw $e;
             return false;
         } catch (\Exception $e){

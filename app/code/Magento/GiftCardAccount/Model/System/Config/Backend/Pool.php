@@ -71,7 +71,7 @@ class Pool extends \Magento\Core\Model\Config\Value
      * Check Max Length
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _checkMaxLength()
     {
@@ -101,7 +101,7 @@ class Pool extends \Magento\Core\Model\Config\Value
         }
 
         if ($len > 255) {
-            throw new \Magento\Core\Exception(__('Maximum generated code length is 255. Please correct your settings.'));
+            throw new \Magento\Model\Exception(__('Maximum generated code length is 255. Please correct your settings.'));
         }
     }
 }

@@ -484,7 +484,7 @@ class Observer
 
         try {
             $version->delete();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             // If we have situation when revision from
             // orphaned private version published we should
             // change its access level to protected so publisher

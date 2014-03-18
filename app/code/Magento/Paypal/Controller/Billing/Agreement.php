@@ -112,7 +112,7 @@ class Agreement extends \Magento\App\Action\Action
                         ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
 
                 return $this->getResponse()->setRedirect($agreement->initToken());
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -145,7 +145,7 @@ class Agreement extends \Magento\App\Action\Action
                 );
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -183,7 +183,7 @@ class Agreement extends \Magento\App\Action\Action
                 $this->messageManager->addNotice(
                     __('The billing agreement "%1" has been canceled.', $agreement->getReferenceId())
                 );
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);

@@ -62,7 +62,7 @@ class Amount
      *
      * @param   \Magento\Catalog\Model\Product $object
      * @return  $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function validate($object)
     {
@@ -80,7 +80,7 @@ class Amount
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Duplicate amount found.')
                 );
             }

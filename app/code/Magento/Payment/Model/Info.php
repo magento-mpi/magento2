@@ -82,7 +82,7 @@ class Info extends \Magento\Model\AbstractModel
      * Retrieve payment method model object
      *
      * @return \Magento\Payment\Model\MethodInterface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getMethodInstance()
     {
@@ -95,7 +95,7 @@ class Info extends \Magento\Model\AbstractModel
                     return $instance;
                 }
             }
-            throw new \Magento\Core\Exception(__('The payment method you requested is not available.'));
+            throw new \Magento\Model\Exception(__('The payment method you requested is not available.'));
         }
 
         return $this->_getData('method_instance');
@@ -137,12 +137,12 @@ class Info extends \Magento\Model\AbstractModel
      * @param string|array $key
      * @param mixed $value
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function setAdditionalInformation($key, $value = null)
     {
         if (is_object($value)) {
-           throw new \Magento\Core\Exception(__('The payment disallows storing objects.'));
+           throw new \Magento\Model\Exception(__('The payment disallows storing objects.'));
         }
         $this->_initAdditionalInformation();
         if (is_array($key) && is_null($value)) {

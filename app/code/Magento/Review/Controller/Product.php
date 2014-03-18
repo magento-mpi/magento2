@@ -206,7 +206,7 @@ class Product extends \Magento\App\Action\Action
                 'product'           => $product,
                 'controller_action' => $this
             ));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }

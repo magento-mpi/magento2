@@ -151,7 +151,7 @@ class Formtype
                 ));
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
-            } catch(\Magento\Core\Exception $e) {
+            } catch(\Magento\Model\Exception $e) {
                 $hasError = true;
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -293,7 +293,7 @@ class Formtype
                 if (!empty($treeData) && is_array($treeData)) {
                     $this->_saveTreeData($formType, $treeData);
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $hasError = true;
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -329,7 +329,7 @@ class Formtype
                     $formType->delete();
                     $message = __('The form type has been deleted.');
                     $this->messageManager->addSuccess($message);
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $message = __('Something went wrong deleting the form type.');

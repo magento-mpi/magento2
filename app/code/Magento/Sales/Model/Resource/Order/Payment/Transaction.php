@@ -124,7 +124,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      *
      * @param \Magento\Sales\Model\Order\Payment\Transaction $transaction
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
     {
@@ -136,7 +136,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
         if ($parentTxnId) {
             if (!$txnId || !$orderId || !$paymentId) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('We don\'t have enough information to save the parent transaction ID.'));
             }
             $parentId = (int)$this->_lookupByTxnId($orderId, $paymentId, $parentTxnId, $idFieldName);

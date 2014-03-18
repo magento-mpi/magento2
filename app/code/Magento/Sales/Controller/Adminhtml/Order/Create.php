@@ -377,7 +377,7 @@ class Create extends \Magento\Backend\App\Action
         try {
             $this->_initSession()
                 ->_processData();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_reloadQuote();
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
@@ -519,7 +519,7 @@ class Create extends \Magento\Backend\App\Action
                 $this->messageManager->addError($message);
             }
             $this->_redirect('sales/*/');
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $message = $e->getMessage();
             if (!empty($message)) {
                 $this->messageManager->addError($message);
@@ -604,12 +604,12 @@ class Create extends \Magento\Backend\App\Action
         try {
             $quoteItemId = (int) $this->getRequest()->getParam('id');
             if (!$quoteItemId) {
-                throw new \Magento\Core\Exception(__('Quote item id is not received.'));
+                throw new \Magento\Model\Exception(__('Quote item id is not received.'));
             }
 
             $quoteItem = $this->_objectManager->create('Magento\Sales\Model\Quote\Item')->load($quoteItemId);
             if (!$quoteItem->getId()) {
-                throw new \Magento\Core\Exception(__('Quote item is not loaded.'));
+                throw new \Magento\Model\Exception(__('Quote item is not loaded.'));
             }
 
             $configureResult->setOk(true);

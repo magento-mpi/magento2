@@ -220,13 +220,13 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Get resource instance
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {
         if (empty($this->_resourceName) && empty($this->_resource)) {
-            throw new \Magento\Core\Exception(__('Resource is not set.'));
+            throw new \Magento\Model\Exception(__('Resource is not set.'));
         }
 
         return $this->_resource ?: \Magento\App\ObjectManager::getInstance()->get($this->_resourceName);
@@ -246,13 +246,13 @@ abstract class AbstractModel extends \Magento\Object
      * Get collection instance
      *
      * @deplacated
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getResourceCollection()
     {
         if (empty($this->_resourceCollection) && empty($this->_collectionName)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Model collection resource name is not defined.')
             );
         }
@@ -442,14 +442,14 @@ abstract class AbstractModel extends \Magento\Object
      * Validate model before saving it
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _validateBeforeSave()
     {
         $validator = $this->_getValidatorBeforeSave();
         if ($validator && !$validator->isValid($this)) {
             $errors = $validator->getMessages();
-            $exception = new \Magento\Core\Exception(implode(PHP_EOL, $errors));
+            $exception = new \Magento\Model\Exception(implode(PHP_EOL, $errors));
             foreach ($errors as $errorMessage) {
                 $exception->addMessage(new \Magento\Message\Error($errorMessage));
             }
@@ -625,7 +625,7 @@ abstract class AbstractModel extends \Magento\Object
      * Safeguard func that will check, if we are in admin area
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _protectFromNonAdmin()
     {
@@ -633,7 +633,7 @@ abstract class AbstractModel extends \Magento\Object
             return;
         }
         if ($this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
-            throw new \Magento\Core\Exception(__('Cannot complete this operation from non-admin area.'));
+            throw new \Magento\Model\Exception(__('Cannot complete this operation from non-admin area.'));
         }
     }
 

@@ -46,7 +46,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve Maximum Number of Products in Product List
      *
      * @param int $type product list type
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return int
      */
     public function getMaximumNumberOfProduct($type)
@@ -62,7 +62,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Invalid product list type'));
+                throw new \Magento\Model\Exception(__('Invalid product list type'));
         }
 
         return $this->getMaxProductsListResult($number);
@@ -72,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Show Related/Upsell/Cross-Sell Products behavior
      *
      * @param int $type
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return int
      */
     public function getShowProducts($type)
@@ -88,7 +88,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Invalid product list type'));
+                throw new \Magento\Model\Exception(__('Invalid product list type'));
         }
 
         return $show;
@@ -115,7 +115,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve Rotation Mode in Product List
      *
      * @param int $type product list type
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return int
      */
     public function getRotationMode($type)
@@ -131,7 +131,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Invalid rotation mode type'));
+                throw new \Magento\Model\Exception(__('Invalid rotation mode type'));
         }
         return $mode;
     }

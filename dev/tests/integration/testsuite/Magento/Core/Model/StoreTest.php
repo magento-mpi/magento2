@@ -311,7 +311,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      * @dataProvider saveValidationDataProvider
      * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testSaveValidation($badStoreData)
     {

@@ -119,9 +119,9 @@ class Index extends \Magento\App\Action\Action
                         $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
-                        throw new \Exception(''); // not \Magento\Core\Exception intentionally
+                        throw new \Exception(''); // not \Magento\Model\Exception intentionally
                     }
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Model\Exception $e) {
                     if (\Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     } else {

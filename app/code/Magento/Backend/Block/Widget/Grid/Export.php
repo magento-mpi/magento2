@@ -70,7 +70,7 @@ class Export
 
     /**
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _construct()
     {
@@ -78,7 +78,7 @@ class Export
         if ($this->hasData('exportTypes')) {
             foreach ($this->getData('exportTypes') as $type) {
                 if (!isset($type['urlPath']) || !isset($type['label'])) {
-                    throw new \Magento\Core\Exception('Invalid export type supplied for grid export block');
+                    throw new \Magento\Model\Exception('Invalid export type supplied for grid export block');
                 }
                 $this->addExportType($type['urlPath'], $type['label']);
             }

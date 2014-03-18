@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model\Balance;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Customerbalance history model

@@ -91,13 +91,13 @@ class Fieldset extends \Magento\Model\AbstractModel
     /**
      * Validate data before save data
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            throw new \Magento\Core\Exception(__('Invalid form type.'));
+            throw new \Magento\Model\Exception(__('Invalid form type.'));
         }
         if (!$this->getStoreId() && $this->getLabel()) {
             $this->setStoreLabel($this->getStoreId(), $this->getLabel());

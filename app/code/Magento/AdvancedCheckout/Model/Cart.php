@@ -438,7 +438,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param   Product|int $product
      * @param   array|float|int|\Magento\Object $config
      * @return  $this
-     * @throws  \Magento\Core\Exception
+     * @throws  \Magento\Model\Exception
      */
     public function addProduct($product, $config = 1)
     {
@@ -460,7 +460,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 ->setStoreId($this->getStore()->getId())
                 ->load($product);
             if (!$product->getId()) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Failed to add a product to cart by id "%1".', $productId)
                 );
             }
@@ -484,7 +484,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         } else {
             $item = $this->getQuote()->addProduct($product, $config);
             if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
+                throw new \Magento\Model\Exception($item);
             }
             $item->checkData();
         }
@@ -499,12 +499,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\Order\Item $orderItem
      * @param int|float $qty
      * @return \Magento\Sales\Model\Quote\Item
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function reorderItem(\Magento\Sales\Model\Order\Item $orderItem, $qty = 1)
     {
         if (!$orderItem->getId()) {
-            throw new \Magento\Core\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Model\Exception(__('Something went wrong reordering this product.'));
         }
 
         $product = $this->_productFactory->create()
@@ -517,7 +517,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $product->setSkipCheckRequiredOption(true);
             $item = $this->createQuote()->addProduct($product, $info);
             if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
+                throw new \Magento\Model\Exception($item);
             }
 
             $item->setQty($qty);
@@ -540,7 +540,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             return $item;
 
         } else {
-            throw new \Magento\Core\Exception(__('Something went wrong reordering this product.'));
+            throw new \Magento\Model\Exception(__('Something went wrong reordering this product.'));
         }
     }
 
@@ -557,7 +557,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $config['qty'] = isset($config['qty']) ? (float)$config['qty'] : 1;
             try {
                 $this->addProduct($productId, $config);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 return $e;
@@ -1342,7 +1342,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 $config = $item['item']['qty'];
             }
             $cart->addProduct($item['item']['id'], $config);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             if (!$suppressSuperMode) {
                 $success = false;
                 $item['code'] = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_UNKNOWN;

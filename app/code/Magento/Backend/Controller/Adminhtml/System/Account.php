@@ -72,7 +72,7 @@ class Account extends Action
             $this->messageManager->addSuccess(
                 __('The account has been saved.')
             );
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addMessages($e->getMessages());
         } catch (\Exception $e) {
             $this->messageManager->addError(

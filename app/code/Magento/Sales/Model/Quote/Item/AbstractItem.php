@@ -305,7 +305,7 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel
 
         try {
             $this->setQty($qty);
-        } catch (\Magento\Core\Exception $e){
+        } catch (\Magento\Model\Exception $e){
             $this->setHasError(true);
             $this->setMessage($e->getMessage());
         } catch (\Exception $e){
@@ -315,7 +315,7 @@ abstract class AbstractItem extends \Magento\Model\AbstractModel
 
         try {
             $this->getProduct()->getTypeInstance()->checkProductBuyState($this->getProduct());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->setHasError(true)
                 ->setMessage($e->getMessage());
             $this->getQuote()->setHasError(true)

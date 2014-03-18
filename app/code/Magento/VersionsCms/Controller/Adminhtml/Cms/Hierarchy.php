@@ -201,7 +201,7 @@ class Hierarchy extends \Magento\Backend\App\Action
                     $nodeModel->collectTree(array(), array());
                 }
                 $this->messageManager->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e,
@@ -236,7 +236,7 @@ class Hierarchy extends \Magento\Backend\App\Action
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
                 $this->messageManager->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e,
@@ -317,7 +317,7 @@ class Hierarchy extends \Magento\Backend\App\Action
 
                 $hasError = false;
                 $this->messageManager->addSuccess(__('You have saved the hierarchy.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e,

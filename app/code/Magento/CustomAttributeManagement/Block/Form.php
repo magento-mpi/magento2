@@ -121,15 +121,15 @@ class Form extends \Magento\View\Element\Template
      * Get Attribute renderers from it, and add to self
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _prepareLayout()
     {
         if (empty($this->_xmlBlockName)) {
-            throw new \Magento\Core\Exception(__('The current module XML block name is undefined.'));
+            throw new \Magento\Model\Exception(__('The current module XML block name is undefined.'));
         }
         if (empty($this->_formModelPath)) {
-            throw new \Magento\Core\Exception(__('The current module form model pathname is undefined.'));
+            throw new \Magento\Model\Exception(__('The current module form model pathname is undefined.'));
         }
 
         return parent::_prepareLayout();

@@ -54,13 +54,13 @@ abstract class AbstractAdvanced
      * @param array $tags
      * @param null|int $lifetime
      * @return \Magento\FullPageCache\Model\Container\Advanced\AbstractAdvanced
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
         $additionalCacheId = $this->_getAdditionalCacheId();
         if (!$additionalCacheId) {
-            throw new \Magento\Core\Exception(__('Please enter an additional ID.'));
+            throw new \Magento\Model\Exception(__('Please enter an additional ID.'));
         }
 
         $tags[] = \Magento\FullPageCache\Model\Processor::CACHE_TAG;

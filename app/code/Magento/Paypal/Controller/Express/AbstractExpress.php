@@ -179,7 +179,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 $this->getResponse()->setRedirect($url);
                 return;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t start Express Checkout.'));
@@ -231,7 +231,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             } else {
                 $this->messageManager->addSuccess(__('Express Checkout has been canceled.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Unable to cancel Express Checkout'));
@@ -253,7 +253,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_checkout->returnFromPaypal($this->_initToken());
             $this->_redirect('*/*/review');
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t process Express Checkout approval.'));
@@ -282,7 +282,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             }
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(
@@ -302,7 +302,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     {
         try {
             $this->getResponse()->setRedirect($this->_config->getExpressCheckoutEditUrl($this->_initToken()));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/review');
         }
@@ -326,7 +326,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->toHtml());
                 return;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update shipping method.'));
@@ -356,7 +356,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 ->setQuote($this->_getQuote())
                 ->toHtml());
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update Order data.'));
@@ -384,7 +384,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->toHtml());
                 return;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t update Order data.'));
@@ -402,7 +402,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * Submit the order
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function placeOrderAction()
     {
@@ -411,7 +411,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             if ($requiredAgreements) {
                 $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
                 if (array_diff($requiredAgreements, $postedAgreements)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Please agree to all the terms and conditions before placing the order.')
                     );
                 }
@@ -447,7 +447,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_initToken(false); // no need in token anymore
             $this->_redirect('checkout/onepage/success');
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We can\'t place the order.'));
@@ -460,14 +460,14 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * Instantiate quote and checkout
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     private function _initCheckout()
     {
         $quote = $this->_getQuote();
         if (!$quote->hasItems() || $quote->getHasError()) {
             $this->getResponse()->setHeader('HTTP/1.1', '403 Forbidden');
-            throw new \Magento\Core\Exception(__('We can\'t initialize Express Checkout.'));
+            throw new \Magento\Model\Exception(__('We can\'t initialize Express Checkout.'));
         }
         if (!isset($this->_checkoutTypes[$this->_checkoutType])) {
             $parameters = array(
@@ -488,7 +488,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      *
      * @param string|null $setToken
      * @return \Magento\Paypal\Controller\Express|string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initToken($setToken = null)
     {
@@ -496,7 +496,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             if (false === $setToken) {
                 // security measure for avoid unsetting token twice
                 if (!$this->_getSession()->getExpressCheckoutToken()) {
-                    throw new \Magento\Core\Exception(__('PayPal Express Checkout Token does not exist.'));
+                    throw new \Magento\Model\Exception(__('PayPal Express Checkout Token does not exist.'));
                 }
                 $this->_getSession()->unsExpressCheckoutToken();
             } else {
@@ -507,7 +507,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         $setToken = $this->getRequest()->getParam('token');
         if ($setToken) {
             if ($setToken !== $this->_getSession()->getExpressCheckoutToken()) {
-                throw new \Magento\Core\Exception(__('A wrong PayPal Express Checkout Token is specified.'));
+                throw new \Magento\Model\Exception(__('A wrong PayPal Express Checkout Token is specified.'));
             }
         } else {
             $setToken = $this->_getSession()->getExpressCheckoutToken();

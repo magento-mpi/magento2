@@ -74,23 +74,23 @@ class ClassModel extends \Magento\Model\AbstractModel
      * Check whether this class can be deleted
      *
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function checkClassCanBeDeleted()
     {
         if (!$this->getId()) {
-            throw new \Magento\Core\Exception(__('This class no longer exists.'));
+            throw new \Magento\Model\Exception(__('This class no longer exists.'));
         }
 
         $typeModel = $this->_classFactory->create($this);
 
         if ($typeModel->getAssignedToRules()->getSize() > 0) {
-            throw new \Magento\Core\Exception(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
+            throw new \Magento\Model\Exception(__('You cannot delete this tax class because it is used in Tax Rules. You have to delete the rules it is used in first.'));
         }
 
         $objectCount = $typeModel->getAssignedToObjects()->getSize();
         if ($objectCount > 0) {
-            throw new \Magento\Core\Exception(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
+            throw new \Magento\Model\Exception(__('You cannot delete this tax class because it is used for %1 %2(s).', $objectCount, $typeModel->getObjectTypeName()));
         }
 
         return true;

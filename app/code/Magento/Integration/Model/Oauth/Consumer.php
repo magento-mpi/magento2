@@ -99,10 +99,10 @@ class Consumer extends \Magento\Model\AbstractModel implements ConsumerInterface
             $this->setRejectedCallbackUrl(trim($this->getRejectedCallbackUrl()));
 
             if ($this->getCallbackUrl() && !$this->_urlValidator->isValid($this->getCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Callback URL'));
+                throw new \Magento\Model\Exception(__('Invalid Callback URL'));
             }
             if ($this->getRejectedCallbackUrl() && !$this->_urlValidator->isValid($this->getRejectedCallbackUrl())) {
-                throw new \Magento\Core\Exception(__('Invalid Rejected Callback URL'));
+                throw new \Magento\Model\Exception(__('Invalid Rejected Callback URL'));
             }
         }
 
@@ -114,14 +114,14 @@ class Consumer extends \Magento\Model\AbstractModel implements ConsumerInterface
         $validatorLength->setName('Consumer Key');
         if (!$validatorLength->isValid($this->getKey())) {
             $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
+            throw new \Magento\Model\Exception(array_shift($messages));
         }
 
         $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_CONSUMER_SECRET);
         $validatorLength->setName('Consumer Secret');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
-            throw new \Magento\Core\Exception(array_shift($messages));
+            throw new \Magento\Model\Exception(array_shift($messages));
         }
         return true;
     }

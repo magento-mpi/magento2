@@ -110,14 +110,14 @@ class Share extends \Magento\Core\Model\Config\Value
      * Check for email duplicates before saving customers sharing options
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function _beforeSave()
     {
         $value = $this->getValue();
         if ($value == self::SHARE_GLOBAL) {
             if ($this->_customerResource->findEmailDuplicates()) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     //@codingStandardsIgnoreStart
                     __('Cannot share customer accounts globally because some customer accounts with the same emails exist on multiple websites and cannot be merged.')
                     //@codingStandardsIgnoreEnd

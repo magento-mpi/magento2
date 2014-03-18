@@ -176,7 +176,7 @@ class Page extends \Magento\Backend\App\Action
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong while saving the page.'));

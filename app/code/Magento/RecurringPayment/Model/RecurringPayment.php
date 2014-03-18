@@ -201,7 +201,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
         if ($this->_manager) {
             try {
                 $this->_manager->validate($this);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->_errors['payment_method'][] = $e->getMessage();
             }
         }
@@ -213,7 +213,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
      * Getter for errors that may appear after validation
      *
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getValidationErrors()
     {
@@ -222,7 +222,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
             foreach ($this->_errors as $row) {
                 $result[] = implode(' ', $row);
             }
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __("The payment is invalid:\n%1.", implode("\n", $result))
             );
         }
@@ -248,7 +248,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
      *
      * @param \Magento\Object $buyRequest
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @throws \Exception
      */
     public function importBuyRequest(\Magento\Object $buyRequest)
@@ -263,7 +263,7 @@ class RecurringPayment extends \Magento\Model\AbstractModel
             );
             $localeCode = $this->_localeResolver->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
-                throw new \Magento\Core\Exception(__('The recurring payment start date has invalid format.'));
+                throw new \Magento\Model\Exception(__('The recurring payment start date has invalid format.'));
             }
             $utcTime = $this->_localeDate->utcDate($this->_store, $startDate, true, $dateFormat)
                 ->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
@@ -497,15 +497,15 @@ class RecurringPayment extends \Magento\Model\AbstractModel
      * Perform full validation before saving
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _validateBeforeSave()
     {
         if (!$this->isValid()) {
-            throw new \Magento\Core\Exception($this->getValidationErrors());
+            throw new \Magento\Model\Exception($this->getValidationErrors());
         }
         if (!$this->getInternalReferenceId()) {
-            throw new \Magento\Core\Exception(__('An internal reference ID is required to save the payment.'));
+            throw new \Magento\Model\Exception(__('An internal reference ID is required to save the payment.'));
         }
     }
 

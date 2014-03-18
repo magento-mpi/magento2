@@ -97,7 +97,7 @@ class Page extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
@@ -117,15 +117,15 @@ class Page extends \Magento\Model\Resource\Db\AbstractDb
         }
 
         if (!$this->getIsUniquePageToStores($object)) {
-            throw new \Magento\Core\Exception(__('A page URL key for specified store already exists.'));
+            throw new \Magento\Model\Exception(__('A page URL key for specified store already exists.'));
         }
 
         if (!$this->isValidPageIdentifier($object)) {
-            throw new \Magento\Core\Exception(__('The page URL key contains capital letters or disallowed symbols.'));
+            throw new \Magento\Model\Exception(__('The page URL key contains capital letters or disallowed symbols.'));
         }
 
         if ($this->isNumericPageIdentifier($object)) {
-            throw new \Magento\Core\Exception(__('The page URL key cannot be made of only numbers.'));
+            throw new \Magento\Model\Exception(__('The page URL key cannot be made of only numbers.'));
         }
 
         // modify create / update dates

@@ -395,7 +395,7 @@ class Payment extends \Magento\Payment\Model\Info
      * TODO: eliminate logic duplication with registerCaptureNotification()
      *
      * @param null|Invoice $invoice
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     public function capture($invoice)
@@ -465,7 +465,7 @@ class Payment extends \Magento\Payment\Model\Info
             $this->getMethodInstance()->processInvoice($invoice, $this);
             return $this;
         }
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Model\Exception(
             __('The transaction "%1" cannot be captured yet.', $invoice->getTransactionId())
         );
     }
@@ -657,7 +657,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param Creditmemo $creditmemo
      * @return $this
      * @throws \Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function refund($creditmemo)
     {
@@ -686,7 +686,7 @@ class Payment extends \Magento\Payment\Model\Info
                         ->refund($this, $baseAmountToRefund)
                         ->processCreditmemo($creditmemo, $this)
                     ;
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Model\Exception $e) {
                     if (!$captureTxn) {
                         $e->setMessage(' ' . __('If the invoice was created offline, try creating an offline credit memo.'), true);
                     }

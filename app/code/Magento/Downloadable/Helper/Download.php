@@ -8,7 +8,7 @@
 namespace Magento\Downloadable\Helper;
 
 use Magento\App\Filesystem;
-use Magento\Core\Exception as CoreException;
+use Magento\Model\Exception as CoreException;
 
 /**
  * Downloadable Products Download Helper

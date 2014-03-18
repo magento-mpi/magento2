@@ -46,12 +46,12 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
      * Retrieve Product List Type identifier
      *
      * @return int
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getListType()
     {
         if (is_null($this->_listType)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('The product list type identifier is not defined.')
             );
         }

@@ -56,12 +56,12 @@ class Group extends AbstractComposite
      * Retrieve clone model
      *
      * @return \Magento\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getCloneModel()
     {
         if (!isset($this->_data['clone_model']) || !$this->_data['clone_model']) {
-            throw new \Magento\Core\Exception('Config form fieldset clone model required to be able to clone fields');
+            throw new \Magento\Model\Exception('Config form fieldset clone model required to be able to clone fields');
         }
         return $this->_cloneModelFactory->create($this->_data['clone_model']);
     }

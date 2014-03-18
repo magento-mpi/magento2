@@ -424,7 +424,7 @@ abstract class AbstractAttribute
      * Retrieve backend instance
      *
      * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getBackend()
     {
@@ -464,7 +464,7 @@ abstract class AbstractAttribute
      * Retrieve source instance
      *
      * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getSource()
     {

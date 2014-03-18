@@ -245,14 +245,14 @@ class Revision extends \Magento\Model\AbstractModel implements \Magento\Object\I
      * Checking some moments before we can actually delete revision
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete()
     {
         $resource = $this->_getResource();
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Revision */
         if ($resource->isRevisionPublished($this)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Revision #%1 could not be removed because it is published.', $this->getRevisionNumber())
             );
         }

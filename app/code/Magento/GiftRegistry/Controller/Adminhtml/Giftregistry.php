@@ -10,7 +10,7 @@
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 class Giftregistry extends \Magento\Backend\App\Action
 {

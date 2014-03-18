@@ -208,7 +208,7 @@ class Settlement extends \Magento\Model\AbstractModel
      *
      * @param \Magento\Io\Sftp $connection
      * @return int Number of report rows that were fetched and saved successfully
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function fetchAndSave(\Magento\Io\Sftp $connection)
     {
@@ -219,7 +219,7 @@ class Settlement extends \Magento\Model\AbstractModel
             $localCsv = 'PayPal_STL_' . uniqid(mt_rand()) . time() . '.csv';
             if ($connection->read($filename, $this->_tmpDirectory->getAbsolutePath($localCsv))) {
                 if (!$this->_tmpDirectory->isWritable($localCsv)) {
-                    throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
+                    throw new \Magento\Model\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
                 $encoded = $this->_tmpDirectory->readFile($localCsv);

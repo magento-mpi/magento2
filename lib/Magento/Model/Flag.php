@@ -12,7 +12,7 @@ namespace Magento\Model;
 use Magento\Model\AbstractModel;
 
 /**
- * Core Flag model
+ * Flag model
  *
  * @method \\Magento\Model\Resource\Flag _getResource()
  * @method \\Magento\Model\Resource\Flag getResource()
@@ -22,10 +22,6 @@ use Magento\Model\AbstractModel;
  * @method \Magento\Model\Flag setState(int $value)
  * @method string getLastUpdate()
  * @method \Magento\Model\Flag setLastUpdate(string $value)
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Flag extends AbstractModel
 {
@@ -53,13 +49,13 @@ class Flag extends AbstractModel
     /**
      * Processing object before save data
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     protected function _beforeSave()
     {
         if (is_null($this->_flagCode)) {
-            throw new \Magento\Core\Exception(__('Please define flag code.'));
+            throw new \Magento\Model\Exception(__('Please define flag code.'));
         }
 
         $this->setFlagCode($this->_flagCode);
@@ -96,13 +92,13 @@ class Flag extends AbstractModel
     /**
      * load self (load by flag code)
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     public function loadSelf()
     {
         if (is_null($this->_flagCode)) {
-            throw new \Magento\Core\Exception(__('Please define flag code.'));
+            throw new \Magento\Model\Exception(__('Please define flag code.'));
         }
 
         return $this->load($this->_flagCode, 'flag_code');

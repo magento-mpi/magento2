@@ -117,7 +117,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param array $options
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
@@ -154,7 +154,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
             $this->_connect($options);
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('We were unable to perform the search because a search engine misconfiguration.')
             );
         }

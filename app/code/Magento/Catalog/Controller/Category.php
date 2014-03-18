@@ -105,7 +105,7 @@ class Category extends \Magento\App\Action\Action
                     'controller_action' => $this
                 )
             );
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             return false;
         }

@@ -92,7 +92,7 @@ class AbstractApi extends \Magento\Object
      * @param array $request
      * @return bool
      * @throws \Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _call(array $request)
     {
@@ -135,7 +135,7 @@ class AbstractApi extends \Magento\Object
                     sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
                 ));
 
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Unable to communicate with Payment Bridge service.')
                 );
             }
@@ -160,14 +160,14 @@ class AbstractApi extends \Magento\Object
      *
      * @param array $response
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _handleError($response)
     {
         if (isset($response['status']) && $response['status'] == 'Fail' && isset($response['error'])) {
-            throw new \Magento\Core\Exception($response['error']);
+            throw new \Magento\Model\Exception($response['error']);
         }
-        throw new \Magento\Core\Exception(__('There was a payment gateway internal error.'));
+        throw new \Magento\Model\Exception(__('There was a payment gateway internal error.'));
     }
 
     /**

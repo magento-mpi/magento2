@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\App\ResponseInterface;
 
 /**

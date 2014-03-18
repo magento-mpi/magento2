@@ -950,7 +950,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         $request = $this->_exportToRequest($this->_updateBillingAgreementRequest);
         try {
             $response = $this->call('BillAgreementUpdate', $request);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             if (in_array(10201, $this->_callErrors)) {
                 $this->setIsBillingAgreementAlreadyCancelled(true);
             }
@@ -1029,7 +1029,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      * @param string $methodName
      * @param array $request
      * @return array
-     * @throws \Magento\Core\Exception|\Exception
+     * @throws \Magento\Model\Exception|\Exception
      */
     public function call($methodName, array $request)
     {
@@ -1082,7 +1082,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
             ));
             $http->close();
 
-            throw new \Magento\Core\Exception(__('We can\'t contact the PayPal gateway.'));
+            throw new \Magento\Model\Exception(__('We can\'t contact the PayPal gateway.'));
         }
 
         // cUrl resource must be closed after checking it for errors
@@ -1090,7 +1090,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
 
         if (!$this->_validateResponse($methodName, $response)) {
             $this->_logger->logException(new \Exception(__("PayPal response hasn't required fields.")));
-            throw new \Magento\Core\Exception(__('Something went wrong while processing your order.'));
+            throw new \Magento\Model\Exception(__('Something went wrong while processing your order.'));
         }
 
         $this->_callErrors = array();
@@ -1121,7 +1121,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
      *
      * @param array $response
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _handleCallErrors($response)
     {
@@ -1137,7 +1137,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         }
         if ($errors) {
             $errors = implode(' ', $errors);
-            $e = new \Magento\Core\Exception(
+            $e = new \Magento\Model\Exception(
                 sprintf('PayPal NVP gateway errors: %s Correlation ID: %s. Version: %s.',
                     $errors,
                     isset($response['CORRELATIONID']) ? $response['CORRELATIONID'] : '',

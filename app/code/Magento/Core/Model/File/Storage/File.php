@@ -272,7 +272,7 @@ class File
      *
      * @param  array $file
      * @param  bool $overwrite
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function saveFile($file, $overwrite = true)
@@ -289,12 +289,12 @@ class File
                     ->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Unable to save file "%1" at "%2"', $file['filename'], $file['directory'])
                 );
             }
         } else {
-            throw new \Magento\Core\Exception(__('Wrong file info format'));
+            throw new \Magento\Model\Exception(__('Wrong file info format'));
         }
 
         return false;

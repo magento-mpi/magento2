@@ -67,12 +67,12 @@ abstract class AbstractTab
      * Create a form element with necessary controls
      *
      * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\Header
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _prepareForm()
     {
         if (!$this->_formId || !$this->_tab) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('We found an invalid block of class "%1". Please define the required properties.',
                     get_class($this))
             );

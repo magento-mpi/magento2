@@ -111,7 +111,7 @@ class Rate extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($ratePost);
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -143,7 +143,7 @@ class Rate extends \Magento\Backend\App\Action
                 'tax_calculation_rate_id' => $rate->getId(),
                 'code' => $rate->getCode(),
             ));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage(),
@@ -233,7 +233,7 @@ class Rate extends \Magento\Backend\App\Action
                     $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                     return true;
                 }
-                catch (\Magento\Core\Exception $e) {
+                catch (\Magento\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 }
                 catch (\Exception $e) {
@@ -271,7 +271,7 @@ class Rate extends \Magento\Backend\App\Action
                 'success' => true,
                 'error_message' => ''
             ));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'success' => false,
                 'error_message' => $e->getMessage()
@@ -355,7 +355,7 @@ class Rate extends \Magento\Backend\App\Action
                 $importHandler->importFromCsvFile($this->getRequest()->getFiles('import_rates_file'));
 
                 $this->messageManager->addSuccess(__('The tax rate has been imported.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Invalid file upload attempt'));

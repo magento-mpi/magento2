@@ -216,7 +216,7 @@ class Observer
                 $this->_giftCAFactory->create()
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError(
                     $e->getMessage()
                 );
@@ -235,7 +235,7 @@ class Observer
                 $this->_giftCAFactory->create()
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError(
                     $e->getMessage()
                 );

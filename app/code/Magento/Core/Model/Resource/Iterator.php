@@ -50,7 +50,7 @@ class Iterator extends \Magento\Object
      * @param \Zend_Db_Statement_Interface|Zend_Db_Select|string $query
      * @param \Zend_Db_Adapter_Abstract $conn
      * @return \Zend_Db_Statement_Interface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _getStatement($query, $conn = null)
     {
@@ -64,11 +64,11 @@ class Iterator extends \Magento\Object
 
         if (is_string($query)) {
             if (!$conn instanceof \Zend_Db_Adapter_Abstract) {
-                throw new \Magento\Core\Exception(__('Invalid connection'));
+                throw new \Magento\Model\Exception(__('Invalid connection'));
             }
             return $conn->query($query);
         }
 
-        throw new \Magento\Core\Exception(__('Invalid query'));
+        throw new \Magento\Model\Exception(__('Invalid query'));
     }
 }

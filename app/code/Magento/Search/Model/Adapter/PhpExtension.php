@@ -71,7 +71,7 @@ class PhpExtension extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
     ) {
         $this->_ctlgInventData = $ctlgInventData;
         if (!extension_loaded('solr')) {
-            throw new \Magento\Core\Exception('Solr extension not enabled!');
+            throw new \Magento\Model\Exception('Solr extension not enabled!');
         }
         $this->_ctlgInventData = $ctlgInventData;
         parent::__construct(

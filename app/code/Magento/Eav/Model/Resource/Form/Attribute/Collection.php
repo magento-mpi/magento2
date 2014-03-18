@@ -85,15 +85,15 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * Resource initialization
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _construct()
     {
         if (empty($this->_moduleName)) {
-            throw new \Magento\Core\Exception(__('Current module pathname is undefined'));
+            throw new \Magento\Model\Exception(__('Current module pathname is undefined'));
         }
         if (empty($this->_entityTypeCode)) {
-            throw new \Magento\Core\Exception(__('Current module EAV entity is undefined'));
+            throw new \Magento\Model\Exception(__('Current module EAV entity is undefined'));
         }
     }
 

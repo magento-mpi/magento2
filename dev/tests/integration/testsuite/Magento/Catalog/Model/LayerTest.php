@@ -140,7 +140,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Layer');
             $model->setCurrentCategory(new \Magento\Object());
             $this->fail('Assign category of invalid class.');
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
         }
 
         try {
@@ -149,7 +149,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
             $model->setCurrentCategory(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category'));
             $this->fail('Assign category with invalid id.');
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
         }
     }
 

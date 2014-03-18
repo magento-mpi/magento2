@@ -146,7 +146,7 @@ abstract class AbstractCollection
      *
      * @param string $entityType
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return array
      */
     protected function _getAssociatedEntityInfo($entityType)
@@ -155,7 +155,7 @@ abstract class AbstractCollection
             return $this->_associatedEntitiesMap[$entityType];
         }
 
-        throw new \Magento\Core\Exception(
+        throw new \Magento\Model\Exception(
             __('There is no information about associated entity type "%1".', $entityType), 0
         );
     }

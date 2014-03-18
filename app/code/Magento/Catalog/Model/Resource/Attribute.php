@@ -112,7 +112,7 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function deleteEntity(\Magento\Model\AbstractModel $object)
     {
@@ -131,8 +131,8 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 
             try {
                 $this->attrLockValidator->validate($attribute, $result['attribute_set_id']);
-            } catch (\Magento\Core\Exception $exception) {
-                throw new \Magento\Core\Exception(
+            } catch (\Magento\Model\Exception $exception) {
+                throw new \Magento\Model\Exception(
                     __("Attribute '%1' is locked. ", $attribute->getAttributeCode()) . $exception->getMessage()
                 );
             }

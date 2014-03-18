@@ -211,7 +211,7 @@ class Customersegment extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('Customer Segment data has been refreshed.'));
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
         }

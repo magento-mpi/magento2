@@ -128,7 +128,7 @@ class Search extends \Magento\Backend\App\Action
                     $model->setStoreId($storeId);
                     $model->loadByQueryText($queryText);
                     if ($model->getId() && $model->getId() != $queryId) {
-                        throw new \Magento\Core\Exception(
+                        throw new \Magento\Model\Exception(
                             __('You already have an identical search term query.')
                         );
                     } else if (!$model->getId() && $queryId) {
@@ -142,7 +142,7 @@ class Search extends \Magento\Backend\App\Action
                 $model->setIsProcessed(0);
                 $model->save();
 
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Exception $e) {

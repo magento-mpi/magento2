@@ -92,12 +92,12 @@ abstract class AbstractFilter extends \Magento\View\Element\Template
      * Init filter model object
      *
      * @return \Magento\Catalog\Block\Layer\Filter\AbstractFilter
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initFilter()
     {
         if (!$this->_filterModelName) {
-            throw new \Magento\Core\Exception(__('The filter model name must be declared.'));
+            throw new \Magento\Model\Exception(__('The filter model name must be declared.'));
         }
         $this->_filter = $this->_layerFilterFactory->create($this->_filterModelName);
         $this->_filter->setLayer($this->getLayer());

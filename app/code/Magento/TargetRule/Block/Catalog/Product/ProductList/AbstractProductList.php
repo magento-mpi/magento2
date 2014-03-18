@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * TargetRule Catalog Product List Abstract Block

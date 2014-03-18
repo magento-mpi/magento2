@@ -317,7 +317,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param  int $parentId new parent category id
      * @param  null|int $afterCategoryId category id after which we have put current category
      * @return $this
-     * @throws \Magento\Core\Exception|\Exception
+     * @throws \Magento\Model\Exception|\Exception
      */
     public function move($parentId, $afterCategoryId)
     {
@@ -330,17 +330,17 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
             ->load($parentId);
 
         if (!$parent->getId()) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Sorry, but we can\'t move the category because we can\'t find the new parent category you selected.')
             );
         }
 
         if (!$this->getId()) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Sorry, but we can\'t move the category because we can\'t find the new category you selected.')
             );
         } elseif ($parent->getId() == $this->getId()) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('We can\'t perform this category move operation because the parent category matches the child category.')
             );
         }
@@ -847,14 +847,14 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Before delete process
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
         if ($this->getResource()->isForbiddenToDelete($this->getId())) {
-            throw new \Magento\Core\Exception("Can't delete root category.");
+            throw new \Magento\Model\Exception("Can't delete root category.");
         }
         return parent::_beforeDelete();
     }

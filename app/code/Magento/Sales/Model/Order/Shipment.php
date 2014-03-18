@@ -297,12 +297,12 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new \Magento\Core\Exception(__('We cannot register an existing shipment'));
+            throw new \Magento\Model\Exception(__('We cannot register an existing shipment'));
         }
 
         $totalQty = 0;
@@ -701,12 +701,12 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * Before object save
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
         if ((!$this->getId() || null !== $this->_items) && !count($this->getAllItems())) {
-            throw new \Magento\Core\Exception(__('We cannot create an empty shipment.'));
+            throw new \Magento\Model\Exception(__('We cannot create an empty shipment.'));
         }
 
         if (!$this->getOrderId() && $this->getOrder()) {

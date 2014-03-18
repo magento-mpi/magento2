@@ -151,7 +151,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                     }
                 }
             }
-            catch (\Magento\Core\Exception $e) {
+            catch (\Magento\Model\Exception $e) {
                 // redirect later from non-existing website
             }
         }
@@ -1282,7 +1282,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 $this->_forward();
                 return false;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_forward();
             return false;
         }

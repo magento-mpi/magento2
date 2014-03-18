@@ -82,12 +82,12 @@ class Cert extends \Magento\Model\AbstractModel
      * Get path to PayPal certificate file, if file does not exist try to create it
      *
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getCertPath()
     {
         if (!$this->getContent()) {
-            throw new \Magento\Core\Exception(__('The PayPal certificate does not exist.'));
+            throw new \Magento\Model\Exception(__('The PayPal certificate does not exist.'));
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));

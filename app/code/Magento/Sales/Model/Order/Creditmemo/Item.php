@@ -192,7 +192,7 @@ class Item extends \Magento\Model\AbstractModel
      *
      * @param   float $qty
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function setQty($qty)
     {
@@ -208,7 +208,7 @@ class Item extends \Magento\Model\AbstractModel
         if ($qty <= $this->getOrderItem()->getQtyToRefund() || $this->getOrderItem()->isDummy()) {
             $this->setData('qty', $qty);
         } else {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('We found an invalid quantity to refund item "%1".', $this->getName())
             );
         }

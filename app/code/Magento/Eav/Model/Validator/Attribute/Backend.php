@@ -53,7 +53,7 @@ class Backend extends \Magento\Validator\AbstractValidator
                 } elseif (is_string($result)) {
                     $this->_messages[$attribute->getAttributeCode()][] = $result;
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->_messages[$attribute->getAttributeCode()][] = $e->getMessage();
             }
         }

@@ -11,7 +11,7 @@ namespace Magento\Catalog\Model\Product;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Resource\Product\Option\Value\Collection;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\Model\AbstractModel;
 
 /**

@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Form;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Eav Form Element Model

@@ -256,7 +256,7 @@ class Creditmemo
             $creditmemo = $this->_initCreditmemo(true);
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()
@@ -288,7 +288,7 @@ class Creditmemo
             $creditmemo = $this->_initCreditmemo();
             if ($creditmemo) {
                 if (($creditmemo->getGrandTotal() <=0) && (!$creditmemo->getAllowZeroGrandTotal())) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Credit memo\'s total must be positive.')
                     );
                 }
@@ -311,7 +311,7 @@ class Creditmemo
                 if (isset($data['do_offline'])) {
                     //do not allow online refund for Refund to Store Credit
                     if (!$data['do_offline'] && !empty($data['refund_customerbalance_return_enable'])) {
-                        throw new \Magento\Core\Exception(
+                        throw new \Magento\Model\Exception(
                             __('Cannot create online refund for Refund to Store Credit.')
                         );
                     }
@@ -334,7 +334,7 @@ class Creditmemo
                 $this->_forward('noroute');
                 return;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
         } catch (\Exception $e) {
@@ -357,7 +357,7 @@ class Creditmemo
                 $creditmemo->cancel();
                 $this->_saveCreditmemo($creditmemo);
                 $this->messageManager->addSuccess(__('The credit memo has been canceled.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You canceled the credit memo.'));
@@ -381,7 +381,7 @@ class Creditmemo
                 $creditmemo->void();
                 $this->_saveCreditmemo($creditmemo);
                 $this->messageManager->addSuccess(__('You voided the credit memo.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We can\'t void the credit memo.'));
@@ -406,7 +406,7 @@ class Creditmemo
             );
             $data = $this->getRequest()->getPost('comment');
             if (empty($data['comment'])) {
-                throw new \Magento\Core\Exception(__('The Comment Text field cannot be empty.'));
+                throw new \Magento\Model\Exception(__('The Comment Text field cannot be empty.'));
             }
             $creditmemo = $this->_initCreditmemo();
             $comment = $creditmemo->addComment(
@@ -419,7 +419,7 @@ class Creditmemo
 
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('creditmemo_comments')->toHtml();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage()

@@ -92,7 +92,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage Wrong theme type set as editable
      */
     public function testSetEditableThemeByIdWrongType()
@@ -114,7 +114,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage We can't find theme "1".
      */
     public function testSetEditableThemeByIdWrongThemeId()
@@ -141,7 +141,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage Theme has not been set
      */
     public function testGetEditableThemeNotSet()
@@ -176,7 +176,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage Theme "" is not editable.
      */
     public function testGetStagingThemeWrongType()

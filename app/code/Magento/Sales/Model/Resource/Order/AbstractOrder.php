@@ -107,14 +107,14 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
      * @param array $joinCondition
      * @param string $column
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addVirtualGridColumn($alias, $table, $joinCondition, $column)
     {
         $table = $this->getTable($table);
 
         if (!in_array($alias, $this->getGridColumns())) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Please specify a valid grid column alias name that exists in the grid table.')
             );
         }

@@ -47,7 +47,7 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
      * @param boolean $isWebsiteLevelRole
      * @param boolean $hasWebsiteAccess
      * @param string $actionType
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage You need more permissions to save this item.
      * @dataProvider beforeUpdateWebsitesThrowsExceptionWhenAccessIsRestrictedDataProvider
      */

@@ -1222,7 +1222,7 @@ class Quote extends \Magento\Model\AbstractModel
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addItem(\Magento\Sales\Model\Quote\Item $item)
     {
@@ -1235,7 +1235,7 @@ class Quote extends \Magento\Model\AbstractModel
          * Proper solution is to submit items one by one with customer confirmation each time.
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
             );
         }
@@ -1256,7 +1256,7 @@ class Quote extends \Magento\Model\AbstractModel
      * @param null|float|\Magento\Object $request
      * @param null|string $processMode
      * @return \Magento\Sales\Model\Quote\Item|string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addProductAdvanced(\Magento\Catalog\Model\Product $product, $request = null, $processMode = null)
     {
@@ -1267,7 +1267,7 @@ class Quote extends \Magento\Model\AbstractModel
             $request = new \Magento\Object(array('qty'=>$request));
         }
         if (!($request instanceof \Magento\Object)) {
-            throw new \Magento\Core\Exception(__('We found an invalid request for adding product to quote.'));
+            throw new \Magento\Model\Exception(__('We found an invalid request for adding product to quote.'));
         }
 
         $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
@@ -1323,7 +1323,7 @@ class Quote extends \Magento\Model\AbstractModel
             }
         }
         if (!empty($errors)) {
-            throw new \Magento\Core\Exception(implode("\n", $errors));
+            throw new \Magento\Model\Exception(implode("\n", $errors));
         }
 
         $this->_eventManager->dispatch('sales_quote_product_add_after', array('items' => $items));
@@ -1407,7 +1407,7 @@ class Quote extends \Magento\Model\AbstractModel
      * @param \Magento\Object $buyRequest
      * @param null|array|\Magento\Object $params
      * @return \Magento\Sales\Model\Quote\Item
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      *
      * @see \Magento\Catalog\Helper\Product::addParamsToBuyRequest()
      */
@@ -1415,7 +1415,7 @@ class Quote extends \Magento\Model\AbstractModel
     {
         $item = $this->getItemById($itemId);
         if (!$item) {
-            throw new \Magento\Core\Exception(__('This is the wrong quote item id to update configuration.'));
+            throw new \Magento\Model\Exception(__('This is the wrong quote item id to update configuration.'));
         }
         $productId = $item->getProduct()->getId();
 
@@ -1437,7 +1437,7 @@ class Quote extends \Magento\Model\AbstractModel
         $resultItem = $this->addProduct($product, $buyRequest);
 
         if (is_string($resultItem)) {
-            throw new \Magento\Core\Exception($resultItem);
+            throw new \Magento\Model\Exception($resultItem);
         }
 
         if ($resultItem->getParentItem()) {

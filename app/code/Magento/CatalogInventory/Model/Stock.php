@@ -169,7 +169,7 @@ class Stock extends \Magento\Model\AbstractModel
      *
      * @param array $items
      * @return Item[]
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function registerProductsSale($items)
     {
@@ -183,7 +183,7 @@ class Stock extends \Magento\Model\AbstractModel
             $item->setData($itemInfo);
             if (!$item->checkQty($qtys[$item->getProductId()])) {
                 $this->_getResource()->commit();
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Not all of your products are available in the requested quantity.'));
             }
             $item->subtractQty($qtys[$item->getProductId()]);
@@ -212,7 +212,7 @@ class Stock extends \Magento\Model\AbstractModel
      *
      * @param  \Magento\Object $item
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function registerItemSale(\Magento\Object $item)
     {
@@ -230,7 +230,7 @@ class Stock extends \Magento\Model\AbstractModel
                 }
             }
         } else {
-            throw new \Magento\Core\Exception(__('We cannot specify a product identifier for the order item.'));
+            throw new \Magento\Model\Exception(__('We cannot specify a product identifier for the order item.'));
         }
         return $this;
     }

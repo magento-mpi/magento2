@@ -94,7 +94,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * SetExpressCheckout call
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
      * TODO: put together style and giropay settings
      */
@@ -122,7 +122,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
             foreach ($payments as $payment) {
                 $payment->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
                 if (!$payment->isValid()) {
-                    throw new \Magento\Core\Exception($payment->getValidationErrors());
+                    throw new \Magento\Model\Exception($payment->getValidationErrors());
                 }
                 $request["L_BILLINGTYPE{$i}"] = 'RecurringPayments';
                 $request["L_BILLINGAGREEMENTDESCRIPTION{$i}"] = $payment->getScheduleDescription();
@@ -189,7 +189,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * ManageRecurringPaymentStatus call
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function callManageRecurringPaymentStatus()
     {
@@ -199,12 +199,12 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         }
         try {
             $this->call('ManageRecurringPaymentsProfileStatus', $request);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             if ((in_array(11556, $this->_callErrors) && 'Cancel' === $request['ACTION'])
                 || (in_array(11557, $this->_callErrors) && 'Suspend' === $request['ACTION'])
                 || (in_array(11558, $this->_callErrors) && 'Reactivate' === $request['ACTION'])
             ) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('We can\'t change the status because the current status doesn\'t match the real status.')
                 );
             }

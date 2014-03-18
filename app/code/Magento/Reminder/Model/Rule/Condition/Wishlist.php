@@ -11,7 +11,7 @@
 namespace Magento\Reminder\Model\Rule\Condition;
 
 use Magento\DB\Select;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Customer wishlist conditions combine
@@ -144,7 +144,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         $conditionValue = (int)$this->getValue();
         if ($conditionValue < 1) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('The root wish list condition should have a days value of 1 or greater.')
             );
         }

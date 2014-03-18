@@ -104,9 +104,9 @@ class Cart
             $this->messageManager->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
-                throw new \Magento\Core\Exception($cart->getErrorMessage());
+                throw new \Magento\Model\Exception($cart->getErrorMessage());
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addException($e, $e->getMessage());
         }
 
@@ -191,7 +191,7 @@ class Cart
             $params->setBeforeHandles(array('catalog_product_view'));
             $view->prepareAndRender($id, $this, $params);
 
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
             return;
@@ -233,7 +233,7 @@ class Cart
                     $this->messageManager->addSuccess($message);
                 }
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $hasError = true;
         } catch (\Exception $e) {

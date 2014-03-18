@@ -128,7 +128,7 @@ class Item extends \Magento\Model\AbstractModel
      * @param \Magento\Checkout\Model\Cart $cart
      * @param int $qty
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addToCart(\Magento\Checkout\Model\Cart $cart, $qty)
     {
@@ -159,7 +159,7 @@ class Item extends \Magento\Model\AbstractModel
         }
 
         if (!$product->isSalable()) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('This product(s) is out of stock.'));
         }
 
@@ -255,14 +255,14 @@ class Item extends \Magento\Model\AbstractModel
      * Return item product
      *
      * @return \Magento\Catalog\Model\Product
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _getProduct()
     {
         if (!$this->_getData('product')) {
             $product = $this->productFactory->create()->load($this->getProductId());
             if (!$product->getId()) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
@@ -399,7 +399,7 @@ class Item extends \Magento\Model\AbstractModel
      *
      * @param \Magento\GiftRegistry\Model\Item\Option $option
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addOption($option)
     {
@@ -421,7 +421,7 @@ class Item extends \Magento\Model\AbstractModel
         } elseif ($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option->setItem($this);
         } else {
-            throw new \Magento\Core\Exception(__('Please correct the item option format.'));
+            throw new \Magento\Model\Exception(__('Please correct the item option format.'));
         }
 
         $exOption = $this->getOptionByCode($option->getCode());
@@ -439,14 +439,14 @@ class Item extends \Magento\Model\AbstractModel
      *
      * @param   \Magento\GiftRegistry\Model\Item\Option $option
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _addOptionCode($option)
     {
         if (!isset($this->_optionsByCode[$option->getCode()])) {
             $this->_optionsByCode[$option->getCode()] = $option;
         } else {
-            throw new \Magento\Core\Exception(__('An item option with code %1 already exists.', $option->getCode()));
+            throw new \Magento\Model\Exception(__('An item option with code %1 already exists.', $option->getCode()));
         }
         return $this;
     }

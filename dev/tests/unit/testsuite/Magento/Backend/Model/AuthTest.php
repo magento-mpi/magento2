@@ -54,7 +54,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('Magento\Backend\Model\Auth\Credential\StorageInterface')
             ->will($this->returnValue($this->_credentialStorage));
-        $exceptionMock = new \Magento\Core\Exception;
+        $exceptionMock = new \Magento\Model\Exception;
         $this->_credentialStorage
             ->expects($this->once())
             ->method('login')

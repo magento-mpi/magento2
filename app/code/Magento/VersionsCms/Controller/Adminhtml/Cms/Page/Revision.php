@@ -401,7 +401,7 @@ class Revision
                         'version_id' => $revision->getVersionId()
                     ));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 $error = true;

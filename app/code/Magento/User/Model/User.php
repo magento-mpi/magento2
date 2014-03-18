@@ -498,7 +498,7 @@ class User
      * @param string $username
      * @param string $password
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @throws \Magento\Backend\Model\Auth\Exception
      * @throws \Magento\Backend\Model\Auth\Plugin\Exception
      */
@@ -538,7 +538,7 @@ class User
                 'user'     => $this,
                 'result'   => $result,
             ));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->unsetData();
             throw $e;
         }
@@ -621,12 +621,12 @@ class User
      *
      * @param string $newToken
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function changeResetPasswordLinkToken($newToken)
     {
         if (!is_string($newToken) || empty($newToken)) {
-            throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
+            throw new \Magento\Model\Exception(__('Please correct the password reset token.'));
         }
         $this->setRpToken($newToken);
         $this->setRpTokenCreatedAt($this->dateTime->now());

@@ -91,7 +91,7 @@ class Rma extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\Rma\Model\Rma
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initModel($requestParam = 'id')
     {
@@ -103,7 +103,7 @@ class Rma extends \Magento\Backend\App\Action
         if ($rmaId) {
             $model->load($rmaId);
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong RMA was requested.'));
             }
             $this->_coreRegistry->register('current_rma', $model);
             $orderId = $model->getOrderId();
@@ -115,7 +115,7 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $order \Magento\Sales\Model\Order */
             $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
             if (!$order->getId()) {
-                throw new \Magento\Core\Exception(__('This is the wrong RMA order ID.'));
+                throw new \Magento\Model\Exception(__('This is the wrong RMA order ID.'));
             }
             $this->_coreRegistry->register('current_order', $order);
         }
@@ -159,7 +159,7 @@ class Rma extends \Magento\Backend\App\Action
      * Create new RMA
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function newAction()
     {
@@ -176,7 +176,7 @@ class Rma extends \Magento\Backend\App\Action
                         __('There are no applicable items for return in this order.')
                     );
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/');
                 return;
@@ -206,16 +206,16 @@ class Rma extends \Magento\Backend\App\Action
      * Edit RMA
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function editAction()
     {
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong RMA was requested.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
@@ -229,7 +229,7 @@ class Rma extends \Magento\Backend\App\Action
      * Save new RMA request
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function saveNewAction()
     {
@@ -243,11 +243,11 @@ class Rma extends \Magento\Backend\App\Action
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $model->setData($this->_prepareNewRmaInstanceData($saveRequest));
             if (!$model->saveRma($saveRequest)) {
-                throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
+                throw new \Magento\Model\Exception(__('We failed to save this RMA.'));
             }
             $this->_processNewRmaAdditionalInfo($saveRequest, $model);
             $this->messageManager->addSuccess(__('You submitted the RMA request.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
                 ->getRmaErrorKeys();
@@ -322,7 +322,7 @@ class Rma extends \Magento\Backend\App\Action
      * Save RMA request
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function saveAction()
     {
@@ -344,7 +344,7 @@ class Rma extends \Magento\Backend\App\Action
             $model->setStatus($sourceStatus->getStatusByItems($itemStatuses))
                 ->setIsUpdate(1);
             if (!$model->saveRma($saveRequest)) {
-                throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
+                throw new \Magento\Model\Exception(__('We failed to save this RMA.'));
             }
             $model->sendAuthorizeEmail();
             $this->messageManager->addSuccess(__('You saved the RMA request.'));
@@ -353,7 +353,7 @@ class Rma extends \Magento\Backend\App\Action
                 $this->_redirect('adminhtml/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
                 ->getRmaErrorKeys();
@@ -377,12 +377,12 @@ class Rma extends \Magento\Backend\App\Action
      *
      * @param array $saveRequest
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _filterRmaSaveRequest(array $saveRequest)
     {
         if (!isset($saveRequest['items'])) {
-            throw new \Magento\Core\Exception(__('We failed to save this RMA. No items have been specified.'));
+            throw new \Magento\Model\Exception(__('We failed to save this RMA. No items have been specified.'));
         }
         $saveRequest['items'] = $this->_filterRmaItems($saveRequest['items']);
         return $saveRequest;
@@ -498,7 +498,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Add RMA comment action
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     public function addCommentAction()
@@ -512,12 +512,12 @@ class Rma extends \Magento\Backend\App\Action
 
             $rma = $this->_coreRegistry->registry('current_rma');
             if (!$rma) {
-                throw new \Magento\Core\Exception(__('Invalid RMA'));
+                throw new \Magento\Model\Exception(__('Invalid RMA'));
             }
 
             $comment = trim($data['comment']);
             if (!$comment) {
-                throw new \Magento\Core\Exception(__('Please enter a valid message.'));
+                throw new \Magento\Model\Exception(__('Please enter a valid message.'));
             }
             /** @var $dateModel \Magento\Stdlib\DateTime\DateTime */
             $dateModel = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
@@ -540,7 +540,7 @@ class Rma extends \Magento\Backend\App\Action
 
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('comments_history')->toHtml();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -595,7 +595,7 @@ class Rma extends \Magento\Backend\App\Action
      * Generate RMA items grid for ajax request from selecting product grid during RMA creation
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addProductGridAction()
     {
@@ -603,11 +603,11 @@ class Rma extends \Magento\Backend\App\Action
             $this->_initModel();
             $order = $this->_coreRegistry->registry('current_order');
             if (!$order) {
-                throw new \Magento\Core\Exception(__('Invalid order'));
+                throw new \Magento\Model\Exception(__('Invalid order'));
             }
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('add_product_grid')->toHtml();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -659,7 +659,7 @@ class Rma extends \Magento\Backend\App\Action
      * Load user-defined attributes of RMA's item
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function loadAttributesAction()
     {
@@ -669,20 +669,20 @@ class Rma extends \Magento\Backend\App\Action
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong RMA was requested.'));
             }
             /** @var $rma_item \Magento\Rma\Model\Item */
             $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
             if ($itemId) {
                 $rma_item->load($itemId);
                 if (!$rma_item->getId()) {
-                    throw new \Magento\Core\Exception(__('The wrong RMA item was requested.'));
+                    throw new \Magento\Model\Exception(__('The wrong RMA item was requested.'));
                 }
                 $this->_coreRegistry->register('current_rma_item', $rma_item);
             } else {
-                throw new \Magento\Core\Exception(__('The wrong RMA item was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong RMA item was requested.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -742,7 +742,7 @@ class Rma extends \Magento\Backend\App\Action
      * Load new row of RMA's item for Split Line functionality
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function loadSplitLineAction()
     {
@@ -753,20 +753,20 @@ class Rma extends \Magento\Backend\App\Action
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong RMA was requested.'));
             }
             /** @var $rma_item \Magento\Rma\Model\Item */
             $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
             if ($itemId) {
                 $rma_item->load($itemId);
                 if (!$rma_item->getId()) {
-                    throw new \Magento\Core\Exception(__('The wrong RMA item was requested.'));
+                    throw new \Magento\Model\Exception(__('The wrong RMA item was requested.'));
                 }
                 $this->_coreRegistry->register('current_rma_item', $rma_item);
             } else {
-                throw new \Magento\Core\Exception(__('The wrong RMA item was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong RMA item was requested.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -807,7 +807,7 @@ class Rma extends \Magento\Backend\App\Action
      * Shows bundle items on rma create
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function showBundleItemsAction()
     {
@@ -822,14 +822,14 @@ class Rma extends \Magento\Backend\App\Action
                 /** @var $items \Magento\Sales\Model\Resource\Order\Item\Collection */
                 $items = $item->getOrderItems($orderId, $itemId);
                 if (empty($items)) {
-                    throw new \Magento\Core\Exception(__('No items for bundle product'));
+                    throw new \Magento\Model\Exception(__('No items for bundle product'));
                 }
             } else {
-                throw new \Magento\Core\Exception(__('The wrong order ID or item ID was requested.'));
+                throw new \Magento\Model\Exception(__('The wrong order ID or item ID was requested.'));
             }
 
             $this->_coreRegistry->register('current_rma_bundle_item', $items);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -940,7 +940,7 @@ class Rma extends \Magento\Backend\App\Action
      * Shows available shipping methods
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function showShippingMethodsAction()
     {
@@ -949,10 +949,10 @@ class Rma extends \Magento\Backend\App\Action
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('This is the wrong RMA ID.'));
+                throw new \Magento\Model\Exception(__('This is the wrong RMA ID.'));
             }
 
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -982,7 +982,7 @@ class Rma extends \Magento\Backend\App\Action
      * Shows available shipping methods
      *
      * @return void|\Zend_Controller_Response_Abstract
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function pslAction()
     {
@@ -992,10 +992,10 @@ class Rma extends \Magento\Backend\App\Action
         try {
             $model = $this->_initModel();
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('This is the wrong RMA ID.'));
+                throw new \Magento\Model\Exception(__('This is the wrong RMA ID.'));
             }
 
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
@@ -1113,7 +1113,7 @@ class Rma extends \Magento\Backend\App\Action
      * We can save only new shipment. Existing shipments are not editable
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function saveShippingAction()
     {
@@ -1131,7 +1131,7 @@ class Rma extends \Magento\Backend\App\Action
                 $this->_forward('noroute');
                 return;
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
                 $responseAjax->setError(true);
                 $responseAjax->setMessage($e->getMessage());
         } catch (\Exception $e) {
@@ -1146,7 +1146,7 @@ class Rma extends \Magento\Backend\App\Action
      * Create shipping label action for specific shipment
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function createLabelAction()
     {
@@ -1158,7 +1158,7 @@ class Rma extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You created a shipping label.'));
                 $response->setOk(true);
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
@@ -1176,7 +1176,7 @@ class Rma extends \Magento\Backend\App\Action
      *
      * @param \Magento\Rma\Model\Rma $model
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _createShippingLabel(\Magento\Rma\Model\Rma $model)
     {
@@ -1250,7 +1250,7 @@ class Rma extends \Magento\Backend\App\Action
                 }
                 return true;
             } else {
-                throw new \Magento\Core\Exception($response->getErrors());
+                throw new \Magento\Model\Exception($response->getErrors());
             }
         }
         return false;
@@ -1260,7 +1260,7 @@ class Rma extends \Magento\Backend\App\Action
      * Print label for one specific shipment
      *
      * @return void|\Magento\Backend\App\Action
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function printLabelAction()
     {
@@ -1290,7 +1290,7 @@ class Rma extends \Magento\Backend\App\Action
                     'application/pdf'
                 );
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -1392,7 +1392,7 @@ class Rma extends \Magento\Backend\App\Action
      * Add new tracking number action
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addTrackAction()
     {
@@ -1401,10 +1401,10 @@ class Rma extends \Magento\Backend\App\Action
             $number  = $this->getRequest()->getPost('number');
             $title  = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
-                throw new \Magento\Core\Exception(__('Please specify a carrier.'));
+                throw new \Magento\Model\Exception(__('Please specify a carrier.'));
             }
             if (empty($number)) {
-                throw new \Magento\Core\Exception(__('You need to enter a tracking number.'));
+                throw new \Magento\Model\Exception(__('You need to enter a tracking number.'));
             }
 
             $model = $this->_initModel();
@@ -1428,7 +1428,7 @@ class Rma extends \Magento\Backend\App\Action
                     'message'   => __('We cannot initialize an RMA to add a tracking number.'),
                 );
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),

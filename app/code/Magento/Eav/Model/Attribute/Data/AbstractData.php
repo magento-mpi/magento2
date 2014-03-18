@@ -10,7 +10,7 @@
 namespace Magento\Eav\Model\Attribute\Data;
 
 use Magento\App\RequestInterface;
-use Magento\Core\Exception as CoreException;
+use Magento\Model\Exception as CoreException;
 
 /**
  * EAV Attribute Abstract Data Model

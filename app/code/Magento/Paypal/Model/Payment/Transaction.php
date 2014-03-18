@@ -148,12 +148,12 @@ class Transaction extends \Magento\Model\AbstractModel
      * @param string $key
      * @param mixed $value
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function setAdditionalInformation($key, $value)
     {
         if (is_object($value)) {
-            throw new \Magento\Core\Exception(__('Payment transactions disallow storing objects.'));
+            throw new \Magento\Model\Exception(__('Payment transactions disallow storing objects.'));
         }
         $info = $this->_getData('additional_information');
         if (!$info) {
@@ -219,7 +219,7 @@ class Transaction extends \Magento\Model\AbstractModel
      * Verify data required for saving
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -234,12 +234,12 @@ class Transaction extends \Magento\Model\AbstractModel
      *
      * @param string $txnId
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _verifyTxnId($txnId)
     {
         if (null !== $txnId && 0 == strlen($txnId)) {
-            throw new \Magento\Core\Exception(__('You need to enter a transaction ID.'));
+            throw new \Magento\Model\Exception(__('You need to enter a transaction ID.'));
         }
     }
 
@@ -249,12 +249,12 @@ class Transaction extends \Magento\Model\AbstractModel
      * TODO for more restriction we can check for data consistency
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _verifyThisTransactionExists()
     {
         if (!$this->getId()) {
-            throw new \Magento\Core\Exception(__('This operation requires an existing transaction object.'));
+            throw new \Magento\Model\Exception(__('This operation requires an existing transaction object.'));
         }
     }
 }

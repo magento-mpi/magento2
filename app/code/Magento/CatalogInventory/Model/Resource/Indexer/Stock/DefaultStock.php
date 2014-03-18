@@ -117,12 +117,12 @@ class DefaultStock
      * Retrieve active Product Type Id
      *
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getTypeId()
     {
         if (is_null($this->_typeId)) {
-            throw new \Magento\Core\Exception(__('Undefined product type'));
+            throw new \Magento\Model\Exception(__('Undefined product type'));
         }
         return $this->_typeId;
     }

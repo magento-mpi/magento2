@@ -246,7 +246,7 @@ class Attribute
             //filtering
             try {
                 $data = $this->_filterPostData($data);
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
                     $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -329,7 +329,7 @@ class Attribute
                     $this->_redirect('adminhtml/*/');
                 }
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -373,7 +373,7 @@ class Attribute
                 );
                 $this->_redirect('adminhtml/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;

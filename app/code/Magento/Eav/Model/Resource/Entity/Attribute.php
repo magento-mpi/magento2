@@ -184,14 +184,14 @@ class Attribute extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param EntityAttribute|AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(AbstractModel $object)
     {
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
             if (!isset($frontendLabel[0]) || is_null($frontendLabel[0]) || $frontendLabel[0] == '') {
-                throw new \Magento\Core\Exception(__('Frontend label is not defined'));
+                throw new \Magento\Model\Exception(__('Frontend label is not defined'));
             }
             $object->setFrontendLabel($frontendLabel[0])
                    ->setStoreLabels($frontendLabel);
@@ -372,12 +372,12 @@ class Attribute extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param array $values
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _checkDefaultOptionValue($values)
     {
         if (!isset($values[0])) {
-            throw new \Magento\Core\Exception(__('Default option value is not defined'));
+            throw new \Magento\Model\Exception(__('Default option value is not defined'));
         }
     }
 

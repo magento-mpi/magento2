@@ -154,7 +154,7 @@ class Item extends \Magento\Model\AbstractModel
      *
      * @param float $qty
      * @return \Magento\Sales\Model\Order\Invoice\Item
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function setQty($qty)
     {
@@ -170,7 +170,7 @@ class Item extends \Magento\Model\AbstractModel
         if ($qty <= $this->getOrderItem()->getQtyToShip() || $this->getOrderItem()->isDummy(true)) {
             $this->setData('qty', $qty);
         } else {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('We found an invalid qty to ship for item "%1".', $this->getName())
             );
         }

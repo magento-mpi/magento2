@@ -38,7 +38,7 @@ class LockValidatorComposite implements LockValidatorInterface
      *
      * @param \Magento\Model\AbstractModel $object
      * @param null $attributeSet
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      *
      * @return void
      */

@@ -260,7 +260,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
             if ($shipToInfo = $this->getRequest()->getPost('ship')) {
                 $this->_getCheckout()->setShippingItemsInformation($shipToInfo);
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/addresses');
         } catch (\Exception $e) {
@@ -445,7 +445,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/billing');
         } catch (\Exception $e) {
@@ -506,7 +506,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
             $this->_getCheckout()->getCheckoutSession()->clearQuote();
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/cart');
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_objectManager->get('Magento\Checkout\Helper\Data')
                 ->sendPaymentFailedEmail($this->_getCheckout()->getQuote(), $e->getMessage(), 'multi-shipping');
             $this->messageManager->addError($e->getMessage());

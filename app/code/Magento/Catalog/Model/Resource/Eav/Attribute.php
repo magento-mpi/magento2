@@ -181,7 +181,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * Processing object before save data
      *
      * @return \Magento\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -193,8 +193,8 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             if ($this->_data['is_global'] != $this->_origData['is_global']) {
                 try {
                     $this->attrLockValidator->validate($this);
-                } catch (\Magento\Core\Exception $exception) {
-                    throw new \Magento\Core\Exception(
+                } catch (\Magento\Model\Exception $exception) {
+                    throw new \Magento\Model\Exception(
                         __('Do not change the scope. ' . $exception->getMessage())
                     );
                 }
@@ -248,7 +248,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * Register indexing event before delete catalog eav attribute
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete()
     {

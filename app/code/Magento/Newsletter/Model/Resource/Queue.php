@@ -58,16 +58,16 @@ class Queue extends \Magento\Model\Resource\Db\AbstractDb
      * @param ModelQueue $queue
      * @param array $subscriberIds
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addSubscribersToQueue(ModelQueue $queue, array $subscriberIds)
     {
         if (count($subscriberIds)==0) {
-            throw new \Magento\Core\Exception(__('There are no subscribers selected.'));
+            throw new \Magento\Model\Exception(__('There are no subscribers selected.'));
         }
 
         if (!$queue->getId() && $queue->getQueueStatus()!=Magento_Newsletter_Model_Queue::STATUS_NEVER) {
-            throw new \Magento\Core\Exception(__('You selected an invalid queue.'));
+            throw new \Magento\Model\Exception(__('You selected an invalid queue.'));
         }
 
         $adapter = $this->_getWriteAdapter();

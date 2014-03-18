@@ -14,7 +14,7 @@
  */
 namespace Magento\Reward\Model\System\Config\Backend;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 class Balance extends \Magento\Core\Model\Config\Value
 {

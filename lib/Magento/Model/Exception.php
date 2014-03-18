@@ -2,20 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core;
+namespace Magento\Model;
 
 /**
- * Magento Core \Exception
+ * Magento Model Exception
  *
  * This class will be extended by other modules
- *
- * @category   Magento
- * @package    Magento_Core
  */
 class Exception extends \Exception
 {
@@ -58,7 +53,7 @@ class Exception extends \Exception
      *
      * @param string $message
      * @param bool $append
-     * @return \Magento\Core\Exception
+     * @return \Magento\Model\Exception
      */
     public function setMessage($message, $append = false)
     {

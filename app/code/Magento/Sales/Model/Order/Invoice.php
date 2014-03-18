@@ -717,12 +717,12 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * Apply to order, order items etc.
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function register()
     {
         if ($this->getId()) {
-            throw new \Magento\Core\Exception(__('We cannot register an existing invoice'));
+            throw new \Magento\Model\Exception(__('We cannot register an existing invoice'));
         }
 
         foreach ($this->getAllItems() as $item) {

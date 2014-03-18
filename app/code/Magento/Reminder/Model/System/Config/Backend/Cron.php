@@ -9,7 +9,7 @@
  */
 namespace Magento\Reminder\Model\System\Config\Backend;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\Model\AbstractModel;
 
 /**

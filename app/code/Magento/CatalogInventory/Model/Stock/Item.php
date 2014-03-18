@@ -522,7 +522,7 @@ class Item extends \Magento\Model\AbstractModel
      * Check quantity
      *
      * @param int|float $qty
-     * @exception \Magento\Core\Exception
+     * @exception \Magento\Model\Exception
      * @return bool
      */
     public function checkQty($qty)

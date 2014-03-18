@@ -59,7 +59,7 @@ class Transaction extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $transaction
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
     {

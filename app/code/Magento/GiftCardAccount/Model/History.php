@@ -164,12 +164,12 @@ class History extends \Magento\Model\AbstractModel
      * Processing object before save data
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
         if (!$this->hasGiftcardaccount()) {
-            throw new \Magento\Core\Exception(__('Please assign a gift card account.'));
+            throw new \Magento\Model\Exception(__('Please assign a gift card account.'));
         }
 
         $this->setAction($this->getGiftcardaccount()->getHistoryAction());
@@ -199,7 +199,7 @@ class History extends \Magento\Model\AbstractModel
                 $this->setAdditionalInfo($this->_getExpiredAdditionalInfo());
                 break;
             default:
-                throw new \Magento\Core\Exception(__('Unknown history action.'));
+                throw new \Magento\Model\Exception(__('Unknown history action.'));
                 break;
         }
 

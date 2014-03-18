@@ -117,7 +117,7 @@ class Data
      *
      * @param string $code parameter name
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getUniqueColumnData($code)
     {
@@ -128,7 +128,7 @@ class Data
         ));
 
         if (count($values) != 1) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Error in data structure: %1 values are mixed', $code)
             );
         }

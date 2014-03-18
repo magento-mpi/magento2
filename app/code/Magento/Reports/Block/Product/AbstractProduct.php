@@ -130,7 +130,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         try {
             $model = $this->_indexFactory->get($this->_indexType);
         } catch (\InvalidArgumentException $e) {
-            new \Magento\Core\Exception(__('Index type is not valid'));
+            new \Magento\Model\Exception(__('Index type is not valid'));
         }
 
         return $model;

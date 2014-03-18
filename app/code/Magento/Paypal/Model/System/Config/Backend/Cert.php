@@ -63,7 +63,7 @@ class Cert extends \Magento\Core\Model\Config\Value
      * Process additional data before save config
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -81,7 +81,7 @@ class Cert extends \Magento\Core\Model\Config\Value
         );
         if ($tmpPath && $this->_tmpDirectory->isExist($tmpPath)) {
             if (!$this->_tmpDirectory->stat($tmpPath)['size']) {
-                throw new \Magento\Core\Exception(__('The PayPal certificate file is empty.'));
+                throw new \Magento\Model\Exception(__('The PayPal certificate file is empty.'));
             }
             $this->setValue($_FILES['groups']['name'][$this->getGroupId()]['fields'][$this->getField()]['value']);
             $content = $this->_encryptor->encrypt($this->_tmpDirectory->readFile($tmpPath));

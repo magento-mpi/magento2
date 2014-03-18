@@ -479,7 +479,7 @@ class Product extends \Magento\Core\Helper\Url
                 'product' => $product,
                 'controller_action' => $controller
             ));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_logger->logException($e);
             return false;
         }

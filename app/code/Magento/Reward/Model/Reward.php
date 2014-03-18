@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Reward model

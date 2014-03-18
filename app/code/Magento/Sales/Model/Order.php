@@ -1221,7 +1221,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param bool $isCustomerNotified
      * @param bool $shouldProtectState
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _setState($state, $status = false, $comment = '',
                                  $isCustomerNotified = null, $shouldProtectState = false
@@ -1229,7 +1229,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         // attempt to set the specified state
         if ($shouldProtectState) {
             if ($this->isStateProtected($state)) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('The Order State "%1" must not be set manually.', $state)
                 );
             }
@@ -1337,12 +1337,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     /**
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function hold()
     {
         if (!$this->canHold()) {
-            throw new \Magento\Core\Exception(__('A hold action is not available.'));
+            throw new \Magento\Model\Exception(__('A hold action is not available.'));
         }
         $this->setHoldBeforeState($this->getState());
         $this->setHoldBeforeStatus($this->getStatus());
@@ -1354,12 +1354,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * Attempt to unhold the order
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function unhold()
     {
         if (!$this->canUnhold()) {
-            throw new \Magento\Core\Exception(__('You cannot remove the hold.'));
+            throw new \Magento\Model\Exception(__('You cannot remove the hold.'));
         }
         $this->setState($this->getHoldBeforeState(), $this->getHoldBeforeStatus());
         $this->setHoldBeforeState(null);
@@ -1389,7 +1389,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param string $comment
      * @param bool $graceful
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function registerCancellation($comment = '', $graceful = true)
     {
@@ -1423,7 +1423,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
             $this->_setState($cancelState, true, $comment);
         } elseif (!$graceful) {
-            throw new \Magento\Core\Exception(__('We cannot cancel this order.'));
+            throw new \Magento\Model\Exception(__('We cannot cancel this order.'));
         }
         return $this;
     }

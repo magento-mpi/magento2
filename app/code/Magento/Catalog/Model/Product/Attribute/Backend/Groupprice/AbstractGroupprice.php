@@ -131,7 +131,7 @@ abstract class AbstractGroupprice
      * Validate group price data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -153,7 +153,7 @@ abstract class AbstractGroupprice
                 $this->_getAdditionalUniqueFields($priceRow)
             ));
             if (isset($duplicates[$compare])) {
-                throw new \Magento\Core\Exception($this->_getDuplicateErrorMessage());
+                throw new \Magento\Model\Exception($this->_getDuplicateErrorMessage());
             }
             $duplicates[$compare] = true;
         }
@@ -191,7 +191,7 @@ abstract class AbstractGroupprice
             $websiteCurrency = $rates[$priceRow['website_id']]['code'];
 
             if ($baseCurrency == $websiteCurrency && isset($duplicates[$globalCompare])) {
-                throw new \Magento\Core\Exception($this->_getDuplicateErrorMessage());
+                throw new \Magento\Model\Exception($this->_getDuplicateErrorMessage());
             }
         }
 

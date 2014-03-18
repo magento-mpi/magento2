@@ -50,7 +50,7 @@ class Payment extends \Magento\App\Action\Action
             $result['success']  = true;
             $result['update_html'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
                 ->getPaymentMethodsHtml($this->_view);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
         } catch (\Exception $e) {

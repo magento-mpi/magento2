@@ -135,7 +135,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param string $comparisonMethod
      * @param float $qty
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addQtyFilter($comparisonMethod, $qty)
     {
@@ -148,7 +148,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             '<>' => 'neq'
         );
         if (!isset($methods[$comparisonMethod])) {
-            throw new \Magento\Core\Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
+            throw new \Magento\Model\Exception(__('%1 is not a correct comparison method.', $comparisonMethod));
         }
 
         return $this->addFieldToFilter('main_table.qty', array($methods[$comparisonMethod] => $qty));

@@ -40,7 +40,7 @@ class Upsell
     /**
      * Retrieve related product collection assigned to product
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function getLinkCollection()

@@ -270,7 +270,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_integrationSvcMock->expects($this->any())
             ->method('get')
             ->with(self::INTEGRATION_ID)
-            ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
+            ->will($this->throwException(new \Magento\Model\Exception($exceptionMessage)));
         // Verify error
         $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));

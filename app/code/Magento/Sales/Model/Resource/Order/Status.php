@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Order status resource model

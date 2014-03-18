@@ -186,7 +186,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
                 $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);

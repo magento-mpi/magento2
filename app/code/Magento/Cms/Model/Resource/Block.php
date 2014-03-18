@@ -74,12 +74,12 @@ class Block extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Model\AbstractModel $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$this->getIsUniqueBlockToStores($object)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('A block identifier with the same properties already exists in the selected store.')
             );
         }

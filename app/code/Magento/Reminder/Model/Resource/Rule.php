@@ -433,7 +433,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param string $operator
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getSqlOperator($operator)
     {
@@ -454,7 +454,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Core\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Model\Exception(__('Unknown operator specified.'));
         }
     }
 

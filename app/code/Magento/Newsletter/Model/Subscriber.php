@@ -442,13 +442,13 @@ class Subscriber extends \Magento\Model\AbstractModel
     /**
      * Unsubscribes loaded subscription
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            throw new \Magento\Core\Exception(__('This is an invalid subscription confirmation code.'));
+            throw new \Magento\Model\Exception(__('This is an invalid subscription confirmation code.'));
         }
 
         $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();

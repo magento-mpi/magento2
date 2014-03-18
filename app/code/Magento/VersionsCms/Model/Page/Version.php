@@ -127,7 +127,7 @@ class Version extends \Magento\Model\AbstractModel
      * Preparing data before save
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -143,7 +143,7 @@ class Version extends \Magento\Model\AbstractModel
         }
 
         if (!$this->getLabel()) {
-            throw new \Magento\Core\Exception(__('Please enter a version label.'));
+            throw new \Magento\Model\Exception(__('Please enter a version label.'));
         }
 
         // We cannot allow changing access level for some versions
@@ -153,7 +153,7 @@ class Version extends \Magento\Model\AbstractModel
                 /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Version */
 
                 if ($resource->isVersionLastPublic($this)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Cannot change version access level because it is the last public version for its page.')
                     );
                 }
@@ -198,7 +198,7 @@ class Version extends \Magento\Model\AbstractModel
      * Checking some moments before we can actually delete version
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete()
     {
@@ -206,14 +206,14 @@ class Version extends \Magento\Model\AbstractModel
         /* @var $resource \Magento\VersionsCms\Model\Resource\Page\Version */
         if ($this->isPublic()) {
             if ($resource->isVersionLastPublic($this)) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Version "%1" cannot be removed because it is the last public page version.', $this->getLabel())
                 );
             }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Version "%1" cannot be removed because its revision is published.', $this->getLabel())
             );
         }

@@ -204,7 +204,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * Processing object before save data
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -243,7 +243,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                     null, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
-                    throw new \Magento\Core\Exception(__('An expiration date must be in the future.'));
+                    throw new \Magento\Model\Exception(__('An expiration date must be in the future.'));
                 }
             } else {
                 $this->setDateExpires(null);
@@ -259,7 +259,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                 ->setBalanceDelta($this->getBalance() - $this->getOrigData('balance'));
         }
         if ($this->getBalance() < 0) {
-            throw new \Magento\Core\Exception(__('The balance cannot be less than zero.'));
+            throw new \Magento\Model\Exception(__('The balance cannot be less than zero.'));
         }
     }
 
@@ -310,7 +310,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * @param bool $saveQuote
      * @param \Magento\Sales\Model\Quote|null $quote
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addToCart($saveQuote = true, $quote = null)
     {
@@ -325,7 +325,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
             } else {
                 foreach ($cards as $one) {
                     if ($one['i'] == $this->getId()) {
-                        throw new \Magento\Core\Exception(__('This gift card account is already in the quote.'));
+                        throw new \Magento\Model\Exception(__('This gift card account is already in the quote.'));
                     }
                 }
             }
@@ -351,7 +351,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * @param bool $saveQuote
      * @param \Magento\Sales\Model\Quote|null $quote
      * @return $this|void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function removeFromCart($saveQuote = true, $quote = null)
     {
@@ -553,7 +553,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      *
      * @param int $customerId
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function redeem($customerId = null)
     {
@@ -565,7 +565,7 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
                 $customerId = $this->_customerSession->getCustomerId();
             }
             if (!$customerId) {
-                throw new \Magento\Core\Exception(__('You supplied an invalid customer ID.'));
+                throw new \Magento\Model\Exception(__('You supplied an invalid customer ID.'));
             }
 
             $additionalInfo = __('Gift Card Redeemed: %1. For customer #%2.', $this->getCode(), $customerId);
@@ -663,11 +663,11 @@ class Giftcardaccount extends \Magento\Model\AbstractModel
      * @param string $realMessage
      * @param string $fakeMessage
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _throwException($realMessage, $fakeMessage = '')
     {
-        $e = new \Magento\Core\Exception($realMessage);
+        $e = new \Magento\Model\Exception($realMessage);
         $this->_logger->logException($e);
         if (!$fakeMessage) {
             $fakeMessage = __('Please correct the gift card code.');

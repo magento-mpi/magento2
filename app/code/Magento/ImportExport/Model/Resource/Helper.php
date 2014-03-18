@@ -61,7 +61,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
         $entityStatus = $adapter->showTableStatus($tableName);
 
         if (empty($entityStatus['Auto_increment'])) {
-            throw new \Magento\Core\Exception(__('Cannot get autoincrement value'));
+            throw new \Magento\Model\Exception(__('Cannot get autoincrement value'));
         }
         return $entityStatus['Auto_increment'];
     }

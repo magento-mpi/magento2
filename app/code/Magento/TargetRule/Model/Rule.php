@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * TargetRule Rule Model

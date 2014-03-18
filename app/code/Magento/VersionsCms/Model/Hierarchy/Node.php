@@ -287,7 +287,7 @@ class Node extends \Magento\Model\AbstractModel
      * @param array $data       modified nodes data array
      * @param array $remove     the removed node ids
      * @return $this
-     * @throws \Magento\Core\Exception|Exception
+     * @throws \Magento\Model\Exception|Exception
      */
     public function collectTree($data, $remove)
     {
@@ -303,7 +303,7 @@ class Node extends \Magento\Model\AbstractModel
             // validate required node data
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
-                    throw new \Magento\Core\Exception(__('Please correct the node data.'));
+                    throw new \Magento\Model\Exception(__('Please correct the node data.'));
                 }
             }
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];

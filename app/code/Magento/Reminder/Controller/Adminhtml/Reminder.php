@@ -85,7 +85,7 @@ class Reminder extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\Reminder\Model\Rule
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initRule($requestParam = 'id')
     {
@@ -94,7 +94,7 @@ class Reminder extends \Magento\Backend\App\Action
         if ($ruleId) {
             $rule->load($ruleId);
             if (!$rule->getId()) {
-                throw new \Magento\Core\Exception(__('Please correct the reminder rule you requested.'));
+                throw new \Magento\Model\Exception(__('Please correct the reminder rule you requested.'));
             }
         }
         $this->_coreRegistry->register('current_reminder_rule', $rule);
@@ -136,7 +136,7 @@ class Reminder extends \Magento\Backend\App\Action
 
         try {
             $model = $this->_initRule();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
@@ -242,7 +242,7 @@ class Reminder extends \Magento\Backend\App\Action
                     return;
                 }
 
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
@@ -267,7 +267,7 @@ class Reminder extends \Magento\Backend\App\Action
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted the reminder rule.'));
         }
-        catch (\Magento\Core\Exception $e) {
+        catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
@@ -289,7 +289,7 @@ class Reminder extends \Magento\Backend\App\Action
             $model = $this->_initRule();
             $model->sendReminderEmails();
             $this->messageManager->addSuccess(__('You matched the reminder rule.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Reminder rule matching error.'));

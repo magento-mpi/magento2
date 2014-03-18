@@ -24,7 +24,7 @@ abstract class AbstractCollection
      *
      * @param string|\Magento\Eav\Model\Entity\Attribute $attribute
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _attributeToField($attribute)
     {
@@ -35,7 +35,7 @@ abstract class AbstractCollection
             $field = $attribute->getAttributeCode();
         }
         if (!$field) {
-            throw new \Magento\Core\Exception(__('We cannot determine the field name.'));
+            throw new \Magento\Model\Exception(__('We cannot determine the field name.'));
         }
         return $field;
     }

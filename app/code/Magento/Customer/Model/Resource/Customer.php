@@ -93,7 +93,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Object $customer
      * @return $this
      * @throws \Magento\Customer\Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave(\Magento\Object $customer)
     {
@@ -244,7 +244,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $email
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function loadByEmail(\Magento\Customer\Model\Customer $customer, $email)
     {
@@ -256,7 +256,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
 
         if ($customer->getSharingConfig()->isWebsiteScope()) {
             if (!$customer->hasData('website_id')) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Customer website ID must be specified when using the website scope')
                 );
             }

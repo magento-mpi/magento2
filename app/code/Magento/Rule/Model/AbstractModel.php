@@ -13,7 +13,7 @@
  */
 namespace Magento\Rule\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 abstract class AbstractModel extends \Magento\Model\AbstractModel
 {

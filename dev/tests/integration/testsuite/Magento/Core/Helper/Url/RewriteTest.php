@@ -34,7 +34,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider requestPathExceptionDataProvider
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testValidateRequestPathException($requestPath)
     {
@@ -51,7 +51,7 @@ class RewriteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider requestPathExceptionDataProvider
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testValidateSuffixException($suffix)
     {

@@ -187,7 +187,7 @@ abstract class AbstractHelper
      *
      * @param array $column
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function convertOldColumnDefinition($column)
     {
@@ -195,7 +195,7 @@ abstract class AbstractHelper
         $matches    = array();
         $definition = trim($column['type']);
         if (!preg_match('/([^(]*)(\\((.*)\\))?/', $definition, $matches)) {
-            throw new \Magento\Core\Exception(__("Wrong old style column type definition: {$definition}."));
+            throw new \Magento\Model\Exception(__("Wrong old style column type definition: {$definition}."));
         }
 
         $length = null;
@@ -286,7 +286,7 @@ abstract class AbstractHelper
                 $type = \Magento\DB\Ddl\Table::TYPE_DATE;
                 break;
             default:
-                throw new \Magento\Core\Exception(__("Unknown old style column type definition: {$definition}."));
+                throw new \Magento\Model\Exception(__("Unknown old style column type definition: {$definition}."));
         }
 
         $result = array(

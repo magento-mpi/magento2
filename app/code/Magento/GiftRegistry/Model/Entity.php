@@ -319,7 +319,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @param int|\Magento\Sales\Model\Quote\Item $itemToAdd
      * @param null|\Magento\Object $request
      * @return false|Item
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function addItem($itemToAdd, $request = null)
     {
@@ -334,7 +334,7 @@ class Entity extends \Magento\Model\AbstractModel
 
         if ($product->getTypeInstance()->hasRequiredOptions($product)
             && (!$request && !($itemToAdd instanceof \Magento\Sales\Model\Quote\Item))) {
-            throw new \Magento\Core\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Model\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         if ($itemToAdd instanceof \Magento\Sales\Model\Quote\Item) {
@@ -350,7 +350,7 @@ class Entity extends \Magento\Model\AbstractModel
         }
 
         if (is_string($cartCandidates)) { //prepare process has error, seems like we have bundle
-            throw new \Magento\Core\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
+            throw new \Magento\Model\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
         $item = $this->itemFactory->create();
@@ -915,7 +915,7 @@ class Entity extends \Magento\Model\AbstractModel
         $product = $this->_getData('product');
         if (is_null($product)) {
             if (!$productId) {
-                throw new \Magento\Core\Exception(__('We cannot specify the product.'));
+                throw new \Magento\Model\Exception(__('We cannot specify the product.'));
             }
 
             $product = $this->productFactory->create()
@@ -1055,7 +1055,7 @@ class Entity extends \Magento\Model\AbstractModel
      * @param array $items
      * @return void
      * @throws \Magento\Exception
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _validateItems($items)
     {
@@ -1066,13 +1066,13 @@ class Entity extends \Magento\Model\AbstractModel
                     /** @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
                     $stockItem = $this->inventoryStockItem;
                     $stockItem->loadByProduct($model->getProductId());
-                    // not \Magento\Core\Exception intentionally
+                    // not \Magento\Model\Exception intentionally
                     if ($stockItem->getIsQtyDecimal() == 0 && $item['qty'] != (int)$item['qty']) {
                         throw new \Magento\Exception(__('Please correct the  gift registry item quantity.'));
                     }
                 }
             } else {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Please correct the gift registry item ID.')
                 );
             }
