@@ -71,8 +71,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
      */
     public function setUp()
     {
-        $this->_markTestAsRestOnly();
-
         $this->customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
         );
@@ -100,7 +98,24 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testCreateCustomer()
     {
+        $this->_markTestAsRestOnly();
         $customerData = $this->_createSampleCustomer();
+        $this->assertNotNull($customerData['id']);;
+    }
+
+    public function testCreateCustomerSoapOnly()
+    {
+        $this->_markTestAsSoapOnly();
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CreateAccount'
+            ]
+        ];
+        $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();
+        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
+        $customerData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($customerData['id']);;
     }
 
@@ -112,6 +127,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData['id'],
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetCustomer'
             ]
         ];
         $customerDetailsData = $this->_webApiCall($serviceInfo);
@@ -126,6 +146,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/customer',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetCustomer'
             ]
         ];
         $customerResponseData = $this->_webApiCall($serviceInfo);
@@ -140,6 +165,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/activateCustomer',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ActivateCustomer'
             ]
         ];
         $requestData = ['confirmationKey' => $customerData[Customer::CONFIRMATION]];
@@ -157,6 +187,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/authenticate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Authenticate'
             ]
         ];
         $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => 'test@123'];
@@ -172,6 +207,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/changePassword',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ChangePassword'
             ]
         ];
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
@@ -181,6 +221,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/authenticate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'Authenticate'
             ]
         ];
         $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => '123@test'];
@@ -204,6 +249,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => $path,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ValidateResetPasswordLinkToken'
             ]
         ];
         $this->_webApiCall($serviceInfo);
@@ -217,6 +267,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => $path,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ValidateResetPasswordLinkToken'
             ]
         ];
         try {
@@ -236,6 +291,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/initiatePasswordReset',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'InitiatePasswordReset'
             ]
         ];
         $requestData = [
@@ -255,6 +315,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/initiatePasswordReset',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'InitiatePasswordReset'
             ]
         ];
         $requestData = [
@@ -280,6 +345,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/confirmationStatus',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'GetConfirmationStatus'
             ]
         ];
         $confirmationResponse = $this->_webApiCall($serviceInfo);
@@ -294,6 +364,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/resendConfirmation',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ResendConfirmation'
             ]
         ];
         $requestData = [
@@ -312,6 +387,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/resendConfirmation',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ResendConfirmation'
             ]
         ];
         $requestData = [
@@ -337,6 +417,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/validateCustomerData',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'ValidateCustomerData'
             ]
         ];
         $requestData = ['customer' => $customerData->__toArray(), 'attributes' => []];
@@ -356,6 +441,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/canModify',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CanModify'
             ]
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo));
@@ -369,6 +459,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/canDelete',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CanDelete'
             ]
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo));
@@ -382,6 +477,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID],
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomer'
             ]
         ];
         $this->_webApiCall($serviceInfo);
@@ -402,6 +502,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invalidId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'DeleteCustomer'
             ]
         ];
         try {
@@ -421,6 +526,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/isEmailAvailable',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'IsEmailAvailable'
             ]
         ];
         $requestData = [
@@ -436,6 +546,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/isEmailAvailable',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'IsEmailAvailable'
             ]
         ];
         $requestData = [
@@ -464,6 +579,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateCustomer'
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
@@ -495,6 +615,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'UpdateCustomer'
             ]
         ];
         $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
@@ -519,6 +644,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchCustomers'
             ]
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -543,6 +673,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'SearchCustomers'
             ]
         ];
         $searchData = $searchCriteria->__toArray();
@@ -582,15 +717,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(
-                (new RegionBuilder())->populateWithArray(
-                    [
-                        'region_code' => 'AL',
-                        'region' => 'Alabama',
-                        'region_id' => 1
-                    ]
-                )->create()
-            )
+            ->setRegion((new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
@@ -603,15 +730,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(
-                (new RegionBuilder())->populateWithArray(
-                    [
-                        'region_code' => 'AL',
-                        'region' => 'Alabama',
-                        'region_id' => 1
-                    ]
-                )->create()
-            )
+            ->setRegion((new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
@@ -667,7 +786,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
-        $customerData = $this->_webApiCall($serviceInfo, $requestData);
+        $customerData = $this->_webApiCall($serviceInfo, $requestData, 'rest');
         return $customerData;
     }
 
