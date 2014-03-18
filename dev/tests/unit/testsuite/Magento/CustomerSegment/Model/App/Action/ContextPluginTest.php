@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Model\App;
+namespace Magento\CustomerSegment\Model\App\Action;
 
 /**
  * Class ContextPluginTest
@@ -17,7 +17,7 @@ namespace Magento\CustomerSegment\Model\App;
 class ContextPluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\CustomerSegment\Model\App\ContextPlugin
+     * @var \Magento\CustomerSegment\Model\App\Action\ContextPlugin
      */
     protected $plugin;
 
@@ -42,14 +42,24 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\App\FrontController|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $frontControllerMock;
-
-    /**
      * @var \Magento\Core\Model\Website|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $websiteMock;
+
+    /**
+     * @var \Closure
+     */
+    protected $closureMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
 
     /**
      * Set up
@@ -74,7 +84,11 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->frontControllerMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
+        $this->closureMock = function () {
+            return 'ExpectedValue';
+        };
+        $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
         $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
             array('__wakeup', 'getId'),
             array(),
@@ -82,7 +96,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->plugin = new \Magento\CustomerSegment\Model\App\ContextPlugin(
+        $this->plugin = new \Magento\CustomerSegment\Model\App\Action\ContextPlugin(
             $this->customerSessionMock,
             $this->httpContextMock,
             $this->customerSegmentMock,
@@ -91,9 +105,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test beforeDispatch
+     * Test aroundDispatch
      */
-    public function testBeforeDispatch()
+    public function testAroundDispatch()
     {
         $customerId = 1;
         $customerSegmentIds = array(1, 2, 3);
@@ -123,6 +137,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo($customerSegmentIds)
             );
 
-        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
+        $this->assertEquals(
+            'ExpectedValue',
+            $this->plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 }

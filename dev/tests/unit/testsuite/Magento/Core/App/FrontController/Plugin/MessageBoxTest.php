@@ -66,7 +66,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->msgBox =  new MessageBox(
+        $this->msgBox = new MessageBox(
             $this->cookieMock,
             $this->requestMock,
             $this->configMock,
@@ -101,11 +101,14 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
         $this->cookieMock->expects($this->once())
             ->method('set')
             ->with(
-                $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_NAME), 1,
+                $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_NAME),
+                1,
                 $this->equalTo(\Magento\Core\App\FrontController\Plugin\MessageBox::COOKIE_PERIOD)
             );
-        $this->assertInstanceOf('\Magento\App\ResponseInterface',
-            $this->msgBox->afterDispatch($this->objectMock, $this->responseMock));
+        $this->assertInstanceOf(
+            '\Magento\App\ResponseInterface',
+            $this->msgBox->afterDispatch($this->objectMock, $this->responseMock)
+        );
     }
 
     /**
@@ -118,7 +121,9 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->messageManagerMock->expects($this->never())
             ->method('getMessages');
-        $this->assertInstanceOf('\Magento\App\ResponseInterface',
-            $this->msgBox->afterDispatch($this->objectMock, $this->responseMock));
+        $this->assertInstanceOf(
+            '\Magento\App\ResponseInterface',
+            $this->msgBox->afterDispatch($this->objectMock, $this->responseMock)
+        );
     }
 }

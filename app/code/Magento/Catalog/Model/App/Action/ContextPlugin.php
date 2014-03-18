@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\App;
+namespace Magento\Catalog\Model\App\Action;
 
 use Magento\Catalog\Helper\Data;
 
@@ -46,13 +46,16 @@ class ContextPlugin
     }
 
     /**
-     * Before dispatch plugin
-     *
-     * @param \Magento\App\FrontController $subject
-     * @return null
+     * @param \Magento\App\Action\Action $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     * @return mixed
      */
-    public function beforeDispatch(\Magento\App\FrontController $subject)
-    {
+    public function aroundDispatch(
+        \Magento\App\Action\Action $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $this->httpContext->setValue(
             Data::CONTEXT_CATALOG_SORT_DIRECTION,
             $this->toolbarModel->getDirection(),
@@ -73,6 +76,6 @@ class ContextPlugin
             $this->toolbarModel->getLimit(),
             $this->productListHelper->getDefaultLimitPerPageValue($this->productListHelper->getDefaultViewMode())
         );
-        return;
+        return $proceed($request);
     }
 }
