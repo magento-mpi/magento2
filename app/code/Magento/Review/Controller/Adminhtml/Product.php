@@ -187,7 +187,7 @@ class Product extends \Magento\Backend\App\Action
 
             $this->messageManager->addSuccess(__('The review has been deleted.'));
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                $this->getResponse()->setRedirect($this->getUrl('catalog/*/pending'));
+                $this->getResponse()->setRedirect($this->getUrl('review/*/pending'));
             } else {
                 $this->getResponse()->setRedirect($this->getUrl('review/*/'));
             }
