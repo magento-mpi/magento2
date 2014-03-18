@@ -1,4 +1,5 @@
 import std;
+# The minimal Varnish version is 3.0.5
 
 backend default {
     .host = "{{ host }}";
@@ -10,9 +11,6 @@ acl purge {
 }
 
 sub vcl_recv {
-    # prevent from gzipping on backend
-    unset req.http.accept-encoding;
-
     if (req.restarts == 0) {
         if (req.http.x-forwarded-for) {
             set req.http.X-Forwarded-For =
@@ -49,7 +47,7 @@ sub vcl_recv {
         return (pass);
     }
 
-    if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
+    if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|woff)(\?|$)") {
          unset req.http.Cookie;
     }
 
@@ -66,11 +64,12 @@ sub vcl_hash {
 }
 
 sub vcl_fetch {
-    if (req.url !~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
+    if (beresp.http.content-type ~ "text") {
+        set beresp.do_esi = true;
+    }
+
+    if (req.url ~ "\.js$" || beresp.http.content-type ~ "text") {
         set beresp.do_gzip = true;
-        if (req.url !~ "\.(css|js)(\?|$)") {
-            set beresp.do_esi = true;
-        }
     }
 
     # cache only successfully responses
@@ -89,7 +88,7 @@ sub vcl_fetch {
     # images, css and js are cacheable by default so we have to remove cookie also
     if (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD")) {
         unset beresp.http.set-cookie;
-        if (req.url !~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
+        if (req.url !~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|woff)(\?|$)") {
             set beresp.http.Pragma = "no-cache";
             set beresp.http.Expires = "-1";
             set beresp.http.Cache-Control = "no-store, no-cache, must-revalidate, max-age=0";
