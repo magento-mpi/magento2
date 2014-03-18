@@ -126,7 +126,7 @@ class ProductList
     /**
      * Retrieve default per page values
      *
-     * @param $viewMode
+     * @param string $viewMode
      * @return string (comma separated)
      */
     public function getDefaultLimitPerPageValue($viewMode)

@@ -44,7 +44,7 @@ class MessageBox
     protected $config;
 
     /**
-     * @var \Magento\View\Element\Messages
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -52,13 +52,13 @@ class MessageBox
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Request\Http $request
      * @param \Magento\PageCache\Model\Config $config
-     * @param \Magento\View\Element\Messages $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Request\Http $request,
         \Magento\PageCache\Model\Config $config,
-        \Magento\View\Element\Messages $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
@@ -77,20 +77,20 @@ class MessageBox
      */
     public function afterDispatch(\Magento\App\FrontController $subject, \Magento\App\ResponseInterface $response)
     {
-        if ($this->request->isPost() && $this->config->isEnabled() && $this->isMessage()) {
+        if ($this->request->isPost() && $this->config->isEnabled() && $this->hasMessages()) {
             $this->cookie->set(self::COOKIE_NAME, 1, self::COOKIE_PERIOD, '/');
         }
         return $response;
     }
 
     /**
-     * Return true if there any messages for customer
-     * false - another case
+     * Returns true if there are any messages for customer,
+     * false - in other case
      *
      * @return bool
      */
-    protected function isMessage()
+    protected function hasMessages()
     {
-        return $this->messageManager->getMessageCollection() ? true : false;
+        return ($this->messageManager->getMessages()->getCount() > 0);
     }
 }
