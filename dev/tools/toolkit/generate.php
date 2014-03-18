@@ -40,6 +40,7 @@ $files = array(
     __DIR__ . '/fixtures/cart_price_rules.php',
     __DIR__ . '/fixtures/catalog_price_rules.php',
     __DIR__ . '/fixtures/tax_rates.php',
+    __DIR__ . '/fixtures/disable_form_key_usage.php',
     __DIR__ . '/fixtures/shipping_flatrate_enabled.php',
     __DIR__ . '/fixtures/catalog_target_rules.php'
 );
