@@ -27,6 +27,12 @@ class NewTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Http\Context')
+            ->setValue(
+                \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
+                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+            );
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Catalog\Block\Product\NewProduct');
     }
