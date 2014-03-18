@@ -9,14 +9,14 @@
  */
 namespace Magento\Cron\App\Cron\Plugin;
 
-use \Magento\AppInterface;
+use \Magento\App\State;
 
 class ApplicationInitializer
 {
     /**
-     * @var \Magento\AppInterface
+     * @var State
      */
-    protected $_application;
+    protected $_appState;
 
     /**
      * @var \Magento\Session\SidResolverInterface
@@ -24,14 +24,14 @@ class ApplicationInitializer
     protected $_sidResolver;
 
     /**
-     * @param AppInterface $application
+     * @param State $appState
      * @param \Magento\Session\SidResolverInterface $sidResolver
      */
     public function __construct(
-        AppInterface $application,
+        State $appState,
         \Magento\Session\SidResolverInterface $sidResolver
     ) {
-        $this->_application = $application;
+        $this->_appState = $appState;
         $this->_sidResolver = $sidResolver;
     }
 
@@ -42,11 +42,14 @@ class ApplicationInitializer
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws \Magento\Exception
      */
     public function beforeLaunch(\Magento\App\Cron $subject)
     {
         $this->_sidResolver->setUseSessionInUrl(false);
-        $this->_application->requireInstalledInstance();
+        if (false == $this->_appState->isInstalled()) {
+            throw new \Magento\Exception('Application is not installed yet, please complete the installation first.');
+        }
     }
 }
 

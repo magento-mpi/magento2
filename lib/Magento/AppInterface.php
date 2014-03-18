@@ -17,14 +17,6 @@ interface AppInterface
     const DISTRO_LOCALE_CODE = 'en_US';
 
     /**
-     * Throw an exception, if the application has not been installed yet
-     *
-     * @return void
-     * @throws \Magento\Exception
-     */
-    public function requireInstalledInstance();
-
-    /**
      * Retrieve cookie object
      *
      * @return \Magento\Stdlib\Cookie

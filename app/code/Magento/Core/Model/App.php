@@ -150,19 +150,6 @@ class App implements \Magento\AppInterface
     }
 
     /**
-     * Throw an exception, if the application has not been installed yet
-     *
-     * @return void
-     * @throws \Magento\Exception
-     */
-    public function requireInstalledInstance()
-    {
-        if (false == $this->_appState->isInstalled()) {
-            throw new \Magento\Exception('Application is not installed yet, please complete the installation first.');
-        }
-    }
-
-    /**
      * Retrieve cookie object
      *
      * @return \Magento\Stdlib\Cookie
