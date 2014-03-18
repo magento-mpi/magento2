@@ -82,6 +82,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public static function idPrefixDataProvider()
     {
         return array(
+            // start of md5('CONFIG_DIR')
             'default id prefix' => array(array('backend' => 'Zend_Cache_Backend_BlackHole'), 'a3c_'),
             'id prefix in "id_prefix" option' => array(
                 array('backend' => 'Zend_Cache_Backend_BlackHole', 'id_prefix' => 'id_prefix_value'),

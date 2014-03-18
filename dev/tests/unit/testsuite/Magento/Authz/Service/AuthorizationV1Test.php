@@ -48,6 +48,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testRemovePermissionsException()
     {
+        // Wrong user identifier type
         $this->_authzService->removePermissions($this->_getUserIdentifierMock(UserIdentifier::USER_TYPE_ADMIN));
     }
 
