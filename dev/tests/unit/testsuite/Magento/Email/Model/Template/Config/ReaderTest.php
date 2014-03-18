@@ -148,7 +148,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $constraint = function (\DOMDocument $actual) {
             try {
                 $expected = file_get_contents(__DIR__ . '/_files/email_templates_merged.xml');
-                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlString($expected, $actual->saveXML());
+                $expectedNorm = preg_replace('/xsi:noNamespaceSchemaLocation="[^"]*"/', '', $expected, 1);
+                $actualNorm = preg_replace('/xsi:noNamespaceSchemaLocation="[^"]*"/', '', $actual->saveXML(), 1);
+                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlString($expectedNorm, $actualNorm);
                 return true;
             } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 return false;

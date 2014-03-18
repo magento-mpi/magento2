@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="adminhtml_catalog_product_edit_prepare_form">
         <observer name="weee" instance="Magento\Weee\Model\Observer" method="setWeeeRendererInForm" />
     </event>

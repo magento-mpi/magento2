@@ -95,8 +95,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "Element 'section': The attribute 'name' is required but missing.\n",
                     "Element 'group': The attribute 'name' is required but missing.\n",
                     "Element 'item': The attribute 'name' is required but missing.\n",
-                    "Element 'item': The attribute 'instance' is required but missing.\n",
-                    "Element 'item': The attribute 'sort_order' is required but missing.\n",
                     "Element 'renderer': The attribute 'name' is required but missing.\n",
                     "Element 'renderer': The attribute 'instance' is required but missing.\n",
                     "Element 'available_product_type': The attribute 'name' is required but missing.\n"

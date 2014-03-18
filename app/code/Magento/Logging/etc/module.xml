@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_Logging" version="1.11.0.0" active="false">
         <sequence>
             <module name="Magento_Sales"/>

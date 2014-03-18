@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\WebsiteRestriction\Model\ConfigInterface" type="Magento\WebsiteRestriction\Model\Config" />
     <type name="Magento\Module\Updater\SetupFactory">
         <arguments>

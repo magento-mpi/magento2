@@ -31,7 +31,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     /**
      * XPath of handles originally declared in layout updates
      */
-    const XPATH_HANDLE_DECLARATION = '/layout[@*]';
+    const XPATH_HANDLE_DECLARATION = '/layout[@design_abstraction]';
 
     /**
      * Name of an attribute that stands for data type of node values
@@ -310,11 +310,8 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $result = array();
 
         $conditions = array(
-            '(@design_abstraction="' .
-            self::DESIGN_ABSTRACTION_PAGE_LAYOUT .
-            '" or @design_abstraction="' .
-            self::DESIGN_ABSTRACTION_CUSTOM .
-            '")'
+            '(@design_abstraction="' . self::DESIGN_ABSTRACTION_PAGE_LAYOUT .
+            '" or @design_abstraction="' . self::DESIGN_ABSTRACTION_CUSTOM . '")'
         );
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
