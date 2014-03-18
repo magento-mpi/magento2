@@ -538,8 +538,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Pre-condition
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $this->assertNull($subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertNull($subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomerId(1)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomerId(2)->getSubscriberStatus());
         // Setup
         $this->getRequest()->setParam('customer', [1, 2]);
 
@@ -554,11 +554,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertEquals(
             Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(1)->getSubscriberStatus()
         );
         $this->assertEquals(
             Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(2)->getSubscriberStatus()
         );
     }
 
@@ -594,8 +594,8 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         // Pre-condition
         /** @var \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory */
         $subscriberFactory = Bootstrap::getObjectManager()->get('Magento\Newsletter\Model\SubscriberFactory');
-        $this->assertNull($subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus());
-        $this->assertNull($subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomerId(1)->getSubscriberStatus());
+        $this->assertNull($subscriberFactory->create()->loadByCustomerId(2)->getSubscriberStatus());
         // Setup
         $this->getRequest()->setParam('customer', [1, 4200, 2]);
 
@@ -614,11 +614,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertEquals(
             Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(1)->getSubscriberStatus()
         );
         $this->assertEquals(
             Subscriber::STATUS_SUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(2)->getSubscriberStatus()
         );
     }
 
@@ -768,11 +768,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertEquals(
             Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(1)->getSubscriberStatus()
         );
         $this->assertEquals(
             Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(2)->getSubscriberStatus()
         );
     }
 
@@ -827,11 +827,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         );
         $this->assertEquals(
             Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(1)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(1)->getSubscriberStatus()
         );
         $this->assertEquals(
             Subscriber::STATUS_UNSUBSCRIBED,
-            $subscriberFactory->create()->loadByCustomer(2)->getSubscriberStatus()
+            $subscriberFactory->create()->loadByCustomerId(2)->getSubscriberStatus()
         );
     }
 

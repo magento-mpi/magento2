@@ -146,7 +146,7 @@ class Dashboard extends \Magento\View\Element\Template
     {
         if (is_null($this->_subscription)) {
             $this->_subscription =
-                $this->_createSubscriber()->loadByCustomer($this->_customerSession->getCustomerId());
+                $this->_createSubscriber()->loadByCustomerId($this->_customerSession->getCustomerId());
         }
 
         return $this->_subscription;

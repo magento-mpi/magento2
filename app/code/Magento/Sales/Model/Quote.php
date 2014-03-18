@@ -504,7 +504,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function loadByCustomer($customer)
     {
-        /* @TODO: remove this if after external usages of loadByCustomer are refactored in MAGETWO-19935 */
+        /* @TODO: remove this if after external usages of loadByCustomerId are refactored in MAGETWO-19935 */
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customerId = $customer->getId();
         } else {
@@ -1236,7 +1236,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
          */
         if ($item->isNominal() && $this->hasItems() || $this->hasNominalItems()) {
             throw new \Magento\Core\Exception(
+                // @codingStandardsIgnoreStart
                 __('Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.')
+                // @codingStandardsIgnoreEnd
             );
         }
 
@@ -1639,7 +1641,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
         if ($this->getTotalsCollectedFlag()) {
             return $this;
         }
-        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_before', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch(
+            $this->_eventPrefix . '_collect_totals_before',
+            array($this->_eventObject => $this)
+        );
 
         $this->_collectItemsQtys();
 
@@ -1681,7 +1686,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->setData('trigger_recollect', 0);
         $this->_validateCouponCode();
 
-        $this->_eventManager->dispatch($this->_eventPrefix . '_collect_totals_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch(
+            $this->_eventPrefix . '_collect_totals_after',
+            array($this->_eventObject => $this)
+        );
 
         $this->setTotalsCollectedFlag(true);
         return $this;

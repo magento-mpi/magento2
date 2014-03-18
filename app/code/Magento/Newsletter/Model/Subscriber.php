@@ -106,7 +106,11 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     protected $_storeManager;
 
-    /** @var  CustomerAccountServiceInterface  */
+    /**
+     * Customer account service
+     *
+     * @var CustomerAccountServiceInterface
+     */
     protected $_customerAccountService;
 
     /**
@@ -289,7 +293,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param boolean $value
      * @return $this
      */
-    public function setIsStatusChanged($value)
+    public function setStatusChanged($value)
     {
         $this->_isStatusChanged = (boolean) $value;
         return $this;
@@ -337,7 +341,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param int $customerId
      * @return $this
      */
-    public function loadByCustomer($customerId)
+    public function loadByCustomerId($customerId)
     {
         /** @var \Magento\Customer\Service\V1\Data\Customer $customerData */
         $customerData = $this->_customerAccountService->getCustomer($customerId);
@@ -428,7 +432,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             $this->setCustomerId(0);
         }
 
-        $this->setIsStatusChanged(true);
+        $this->setStatusChanged(true);
 
         try {
             $this->save();
@@ -471,7 +475,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function subscribeCustomerById($customerId)
     {
-        $this->updateCustomerSubscription($customerId, true);
+        $this->_updateCustomerSubscription($customerId, true);
         return $this;
     }
 
@@ -483,7 +487,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function unsubscribeCustomerById($customerId)
     {
-        $this->updateCustomerSubscription($customerId, false);
+        $this->_updateCustomerSubscription($customerId, false);
         return $this;
     }
 
@@ -497,9 +501,9 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function updateCustomerSubscription($customerId, $subscribe)
+    protected function _updateCustomerSubscription($customerId, $subscribe)
     {
-        $this->loadByCustomer($customerId);
+        $this->loadByCustomerId($customerId);
         $customerData = $this->_customerAccountService->getCustomer($customerId);
 
         if (!$subscribe && !$this->getId()) {
@@ -531,7 +535,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         }
 
         if ($status != $this->getStatus()) {
-            $this->setIsStatusChanged(true);
+            $this->setStatusChanged(true);
         }
 
         $this->setStatus($status);
@@ -571,7 +575,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     {
         if ($this->getCode() == $code) {
             $this->setStatus(self::STATUS_SUBSCRIBED)
-                ->setIsStatusChanged(true)
+                ->setStatusChanged(true)
                 ->save();
             return true;
         }

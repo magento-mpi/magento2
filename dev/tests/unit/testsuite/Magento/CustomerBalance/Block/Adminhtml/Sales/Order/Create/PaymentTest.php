@@ -65,7 +65,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     {
         $this->_balanceInstance =$this->getMock(
             'Magento\CustomerBalance\Model\Balance',
-            array('setCustomerId', 'setWebsiteId', 'getAmount', 'loadByCustomer', '__wakeup'),
+            array('setCustomerId', 'setWebsiteId', 'getAmount', 'loadByCustomerId', '__wakeup'),
             array(),
             '',
             false
@@ -90,7 +90,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_balanceInstance));
         $this->_balanceInstance
             ->expects($this->any())
-            ->method('loadByCustomer')
+            ->method('loadByCustomerId')
             ->will($this->returnValue($this->_balanceInstance));
         $this->_sessionQuoteMock = $this->getMock(
             'Magento\Backend\Model\Session\Quote', array(), array(), '', false
