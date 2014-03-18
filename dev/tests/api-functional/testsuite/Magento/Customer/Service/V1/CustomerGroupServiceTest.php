@@ -441,6 +441,41 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify that updating a non-existing group throws an exception.
+     */
+    public function testUpdateGroupNotExistingGroupRest()
+    {
+        $this->_markTestAsRestOnly();
+
+        $nonExistentGroupId = 9999;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ]
+        ];
+
+        $groupData = [
+            'id' => $nonExistentGroupId,
+            'code' => 'Updated Group REST Does Not Exist',
+            'tax_class_id' => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\Exception $e) {
+            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
+    }
+
+    /**
      * Verify that creating a new group works via SOAP.
      */
     public function testCreateGroupSoap()
@@ -584,6 +619,41 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals($groupData['code'], $group->getCode(), 'The group code did not change.');
         $this->assertEquals(
             $groupData['taxClassId'], $group->getTaxClassId(), 'The group tax class id did not change');
+    }
+
+    /**
+     * Verify that updating a non-existing group throws an exception  via SOAP.
+     */
+    public function testUpdateGroupNotExistingGroupSoap()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $nonExistentGroupId = 9999;
+
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            ]
+        ];
+
+        $groupData = [
+            'id' => $nonExistentGroupId,
+            'code' => 'Updated Non-Existent Group SOAP',
+            'taxClassId' => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (\Exception $e) {
+            $expectedMessage = "No such entity with id = $nonExistentGroupId";
+
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
     }
 
     /**

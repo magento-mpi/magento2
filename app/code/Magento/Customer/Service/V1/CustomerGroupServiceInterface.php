@@ -70,6 +70,7 @@ interface CustomerGroupServiceInterface
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
      * @throws \Magento\Exception\InputException If there is a problem with the input
+     * @throws \Magento\Exception\NoSuchEntityException If a group ID is sent but the group does not exist
      * @throws \Exception If something goes wrong during save
      * @return int customer group ID
      */
