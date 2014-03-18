@@ -32,7 +32,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Layer\Filter\Category', array('layer' => $layer)),
                 'value'  => array('valuePart1', 'valuePart2'),
             )
-        );
+        ));
     }
 
     public function testGetFilter()
