@@ -74,7 +74,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         } else {
             $this->assertNull($this->_block->getCustomer());
         }
-
     }
 
     /**
@@ -97,7 +96,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function getPrimaryShippingAddressHtmlDataProvider()
     {
         $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
-                  . "\nUnited States<br/>\nT: 3468676\n\n";
+            . "\nUnited States<br/>\nT: 3468676\n\n";
 
         return [
             '0' => [0, 'You have not set a default shipping address.'],
@@ -124,7 +123,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function getPrimaryBillingAddressHtmlDataProvider()
     {
         $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
-                  . "\nUnited States<br/>\nT: 3468676\n\n";
+            . "\nUnited States<br/>\nT: 3468676\n\n";
         return [
             '0' => [0, 'You have not set a default billing address.'],
             '1' => [1, $expected],
