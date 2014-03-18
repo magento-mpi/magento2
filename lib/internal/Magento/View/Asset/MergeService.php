@@ -71,8 +71,8 @@ class MergeService
      */
     public function getMergedAssets(array $assets, $contentType)
     {
-        $isCss = $contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS;
-        $isJs = $contentType == \Magento\View\Publisher::CONTENT_TYPE_JS;
+        $isCss = $contentType == \Magento\View\Asset\AssetInterface::CONTENT_TYPE_CSS;
+        $isJs = $contentType == \Magento\View\Asset\AssetInterface::CONTENT_TYPE_JS;
         if (!$isCss && !$isJs) {
             throw new \InvalidArgumentException("Merge for content type '$contentType' is not supported.");
         }

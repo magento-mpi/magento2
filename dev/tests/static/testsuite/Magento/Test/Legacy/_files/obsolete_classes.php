@@ -2154,4 +2154,7 @@ return array(
     ['Magento\Less\PreProcessorInterface', 'Magento\View\Asset\PreProcessorInterface'],
     ['Magento\View\Asset\PreProcessor\Composite'],
     ['Magento\View\Asset\PreProcessor\PreProcessorInterface', 'Magento\View\Asset\PreProcessorInterface'],
+    ['Magento\View\FileResolver', 'Magento\View\Service'],
+    ['Magento\View\FilesManagerInterface', 'Magento\View\Asset\SourceFileInterface'],
+    ['Magento\View\Publisher', 'Magento\View\Service'],
 );

@@ -614,4 +614,9 @@ return array(
         'Magento\Theme\Model\Url\Plugin\Signature::XML_PATH_STATIC_FILE_SIGNATURE'),
     array('PUBLIC_MERGE_DIR', '', '\Magento\View\Asset\Merged::getRelativeDir'),
     array('PUBLIC_MINIFY_DIR', '', '\Magento\View\Asset\MinifyService::getRelativeDir'),
+    ['CONTENT_TYPE_CSS', 'Magento\View\Publisher', '\Magento\View\Asset\AssetInterface::CONTENT_TYPE_CSS'],
+    ['CONTENT_TYPE_JS', 'Magento\View\Publisher', '\Magento\View\Asset\AssetInterface::CONTENT_TYPE_JS'],
+    ['CONTENT_TYPE_PHP', 'Magento\View\Publisher'],
+    ['CONTENT_TYPE_PHTML', 'Magento\View\Publisher'],
+    ['CONTENT_TYPE_XML', 'Magento\View\Publisher'],
 );

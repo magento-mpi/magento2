@@ -119,37 +119,37 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
         return array(
             'js production mode' => array(
                 $jsAssets,
-                \Magento\View\Publisher::CONTENT_TYPE_JS,
+                \Magento\View\Asset\AssetInterface::CONTENT_TYPE_JS,
                 \Magento\App\State::MODE_PRODUCTION,
                 'Magento\View\Asset\MergeStrategy\FileExists'
             ),
             'css production mode' => array(
                 $cssAssets,
-                \Magento\View\Publisher::CONTENT_TYPE_CSS,
+                \Magento\View\Asset\AssetInterface::CONTENT_TYPE_CSS,
                 \Magento\App\State::MODE_PRODUCTION,
                 'Magento\View\Asset\MergeStrategy\FileExists'
             ),
             'js default mode' => array(
                 $jsAssets,
-                \Magento\View\Publisher::CONTENT_TYPE_JS,
+                \Magento\View\Asset\AssetInterface::CONTENT_TYPE_JS,
                 \Magento\App\State::MODE_DEFAULT,
                 'Magento\View\Asset\MergeStrategy\Checksum'
             ),
             'css default mode' => array(
                 $cssAssets,
-                \Magento\View\Publisher::CONTENT_TYPE_CSS,
+                \Magento\View\Asset\AssetInterface::CONTENT_TYPE_CSS,
                 \Magento\App\State::MODE_DEFAULT,
                 'Magento\View\Asset\MergeStrategy\Checksum'
             ),
             'js developer mode' => array(
                 $jsAssets,
-                \Magento\View\Publisher::CONTENT_TYPE_JS,
+                \Magento\View\Asset\AssetInterface::CONTENT_TYPE_JS,
                 \Magento\App\State::MODE_DEVELOPER,
                 'Magento\View\Asset\MergeStrategy\Checksum'
             ),
             'css developer mode' => array(
                 $cssAssets,
-                \Magento\View\Publisher::CONTENT_TYPE_CSS,
+                \Magento\View\Asset\AssetInterface::CONTENT_TYPE_CSS,
                 \Magento\App\State::MODE_DEVELOPER,
                 'Magento\View\Asset\MergeStrategy\Checksum'
             ),
