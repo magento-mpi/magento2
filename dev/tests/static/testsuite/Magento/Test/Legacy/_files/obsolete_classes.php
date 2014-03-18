@@ -2233,4 +2233,6 @@ return array(
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
     array('Magento\App\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
+    array('Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
+    array('Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface'),
 );

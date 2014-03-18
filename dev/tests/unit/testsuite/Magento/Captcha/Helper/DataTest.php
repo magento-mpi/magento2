@@ -149,11 +149,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getConfigStub()
     {
-        $config = $this->getMock(
-            'Magento\App\Config\ScopeConfigInterface',
-            array(),
-            array(), '', false
-        );
+        $config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $configData = array(
             'font_code' => array(

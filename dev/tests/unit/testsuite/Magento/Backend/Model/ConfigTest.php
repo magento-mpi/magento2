@@ -86,10 +86,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Resource\TransactionFactory',
             array('create'), array(), '', false
         );
-        $this->_appConfigMock = $this->getMock(
-            'Magento\App\Config\ScopeConfigInterface',
-            array(), array(), '', false
-        );
+        $this->_appConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_configLoaderMock = $this->getMock(
             'Magento\Backend\Model\Config\Loader',
             array('getConfigByPath'), array(), '', false

@@ -69,7 +69,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_aclMock = $this->getMock('Magento\AuthorizationInterface');
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_menuFactoryMock = $this
             ->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(), '', false);
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
@@ -191,7 +191,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('name' => 'Magento_Backend')));
 
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfigFlag')
+            ->method('isSetFlag')
             ->will($this->returnValue(true));
 
         $this->assertFalse($this->_model->isDisabled());

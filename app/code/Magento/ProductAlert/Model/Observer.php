@@ -365,14 +365,14 @@ class Observer
             $this->_translate->setTranslateInline(false);
 
             $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                 ->setTemplateOptions(array(
                     'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
                 ))
                 ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-                ->setFrom($this->_storeConfig->getValue(self::XML_PATH_ERROR_IDENTITY), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-                ->addTo($this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->setFrom($this->_storeConfig->getValue(self::XML_PATH_ERROR_IDENTITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                ->addTo($this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                 ->getTransport();
 
             $transport->sendMessage();

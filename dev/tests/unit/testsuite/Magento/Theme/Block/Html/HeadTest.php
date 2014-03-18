@@ -79,7 +79,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
 
         $this->_context->getStoreConfig()
             ->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue('storeConfig'));
 
         $mediaDirMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);

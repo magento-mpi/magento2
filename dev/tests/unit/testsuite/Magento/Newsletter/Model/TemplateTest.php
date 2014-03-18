@@ -56,7 +56,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->with('template text')
             ->will($this->returnValue('processed text'));
 
-        $storeConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $templateFactory = $this->getMock('Magento\Newsletter\Model\TemplateFactory');
         $data = array('template_text' => 'template text');
 

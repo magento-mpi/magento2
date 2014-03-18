@@ -121,14 +121,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$rateObject->hasTaxCountryId()) {
             $rateObject->setTaxCountryId($this->_storeConfig->getValue(
-                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY
-            ), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
+                \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            ));
         }
 
         if (!$rateObject->hasTaxRegionId()) {
             $rateObject->setTaxRegionId($this->_storeConfig->getValue(
-                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION
-            ), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
+                \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            ));
         }
 
         $regionCollection = $this->_regionFactory->create()->getCollection()
@@ -167,8 +169,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$rateObject->hasTaxPostcode()) {
             $rateObject->setTaxPostcode($this->_storeConfig->getValue(
-                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE
-            ), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
+                \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            ));
         }
 
         $fieldset->addField('tax_postcode', 'text', array(

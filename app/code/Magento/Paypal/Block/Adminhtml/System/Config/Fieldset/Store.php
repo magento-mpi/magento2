@@ -25,22 +25,14 @@ class Store
     protected $_template = 'Magento_Paypal::system/config/fieldset/store.phtml';
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_coreConfig;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -75,7 +67,7 @@ class Store
         $website = $this->getRequest()->getParam('website');
         $disabledMethods = array();
         foreach ($methods as $methodId => $methodPath) {
-            $isEnabled = (int)$this->_coreConfig->getValue($methodPath, 'website', $website);
+            $isEnabled = (int)$this->_storeConfig->getValue($methodPath, 'website', $website);
             if ($isEnabled === 0) {
                 $disabledMethods[$methodId] = $isEnabled;
             }

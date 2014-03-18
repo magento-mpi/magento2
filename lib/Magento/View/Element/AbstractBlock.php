@@ -618,7 +618,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function toHtml()
     {
         $this->_eventManager->dispatch('view_block_abstract_to_html_before', array('block' => $this));
-        if ($this->_storeConfig->getValue('advanced/modules_disable_output/' . $this->getModuleName())) {
+        if ($this->_storeConfig->getValue('advanced/modules_disable_output/' . $this->getModuleName(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return '';
         }
 

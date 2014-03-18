@@ -30,7 +30,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Eav\Model\Attribute|\PHPUnit_Framework_MockObject_MockObject */
     protected $_attribute;
 
-    /** @var \Magento\Store\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_storeConfigMock;
 
     /** @var \Magento\Mail\Template\TransportBuilder|\PHPUnit_Framework_MockObject_MockObject */
@@ -48,8 +48,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_attribute = $this->getMock('Magento\Eav\Model\Attribute', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_storetMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('\Magento\Store\Model\Config', array(), array(), '', false);
+        $this->_storetMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->_transportBuilderMock = $this->getMock(
             '\Magento\Mail\Template\TransportBuilder',
             array(),
@@ -112,13 +112,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $this->_storeConfigMock
             ->expects($this->at(0))
-            ->method('getConfig')
-            ->with(\Magento\Customer\Model\Customer::XML_PATH_RESET_PASSWORD_TEMPLATE, $storeId)
+            ->method('getValue')
+            ->with(\Magento\Customer\Model\Customer::XML_PATH_RESET_PASSWORD_TEMPLATE,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
             ->will($this->returnValue('templateId'));
         $this->_storeConfigMock
             ->expects($this->at(1))
-            ->method('getConfig')
-            ->with(\Magento\Customer\Model\Customer::XML_PATH_FORGOT_EMAIL_IDENTITY, $storeId)
+            ->method('getValue')
+            ->with(\Magento\Customer\Model\Customer::XML_PATH_FORGOT_EMAIL_IDENTITY,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
             ->will($this->returnValue('sender'));
         $this->_transportBuilderMock
             ->expects($this->once())

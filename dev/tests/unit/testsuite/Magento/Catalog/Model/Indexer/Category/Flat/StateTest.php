@@ -16,7 +16,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Store\Model\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeConfigMock;
 
@@ -27,10 +27,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeConfigMock = $this->getMockForAbstractClass(
-            'Magento\Store\Model\ConfigInterface',
-            array(), '', false, false, true, array('getConfigFlag', '__wakeup')
-        );
+        $this->storeConfigMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
 
         $this->flatIndexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
@@ -41,7 +38,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testIsFlatEnabled()
     {
         $this->storeConfigMock->expects($this->once())
-            ->method('getConfigFlag')
+            ->method('isSetFlag')
             ->with('catalog/frontend/flat_catalog_category')
             ->will($this->returnValue(true));
 
@@ -71,7 +68,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isValid));
 
         $this->storeConfigMock->expects($this->any())
-            ->method('getConfigFlag')
+            ->method('isSetFlag')
             ->with('catalog/frontend/flat_catalog_category')
             ->will($this->returnValue($isFlatEnabled));
 

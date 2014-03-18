@@ -103,13 +103,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         // Initialize mocks which are used in several test cases
         $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
-            ->setMethods(array('getConfig'))
+            ->setMethods(array('getValue'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_configMock = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
+        $this->_appMock->expects($this->any())->method('getValue')->will($this->returnValue($this->_configMock));
         $this->_eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();

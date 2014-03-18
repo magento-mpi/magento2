@@ -16,11 +16,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $store = 'some store';
         $result = 'result';
-        $coreStoreConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $coreStoreConfig
             ->expects($this->once())
-            ->method('getConfigFlag')
-            ->with($this->equalTo('dev/translate_inline/active'), $this->equalTo($store))
+            ->method('isSetFlag')
+            ->with(
+                $this->equalTo('dev/translate_inline/active'),
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                $this->equalTo($store)
+            )
             ->will($this->returnValue($result));
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $config = $objectManager->getObject(

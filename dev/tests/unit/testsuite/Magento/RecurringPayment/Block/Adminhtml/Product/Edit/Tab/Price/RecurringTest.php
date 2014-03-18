@@ -35,7 +35,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
     protected $_eventManager;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -52,7 +52,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_eventManager = $this->getMock('Magento\Event\Manager', [], [], '', false);
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\Config', [], [], '', false);
+        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_context = $helper->getObject(
             'Magento\Backend\Block\Template\Context', [
                 'eventManager' => $this->_eventManager,
@@ -83,7 +83,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
             ['Magento\Backend\Block\Widget\Form\Element\Dependence', [], $blockMock]
         ];
         $paymentElement = $this->getMock('Magento\Data\Form\Element\AbstractElement', [], [], '', false);
-        $this->_storeConfig->expects($this->any())->method('getConfig')->will($this->returnValue(true));
+        $this->_storeConfig->expects($this->any())->method('getValue')->will($this->returnValue(true));
 
         $this->_testModel->render($paymentElement);
 

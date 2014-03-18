@@ -18,21 +18,13 @@ use Magento\Backend\Block\Template\Context;
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $config;
-
-    /**
-     * @param Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $config
+     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        \Magento\App\Config\ScopeConfigInterface $config,
+        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
-    ) {
-        $this->config = $config;
+    ){
         parent::__construct($context, $data);
     }
 
@@ -72,6 +64,6 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function getTtlValue()
     {
-        return $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
+        return $this->_storeConfig->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
     }
 }

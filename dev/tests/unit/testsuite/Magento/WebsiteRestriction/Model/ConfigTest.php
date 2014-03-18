@@ -42,7 +42,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $cacheId = null;
 
         $this->_model = new \Magento\WebsiteRestriction\Model\Config(
@@ -94,7 +94,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $store = null;
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/is_active', $store)->will($this->returnValue(false));
+            ->method('getValue')->with(
+                'general/restriction/is_active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
+            ->will($this->returnValue(false));
 
         $this->assertEquals(false, $this->_model->isRestrictionEnabled($store));
     }
@@ -102,28 +104,34 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetMode()
     {
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/mode')->will($this->returnValue(false));
+            ->method('getValue')
+            ->with('general/restriction/mode', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->will($this->returnValue(false));
         $this->assertEquals(0, $this->_model->getMode());
     }
 
     public function testGetHTTPStatusCode()
     {
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/http_status')->will($this->returnValue(false));
+            ->method('getValue')->with('general/restriction/http_status')->will($this->returnValue(false));
         $this->assertEquals(0, $this->_model->getHTTPStatusCode());
     }
 
     public function testGetHTTPRedirectCode()
     {
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/http_redirect')->will($this->returnValue(true));
+            ->method('getValue')
+            ->with('general/restriction/http_redirect', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->will($this->returnValue(true));
         $this->assertEquals(1, $this->_model->getHTTPRedirectCode());
     }
 
     public function testGetLandingPageCode()
     {
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/cms_page')->will($this->returnValue('config'));
+            ->method('getValue')
+            ->with('general/restriction/cms_page', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->will($this->returnValue('config'));
         $this->assertEquals('config', $this->_model->getLandingPageCode());
     }
 }

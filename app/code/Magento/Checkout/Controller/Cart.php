@@ -129,7 +129,7 @@ class Cart
                     ->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get('Magento\Locale\CurrencyInterface')
                     ->getCurrency($currencyCode)
-                    ->toCurrency($this->_storeConfig->getValue('sales/minimum_order/amount'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                    ->toCurrency($this->_storeConfig->getValue('sales/minimum_order/amount', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
 
                 $warning = $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                     ? $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)

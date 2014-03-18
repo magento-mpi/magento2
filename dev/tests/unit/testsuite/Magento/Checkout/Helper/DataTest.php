@@ -29,15 +29,22 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
         $context = $this->getMock('\Magento\App\Helper\Context', array(), array(), '', false);
 
-        $storeConfig = $this->getMock('\Magento\Store\Model\Config', array(), array(), '', false);
-        $storeConfig->expects($this->any())->method('getConfig')->will($this->returnValueMap(array(
-            array('checkout/payment_failed/template',       8, 'fixture_email_template_payment_failed'),
-            array('checkout/payment_failed/receiver',       8, 'sysadmin'),
-            array('trans_email/ident_sysadmin/email',       8, 'sysadmin@example.com'),
-            array('trans_email/ident_sysadmin/name',        8, 'System Administrator'),
-            array('checkout/payment_failed/identity',       8, 'noreply@example.com'),
-            array('carriers/ground/title',                  null, 'Ground Shipping'),
-            array('payment/fixture-payment-method/title',   null, 'Check Money Order'),
+        $storeConfig = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
+        $storeConfig->expects($this->any())->method('getValue')->will($this->returnValueMap(array(
+            array('checkout/payment_failed/template',\Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                8, 'fixture_email_template_payment_failed'),
+            array('checkout/payment_failed/receiver', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                8, 'sysadmin'),
+            array('trans_email/ident_sysadmin/email', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                8, 'sysadmin@example.com'),
+            array('trans_email/ident_sysadmin/name', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                8, 'System Administrator'),
+            array('checkout/payment_failed/identity', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                8, 'noreply@example.com'),
+            array('carriers/ground/title', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                null, 'Ground Shipping'),
+            array('payment/fixture-payment-method/title', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                null, 'Check Money Order'),
         )));
 
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);

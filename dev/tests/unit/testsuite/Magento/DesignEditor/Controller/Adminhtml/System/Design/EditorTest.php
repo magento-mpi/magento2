@@ -178,7 +178,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $authMock = $this->getMock('Magento\AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock('Magento\Backend\Model\Session', array('getMessages', 'getEscapeMessages'),

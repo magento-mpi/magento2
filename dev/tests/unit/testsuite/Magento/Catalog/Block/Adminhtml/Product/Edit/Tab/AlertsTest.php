@@ -24,7 +24,7 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $this->storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->alerts = $helper->getObject('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts', array(
                 'storeConfig' => $this->storeConfigMock
@@ -42,10 +42,12 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
     public function testCanShowTab($priceAllow, $stockAllow, $canShowTab)
     {
         $valueMap = array(
-            array('catalog/productalert/allow_price', null, $priceAllow),
-            array('catalog/productalert/allow_stock', null, $stockAllow)
+            array('catalog/productalert/allow_price',
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $priceAllow),
+            array('catalog/productalert/allow_stock',
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $stockAllow)
         );
-        $this->storeConfigMock->expects($this->any())->method('getConfig')->will($this->returnValueMap($valueMap));
+        $this->storeConfigMock->expects($this->any())->method('getValue')->will($this->returnValueMap($valueMap));
         $this->assertEquals($canShowTab, $this->alerts->canShowTab());
     }
 

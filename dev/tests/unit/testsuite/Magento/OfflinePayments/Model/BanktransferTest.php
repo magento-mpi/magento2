@@ -23,7 +23,7 @@ class BanktransferTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $adapterFactoryMock = $this->getMock('Magento\Logger\AdapterFactory', array('create'),
             array(), '', false);
         $this->_object = $objectManagerHelper->getObject('Magento\OfflinePayments\Model\Banktransfer', array(

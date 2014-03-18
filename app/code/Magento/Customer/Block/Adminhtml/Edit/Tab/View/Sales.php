@@ -98,7 +98,7 @@ class Sales extends \Magento\Backend\Block\Template
     public function _beforeToHtml()
     {
         $this->_currency = $this->_currencyFactory->create()
-            ->load($this->_storeConfig->getValue(Currency::XML_PATH_CURRENCY_BASE), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            ->load($this->_storeConfig->getValue(Currency::XML_PATH_CURRENCY_BASE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
 
         $this->_collection = $this->_collectionFactory->create()
             ->setCustomerIdFilter((int)$this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID))

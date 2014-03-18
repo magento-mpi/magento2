@@ -36,9 +36,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_storeConfigMock = $this->getMock(
-            'Magento\Store\Model\ConfigInterface', array(), array(), '', false
+            'Magento\App\Config\ScopeConfigInterface'
         );
         $this->_registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
 
@@ -73,10 +73,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsGoogleAdwordsActive($isActive, $returnConfigValue, $returnValue)
     {
-        $this->_storeConfigMock->expects($this->any())->method('getConfigFlag')
+        $this->_storeConfigMock->expects($this->any())->method('isSetFlag')
             ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_ACTIVE)
             ->will($this->returnValue($isActive));
-        $this->_storeConfigMock->expects($this->any())->method('getConfig')
+        $this->_storeConfigMock->expects($this->any())->method('getValue')
             ->with($this->isType('string'))
             ->will($this->returnCallback(
                 function () use ($returnConfigValue) {
@@ -164,7 +164,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStoreConfigValue($method, $xmlPath, $returnValue)
     {
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')->with($xmlPath)
+        $this->_storeConfigMock->expects($this->once())->method('getValue')->with($xmlPath)
             ->will($this->returnValue($returnValue));
 
         $this->assertEquals($returnValue, $this->_helper->$method());
@@ -173,7 +173,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetConversionValueDynamic()
     {
         $returnValue = 4.1;
-        $this->_storeConfigMock->expects($this->any())->method('getConfig')
+        $this->_storeConfigMock->expects($this->any())->method('getValue')
             ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE_TYPE)
             ->will($this->returnValue(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_DYNAMIC));
         $this->_registryMock->expects($this->once())->method('registry')
@@ -201,11 +201,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConversionValueConstant($conversionValueConst, $returnValue)
     {
-        $this->_storeConfigMock->expects($this->at(0))->method('getConfig')
+        $this->_storeConfigMock->expects($this->at(0))->method('getValue')
             ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE_TYPE)
             ->will($this->returnValue(\Magento\GoogleAdwords\Helper\Data::CONVERSION_VALUE_TYPE_CONSTANT));
         $this->_registryMock->expects($this->never())->method('registry');
-        $this->_storeConfigMock->expects($this->at(1))->method('getConfig')
+        $this->_storeConfigMock->expects($this->at(1))->method('getValue')
             ->with(\Magento\GoogleAdwords\Helper\Data::XML_PATH_CONVERSION_VALUE)
             ->will($this->returnValue($conversionValueConst));
 

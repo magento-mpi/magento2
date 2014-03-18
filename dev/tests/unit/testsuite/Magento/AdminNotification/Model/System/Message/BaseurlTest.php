@@ -89,7 +89,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetConfigUrlWithDefaultUnsecureAndSecureBaseUrl()
+    public function testgetValueUrlWithDefaultUnsecureAndSecureBaseUrl()
     {
         $map = array(
             array(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL, 'default', null,
@@ -108,16 +108,16 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('http://some_url', (string)$this->_model->getText());
     }
 
-    public function testGetConfigUrlWithoutSavedData()
+    public function testgetValueUrlWithoutSavedData()
     {
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValue(null));
         $this->_urlBuilderMock->expects($this->never())->method('getUrl');
     }
 
     /**
-     * @dataProvider getConfigUrlWithSavedDataForStoreScopeDataProvider
+     * @dataProvider getValueUrlWithSavedDataForStoreScopeDataProvider
      */
-    public function testGetConfigUrlWithSavedDataForScopes($scope, $urlParam, $storeMethod)
+    public function testgetValueUrlWithSavedDataForScopes($scope, $urlParam, $storeMethod)
     {
         $this->_configMock->expects($this->any())->method('getNode')->will($this->returnValue(null));
         $this->_iteratorMock->expects($this->once())->method('valid')->will($this->returnValue(true));
@@ -140,7 +140,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('http://some_url', (string)$this->_model->getText());
     }
 
-    public function getConfigUrlWithSavedDataForStoreScopeDataProvider()
+    public function getValueUrlWithSavedDataForStoreScopeDataProvider()
     {
         return array(
             'storeScope' => array('stores', 'store', 'getStore'),

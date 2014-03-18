@@ -24,7 +24,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Helper\Data */
     private $_coreData;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\Config */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\Config\ScopeConfigInterface */
     private $_storeConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
@@ -41,7 +41,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
@@ -72,7 +72,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConfig($path, $configValue)
     {
-        $this->_storeConfig->expects($this->once())->method('getConfig')->will($this->returnValue($configValue));
+        $this->_storeConfig->expects($this->once())->method('getValue')->will($this->returnValue($configValue));
         $this->assertEquals($configValue, $this->_block->getConfig($path));
     }
 

@@ -24,23 +24,13 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
     const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
 
     /**
-     * Page robots
-     *
-     * @var \Magento\Theme\Helper\Robots
-     */
-    protected $coreConfig;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         array $data = array()
     ) {
-        $this->coreConfig = $coreConfig;
         parent::__construct($context, $data);
     }
 
@@ -62,7 +52,7 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return trim((string)$this->coreConfig->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS, 'default'));
+        return trim((string)$this->_storeConfig->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS, 'default'));
     }
 
     /**

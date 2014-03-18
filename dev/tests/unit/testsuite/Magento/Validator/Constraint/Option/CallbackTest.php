@@ -24,7 +24,7 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getValue method
      *
-     * @dataProvider getValueDataProvider
+     * @dataProvider getConfigDataProvider
      *
      * @param callable $callback
      * @param mixed $expectedResult
@@ -40,7 +40,7 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * Data provider for testGetValue
      */
-    public function getValueDataProvider()
+    public function getConfigDataProvider()
     {
         $functionName = create_function('', 'return "Value from function";');
         $closure = function () {

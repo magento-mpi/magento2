@@ -33,16 +33,16 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $coreStoreConfig = $this->getMockBuilder('\Magento\Store\Model\Config')
-            ->setMethods(array('getConfigFlag', 'getConfig'))
+        $coreStoreConfig = $this->getMockBuilder('\Magento\App\Config\ScopeConfigInterface')
+            ->setMethods(array('isSetFlag', 'getValue'))
             ->disableOriginalConstructor()
             ->getMock();
         $coreStoreConfig->expects($this->any())
-            ->method('getConfigFlag')
+            ->method('isSetFlag')
             ->will($this->returnValue(true));
         $coreStoreConfig->expects($this->any())
-            ->method('getConfig')
-            ->will($this->returnCallback(array($this, 'coreStoreConfigGetConfig')));
+            ->method('getValue')
+            ->will($this->returnCallback(array($this, 'coreStoreConfiggetValue')));
 
         // xml element factory
         $xmlElFactory = $this->getMockBuilder('\Magento\Shipping\Model\Simplexml\ElementFactory')
@@ -173,11 +173,11 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback function, emulates getConfig function
+     * Callback function, emulates getValue function
      * @param $path
      * @return null|string
      */
-    public function coreStoreConfigGetConfig($path)
+    public function coreStoreConfiggetValue($path)
     {
         switch ($path) {
             case 'carriers/usps/allowed_methods':

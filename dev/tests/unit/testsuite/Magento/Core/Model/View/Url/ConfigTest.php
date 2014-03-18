@@ -18,13 +18,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMockBuilder('Magento\Store\Model\Config')
+        $this->_storeConfig = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new \Magento\Core\Model\View\Url\Config($this->_storeConfig);
@@ -34,13 +34,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * @param $path
      * @param $expectedValue
      *
-     * @dataProvider getValueDataProvider
+     * @dataProvider getConfigDataProvider
      */
     public function testGetValue($path, $expectedValue)
     {
         $this->_storeConfig
             ->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->with($path)
             ->will($this->returnValue($expectedValue));
         $actual = $this->_model->getValue($path);
@@ -50,7 +50,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function getValueDataProvider()
+    public function getConfigDataProvider()
     {
         return array(
             array('some/valid/path1', 'someValue'),

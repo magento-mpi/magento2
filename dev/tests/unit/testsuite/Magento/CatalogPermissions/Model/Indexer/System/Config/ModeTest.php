@@ -32,10 +32,7 @@ class ModeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->configMock = $this->getMock(
-            'Magento\App\Config\ScopeConfigInterface',
-            array(), array(), '', false
-        );
+        $this->configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->indexerStateMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\State',
             array('loadByIndexer', 'setStatus', 'save', '__wakeup'), array(), '', false

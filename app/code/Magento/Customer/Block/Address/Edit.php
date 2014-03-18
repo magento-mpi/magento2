@@ -25,11 +25,6 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_address = null;
 
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -58,7 +53,6 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
@@ -74,14 +68,12 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
-        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\CustomerCurrentServiceInterface $customerCurrentService,
         array $data = array()
     ) {
-        $this->_config                  = $config;
         $this->_customerSession         = $customerSession;
         $this->_addressService          = $addressService;
         $this->_addressBuilder          = $addressBuilder;

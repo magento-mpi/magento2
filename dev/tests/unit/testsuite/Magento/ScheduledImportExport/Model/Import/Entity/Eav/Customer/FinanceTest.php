@@ -163,7 +163,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $rewardFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward')));
 
-        $coreStoreConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $adminUser = $this->getMock('stdClass', array('getUsername'));
         $adminUser->expects($this->any())

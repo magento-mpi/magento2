@@ -82,7 +82,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'getStores')));
 
         $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer(
-            $this->getMock('Magento\Store\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\App\Config\ScopeConfigInterface'),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock(

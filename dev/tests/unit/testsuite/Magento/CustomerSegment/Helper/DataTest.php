@@ -33,7 +33,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\Config', array('getConfig'), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection', array('toOptionArray'), array(), '', false
         );
@@ -63,7 +63,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeConfig
             ->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->with(\Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
             ->will($this->returnValue('1'))
         ;
@@ -135,7 +135,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeConfig
             ->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->with(\Magento\CustomerSegment\Helper\Data::XML_PATH_CUSTOMER_SEGMENT_ENABLER)
             ->will($this->returnValue('0'))
         ;

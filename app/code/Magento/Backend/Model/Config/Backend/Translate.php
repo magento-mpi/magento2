@@ -75,7 +75,7 @@ class Translate extends \Magento\Core\Model\Config\Value
      */
     protected function _afterSave()
     {
-        $types = array_keys($this->_storeConfig->getValue(self::XML_PATH_INVALID_CACHES), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $types = array_keys($this->_storeConfig->getValue(self::XML_PATH_INVALID_CACHES, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
         if ($this->isValueChanged()) {
             $this->_cacheTypeList->invalidate($types);
         }

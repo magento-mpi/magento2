@@ -32,7 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\ConfigInterface');
+        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_googleAnalyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
             false);
 
@@ -52,8 +52,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGoogleExperimentIsEnabled($isExperimentsEnabled)
     {
         $store = 1;
-        $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
+        $this->_storeConfigMock->expects($this->once())->method('isSetFlag')
+            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
             ->will($this->returnValue($isExperimentsEnabled));
 
         $this->assertEquals($isExperimentsEnabled, $this->_helper->isGoogleExperimentEnabled($store));
@@ -79,8 +80,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGoogleExperimentIsActive($isExperimentsEnabled, $isAnalyticsAvailable, $result)
     {
         $store = 1;
-        $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')
-            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED, $store)
+        $this->_storeConfigMock->expects($this->once())->method('isSetFlag')
+            ->with(\Magento\GoogleOptimizer\Helper\Data::XML_PATH_ENABLED,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
             ->will($this->returnValue($isExperimentsEnabled));
 
         $this->_googleAnalyticsHelperMock->expects($this->any())->method('isGoogleAnalyticsAvailable')

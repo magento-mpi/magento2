@@ -31,7 +31,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\ConfigInterface');
+        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_catalogConfig = $this->getMock('Magento\Catalog\Model\Config', array(), array(), '', false);
         $this->_attributeConfig = $this->getMock('Magento\Catalog\Model\Attribute\Config', array(), array(), '', false);
         $this->_model = new \Magento\Wishlist\Model\Config(

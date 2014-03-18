@@ -36,18 +36,19 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
         $responseMock->expects($this->at(1))
             ->method('setHeader')->with('Status', '404 File not found')->will($this->returnValue($responseMock));
 
-        $storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_cmsHelperMock = $this->getMock('Magento\Cms\Helper\Page', array(), array(), '', false);
         $valueMap = array(
-            array('Magento\Store\Model\Config', $storeConfigMock),
+            array('Magento\App\Config\ScopeConfigInterface',
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeConfigMock),
             array('Magento\Cms\Helper\Page', $this->_cmsHelperMock),
         );
         $objectManagerMock->expects($this->any())
             ->method('get')
             ->will($this->returnValueMap($valueMap));
         $storeConfigMock->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->with(\Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE)
             ->will($this->returnValue('pageId'));
         $this->_controller = $helper->getObject('Magento\Cms\Controller\Noroute', array(

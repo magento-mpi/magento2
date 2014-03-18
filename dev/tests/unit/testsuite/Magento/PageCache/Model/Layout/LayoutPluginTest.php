@@ -48,15 +48,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->configMock = $this->getMockForAbstractClass(
-            'Magento\App\Config\ScopeConfigInterface',
-            [],
-            '',
-            false,
-            true,
-            true,
-            ['isSetFlag', 'getValue']
-        );
+        $this->configMock = $this->getMockForAbstractClass('Magento\App\Config\ScopeConfigInterface');
 
         $this->model = new \Magento\PageCache\Model\Layout\LayoutPlugin(
             $this->layoutMock,

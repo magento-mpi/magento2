@@ -53,13 +53,6 @@ class AbstractCreate
     protected $_adminhtmlSessionQuote;
 
     /**
-     * Configuration interface
-     *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
@@ -68,7 +61,6 @@ class AbstractCreate
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param array $data
      */
     public function __construct(
@@ -80,12 +72,10 @@ class AbstractCreate
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\App\Config\ScopeConfigInterface $config,
         array $data = array()
     ) {
         $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;
         $this->_backendUrl = $backendUrl;
-        $this->_config = $config;
         parent::__construct(
             $context,
             $customerSession,
@@ -126,7 +116,7 @@ class AbstractCreate
      */
     protected function _getVariation()
     {
-        return $this->_config->getValue('payment/pbridge/merchantcode', 'default')
+        return $this->_storeConfig->getValue('payment/pbridge/merchantcode', 'default')
             . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
     }
 

@@ -24,7 +24,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
     protected $_engineFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfigMock;
 
@@ -32,8 +32,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_engineFactoryMock = $this->getMock('Magento\CatalogSearch\Model\Resource\EngineFactory',
             array('create'), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Config',
-            array('getConfig'), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_model = new \Magento\CatalogSearch\Model\Resource\EngineProvider($this->_engineFactoryMock,
             $this->_storeConfigMock);
@@ -53,7 +52,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->with('catalog/search/engine')
             ->will($this->returnValue('Magento\CatalogSearch\Model\Resource\Fulltext\Engine'));
 
@@ -73,7 +72,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
             ->method('test');
 
         $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')
+            ->method('getValue')
             ->with('catalog/search/engine')
             ->will($this->returnValue(''));
 

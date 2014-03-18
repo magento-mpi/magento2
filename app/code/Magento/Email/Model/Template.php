@@ -21,7 +21,7 @@ use Magento\Filter\Template as FilterTemplate;
  *
  * // Loading of template
  * \Magento\Email\Model\TemplateFactory $templateFactory
- * $templateFactory->create()->load($this->_storeConfig->getValue('path_to_email_template_id_config'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+ * $templateFactory->create()->load($this->_storeConfig->getValue('path_to_email_template_id_config', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
  * $variables = array(
  *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'
@@ -362,7 +362,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     public function isValidForSend()
     {
-        return !$this->_storeConfig->isSetFlag('system/smtp/disable', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return !$this->_storeConfig->isSetFlag('system/smtp/disable', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->getSenderName()
             && $this->getSenderEmail()
             && $this->getTemplateSubject();

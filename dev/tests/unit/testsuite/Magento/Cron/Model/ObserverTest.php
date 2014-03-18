@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_scheduleFactory;
 
     /**
-     * @var \Magento\Store\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeConfig;
 
@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMockBuilder('Magento\Cron\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_storeConfig = $this->getMockBuilder('Magento\Store\Model\Config')
+        $this->_storeConfig = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_collection = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule\Collection')
@@ -123,7 +123,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $this->_config->expects($this->once())
@@ -151,7 +151,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $this->_config->expects($this->once())
@@ -190,7 +190,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
@@ -236,7 +236,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
@@ -333,7 +333,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($lastRun));
 
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(strtotime('+1 day')));
 
         $scheduleMock = $this->getMockBuilder('Magento\Cron\Model\Schedule')
@@ -399,7 +399,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(strtotime('+1 day')));
 
         $scheduleMock = $this->getMockBuilder('Magento\Cron\Model\Schedule')
@@ -490,7 +490,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(strtotime('+1 day')));
 
         $scheduleMock = $this->getMockBuilder('Magento\Cron\Model\Schedule')
@@ -541,7 +541,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(time() + 10000000));
 
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $schedule = $this->getMockBuilder('Magento\Cron\Model\Schedule')
@@ -619,7 +619,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(time() + 10000000));
 
         $this->_storeConfig->expects($this->at(0))
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $scheduleMethods = array(
@@ -703,7 +703,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(time() - 10000000));
 
         $this->_storeConfig->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue(0));
 
         $scheduleMock = $this->getMockBuilder('Magento\Cron\Model\Schedule')

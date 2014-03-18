@@ -406,7 +406,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
                 break;
 
             case '1m':
-                $dateStart->setDay($this->_storeConfig->getValue('reports/dashboard/mtd_start'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                $dateStart->setDay($this->_storeConfig->getValue('reports/dashboard/mtd_start', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
                 break;
 
             case 'custom':
@@ -416,7 +416,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
             case '1y':
             case '2y':
-                $startMonthDay = explode(',', $this->_storeConfig->getValue('reports/dashboard/ytd_start'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                $startMonthDay = explode(',', $this->_storeConfig->getValue('reports/dashboard/ytd_start', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
                 $startMonth = isset($startMonthDay[0]) ? (int)$startMonthDay[0] : 1;
                 $startDay = isset($startMonthDay[1]) ? (int)$startMonthDay[1] : 1;
                 $dateStart->setMonth($startMonth);

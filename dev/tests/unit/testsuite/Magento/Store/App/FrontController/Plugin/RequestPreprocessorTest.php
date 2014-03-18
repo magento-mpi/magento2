@@ -64,7 +64,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
         $this->_urlMock = $this->getMock('\Magento\Url', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('\Magento\Store\Model\Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->subjectMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
         $this->_model = new \Magento\Store\App\FrontController\Plugin\RequestPreprocessor(
             $this->_storeManagerMock,
@@ -79,7 +79,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
         $this->_requestMock->expects($this->once())->method('setDispatched')->with(false);
-        $this->_storeConfigMock->expects($this->never())->method('getConfig');
+        $this->_storeConfigMock->expects($this->never())->method('getValue');
         $this->assertEquals('Expected',
             $this->_model->aroundDispatch($this->subjectMock, $this->closureMock, $this->_requestMock)
         );
@@ -89,7 +89,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects($this->once())->method('setDispatched')->with(false);
-        $this->_storeConfigMock->expects($this->once())->method('getConfig')->with('web/url/redirect_to_base');
+        $this->_storeConfigMock->expects($this->once())->method('getValue')->with('web/url/redirect_to_base');
         $this->_requestMock->expects($this->never())->method('getRequestUri');
         $this->assertEquals('Expected',
             $this->_model->aroundDispatch($this->subjectMock, $this->closureMock, $this->_requestMock)
@@ -101,7 +101,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects($this->once())->method('setDispatched')->with(false);
         $this->_storeConfigMock
-            ->expects($this->once())->method('getConfig')
+            ->expects($this->once())->method('getValue')
             ->with('web/url/redirect_to_base')->will($this->returnValue(302));
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')
@@ -118,7 +118,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects($this->once())->method('setDispatched')->with(false);
         $this->_storeConfigMock
-            ->expects($this->once())->method('getConfig')
+            ->expects($this->once())->method('getValue')
             ->with('web/url/redirect_to_base')->will($this->returnValue(302));
         $this->_storeManagerMock
             ->expects($this->any())->method('getStore')->will($this->returnValue($this->_storeMock));

@@ -38,7 +38,7 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\View\TemplateEngineFactory', array(), array(), '', false);
         $this->_model = new DebugHints($this->_objectManager, $this->_storeConfig, $this->_coreData);
@@ -105,9 +105,11 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setupConfigFixture($showTemplateHints, $showBlockHints)
     {
-        $this->_storeConfig->expects($this->atLeastOnce())->method('getConfig')->will($this->returnValueMap(array(
-            array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS, null, $showTemplateHints),
-            array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS, null, $showBlockHints),
+        $this->_storeConfig->expects($this->atLeastOnce())->method('getValue')->will($this->returnValueMap(array(
+            array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $showTemplateHints),
+            array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $showBlockHints),
         )));
     }
 }

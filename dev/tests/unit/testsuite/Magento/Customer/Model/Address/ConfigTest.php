@@ -112,8 +112,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue('someValue'));
 
-
-
         $rendererMock = $this->getMock('Magento\Object');
 
         $this->_addressHelperMock

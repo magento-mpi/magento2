@@ -140,8 +140,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Stdlib\DateTime\TimezoneInterface')->getDefaultTimezonePath();
         $timezone = $this->_context
             ->getStoreConfig()
-            ->getConfig(
-                $defaultTimeZonePath, $this->_loadCustomer()->getStoreId());
+            ->getValue(
+                $defaultTimeZonePath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_loadCustomer()->getStoreId());
         $this->assertEquals($timezone, $this->_block->getStoreCreateDateTimezone());
     }
 

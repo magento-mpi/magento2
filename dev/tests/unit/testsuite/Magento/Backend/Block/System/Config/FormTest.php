@@ -90,9 +90,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_fieldFactoryMock = $this->getMock('Magento\Backend\Block\System\Config\Form\Field\Factory',
             array(), array(), '', false, false
         );
-        $this->_coreConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface',
-            array(), array(), '', false, false
-        );
+        $this->_coreConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_backendConfigMock = $this->getMock('Magento\Backend\Model\Config',
             array(), array(), '', false, false
@@ -110,19 +108,26 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_formMock = $this->getMock('Magento\Data\Form',
             array('setParent', 'setBaseUrl', 'addFieldset'), array(), '', false, false
         );
+
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        
+        $context = $helper->getObject('Magento\Backend\Block\Template\Context', array(
+            'storeConfig' => $this->_coreConfigMock,
+            'request' => $requestMock,
+            'urlBuilder' => $this->_urlModelMock,
+        ));
+
         $data = array(
             'request' => $requestMock,
             'layout' => $layoutMock,
-            'urlBuilder' => $this->_urlModelMock,
             'configStructure' => $this->_systemConfigMock,
             'configFactory' => $configFactoryMock,
             'formFactory' => $this->_formFactoryMock,
             'fieldsetFactory' => $this->_fieldsetFactoryMock,
             'fieldFactory' => $this->_fieldFactoryMock,
-            'coreConfig' => $this->_coreConfigMock,
+            'context' => $context,
         );
 
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form', $data);
         $this->_object->setData('scope_id', 1);
     }

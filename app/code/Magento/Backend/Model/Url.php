@@ -309,7 +309,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     public function getStartupPageUrl()
     {
-        $menuItem = $this->_getMenu()->get($this->_storeConfig->getValue(self::XML_PATH_STARTUP_MENU_ITEM), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $menuItem = $this->_getMenu()->get($this->_storeConfig->getValue(self::XML_PATH_STARTUP_MENU_ITEM, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
         if (!is_null($menuItem)) {
             if ($menuItem->isAllowed() && $menuItem->getAction()) {
                 return $menuItem->getAction();

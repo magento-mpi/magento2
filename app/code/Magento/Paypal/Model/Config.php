@@ -471,7 +471,7 @@ class Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = $this->_storeConfig->getValue($this->_mapGeneralFieldset('merchant_country'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        $countryCode = $this->_storeConfig->getValue($this->_mapGeneralFieldset('merchant_country', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
         if (!$countryCode) {
             $countryCode = $this->_coreData->getDefaultCountry($this->_storeId);
         }

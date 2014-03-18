@@ -836,8 +836,8 @@ class Toolbar extends \Magento\View\Element\Template
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength($this->_storeConfig->getValue('design/pagination/pagination_frame'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-                ->setJump($this->_storeConfig->getValue('design/pagination/pagination_frame_skip'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->setFrameLength($this->_storeConfig->getValue('design/pagination/pagination_frame', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                ->setJump($this->_storeConfig->getValue('design/pagination/pagination_frame_skip', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();

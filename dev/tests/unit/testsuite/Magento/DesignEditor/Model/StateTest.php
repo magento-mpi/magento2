@@ -120,7 +120,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             array(), '', false);
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_application = $this->getMock('Magento\Core\Model\App', array('getStore', 'getConfig'),
+        $this->_application = $this->getMock('Magento\Core\Model\App', array('getStore', 'getValue'),
             array(), '', false);
 
         $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('setConfig'), array(), '', false);
@@ -132,7 +132,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnSelf());
 
-        $configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $configMock->expects($this->any())
             ->method('setNode')
             ->with(
@@ -142,7 +142,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->_application->expects($this->any())
-            ->method('getConfig')
+            ->method('getValue')
             ->will($this->returnValue($configMock));
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('getId', '__wakeup'), array(), '', false);

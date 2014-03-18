@@ -33,13 +33,10 @@ class MethodTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $config = $this->getMockBuilder('Magento\Store\Model\Config')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getConfig'))
-            ->getMock();
+        $config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $config->expects($this->any())
-            ->method('getConfig')
-            ->with('payment/code/currency', 0)
+            ->method('getValue')
+            ->with('payment/code/currency', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, 0)
             ->will($this->returnValue('BTN'));
 
         $paymentHelper = $this->getMockBuilder('Magento\Payment\Helper\Data')

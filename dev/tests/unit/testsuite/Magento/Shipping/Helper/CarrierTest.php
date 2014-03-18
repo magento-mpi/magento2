@@ -27,7 +27,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->storeConfig = $this->getMock('Magento\Store\Model\ConfigInterface');
+        $this->storeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->helper = $objectManagerHelper->getObject('Magento\Shipping\Helper\Carrier', [
             'context' => $this->getMock('Magento\App\Helper\Context', [], [], '', false),
@@ -43,7 +43,8 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOnlineCarrierCodes($result, $carriers)
     {
-        $this->storeConfig->expects($this->once())->method('getConfig')->with('carriers')
+        $this->storeConfig->expects($this->once())->method('getValue')
+            ->with('carriers', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ->will($this->returnValue($carriers));
         $this->assertEquals($result, $this->helper->getOnlineCarrierCodes());
     }
@@ -67,8 +68,9 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $carrierCode = 'carrier1';
         $configPath = 'title';
         $configValue = 'some title';
-        $this->storeConfig->expects($this->once())->method('getConfig')
-            ->with(sprintf('carriers/%s/%s', $carrierCode, $configPath))
+        $this->storeConfig->expects($this->once())->method('getValue')
+            ->with(sprintf('carriers/%s/%s', $carrierCode, $configPath),
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ->will($this->returnValue($configValue));
         $this->assertEquals($configValue, $this->helper->getCarrierConfigValue($carrierCode, $configPath));
     }
