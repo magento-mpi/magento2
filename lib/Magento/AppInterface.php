@@ -17,13 +17,6 @@ interface AppInterface
     const DISTRO_LOCALE_CODE = 'en_US';
 
     /**
-     * Retrieve cookie object
-     *
-     * @return \Magento\Stdlib\Cookie
-     */
-    public function getCookie();
-
-    /**
      * Loading part of area data
      *
      * @param   string $area
@@ -46,12 +39,4 @@ interface AppInterface
      * @return \Magento\View\LayoutInterface
      */
     public function getLayout();
-
-    /**
-     * Retrieve request object
-     *
-     * @return \Magento\App\RequestInterface
-     */
-    public function getRequest();
-
 }

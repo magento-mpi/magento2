@@ -15,8 +15,10 @@ class FaultTest extends \PHPUnit_Framework_TestCase
 {
     const WSDL_URL = 'http://host.com/?wsdl&services=customerV1';
 
-    /** @var \Magento\Core\Model\App */
-    protected $_appMock;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_requestMock;
 
     /** @var \Magento\Webapi\Model\Soap\Server */
     protected $_soapServerMock;
@@ -34,7 +36,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
+        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface');
         /** Initialize SUT. */
         $message = "Soap fault reason.";
         $details = array('param1' => 'value1', 'param2' => 2);
@@ -57,7 +59,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
 
         $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
-            $this->_appMock,
+            $this->_requestMock,
             $this->_soapServerMock,
             $webapiException,
             $this->_localeResolverMock,
@@ -69,7 +71,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         unset($this->_soapFault);
-        unset($this->_appMock);
+        unset($this->_requestMock);
         parent::tearDown();
     }
 
@@ -214,7 +216,7 @@ XML;
             $details
         );
         $soapFault = new \Magento\Webapi\Model\Soap\Fault(
-            $this->_appMock,
+            $this->_requestMock,
             $this->_soapServerMock,
             $webapiException,
             $this->_localeResolverMock,

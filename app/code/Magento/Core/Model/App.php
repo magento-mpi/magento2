@@ -69,27 +69,6 @@ class App implements \Magento\AppInterface
     protected $_areas = array();
 
     /**
-     * Cache object
-     *
-     * @var \Magento\App\CacheInterface
-     */
-    protected $_cache;
-
-    /**
-     * Request object
-     *
-     * @var \Magento\App\RequestInterface
-     */
-    protected $_request;
-
-    /**
-     * Response object
-     *
-     * @var \Magento\App\ResponseInterface
-     */
-    protected $_response;
-
-    /**
      * Object manager
      *
      * @var \Magento\ObjectManager
@@ -97,56 +76,12 @@ class App implements \Magento\AppInterface
     protected $_objectManager;
 
     /**
-     * Data base updater object
-     *
-     * @var \Magento\Module\UpdaterInterface
-     */
-    protected $_dbUpdater;
-
-    /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
-     * @var \Magento\Config\Scope
-     */
-    protected $_configScope;
-
-    /**
-     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\App\State $appState
-     * @param \Magento\Config\Scope $configScope
      */
     public function __construct(
-        \Magento\App\CacheInterface $cache,
-        \Magento\ObjectManager $objectManager,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\App\State $appState,
-        \Magento\Config\Scope $configScope
+        \Magento\ObjectManager $objectManager
     ) {
-        $this->_cache = $cache;
         $this->_objectManager = $objectManager;
-        $this->_appState = $appState;
-        $this->_eventManager = $eventManager;
-        $this->_configScope = $configScope;
-    }
-
-    /**
-     * Retrieve cookie object
-     *
-     * @return \Magento\Stdlib\Cookie
-     */
-    public function getCookie()
-    {
-        return $this->_objectManager->get('Magento\Stdlib\Cookie');
     }
 
     /**
@@ -187,18 +122,5 @@ class App implements \Magento\AppInterface
     public function getLayout()
     {
         return $this->_objectManager->get('Magento\View\LayoutInterface');
-    }
-
-    /**
-     * Retrieve request object
-     *
-     * @return \Magento\App\RequestInterface
-     */
-    public function getRequest()
-    {
-        if (!$this->_request) {
-            $this->_request = $this->_objectManager->get('Magento\App\RequestInterface');
-        }
-        return $this->_request;
     }
 }

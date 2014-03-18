@@ -59,9 +59,9 @@ class Rewrite extends \Magento\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Stdlib\Cookie
      */
-    protected $_app;
+    protected $_cookie;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -77,7 +77,7 @@ class Rewrite extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -88,7 +88,7 @@ class Rewrite extends \Magento\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
         \Magento\Model\Resource\AbstractResource $resource = null,
@@ -96,7 +96,7 @@ class Rewrite extends \Magento\Model\AbstractModel
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_app = $app;
+        $this->_cookie = $cookie;
         $this->_storeManager = $storeManager;
         $this->_httpContext = $httpContext;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -302,7 +302,7 @@ class Rewrite extends \Magento\Model\AbstractModel
             $currentStore = $this->_storeManager->getStore();
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
-            $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
+            $this->_cookie->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
             $this->_httpContext->setValue(\Magento\Core\Model\Store::ENTITY, $currentStore->getCode());
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
@@ -319,7 +319,7 @@ class Rewrite extends \Magento\Model\AbstractModel
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {
             $destinationStoreCode = $this->_storeManager->getStore($this->getStoreId())->getCode();
-            $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
+            $this->_cookie->set(\Magento\Core\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
             $this->_httpContext->setValue(\Magento\Core\Model\Store::ENTITY, $destinationStoreCode);
 
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);

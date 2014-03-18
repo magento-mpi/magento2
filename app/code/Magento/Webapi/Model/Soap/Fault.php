@@ -62,9 +62,9 @@ class Fault extends \RuntimeException
     protected $_details = array();
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\RequestInterface
      */
-    protected $_application;
+    protected $_request;
 
     /**
      * @var Server
@@ -82,14 +82,14 @@ class Fault extends \RuntimeException
     protected $appState;
 
     /**
-     * @param \Magento\Core\Model\App $application
+     * @param \Magento\App\RequestInterface $request
      * @param Server $soapServer
      * @param \Magento\Webapi\Exception $previousException
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param State $appState
      */
     public function __construct(
-        \Magento\Core\Model\App $application,
+        \Magento\App\RequestInterface $request,
         Server $soapServer,
         \Magento\Webapi\Exception $previousException,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -99,7 +99,7 @@ class Fault extends \RuntimeException
         $this->_soapCode = $previousException->getOriginator();
         $this->_parameters = $previousException->getDetails();
         $this->_errorCode = $previousException->getCode();
-        $this->_application = $application;
+        $this->_request = $request;
         $this->_soapServer = $soapServer;
         $this->_localeResolver = $localeResolver;
         $this->appState = $appState;
@@ -155,7 +155,7 @@ class Fault extends \RuntimeException
     protected function _setFaultName($exceptionName)
     {
         if ($exceptionName) {
-            $contentType = $this->_application->getRequest()->getHeader('Content-Type');
+            $contentType = $this->_request->getHeader('Content-Type');
             /** SOAP action is specified in content type header if content type is application/soap+xml */
             if (preg_match('|application/soap\+xml.+action="(.+)".*|', $contentType, $matches)) {
                 $soapAction = $matches[1];
