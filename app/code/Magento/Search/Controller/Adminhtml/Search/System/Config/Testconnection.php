@@ -73,7 +73,7 @@ class Testconnection extends \Magento\Backend\App\Action
         );
 
         // attempt a HEAD request to the solr ping page
-        $ping = $httpResource->readFile($path, null, $context);
+        $ping = $httpResource->readAll();
 
         // result is false if there was a timeout
         // or if the HTTP status was not 200

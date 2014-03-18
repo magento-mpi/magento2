@@ -41,7 +41,7 @@ class ProcessList extends Page
      *
      * @var string
      */
-    protected $messagesBlock = '#messages .success-msg';
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Constructor

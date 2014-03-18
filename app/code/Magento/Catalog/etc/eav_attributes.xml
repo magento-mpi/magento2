@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Eav/etc/eav_attributes.xsd">
     <entity type="catalog_product">
         <attribute code="sku">
             <field code="is_global" locked="true" />

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/system_file.xsd">
     <system>
         <section id="customer" translate="label">
             <group id="magento_customersegment" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="100">

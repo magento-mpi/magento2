@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<page_types>
+<page_types xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Core/etc/page_types.xsd">
     <type id="magento_rma_guest_create" label="Guest Order Create Return"/>
     <type id="magento_rma_guest_returns" label="Guest Order Returns View"/>
     <type id="magento_rma_guest_view" label="Guest Order View Return"/>

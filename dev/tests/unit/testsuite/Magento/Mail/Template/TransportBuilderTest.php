@@ -172,4 +172,43 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->builder->addCc('cc@example.com');
     }
+
+    /**
+     * @covers \Magento\Mail\Template\TransportBuilder::addTo
+     */
+    public function testAddTo()
+    {
+        $this->messageMock->expects($this->once())
+            ->method('addTo')
+            ->with('to@example.com', 'recipient')
+            ->will($this->returnSelf());
+
+        $this->builder->addTo('to@example.com', 'recipient');
+    }
+
+    /**
+     * @covers \Magento\Mail\Template\TransportBuilder::addBcc
+     */
+    public function testAddBcc()
+    {
+        $this->messageMock->expects($this->once())
+            ->method('addBcc')
+            ->with('bcc@example.com')
+            ->will($this->returnSelf());
+
+        $this->builder->addBcc('bcc@example.com');
+    }
+
+    /**
+     * @covers \Magento\Mail\Template\TransportBuilder::setReplyTo
+     */
+    public function testSetReplyTo()
+    {
+        $this->messageMock->expects($this->once())
+            ->method('setReplyTo')
+            ->with('replyTo@example.com', 'replyName')
+            ->will($this->returnSelf());
+
+        $this->builder->setReplyTo('replyTo@example.com', 'replyName');
+    }
 }

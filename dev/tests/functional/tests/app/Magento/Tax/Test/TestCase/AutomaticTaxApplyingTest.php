@@ -28,6 +28,7 @@ class AutomaticTaxApplyingTest extends Functional
 
     protected function setUp()
     {
+        $this->markTestSkipped('MAGETWO-21975');
         $this->fixture = Factory::getFixtureFactory()->getMagentoCheckoutAutomaticTaxApplying();
         $this->fixture->persist();
     }

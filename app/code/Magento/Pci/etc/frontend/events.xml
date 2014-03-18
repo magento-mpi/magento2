@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="customer_customer_authenticated">
         <observer name="magento_pci" instance="Magento\Pci\Model\Observer" method="upgradeCustomerPassword" />
     </event>
