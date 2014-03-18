@@ -9,6 +9,8 @@
  */
 namespace Magento\Webapi\Controller;
 
+use Magento\App\State;
+
 class ErrorProcessor
 {
     const DEFAULT_SHUTDOWN_FUNCTION = 'apiShutdownFunction';
@@ -23,13 +25,19 @@ class ErrorProcessor
     const DATA_FORMAT_XML = 'xml';
     /**#@-*/
 
-    /** @var \Magento\Core\Helper\Data */
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
     protected $_coreHelper;
 
-    /** @var \Magento\Core\Model\App */
-    protected $_app;
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
 
-    /** @var \Magento\Logger */
+    /**
+     * @var \Magento\Logger
+     */
     protected $_logger;
 
     /**
@@ -45,21 +53,19 @@ class ErrorProcessor
     protected $directoryWrite;
 
     /**
-     * Initialize dependencies. Register custom shutdown function.
-     *
      * @param \Magento\Core\Helper\Data $helper
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
-        \Magento\AppInterface $app,
+        \Magento\App\State $appState,
         \Magento\Logger $logger,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreHelper = $helper;
-        $this->_app = $app;
+        $this->_appState = $appState;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
@@ -96,7 +102,7 @@ class ErrorProcessor
         } else if ($exception instanceof \Magento\Webapi\Exception) {
             $maskedException = $exception;
         } else {
-            if (!$this->_app->isDeveloperMode()) {
+            if ($this->_appState->getMode() !== State::MODE_DEVELOPER) {
                 /** Create exception with masked message. */
                 $maskedException = new \Magento\Webapi\Exception(
                     __('Internal Error. Details are available in Magento log file. Report ID: %1', $reportId),
@@ -126,7 +132,7 @@ class ErrorProcessor
      */
     public function renderException(\Exception $exception, $httpCode = self::DEFAULT_ERROR_HTTP_CODE)
     {
-        if ($this->_app->isDeveloperMode() || $exception instanceof \Magento\Webapi\Exception) {
+        if ($this->_appState->getMode() == State::MODE_DEVELOPER || $exception instanceof \Magento\Webapi\Exception) {
             $this->render($exception->getMessage(), $exception->getTraceAsString(), $httpCode);
         } else {
             $reportId = $this->_logException($exception);
@@ -199,7 +205,8 @@ class ErrorProcessor
     {
         $errorData = array();
         $message = array('code' => $httpCode, 'message' => $errorMessage);
-        if ($this->_app->isDeveloperMode()) {
+        $isDeveloperMode = $this->_appState->getMode() == State::MODE_DEVELOPER;
+        if ($isDeveloperMode) {
             $message['trace'] = $trace;
         }
         $errorData['messages']['error'][] = $message;
@@ -215,7 +222,7 @@ class ErrorProcessor
                     . '<data_item>'
                     . '<code>' . $httpCode . '</code>'
                     . '<message><![CDATA[' . $errorMessage . ']]></message>'
-                    . ($this->_app->isDeveloperMode() ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
+                    . ($isDeveloperMode ? '<trace><![CDATA[' . $trace . ']]></trace>' : '')
                     . '</data_item>'
                     . '</error>'
                     . '</messages>'
@@ -248,7 +255,7 @@ class ErrorProcessor
         if ($error && ($error['type'] & $fatalErrorFlag)) {
             $errorMessage = "Fatal Error: '{$error['message']}' in '{$error['file']}' on line {$error['line']}";
             $reportId = $this->_saveFatalErrorReport($errorMessage);
-            if ($this->_app->isDeveloperMode()) {
+            if ($this->_appState->getMode() == State::MODE_DEVELOPER) {
                 $this->render($errorMessage);
             } else {
                 $this->render(__('Server internal error. See details in report api/%1', $reportId));

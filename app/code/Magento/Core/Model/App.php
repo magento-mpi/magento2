@@ -173,18 +173,6 @@ class App implements \Magento\AppInterface
     }
 
     /**
-     * Re-declare custom error handler
-     *
-     * @param   string $handler
-     * @return  $this
-     */
-    public function setErrorHandler($handler)
-    {
-        set_error_handler($handler);
-        return $this;
-    }
-
-    /**
      * Loading part of area data
      *
      * @param   string $area
@@ -215,16 +203,6 @@ class App implements \Magento\AppInterface
     }
 
     /**
-     * Get distro locale code
-     *
-     * @return string
-     */
-    public function getDistroLocaleCode()
-    {
-        return self::DISTRO_LOCALE_CODE;
-    }
-
-    /**
      * Retrieve layout object
      *
      * @return \Magento\View\LayoutInterface
@@ -252,16 +230,6 @@ class App implements \Magento\AppInterface
     public function getConfig()
     {
         return $this->_config;
-    }
-
-    /**
-     * Get core cache model
-     *
-     * @return \Magento\App\CacheInterface
-     */
-    public function getCacheInstance()
-    {
-        return $this->_cache;
     }
 
     /**
@@ -325,24 +293,6 @@ class App implements \Magento\AppInterface
     }
 
     /**
-     * Deletes all session files
-     *
-     * @return $this
-     */
-    public function cleanAllSessions()
-    {
-        if (session_module_name() == 'files') {
-            /** @var \Magento\App\Filesystem $filesystem */
-            $filesystem = $this->_objectManager->create('Magento\App\Filesystem');
-            $sessionDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::SESSION_DIR);
-            foreach ($sessionDirectory->read() as $path) {
-                $sessionDirectory->delete($path);
-            }
-        }
-        return $this;
-    }
-
-    /**
      * Retrieve request object
      *
      * @return \Magento\App\RequestInterface
@@ -353,107 +303,5 @@ class App implements \Magento\AppInterface
             $this->_request = $this->_objectManager->get('Magento\App\RequestInterface');
         }
         return $this->_request;
-    }
-
-    /**
-     * Request setter
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return $this
-     */
-    public function setRequest(\Magento\App\RequestInterface $request)
-    {
-        $this->_request = $request;
-        return $this;
-    }
-
-    /**
-     * Retrieve response object
-     *
-     * @return \Magento\App\ResponseInterface
-     */
-    public function getResponse()
-    {
-        if (!$this->_response) {
-            $this->_response = $this->_objectManager->get('Magento\App\ResponseInterface');
-            $this->_response->setHeader('Content-Type', 'text/html; charset=UTF-8');
-        }
-        return $this->_response;
-    }
-
-    /**
-     * Response setter
-     *
-     * @param \Magento\App\ResponseInterface $response
-     * @return $this
-     */
-    public function setResponse(\Magento\App\ResponseInterface $response)
-    {
-        $this->_response = $response;
-        return $this;
-    }
-
-    /**
-     * Check if developer mode is enabled
-     *
-     * @return bool
-     */
-    public function isDeveloperMode()
-    {
-        return $this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER;
-    }
-
-    /**
-     * Get current Magento edition
-     *
-     * @static
-     * @return string
-     */
-    public function getEdition()
-    {
-        return $this->_currentEdition;
-    }
-
-    /**
-     * Set edition
-     *
-     * @param string $edition
-     * @return void
-     */
-    public function setEdition($edition)
-    {
-        $this->_currentEdition = $edition;
-    }
-
-    /**
-     * Gets the current Magento version string
-     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
-     *
-     * @return string
-     */
-    public function getVersion()
-    {
-        $info = $this->getVersionInfo();
-        return trim("{$info['major']}.{$info['minor']}.{$info['revision']}"
-            . ($info['patch'] != '' ? ".{$info['patch']}" : "")
-            . "-{$info['stability']}{$info['number']}", '.-');
-    }
-
-    /**
-     * Gets the detailed Magento version information
-     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
-     *
-     * @return array
-     */
-    public function getVersionInfo()
-    {
-        return array(
-            'major'     => '2',
-            'minor'     => '0',
-            'revision'  => '0',
-            'patch'     => '0',
-            'stability' => 'dev',
-            'number'    => '68',
-        );
     }
 }

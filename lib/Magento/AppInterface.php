@@ -32,14 +32,6 @@ interface AppInterface
     public function getCookie();
 
     /**
-     * Re-declare custom error handler
-     *
-     * @param   string $handler
-     * @return  \Magento\AppInterface
-     */
-    public function setErrorHandler($handler);
-
-    /**
      * Loading part of area data
      *
      * @param   string $area
@@ -55,13 +47,6 @@ interface AppInterface
      * @return  \Magento\Core\Model\App\Area
      */
     public function getArea($code);
-
-    /**
-     * Get distributive locale code
-     *
-     * @return string
-     */
-    public function getDistroLocaleCode();
 
     /**
      * Retrieve layout object
@@ -83,14 +68,6 @@ interface AppInterface
      * @return \Magento\App\ConfigInterface
      */
     public function getConfig();
-
-    /**
-     * Get core cache model
-     *
-     * @return \Magento\App\CacheInterface
-     */
-    public function getCacheInstance();
-
 
     /**
      * Retrieve cache object
@@ -133,28 +110,12 @@ interface AppInterface
      * @return  \Magento\AppInterface
      */
     public function cleanCache($tags = array());
-
-    /**
-     * Deletes all session files
-     *
-     * @return \Magento\AppInterface
-     */
-    public function cleanAllSessions();
-
     /**
      * Retrieve request object
      *
      * @return \Magento\App\RequestInterface
      */
     public function getRequest();
-
-    /**
-     * Request setter
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\AppInterface
-     */
-    public function setRequest(\Magento\App\RequestInterface $request);
 
     /**
      * Retrieve response object
@@ -170,11 +131,4 @@ interface AppInterface
      * @return \Magento\AppInterface
      */
     public function setResponse(\Magento\App\ResponseInterface $response);
-
-    /**
-     * Check if developer mode is enabled.
-     *
-     * @return bool
-     */
-    public function isDeveloperMode();
 }
