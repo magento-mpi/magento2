@@ -71,7 +71,5 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             array($categoryTag, $productTag),
             $this->block->getIdentities()
         );
-
-        $this->assertEquals(array($categoryTag, $productTag), $this->block->getIdentities());
     }
 }
