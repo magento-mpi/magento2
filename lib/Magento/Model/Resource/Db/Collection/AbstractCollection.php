@@ -9,8 +9,6 @@ namespace Magento\Model\Resource\Db\Collection;
 
 /**
  * Abstract Resource Collection
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractCollection extends \Magento\Data\Collection\Db
 {
@@ -92,14 +90,14 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     protected $_eventObject = '';
 
     /**
-     * Core event manager proxy
+     * Event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
      */
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -107,7 +105,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
