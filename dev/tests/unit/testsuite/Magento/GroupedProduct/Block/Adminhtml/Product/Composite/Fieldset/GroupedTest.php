@@ -45,8 +45,18 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         );
 
-        $customerMock = $this->getMock('\Magento\Customer\Service\V1\Data\Customer', array(), array(), '', false);
-        $priceHelperMock = $this->getMock('Magento\Catalog\Helper\Product\Price', array(), array(), '', false);
+        $customerMock = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\Customer')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $customerMock
+            ->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
+
+        $priceHelperMock = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $priceHelperMock
             ->expects($this->any())
             ->method('getCustomer')
