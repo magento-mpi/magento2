@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Controller\Adminhtml\Product;
+namespace Magento\Review\Controller\Adminhtml;
 
 /**
  * Reviews admin controller
  */
-class Review extends \Magento\Backend\App\Action
+class Product extends \Magento\Backend\App\Action
 {
     /**
      * Array of actions which can be processed without secret key validation
@@ -167,11 +167,11 @@ class Review extends \Magento\Backend\App\Action
             $nextId = (int) $this->getRequest()->getParam('next_item');
             $url = $this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/');
             if ($nextId) {
-                $url = $this->getUrl('catalog/*/edit', array('id' => $nextId));
+                $url = $this->getUrl('review/*/edit', array('id' => $nextId));
             }
             return $this->getResponse()->setRedirect($url);
         }
-        $this->_redirect('catalog/*/');
+        $this->_redirect('review/*/');
     }
 
     /**
@@ -189,7 +189,7 @@ class Review extends \Magento\Backend\App\Action
             if( $this->getRequest()->getParam('ret') == 'pending' ) {
                 $this->getResponse()->setRedirect($this->getUrl('catalog/*/pending'));
             } else {
-                $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
+                $this->getResponse()->setRedirect($this->getUrl('review/*/'));
             }
             return;
         } catch (\Magento\Core\Exception $e) {
@@ -198,7 +198,7 @@ class Review extends \Magento\Backend\App\Action
             $this->messageManager->addException($e, __('Something went wrong  deleting this review.'));
         }
 
-        $this->_redirect('catalog/*/edit/',array('id'=>$reviewId));
+        $this->_redirect('review/*/edit/',array('id'=>$reviewId));
     }
 
     /**
@@ -226,7 +226,7 @@ class Review extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_redirect('catalog/*/' . $this->getRequest()->getParam('ret', 'index'));
+        $this->_redirect('review/*/' . $this->getRequest()->getParam('ret', 'index'));
     }
 
     /**
@@ -256,7 +256,7 @@ class Review extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_redirect('catalog/*/' . $this->getRequest()->getParam('ret', 'index'));
+        $this->_redirect('review/*/' . $this->getRequest()->getParam('ret', 'index'));
     }
 
     /**
@@ -286,7 +286,7 @@ class Review extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_redirect('catalog/*/pending');
+        $this->_redirect('review/*/pending');
     }
 
     /**
@@ -371,9 +371,9 @@ class Review extends \Magento\Backend\App\Action
 
                 $this->messageManager->addSuccess(__('You saved the review.'));
                 if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect($this->getUrl('catalog/*/pending'));
+                    $this->getResponse()->setRedirect($this->getUrl('review/*/pending'));
                 } else {
-                    $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
+                    $this->getResponse()->setRedirect($this->getUrl('review/*/'));
                 }
 
                 return;
@@ -383,7 +383,7 @@ class Review extends \Magento\Backend\App\Action
                 $this->messageManager->addException($e, __('An error occurred while saving review.'));
             }
         }
-        $this->getResponse()->setRedirect($this->getUrl('catalog/*/'));
+        $this->getResponse()->setRedirect($this->getUrl('review/*/'));
         return;
     }
 

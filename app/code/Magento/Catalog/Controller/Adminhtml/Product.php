@@ -430,20 +430,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
-    /**
-     * Get product reviews grid
-     *
-     * @return void
-     */
-    public function reviewsAction()
-    {
-        $product = $this->productBuilder->build($this->getRequest());
-        $this->_view->loadLayout();
-        $this->_view->getLayout()->getBlock('admin.product.reviews')
-            ->setProductId($product->getId())
-            ->setUseAjax(true);
-        $this->_view->renderLayout();
-    }
+
 
     /**
      * Validate product

@@ -8,18 +8,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Review\Block;
+namespace Magento\Review\Block\Product;
 
+use Magento\Catalog\Block\Product\ReviewRendererInterface;
 use Magento\Catalog\Model\Product;
 
 /**
- * Review helper
+ * Review renderer
+ *
+ * @method \Magento\Catalog\Model\Product getProduct()
+ * @method setProduct(\Magento\Catalog\Model\Product $product)
+ * @method setDisplayIfEmpty(bool $flag)
+ * @method bool getDisplayIfEmpty()
  *
  * @category   Magento
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Helper extends \Magento\View\Element\Template
+class ReviewRenderer extends \Magento\View\Element\Template implements ReviewRendererInterface
 {
     /**
      * Array of available template name
@@ -27,8 +33,8 @@ class Helper extends \Magento\View\Element\Template
      * @var array
      */
     protected $_availableTemplates = array(
-        'default' => 'helper/summary.phtml',
-        'short'   => 'helper/summary_short.phtml'
+        self::DEFAULT_REVIEW => 'helper/summary.phtml',
+        self::SHORT_REVIEW   => 'helper/summary_short.phtml'
     );
 
     /**
@@ -58,13 +64,17 @@ class Helper extends \Magento\View\Element\Template
      * @param Product $product
      * @param string $templateType
      * @param bool $displayIfNoReviews
+     *
      * @return string
      */
-    public function getSummaryHtml($product, $templateType, $displayIfNoReviews)
-    {
+    public function getReviewsSummaryHtml(
+        \Magento\Catalog\Model\Product $product,
+        $templateType = self::DEFAULT_REVIEW,
+        $displayIfNoReviews = false
+    ) {
         // pick template among available
         if (empty($this->_availableTemplates[$templateType])) {
-            $templateType = 'default';
+            $templateType = self::DEFAULT_REVIEW;
         }
         $this->setTemplate($this->_availableTemplates[$templateType]);
 
@@ -109,19 +119,5 @@ class Helper extends \Magento\View\Element\Template
            'id'        => $this->getProduct()->getId(),
            'category'  => $this->getProduct()->getCategoryId()
         ));
-    }
-
-    /**
-     * Add an available template by type
-     *
-     * It should be called before getSummaryHtml()
-     *
-     * @param string $type
-     * @param string $template
-     * @return void
-     */
-    public function addTemplate($type, $template)
-    {
-        $this->_availableTemplates[$type] = $template;
     }
 }

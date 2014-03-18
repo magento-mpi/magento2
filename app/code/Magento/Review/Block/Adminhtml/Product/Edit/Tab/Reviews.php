@@ -15,14 +15,14 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
+namespace Magento\Review\Block\Adminhtml\Product\Edit\Tab;
 
 class Reviews extends \Magento\Review\Block\Adminhtml\Grid
 {
     /**
      * Hide grid mass action elements
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -36,6 +36,6 @@ class Reviews extends \Magento\Review\Block\Adminhtml\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('catalog/*/reviews', array('_current' => true));
+        return $this->getUrl('review/product_reviews/grid', array('_current' => true));
     }
 }
