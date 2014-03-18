@@ -70,28 +70,6 @@ class Front extends Generic
             'is_searchable',
             'select',
             array(
-                'name' => 'is_searchable',
-                'label' => __('Use in Quick Search'),
-                'title' => __('Use in Quick Search'),
-                'values' => $yesnoSource
-            )
-        );
-
-        $fieldset->addField(
-            'is_visible_in_advanced_search',
-            'select',
-            array(
-                'name' => 'is_visible_in_advanced_search',
-                'label' => __('Use in Advanced Search'),
-                'title' => __('Use in Advanced Search'),
-                'values' => $yesnoSource
-            )
-        );
-
-        $fieldset->addField(
-            'is_searchable',
-            'select',
-            array(
                 'name'     => 'is_searchable',
                 'label'    => __('Use in Quick Search'),
                 'title'    => __('Use in Quick Search'),
