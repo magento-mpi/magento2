@@ -374,7 +374,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             ]]]
         );
 
-        $objectManager->get('Magento\Core\Model\App')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $this->viewUrl->getViewFileUrl($cssViewFile, $designParams);
@@ -671,10 +671,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
             )
         ));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
-            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-            \Magento\Core\Model\App\Area::PART_CONFIG
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+            ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

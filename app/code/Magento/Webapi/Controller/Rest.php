@@ -61,6 +61,11 @@ class Rest implements \Magento\App\FrontControllerInterface
     /**
      * Initialize dependencies
      *
+     * @var \Magento\App\AreaList
+     */
+    protected $areaList;
+
+    /**
      * @param RestRequest $request
      * @param RestResponse $response
      * @param Router $router
@@ -73,6 +78,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
      * @param ErrorProcessor $errorProcessor
+     * @param \Magento\App\AreaList $areaList
      *
      * TODO: Consider removal of warning suppression
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -89,7 +95,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
         ServiceArgsSerializer $serializer,
-        ErrorProcessor $errorProcessor
+        ErrorProcessor $errorProcessor,
+        \Magento\App\AreaList $areaList
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -103,6 +110,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
         $this->_errorProcessor = $errorProcessor;
+        $this->areaList = $areaList;
     }
 
     /**
@@ -116,10 +124,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         $pathParts = explode('/', trim($request->getPathInfo(), '/'));
         array_shift($pathParts);
         $request->setPathInfo('/' . implode('/', $pathParts));
-        $this->_application->loadAreaPart(
-            $this->_layout->getArea(),
-            \Magento\Core\Model\App\Area::PART_TRANSLATE
-        );
+        $this->areaList->getArea($this->_layout->getArea())
+            ->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         try {
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));

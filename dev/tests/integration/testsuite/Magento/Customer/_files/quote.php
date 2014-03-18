@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+\Magento\TestFramework\Helper\Bootstrap::getInstance()
     ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
 /** @var $product \Magento\Catalog\Model\Product */

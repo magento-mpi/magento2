@@ -23,7 +23,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');

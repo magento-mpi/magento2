@@ -30,7 +30,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Logging\Model\Event')->getCollection();

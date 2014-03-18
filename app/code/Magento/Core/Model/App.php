@@ -84,33 +84,4 @@ class App implements \Magento\AppInterface
         $this->_objectManager = $objectManager;
     }
 
-    /**
-     * Loading part of area data
-     *
-     * @param   string $area
-     * @param   string $part
-     * @return  $this
-     */
-    public function loadAreaPart($area, $part)
-    {
-        $this->getArea($area)->load($part);
-        return $this;
-    }
-
-    /**
-     * Retrieve application area
-     *
-     * @param   string $code
-     * @return  \Magento\Core\Model\App\Area
-     */
-    public function getArea($code)
-    {
-        if (!isset($this->_areas[$code])) {
-            $this->_areas[$code] = $this->_objectManager->create(
-                'Magento\Core\Model\App\Area',
-                array('areaCode' => $code)
-            );
-        }
-        return $this->_areas[$code];
-    }
 }

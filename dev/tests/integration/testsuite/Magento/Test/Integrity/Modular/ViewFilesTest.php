@@ -22,7 +22,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              * @param string $file
              */
             function ($application, $file) {
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+                \Magento\TestFramework\Helper\Bootstrap::getInstance()
                     ->loadArea($application);
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\View\DesignInterface')

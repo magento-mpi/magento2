@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadArea('adminhtml');
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('adminhtml');
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')->getStore()
     ->setConfig('carriers/flatrate/active', 1);
 /** @var $product \Magento\Catalog\Model\Product */

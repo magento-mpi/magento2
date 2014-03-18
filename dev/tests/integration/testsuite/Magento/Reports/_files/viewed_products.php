@@ -6,8 +6,9 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-    ->loadAreaPart('adminhtml', \Magento\Core\Model\App\Area::PART_CONFIG);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+    ->getArea('adminhtml')
+    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple_duplicated.php';

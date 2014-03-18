@@ -108,8 +108,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
         $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea($area);
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($area);
 
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();

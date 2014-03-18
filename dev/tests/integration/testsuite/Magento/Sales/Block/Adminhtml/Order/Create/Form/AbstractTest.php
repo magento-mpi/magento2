@@ -28,7 +28,7 @@ class AbstractTest
     public function testAddAttributesToForm()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
         $objectManager->get('Magento\View\DesignInterface')

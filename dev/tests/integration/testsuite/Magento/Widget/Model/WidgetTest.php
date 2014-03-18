@@ -50,7 +50,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
             . ' "app/design/frontend/magento_iphone_html5/etc/widget.xml" replaces'
             . ' "new_products" widget in Catalog module');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\App')
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('magento_backend');
         $expectedFilePath = "/adminhtml/magento_backend/en_US/{$expectedFile}";
