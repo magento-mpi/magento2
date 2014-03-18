@@ -200,7 +200,7 @@ class StorageFactory
     }
 
     /**
-     * @param $scopeCode
+     * @param string $scopeCode
      * @return null|string
      */
     protected function _getStoreByGroup($scopeCode)
@@ -217,7 +217,7 @@ class StorageFactory
     }
 
     /**
-     * @param $scopeCode
+     * @param string $scopeCode
      * @return null|string
      */
     protected function _getStoreByWebsite($scopeCode)
@@ -233,7 +233,8 @@ class StorageFactory
     }
 
     /**
-     * @param $scopeType
+     * @param string $scopeType
+     * @return void
      */
     protected function _checkCookieStore($scopeType)
     {
@@ -264,7 +265,8 @@ class StorageFactory
     }
 
     /**
-     * @param $scopeType
+     * @param string $scopeType
+     * @return void
      */
     protected function _checkGetStore($scopeType)
     {
