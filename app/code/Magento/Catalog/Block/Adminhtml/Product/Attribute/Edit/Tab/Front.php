@@ -88,49 +88,73 @@ class Front extends Generic
             )
         );
 
-        $fieldset->addField('is_searchable', 'select', array(
-            'name'     => 'is_searchable',
-            'label'    => __('Use in Quick Search'),
-            'title'    => __('Use in Quick Search'),
-            'values'   => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_searchable',
+            'select',
+            array(
+                'name'     => 'is_searchable',
+                'label'    => __('Use in Quick Search'),
+                'title'    => __('Use in Quick Search'),
+                'values'   => $yesnoSource,
+            )
+        );
 
-        $fieldset->addField('is_visible_in_advanced_search', 'select', array(
-            'name' => 'is_visible_in_advanced_search',
-            'label' => __('Use in Advanced Search'),
-            'title' => __('Use in Advanced Search'),
-            'values' => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_visible_in_advanced_search',
+            'select',
+            array(
+                'name' => 'is_visible_in_advanced_search',
+                'label' => __('Use in Advanced Search'),
+                'title' => __('Use in Advanced Search'),
+                'values' => $yesnoSource,
+            )
+        );
 
-        $fieldset->addField('is_comparable', 'select', array(
-            'name' => 'is_comparable',
-            'label' => __('Comparable on Frontend'),
-            'title' => __('Comparable on Frontend'),
-            'values' => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_comparable',
+            'select',
+            array(
+                'name' => 'is_comparable',
+                'label' => __('Comparable on Frontend'),
+                'title' => __('Comparable on Frontend'),
+                'values' => $yesnoSource,
+            )
+        );
 
         $this->_eventManager->dispatch('product_attribute_form_build_front_tab', array('form' => $form));
 
-        $fieldset->addField('is_used_for_promo_rules', 'select', array(
-            'name' => 'is_used_for_promo_rules',
-            'label' => __('Use for Promo Rule Conditions'),
-            'title' => __('Use for Promo Rule Conditions'),
-            'values' => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_used_for_promo_rules',
+            'select',
+            array(
+                'name' => 'is_used_for_promo_rules',
+                'label' => __('Use for Promo Rule Conditions'),
+                'title' => __('Use for Promo Rule Conditions'),
+                'values' => $yesnoSource,
+            )
+        );
 
-        $fieldset->addField('is_wysiwyg_enabled', 'select', array(
-            'name' => 'is_wysiwyg_enabled',
-            'label' => __('Enable WYSIWYG'),
-            'title' => __('Enable WYSIWYG'),
-            'values' => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_wysiwyg_enabled',
+            'select',
+            array(
+                'name' => 'is_wysiwyg_enabled',
+                'label' => __('Enable WYSIWYG'),
+                'title' => __('Enable WYSIWYG'),
+                'values' => $yesnoSource,
+            )
+        );
 
-        $fieldset->addField('is_html_allowed_on_front', 'select', array(
-            'name' => 'is_html_allowed_on_front',
-            'label' => __('Allow HTML Tags on Frontend'),
-            'title' => __('Allow HTML Tags on Frontend'),
-            'values' => $yesnoSource,
-        ));
+        $fieldset->addField(
+            'is_html_allowed_on_front',
+            'select',
+            array(
+                'name' => 'is_html_allowed_on_front',
+                'label' => __('Allow HTML Tags on Frontend'),
+                'title' => __('Allow HTML Tags on Frontend'),
+                'values' => $yesnoSource,
+            )
+        );
         if (!$attributeObject->getId() || $attributeObject->getIsWysiwygEnabled()) {
             $attributeObject->setIsHtmlAllowedOnFront(1);
         }

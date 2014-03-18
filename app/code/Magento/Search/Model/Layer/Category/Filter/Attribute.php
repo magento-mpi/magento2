@@ -178,7 +178,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      */
     public function getItemsCount()
     {
-       $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
+        $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
         if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS) {
             return parent::getItemsCount();
         }

@@ -23,7 +23,7 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
      *
      * @param CollectionFactory $fulltextCollectionFactory
      */
-    function __construct(CollectionFactory $fulltextCollectionFactory)
+    public function __construct(CollectionFactory $fulltextCollectionFactory)
     {
         $this->fulltextCollectionFactory = $fulltextCollectionFactory;
     }
@@ -38,4 +38,4 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
     {
         return $this->fulltextCollectionFactory->create();
     }
-} 
+}

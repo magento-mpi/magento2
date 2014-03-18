@@ -248,7 +248,7 @@ class Cache
         }
 
         if (isset($this->_objectReferences[$idx])) {
-            foreach ($this->_references as $r=>$dummy) {
+            foreach ($this->_references as $r => $dummy) {
                 unset($this->_references[$r]);
             }
             unset($this->_objectReferences[$idx]);

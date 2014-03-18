@@ -20,4 +20,4 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
     {
         return $category->getProductCollection();
     }
-} 
+}

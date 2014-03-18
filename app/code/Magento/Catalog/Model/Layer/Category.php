@@ -35,8 +35,15 @@ class Category extends \Magento\Catalog\Model\Layer
         \Magento\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $layerStateFactory, $categoryFactory, $attributeCollectionFactory,
-            $catalogProduct, $storeManager, $registry,$data
+        parent::__construct(
+            $context,
+            $layerStateFactory,
+            $categoryFactory,
+            $attributeCollectionFactory,
+            $catalogProduct,
+            $storeManager,
+            $registry,
+            $data
         );
     }
-} 
+}

@@ -38,4 +38,4 @@ class ItemCollectionProvider
         $collection->setStoreId($category->getStoreId());
         return $collection;
     }
-} 
+}
