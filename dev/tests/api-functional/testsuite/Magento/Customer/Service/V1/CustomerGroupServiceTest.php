@@ -217,11 +217,10 @@ class CustomerGroupServiceTest extends WebapiAbstract
      *
      * @param int $groupId The group Id
      * @param bool $isDeleteable Whether the group can or cannot be deleted.
-     * @param bool $isExceptionExpected Whether an exception is expected
      *
      * @dataProvider canDeleteDataProvider
      */
-    public function testCanDelete($groupId, $isDeleteable, $isExceptionExpected = false)
+    public function testCanDelete($groupId, $isDeleteable)
     {
         $serviceInfo = [
             'rest' => [
@@ -237,28 +236,11 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $requestData = ['groupId' => $groupId];
 
-        if ($isExceptionExpected) {
-            $expectedMessage = "No such entity with groupId = $groupId";
+        $canDelete = $this->_webApiCall($serviceInfo, $requestData);
 
-            try {
-                $this->_webApiCall($serviceInfo, $requestData);
-                $this->fail("Expected exception.");
-            } catch (\SoapFault $e) {
-                $this->assertContains(
-                    $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
-                );
-            } catch (\Exception $e) {
-                $this->assertContains(
-                    $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
-                );
-            }
-        } else {
-            $canDelete = $this->_webApiCall($serviceInfo, $requestData);
-
-            $failureMessage = $isDeleteable
-                ? 'The group should be deleteable.' : 'The group should not be deleteable.';
-            $this->assertEquals($isDeleteable, $canDelete, $failureMessage);
-        }
+        $failureMessage = $isDeleteable
+            ? 'The group should be deleteable.' : 'The group should not be deleteable.';
+        $this->assertEquals($isDeleteable, $canDelete, $failureMessage);
     }
 
     /**
@@ -272,9 +254,46 @@ class CustomerGroupServiceTest extends WebapiAbstract
             'NOT LOGGED IN' => [0, false],
             'General' => [1, false],
             'Wholesale' => [2, true],
-            'Retailer' => [3, true],
-            'Random Non-Existent Group' => [9999, false, true]
+            'Retailer' => [3, true]
         ];
+    }
+
+    /**
+     * Verify that the group with the specified Id can or cannot be deleted.
+     */
+    public function testCanDeleteNoSuchGroup()
+    {
+        /* This group ID should not exist in the store. */
+        $groupId = 9999;
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH . "/canDelete/$groupId",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1CanDelete'
+            ]
+        ];
+
+        $requestData = ['groupId' => $groupId];
+
+        $expectedMessage = "No such entity with groupId = $groupId";
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception.");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+            );
+        } catch (\Exception $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
     }
 
     /**

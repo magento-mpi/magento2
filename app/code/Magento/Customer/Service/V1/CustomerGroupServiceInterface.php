@@ -60,6 +60,7 @@ interface CustomerGroupServiceInterface
      * Check if the group can be deleted
      *
      * @param int $groupId
+     * @throws \Magento\Exception\NoSuchEntityException If $groupId is not found
      * @return bool True, if this group can be deleted
      */
     public function canDelete($groupId);
