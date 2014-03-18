@@ -408,7 +408,7 @@ class Index extends \Magento\Backend\App\Action
                 }
 
                 if ($customerData['is_subscribed']) {
-                    $this->_subscriberFactory->create()->updateSubscription($customerId, true);
+                    $this->_subscriberFactory->create()->subscribeCustomerById($customerId);
                 }
 
                 // After save
@@ -892,7 +892,7 @@ class Index extends \Magento\Backend\App\Action
             function ($customerId) {
                 // Verify customer exists
                 $this->_customerAccountService->getCustomer($customerId);
-                $this->_subscriberFactory->create()->updateSubscription($customerId, true);
+                $this->_subscriberFactory->create()->subscribeCustomerById($customerId);
             },
             $customerIds
         );
@@ -914,7 +914,7 @@ class Index extends \Magento\Backend\App\Action
             function ($customerId) {
                 // Verify customer exists
                 $this->_customerAccountService->getCustomer($customerId);
-                $this->_subscriberFactory->create()->updateSubscription($customerId, false);
+                $this->_subscriberFactory->create()->unsubscribeCustomerById($customerId);
             },
             $customerIds
         );
