@@ -19,6 +19,8 @@
         _create: function() {
             if ($(this.options.msgBoxSelector).text().trim().length > 0) {
                 $.mage.cookies.set(this.options.msgBoxCookieName, null, {expires: null});
+            } else if (!$.mage.cookies.get(this.options.msgBoxCookieName)) {
+                $(this.options.msgBoxSelector).hide();
             }
         }
     });
