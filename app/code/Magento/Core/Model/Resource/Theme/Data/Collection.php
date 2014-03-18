@@ -15,7 +15,7 @@ class Collection
     implements \Magento\View\Design\Theme\Label\ListInterface, \Magento\View\Design\Theme\ListInterface
 {
     /**
-     * Collection initialization
+     * @inheritdoc
      */
     protected function _construct()
     {
