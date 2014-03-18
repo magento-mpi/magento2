@@ -10,6 +10,7 @@
 namespace Magento\Multishipping\Block\Checkout;
 
 use Magento\Customer\Model\Address\Config as AddressConfig;
+
 /**
  * Multishipping checkout choose item addresses block
  *
@@ -131,9 +132,8 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
             } catch (\Magento\Exception\NoSuchEntityException $e) {
                 /** Customer does not exist */
             }
-            /** @var $addresses */
+            /** @var \Magento\Customer\Service\V1\Data\Address $address */
             foreach ($addresses as $address) {
-                /** @var \Magento\Customer\Service\V1\Data\Address $address */
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
