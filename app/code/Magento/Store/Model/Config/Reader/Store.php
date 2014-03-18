@@ -40,12 +40,18 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     protected $_appState;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\ScopePool $scopePool
      * @param \Magento\Config\ConverterInterface $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\State $appState
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Config\Initial $initialConfig,
@@ -61,6 +67,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
         $this->_collectionFactory = $collectionFactory;
         $this->_storeFactory = $storeFactory;
         $this->_appState = $appState;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -72,8 +79,13 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     public function read($code = null)
     {
         if ($this->_appState->isInstalled()) {
-            $store = $this->_storeFactory->create();
-            $store->load($code);
+            if (is_null($code)) {
+                $store = $this->_storeManager->getStore();
+            } else {
+                $store = $this->_storeFactory->create();
+                $store->load($code);
+            }
+
             $websiteConfig = $this->_scopePool->getScope('website', $store->getWebsite()->getCode())->getSource();
             $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
 

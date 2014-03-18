@@ -58,11 +58,15 @@ class ScopePool
      * Retrieve config section
      *
      * @param string $scopeType
-     * @param string $scopeCode
-     * @return Data
+     * @param string|\Magento\Object $scopeCode
+     * @return \Magento\App\Config\DataInterface
      */
     public function getScope($scopeType, $scopeCode = null)
     {
+        if ($scopeCode instanceof \Magento\Object) {
+            $scopeCode = $scopeCode->getCode();
+        }
+
         $code = $scopeType . '|' . $scopeCode;
         if (!isset($this->_scopes[$code])) {
             $cacheKey = $this->_cacheId . '|' . $code;

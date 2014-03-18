@@ -42,6 +42,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_scopePullMock = $this->getMock('Magento\App\Config\ScopePool', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
@@ -77,19 +78,25 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             new \Magento\Core\Model\Config\Scope\Converter($placeholderProcessor),
             $this->_collectionFactory,
             $storeFactoryMock,
-            $this->_appStateMock
+            $this->_appStateMock,
+            $this->_storeManagerMock
         );
     }
 
-    public function testRead()
+
+    /**
+     * @dataProvider readDataProvider
+     * @param string|null $storeCode
+     * @param PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount $getStoreCount
+     */
+    public function testRead($storeCode,  $getStoreExpectsCount)
     {
         $websiteCode = 'default';
-        $storeCode = 'default';
         $storeId = 1;
         $websiteMock = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
         $websiteMock->expects($this->any())->method('getCode')->will($this->returnValue($websiteCode));
         $this->_storeMock->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteMock));
-        $this->_storeMock->expects($this->once())
+        $this->_storeMock->expects($this->any())
             ->method('load')
             ->with($storeCode);
         $this->_storeMock->expects($this->any())
@@ -122,6 +129,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 new \Magento\Object(array('path' => 'config/key1', 'value' => 'store_db_value1')),
                 new \Magento\Object(array('path' => 'config/key3', 'value' => 'store_db_value3')),
             )));
+        $this->_storeManagerMock->expects($getStoreExpectsCount)
+            ->method('getStore')
+            ->will($this->returnValue($this->_storeMock));
         $expectedData = array(
             'config' => array(
                 'key0' => 'website_value0', // value from website scope
@@ -131,5 +141,13 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $this->assertEquals($expectedData, $this->_model->read($storeCode));
+    }
+
+    public function readDataProvider()
+    {
+        return [
+          ['default', $this->never()],
+          [null, $this->once()],
+        ];
     }
 }

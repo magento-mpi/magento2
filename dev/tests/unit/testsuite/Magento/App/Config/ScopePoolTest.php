@@ -61,7 +61,8 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScope($scopeType, $scope, array $data, $cachedData)
     {
-        $cacheKey = "test_cache_id|$scopeType|$scope";
+        $scopeCode = $scope instanceof \Magento\Object ? $scope->getCode() : $scope;
+        $cacheKey = "test_cache_id|$scopeType|$scopeCode";
 
         $this->_readerPool->expects($this->any())
             ->method('getReader')
@@ -98,6 +99,7 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
         return array(
             array('scopeType1', 'testScope', array('key' => 'value'), null),
             array('scopeType2', 'testScope', array('key' => 'value'), serialize(array('key' => 'value'))),
+            array('scopeType1', new \Magento\Object(['code' => 'testScope']), array('key' => 'value'), null),
         );
     }
 
