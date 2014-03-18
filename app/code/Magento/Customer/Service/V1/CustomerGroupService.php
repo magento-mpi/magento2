@@ -290,7 +290,20 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         }
 
         $customerGroup->setTaxClassId($taxClassId);
-        $customerGroup->save();
+        try {
+            $customerGroup->save();
+        } catch (\Magento\Core\Exception $e) {
+            /* Would like a better way to determine this error condition but
+               difficult to do without imposing more database calls
+            */
+            if ($e->getMessage() === __('Customer Group already exists.')) {
+                $e = new InputException($e->getMessage());
+                $e->addError(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
+                throw $e;
+            }
+            throw $e;
+        }
+
         return $customerGroup->getId();
     }
 

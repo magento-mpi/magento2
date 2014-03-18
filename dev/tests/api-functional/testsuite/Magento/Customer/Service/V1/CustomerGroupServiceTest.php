@@ -330,6 +330,54 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify that creating a new group with a duplicate group name fails with an error via REST.
+     */
+    public function testCreateGroupDuplicateGroupRest()
+    {
+        $this->_markTestAsRestOnly();
+
+        $duplicateGroupCode = 'Duplicate Group Code REST';
+
+        $groupId = $this->createGroup(
+            (new CustomerGroupBuilder())->populateWithArray([
+                'id' => null,
+                'code' => $duplicateGroupCode,
+                'tax_class_id' => 3
+            ])->create()
+        );
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ]
+        ];
+
+        $groupData = [
+            'id' => null,
+            'code' => $duplicateGroupCode,
+            'tax_class_id' => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        $expectedMessage = 'Customer Group already exists.\n'
+            . '{\n'
+            . '\tcode: INVALID_FIELD_VALUE\n'
+            . '\tcode: ' . $duplicateGroupCode . '\n'
+            . '\tparams: []\n'
+            . ' }';
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\Exception $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
+    }
+
+    /**
      * Verify that creating a new group works via REST if tax class id is empty, defaults 3.
      */
     public function testCreateGroupRestDefaultTaxClassId()
@@ -506,6 +554,55 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals(
             $groupData['taxClassId'], $newGroup->getTaxClassId(), "The group tax class id does not match."
         );
+    }
+
+    /**
+     * Verify that creating a new group with a duplicate code fails with an error via SOAP.
+     */
+    public function testCreateGroupDuplicateGroupSoap()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $duplicateGroupCode = 'Duplicate Group Code SOAP';
+
+        $groupId = $this->createGroup(
+            (new CustomerGroupBuilder())->populateWithArray([
+                'id' => null,
+                'code' => $duplicateGroupCode,
+                'tax_class_id' => 3
+            ])->create()
+        );
+
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            ]
+        ];
+
+        $groupData = [
+            'id' => null,
+            'code' => $duplicateGroupCode,
+            'taxClassId' => 3
+        ];
+        $requestData = ['group' => $groupData];
+
+        $expectedMessage = "Customer Group already exists.\n"
+            . "{\n"
+            . "\tcode: INVALID_FIELD_VALUE\n"
+            . "\tcode: " . $duplicateGroupCode . "\n"
+            . "\tparams: []\n"
+            . ' }';
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
     }
 
     /**
