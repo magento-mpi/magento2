@@ -19,20 +19,17 @@ class ResultTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testIndexActionTranslation()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $layout = $objectManager->get('Magento\View\LayoutInterface');
-        $layout->setIsCacheable(false);
         $objectManager->get('Magento\Locale\ResolverInterface')->setLocale('de_DE');
-        $layout = $objectManager->get('Magento\View\LayoutInterface');
-        $layout->setIsCacheable(false);
 
         $this->getRequest()->setParam('q', 'query_text');
         $this->dispatch('catalogsearch/result');
 
         $responseBody = $this->getResponse()->getBody();
         $this->assertNotContains('for="search">Search', $responseBody);
-        $this->assertContains('Ihre Suche ergab keine Ergebnisse', $responseBody);
+        $this->assertStringMatchesFormat('%aSuche%S%a', $responseBody);
+
         $this->assertNotContains('Search entire store here...', $responseBody);
-        $this->assertContains('Erweiterte Suche', $responseBody);
+        $this->assertContains('Den gesamten Shop durchsuchen...', $responseBody);
     }
 
     public function testIndexActionXSSQueryVerification()

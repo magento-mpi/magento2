@@ -12,10 +12,10 @@
     $.widget('mage.productListToolbarForm', {
 
         options: {
-            modeLink: '.mode',
-            directionLink: '.action.sort',
-            orderSelect: '#sorter',
-            limitSelect: '#limiter',
+            modeLink: '[data-role="mode-switcher"]',
+            directionLink: '[data-role="direction-switcher"]',
+            orderSelect: '[data-role="sorter"]',
+            limitSelect: '[data-role="limiter"]',
             modeCookie: 'product_list_mode',
             directionCookie: 'product_list_dir',
             orderCookie: 'product_list_order',

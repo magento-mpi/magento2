@@ -77,20 +77,20 @@ class MessageBox
      */
     public function afterDispatch(\Magento\App\FrontController $subject, \Magento\App\ResponseInterface $response)
     {
-        if ($this->request->isPost() && $this->config->isEnabled() && $this->isMessage()) {
+        if ($this->request->isPost() && $this->config->isEnabled() && $this->hasMessages()) {
             $this->cookie->set(self::COOKIE_NAME, 1, self::COOKIE_PERIOD, '/');
         }
         return $response;
     }
 
     /**
-     * Return true if there any messages for customer
-     * false - another case
+     * Returns true if there are any messages for customer,
+     * false - in other case
      *
      * @return bool
      */
-    protected function isMessage()
+    protected function hasMessages()
     {
-        return ($this->messageManager->getMessages()->getCount() > 0) ? true : false;
+        return ($this->messageManager->getMessages()->getCount() > 0);
     }
 }

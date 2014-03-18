@@ -17,8 +17,12 @@
             msgBoxSelector: '.main div.messages'
         },
         _create: function() {
-            if ($(this.options.msgBoxSelector).text().trim().length > 0) {
-                $.mage.cookies.set(this.options.msgBoxCookieName, null, {expires: null});
+            if ($.mage.cookies.get(this.options.msgBoxCookieName)) {
+                var expires = new Date();
+                expires.setFullYear(1970);
+                $.mage.cookies.set(this.options.msgBoxCookieName, null, {expires: expires, path: "/"});
+            } else {
+                $(this.options.msgBoxSelector).hide();
             }
         }
     });
