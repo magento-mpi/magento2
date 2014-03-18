@@ -465,7 +465,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Update newsletter subscription for given customer
      *
      * @param int $customerId
-     * @param boolean $subscribe
+     * @param bool $subscribe
      *
      * @return  \Magento\Newsletter\Model\Subscriber
      */
