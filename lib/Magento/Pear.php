@@ -198,13 +198,13 @@ class Pear
             if ($changed) {
                 $this->_registry = new PearRegistry($this->getPearDir() . '/php');
             }
-//            if ($changed && self::$reloadOnRegistryUpdate && empty($_GET['pear_registry'])) {
-//                echo "TEST:";
-//                echo self::$reloadOnRegistryUpdate;
-//                //TODO:refresh registry in memory to reflect discovered channels without redirect
-//                #header("Location: ".$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING'].'&pear_registry=1');
-//                exit;
-//            }
+            //            if ($changed && self::$reloadOnRegistryUpdate && empty($_GET['pear_registry'])) {
+            //                echo "TEST:";
+            //                echo self::$reloadOnRegistryUpdate;
+            //                //TODO:refresh registry in memory to reflect discovered channels without redirect
+            //                #header("Location: ".$_SERVER['SCRIPT_NAME'].'?'.$_SERVER['QUERY_STRING'].'&pear_registry=1');
+            //                exit;
+            //            }
         }
         return $this->_registry;
     }

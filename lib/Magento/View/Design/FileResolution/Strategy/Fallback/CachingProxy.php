@@ -80,7 +80,8 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         Fallback $fallback,
         Filesystem $filesystem,
         $mapDir,
-        $baseDir, // magento root
+        // magento root
+        $baseDir,
         $canSaveMap = true
     ) {
         $this->fallback = $fallback;
