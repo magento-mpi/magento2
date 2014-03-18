@@ -44,11 +44,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Catalog\Helper\Image
-     */
-    protected $_imageHelper;
-
-    /**
      * @var \Magento\Catalog\Helper\Product\Price
      */
     protected $priceHelper;
@@ -81,17 +76,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
@@ -100,23 +85,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
-        $this->_imageHelper = $imageHelper;
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
         $this->priceHelper = $priceHelper;
         $this->priceModifier = $priceModifier;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $arrayUtils,
             $data,
             $priceBlockTypes

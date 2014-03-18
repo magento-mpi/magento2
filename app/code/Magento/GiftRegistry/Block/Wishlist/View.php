@@ -50,17 +50,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
@@ -74,16 +64,6 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $customerSession,
             $productFactory,
             $helperPool,

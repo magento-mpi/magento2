@@ -109,7 +109,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
             ->setScope($row['store_id'])
             ->getUrl('catalog/product/view', array('id' => $row['entity_id']));
         $reviewUrl = $this->getUrl(
-            'catalog/product_review/edit/',
+            'review/product/edit/',
             array('id' => $row['review_id'], '_secure' => true, '_nosecret' => true)
         );
         $storeName = $this->_storeManager->getStore($row['store_id'])->getName();

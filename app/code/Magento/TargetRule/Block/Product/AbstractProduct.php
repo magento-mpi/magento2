@@ -81,36 +81,14 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     protected $_resourceIndex;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param array $data
      * @param array $priceBlockTypes
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\Wishlist\Helper\Data $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         array $data = array(),
@@ -120,16 +98,6 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         $this->_targetRuleData = $targetRuleData;
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $data,
             $priceBlockTypes
         );

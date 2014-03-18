@@ -28,7 +28,7 @@ class Product
         $id   = $row->getId();
 
         return sprintf('<a href="%s">%s</a>',
-            $this->getUrl('catalog/product_review/', array('productId' => $id)),
+            $this->getUrl('review/product/', array('productId' => $id)),
             __('Show Reviews')
         );
     }
