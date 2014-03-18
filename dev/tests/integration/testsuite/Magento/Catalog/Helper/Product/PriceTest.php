@@ -14,7 +14,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 /**
  * Test class for Magento\Catalog\Helper\Product\Price
  */
-
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**

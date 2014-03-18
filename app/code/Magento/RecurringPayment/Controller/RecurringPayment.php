@@ -64,7 +64,7 @@ class RecurringPayment extends \Magento\App\Action\Action
         if (!$this->_session->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
         }
-        $customer =  $this->_session->getCustomer();
+        $customer = $this->_session->getCustomer();
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return parent::dispatch($request);

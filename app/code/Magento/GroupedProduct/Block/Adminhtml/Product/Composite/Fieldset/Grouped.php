@@ -117,13 +117,11 @@ class Grouped
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
 
-        if (is_null($this->priceHelper->getCustomer()->getId()) && $this->_coreRegistry->registry(
-                RegistryConstants::CURRENT_CUSTOMER
-            )
+        if (is_null($this->priceHelper->getCustomer()->getId())
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
         ) {
-            $this->priceHelper->setCustomer(
-                $this->_customerAccountService->getCustomer(RegistryConstants::CURRENT_CUSTOMER_ID)
-            );
+            $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+            $this->priceHelper->setCustomer($this->_customerAccountService->getCustomer($customerId));
         }
     }
 
