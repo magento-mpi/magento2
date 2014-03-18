@@ -9,6 +9,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
+use Magento\Customer\Service\V1\CustomerGroupService;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -329,6 +330,78 @@ class CustomerGroupServiceTest extends WebapiAbstract
     }
 
     /**
+     * Verify that creating a new group works via REST if tax class id is empty, defaults 3.
+     */
+    public function testCreateGroupRestDefaultTaxClassId()
+    {
+        $this->_markTestAsRestOnly();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ]
+        ];
+
+        $groupData = [
+            'id' => null,
+            'code' => 'Default Class Tax ID REST',
+            'tax_class_id' => null
+        ];
+        $requestData = ['group' => $groupData];
+
+        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotNull($groupId);
+
+        $newGroup = $this->groupService->getGroup($groupId);
+        $this->assertEquals($groupId, $newGroup->getId(), 'The group id does not match.');
+        $this->assertEquals($groupData['code'], $newGroup->getCode(), 'The group code does not match.');
+        $this->assertEquals(
+            CustomerGroupService::DEFAULT_TAX_CLASS_ID,
+            $newGroup->getTaxClassId(),
+            'The group tax class id does not match.'
+        );
+    }
+
+    /**
+     * Verify that creating a new group without a code fails with an error.
+     */
+    public function testCreateGroupRestNoCodeExpectException()
+    {
+        $this->_markTestAsRestOnly();
+
+        $serviceInfo = [
+            'rest' => [
+                'resourcePath' => self::RESOURCE_PATH,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+            ]
+        ];
+
+        $groupData = [
+            'id' => null,
+            'code' => null,
+            'tax_class_id' => null
+        ];
+        $requestData = ['group' => $groupData];
+
+        $expectedMessage = 'One or more input exceptions have occurred.\n'
+            . '{\n'
+            . '\tcode: INVALID_FIELD_VALUE\n'
+            . '\tcode: \n'
+            . '\tparams: []\n'
+            . ' }';
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\Exception $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "Exception does not contain expected message."
+            );
+        }
+    }
+
+    /**
      * Verify that updating an existing group works via REST.
      */
     public function testUpdateGroupRest()
@@ -398,6 +471,80 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $this->assertEquals(
             $groupData['taxClassId'], $newGroup->getTaxClassId(), "The group tax class id does not match."
         );
+    }
+
+    /**
+     * Verify that creating a new group works via SOAP if tax class id is empty, defaults 3.
+     */
+    public function testCreateGroupSoapDefaultTaxClassId()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            ]
+        ];
+
+        $groupData = [
+            'id' => null,
+            'code' => 'Default Class Tax ID SOAP',
+            'taxClassId' => null
+        ];
+        $requestData = ['group' => $groupData];
+
+        $groupId = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertNotNull($groupId);
+
+        $newGroup = $this->groupService->getGroup($groupId);
+        $this->assertEquals($groupId, $newGroup->getId(), "The group id does not match.");
+        $this->assertEquals($groupData['code'], $newGroup->getCode(), "The group code does not match.");
+        $this->assertEquals(
+            CustomerGroupService::DEFAULT_TAX_CLASS_ID,
+            $newGroup->getTaxClassId(),
+            "The group tax class id does not match."
+        );
+    }
+
+    /**
+     * Verify that creating a new group without a code fails with an error.
+     */
+    public function testCreateGroupSoapNoCodeExpectException()
+    {
+        $this->_markTestAsSoapOnly();
+
+        $serviceInfo = [
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => 'customerCustomerGroupServiceV1SaveGroup'
+            ]
+        ];
+
+        $groupData = [
+            'id' => null,
+            'code' => null,
+            'taxClassId' => null
+        ];
+        $requestData = ['group' => $groupData];
+
+        $expectedMessage = "One or more input exceptions have occurred.\n"
+            . "{\n"
+            . "\tcode: INVALID_FIELD_VALUE\n"
+            . "\tcode: \n"
+            . "\tparams: []\n"
+            . ' }';
+
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+            );
+        }
     }
 
     /**

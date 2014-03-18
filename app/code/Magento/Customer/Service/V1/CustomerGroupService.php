@@ -52,6 +52,11 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_customerGroupBuilder;
 
     /**
+     * The default tax class id if no tax class id is specified
+     */
+    const DEFAULT_TAX_CLASS_ID = 3;
+
+    /**
      * @param GroupFactory $groupFactory
      * @param StoreConfig $storeConfig
      * @param StoreManagerInterface $storeManager
@@ -264,12 +269,22 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function saveGroup(Data\CustomerGroup $group)
     {
+        if (!$group->getCode()) {
+            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
+        }
+
         $customerGroup = $this->_groupFactory->create();
         if ($group->getId()) {
             $customerGroup->load($group->getId());
         }
         $customerGroup->setCode($group->getCode());
-        $customerGroup->setTaxClassId($group->getTaxClassId());
+
+        $taxClassId = $group->getTaxClassId();
+        if (!$taxClassId) {
+            $taxClassId = self::DEFAULT_TAX_CLASS_ID;
+        }
+
+        $customerGroup->setTaxClassId($taxClassId);
         $customerGroup->save();
         return $customerGroup->getId();
     }

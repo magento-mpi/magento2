@@ -69,6 +69,7 @@ interface CustomerGroupServiceInterface
      * Save group
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group
+     * @throws \Magento\Exception\InputException If there is a problem with the input
      * @throws \Exception If something goes wrong during save
      * @return int customer group ID
      */
