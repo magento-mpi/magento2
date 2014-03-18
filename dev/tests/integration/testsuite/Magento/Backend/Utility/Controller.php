@@ -55,7 +55,7 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
 
     protected function tearDown()
     {
-        $this->_auth->logout();
+        $this->_auth->getAuthStorage()->destroy(['send_expire_cookie' => false]);
         $this->_auth = null;
         $this->_session = null;
         $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOnSecretKey();
