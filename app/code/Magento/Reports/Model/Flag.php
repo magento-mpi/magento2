@@ -16,7 +16,7 @@ namespace Magento\Reports\Model;
  * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Flag extends \Magento\Core\Model\Flag
+class Flag extends \Magento\Model\Flag
 {
     const REPORT_ORDER_FLAG_CODE    = 'report_order_aggregated';
     const REPORT_TAX_FLAG_CODE      = 'report_tax_aggregated';

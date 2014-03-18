@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Model\Resource;
 
 /**
  * Flag model

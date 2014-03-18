@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Model\File\Storage;
 
-class Flag extends \Magento\Core\Model\Flag
+class Flag extends \Magento\Model\Flag
 {
     /**
      * There was no synchronization

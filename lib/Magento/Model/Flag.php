@@ -7,21 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\Model;
 
 use Magento\Model\AbstractModel;
 
 /**
  * Core Flag model
  *
- * @method \Magento\Core\Model\Resource\Flag _getResource()
- * @method \Magento\Core\Model\Resource\Flag getResource()
+ * @method \\Magento\Model\Resource\Flag _getResource()
+ * @method \\Magento\Model\Resource\Flag getResource()
  * @method string getFlagCode()
- * @method \Magento\Core\Model\Flag setFlagCode(string $value)
+ * @method \Magento\Model\Flag setFlagCode(string $value)
  * @method int getState()
- * @method \Magento\Core\Model\Flag setState(int $value)
+ * @method \Magento\Model\Flag setState(int $value)
  * @method string getLastUpdate()
- * @method \Magento\Core\Model\Flag setLastUpdate(string $value)
+ * @method \Magento\Model\Flag setLastUpdate(string $value)
  *
  * @category    Magento
  * @package     Magento_Core
@@ -47,7 +47,7 @@ class Flag extends AbstractModel
         if ($this->hasData('flag_code')) {
             $this->_flagCode = $this->getData('flag_code');
         }
-        $this->_init('Magento\Core\Model\Resource\Flag');
+        $this->_init('\Magento\Model\Resource\Flag');
     }
 
     /**
