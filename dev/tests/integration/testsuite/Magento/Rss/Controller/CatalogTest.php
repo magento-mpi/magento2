@@ -108,7 +108,8 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
         $body = $this->getResponse()->getBody();
         $this->assertNotContains('<![CDATA[Simple Product]]>', $body); // this one was supposed to have qty 100 ( > 75)
         $this->assertContains('<![CDATA[Simple Product2]]>', $body); // 50 < 75
-        $this->assertNotContains('<![CDATA[Simple Product 3]]>', $body); // this one was supposed to have qty 140 ( > 75)
+        // this one was supposed to have qty 140 ( > 75)
+        $this->assertNotContains('<![CDATA[Simple Product 3]]>', $body);
     }
 
     /**
