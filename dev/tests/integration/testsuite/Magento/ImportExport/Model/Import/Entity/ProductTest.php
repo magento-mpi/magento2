@@ -466,8 +466,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(
             ',',
-            array(
-                // minimum required set of attributes + media images
+            array( // minimum required set of attributes + media images
                 'sku',
                 '_attribute_set',
                 '_type',
