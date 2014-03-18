@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Resource;
 
-use Magento\Core\Model\Resource\Db\AbstractDb;
+use Magento\Model\Resource\Db\AbstractDb;
 
 /**
  * Catalog search query resource model

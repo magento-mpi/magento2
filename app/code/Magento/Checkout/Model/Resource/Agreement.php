@@ -16,7 +16,7 @@ namespace Magento\Checkout\Model\Resource;
  * @package     Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Agreement extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Agreement extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Filter\FilterManager

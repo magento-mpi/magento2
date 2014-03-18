@@ -12,7 +12,7 @@ namespace Magento\Integration\Model\Resource\Oauth;
 /**
  * OAuth token resource model
  */
-class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Token extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime

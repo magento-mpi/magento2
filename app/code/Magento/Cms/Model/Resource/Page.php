@@ -13,7 +13,7 @@ namespace Magento\Cms\Model\Resource;
 /**
  * Cms page mysql resource
  */
-class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Page extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Store model

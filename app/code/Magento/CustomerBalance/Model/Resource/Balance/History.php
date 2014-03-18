@@ -16,7 +16,7 @@ namespace Magento\CustomerBalance\Model\Resource\Balance;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\Resource\Db\AbstractDb
+class History extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime

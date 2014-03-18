@@ -16,7 +16,7 @@ namespace Magento\Newsletter\Model\Resource;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Template extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Date

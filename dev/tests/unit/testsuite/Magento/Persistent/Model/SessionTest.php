@@ -35,7 +35,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_configMock = $this->getMock('Magento\Session\Config\ConfigInterface');
         $this->_cookieMock = $this->getMock('Magento\Stdlib\Cookie', array(), array(), '', false);
-        $this->_resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+        $this->_resource = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
             array(), '', false, false, true,
             array('__wakeup', 'getIdFieldName', 'getConnection', 'beginTransaction', 'delete', 'commit', 'rollBack'));
         $this->_model = $helper->getObject('Magento\Persistent\Model\Session', array(

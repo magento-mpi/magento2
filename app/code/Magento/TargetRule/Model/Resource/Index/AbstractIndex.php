@@ -18,7 +18,7 @@ use Magento\TargetRule\Model\Index;
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Product List Type identifier

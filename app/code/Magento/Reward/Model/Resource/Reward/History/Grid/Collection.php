@@ -29,7 +29,7 @@ class Collection
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Helper\Data $helper
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -41,7 +41,7 @@ class Collection
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Reward\Helper\Data $helper,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_helper = $helper;
         parent::__construct(

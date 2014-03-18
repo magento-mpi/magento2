@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Entity extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Event table name

@@ -16,7 +16,7 @@ namespace Magento\VersionsCms\Model\Resource;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Increment extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization

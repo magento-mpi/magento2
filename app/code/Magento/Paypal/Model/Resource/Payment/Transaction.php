@@ -17,7 +17,7 @@ namespace Magento\Paypal\Model\Resource\Payment;
  * @package     Magento_Paypal
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Transaction extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Serializeable field: additional_information

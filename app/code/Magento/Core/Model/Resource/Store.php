@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Store extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table and primary key

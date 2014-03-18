@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Model\Resource;
 
-class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Currency extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Currency rate table

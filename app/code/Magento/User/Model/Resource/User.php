@@ -14,7 +14,7 @@ use Magento\User\Model\User as ModelUser;
 /**
  * ACL user resource
  */
-class User extends \Magento\Core\Model\Resource\Db\AbstractDb
+class User extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Acl\CacheInterface

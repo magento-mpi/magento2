@@ -276,7 +276,7 @@ class Entity extends \Magento\Model\AbstractModel
     /**
      * Get resource instance
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {

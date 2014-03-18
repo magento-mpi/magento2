@@ -46,7 +46,7 @@ class Collection
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Eav\Helper\Data $eavHelper
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -56,7 +56,7 @@ class Collection
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Eav\Helper\Data $eavHelper,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_eavHelper = $eavHelper;

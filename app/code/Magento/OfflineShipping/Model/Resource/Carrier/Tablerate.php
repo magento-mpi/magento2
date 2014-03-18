@@ -15,7 +15,7 @@
  */
 namespace Magento\OfflineShipping\Model\Resource\Carrier;
 
-class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Tablerate extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Import table rates website ID

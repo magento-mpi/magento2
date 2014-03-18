@@ -33,7 +33,7 @@ class Collection
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Registry $registryManager
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -42,7 +42,7 @@ class Collection
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Registry $registryManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);

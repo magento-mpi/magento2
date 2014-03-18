@@ -18,7 +18,7 @@ use Magento\Core\Exception;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Status extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Status labels table

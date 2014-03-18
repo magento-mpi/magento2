@@ -17,7 +17,7 @@ namespace Magento\ImportExport\Model\Resource\Import;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Data
-    extends \Magento\Core\Model\Resource\Db\AbstractDb
+    extends \Magento\Model\Resource\Db\AbstractDb
     implements \IteratorAggregate
 {
     /**

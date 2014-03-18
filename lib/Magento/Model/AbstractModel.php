@@ -36,7 +36,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Resource model instance
      *
-     * @var \Magento\Core\Model\Resource\Db\AbstractDb
+     * @var \Magento\Model\Resource\Db\AbstractDb
      */
     protected $_resource;
 
@@ -221,7 +221,7 @@ abstract class AbstractModel extends \Magento\Object
      * Get resource instance
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {
@@ -665,7 +665,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Retrieve model resource
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     public function getResource()
     {

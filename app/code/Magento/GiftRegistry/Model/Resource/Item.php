@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Item extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -47,7 +47,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add creation date to object
      *
      * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {

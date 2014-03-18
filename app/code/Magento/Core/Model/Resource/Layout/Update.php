@@ -12,7 +12,7 @@ namespace Magento\Core\Model\Resource\Layout;
 /**
  * Layout update resource model
  */
-class Update extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Update extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Cache\FrontendInterface

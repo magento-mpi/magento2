@@ -12,7 +12,7 @@ namespace Magento\CustomerCustomAttributes\Model\Resource\Sales;
 /**
  * Customer Sales abstract resource
  */
-abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractSales extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Used us prefix to name of column table

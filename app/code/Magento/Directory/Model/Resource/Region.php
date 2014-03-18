@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Model\Resource;
 
-class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Region extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Table with localized region names

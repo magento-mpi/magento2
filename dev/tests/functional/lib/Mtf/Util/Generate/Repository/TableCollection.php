@@ -29,7 +29,7 @@ class TableCollection extends AbstractCollection
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param null $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      * @param array $fixture
      */
     public function __construct(
@@ -38,7 +38,7 @@ class TableCollection extends AbstractCollection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null,
+        \Magento\Model\Resource\Db\AbstractDb $resource = null,
         array $fixture = []
     ) {
         $this->setModel('Magento\Object');

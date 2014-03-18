@@ -95,7 +95,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_processFile));
 
         $resource = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,

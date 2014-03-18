@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Type extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Info table name

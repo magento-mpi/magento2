@@ -18,7 +18,7 @@ use Magento\Stdlib\DateTime;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Design extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var DateTime

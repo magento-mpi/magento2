@@ -81,7 +81,7 @@ class Address extends AbstractOrder
      * Update related grid table after object save
      *
      * @param \Magento\Model\AbstractModel|\Magento\Object $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Model\AbstractModel $object)
     {

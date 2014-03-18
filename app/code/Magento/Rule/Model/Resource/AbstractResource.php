@@ -17,7 +17,7 @@
  */
 namespace Magento\Rule\Model\Resource;
 
-abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Store associated with rule entities information map

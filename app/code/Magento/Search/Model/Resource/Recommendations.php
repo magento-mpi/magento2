@@ -16,7 +16,7 @@ namespace Magento\Search\Model\Resource;
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Recommendations extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Recommendations extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Search query model

@@ -18,7 +18,7 @@ use Magento\Core\Model\Website;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Data extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

@@ -53,7 +53,7 @@ class Collection
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -68,7 +68,7 @@ class Collection
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_catalogData = $catalogData;

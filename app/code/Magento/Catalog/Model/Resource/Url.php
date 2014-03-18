@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Resource;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Url extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Stores configuration array

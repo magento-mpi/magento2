@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Db;
+namespace Magento\Model\Resource\Db;
 
 /**
  * Abstract resource model class

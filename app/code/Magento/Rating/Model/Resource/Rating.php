@@ -16,7 +16,7 @@ namespace Magento\Rating\Model\Resource;
  * @package     Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rating extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rating extends \Magento\Model\Resource\Db\AbstractDb
 {
     const RATING_STATUS_APPROVED = 'Approved';
 

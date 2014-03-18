@@ -12,7 +12,7 @@ use Magento\User\Model\Acl\Role\User as RoleUser;
 /**
  * Admin role resource model
  */
-class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Role extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Users table

@@ -16,7 +16,7 @@ namespace Magento\SalesArchive\Model\Resource;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Archive extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Archive entities tables association

@@ -10,7 +10,7 @@ namespace Magento\User\Model\Resource;
 /**
  * Admin rule resource model
  */
-class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Rules extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Root ACL resource

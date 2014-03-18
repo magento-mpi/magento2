@@ -18,7 +18,7 @@
  */
 namespace Magento\Wishlist\Model\Resource;
 
-class Wishlist extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Wishlist extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Store wishlist items count

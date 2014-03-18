@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Theme\Resource;
 /**
  * Theme change resource model
  */
-class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Change extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime

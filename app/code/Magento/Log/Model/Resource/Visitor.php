@@ -13,7 +13,7 @@ namespace Magento\Log\Model\Resource;
 /**
  * Visitor log resource
  */
-class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Visitor extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Magento string lib
@@ -140,7 +140,7 @@ class Visitor extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object load
      *
      * @param \Magento\Model\AbstractModel|\Magento\Object $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {

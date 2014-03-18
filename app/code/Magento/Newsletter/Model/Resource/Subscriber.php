@@ -16,7 +16,7 @@ namespace Magento\Newsletter\Model\Resource;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Subscriber extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * DB read connection

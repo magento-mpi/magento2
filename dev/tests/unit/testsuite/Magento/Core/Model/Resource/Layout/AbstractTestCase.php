@@ -71,7 +71,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
             ->method('quoteIdentifier')
             ->will($this->returnArgument(0));
 
-        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+        $resource = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
             array(), '', false, true,
             true, array('getReadConnection', 'getMainTable', 'getTable', '__wakeup'));
         $resource->expects($this->any())

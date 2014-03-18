@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Website extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

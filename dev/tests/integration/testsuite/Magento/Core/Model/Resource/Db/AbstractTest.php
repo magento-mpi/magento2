@@ -14,14 +14,14 @@ namespace Magento\Core\Model\Resource\Db;
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Db\AbstractDb
+     * @var \Magento\Model\Resource\Db\AbstractDb
      */
     protected $_model;
 
     protected function setUp()
     {
         $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Resource');
-        $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+        $this->_model = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
     }
@@ -59,7 +59,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\App\Resource', array('tablePrefix' => 'prefix_')
         );
 
-        $model = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+        $model = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
             array('resource' => $resource)
         );
 

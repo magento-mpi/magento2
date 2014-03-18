@@ -15,7 +15,7 @@ use Magento\Catalog\Model\Product\Condition\ConditionInterface;
 /**
  * Wee tax resource model
  */
-class Tax extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Tax extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime

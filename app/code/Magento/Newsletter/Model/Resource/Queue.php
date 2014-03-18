@@ -19,7 +19,7 @@ use Magento\Model\AbstractModel;
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Queue extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Subscriber collection

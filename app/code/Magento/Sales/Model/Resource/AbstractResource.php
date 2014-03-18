@@ -16,7 +16,7 @@ namespace Magento\Sales\Model\Resource;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Data converter object

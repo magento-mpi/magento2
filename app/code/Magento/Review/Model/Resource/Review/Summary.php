@@ -16,7 +16,7 @@ use Magento\Model\AbstractModel;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Summary extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Summary extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define module

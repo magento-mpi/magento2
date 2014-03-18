@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Resource\Product\Option;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Value extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Store manager
@@ -74,7 +74,7 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save options store data
      *
      * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Model\AbstractModel $object)
     {

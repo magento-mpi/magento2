@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\Resource\Report;
 /**
  * Report settlement resource model
  */
-class Settlement extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Settlement extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Table name

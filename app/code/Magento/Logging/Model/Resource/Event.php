@@ -10,7 +10,7 @@ namespace Magento\Logging\Model\Resource;
 /**
  * Logging event resource model
  */
-class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Filesystem\Directory\Write
@@ -63,7 +63,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Convert data before save ip
      *
      * @param \Magento\Model\AbstractModel $event
-     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this|\Magento\Model\Resource\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $event)
     {

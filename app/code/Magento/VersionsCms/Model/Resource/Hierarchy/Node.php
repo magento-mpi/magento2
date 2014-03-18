@@ -12,7 +12,7 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 /**
  * Cms Hierarchy Pages Node Resource Model
  */
-class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Node extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Primary key auto increment flag

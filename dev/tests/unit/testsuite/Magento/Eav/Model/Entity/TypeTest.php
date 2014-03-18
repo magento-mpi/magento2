@@ -66,7 +66,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         );
         $this->universalFactoryMock = $this->getMock('Magento\Validator\UniversalFactory', array(), array(), '', false);
         $this->resourceMock = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,

@@ -10,7 +10,7 @@
 
 namespace Magento\FullPageCache\Model\Resource;
 
-class Crawler extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Crawler extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

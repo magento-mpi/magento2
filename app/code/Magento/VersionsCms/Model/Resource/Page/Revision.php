@@ -16,7 +16,7 @@ namespace Magento\VersionsCms\Model\Resource\Page;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Revision extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Name of page table from config

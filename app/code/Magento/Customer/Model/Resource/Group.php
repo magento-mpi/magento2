@@ -16,7 +16,7 @@ namespace Magento\Customer\Model\Resource;
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Group extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Customer data

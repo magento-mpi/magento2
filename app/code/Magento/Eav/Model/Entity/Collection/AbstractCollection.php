@@ -256,7 +256,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Get resource instance
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     public function getResource()
     {

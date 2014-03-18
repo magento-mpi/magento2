@@ -37,13 +37,13 @@ class StoreGroup
     }
 
     /**
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $subject
+     * @param \Magento\Model\Resource\Db\AbstractDb $subject
      * @param callable $proceed
      * @param \Magento\Model\AbstractModel $group
      * @return mixed
      */
     public function aroundSave(
-        \Magento\Core\Model\Resource\Db\AbstractDb $subject,
+        \Magento\Model\Resource\Db\AbstractDb $subject,
         \Closure $proceed,
         \Magento\Model\AbstractModel $group
     ) {

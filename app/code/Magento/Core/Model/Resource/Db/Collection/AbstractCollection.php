@@ -35,7 +35,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Resource instance
      *
-     * @var \Magento\Core\Model\Resource\Db\AbstractDb
+     * @var \Magento\Model\Resource\Db\AbstractDb
      */
     protected $_resource;
 
@@ -108,7 +108,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -116,7 +116,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_eventManager = $eventManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $connection);
@@ -453,7 +453,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Get resource instance
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     public function getResource()
     {

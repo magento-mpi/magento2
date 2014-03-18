@@ -17,7 +17,7 @@ namespace Magento\Eav\Model\Resource\Entity\Attribute;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Group extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Constants for attribute group codes
@@ -60,7 +60,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions before object save
      *
      * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
@@ -74,7 +74,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions after object save
      *
      * @param \Magento\Model\AbstractModel $object
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Model\AbstractModel $object)
     {

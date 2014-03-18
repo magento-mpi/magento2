@@ -7,7 +7,7 @@
  */
 namespace Magento\Integration\Model\Resource\Oauth;
 
-class Consumer extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Consumer extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime

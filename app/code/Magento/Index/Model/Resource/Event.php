@@ -19,7 +19,7 @@ use Magento\Index\Model\Process as ProcessModel;
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Event extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @return void

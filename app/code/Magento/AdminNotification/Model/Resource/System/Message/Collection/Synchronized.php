@@ -21,7 +21,7 @@ class Synchronized
     /**
      * Store new messages in database and remove outdated messages
      *
-     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
+     * @return $this|\Magento\Model\Resource\Db\AbstractDb
      */
     public function _afterLoad()
     {

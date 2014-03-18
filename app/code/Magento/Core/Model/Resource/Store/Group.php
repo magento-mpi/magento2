@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource\Store;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Group extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

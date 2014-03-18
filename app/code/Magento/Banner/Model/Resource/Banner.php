@@ -18,7 +18,7 @@
  */
 namespace Magento\Banner\Model\Resource;
 
-class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Banner extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Sales rule table name

@@ -16,7 +16,7 @@ namespace Magento\Core\Model\Resource;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Flag extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Flag extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table

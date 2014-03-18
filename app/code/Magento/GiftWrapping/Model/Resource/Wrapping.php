@@ -15,7 +15,7 @@ namespace Magento\GiftWrapping\Model\Resource;
  * @category    Magento
  * @package     Magento_GiftWrapping
  */
-class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Wrapping extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Wrapping websites table name

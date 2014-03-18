@@ -17,7 +17,7 @@ namespace Magento\Core\Model\Resource\Translate;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class String extends \Magento\Core\Model\Resource\Db\AbstractDb
+class String extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Locale\ResolverInterface

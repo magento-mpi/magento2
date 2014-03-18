@@ -123,7 +123,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('getCheckSql')
             ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
 
-        $resource = $this->getMockForAbstractClass('Magento\Core\Model\Resource\Db\AbstractDb',
+        $resource = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',
             array(), '', false, true, true,
             array(
                 'getReadConnection',

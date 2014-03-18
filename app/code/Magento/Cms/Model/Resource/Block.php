@@ -13,7 +13,7 @@ namespace Magento\Cms\Model\Resource;
 /**
  * CMS block model
  */
-class Block extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Block extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * @var \Magento\Stdlib\DateTime\DateTime
