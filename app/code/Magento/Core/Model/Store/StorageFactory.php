@@ -242,7 +242,7 @@ class StorageFactory
         }
 
         $store = $this->_cookie->get(Store::COOKIE_NAME);
-        $stores = $storage->getStores(true);
+        $stores = $storage->getStores(true, true);
         if ($store && isset($stores[$store])
             && $stores[$store]->getId()
             && $stores[$store]->getIsActive()
@@ -279,7 +279,7 @@ class StorageFactory
         }
 
         $store = $_GET['___store'];
-        $stores = $storage->getStores(true);
+        $stores = $storage->getStores(true, true);
         if (!isset($stores[$store])) {
             return;
         }
