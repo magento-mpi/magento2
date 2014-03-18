@@ -2152,6 +2152,7 @@ return array(
     ['Magento\Less\PreProcessor\InstructionFactory'],
     ['Magento\Less\PreProcessor', 'Magento\Less\FileGenerator'],
     ['Magento\Less\PreProcessorInterface', 'Magento\View\Asset\PreProcessorInterface'],
+    ['Magento\View\Asset\PreProcessorFactory'],
     ['Magento\View\Asset\PreProcessor\Composite'],
     ['Magento\View\Asset\PreProcessor\PreProcessorInterface', 'Magento\View\Asset\PreProcessorInterface'],
     ['Magento\View\FileResolver', 'Magento\View\Service'],
