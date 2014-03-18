@@ -81,7 +81,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function applyFixturesDataProvider()
     {
-
         return array(
             'empty fixtures' => array(
                 array(),
@@ -117,7 +116,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function applyFixturesSeveralTimesDataProvider()
     {
-
         return array(
             'no fixtures applied, when sets are same' => array(
                 $this->_getFixtureFiles(array('fixture1', 'fixture2')),
@@ -129,7 +127,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                 $this->_getFixtureFiles(array('fixture1', 'fixture2')),
                 array('fixture2')
             ),
-            'fixtures are re-applied for an incompatible set' => array(
+            'no fixtures applied, when sets were exist before' => array(
                 $this->_getFixtureFiles(array('fixture1', 'fixture2')),
                 $this->_getFixtureFiles(array('fixture1')),
                 array()

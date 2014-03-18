@@ -37,6 +37,11 @@
             <arg line="--log-junit ${basedir}/unit_tests_performance_framework.xml"/>
         </exec>
     </target>
+    <target name="_unit_tests_toolkit_framework" depends="_product_location" description="Unit Tests for toolkit framework">
+        <exec dir="${product_root_dir}/dev/tools/toolkit/framework/tests/unit" executable="${phpunit}" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit_tests_toolkit_framework.xml"/>
+        </exec>
+    </target>
     <target name="_unit_tests_static_framework" depends="_product_location" description="Unit tests for static code analysis framework">
         <exec dir="${product_root_dir}/dev/tests/static/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_static_framework.xml"/>
