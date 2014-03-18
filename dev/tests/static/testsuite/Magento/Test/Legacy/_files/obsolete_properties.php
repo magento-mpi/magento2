@@ -285,5 +285,6 @@ return array(
     array('_orderVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_directionVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_modeVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
-    array('_limitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar')
+    array('_limitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_encryptedSessionId', 'Magento\Url'),
 );

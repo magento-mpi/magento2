@@ -70,13 +70,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected static $_configDataCache;
 
     /**
-     * Encrypted session identifier
-     *
-     * @var string|null
-     */
-    protected static $_encryptedSessionId;
-
-    /**
      * Reserved Route parameter keys
      *
      * @var array
@@ -184,16 +177,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     }
 
     /**
-     * Get default url type
-     *
-     * @return string
-     */
-    protected function _getDefaultUrlType()
-    {
-        return \Magento\UrlInterface::URL_TYPE_LINK;
-    }
-
-    /**
      * Initialize object data from retrieved url
      *
      * @param   string $url
@@ -222,16 +205,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     }
 
     /**
-     * Retrieve default controller name
-     *
-     * @return string
-     */
-    protected function _getDefaultControllerName()
-    {
-        return self::DEFAULT_CONTROLLER_NAME;
-    }
-
-    /**
      * Set use session rule
      *
      * @param bool $useSession
@@ -240,18 +213,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function setUseSession($useSession)
     {
         $this->_useSession = (bool)$useSession;
-        return $this;
-    }
-
-    /**
-     * Set route front name
-     *
-     * @param string $name
-     * @return \Magento\UrlInterface
-     */
-    protected function _setRouteFrontName($name)
-    {
-        $this->setData('route_front_name', $name);
         return $this;
     }
 
@@ -266,16 +227,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             $this->_useSession = $this->_sidResolver->getUseSessionInUrl();
         }
         return $this->_useSession;
-    }
-
-    /**
-     * Retrieve default action name
-     *
-     * @return string
-     */
-    protected function _getDefaultActionName()
-    {
-        return self::DEFAULT_ACTION_NAME;
     }
 
     /**
@@ -353,19 +304,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected function _getType()
     {
         if (!$this->_routeParamsResolver->hasData('type')) {
-            $this->_routeParamsResolver->setData('type', $this->_getDefaultUrlType());
+            $this->_routeParamsResolver->setData('type', self::DEFAULT_URL_TYPE);
         }
         return $this->_routeParamsResolver->getType();
-    }
-
-    /**
-     * @param string $type
-     * @return mixed
-     */
-    public function setType($type)
-    {
-        $this->_routeParamsResolver->setType($type);
-        return $this;
     }
 
     /**
@@ -451,8 +392,8 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             $this->_routeParamsResolver->setType(\Magento\UrlInterface::URL_TYPE_DIRECT_LINK);
         }
 
-        $result = $this->_getScope()->getBaseUrl($this->_getType(), $this->_isSecure());
-        $this->_routeParamsResolver->setType($this->_getDefaultUrlType());
+        $result =  $this->_getScope()->getBaseUrl($this->_getType(), $this->_isSecure());
+        $this->_routeParamsResolver->setType(self::DEFAULT_URL_TYPE);
         return $result;
     }
 
@@ -525,12 +466,12 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         if ($this->_getControllerName()) {
             $path .= $this->_getControllerName() . '/';
         } elseif ($hasParams) {
-            $path .= $this->_getDefaultControllerName() . '/';
+            $path .= self::DEFAULT_CONTROLLER_NAME . '/';
         }
         if ($this->_getActionName()) {
             $path .= $this->_getActionName() . '/';
         } elseif ($hasParams) {
-            $path .= $this->_getDefaultActionName() . '/';
+            $path .= self::DEFAULT_ACTION_NAME . '/';
         }
 
         return $path;
@@ -604,9 +545,8 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
                 $this->_getRouteName(),
                 $this->_scopeResolver->getAreaCode()
             );
-            $this->_setRouteFrontName($frontName);
+            $this->setData('route_front_name', $frontName);
         }
-
         return $this->_getData('route_front_name');
     }
 
@@ -641,11 +581,12 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * Retrieve controller name
      *
+     * @param mixed $default
      * @return string|null
      */
-    protected function _getControllerName()
+    protected function _getControllerName($default = null)
     {
-        return $this->_getData('controller_name') ? $this->_getData('controller_name') : null;
+        return $this->_getData('controller_name') ? $this->_getData('controller_name') : $default;
     }
 
     /**
@@ -735,10 +676,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function addSessionParam()
     {
-        if (!self::$_encryptedSessionId) {
-            self::$_encryptedSessionId = $this->_session->getSessionId();
-        }
-        $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam($this->_session), self::$_encryptedSessionId);
+        $this->setQueryParam(
+            $this->_sidResolver->getSessionIdQueryParam($this->_session),
+            $this->_session->getSessionId()
+        );
         return $this;
     }
 
@@ -774,26 +715,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         $this->_queryParamsResolver->setQueryParams($data);
         return $this;
-    }
-
-    /**
-     * Purge Query params array
-     *
-     * @return \Magento\UrlInterface
-     */
-    public function purgeQueryParams()
-    {
-        return $this->_queryParamsResolver->purgeQueryParams();
-    }
-
-    /**
-     * Return Query Params
-     *
-     * @return array
-     */
-    protected function _getQueryParams()
-    {
-        return $this->_queryParamsResolver->getQueryParams();
     }
 
     /**
@@ -851,7 +772,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
 
         $query = null;
         if (isset($routeParams['_query'])) {
-            $this->purgeQueryParams();
+            $this->_queryParamsResolver->purgeQueryParams();
             $query = $routeParams['_query'];
             unset($routeParams['_query']);
         }
@@ -903,19 +824,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @return \Magento\UrlInterface
      */
     protected function _prepareSessionUrl($url)
-    {
-        return $this->_prepareSessionUrlWithParams($url, array());
-    }
-
-    /**
-     * Check and add session id to URL, session is obtained with parameters
-     *
-     * @param string $url
-     * @param array $params
-     *
-     * @return \Magento\UrlInterface
-     */
-    protected function _prepareSessionUrlWithParams($url, array $params)
     {
         if (!$this->getUseSession()) {
             return $this;
@@ -1086,8 +994,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function getRedirectUrl($url)
     {
-        $this->_prepareSessionUrlWithParams($url, array('name' => self::SESSION_NAMESPACE));
-
+        $this->_prepareSessionUrl($url);
         $query = $this->_getQuery(false);
         if ($query) {
             $url .= (strpos($url, '?') === false ? '?' : '&') . $query;

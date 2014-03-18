@@ -53,14 +53,20 @@
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
   * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
-  * Covered Magento library components with unit tests: (MAGETWO-21137)
+  * Covered Magento library components with unit tests: (MAGETWO-21137, MAGETWO-21135)
     * Magento/Interception
-    * Magento/ObjectManager
+    * Magento/Mail
+    * Magento/Math
     * Magento/Message
     * Magento/Module
-    * Magento/Mail
     * Magento/Object
-    * Magento/Math
+    * Magento/ObjectManager
+    * Magento/Url
+  * Covered Magento application components with unit tests: (MAGETWO-21135)
+    * Magento/Checkout/Model/Config
+    * Magento/Checkout/Model/Observer
+    * Magento/Checkout/Model/Type
+    * Magento/Sales/Model/Config
 * Customer Service usage:
   * Tax module refactoring to use customer service layer
   * Refactored Customer module Adminhtml internal controllers and helper to use customer services

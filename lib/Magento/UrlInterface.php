@@ -29,6 +29,13 @@ interface UrlInterface
     const URL_TYPE_JS = 'js';
 
     /**
+     * Default url type
+     *
+     * Equals to self::URL_TYPE_LINK
+     */
+    const DEFAULT_URL_TYPE = 'link';
+
+    /**
      * Default controller name
      */
     const DEFAULT_CONTROLLER_NAME = 'index';

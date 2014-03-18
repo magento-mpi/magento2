@@ -149,11 +149,13 @@ abstract class Ordered extends \Magento\Core\Model\Config\Base
         if (isset($element['sort_order'])) {
             uasort(
                 $config,
+                // @codingStandardsIgnoreStart
                 /**
                  * @param array $a
                  * @param array $b
                  * @return int
                  */
+                // @codingStandardsIgnoreEnd
                 function ($a, $b) {
                     if (!isset($a['sort_order']) || !isset($b['sort_order'])) {
                         return 0;

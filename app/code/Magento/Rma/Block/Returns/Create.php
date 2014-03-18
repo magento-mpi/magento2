@@ -159,6 +159,7 @@ class Create extends \Magento\Rma\Block\Form
 
         uasort(
             $attributes,
+            // @codingStandardsIgnoreStart
             /**
              * Compares sort order of attributes, returns -1, 0 or 1 if $a sort
              * order is less, equal or greater than $b sort order respectively.
@@ -168,6 +169,7 @@ class Create extends \Magento\Rma\Block\Form
              *
              * @return int
              */
+            // @codingStandardsIgnoreEnd
             function (Attribute $a, Attribute $b) {
                 $diff = $a->getSortOrder() - $b->getSortOrder();
                 return $diff ? ($diff > 0 ? 1 : -1) : 0;
