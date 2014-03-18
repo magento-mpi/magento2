@@ -11,7 +11,7 @@ namespace Magento\Core\Model\Resource\Db\Collection;
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_model = null;
 
@@ -41,7 +41,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Logger');
 
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
+            'Magento\Model\Resource\Db\Collection\AbstractCollection',
             array($entityFactory, $logger, $fetchStrategy, $eventManager, null, $resource)
         );
     }

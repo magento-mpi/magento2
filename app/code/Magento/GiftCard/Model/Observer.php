@@ -91,7 +91,7 @@ class Observer extends \Magento\Model\AbstractModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
+     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      *
      * @throws \InvalidArgumentException
@@ -110,7 +110,7 @@ class Observer extends \Magento\Model\AbstractModel
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Model\Resource\AbstractResource $resource = null,
-        \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
+        \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

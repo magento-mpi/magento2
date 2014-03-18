@@ -12,7 +12,7 @@ namespace Magento\Core\Model\Resource\Design;
 /**
  * Core Design resource collection
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Stdlib\DateTime

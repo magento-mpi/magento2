@@ -87,7 +87,7 @@ abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @abstract
      * @param \Zend_Db_Select $select
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     abstract protected function _getCollection(\Zend_Db_Select $select);
 

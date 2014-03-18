@@ -17,7 +17,7 @@ namespace Magento\Invitation\Model\Resource\Invitation\History;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Intialize collection

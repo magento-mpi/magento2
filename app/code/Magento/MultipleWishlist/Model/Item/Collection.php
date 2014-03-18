@@ -95,7 +95,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
     /**
      * Initialize db select
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

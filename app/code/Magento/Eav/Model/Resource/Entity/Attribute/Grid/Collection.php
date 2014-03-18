@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Resource\Entity\Attribute\Grid;
 
-use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
+use Magento\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Eav Resource Attribute Set Collection

@@ -43,7 +43,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Resource collection
      *
-     * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @var \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     protected $_resourceCollection;
     /**
@@ -247,7 +247,7 @@ abstract class AbstractModel extends \Magento\Object
      *
      * @deplacated
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getResourceCollection()
     {
@@ -266,7 +266,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Retrieve collection instance
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCollection()
     {

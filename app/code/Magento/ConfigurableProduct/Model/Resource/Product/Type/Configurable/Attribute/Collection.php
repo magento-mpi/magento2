@@ -13,7 +13,7 @@ namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\A
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Configurable attributes label table name

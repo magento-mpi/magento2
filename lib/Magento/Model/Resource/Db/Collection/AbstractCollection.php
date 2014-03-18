@@ -2,18 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Db\Collection;
+namespace Magento\Model\Resource\Db\Collection;
 
 /**
- * Abstract Core Resource Collection
+ * Abstract Resource Collection
  *
- * @category    Magento
- * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractCollection extends \Magento\Data\Collection\Db

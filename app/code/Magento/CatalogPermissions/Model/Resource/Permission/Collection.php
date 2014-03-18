@@ -19,7 +19,7 @@
 namespace Magento\CatalogPermissions\Model\Resource\Permission;
 
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize collection

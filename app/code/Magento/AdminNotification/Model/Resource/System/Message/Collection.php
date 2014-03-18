@@ -8,7 +8,7 @@
 namespace Magento\AdminNotification\Model\Resource\System\Message;
 
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * System message list

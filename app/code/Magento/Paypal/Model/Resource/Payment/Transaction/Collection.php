@@ -18,7 +18,7 @@ namespace Magento\Paypal\Model\Resource\Payment\Transaction;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Created Before filter

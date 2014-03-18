@@ -17,7 +17,7 @@ namespace Magento\Catalog\Model\Resource\Product\Option\Value;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Resource initialization

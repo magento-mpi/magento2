@@ -12,7 +12,7 @@ namespace Magento\Core\Model\Resource\Layout\Update;
 /**
  * Layout update collection model
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Name prefix of events that are dispatched by model

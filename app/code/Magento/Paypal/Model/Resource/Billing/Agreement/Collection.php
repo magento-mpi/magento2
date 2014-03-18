@@ -13,7 +13,7 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  * Billing agreements resource collection
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Mapping for fields

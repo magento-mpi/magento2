@@ -105,7 +105,7 @@ class Rviewed extends AbstractAccordion
     /**
      * Prepare customer wishlist product collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {

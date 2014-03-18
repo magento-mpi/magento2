@@ -14,7 +14,7 @@ namespace Magento\MultipleWishlist\Model\Resource\Item\Report;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Catalog data

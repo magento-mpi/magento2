@@ -18,7 +18,7 @@
  */
 namespace Magento\Core\Model\Resource\Url\Rewrite;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store Manager Model

@@ -13,7 +13,7 @@ namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
 
 use Magento\CatalogInventory\Model\Stock;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface

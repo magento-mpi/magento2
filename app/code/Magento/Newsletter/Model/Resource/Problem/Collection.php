@@ -15,7 +15,7 @@ namespace Magento\Newsletter\Model\Resource\Problem;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * True when subscribers info joined

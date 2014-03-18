@@ -8,7 +8,7 @@
 
 namespace Mtf\Util\Generate\Repository;
 
-use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
+use Magento\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Class CollectionProvider

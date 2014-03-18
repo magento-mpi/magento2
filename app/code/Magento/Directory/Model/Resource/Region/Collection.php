@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Model\Resource\Region;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Locale region name table name

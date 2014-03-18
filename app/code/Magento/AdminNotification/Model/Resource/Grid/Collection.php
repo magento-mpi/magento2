@@ -24,7 +24,7 @@ class Collection
     /**
      * Add remove filter
      *
-     * @return \Magento\AdminNotification\Model\Resource\Grid\Collection|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\AdminNotification\Model\Resource\Grid\Collection|\Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _initSelect()
     {

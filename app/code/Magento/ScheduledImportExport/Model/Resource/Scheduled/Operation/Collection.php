@@ -17,7 +17,7 @@ namespace Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource collection model

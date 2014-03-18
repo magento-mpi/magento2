@@ -24,7 +24,7 @@ class Collection
     /**
      * Add websites for load
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\CustomerSegment\Model\Resource\Grid\Collection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection|\Magento\CustomerSegment\Model\Resource\Grid\Collection
      */
     protected function _initSelect()
     {

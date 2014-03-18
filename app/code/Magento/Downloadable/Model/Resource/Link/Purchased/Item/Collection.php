@@ -17,7 +17,7 @@ namespace Magento\Downloadable\Model\Resource\Link\Purchased\Item;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Init resource model

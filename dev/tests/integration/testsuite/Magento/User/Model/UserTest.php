@@ -164,7 +164,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCollection()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
+        $this->assertInstanceOf('Magento\Model\Resource\Db\Collection\AbstractCollection',
             $this->_model->getCollection());
     }
 

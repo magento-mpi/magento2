@@ -856,7 +856,7 @@ return array(
     array('_getUsers', 'Magento\User\Block\Role\Grid\User', 'getUsers'),
     array('_getGridHtml', 'Magento\User\Block\Role\Tab\Users', 'getGridHtml'),
     array('_getSelectedRoles', 'Magento\User\Block\User\Edit\Tab\Roles', 'getSelectedRoles'),
-    array('_prepareSelect', 'Magento\Core\Model\Resource\Db\Collection\AbstractCollection'),
+    array('_prepareSelect', 'Magento\Model\Resource\Db\Collection\AbstractCollection'),
     array('_prepareSelect', 'Magento\Data\Collection\Db'),
     array('_createOrderFromAddress', 'Magento\Checkout\Model\Type\AbstractType'),
     array('castField', 'Magento\Core\Model\Resource\Helper'),

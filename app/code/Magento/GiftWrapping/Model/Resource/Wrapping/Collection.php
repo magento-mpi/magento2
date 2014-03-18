@@ -16,7 +16,7 @@ namespace Magento\GiftWrapping\Model\Resource\Wrapping;
  * @package     Magento_GiftWrapping
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Intialize collection

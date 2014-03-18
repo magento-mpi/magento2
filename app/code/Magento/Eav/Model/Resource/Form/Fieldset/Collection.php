@@ -20,7 +20,7 @@ namespace Magento\Eav\Model\Resource\Form\Fieldset;
 
 use Magento\Eav\Model\Form\Type;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store scope ID

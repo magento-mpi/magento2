@@ -12,7 +12,7 @@ namespace Magento\Sales\Model\Resource\Quote\Item;
 /**
  * Quote item resource collection
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Collection quote instance

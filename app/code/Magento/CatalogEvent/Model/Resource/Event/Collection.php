@@ -16,7 +16,7 @@ namespace Magento\CatalogEvent\Model\Resource\Event;
  * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether category data was added to collection

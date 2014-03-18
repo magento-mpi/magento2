@@ -128,7 +128,7 @@ class Ordered extends AbstractAccordion
     /**
      * Prepare customer wishlist product collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getItemsCollection()
     {
@@ -137,7 +137,7 @@ class Ordered extends AbstractAccordion
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
-            /* @var $collection \Magento\Core\Model\Resource\Db\Collection\AbstractCollection */
+            /* @var $collection \Magento\Model\Resource\Db\Collection\AbstractCollection */
             $collection = $this->_ordersFactory
                 ->create()
                 ->addAttributeToFilter('customer_id', $this->_getCustomer()->getId())

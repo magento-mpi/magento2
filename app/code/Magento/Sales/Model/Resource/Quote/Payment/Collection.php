@@ -12,7 +12,7 @@ namespace Magento\Sales\Model\Resource\Quote\Payment;
 /**
  * Quote payments collection
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Sales\Model\Payment\Method\Converter

@@ -13,7 +13,7 @@ namespace Magento\VersionsCms\Model\Resource\Hierarchy\Node;
  * Cms Page Hierarchy Tree Nodes Collection
  */
 class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\Core\Model\Resource\Helper

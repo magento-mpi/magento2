@@ -88,7 +88,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit a collection by allowed stores without admin
      *
-     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      */
     public function addStoreFilterNoAdmin($collection)
@@ -99,7 +99,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Add filter by store views to a collection
      *
-     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      */
     public function addStoreFilter($collection)
@@ -451,7 +451,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit Automated Email Marketing Reminder Rules collection
      *
-     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      */
     public function limitRuleEntityCollection($collection)
@@ -474,7 +474,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Limit price rules collection
      *
-     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
+     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $collection
      * @return void
      * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
      */

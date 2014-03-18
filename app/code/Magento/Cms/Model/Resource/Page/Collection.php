@@ -13,7 +13,7 @@ namespace Magento\Cms\Model\Resource\Page;
 /**
  * CMS page collection
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Load data for preview flag
