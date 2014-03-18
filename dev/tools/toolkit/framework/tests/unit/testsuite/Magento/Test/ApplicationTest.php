@@ -31,11 +31,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $_fixtureDir;
-
-    /**
-     * @var string
-     */
     protected $_applicationBaseDir;
 
     /**
@@ -43,7 +38,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_fixtureDir = __DIR__ . '/Performance/_files';
         $this->_applicationBaseDir = __DIR__ . '/../../../../../bootstrap.php';
         $this->_shell = $this->getMock('Magento\Shell', array('execute'), array(), '', false);
 
