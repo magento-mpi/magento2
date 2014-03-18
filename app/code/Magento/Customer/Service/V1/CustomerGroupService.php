@@ -54,6 +54,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * @param GroupFactory $groupFactory
      * @param StoreConfig $storeConfig
+     * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
      */
