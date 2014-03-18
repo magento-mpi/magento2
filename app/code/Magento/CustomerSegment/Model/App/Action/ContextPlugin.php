@@ -55,6 +55,7 @@ class ContextPlugin
      * @param \Magento\App\Action\Action $subject
      * @param callable $proceed
      * @param \Magento\App\RequestInterface $request
+     * @return \Closure
      */
     public function aroundDispatch(
         \Magento\App\Action\Action $subject,
