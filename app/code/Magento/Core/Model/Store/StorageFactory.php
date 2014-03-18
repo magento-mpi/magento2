@@ -73,11 +73,6 @@ class StorageFactory
     protected $_httpContext;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storage;
-
-    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
@@ -127,23 +122,23 @@ class StorageFactory
             $this->_defaultStorageClassName;
 
         if (false == isset($this->_cache[$className])) {
-            $this->_storage = $this->_objectManager->create($className, $arguments);
+            $storage = $this->_objectManager->create($className, $arguments);
 
-            if (false === ($this->_storage instanceof \Magento\Core\Model\StoreManagerInterface)) {
+            if (false === ($storage instanceof \Magento\Core\Model\StoreManagerInterface)) {
                 throw new \InvalidArgumentException($className
                     . ' doesn\'t implement \Magento\Core\Model\StoreManagerInterface'
                 );
             }
-            $this->_cache[$className] = $this->_storage;
+            $this->_cache[$className] = $storage;
             if ($className === $this->_installedStoreClassName) {
-                $this->_reinitStores($arguments);
-                $useSid = $this->_storage->getStore()
+                $this->_reinitStores($storage, $arguments);
+                $useSid = $storage->getStore()
                     ->getConfig(\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID);
                 $this->_sidResolver->setUseSessionInUrl($useSid);
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
-                $store = $this->_storage->getStore(true);
+                $store = $storage->getStore(true);
                 if ($store->getConfig('dev/log/active')) {
 
                     $this->_log->unsetLoggers();
@@ -163,50 +158,52 @@ class StorageFactory
     /**
      * Initialize currently ran store
      *
+     * @param \Magento\Core\Model\StoreManagerInterface $storage
      * @param array $arguments
      * @return void
      */
-    protected function _reinitStores($arguments)
+    protected function _reinitStores(\Magento\Core\Model\StoreManagerInterface $storage, $arguments)
     {
         Profiler::start('init_stores');
-        $this->_storage->reinitStores();
+        $storage->reinitStores();
         Profiler::stop('init_stores');
 
         $scopeCode = $arguments['scopeCode'];
         $scopeType = $arguments['scopeType']  ?: StoreManagerInterface::SCOPE_TYPE_STORE;
-        if (empty($scopeCode) && false == is_null($this->_storage->getWebsite(true))) {
-            $scopeCode = $this->_storage->getWebsite(true)->getCode();
+        if (empty($scopeCode) && false == is_null($storage->getWebsite(true))) {
+            $scopeCode = $storage->getWebsite(true)->getCode();
             $scopeType = StoreManagerInterface::SCOPE_TYPE_WEBSITE;
         }
         switch ($scopeType) {
             case StoreManagerInterface::SCOPE_TYPE_STORE:
-                $this->_storage->setCurrentStore($scopeCode);
+                $storage->setCurrentStore($scopeCode);
                 break;
             case StoreManagerInterface::SCOPE_TYPE_GROUP:
-                $this->_storage->setCurrentStore($this->_getStoreByGroup($scopeCode));
+                $storage->setCurrentStore($this->_getStoreByGroup($storage, $scopeCode));
                 break;
             case StoreManagerInterface::SCOPE_TYPE_WEBSITE:
-                $this->_storage->setCurrentStore($this->_getStoreByWebsite($scopeCode));
+                $storage->setCurrentStore($this->_getStoreByWebsite($storage, $scopeCode));
                 break;
             default:
-                $this->_storage->throwStoreException();
+                $storage->throwStoreException();
         }
 
-        $currentStore = $this->_storage->getCurrentStore();
+        $currentStore = $storage->getCurrentStore();
         if (!empty($currentStore)) {
-            $this->_checkCookieStore($scopeType);
-            $this->_checkGetStore($scopeType);
+            $this->_checkCookieStore($storage, $scopeType);
+            $this->_checkGetStore($storage, $scopeType);
         }
     }
 
     /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storage
      * @param string $scopeCode
      * @return null|string
      */
-    protected function _getStoreByGroup($scopeCode)
+    protected function _getStoreByGroup(\Magento\Core\Model\StoreManagerInterface $storage, $scopeCode)
     {
-        $groups = $this->_storage->getGroups(true);
-        $stores = $this->_storage->getStores(true);
+        $groups = $storage->getGroups(true);
+        $stores = $storage->getStores(true);
         if (!isset($groups[$scopeCode])) {
             return null;
         }
@@ -217,58 +214,61 @@ class StorageFactory
     }
 
     /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storage
      * @param string $scopeCode
      * @return null|string
      */
-    protected function _getStoreByWebsite($scopeCode)
+    protected function _getStoreByWebsite(\Magento\Core\Model\StoreManagerInterface $storage, $scopeCode)
     {
-        $websites = $this->_storage->getWebsites(true, true);
+        $websites = $storage->getWebsites(true, true);
         if (!isset($websites[$scopeCode])) {
             return null;
         }
         if (!$websites[$scopeCode]->getDefaultGroupId()) {
             return null;
         }
-        return $this->_getStoreByGroup($websites[$scopeCode]->getDefaultGroupId());
+        return $this->_getStoreByGroup($storage, $websites[$scopeCode]->getDefaultGroupId());
     }
 
     /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storage
      * @param string $scopeType
      * @return void
      */
-    protected function _checkCookieStore($scopeType)
+    protected function _checkCookieStore(\Magento\Core\Model\StoreManagerInterface $storage, $scopeType)
     {
         if (!$this->_cookie->get()) {
             return;
         }
 
         $store = $this->_cookie->get(Store::COOKIE_NAME);
-        $stores = $this->_storage->getStores(true);
+        $stores = $storage->getStores(true);
         if ($store && isset($stores[$store])
             && $stores[$store]->getId()
             && $stores[$store]->getIsActive()
         ) {
             if ($scopeType == 'website'
-                && $stores[$store]->getWebsiteId() == $stores[$this->_storage->getCurrentStore()]->getWebsiteId()
+                && $stores[$store]->getWebsiteId() == $stores[$storage->getCurrentStore()]->getWebsiteId()
             ) {
-                $this->_storage->setCurrentStore($store);
+                $storage->setCurrentStore($store);
             }
             if ($scopeType == 'group'
-                && $stores[$store]->getGroupId() == $stores[$this->_storage->getCurrentStore()]->getGroupId()
+                && $stores[$store]->getGroupId() == $stores[$storage->getCurrentStore()]->getGroupId()
             ) {
-                $this->_storage->setCurrentStore($store);
+                $storage->setCurrentStore($store);
             }
             if ($scopeType == 'store') {
-                $this->_storage->setCurrentStore($store);
+                $storage->setCurrentStore($store);
             }
         }
     }
 
     /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storage
      * @param string $scopeType
      * @return void
      */
-    protected function _checkGetStore($scopeType)
+    protected function _checkGetStore(\Magento\Core\Model\StoreManagerInterface $storage, $scopeType)
     {
         if (empty($_GET)) {
             return;
@@ -279,7 +279,7 @@ class StorageFactory
         }
 
         $store = $_GET['___store'];
-        $stores = $this->_storage->getStores(true);
+        $stores = $storage->getStores(true);
         if (!isset($stores[$store])) {
             return;
         }
@@ -293,22 +293,22 @@ class StorageFactory
          * prevent running a store from another website or store group,
          * if website or store group was specified explicitly
          */
-        $curStoreObj = $stores[$this->_storage->getCurrentStore()];
+        $curStoreObj = $stores[$storage->getCurrentStore()];
         if ($scopeType == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
-            $this->_storage->setCurrentStore($store);
+            $storage->setCurrentStore($store);
         } elseif ($scopeType == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
-            $this->_storage->setCurrentStore($store);
+            $storage->setCurrentStore($store);
         } elseif ($scopeType == 'store') {
-            $this->_storage->setCurrentStore($store);
+            $storage->setCurrentStore($store);
         }
 
-        if ($this->_storage->getCurrentStore() == $store) {
-            $store = $this->_storage->getStore($store);
+        if ($storage->getCurrentStore() == $store) {
+            $store = $storage->getStore($store);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
-                $this->_cookie->set(Store::COOKIE_NAME, $this->_storage->getCurrentStore(), true);
-                $this->_httpContext->setValue(Store::ENTITY, $this->_storage->getCurrentStore());
+                $this->_cookie->set(Store::COOKIE_NAME, $storage->getCurrentStore(), true);
+                $this->_httpContext->setValue(Store::ENTITY, $storage->getCurrentStore());
             }
         }
         return;
