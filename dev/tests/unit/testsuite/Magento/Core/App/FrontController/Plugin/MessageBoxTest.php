@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\FrontController\Plugin;
 
 /**
@@ -75,7 +74,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->objectMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
-        $this->responseMock = $this->getMock('\Magento\App\ResponseInterface', array(), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\App\ResponseInterface', array(), array(), '', false);
     }
 
     /**
@@ -86,9 +85,13 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatch()
     {
+        $messageCollectionMock = $this->getMock('Magento\Message\Collection', array('getCount'), array(), '', false);
+        $messageCollectionMock->expects($this->once())
+            ->method('getCount')
+            ->will($this->returnValue(5));
         $this->messageManagerMock->expects($this->once())
             ->method('getMessages')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue($messageCollectionMock));
         $this->requestMock->expects($this->once())
             ->method('isPost')
             ->will($this->returnValue(true));

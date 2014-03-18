@@ -143,6 +143,8 @@ class Toolbar extends \Magento\View\Element\Template
 
     /**
      * Init Toolbar
+     *
+     * @return null
      */
     protected function _construct()
     {
