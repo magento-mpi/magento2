@@ -14,7 +14,7 @@ namespace Magento\CatalogEvent\Model\Resource;
 
 use Magento\App\Resource as AppResource;
 use Magento\Catalog\Model\Resource\Category\CollectionFactory;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Core\Model\Resource\Db\AbstractDb;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\StoreManagerInterface;

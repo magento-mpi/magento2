@@ -15,7 +15,7 @@ namespace Magento\Rule\Model;
 
 use Magento\Core\Exception;
 
-abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Model\AbstractModel
 {
     /**
      * Store rule combine conditions model

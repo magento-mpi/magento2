@@ -23,7 +23,7 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-class Website extends \Magento\Core\Model\AbstractModel
+class Website extends \Magento\Model\AbstractModel
 {
     /**
      * Initialize resource model

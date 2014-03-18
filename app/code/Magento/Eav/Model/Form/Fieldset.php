@@ -24,7 +24,7 @@ namespace Magento\Eav\Model\Form;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fieldset extends \Magento\Core\Model\AbstractModel
+class Fieldset extends \Magento\Model\AbstractModel
 {
     /**
      * Prefix of model events names

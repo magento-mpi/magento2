@@ -29,7 +29,7 @@ namespace Magento\Logging\Model\Event;
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Changes extends \Magento\Core\Model\AbstractModel
+class Changes extends \Magento\Model\AbstractModel
 {
     /**
      * Set of fields that should not be logged for all models

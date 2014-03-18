@@ -30,7 +30,7 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Review extends \Magento\Core\Model\AbstractModel
+class Review extends \Magento\Model\AbstractModel
 {
     /**
      * Event prefix for observer
@@ -258,7 +258,7 @@ class Review extends \Magento\Core\Model\AbstractModel
     /**
      * Perform actions after object delete
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {

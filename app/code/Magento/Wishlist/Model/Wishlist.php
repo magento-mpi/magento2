@@ -28,7 +28,7 @@ use Magento\Wishlist\Model\Resource\Wishlist\Collection;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag

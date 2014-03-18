@@ -38,7 +38,7 @@ use Magento\Sales\Model\Quote\Item;
  * @method int[] getAppliedRuleIds()
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
  */
-abstract class AbstractItem extends \Magento\Core\Model\AbstractModel
+abstract class AbstractItem extends \Magento\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**

@@ -43,10 +43,10 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * {@inheritdoc}
      *
-     * @param \Magento\Core\Model\AbstractModel $change
+     * @param \Magento\Model\AbstractModel $change
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $change)
+    protected function _beforeSave(\Magento\Model\AbstractModel $change)
     {
         if (!$change->getChangeTime()) {
             $change->setChangeTime($this->dateTime->formatDate(true));

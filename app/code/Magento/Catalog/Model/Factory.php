@@ -35,16 +35,16 @@ class Factory
      *
      * @param string $className
      * @param array $data
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     public function create($className, array $data = array())
     {
         $model = $this->_objectManager->create($className, $data);
 
-        if (!$model instanceof \Magento\Core\Model\AbstractModel) {
+        if (!$model instanceof \Magento\Model\AbstractModel) {
             throw new \Magento\Core\Exception($className
-                . ' doesn\'t extends \Magento\Core\Model\AbstractModel');
+                . ' doesn\'t extends \Magento\Model\AbstractModel');
         }
         return $model;
     }

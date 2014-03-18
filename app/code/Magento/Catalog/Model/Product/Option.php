@@ -12,7 +12,7 @@ namespace Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Resource\Product\Option\Value\Collection;
 use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Catalog product option model

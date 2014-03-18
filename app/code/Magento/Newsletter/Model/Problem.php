@@ -27,7 +27,7 @@ namespace Magento\Newsletter\Model;
  * @package     Magento_Newsletter
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Problem extends \Magento\Core\Model\AbstractModel
+class Problem extends \Magento\Model\AbstractModel
 {
     /**
      * Current Subscriber

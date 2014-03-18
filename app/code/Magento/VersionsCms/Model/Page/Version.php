@@ -29,7 +29,7 @@ namespace Magento\VersionsCms\Model\Page;
  * @method string getCreatedAt()
  * @method \Magento\VersionsCms\Model\Page\Version setCreatedAt(string $value)
  */
-class Version extends \Magento\Core\Model\AbstractModel
+class Version extends \Magento\Model\AbstractModel
 {
     /**
      * Access level constants

@@ -74,7 +74,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $arguments = $this->_prepareConstructorArguments();
 
         $arguments[] = array('id' => $address->getId());
-        $entity = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
+        $entity = $this->getMockForAbstractClass('Magento\Model\AbstractModel', $arguments);
         $observer = new \Magento\Event\Observer(array(
             'event' => new \Magento\Object(array(
                 'address' => $entity,

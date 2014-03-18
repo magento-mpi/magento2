@@ -31,7 +31,7 @@ namespace Magento\ScheduledImportExport\Model\Scheduled;
  * @method \Magento\ScheduledImportExport\Model\Scheduled\Operation setLastRunDate() setLastRunDate(int $value)
  * @method int getLastRunDate() getLastRunDate()
  */
-class Operation extends \Magento\Core\Model\AbstractModel
+class Operation extends \Magento\Model\AbstractModel
 {
     /**
      * Log directory

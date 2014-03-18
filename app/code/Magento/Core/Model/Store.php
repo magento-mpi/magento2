@@ -10,6 +10,7 @@
 namespace Magento\Core\Model;
 
 use Magento\Directory\Model\Currency\Filter;
+use Magento\Model\AbstractModel;
 
 /**
  * Store model

@@ -26,7 +26,7 @@ namespace Magento\Paypal\Model\Report;
  * @method string getLastModified()
  * @method \Magento\Paypal\Model\Report\Settlement setLastModified(string $value)
  */
-class Settlement extends \Magento\Core\Model\AbstractModel
+class Settlement extends \Magento\Model\AbstractModel
 {
     /**
      * Default PayPal SFTP host
@@ -188,7 +188,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     /**
      * Stop saving process if file with same report date, account ID and last modified date was already ferched
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {

@@ -28,7 +28,7 @@ namespace Magento\Integration\Model;
  * @method \string getUpdatedAt()
  * @method Integration setUpdatedAt(\string $createdAt)
  */
-class Integration extends \Magento\Core\Model\AbstractModel
+class Integration extends \Magento\Model\AbstractModel
 {
     /**#@+
      * Integration Status values

@@ -36,13 +36,13 @@ class LockValidatorComposite implements LockValidatorInterface
     /**
      * Check attribute lock state
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param null $attributeSet
      * @throws \Magento\Core\Exception
      *
      * @return void
      */
-    public function validate(\Magento\Core\Model\AbstractModel $object, $attributeSet = null)
+    public function validate(\Magento\Model\AbstractModel $object, $attributeSet = null)
     {
         foreach ($this->validators as $validator) {
             $validator->validate($object, $attributeSet);

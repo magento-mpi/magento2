@@ -31,7 +31,7 @@ namespace Magento\GiftRegistry\Model;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**

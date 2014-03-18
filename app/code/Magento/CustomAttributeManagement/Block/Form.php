@@ -63,7 +63,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * EAV Entity Model
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_entity;
 
@@ -149,10 +149,10 @@ class Form extends \Magento\View\Element\Template
     /**
      * Set Entity object
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Model\AbstractModel $entity
      * @return $this
      */
-    public function setEntity(\Magento\Core\Model\AbstractModel $entity)
+    public function setEntity(\Magento\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
         return $this;
@@ -185,7 +185,7 @@ class Form extends \Magento\View\Element\Template
     /**
      * Return Entity object
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     public function getEntity()
     {

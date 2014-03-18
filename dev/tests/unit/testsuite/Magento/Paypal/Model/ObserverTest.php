@@ -185,7 +185,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $agreement = $this->getMock('Magento\Paypal\Model\Billing\Agreement', [], [], '', false);
         $agreement->expects($this->once())->method('isValid')->will($this->returnValue($isValid));
         $comment = $this->getMockForAbstractClass(
-            'Magento\Core\Model\AbstractModel',
+            'Magento\Model\AbstractModel',
             [],
             '',
             false,

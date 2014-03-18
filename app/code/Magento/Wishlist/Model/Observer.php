@@ -15,7 +15,7 @@
  */
 namespace Magento\Wishlist\Model;
 
-class Observer extends \Magento\Core\Model\AbstractModel
+class Observer extends \Magento\Model\AbstractModel
 {
     /**
      * Wishlist data

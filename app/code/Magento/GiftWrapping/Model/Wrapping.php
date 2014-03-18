@@ -15,7 +15,7 @@ use Magento\Filesystem\Directory\WriteInterface;
  * Gift Wrapping model
  *
  */
-class Wrapping extends \Magento\Core\Model\AbstractModel
+class Wrapping extends \Magento\Model\AbstractModel
 {
     /**
      * Relative path to folder to store wrapping image to

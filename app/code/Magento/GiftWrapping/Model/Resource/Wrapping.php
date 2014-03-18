@@ -46,10 +46,10 @@ class Wrapping extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Add store data to wrapping data
      *
-     * @param  \Magento\Core\Model\AbstractModel $object
+     * @param  \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()

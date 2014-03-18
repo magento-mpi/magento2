@@ -22,7 +22,7 @@ namespace Magento\RecurringPayment\Model;
  * @method RecurringPayment setToken()
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class RecurringPayment extends \Magento\Core\Model\AbstractModel
+class RecurringPayment extends \Magento\Model\AbstractModel
 {
     /**
      * Constants for passing data through catalog

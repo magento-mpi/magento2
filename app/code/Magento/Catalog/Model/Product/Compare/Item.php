@@ -26,7 +26,7 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Item extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Model cache tag

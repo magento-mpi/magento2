@@ -174,7 +174,7 @@ class Proxy
     /**
      * Retrieve clone model
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     public function getCloneModel()
     {

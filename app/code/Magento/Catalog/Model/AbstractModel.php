@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model;
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Model\AbstractModel
 {
     /**
      * Attribute default values

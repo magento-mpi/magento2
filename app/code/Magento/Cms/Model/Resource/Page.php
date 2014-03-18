@@ -80,10 +80,10 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Process page data before deleting
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeDelete(\Magento\Model\AbstractModel $object)
     {
         $condition = array('page_id = ?' => (int) $object->getId());
 
@@ -95,11 +95,11 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Process page data before saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         /*
          * For two attributes which represent timestamp data in DB
@@ -141,10 +141,10 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Assign page to store views
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $oldStores = $this->lookupStoreIds($object->getId());
         $newStores = (array)$object->getStores();
@@ -183,12 +183,12 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load an object using 'identifier' field if there's no field specified and value is not numeric
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field
      * @return $this
      */
-    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
+    public function load(\Magento\Model\AbstractModel $object, $value, $field = null)
     {
         if (!is_numeric($value) && is_null($field)) {
             $field = 'identifier';
@@ -200,10 +200,10 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform operations after object load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         if ($object->getId()) {
             $stores = $this->lookupStoreIds($object->getId());
@@ -271,10 +271,10 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check for unique of identifier of page to selected store(s).
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function getIsUniquePageToStores(\Magento\Core\Model\AbstractModel $object)
+    public function getIsUniquePageToStores(\Magento\Model\AbstractModel $object)
     {
         if ($this->_storeManager->hasSingleStore() || !$object->hasStores()) {
             $stores = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
@@ -298,10 +298,10 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      *  Check whether page identifier is numeric
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    protected function isNumericPageIdentifier(\Magento\Core\Model\AbstractModel $object)
+    protected function isNumericPageIdentifier(\Magento\Model\AbstractModel $object)
     {
         return preg_match('/^[0-9]+$/', $object->getData('identifier'));
     }
@@ -309,10 +309,10 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      *  Check whether page identifier is valid
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    protected function isValidPageIdentifier(\Magento\Core\Model\AbstractModel $object)
+    protected function isValidPageIdentifier(\Magento\Model\AbstractModel $object)
     {
         return preg_match('/^[a-z0-9][a-z0-9_\/-]+(\.[a-z0-9_-]+)?$/', $object->getData('identifier'));
     }

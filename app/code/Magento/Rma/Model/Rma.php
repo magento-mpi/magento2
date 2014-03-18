@@ -17,7 +17,7 @@ use Magento\Sales\Model\Order\Address;
 /**
  * RMA model
  */
-class Rma extends \Magento\Core\Model\AbstractModel
+class Rma extends \Magento\Model\AbstractModel
 {
     /**
      * XML configuration paths

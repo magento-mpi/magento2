@@ -13,7 +13,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Shipping Model
  */
-class Shipping extends \Magento\Core\Model\AbstractModel
+class Shipping extends \Magento\Model\AbstractModel
 {
     /**
      * Store address

@@ -33,7 +33,7 @@ namespace Magento\Sales\Model\Order\Payment;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Transaction extends \Magento\Core\Model\AbstractModel
+class Transaction extends \Magento\Model\AbstractModel
 {
     /**#@+
      * Supported transaction types

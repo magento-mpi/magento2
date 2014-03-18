@@ -39,7 +39,7 @@ namespace Magento\User\Model;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class User
-    extends \Magento\Core\Model\AbstractModel
+    extends \Magento\Model\AbstractModel
     implements \Magento\Backend\Model\Auth\Credential\StorageInterface
 {
     /**

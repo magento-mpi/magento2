@@ -118,7 +118,7 @@ use \Magento\Customer\Service\V1\CustomerGroupServiceInterface;
  * @method bool|null getIsPersistent()
  * @method Quote setIsPersistent(bool $value)
  */
-class Quote extends \Magento\Core\Model\AbstractModel
+class Quote extends \Magento\Model\AbstractModel
 {
     /**
      * Checkout login method key

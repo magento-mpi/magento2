@@ -28,7 +28,7 @@ namespace Magento\Eav\Model\Entity\Attribute;
 
 use Magento\Eav\Model\Entity\Type;
 
-class Set extends \Magento\Core\Model\AbstractModel
+class Set extends \Magento\Model\AbstractModel
 {
     /**
      * Resource instance

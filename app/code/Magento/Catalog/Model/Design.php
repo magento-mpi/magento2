@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Design extends \Magento\Core\Model\AbstractModel
+class Design extends \Magento\Model\AbstractModel
 {
     const APPLY_FOR_PRODUCT     = 1;
     const APPLY_FOR_CATEGORY    = 2;

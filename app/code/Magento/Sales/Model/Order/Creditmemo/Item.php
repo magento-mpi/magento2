@@ -76,7 +76,7 @@ namespace Magento\Sales\Model\Order\Creditmemo;
  * @method float getBaseHiddenTaxAmount()
  * @method \Magento\Sales\Model\Order\Creditmemo\Item setBaseHiddenTaxAmount(float $value)
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * @var string

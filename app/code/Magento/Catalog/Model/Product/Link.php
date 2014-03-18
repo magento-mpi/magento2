@@ -28,7 +28,7 @@ use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCol
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Link extends \Magento\Core\Model\AbstractModel
+class Link extends \Magento\Model\AbstractModel
 {
     const LINK_TYPE_RELATED     = 1;
     const LINK_TYPE_UPSELL      = 4;

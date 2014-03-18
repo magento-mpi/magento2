@@ -55,7 +55,7 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -91,7 +91,7 @@ class Region extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load object by country id and code or default name
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param int $countryId
      * @param string $value
      * @param string $field

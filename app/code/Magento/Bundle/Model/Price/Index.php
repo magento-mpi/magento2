@@ -27,7 +27,7 @@ namespace Magento\Bundle\Model\Price;
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Index extends \Magento\Core\Model\AbstractModel
+class Index extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Session

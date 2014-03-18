@@ -10,7 +10,7 @@ namespace Magento\Paypal\Model\Billing;
 /**
  * Billing Agreement abstaract class
  */
-abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
+abstract class AbstractAgreement extends \Magento\Model\AbstractModel
 {
     /**
      * Payment method instance
@@ -118,7 +118,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
      * Before save, it's overridden just to make data validation on before save event
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {

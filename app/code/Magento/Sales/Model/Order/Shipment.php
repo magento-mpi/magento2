@@ -445,7 +445,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
 
         /**
          * Track saving is implemented in _afterSave()
-         * This enforces \Magento\Core\Model\AbstractModel::save() not to skip _afterSave()
+         * This enforces \Magento\Model\AbstractModel::save() not to skip _afterSave()
          */
         $this->_hasDataChanges = true;
 
@@ -718,7 +718,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeDelete()
     {

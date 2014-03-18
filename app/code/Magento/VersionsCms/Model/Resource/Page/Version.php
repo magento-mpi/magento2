@@ -31,10 +31,10 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checking if version id not last public for its page
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionLastPublic(\Magento\Core\Model\AbstractModel $object)
+    public function isVersionLastPublic(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), 'COUNT(*)')
@@ -56,10 +56,10 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checking if Version does not contain published revision
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionHasPublishedRevision(\Magento\Core\Model\AbstractModel $object)
+    public function isVersionHasPublishedRevision(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(array('p' => $this->getTable('cms_page')), array())

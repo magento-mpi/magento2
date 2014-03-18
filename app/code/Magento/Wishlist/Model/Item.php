@@ -26,7 +26,7 @@ use Magento\Wishlist\Model\Item\Option;
 use Magento\Wishlist\Model\Item\OptionFactory;
 use Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory;
 
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     const EXCEPTION_CODE_NOT_SALABLE            = 901;

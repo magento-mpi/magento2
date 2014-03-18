@@ -26,7 +26,7 @@ namespace Magento\Core\Model\Config;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Config\ValueInterface
+class Value extends \Magento\Model\AbstractModel implements \Magento\App\Config\ValueInterface
 {
     /**
      * Prefix of model events names

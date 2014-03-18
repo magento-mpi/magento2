@@ -44,10 +44,10 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Prepare rule's active "from" and "to" dates
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $fromDate = $object->getFromDate();
         if ($fromDate instanceof \Zend_Date) {

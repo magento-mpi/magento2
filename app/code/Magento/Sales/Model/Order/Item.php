@@ -172,7 +172,7 @@ namespace Magento\Sales\Model\Order;
  * @method float getBaseDiscountRefunded()
  * @method \Magento\Sales\Model\Order\Item setBaseDiscountRefunded(float $value)
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     const STATUS_PENDING        = 1; // No items shipped, invoiced, canceled, refunded nor backordered
     const STATUS_SHIPPED        = 2; // When qty ordered - [qty canceled + qty returned] = qty shipped

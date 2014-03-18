@@ -24,7 +24,7 @@ namespace Magento\Rating\Model;
  * @package    Magento_Rating
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rating extends \Magento\Core\Model\AbstractModel
+class Rating extends \Magento\Model\AbstractModel
 {
     /**
      * rating entity codes

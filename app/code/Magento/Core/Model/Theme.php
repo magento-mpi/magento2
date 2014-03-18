@@ -10,6 +10,7 @@
 namespace Magento\Core\Model;
 
 use Magento\View\Design\ThemeInterface;
+use Magento\Model\AbstractModel;
 
 /**
  * Theme model class

@@ -254,7 +254,7 @@ abstract class AbstractEntity
     /**
      * Export one item
      *
-     * @param \Magento\Core\Model\AbstractModel $item
+     * @param \Magento\Model\AbstractModel $item
      * @return void
      */
     abstract public function exportItem($item);

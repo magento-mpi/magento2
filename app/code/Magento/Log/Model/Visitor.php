@@ -22,7 +22,7 @@ namespace Magento\Log\Model;
  * @method int getStoreId()
  * @method \Magento\Log\Model\Visitor setStoreId(int $value)
  */
-class Visitor extends \Magento\Core\Model\AbstractModel
+class Visitor extends \Magento\Model\AbstractModel
 {
     const DEFAULT_ONLINE_MINUTES_INTERVAL = 15;
     const VISITOR_TYPE_CUSTOMER = 'c';

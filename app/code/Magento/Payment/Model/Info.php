@@ -12,7 +12,7 @@ namespace Magento\Payment\Model;
 /**
  * Payment information model
  */
-class Info extends \Magento\Core\Model\AbstractModel
+class Info extends \Magento\Model\AbstractModel
 {
     /**
      * Additional information container

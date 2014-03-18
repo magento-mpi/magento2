@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Product;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Action extends \Magento\Core\Model\AbstractModel
+class Action extends \Magento\Model\AbstractModel
 {
     /**
      * Index indexer

@@ -96,10 +96,10 @@ class Update extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update a "layout update link" if relevant data is provided
      *
-     * @param \Magento\Core\Model\Layout\Update|\Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Core\Model\Layout\Update|\Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $data = $object->getData();
         if (isset($data['store_id']) && isset($data['theme_id'])) {

@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Resource\Form;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Eav\Model\Form\Fieldset as FormFieldset;
 use Magento\DB\Select;
 

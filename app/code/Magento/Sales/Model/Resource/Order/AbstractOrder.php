@@ -295,11 +295,11 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Before save object attribute
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      */
-    protected function _beforeSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
+    protected function _beforeSaveAttribute(\Magento\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
             $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_before', array(
@@ -314,11 +314,11 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * After save object attribute
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      */
-    protected function _afterSaveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
+    protected function _afterSaveAttribute(\Magento\Model\AbstractModel $object, $attribute)
     {
         if ($this->_eventObject && $this->_eventPrefix) {
             $this->_eventManager->dispatch($this->_eventPrefix . '_save_attribute_after', array(
@@ -333,12 +333,12 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $attribute
      * @return $this
      * @throws \Exception
      */
-    public function saveAttribute(\Magento\Core\Model\AbstractModel $object, $attribute)
+    public function saveAttribute(\Magento\Model\AbstractModel $object, $attribute)
     {
         if ($attribute instanceof \Magento\Eav\Model\Entity\Attribute\AbstractAttribute) {
             $attribute = $attribute->getAttributeCode();
@@ -378,10 +378,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Model\AbstractModel|\Magento\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if ($this->_useIncrementId && !$object->getIncrementId()) {
             /* @var $entityType \Magento\Eav\Model\Entity\Type */
@@ -395,7 +395,7 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Update field in table if model have been already saved
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param array $data
      * @return $this
      */
@@ -427,10 +427,10 @@ abstract class AbstractOrder extends \Magento\Sales\Model\Resource\AbstractResou
     /**
      * Save object data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function save(\Magento\Core\Model\AbstractModel $object)
+    public function save(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getForceObjectSave()) {
             parent::save($object);

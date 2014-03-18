@@ -39,7 +39,7 @@ namespace Magento\GiftRegistry\Model;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Entity extends \Magento\Core\Model\AbstractModel
+class Entity extends \Magento\Model\AbstractModel
 {
     /**
      * XML configuration paths

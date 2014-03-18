@@ -41,7 +41,7 @@ use Magento\Oauth\Exception as OauthException;
  * @method Token setAuthorized() setAuthorized(int $authorized)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Token extends \Magento\Core\Model\AbstractModel
+class Token extends \Magento\Model\AbstractModel
 {
     /**#@+
      * Token types

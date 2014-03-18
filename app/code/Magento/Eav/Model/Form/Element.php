@@ -28,7 +28,7 @@ use Magento\Core\Exception;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Element extends \Magento\Core\Model\AbstractModel
+class Element extends \Magento\Model\AbstractModel
 {
     /**
      * Prefix of model events names

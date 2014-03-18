@@ -46,10 +46,10 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set updated_at automatically before saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->dateTime->formatDate(time()));
         return parent::_beforeSave($object);

@@ -32,7 +32,7 @@
  */
 namespace Magento\Tax\Model\Calculation;
 
-class Rate extends \Magento\Core\Model\AbstractModel
+class Rate extends \Magento\Model\AbstractModel
 {
     /**
      * @var mixed

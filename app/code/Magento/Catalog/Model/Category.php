@@ -1068,7 +1068,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Init indexing process after category delete
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {

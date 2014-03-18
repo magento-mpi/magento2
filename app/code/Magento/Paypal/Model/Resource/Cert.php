@@ -52,10 +52,10 @@ class Cert extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set date of last update
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $object->setUpdatedAt($this->dateTime->formatDate($this->_coreDate->gmtDate()));
         return parent::_beforeSave($object);

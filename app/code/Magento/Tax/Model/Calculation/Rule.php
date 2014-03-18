@@ -22,7 +22,7 @@
  */
 namespace Magento\Tax\Model\Calculation;
 
-class Rule extends \Magento\Core\Model\AbstractModel
+class Rule extends \Magento\Model\AbstractModel
 {
     /**
      * @var mixed

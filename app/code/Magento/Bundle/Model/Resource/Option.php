@@ -31,10 +31,10 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * After save process
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
 
@@ -69,10 +69,10 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * After delete process
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterDelete(\Magento\Model\AbstractModel $object)
     {
         parent::_afterDelete($object);
 

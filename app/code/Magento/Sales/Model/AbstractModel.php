@@ -13,7 +13,7 @@ namespace Magento\Sales\Model;
  * Sales abstract model
  * Provide date processing functionality
  */
-abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
+abstract class AbstractModel extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface

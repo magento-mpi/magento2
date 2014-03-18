@@ -20,7 +20,7 @@ namespace Magento\Directory\Model;
 use Magento\Directory\Exception;
 use Magento\Directory\Model\Currency\Filter;
 
-class Currency extends \Magento\Core\Model\AbstractModel
+class Currency extends \Magento\Model\AbstractModel
 {
     /**
      * CONFIG path constants

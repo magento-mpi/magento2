@@ -30,7 +30,7 @@ use Magento\Core\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Balance extends \Magento\Core\Model\AbstractModel
+class Balance extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Customer

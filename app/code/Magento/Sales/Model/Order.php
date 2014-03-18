@@ -2293,10 +2293,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Add New object to related array
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function addRelatedObject(\Magento\Core\Model\AbstractModel $object)
+    public function addRelatedObject(\Magento\Model\AbstractModel $object)
     {
         $this->_relatedObjects[] = $object;
         return $this;

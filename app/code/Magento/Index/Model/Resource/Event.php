@@ -9,7 +9,7 @@
  */
 namespace Magento\Index\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Index\Model\Process as ProcessModel;
 
 /**

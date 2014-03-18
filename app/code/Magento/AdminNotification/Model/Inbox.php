@@ -33,7 +33,7 @@ namespace Magento\AdminNotification\Model;
  * @package     Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Inbox extends \Magento\Core\Model\AbstractModel
+class Inbox extends \Magento\Model\AbstractModel
 {
     const SEVERITY_CRITICAL = 1;
     const SEVERITY_MAJOR    = 2;

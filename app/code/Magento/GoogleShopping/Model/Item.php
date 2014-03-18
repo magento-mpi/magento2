@@ -18,7 +18,7 @@ use Magento\Catalog\Model\Product as CatalogModelProduct;
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * Registry keys for caching attributes and types

@@ -25,7 +25,7 @@ namespace Magento\Sitemap\Model;
  * @method int getStoreId()
  * @method \Magento\Sitemap\Model\Sitemap setStoreId(int $value)
  */
-class Sitemap extends \Magento\Core\Model\AbstractModel
+class Sitemap extends \Magento\Model\AbstractModel
 {
     const OPEN_TAG_KEY = 'start';
     const CLOSE_TAG_KEY = 'end';
@@ -259,7 +259,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     /**
      * Check sitemap file location and permissions
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()

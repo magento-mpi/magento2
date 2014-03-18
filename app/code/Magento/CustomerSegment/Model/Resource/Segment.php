@@ -92,10 +92,10 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add website ids to rule data after load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -107,10 +107,10 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      * Match and save events.
      * Save websites associations.
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $segmentId = $object->getId();
 
@@ -388,7 +388,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save all website Ids associated to specified segment
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\CustomerSegment\Model\Segment $segment
+     * @param \Magento\Model\AbstractModel|\Magento\CustomerSegment\Model\Segment $segment
      * @return $this
      * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      */

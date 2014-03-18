@@ -13,7 +13,7 @@ namespace Magento\Reports\Model\Product\Index;
 /**
  * Reports Product Index Abstract Model
  */
-abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
+abstract class AbstractIndex extends \Magento\Model\AbstractModel
 {
     /**
      * Cache key name for Count of product index

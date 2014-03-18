@@ -59,10 +59,10 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getSortOrder()) {
             $object->setSortOrder($this->_getMaxSortOrder($object) + 1);
@@ -73,10 +73,10 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         if ($object->getAttributes()) {
             foreach ($object->getAttributes() as $attribute) {
@@ -91,7 +91,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve max sort order
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return int
      */
     protected function _getMaxSortOrder($object)

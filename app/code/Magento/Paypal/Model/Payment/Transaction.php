@@ -17,7 +17,7 @@ namespace Magento\Paypal\Model\Payment;
  * @method string getCreatedAt()
  * @method \Magento\Paypal\Model\Payment\Transaction setCreatedAt(string $value)
  */
-class Transaction extends \Magento\Core\Model\AbstractModel
+class Transaction extends \Magento\Model\AbstractModel
 {
     /**
      * Whether to throw exceptions on different operations

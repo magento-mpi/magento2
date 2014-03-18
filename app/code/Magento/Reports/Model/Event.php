@@ -31,7 +31,7 @@ namespace Magento\Reports\Model;
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Model\AbstractModel
 {
     const EVENT_PRODUCT_VIEW    = 1;
     const EVENT_PRODUCT_SEND    = 2;

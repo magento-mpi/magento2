@@ -10,7 +10,7 @@ namespace Magento\Logging\Model;
 /**
  * Logging event model
  */
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Model\AbstractModel
 {
     const RESULT_SUCCESS = 'success';
     const RESULT_FAILURE = 'failure';

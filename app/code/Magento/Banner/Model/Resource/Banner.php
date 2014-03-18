@@ -478,10 +478,10 @@ class Banner extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Prepare banner types for saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $types = $object->getTypes();
         if (empty($types)) {

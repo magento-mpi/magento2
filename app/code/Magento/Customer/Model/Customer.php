@@ -28,7 +28,7 @@ use Magento\Customer\Service\V1\Data\CustomerBuilder;
  * @method \Magento\Customer\Model\Customer setDefaultBilling($value)
  * @method \Magento\Customer\Model\Customer setDefaultShipping($value)
  */
-class Customer extends \Magento\Core\Model\AbstractModel
+class Customer extends \Magento\Model\AbstractModel
 {
     /**
      * Configuration paths for email templates and identities

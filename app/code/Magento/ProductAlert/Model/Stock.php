@@ -35,7 +35,7 @@ use Resource\Price\Customer\Collection;
  * @package     Magento_ProductAlert
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Stock extends \Magento\Core\Model\AbstractModel
+class Stock extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\ProductAlert\Model\Resource\Stock\Customer\CollectionFactory

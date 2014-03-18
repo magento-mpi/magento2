@@ -168,7 +168,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Delete model
      *
-     * @param \Magento\Core\Model\AbstractModel $duplicate
+     * @param \Magento\Model\AbstractModel $duplicate
      */
     protected function _undo($duplicate)
     {
@@ -354,7 +354,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Check is model empty or not
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      */
     protected function _assertEmpty($model)
     {

@@ -27,7 +27,7 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
  * @method int getStockStatus()
  * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
  */
-class Status extends \Magento\Core\Model\AbstractModel
+class Status extends \Magento\Model\AbstractModel
 {
     /**#@+
      * Stock Status values

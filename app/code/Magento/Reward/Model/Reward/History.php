@@ -51,7 +51,7 @@ namespace Magento\Reward\Model\Reward;
  * @method int getNotificationSent()
  * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     /**
      * Reward data

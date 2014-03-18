@@ -1032,7 +1032,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeDelete()
     {

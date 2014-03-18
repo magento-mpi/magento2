@@ -13,7 +13,7 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Eav\Model\Entity\Type;
 use Magento\Core\Exception;
 use Magento\Core\Model\Config\Element;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;

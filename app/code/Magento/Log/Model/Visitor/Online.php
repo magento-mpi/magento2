@@ -30,7 +30,7 @@ namespace Magento\Log\Model\Visitor;
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Online extends \Magento\Core\Model\AbstractModel
+class Online extends \Magento\Model\AbstractModel
 {
     const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
     const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';

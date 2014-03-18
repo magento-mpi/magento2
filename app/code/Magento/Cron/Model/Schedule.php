@@ -36,7 +36,7 @@ namespace Magento\Cron\Model;
 
 use Magento\Cron\Exception;
 
-class Schedule extends \Magento\Core\Model\AbstractModel
+class Schedule extends \Magento\Model\AbstractModel
 {
     const STATUS_PENDING = 'pending';
     const STATUS_RUNNING = 'running';

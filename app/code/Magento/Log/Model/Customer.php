@@ -29,7 +29,7 @@ namespace Magento\Log\Model;
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Customer extends \Magento\Core\Model\AbstractModel
+class Customer extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Stdlib\DateTime

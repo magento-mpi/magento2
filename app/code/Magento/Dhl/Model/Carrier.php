@@ -893,7 +893,7 @@ class Carrier
     /**
      * Get shipping quotes
      *
-     * @return \Magento\Core\Model\AbstractModel|Result
+     * @return \Magento\Model\AbstractModel|Result
      */
     protected function _getQuotes()
     {

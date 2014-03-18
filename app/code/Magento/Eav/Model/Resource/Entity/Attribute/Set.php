@@ -48,10 +48,10 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         if ($object->getGroups()) {
             /* @var $group \Magento\Eav\Model\Entity\Attribute\Group */

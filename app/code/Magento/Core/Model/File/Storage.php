@@ -11,7 +11,7 @@
 namespace Magento\Core\Model\File;
 
 use Magento\App\Filesystem;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Class Storage

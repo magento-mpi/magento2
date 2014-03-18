@@ -9,7 +9,7 @@
  */
 namespace Magento\Review\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Review resource model

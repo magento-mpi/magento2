@@ -10,7 +10,7 @@
 namespace Magento\Eav\Model\Resource\Form;
 
 use Magento\Eav\Model\Form\Type as FormType;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Eav Form Type Resource Model

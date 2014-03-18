@@ -327,12 +327,12 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Load an object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param mixed $value
      * @param string $field field to load by (defaults to model id)
      * @return $this
      */
-    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
+    public function load(\Magento\Model\AbstractModel $object, $value, $field = null)
     {
         if (is_null($field)) {
             $field = $this->getIdFieldName();
@@ -359,7 +359,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -374,10 +374,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Save object object data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function save(\Magento\Core\Model\AbstractModel $object)
+    public function save(\Magento\Model\AbstractModel $object)
     {
         if ($object->isDeleted()) {
             return $this->delete($object);
@@ -432,10 +432,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Delete the object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    public function delete(\Magento\Core\Model\AbstractModel $object)
+    public function delete(\Magento\Model\AbstractModel $object)
     {
         $this->_beforeDelete($object);
         $this->_getWriteAdapter()->delete(
@@ -477,10 +477,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Unserialize serializeable object fields
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return void
      */
-    public function unserializeFields(\Magento\Core\Model\AbstractModel $object)
+    public function unserializeFields(\Magento\Model\AbstractModel $object)
     {
         foreach ($this->_serializableFields as $field => $parameters) {
             list($serializeDefault, $unserializeDefault) = $parameters;
@@ -515,10 +515,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Prepare data for save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return array
      */
-    protected function _prepareDataForSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _prepareDataForSave(\Magento\Model\AbstractModel $object)
     {
         return $this->_prepareDataForTable($object, $this->getMainTable());
     }
@@ -527,7 +527,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
      * Check that model data fields that can be saved
      * has really changed comparing with origData
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
     public function hasDataChanged($object)
@@ -561,11 +561,11 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Check for unique values existence
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    protected function _checkUnique(\Magento\Core\Model\AbstractModel $object)
+    protected function _checkUnique(\Magento\Model\AbstractModel $object)
     {
         $existent = array();
         $fields = $this->getUniqueFields();
@@ -618,10 +618,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * After load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return void
      */
-    public function afterLoad(\Magento\Core\Model\AbstractModel $object)
+    public function afterLoad(\Magento\Model\AbstractModel $object)
     {
         $this->_afterLoad($object);
     }
@@ -629,10 +629,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Perform actions after object load
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Model\AbstractModel|\Magento\Object $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         return $this;
     }
@@ -640,10 +640,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Model\AbstractModel|\Magento\Object $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         return $this;
     }
@@ -651,10 +651,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Model\AbstractModel|\Magento\Object $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         return $this;
     }
@@ -662,10 +662,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Perform actions before object delete
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Model\AbstractModel|\Magento\Object $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeDelete(\Magento\Model\AbstractModel $object)
     {
         return $this;
     }
@@ -673,10 +673,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Perform actions after object delete
      *
-     * @param \Magento\Core\Model\AbstractModel|\Magento\Object $object
+     * @param \Magento\Model\AbstractModel|\Magento\Object $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterDelete(\Magento\Model\AbstractModel $object)
     {
         return $this;
     }
@@ -684,10 +684,10 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Serialize serializable fields of the object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return void
      */
-    protected function _serializeFields(\Magento\Core\Model\AbstractModel $object)
+    protected function _serializeFields(\Magento\Model\AbstractModel $object)
     {
         foreach ($this->_serializableFields as $field => $parameters) {
             list($serializeDefault, $unserializeDefault) = $parameters;

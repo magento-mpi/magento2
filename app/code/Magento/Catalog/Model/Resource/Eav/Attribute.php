@@ -180,7 +180,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
@@ -216,7 +216,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object after save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterSave()
     {

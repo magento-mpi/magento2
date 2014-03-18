@@ -55,7 +55,7 @@ use Magento\Catalog\Model\Product;
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     const XML_PATH_GLOBAL                = 'cataloginventory/options/';
     const XML_PATH_CAN_SUBTRACT          = 'cataloginventory/options/can_subtract';

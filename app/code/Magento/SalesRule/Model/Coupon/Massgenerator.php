@@ -18,7 +18,7 @@ namespace Magento\SalesRule\Model\Coupon;
  * @package     Magento_SalesRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Massgenerator extends \Magento\Core\Model\AbstractModel
+class Massgenerator extends \Magento\Model\AbstractModel
     implements \Magento\SalesRule\Model\Coupon\CodegeneratorInterface
 {
     /**

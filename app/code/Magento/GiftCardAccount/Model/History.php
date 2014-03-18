@@ -29,7 +29,7 @@ namespace Magento\GiftCardAccount\Model;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     const ACTION_CREATED  = 0;
     const ACTION_USED     = 1;

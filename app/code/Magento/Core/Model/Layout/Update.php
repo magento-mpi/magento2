@@ -24,7 +24,7 @@ namespace Magento\Core\Model\Layout;
  * @method \Magento\Core\Model\Layout\Update setUpdatedAt() setUpdatedAt(string $updateDateTime)
  * @method \Magento\Core\Model\Resource\Layout\Update\Collection getCollection()
  */
-class Update extends \Magento\Core\Model\AbstractModel
+class Update extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Stdlib\DateTime
@@ -64,7 +64,7 @@ class Update extends \Magento\Core\Model\AbstractModel
     /**
      * Set current updated date
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {

@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Model\Pool;
 
-abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
+abstract class AbstractPool extends \Magento\Model\AbstractModel
 {
     const STATUS_FREE = 0;
     const STATUS_USED = 1;

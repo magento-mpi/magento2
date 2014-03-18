@@ -10,7 +10,7 @@
 
 namespace Magento\Reminder\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Reminder\Model\Rule as ModelRule;
 use Magento\SalesRule\Model\Rule as SalesRule;
 

@@ -14,7 +14,7 @@ use Magento\Filesystem\Directory\WriteInterface;
 /**
  * PayPal specific model for certificate based authentication
  */
-class Cert extends \Magento\Core\Model\AbstractModel
+class Cert extends \Magento\Model\AbstractModel
 {
     /**
      * Certificate base path

@@ -26,7 +26,7 @@
  */
 namespace Magento\Invitation\Model\Invitation;
 
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     /**
      * Invitation Status

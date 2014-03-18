@@ -91,7 +91,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Set created_at parameter
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -107,7 +107,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Save agreement order relations
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterSave()
     {

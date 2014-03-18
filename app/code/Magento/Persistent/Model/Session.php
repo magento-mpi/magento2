@@ -13,7 +13,7 @@ namespace Magento\Persistent\Model;
 /**
  * Persistent Session Model
  */
-class Session extends \Magento\Core\Model\AbstractModel
+class Session extends \Magento\Model\AbstractModel
 {
     /**
      * Persistent cookie key length

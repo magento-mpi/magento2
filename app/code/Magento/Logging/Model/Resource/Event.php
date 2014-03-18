@@ -62,10 +62,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Convert data before save ip
      *
-     * @param \Magento\Core\Model\AbstractModel $event
+     * @param \Magento\Model\AbstractModel $event
      * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $event)
+    protected function _beforeSave(\Magento\Model\AbstractModel $event)
     {
         $event->setData('ip', ip2long($event->getIp()));
         $event->setTime($this->dateTime->formatDate($event->getTime()));

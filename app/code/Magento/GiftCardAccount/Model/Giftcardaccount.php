@@ -33,7 +33,7 @@ namespace Magento\GiftCardAccount\Model;
  * @package     Magento_GiftCardAccount
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Giftcardaccount extends \Magento\Core\Model\AbstractModel
+class Giftcardaccount extends \Magento\Model\AbstractModel
 {
     const STATUS_DISABLED = 0;
     const STATUS_ENABLED  = 1;

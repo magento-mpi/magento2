@@ -9,7 +9,7 @@
  */
 namespace Magento\SalesRule\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 /**
  * SalesRule Resource Coupon
  *

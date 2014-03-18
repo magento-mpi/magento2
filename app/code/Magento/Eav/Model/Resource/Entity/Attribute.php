@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\DB\Select;

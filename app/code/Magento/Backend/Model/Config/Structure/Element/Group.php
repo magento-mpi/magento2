@@ -55,7 +55,7 @@ class Group extends AbstractComposite
     /**
      * Retrieve clone model
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     public function getCloneModel()

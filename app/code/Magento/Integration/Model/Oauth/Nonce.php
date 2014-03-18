@@ -19,7 +19,7 @@ namespace Magento\Integration\Model\Oauth;
  * @method \Magento\Integration\Model\Resource\Oauth\Nonce getResource()
  * @method \Magento\Integration\Model\Resource\Oauth\Nonce _getResource()
  */
-class Nonce extends \Magento\Core\Model\AbstractModel
+class Nonce extends \Magento\Model\AbstractModel
 {
     /**
      * Oauth data

@@ -13,7 +13,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA model
  */
-class Grid extends \Magento\Core\Model\AbstractModel
+class Grid extends \Magento\Model\AbstractModel
 {
     /**
      * Rma source status factory

@@ -35,7 +35,7 @@ use Magento\Core\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     const ACTION_UPDATED  = 1;
     const ACTION_CREATED  = 2;

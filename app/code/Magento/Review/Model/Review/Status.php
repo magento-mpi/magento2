@@ -18,7 +18,7 @@
 
 namespace Magento\Review\Model\Review;
 
-class Status extends \Magento\Core\Model\AbstractModel
+class Status extends \Magento\Model\AbstractModel
 {
     /**
      * @param \Magento\Model\Context $context

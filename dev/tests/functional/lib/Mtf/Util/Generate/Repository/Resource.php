@@ -28,12 +28,12 @@ class Resource extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load an object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param mixed $value
      * @param null $field
      * @return \Magento\Core\Model\Resource\Db\AbstractDb|void
      */
-    public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
+    public function load(\Magento\Model\AbstractModel $object, $value, $field = null)
     {
         // forbid using resource model
     }

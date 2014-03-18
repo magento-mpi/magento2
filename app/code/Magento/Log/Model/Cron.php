@@ -18,7 +18,7 @@
  */
 namespace Magento\Log\Model;
 
-class Cron extends \Magento\Core\Model\AbstractModel
+class Cron extends \Magento\Model\AbstractModel
 {
     const XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE     = 'system/log/error_email_template';
     const XML_PATH_EMAIL_LOG_CLEAN_IDENTITY     = 'system/log/error_email_identity';

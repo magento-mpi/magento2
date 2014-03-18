@@ -13,7 +13,7 @@ namespace Magento\Rma\Model\Rma\Status;
 /**
  * RMA model
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     /**
      * Core store manager interface

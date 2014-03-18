@@ -27,7 +27,7 @@ namespace Magento\Newsletter\Model;
  * @method int getSubscriberId()
  * @method Subscriber setSubscriberId(int $value)
  */
-class Subscriber extends \Magento\Core\Model\AbstractModel
+class Subscriber extends \Magento\Model\AbstractModel
 {
     const STATUS_SUBSCRIBED = 1;
     const STATUS_NOT_ACTIVE = 2;

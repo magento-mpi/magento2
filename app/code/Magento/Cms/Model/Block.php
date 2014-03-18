@@ -28,7 +28,7 @@ namespace Magento\Cms\Model;
  * @method int getIsActive()
  * @method \Magento\Cms\Model\Block setIsActive(int $value)
  */
-class Block extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Block extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * CMS block cache tag
@@ -58,7 +58,7 @@ class Block extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Prevent blocks recursion
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()

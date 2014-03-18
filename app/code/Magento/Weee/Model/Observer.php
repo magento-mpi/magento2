@@ -9,7 +9,7 @@
  */
 namespace Magento\Weee\Model;
 
-class Observer extends \Magento\Core\Model\AbstractModel
+class Observer extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Catalog\Model\Product\Type

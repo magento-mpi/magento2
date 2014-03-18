@@ -13,7 +13,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Item model
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * Entity code.

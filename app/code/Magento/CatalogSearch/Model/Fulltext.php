@@ -11,7 +11,7 @@ namespace Magento\CatalogSearch\Model;
 
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;

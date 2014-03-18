@@ -65,10 +65,10 @@ class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
         if ($object->getUseDefaultValue()) {
@@ -102,7 +102,7 @@ class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
     protected function _getLoadSelect($field, $value, $object)

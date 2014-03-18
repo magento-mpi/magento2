@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Model\Order;
 
-class Status extends \Magento\Core\Model\AbstractModel
+class Status extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface

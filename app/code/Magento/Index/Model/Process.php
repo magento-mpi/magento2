@@ -29,7 +29,7 @@ use Magento\Index\Model\Resource\Event\Collection;
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Process extends \Magento\Core\Model\AbstractModel
+class Process extends \Magento\Model\AbstractModel
 {
     /**
      * Process statuses

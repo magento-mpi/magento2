@@ -10,7 +10,7 @@
 namespace Magento\Newsletter\Model\Resource;
 
 use Magento\Newsletter\Model\Queue as ModelQueue;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Newsletter queue resource model

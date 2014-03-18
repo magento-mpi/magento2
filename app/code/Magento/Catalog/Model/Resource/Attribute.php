@@ -55,10 +55,10 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         $applyTo = $object->getApplyTo();
         if (is_array($applyTo)) {
@@ -70,10 +70,10 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $this->_clearUselessAttributeValues($object);
         return parent::_afterSave($object);
@@ -82,10 +82,10 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Clear useless attribute values
      *
-     * @param  \Magento\Core\Model\AbstractModel $object
+     * @param  \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _clearUselessAttributeValues(\Magento\Core\Model\AbstractModel $object)
+    protected function _clearUselessAttributeValues(\Magento\Model\AbstractModel $object)
     {
         $origData = $object->getOrigData();
 
@@ -110,11 +110,11 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Delete entity
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    public function deleteEntity(\Magento\Core\Model\AbstractModel $object)
+    public function deleteEntity(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getEntityAttributeId()) {
             return $this;

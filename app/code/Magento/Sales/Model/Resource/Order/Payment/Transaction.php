@@ -126,7 +126,7 @@ class Transaction extends \Magento\Sales\Model\Resource\Order\AbstractOrder
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $transaction)
+    protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
     {
         $parentTxnId = $transaction->getData('parent_txn_id');
         $txnId       = $transaction->getData('txn_id');

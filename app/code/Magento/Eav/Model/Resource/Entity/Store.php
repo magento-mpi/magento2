@@ -9,7 +9,7 @@
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Object;
 
 /**

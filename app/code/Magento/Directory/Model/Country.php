@@ -22,7 +22,7 @@
  */
 namespace Magento\Directory\Model;
 
-class Country extends \Magento\Core\Model\AbstractModel
+class Country extends \Magento\Model\AbstractModel
 {
     /**
      * @var array

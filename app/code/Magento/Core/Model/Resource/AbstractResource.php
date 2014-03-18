@@ -152,7 +152,7 @@ abstract class AbstractResource
     /**
      * Unserialize \Magento\Object field in an object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $field
      * @param mixed $defaultValue
      * @return void
@@ -226,11 +226,11 @@ abstract class AbstractResource
     /**
      * Prepare the list of entity fields that should be selected from DB. Apply filtration based on active fieldset.
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $tableName
      * @return array|string
      */
-    protected function _getColumnsForEntityLoad(\Magento\Core\Model\AbstractModel $object, $tableName)
+    protected function _getColumnsForEntityLoad(\Magento\Model\AbstractModel $object, $tableName)
     {
         $fieldsetColumns = $object->getFieldset();
         if (!empty($fieldsetColumns)) {

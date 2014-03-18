@@ -35,7 +35,7 @@ namespace Magento\FullPageCache\Model;
  * @package     Magento_FullPageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Crawler extends \Magento\Core\Model\AbstractModel
+class Crawler extends \Magento\Model\AbstractModel
 {
     /**
      * Crawler settings

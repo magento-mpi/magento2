@@ -34,7 +34,7 @@ namespace Magento\Sales\Model\Order\Shipment;
  * @method string getSku()
  * @method \Magento\Sales\Model\Order\Shipment\Item setSku(string $value)
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * @var string

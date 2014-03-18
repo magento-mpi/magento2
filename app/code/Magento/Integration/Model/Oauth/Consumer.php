@@ -28,7 +28,7 @@ use Magento\Oauth\ConsumerInterface;
  * @method string getRejectedCallbackUrl()
  * @method Consumer setRejectedCallbackUrl() setRejectedCallbackUrl(string $rejectedCallbackUrl)
  */
-class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInterface
+class Consumer extends \Magento\Model\AbstractModel implements ConsumerInterface
 {
     /**
      * @var \Magento\Url\Validator

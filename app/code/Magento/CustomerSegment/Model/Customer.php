@@ -26,7 +26,7 @@ namespace Magento\CustomerSegment\Model;
  * @method int getWebsiteId()
  * @method \Magento\CustomerSegment\Model\Customer setWebsiteId(int $value)
  */
-class Customer extends \Magento\Core\Model\AbstractModel
+class Customer extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Session

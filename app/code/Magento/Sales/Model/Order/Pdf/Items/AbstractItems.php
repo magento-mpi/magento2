@@ -12,7 +12,7 @@ namespace Magento\Sales\Model\Order\Pdf\Items;
 /**
  * Sales Order Pdf Items renderer Abstract
  */
-abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
+abstract class AbstractItems extends \Magento\Model\AbstractModel
 {
     /**
      * Order model
@@ -24,7 +24,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Source model (invoice, shipment, creditmemo)
      *
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_source;
 
@@ -107,10 +107,10 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
     /**
      * Set Source model
      *
-     * @param  \Magento\Core\Model\AbstractModel $source
+     * @param  \Magento\Model\AbstractModel $source
      * @return $this
      */
-    public function setSource(\Magento\Core\Model\AbstractModel $source)
+    public function setSource(\Magento\Model\AbstractModel $source)
     {
         $this->_source = $source;
         return $this;
@@ -170,7 +170,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
      * Retrieve source object
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     public function getSource()
     {

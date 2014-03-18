@@ -27,7 +27,7 @@ use Magento\Catalog\Model\Product\Option;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Value extends \Magento\Core\Model\AbstractModel
+class Value extends \Magento\Model\AbstractModel
 {
     /**
      * @var array

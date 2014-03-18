@@ -27,7 +27,7 @@ namespace Magento\Widget\Model\Widget;
  * @package     Magento_Widget
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Instance extends \Magento\Core\Model\AbstractModel
+class Instance extends \Magento\Model\AbstractModel
 {
     const SPECIFIC_ENTITIES = 'specific';
     const ALL_ENTITIES      = 'all';

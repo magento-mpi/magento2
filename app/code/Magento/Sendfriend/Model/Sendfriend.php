@@ -25,7 +25,7 @@ use Magento\Core\Exception as CoreException;
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Sendfriend extends \Magento\Core\Model\AbstractModel
+class Sendfriend extends \Magento\Model\AbstractModel
 {
     /**
      * Recipient Names

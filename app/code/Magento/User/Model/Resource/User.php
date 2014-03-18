@@ -138,7 +138,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if (is_numeric($user)) {
             $userId = $user;
-        } elseif ($user instanceof \Magento\Core\Model\AbstractModel) {
+        } elseif ($user instanceof \Magento\Model\AbstractModel) {
             $userId = $user->getUserId();
         } else {
             return null;
@@ -166,10 +166,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set created/modified values before user save
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $user)
+    protected function _beforeSave(\Magento\Model\AbstractModel $user)
     {
         if ($user->isObjectNew()) {
             $user->setCreated($this->dateTime->formatDate(true));
@@ -182,10 +182,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Unserialize user extra data after user save
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $user)
+    protected function _afterSave(\Magento\Model\AbstractModel $user)
     {
         $user->setExtra(unserialize($user->getExtra()));
         if ($user->hasRoleId()) {
@@ -245,10 +245,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Unserialize user extra data after user load
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $user)
+    protected function _afterLoad(\Magento\Model\AbstractModel $user)
     {
         if (is_string($user->getExtra())) {
             $user->setExtra(unserialize($user->getExtra()));
@@ -259,11 +259,11 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Delete user role record with user
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return bool
      * @throws \Magento\Core\Exception
      */
-    public function delete(\Magento\Core\Model\AbstractModel $user)
+    public function delete(\Magento\Model\AbstractModel $user)
     {
         $this->_beforeDelete($user);
         $adapter = $this->_getWriteAdapter();
@@ -292,10 +292,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Get user roles
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return array
      */
-    public function getRoles(\Magento\Core\Model\AbstractModel $user)
+    public function getRoles(\Magento\Model\AbstractModel $user)
     {
         if ( !$user->getId() ) {
             return array();
@@ -329,10 +329,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Delete user role
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return $this
      */
-    public function deleteFromRole(\Magento\Core\Model\AbstractModel $user)
+    public function deleteFromRole(\Magento\Model\AbstractModel $user)
     {
         if ( $user->getUserId() <= 0 ) {
             return $this;
@@ -355,10 +355,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if role user exists
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return array
      */
-    public function roleUserExists(\Magento\Core\Model\AbstractModel $user)
+    public function roleUserExists(\Magento\Model\AbstractModel $user)
     {
         if ( $user->getUserId() > 0 ) {
             $roleTable = $this->getTable('admin_role');
@@ -383,10 +383,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if user exists
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return array
      */
-    public function userExists(\Magento\Core\Model\AbstractModel $user)
+    public function userExists(\Magento\Model\AbstractModel $user)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select();
@@ -407,10 +407,10 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Whether a user's identity is confirmed
      *
-     * @param \Magento\Core\Model\AbstractModel $user
+     * @param \Magento\Model\AbstractModel $user
      * @return bool
      */
-    public function isUserUnique(\Magento\Core\Model\AbstractModel $user)
+    public function isUserUnique(\Magento\Model\AbstractModel $user)
     {
         return !$this->userExists($user);
     }
@@ -418,7 +418,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save user extra data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $data
      * @return $this
      */

@@ -16,7 +16,7 @@ namespace Magento\ProductAlert\Model;
  * @package    Magento_ProductAlert
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Email extends \Magento\Core\Model\AbstractModel
+class Email extends \Magento\Model\AbstractModel
 {
     const XML_PATH_EMAIL_PRICE_TEMPLATE = 'catalog/productalert/email_price_template';
     const XML_PATH_EMAIL_STOCK_TEMPLATE = 'catalog/productalert/email_stock_template';

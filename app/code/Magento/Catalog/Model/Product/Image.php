@@ -20,7 +20,7 @@ namespace Magento\Catalog\Model\Product;
 use Magento\Core\Model\Store;
 use Magento\Image as MagentoImage;
 
-class Image extends \Magento\Core\Model\AbstractModel
+class Image extends \Magento\Model\AbstractModel
 {
     /**
      * @var int

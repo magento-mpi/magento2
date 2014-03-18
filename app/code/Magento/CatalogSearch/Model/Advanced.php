@@ -47,7 +47,7 @@ use Magento\CatalogSearch\Model\Resource\Advanced\Collection;
 use Magento\CatalogSearch\Model\Resource\EngineInterface;
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\StoreManagerInterface;

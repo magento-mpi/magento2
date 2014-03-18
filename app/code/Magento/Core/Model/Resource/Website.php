@@ -45,11 +45,11 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Validate website code before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
             throw new \Magento\Core\Exception(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
@@ -61,10 +61,10 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         if ($object->getIsDefault()) {
             $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 0));
@@ -77,10 +77,10 @@ class Website extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove core configuration data after delete website
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $model)
+    protected function _afterDelete(\Magento\Model\AbstractModel $model)
     {
         $where = array(
             'scope = ?'    => \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES,

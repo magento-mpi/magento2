@@ -28,7 +28,7 @@ namespace Magento\Eav\Model\Form;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Model\AbstractModel
 {
     /**
      * Prefix of model events names

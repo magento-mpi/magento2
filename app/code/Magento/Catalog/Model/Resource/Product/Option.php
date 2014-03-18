@@ -72,10 +72,10 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save options store data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -86,10 +86,10 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save value prices
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _saveValuePrices(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveValuePrices(\Magento\Model\AbstractModel $object)
     {
         $priceTable   = $this->getTable('catalog_product_option_price');
         $readAdapter  = $this->_getReadAdapter();
@@ -229,10 +229,10 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save titles
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return void
      */
-    protected function _saveValueTitles(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveValueTitles(\Magento\Model\AbstractModel $object)
     {
         $readAdapter  = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();

@@ -46,10 +46,10 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Add creation date to object
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getAddedAt()) {
             $object->setAddedAt($this->dateTime->formatDate(true));

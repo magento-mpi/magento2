@@ -9,7 +9,7 @@
  */
 namespace Magento\Email\Model\Resource;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Template db resource

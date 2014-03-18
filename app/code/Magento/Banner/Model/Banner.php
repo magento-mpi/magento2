@@ -25,7 +25,7 @@
  */
 namespace Magento\Banner\Model;
 
-class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Banner extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Representation value of enabled banner

@@ -49,7 +49,7 @@ class Wishlist extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)

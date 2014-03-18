@@ -19,7 +19,7 @@ use \Magento\Exception\NoSuchEntityException;
 /**
  * Tax Calculation Model
  */
-class Calculation extends \Magento\Core\Model\AbstractModel
+class Calculation extends \Magento\Model\AbstractModel
 {
     const CALC_TAX_BEFORE_DISCOUNT_ON_EXCL      = '0_0';
     const CALC_TAX_BEFORE_DISCOUNT_ON_INCL      = '0_1';

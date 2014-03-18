@@ -25,7 +25,7 @@ namespace Magento\VersionsCms\Model\Hierarchy;
  *
  * @deprecated since 1.12.0.0
  */
-class Lock extends \Magento\Core\Model\AbstractModel
+class Lock extends \Magento\Model\AbstractModel
 {
     /**
      * Core store config

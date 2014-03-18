@@ -25,7 +25,7 @@
 
 namespace Magento\Tax\Model;
 
-class ClassModel extends \Magento\Core\Model\AbstractModel
+class ClassModel extends \Magento\Model\AbstractModel
 {
     /**
      * Defines Customer Tax Class string

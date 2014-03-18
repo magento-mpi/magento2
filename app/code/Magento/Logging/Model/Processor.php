@@ -7,7 +7,7 @@
  */
 namespace Magento\Logging\Model;
 
-use \Magento\Core\Model\AbstractModel;
+use \Magento\Model\AbstractModel;
 use \Magento\Logging\Model\Event\Changes;
 
 class Processor

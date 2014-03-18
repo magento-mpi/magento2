@@ -28,7 +28,7 @@ namespace Magento\VersionsCms\Model\Hierarchy;
  * @method string getXpath()
  * @method \Magento\VersionsCms\Model\Hierarchy\Node setXpath(string $value)
  */
-class Node extends \Magento\Core\Model\AbstractModel
+class Node extends \Magento\Model\AbstractModel
 {
     /**
      * Meta node's types

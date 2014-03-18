@@ -13,7 +13,7 @@ namespace Magento\Core\Model\File\Storage\Database;
 /**
  * Class AbstractDatabase
  */
-abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
+abstract class AbstractDatabase extends \Magento\Model\AbstractModel
 {
     /**
      * Store media base directory path

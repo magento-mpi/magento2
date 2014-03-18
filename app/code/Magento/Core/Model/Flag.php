@@ -9,6 +9,8 @@
  */
 namespace Magento\Core\Model;
 
+use Magento\Model\AbstractModel;
+
 /**
  * Core Flag model
  *

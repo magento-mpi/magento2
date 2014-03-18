@@ -31,7 +31,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load Entity Type by Code
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param string $code
      * @return $this
      */

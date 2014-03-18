@@ -89,7 +89,7 @@ class Usage extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $object->setData($data);
             }
         }
-        if ($object instanceof \Magento\Core\Model\AbstractModel) {
+        if ($object instanceof \Magento\Model\AbstractModel) {
             $this->_afterLoad($object);
         }
         return $this;

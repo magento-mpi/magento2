@@ -118,7 +118,7 @@ class Customer extends \Magento\Core\Model\Config\Value
     /**
      * Processing object after delete data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterDelete()
     {

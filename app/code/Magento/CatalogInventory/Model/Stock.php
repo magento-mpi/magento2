@@ -20,7 +20,7 @@ use Magento\CatalogInventory\Model\Stock\Item;
  * @method \Magento\CatalogInventory\Model\Stock setStockName(string $value)
  */
 
-class Stock extends \Magento\Core\Model\AbstractModel
+class Stock extends \Magento\Model\AbstractModel
 {
     const BACKORDERS_NO             = 0;
     const BACKORDERS_YES_NONOTIFY   = 1;

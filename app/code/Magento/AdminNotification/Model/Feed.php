@@ -16,7 +16,7 @@ namespace Magento\AdminNotification\Model;
  * @package    Magento_AdminNotification
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Feed extends \Magento\Core\Model\AbstractModel
+class Feed extends \Magento\Model\AbstractModel
 {
     const XML_USE_HTTPS_PATH    = 'system/adminnotification/use_https';
     const XML_FEED_URL_PATH     = 'system/adminnotification/feed_url';

@@ -28,7 +28,7 @@ use Magento\Index\Model\Indexer;
  * @package     Magento_Index
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Event extends \Magento\Core\Model\AbstractModel
+class Event extends \Magento\Model\AbstractModel
 {
     /**
      * Predefined event types

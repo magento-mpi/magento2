@@ -38,7 +38,7 @@ namespace Magento\Invitation\Model;
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Invitation extends \Magento\Core\Model\AbstractModel
+class Invitation extends \Magento\Model\AbstractModel
 {
     const STATUS_NEW = 'new';
     const STATUS_SENT = 'sent';

@@ -16,7 +16,7 @@ return array(
     array('_addLink', 'Magento\Customer\Block\Account\Link'),
     array('_addMinimalPrice', 'Magento\Catalog\Model\Resource\Product\Collection'),
     array('_addTaxPercents', 'Magento\Catalog\Model\Resource\Product\Collection'),
-    array('_afterSaveCommit', 'Magento\Core\Model\AbstractModel'),
+    array('_afterSaveCommit', 'Magento\Model\AbstractModel'),
     array('_afterSetConfig', 'Magento\Eav\Model\Entity\AbstractEntity'),
     array('_aggregateByOrderCreatedAt', 'Magento\SalesRule\Model\Resource\Report\Rule'),
     array('_amountByCookies', 'Magento\Sendfriend\Model\Sendfriend'),

@@ -19,7 +19,7 @@ namespace Magento\Log\Model;
  * @package    Magento_Log
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Aggregation extends \Magento\Core\Model\AbstractModel
+class Aggregation extends \Magento\Model\AbstractModel
 {
     /**
      * Last record data

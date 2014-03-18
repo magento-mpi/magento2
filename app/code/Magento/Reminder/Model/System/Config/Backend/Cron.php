@@ -10,7 +10,7 @@
 namespace Magento\Reminder\Model\System\Config\Backend;
 
 use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 /**
  * Reminder Cron Backend Model

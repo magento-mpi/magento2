@@ -57,11 +57,11 @@ class Transaction extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Serialize additional information, if any
      *
-     * @param \Magento\Core\Model\AbstractModel $transaction
+     * @param \Magento\Model\AbstractModel $transaction
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $transaction)
+    protected function _beforeSave(\Magento\Model\AbstractModel $transaction)
     {
         $txnId       = $transaction->getData('txn_id');
         $idFieldName = $this->getIdFieldName();

@@ -124,10 +124,10 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save Product Index data (forced save)
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
-    public function save(\Magento\Core\Model\AbstractModel  $object)
+    public function save(\Magento\Model\AbstractModel  $object)
     {
         if ($object->isDeleted()) {
             return $this->delete($object);

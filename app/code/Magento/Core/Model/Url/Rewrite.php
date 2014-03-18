@@ -38,7 +38,7 @@
  */
 namespace Magento\Core\Model\Url;
 
-class Rewrite extends \Magento\Core\Model\AbstractModel
+class Rewrite extends \Magento\Model\AbstractModel
 {
     const TYPE_CATEGORY = 1;
     const TYPE_PRODUCT  = 2;

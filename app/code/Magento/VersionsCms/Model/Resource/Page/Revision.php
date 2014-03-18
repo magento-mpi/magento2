@@ -64,10 +64,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Process page data before saving
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getCopiedFromOriginal()) {
             /*
@@ -89,10 +89,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Process data after save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -103,10 +103,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process data after delete
      * Validate if this revision can be removed
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterDelete(\Magento\Model\AbstractModel $object)
     {
         $this->_aggregateVersionData((int)$object->getVersionId());
 
@@ -117,10 +117,10 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Checking if revision was published
      *
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isRevisionPublished(\Magento\Core\Model\AbstractModel $object)
+    public function isRevisionPublished(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from($this->_pageTable, 'published_revision_id')

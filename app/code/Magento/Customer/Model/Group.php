@@ -22,7 +22,7 @@ namespace Magento\Customer\Model;
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Group extends \Magento\Core\Model\AbstractModel
+class Group extends \Magento\Model\AbstractModel
 {
     /**
      * Xml config path for create account default group

@@ -25,7 +25,7 @@ use Magento\Core\Model\Store;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Model\AbstractModel
 {
     /**
      * @var Store

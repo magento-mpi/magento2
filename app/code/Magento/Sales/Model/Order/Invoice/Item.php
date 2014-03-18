@@ -76,7 +76,7 @@ namespace Magento\Sales\Model\Order\Invoice;
  * @method float getBaseHiddenTaxAmount()
  * @method \Magento\Sales\Model\Order\Invoice\Item setBaseHiddenTaxAmount(float $value)
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * @var string

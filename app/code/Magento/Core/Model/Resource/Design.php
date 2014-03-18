@@ -48,11 +48,11 @@ class Design extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      * @throws \Magento\Core\Exception
      */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    public function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if ($date = $object->getDateFrom()) {
             $object->setDateFrom($this->dateTime->formatDate($date));

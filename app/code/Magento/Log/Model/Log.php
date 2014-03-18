@@ -29,7 +29,7 @@ namespace Magento\Log\Model;
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Log extends \Magento\Core\Model\AbstractModel
+class Log extends \Magento\Model\AbstractModel
 {
     const XML_LOG_CLEAN_DAYS    = 'system/log/clean_after_day';
 

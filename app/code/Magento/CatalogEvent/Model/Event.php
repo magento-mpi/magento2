@@ -11,7 +11,7 @@ use Magento\App\Filesystem;
 use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Registry;

@@ -73,10 +73,10 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Proceed operations after object is saved
      * Save options store data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return \Magento\Core\Model\Resource\Db\AbstractDb
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         $this->_saveValuePrices($object);
         $this->_saveValueTitles($object);
@@ -87,10 +87,10 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save option value price data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return void
      */
-    protected function _saveValuePrices(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveValuePrices(\Magento\Model\AbstractModel $object)
     {
         $priceTable = $this->getTable('catalog_product_option_type_price');
 
@@ -197,10 +197,10 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save option value title data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return void
      */
-    protected function _saveValueTitles(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveValueTitles(\Magento\Model\AbstractModel $object)
     {
         $titleTable = $this->getTable('catalog_product_option_type_title');
 
