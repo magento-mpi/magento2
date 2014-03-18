@@ -77,7 +77,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $review = $this->_coreRegistry->registry('review_data');
         $product = $this->_productFactory->create()->load($review->getEntityPkValue());
-        $customer = $this->customerAccount->getCustomer($review->getCustomerId());
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
@@ -102,16 +101,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 . '" onclick="this.target=\'blank\'">' . $this->escapeHtml($product->getName()) . '</a>'
         ));
 
-        if ($customer->getId()) {
+        try {
+            $customer = $this->customerAccount->getCustomer($review->getCustomerId());
             $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>',
                 $this->getUrl('customer/index/edit', array('id' => $customer->getId(), 'active_tab'=>'review')),
                 $this->escapeHtml($customer->getFirstname()),
                 $this->escapeHtml($customer->getLastname()),
                 $this->escapeHtml($customer->getEmail()));
-        } elseif ($review->getStoreId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
-            $customerText = __('Administrator');
-        } else {
-            $customerText = __('Guest');
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $customerText = ($review->getStoreId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+                ? __('Administrator') : __('Guest');
         }
 
         $fieldset->addField('customer', 'note', array(
