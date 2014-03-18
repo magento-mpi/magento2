@@ -75,8 +75,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
                         )
                     )
                 )
-            )
-        );
+            );
 
         $this->_model->apply();
         $this->assertEquals(
