@@ -256,7 +256,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             throw new NoSuchEntityException('groupId', $groupId);
         }
 
-        return !$customerGroup->usesAsDefault();
+        return $groupId > 0 && !$customerGroup->usesAsDefault();
     }
 
     /**
