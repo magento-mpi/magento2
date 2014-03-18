@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\App;
+namespace Magento\Catalog\Model\App\Action;
 
 /**
  * Class ContextPluginTest
@@ -29,14 +29,24 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\App\FrontController|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $frontControllerMock;
-
-    /**
      * @var \Magento\Catalog\Helper\Product\ProductList|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $productListHelperMock;
+
+    /**
+     * @var \Closure
+     */
+    protected $closureMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
 
     /**
      * Set up
@@ -55,7 +65,11 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->frontControllerMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
+        $this->closureMock = function () {
+            return 'ExpectedValue';
+        };
+        $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context', array(), array(), '', false);
         $this->productListHelperMock = $this->getMock('Magento\Catalog\Helper\Product\ProductList',
             array(), array(), '', false);
@@ -66,7 +80,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testBeforeDispatchHasSortDirection()
+    public function testAroundDispatchHasSortDirection()
     {
         $this->toolbarModelMock->expects($this->exactly(1))
             ->method('getDirection')
@@ -112,6 +126,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                     array(1 => 1, 2 => 2), array (10 => 10)
                 )
             )));
-        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
+        $this->assertEquals(
+            'ExpectedValue',
+            $this->plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 }

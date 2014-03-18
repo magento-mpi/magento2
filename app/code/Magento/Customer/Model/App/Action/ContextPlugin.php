@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Model\App;
+namespace Magento\Customer\Model\App\Action;
 
 /**
  * Class ContextPlugin
@@ -36,13 +36,16 @@ class ContextPlugin
     }
 
     /**
-     * Before dispatch plugin
-     *
-     * @param \Magento\App\FrontController $subject
-     * @return null
+     * @param \Magento\App\Action\Action $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
+     * @return mixed
      */
-    public function beforeDispatch(\Magento\App\FrontController $subject)
-    {
+    public function aroundDispatch(
+        \Magento\App\Action\Action $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         $this->httpContext->setValue(
             \Magento\Customer\Helper\Data::CONTEXT_GROUP,
             $this->customerSession->getCustomerGroupId(),
@@ -53,6 +56,6 @@ class ContextPlugin
             $this->customerSession->isLoggedIn(),
             false
         );
-        return;
+        return $proceed($request);
     }
 }

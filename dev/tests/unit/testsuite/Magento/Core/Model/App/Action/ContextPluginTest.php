@@ -17,7 +17,7 @@ namespace Magento\Core\Model\App;
 class ContextPluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\App\ContextPlugin
+     * @var \Magento\Core\Model\App\Action\ContextPlugin
      */
     protected $plugin;
 
@@ -35,11 +35,6 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\App\Request\Http $httpRequest|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $httpRequestMock;
-
-    /**
-     * @var \Magento\App\FrontController|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $frontControllerMock;
 
     /**
      * @var \Magento\Core\Model\StoreManager|\PHPUnit_Framework_MockObject_MockObject
@@ -62,14 +57,27 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $websiteMock;
 
     /**
+     * @var \Closure
+     */
+    protected $closureMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
+
+    /**
      * Set up
      */
     public function setUp()
     {
         $this->sessionMock = $this->getMock('Magento\Core\Model\Session',
             array('getCurrencyCode'), array(), '', false);
-        $this->frontControllerMock = $this->getMock('Magento\App\FrontController',
-            array(), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context',
             array(), array(), '', false);
         $this->httpRequestMock = $this->getMock('Magento\App\Request\Http',
@@ -82,8 +90,12 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             array('getCode', '__wakeup'), array(), '', false);
         $this->websiteMock = $this->getMock('Magento\Core\Model\Website',
             array('getDefaultStore', '__wakeup'), array(), '', false);
-
-        $this->plugin = new \Magento\Core\Model\App\ContextPlugin(
+        $this->closureMock = function () {
+            return 'ExpectedValue';
+        };
+        $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
+        $this->plugin = new \Magento\Core\Model\App\Action\ContextPlugin(
             $this->sessionMock,
             $this->httpContextMock,
             $this->httpRequestMock,
@@ -92,9 +104,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test beforeLaunch
+     * Test aroundDispatch
      */
-    public function testBeforeDispatch()
+    public function testAroundDispatch()
     {
         $this->storeManagerMock->expects($this->exactly(2))
             ->method('getWebsite')
@@ -128,6 +140,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                 array(\Magento\Core\Helper\Data::CONTEXT_CURRENCY, 'UAH', 'UAH', $this->httpContextMock),
                 array(\Magento\Core\Helper\Data::CONTEXT_STORE, 'default', 'default', $this->httpContextMock),
             )));
-        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
+        $this->assertEquals(
+            'ExpectedValue',
+            $this->plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 }

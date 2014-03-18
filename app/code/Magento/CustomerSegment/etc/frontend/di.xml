@@ -12,8 +12,8 @@
         <plugin name="customer-segment-session-depersonalize"
                 type="Magento\CustomerSegment\Model\Layout\DepersonalizePlugin" sortOrder="15"/>
     </type>
-    <type name="Magento\App\FrontController">
-        <plugin name="customer-segment-app-frontController-context-plugin"
-                type="Magento\CustomerSegment\Model\App\ContextPlugin" sortOrder="1000"/>
+    <type name="Magento\App\Action\Action">
+        <plugin name="customer-segment-app-action-dispatchController-context-plugin"
+                type="Magento\CustomerSegment\Model\App\Action\ContextPlugin" sortOrder="10"/>
     </type>
 </config>
