@@ -27,11 +27,41 @@ class WishlistRssTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @var \Magento\App\Helper\Context
+     */
+    protected $_contextHelper;
+
+    /**
+     * @var \Magento\Rss\Helper\WishlistRss
+     */
+    protected $_wishlistHelper;
+
+    /**
+     * @var int
+     */
+    protected $_fixtureCustomerId;
+
     protected function setUp()
     {
+        $this->_fixtureCustomerId = 1;
+
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerSession = $this->_objectManager->create('Magento\Customer\Model\Session');
         $this->_coreData = $this->_objectManager->create('Magento\Core\Helper\Data');
+
+        $this->_contextHelper = $this->_objectManager->create('Magento\App\Helper\Context');
+        $request = $this->_contextHelper->getRequest();
+        $request->setParam('data', $this->_coreData->urlEncode($this->_fixtureCustomerId));
+
+        $this->_wishlistHelper = $this->_objectManager->create('Magento\Rss\Helper\WishlistRss',
+            [
+                'context' => $this->_contextHelper,
+                'customerSession' => $this->_customerSession
+            ]
+        );
+
+        $this->_customerSession->loginById($this->_fixtureCustomerId);
     }
 
     /**
@@ -40,24 +70,7 @@ class WishlistRssTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
-        $fixtureCustomerId = 1;
-        $this->_customerSession->loginById($fixtureCustomerId);
-
-        /** @var \Magento\App\Helper\Context $contextHelper */
-        $contextHelper = $this->_objectManager->create('Magento\App\Helper\Context');
-        /** @var \Magento\App\Request\Http $request */
-        $request = $contextHelper->getRequest();
-        $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));
-
-        /** @var \Magento\Rss\Helper\WishlistRss $wishlistHelper */
-        $wishlistHelper = $this->_objectManager->create('Magento\Rss\Helper\WishlistRss',
-            [
-                'context' => $contextHelper,
-                'customerSession' => $this->_customerSession
-            ]
-        );
-
-        $this->assertEquals($this->_customerSession->getCustomerDataObject(), $wishlistHelper->getCustomer());
+        $this->assertEquals($this->_customerSession->getCustomerDataObject(), $this->_wishlistHelper->getCustomer());
     }
 
     /**
@@ -67,30 +80,16 @@ class WishlistRssTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWishlistByParam()
     {
-        $fixtureCustomerId = 1;
-        $this->_customerSession->loginById($fixtureCustomerId);
-
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')
-            ->loadByCustomerId($fixtureCustomerId);
+            ->loadByCustomerId($this->_fixtureCustomerId);
         $wishlist->load($wishlist->getId());
 
-        /** @var \Magento\App\Helper\Context $contextHelper */
-        $contextHelper = $this->_objectManager->create('Magento\App\Helper\Context');
         /** @var \Magento\App\Request\Http $request */
-        $request = $contextHelper->getRequest();
+        $request = $this->_contextHelper->getRequest();
         $request->setParam('wishlist_id', $wishlist->getId());
-        $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));
 
-        /** @var \Magento\Rss\Helper\WishlistRss $wishlistHelper */
-        $wishlistHelper = $this->_objectManager->create('Magento\Rss\Helper\WishlistRss',
-            [
-                'context' => $contextHelper,
-                'customerSession' => $this->_customerSession
-            ]
-        );
-
-        $this->assertEquals($wishlist, $wishlistHelper->getWishlist());
+        $this->assertEquals($wishlist, $this->_wishlistHelper->getWishlist());
     }
 
     /**
@@ -100,29 +99,15 @@ class WishlistRssTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWishlistByCustomerId()
     {
-        $fixtureCustomerId = 1;
-        $this->_customerSession->loginById($fixtureCustomerId);
-
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')
-            ->loadByCustomerId($fixtureCustomerId);
+            ->loadByCustomerId($this->_fixtureCustomerId);
 
-        /** @var \Magento\App\Helper\Context $contextHelper */
-        $contextHelper = $this->_objectManager->create('Magento\App\Helper\Context');
         /** @var \Magento\App\Request\Http $request */
-        $request = $contextHelper->getRequest();
+        $request = $this->_contextHelper->getRequest();
         $request->setParam('wishlist_id', '');
-        $request->setParam('data', $this->_coreData->urlEncode($fixtureCustomerId));
 
-        /** @var \Magento\Rss\Helper\WishlistRss $wishlistHelper */
-        $wishlistHelper = $this->_objectManager->create('Magento\Rss\Helper\WishlistRss',
-            [
-                'context' => $contextHelper,
-                'customerSession' => $this->_customerSession
-            ]
-        );
-
-        $this->assertEquals($wishlist, $wishlistHelper->getWishlist());
+        $this->assertEquals($wishlist, $this->_wishlistHelper->getWishlist());
     }
 }
  

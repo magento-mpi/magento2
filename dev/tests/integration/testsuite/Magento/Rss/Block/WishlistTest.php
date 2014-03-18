@@ -75,9 +75,15 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                 'wishlistHelper' => $wishlistHelper
             ]
         );
-        $matches = [];
-        preg_match('/<title>(.*)<\/title>/', $block->toHtml(), $matches);
-        $this->assertEquals("<title><![CDATA[Firstname Lastname's Wishlist]]></title>", $matches[0]);
+
+        /** @var \Magento\Escaper $escaper */
+        $escaper = $this->_objectManager->create('Magento\Escaper');
+
+        $expectedSting = sprintf("%%A<title><![CDATA[%s %s's Wishlist]]></title>%%A",
+            $escaper->escapeHtml($this->_customerSession->getCustomerDataObject()->getFirstname()),
+            $escaper->escapeHtml($this->_customerSession->getCustomerDataObject()->getLastname())
+        );
+        $this->assertStringMatchesFormat($expectedSting, $block->toHtml());
     }
 }
  
