@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Indexer\Model\ConfigInterface" type="Magento\Indexer\Model\Config" />
     <preference for="Magento\Indexer\Model\IndexerInterface" type="Magento\Indexer\Model\Indexer" />
     <type name="Magento\Indexer\Model\Indexer">

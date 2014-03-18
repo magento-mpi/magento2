@@ -53,7 +53,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -66,7 +66,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         \Magento\View\Element\Template\Context $context,
         \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,

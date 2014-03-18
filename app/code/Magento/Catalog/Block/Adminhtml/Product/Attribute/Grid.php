@@ -103,18 +103,7 @@ class Grid extends AbstractGrid
             'align' => 'center',
         ), 'is_user_defined');
 
-        $this->addColumnAfter('is_filterable', array(
-            'header'=>__('Use in Layered Navigation'),
-            'sortable'=>true,
-            'index'=>'is_filterable',
-            'type' => 'options',
-            'options' => array(
-                '1' => __('Filterable (with results)'),
-                '2' => __('Filterable (no results)'),
-                '0' => __('No'),
-            ),
-            'align' => 'center',
-        ), 'is_searchable');
+        $this->_eventManager->dispatch('product_attribute_grid_build', array('grid' => $this));
 
         $this->addColumnAfter('is_comparable', array(
             'header'=>__('Comparable'),

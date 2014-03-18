@@ -59,7 +59,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Registry $coreRegistry
@@ -68,7 +68,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Escaper $escaper,
         \Magento\Registry $coreRegistry,
@@ -77,7 +77,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_categoryFactory = $categoryFactory;
         $this->_escaper = $escaper;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $data);
+        parent::__construct($filterItemFactory, $storeManager, $layer, $data);
         $this->_requestVar = 'cat';
     }
 
@@ -105,10 +105,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      * Apply category filter to layer
      *
      * @param   \Zend_Controller_Request_Abstract $request
-     * @param   \Magento\View\Element\AbstractBlock $filterBlock
      * @return  $this
      */
-    public function apply(\Zend_Controller_Request_Abstract $request, $filterBlock)
+    public function apply(\Zend_Controller_Request_Abstract $request)
     {
         $filter = (int)$request->getParam($this->getRequestVar());
         if (!$filter) {

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/Cron/etc/crontab.xsd">
     <group id="default">
         <job name="job1" method="method1">
             <schedule>30 2 * * *</schedule>

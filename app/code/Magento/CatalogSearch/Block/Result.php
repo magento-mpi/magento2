@@ -10,7 +10,7 @@
 namespace Magento\CatalogSearch\Block;
 
 use Magento\Catalog\Block\Product\ListProduct;
-use Magento\Catalog\Model\Layer as ModelLayer;
+use Magento\Catalog\Model\Layer\Search as ModelLayer;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Collection;

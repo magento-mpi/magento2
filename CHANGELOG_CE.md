@@ -5,13 +5,6 @@
   * Added Built-in caching application
   * FullPageCache has been completely removed. Events that needed Clean or Invalidate cache have been transferred to PageCache module.
 * GitHub requests:
-  * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
-  * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
-  * [#418](https://github.com/magento/magento2/issues/418) -- Echo vs print
-  * [#419](https://github.com/magento/magento2/issues/419) -- Some translation keys are not correct.
-  * [#244](https://github.com/magento/magento2/issues/244) -- Retrieve base host URL without path in error processor
-  * [#411](https://github.com/magento/magento2/issues/411) -- Missed column 'payment_method' of table 'sales_flat_quote_address'
-  * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
   * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
   * [#472](https://github.com/magento/magento2/issues/472) -- Params passed in pub/index.php being overwritten
@@ -22,7 +15,7 @@
 * Fixed bugs:
   * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
   * Fixed transaction rollback in fetchNewIncrementId on exception
-  * Fixed category saveing when it has more than 1000 products
+  * Fixed category saving when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
@@ -43,18 +36,12 @@
   * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
   * Fixed JS/CSS merging functionality (MAGETWO-21924)
   * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
+  * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
+  * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
+  * Fixed ability to check Solr connection (MAGETWO-19110)
+  * Fixed ability to use of custom module front name (MAGETWO-16160)
 * Modularity improvements:
-  * Introduced Offline Payments module
-  * Added ability to enable/disable Paypal module
-  * Moved framework part of the Locales functionality from Core module to library
-  * Locale's logic has been splitted among appropriate classes in library, according to their responsibilities
-  * Deprecated DHL functionality has been removed
-  * Offline Shipping Carrier Module which contains Flatrate, Tablerate, Freeshipping, Pickup functionality introduced
-  * DHL Shipping Carrier Module introduced
-  * Fedex Shipping Carrier Module introduced
-  * UPS Shipping Carrier Module introduced
-  * USPS Shipping Carrier Module introduced
-  * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110) 
+  * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
   * Eliminate dependencies to Customer Models/Blocks from Sales Module
   * Renamed RecurringProfile to RecurringPayment module (MAGETWO-21456)
@@ -62,26 +49,71 @@
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor
   * View publisher re-factored
+  * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Framework Improvements:
-  * Added ability to intercept of internal public calls
-  * Added ability to access public interface of intercepted object
-  * Added static integrity test for plugin interface validation
-  * Added support of both class addressing approaches in DI (with and without slash at the beginning of class name)
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
   * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
+  * Covered Magento library components with unit tests: (MAGETWO-21137)
+    * Magento/Interception
+    * Magento/ObjectManager
+    * Magento/Message
+    * Magento/Module
+    * Magento/Mail
+    * Magento/Object
+    * Magento/Math
 * Customer Service usage:
-  * Customer module blocks and controllers refactoring to use customer service layer
   * Tax module refactoring to use customer service layer
   * Refactored Customer module Adminhtml internal controllers and helper to use customer services
   * Added and updated customer service APIs
   * Exposed customer services as REST APIs
-* Security:
-  * Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
-  * Utilized a random salt of default length for admin users and frontend customers
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types
+* Updated XML files to include relative path reference to schema file (MAGETWO-15527)
+
+2.0.0.0-dev68
+=============
+* Cache:
+  * Implemented depersonalization of private content generation
+  * Implemented content invalidation
+  * Added Edge Side Includes (ESI) support
+  * Added a built-in caching application
+* GitHub requests:
+  * [#454](https://github.com/magento/magento2/pull/454) -- Allow to specify list of IPs in a body on maintenance.flag which will be granted access even if the flag is on
+  * [#204](https://github.com/magento/magento2/issues/204) -- Mage_ImportExport: Exporting configurable products ignores multiple configurable options
+  * [#418](https://github.com/magento/magento2/issues/418) -- Echo vs print
+  * [#419](https://github.com/magento/magento2/issues/419) -- Some translation keys are not correct.
+  * [#244](https://github.com/magento/magento2/issues/244) -- Retrieve base host URL without path in error processor
+  * [#411](https://github.com/magento/magento2/issues/411) -- Missed column 'payment_method' of table 'sales_flat_quote_address'
+  * [#284](https://github.com/magento/magento2/pull/284) -- Fix for Issue #278 (Import -> Stores with large amount of Configurable Products)
+* Fixed bugs:
+  * Fixed an issue where Mage_Eav_Model_Entity_Type::fetchNewIncrementId() did not rollback on exception
+  * Fixed an issue where a category containing more than 1000 products could not be saved
+  * Fixed inappropriate error messages displayed during installation when required extensions were not installed
+  * Fixed synopsis of the install.php script
+  * Fixed an issue where the schedule of recurring payments was not displayed in the shopping cart
+* Modularity improvements:
+  * Introduced the OfflinePayments module - a saparate module for offline payment methods
+  * Added the ability to enable/disable the Paypal module
+  * Moved the framework part of the Locale functionality from the Core module to library
+  * The Locale logic was split among appropriate classes in library, according to their responsibilities
+  * Removed the deprecated DHL functionality
+  * Introduced the OfflineShipping module for offline shipping carrier functionality: Flatrate, Tablerate, Freeshipping, Pickup
+  * Introduced a separate module for the DHL shipping carrier
+  * Introduced a separate module for the Fedex shipping carrier
+  * Introduced a separate module for the UPS shipping carrier
+  * Introduced a separate module for the USPS shipping carrier
+* Framework Improvements:
+  * Added the ability to intercept internal public calls
+  * Added the ability to access public interface of the intercepted object
+  * Added a static integrity test for plugin interface validation
+  * Added support for both class addressing approaches in DI: with and without slash ("\") at the beginning of a class name
+* Customer Service usage:
+  * Refactored the Customer module blocks and controllers to use customer service layer
+* Security:
+  * Introduced the ability to hash a password with a random salt of default length (32 chars) by the encryption library
+  * Utilized a random salt of default length for admin users, and frontend customers
 
 2.0.0.0-dev67
 =============

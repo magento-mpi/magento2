@@ -40,14 +40,14 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
+     * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Category $categoryHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Layer $catalogLayer,
+        \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Registry $registry,
         \Magento\Catalog\Helper\Category $categoryHelper,
         array $data = array()

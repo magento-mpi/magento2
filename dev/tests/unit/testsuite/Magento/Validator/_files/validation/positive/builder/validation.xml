@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<validation>
+<validation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../../lib/Magento/Validator/etc/validation.xsd">
     <entity name="test_entity_a">
         <rules>
             <rule name="rules_for_builder">

@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
         <remove id="Magento_Cms::cms_page"/>
         <add id="Magento_VersionsCms::versionscms_page_page" title="Pages" module="Magento_VersionsCms" sortOrder="10" parent="Magento_Backend::content_elements" action="adminhtml/cms_page" resource="Magento_Cms::page"/>
