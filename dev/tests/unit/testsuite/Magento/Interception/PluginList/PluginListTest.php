@@ -125,19 +125,24 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
                 'global'
             ),
             array(
+                // advanced plugin has lower sort order
                 array(2 => 'advanced_plugin', 4 => array('advanced_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
                 'backend'
             ),
             array(
+                // advanced plugin has lower sort order
                 array(4 => array('simple_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item',
                 'getName',
                 'backend',
                 'advanced_plugin'
             ),
+            // simple plugin is disabled in configuration for
+            // \Magento\Interception\Custom\Module\Model\Item in frontend
             array(null, 'Magento\Interception\Custom\Module\Model\Item', 'getName', 'frontend'),
+            // test plugin inheritance
             array(
                 array(4 => array('simple_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item\Enhanced',
@@ -145,6 +150,7 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
                 'global'
             ),
             array(
+                // simple plugin is disabled in configuration for parent
                 array(2 => 'advanced_plugin', 4 => array('advanced_plugin')),
                 'Magento\Interception\Custom\Module\Model\Item\Enhanced',
                 'getName',

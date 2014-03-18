@@ -43,6 +43,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     public function exemplarXmlDataProvider()
     {
         return array(
+            /** Valid configurations */
             'valid' => array(
                 '<integrations>
                     <integration name="TestIntegration1">
@@ -70,6 +71,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array()
             ),
+            /** Missing required nodes */
             'empty root node' => array(
                 '<integrations/>',
                 array("Element 'integrations': Missing child element(s). Expected is ( integration ).")
@@ -93,6 +95,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 '<integration name="TestIntegration"/>',
                 array("Element 'integration': No matching global declaration available for the validation root.")
             ),
+            /** Excessive nodes */
             'irrelevant node in root' => array(
                 '<integrations>
                     <integration name="TestIntegration1">
@@ -145,6 +148,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "because the content type is a simple type definition."
                 )
             ),
+            /** Excessive attributes */
             'invalid attribute in root' => array(
                 '<integrations invalid="invalid">
                     <integration name="TestIntegration1">
@@ -189,6 +193,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array("Element 'resource', attribute 'invalid': The attribute 'invalid' is not allowed.")
             ),
+            /** Missing or empty required attributes */
             'integration without name' => array(
                 '<integrations>
                     <integration>
@@ -243,6 +248,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "is not a valid value of the atomic type 'resourceNameType'."
                 )
             ),
+            /** Invalid values */
             'resource with invalid name' => array(
                 '<integrations>
                     <integration name="TestIntegration1">

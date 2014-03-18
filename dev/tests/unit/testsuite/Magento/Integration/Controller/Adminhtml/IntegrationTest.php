@@ -896,7 +896,7 @@ HANDLE;
             array(
                 Info::DATA_NAME => 'nameTest',
                 Info::DATA_ID => self::INTEGRATION_ID,
-                'id' => self::INTEGRATION_ID,
+                'id' => self::INTEGRATION_ID, // This will allow usage of both getIntegrationId() and getId()
                 Info::DATA_EMAIL => 'test@magento.com',
                 Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
                 Info::DATA_SETUP_TYPE => IntegrationModel::TYPE_MANUAL

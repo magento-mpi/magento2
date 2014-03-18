@@ -54,7 +54,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $params = array(
             'area' => 'some_area',
             'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
-            'module' => 'Some_Module'
+            'module' => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
+                                        // but PHPUnit has problems with passing arguments by reference
+
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
@@ -142,7 +144,8 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             'area' => 'some_area',
             'themeModel' => $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false, false),
             'locale' => 'some_locale',
-            'module' => 'Some_Module'
+            'module' => 'Some_Module'   //It should be set in \Magento\View\Service::extractScope
+                                        // but PHPUnit has problems with passing arguments by reference
         );
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';

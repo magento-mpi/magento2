@@ -73,7 +73,7 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
             new \Magento\Object($decorated[2])
         );
         foreach ($decoratedVo as $obj) {
-            $obj->setDataChanges(true);
+            $obj->setDataChanges(true); // hack for assertion
         }
         $this->assertEquals($decoratedVo, $this->_arrayUtils->decorateArray($sample, ''));
     }

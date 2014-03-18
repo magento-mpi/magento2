@@ -809,7 +809,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directoryMock);
         $this->_model->setSource($source);
-        $this->_model->validateData();
+        $this->_model->validateData(); // assertions processed in self::verifyPrepareRowForDbData
     }
 
     /**

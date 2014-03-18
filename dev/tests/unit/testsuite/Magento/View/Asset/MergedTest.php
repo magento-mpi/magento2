@@ -219,7 +219,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $expectedResult = array($mergedAsset);
 
         $this->_assertIteratorEquals($expectedResult, $this->_object);
-        $this->_assertIteratorEquals($expectedResult, $this->_object);
+        $this->_assertIteratorEquals($expectedResult, $this->_object); // ensure merging happens only once
     }
 
     public function testIteratorInterfaceMergeFailure()
@@ -242,7 +242,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = array($this->_assetJsOne, $this->_assetJsTwo, $assetBroken);
         $this->_assertIteratorEquals($expectedResult, $this->_object);
-        $this->_assertIteratorEquals($expectedResult, $this->_object);
+        $this->_assertIteratorEquals($expectedResult, $this->_object); // ensure merging attempt happens only once
     }
 
     /**

@@ -174,6 +174,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderSecureRequestSecureRoute()
     {
+        // Each array contains return type for isSecure method of route and request objects.
         return array(array(true, true), array(false, true), array(false, false));
     }
 

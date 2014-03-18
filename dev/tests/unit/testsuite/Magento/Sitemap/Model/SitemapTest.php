@@ -305,7 +305,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
                     'robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
                     'pushToRobots' => 1
                 )
-            ),
+            ), // empty robots file
             array(
                 50000,
                 10485760,
@@ -316,7 +316,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
                     'robotsFinish' => "User-agent: *" . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
                     'pushToRobots' => 1
                 )
-            ),
+            ), // not empty robots file EOL
             array(
                 1,
                 10485760,
@@ -327,7 +327,7 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
                     'robotsFinish' => "User-agent: *\r\n\r\nSitemap: http://store.com/sitemap.xml",
                     'pushToRobots' => 1
                 )
-            ),
+            ), // not empty robots file WIN
             array(
                 50000,
                 264,
@@ -338,14 +338,14 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
                     'robotsFinish' => "User-agent: *\n\nSitemap: http://store.com/sitemap.xml",
                     'pushToRobots' => 1
                 )
-            ),
+            ), // not empty robots file UNIX
             array(
                 50000,
                 10485760,
                 $expectedSingleFile,
                 6,
                 array('robotsStart' => '', 'robotsFinish' => '', 'pushToRobots' => 0)
-            )
+            ) // empty robots file
         );
     }
 

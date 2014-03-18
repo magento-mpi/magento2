@@ -298,6 +298,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     \Magento\Profiler\Driver\Standard\Stat::REALMEM => 20000
                 ),
                 'filterPattern' => null,
+                // TIME >= 1000, REALMEM >= 20000
                 'expected' => array('root', 'root->init->init_cache')
             )
         );

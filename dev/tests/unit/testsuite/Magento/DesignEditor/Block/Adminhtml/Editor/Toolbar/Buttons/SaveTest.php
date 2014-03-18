@@ -88,6 +88,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                     $this->assertEquals($expectedOption, $action);
                     $isFound = true;
                 } catch (\Exception $e) {
+                    //do nothing
                 }
             }
 

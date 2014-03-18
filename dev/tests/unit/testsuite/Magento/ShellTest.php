@@ -85,6 +85,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
                 array('php -r `fwrite(STDERR, 27182);` 2>&1', '27182')
             ),
             'piping STDERR -> STDOUT' => array(
+                // intentionally no spaces around the pipe symbol
                 'php -r %s|php -r %s',
                 array('fwrite(STDERR, 27183);', 'echo fgets(STDIN);'),
                 '27183',
@@ -121,7 +122,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         try {
             /* Force command to return non-zero exit code */
             $commandArgs[count($commandArgs) - 1] .= ' exit(42);';
-            $this->testExecute($command, $commandArgs, '');
+            $this->testExecute($command, $commandArgs, ''); // no result is expected in a case of a command failure
         } catch (\Magento\Exception $e) {
             $this->assertInstanceOf('Exception', $e->getPrevious());
             $this->assertEquals($expectedError, $e->getPrevious()->getMessage());

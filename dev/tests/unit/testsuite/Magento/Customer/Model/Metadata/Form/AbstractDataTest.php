@@ -247,11 +247,13 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
                 'mylabel',
                 'email',
                 array(
+                    // @codingStandardsIgnoreStart
                     \Zend_Validate_EmailAddress::INVALID_HOSTNAME => '"mylabel" is not a valid hostname.',
                     \Zend_Validate_Hostname::INVALID_HOSTNAME =>
                         "'#\$' does not match the expected structure for a DNS hostname",
                     \Zend_Validate_Hostname::INVALID_LOCAL_NAME =>
                         "'#\$' does not appear to be a valid local network name."
+                    // @codingStandardsIgnoreEnd
                 )
             ),
             array('1234', 'mylabel', 'url', array('"mylabel" is not a valid URL.')),

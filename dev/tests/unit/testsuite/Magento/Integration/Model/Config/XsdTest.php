@@ -43,6 +43,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
     public function exemplarXmlDataProvider()
     {
         return array(
+            /** Valid configurations */
             'valid' => array(
                 '<integrations>
                     <integration name="TestIntegration">
@@ -66,6 +67,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array()
             ),
+            /** Missing required elements */
             'empty root node' => array(
                 '<integrations/>',
                 array("Element 'integrations': Missing child element(s). Expected is ( integration ).")
@@ -85,6 +87,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array("Element 'endpoint_url': This element is not expected. Expected is ( email ).")
             ),
+            /** Empty nodes */
             'empty email' => array(
                 '<integrations>
                     <integration name="TestIntegration1">
@@ -126,6 +129,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "Element 'identity_link_url': '' is not a valid value of the atomic type 'urlType'."
                 )
             ),
+            /** Invalid structure */
             'irrelevant root node' => array(
                 '<integration name="TestIntegration"/>',
                 array("Element 'integration': No matching global declaration available for the validation root.")
@@ -163,6 +167,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array("Element 'invalid': This element is not expected.")
             ),
+            /** Excessive attributes */
             'invalid attribute in root' => array(
                 '<integrations invalid="invalid">
                     <integration name="TestIntegration1">
@@ -213,6 +218,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array("Element 'identity_link_url', attribute 'invalid': The attribute 'invalid' is not allowed.")
             ),
+            /** Missing or empty required attributes */
             'integration without name' => array(
                 '<integrations>
                     <integration>
@@ -238,6 +244,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     "'' is not a valid value of the atomic type 'integrationNameType'."
                 )
             ),
+            /** Invalid values */
             'invalid email' => array(
                 '<integrations>
                     <integration name="TestIntegration1">

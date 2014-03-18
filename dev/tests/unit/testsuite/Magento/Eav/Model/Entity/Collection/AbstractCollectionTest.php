@@ -111,7 +111,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            'test_entity_model'
+            'test_entity_model' // see \Magento\Eav\Model\Entity\Collection\AbstractCollectionStub
         )->will(
             $this->returnValue($entityMock)
         );

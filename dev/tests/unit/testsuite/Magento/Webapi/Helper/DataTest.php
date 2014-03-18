@@ -66,13 +66,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function dataProviderForTestGetServiceNamePartsInvalidName()
     {
         return array(
-            array('BarV1Interface'),
-            array('Service\\V1Interface'),
-            array('Magento\\Foo\\Service\\BarVxInterface'),
-            array('Magento\\Foo\\Service\\BarInterface'),
-            array('Magento\\Foo\\Service\\BarV1'),
-            array('Foo\\Service\\BarV1Interface'),
-            array('Foo\\BarV1Interface')
+            array('BarV1Interface'), // Missed vendor, module, 'Service'
+            array('Service\\V1Interface'), // Missed vendor and module
+            array('Magento\\Foo\\Service\\BarVxInterface'), // Version number should be a number
+            array('Magento\\Foo\\Service\\BarInterface'), // Version missed
+            array('Magento\\Foo\\Service\\BarV1'), // 'Interface' missed
+            array('Foo\\Service\\BarV1Interface'), // Module missed
+            array('Foo\\BarV1Interface') // Module and 'Service' missed
         );
     }
 

@@ -138,9 +138,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         );
         $expectedData = array(
             'config' => array(
-                'key0' => 'website_value0',
+                'key0' => 'website_value0', // value from website scope
                 'key1' => 'store_db_value1',
-                'key2' => 'store_value2',
+                'key2' => 'store_value2', // value that has not been overridden in DB
                 'key3' => 'store_db_value3'
             )
         );

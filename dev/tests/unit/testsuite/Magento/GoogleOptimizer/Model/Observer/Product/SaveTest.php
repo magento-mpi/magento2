@@ -149,7 +149,13 @@ class SaveTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongRequestForCreating()
     {
-        return array(array('wrong type'), array(array('code_id' => '')), array(array('experiment_script' => '')));
+        return array(
+            // if param 'google_experiment' is not array
+            array('wrong type'),
+            // if param 'experiment_script' is missed
+            array(array('code_id' => '')),
+            // if param 'code_id' is missed
+            array(array('experiment_script' => '')));
     }
 
     public function testEditingCodeIfRequestIsValid()

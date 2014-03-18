@@ -80,6 +80,7 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
      */
     public function providerForTestConstructInvalidHttpCode()
     {
+        //Each array contains invalid \Exception code.
         return array(array(300), array(600));
     }
 }

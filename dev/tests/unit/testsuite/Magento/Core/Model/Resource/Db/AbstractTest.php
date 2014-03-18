@@ -67,7 +67,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         )->with(
             'core_read'
         )->will(
-            $this->onConsecutiveCalls(false, $connection, false)
+            $this->onConsecutiveCalls(false/*inactive connection*/, $connection/*active connection*/, false)
         );
         $this->assertFalse($this->_model->getReadConnection());
         $this->assertSame($connection, $this->_model->getReadConnection(), 'Inactive connection should not be cached');

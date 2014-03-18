@@ -178,7 +178,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(100, $parent->getAttribute('test_SortOrder'), 'Incorrect set of sort order');
         $this->assertEquals('TestTitle', $parent->getAttribute('test_Title'), 'Incorrect set of title');
         $maps = array('root' => 'Module_Name::root_id');
-        $this->assertEquals($maps, $this->_model->getAclResourceMaps());
+        $this->assertEquals($maps, $this->_model->getAclResourceMaps()); //test setting of id maps
     }
 
     public function testGetAdminhtmlFiles()

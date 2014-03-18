@@ -63,6 +63,7 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStrategy($mode)
     {
+        // 3 similar methods tested at once
         $this->appState->expects($this->exactly(3))->method('getMode')->will($this->returnValue($mode));
 
         $strategy = new \StdClass();

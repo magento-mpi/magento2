@@ -151,6 +151,8 @@ XML;
     {
         /** Include file with all expected SOAP fault XMLs. */
         $expectedXmls = include __DIR__ . '/../../_files/soap_fault/soap_fault_expected_xmls.php';
+
+        //Each array contains data for SOAP Fault Message, Expected XML, and Assert Message.
         return array(
             'ArrayDataDetails' => array(
                 'Fault reason',

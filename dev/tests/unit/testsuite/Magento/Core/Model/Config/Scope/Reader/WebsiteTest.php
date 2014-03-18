@@ -125,9 +125,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         );
         $expectedData = array(
             'config' => array(
-                'key0' => 'default_value0',
+                'key0' => 'default_value0', // value from default section
                 'key1' => 'website_db_value1',
-                'key2' => 'website_value2',
+                'key2' => 'website_value2', // value that has not been overridden in DB
                 'key3' => 'website_db_value3'
             )
         );

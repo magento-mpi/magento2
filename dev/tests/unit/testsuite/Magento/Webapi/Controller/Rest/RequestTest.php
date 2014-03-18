@@ -171,6 +171,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function providerAcceptType()
     {
         return array(
+            // Each element is: array(Accept HTTP header value, expected result))
             array('', array()),
             array(
                 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -203,6 +204,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function providerContentType()
     {
         return array(
+            // Each element is: array(Content-Type header value, content-type part[, expected exception message])
             array('', null, 'Content-Type header is empty.'),
             array('_?', null, 'Content-Type header is invalid.'),
             array('application/x-www-form-urlencoded; charset=UTF-8', 'application/x-www-form-urlencoded'),

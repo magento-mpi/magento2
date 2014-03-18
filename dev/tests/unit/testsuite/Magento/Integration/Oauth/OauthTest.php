@@ -59,6 +59,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $this->_consumerMock = $this->getMockBuilder(
             'Magento\Integration\Model\Oauth\Consumer'
+        // Mocking magic getCreatedAt()
         )->disableOriginalConstructor()->setMethods(
             array(
                 'getCreatedAt',
@@ -540,6 +541,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
                 'oauth_nonce' => '',
                 'oauth_timestamp' => '',
                 'oauth_token' => ''
+                // oauth_verifier missing
             ),
             self::REQUEST_URL
         );
@@ -630,6 +632,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForGetAccessTokenVerifierInvalidTest()
     {
+        // Verifier is not a string
         return array(array(3, 3), array('wrong_length', 'wrong_length'), array('verifier', 'doesnt match'));
     }
 
@@ -823,7 +826,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 'oauth_consumer_key',
-                array(
+                array( //'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
                     'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
                     'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
                     'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
@@ -835,6 +838,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
                 'oauth_consumer_secret',
                 array(
                     'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
+                    //'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
                     'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
                     'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
                     'custom_param1' => 'foo',
@@ -846,6 +850,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
                 array(
                     'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
                     'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
+                    //'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
                     'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
                     'custom_param1' => 'foo',
                     'custom_param2' => 'bar'
@@ -857,6 +862,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
                     'oauth_consumer_key' => 'edf957ef88492f0a32eb7e1731e85d',
                     'oauth_consumer_secret' => 'asdawwewefrtyh2f0a32eb7e1731e85d',
                     'oauth_token' => '7c0709f789e1f38a17aa4b9a28e1b06c',
+                    //'oauth_token_secret' => 'a6agsfrsfgsrjjjjyy487939244ssggg',
                     'custom_param1' => 'foo',
                     'custom_param2' => 'bar'
                 )

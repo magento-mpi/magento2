@@ -356,6 +356,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     public function reorderChildDataProvider()
     {
         return array(
+            // x* 1 2 3 4 5
             array(0, 0, 1),
             array(0, 1, 1),
             array(0, 2, 2),
@@ -365,6 +366,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
             array(0, -4, 2),
             array(0, -5, 1),
             array(0, -999, 1),
+            // 1 x* 2 3 4 5
             array(1, 0, 1),
             array(1, 1, 2),
             array(1, 2, 2),
@@ -373,12 +375,14 @@ class StructureTest extends \PHPUnit_Framework_TestCase
             array(1, -4, 2),
             array(1, -5, 2),
             array(1, -6, 1),
+            // 1 2 x* 3 4 5
             array(2, 0, 1),
             array(2, 1, 2),
             array(2, 2, 3),
             array(2, 3, 3),
             array(2, 4, 4),
             array(2, null, 6),
+            // 1 2 3 4 5 x*
             array(5, 0, 1),
             array(5, 1, 2),
             array(5, 5, 6)
@@ -412,12 +416,14 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     public function reorderSiblingDataProvider()
     {
         return array(
+            // x* 1 2 3 4 5
             array(0, 'one', 1, 2),
             array(0, 'three', 2, 5),
             array(0, 'five', 1, 6),
             array(0, 'five', 10, 6),
             array(0, 'one', -1, 1),
             array(0, 'one', -999, 1),
+            // 1 2 x* 3 4 5
             array(2, 'two', 1, 3),
             array(2, 'two', 2, 4),
             array(2, 'two', 3, 5),

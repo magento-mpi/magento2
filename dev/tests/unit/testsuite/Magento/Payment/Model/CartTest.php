@@ -150,6 +150,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function cartDataProvider()
     {
         return array(
+            // 1. All transfer flags set to true
             array(
                 array('transfer_shipping' => true, 'transfer_discount' => true),
                 $this->_getSalesModelItems(),
@@ -162,10 +163,11 @@ class CartTest extends \PHPUnit_Framework_TestCase
                 array(
                     Cart::AMOUNT_DISCOUNT => 0.0,
                     Cart::AMOUNT_SHIPPING => 0.0,
-                    Cart::AMOUNT_SUBTOTAL => 105.0,
+                    Cart::AMOUNT_SUBTOTAL => 105.0, // = 100.5 + shipping - discount
                     Cart::AMOUNT_TAX => 8.0
                 )
             ),
+            // 2. All transfer flags set to false
             array(
                 array('transfer_shipping' => false, 'transfer_discount' => false),
                 $this->_getSalesModelItems(),
@@ -182,6 +184,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
                     Cart::AMOUNT_TAX => 8.0
                 )
             ),
+            // 3. Shipping transfer flag set to true, discount to false, sales items are empty (don't affect result)
             array(
                 array('transfer_shipping' => true, 'transfer_discount' => false),
                 array(),

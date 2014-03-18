@@ -57,6 +57,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
     public function providerXmlRender()
     {
         return array(
+            // Each array consists of data to render, expected XML and assert message
             array(
                 array('value1', 'value2'),
                 '<?xml version="1.0"?><response><item>value1</item><item>value2</item></response>',

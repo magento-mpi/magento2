@@ -42,8 +42,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($template, $childBlockB->getTemplate());
 
         $block->setMethodFormTemplate('a', $template);
-        $this->assertEquals($template, $childBlockA->getTemplate());
-        // Template is set to the block
-        $this->assertNotEquals($template, $childBlockB->getTemplate());
+        $this->assertEquals($template, $childBlockA->getTemplate()); // Template is set to the block
+        $this->assertNotEquals($template, $childBlockB->getTemplate()); // Template is not propagated to other blocks
     }
 }

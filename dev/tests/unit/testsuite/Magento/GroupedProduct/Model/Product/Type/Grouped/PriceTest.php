@@ -169,8 +169,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             'custom_option_null' => array(
                 'associatedProducts' => array(),
                 'options' => array(array(), array()),
-                'expectedPriceCall' => 14,
-                'expectedFinalPrice' => 10
+                'expectedPriceCall' => 14, /* product call number to check final price formed correctly */
+                'expectedFinalPrice' => 10 /* 10(product price) + 2(options count) * 5(qty) * 5(option price) */
             ),
             'custom_option_exist' => array(
                 'associatedProducts' => $this->generateAssociatedProducts(),
@@ -179,8 +179,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
                     array('associated_product_2', $optionMock),
                     array('associated_product_3', $optionMock)
                 ),
-                'expectedPriceCall' => 17,
-                'expectedFinalPrice' => 35
+                'expectedPriceCall' => 17, /* product call number to check final price formed correctly */
+                'expectedFinalPrice' => 35 /* 10(product price) + 2(options count) * 5(qty) * 5(option price) */
             )
         );
     }
