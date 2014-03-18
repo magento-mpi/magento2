@@ -190,66 +190,6 @@ class App implements \Magento\AppInterface
     }
 
     /**
-     * Retrieve cache object
-     *
-     * @return \Magento\Cache\FrontendInterface
-     */
-    public function getCache()
-    {
-        return $this->_cache->getFrontend();
-    }
-
-    /**
-     * Loading cache data
-     *
-     * @param   string $cacheId
-     * @return  string
-     */
-    public function loadCache($cacheId)
-    {
-        return $this->_cache->load($cacheId);
-    }
-
-    /**
-     * Saving cache data
-     *
-     * @param mixed $data
-     * @param string $cacheId
-     * @param array $tags
-     * @param bool $lifeTime
-     * @return $this
-     */
-    public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false)
-    {
-        $this->_cache->save($data, $cacheId, $tags, $lifeTime);
-        return $this;
-    }
-
-    /**
-     * Remove cache
-     *
-     * @param   string $cacheId
-     * @return  $this
-     */
-    public function removeCache($cacheId)
-    {
-        $this->_cache->remove($cacheId);
-        return $this;
-    }
-
-    /**
-     * Cleaning cache
-     *
-     * @param   array $tags
-     * @return  $this
-     */
-    public function cleanCache($tags = array())
-    {
-        $this->_cache->clean($tags);
-        return $this;
-    }
-
-    /**
      * Retrieve request object
      *
      * @return \Magento\App\RequestInterface

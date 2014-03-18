@@ -48,47 +48,6 @@ interface AppInterface
     public function getLayout();
 
     /**
-     * Retrieve cache object
-     *
-     * @return \Zend_Cache_Core
-     */
-    public function getCache();
-
-    /**
-     * Loading cache data
-     *
-     * @param   string $cacheId
-     * @return  mixed
-     */
-    public function loadCache($cacheId);
-
-    /**
-     * Saving cache data
-     *
-     * @param mixed $data
-     * @param string $cacheId
-     * @param array $tags
-     * @param bool $lifeTime
-     * @return \Magento\AppInterface
-     */
-    public function saveCache($data, $cacheId, $tags = array(), $lifeTime = false);
-
-    /**
-     * Remove cache
-     *
-     * @param   string $cacheId
-     * @return  \Magento\AppInterface
-     */
-    public function removeCache($cacheId);
-
-    /**
-     * Cleaning cache
-     *
-     * @param   array $tags
-     * @return  \Magento\AppInterface
-     */
-    public function cleanCache($tags = array());
-    /**
      * Retrieve request object
      *
      * @return \Magento\App\RequestInterface

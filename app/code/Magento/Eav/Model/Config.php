@@ -91,7 +91,7 @@ class Config
     /**
      * @var \Magento\Core\Model\App
      */
-    protected $_app;
+    protected $_cache;
 
     /**
      * @var \Magento\Eav\Model\Entity\TypeFactory
@@ -104,18 +104,18 @@ class Config
     protected $_universalFactory;
 
     /**
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\App\CacheInterface $cache
+     * @param Entity\TypeFactory $entityTypeFactory
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
      */
     public function __construct(
-        \Magento\Core\Model\App $app,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory
     ) {
-        $this->_app = $app;
+        $this->_cache = $cache;
         $this->_entityTypeFactory = $entityTypeFactory;
         $this->_cacheState = $cacheState;
         $this->_universalFactory = $universalFactory;
@@ -267,7 +267,7 @@ class Config
          * try load information about entity types from cache
          */
         if ($this->_isCacheEnabled()
-            && ($cache = $this->_app->loadCache(self::ENTITIES_CACHE_ID))) {
+            && ($cache = $this->_cache->load(self::ENTITIES_CACHE_ID))) {
 
             $this->_entityData = unserialize($cache);
             foreach ($this->_entityData as $typeCode => $data) {
@@ -299,7 +299,7 @@ class Config
         $this->_entityData = $types;
 
         if ($this->_isCacheEnabled()) {
-            $this->_app->saveCache(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
+            $this->_cache->save(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
                 array(\Magento\Eav\Model\Cache\Type::CACHE_TAG, \Magento\Eav\Model\Entity\Attribute::CACHE_TAG)
             );
         }

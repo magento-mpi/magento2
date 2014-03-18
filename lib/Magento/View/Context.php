@@ -134,13 +134,6 @@ class Context
     protected $logger;
 
     /**
-     * Application
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $app;
-
-    /**
      * Application state
      *
      * @var \Magento\App\State
@@ -163,7 +156,6 @@ class Context
      * @param ViewConfig $viewConfig
      * @param CacheState $cacheState
      * @param Logger $logger
-     * @param App $app
      * @param AppState $appState
      *
      * @todo reduce parameter number
@@ -184,7 +176,6 @@ class Context
         ViewConfig $viewConfig,
         CacheState $cacheState,
         Logger $logger,
-        App $app,
         AppState $appState
     ) {
         $this->request         = $request;
@@ -200,7 +191,6 @@ class Context
         $this->viewConfig      = $viewConfig;
         $this->cacheState      = $cacheState;
         $this->logger          = $logger;
-        $this->app             = $app;
         $this->appState        = $appState;
     }
 
@@ -342,16 +332,6 @@ class Context
     public function getLogger()
     {
         return $this->logger;
-    }
-
-    /**
-     * Retrieve application
-     *
-     * @return \Magento\Core\Model\App
-     */
-    public function getApp()
-    {
-        return $this->app;
     }
 
     /**
