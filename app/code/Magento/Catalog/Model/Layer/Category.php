@@ -16,7 +16,7 @@ use Magento\Object;
 class Category extends \Magento\Catalog\Model\Layer
 {
     /**
-     * @param Category\Context $categoryContext
+     * @param Category\Context $context
      * @param StateFactory $layerStateFactory
      * @param CategoryFactory $categoryFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
@@ -26,7 +26,7 @@ class Category extends \Magento\Catalog\Model\Layer
      * @param array $data
      */
     public function __construct(
-        Category\Context $categoryContext,
+        Category\Context $context,
         StateFactory $layerStateFactory,
         CategoryFactory $categoryFactory,
         Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
@@ -36,7 +36,7 @@ class Category extends \Magento\Catalog\Model\Layer
         array $data = array()
     ) {
         parent::__construct(
-            $categoryContext,
+            $context,
             $layerStateFactory,
             $categoryFactory,
             $attributeCollectionFactory,
