@@ -14,14 +14,31 @@ class Placeholder
     /**
      * @var \Magento\App\RequestInterface
      */
-    protected $_request;
+    protected $request;
+
+    /**
+     * @var string[]
+     */
+    protected $urlPaths;
+
+    /**
+     * @var string
+     */
+    protected $urlPlaceholder;
 
     /**
      * @param \Magento\App\RequestInterface $request
+     * @param string[] $urlPaths
+     * @param string $urlPlaceholder
      */
-    public function __construct(\Magento\App\RequestInterface $request)
-    {
-        $this->_request = $request;
+    public function __construct(
+        \Magento\App\RequestInterface $request,
+        $urlPaths,
+        $urlPlaceholder
+    ) {
+        $this->request = $request;
+        $this->urlPaths = $urlPaths;
+        $this->urlPlaceholder = $urlPlaceholder;
     }
 
     /**
@@ -70,16 +87,16 @@ class Placeholder
         if ($placeholder) {
             $url = false;
             if ($placeholder == 'unsecure_base_url') {
-                $url = $this->_getValue(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL, $data);
+                $url = $this->_getValue($this->urlPaths['unsecureBaseUrl'], $data);
             } elseif ($placeholder == 'secure_base_url') {
-                $url = $this->_getValue(\Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL, $data);
+                $url = $this->_getValue($this->urlPaths['secureBaseUrl'], $data);
             }
 
             if ($url) {
                 $value = str_replace('{{' . $placeholder . '}}', $url, $value);
-            } elseif (strpos($value, \Magento\Core\Model\Store::BASE_URL_PLACEHOLDER) !== false) {
-                $distroBaseUrl = $this->_request->getDistroBaseUrl();
-                $value = str_replace(\Magento\Core\Model\Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $value);
+            } elseif (strpos($value, $this->urlPlaceholder) !== false) {
+                $distroBaseUrl = $this->request->getDistroBaseUrl();
+                $value = str_replace($this->urlPlaceholder, $distroBaseUrl, $value);
             }
 
             if (null !== $this->_getPlaceholder($value)) {
@@ -101,7 +118,7 @@ class Placeholder
             $placeholder = $matches[1];
             if ($placeholder == 'unsecure_base_url'
                 || $placeholder == 'secure_base_url'
-                || strpos($value, \Magento\Core\Model\Store::BASE_URL_PLACEHOLDER) !== false
+                || strpos($value, $this->urlPlaceholder) !== false
             ) {
                 return $placeholder;
             }

@@ -375,6 +375,11 @@
     <type name="Magento\Core\Model\Config\Scope\Processor\Placeholder">
         <arguments>
             <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
+            <argument name="urlPaths" xsi:type="array">
+                <item name="unsecureBaseUrl" xsi:type="string">web/unsecure/base_url</item>
+                <item name="secureBaseUrl" xsi:type="string">web/secure/base_url</item>
+            </argument>
+            <argument name="urlPlaceholder" xsi:type="string">{{base_url}}</argument>
         </arguments>
     </type>
     <type name="Magento\App\Helper\Context">

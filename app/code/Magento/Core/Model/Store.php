@@ -1182,7 +1182,10 @@ class Store extends AbstractModel
         $this->_protectFromNonAdmin();
         \Magento\App\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
             ->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
-        $this->_configDataResource->clearStoreData(array($this->getId()));
+        $this->_configDataResource->clearScopeData(
+            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            $this->getId()
+        );
         return parent::_beforeDelete();
     }
 

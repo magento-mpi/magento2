@@ -9,7 +9,7 @@ namespace Magento\Core\Model\Config\Scope\Store;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \Magento\Core\Model\Config\Scope\Store\Converter */
+    /** @var  \Magento\Core\Model\Config\Scope\Converter */
     protected $_model;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -19,7 +19,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_processorMock = $this->getMock('Magento\Core\Model\Config\Scope\Processor\Placeholder',
             array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Config\Scope\Store\Converter($this->_processorMock);
+        $this->_model = new \Magento\Core\Model\Config\Scope\Converter($this->_processorMock);
     }
 
     public function testConvert()

@@ -21,6 +21,9 @@ class Street extends \Magento\Core\Model\Config\Value
      */
     protected $_eavConfig;
 
+    /** @var \Magento\Core\Model\StoreManagerInterface */
+    protected $_storeManager;
+
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
@@ -43,6 +46,7 @@ class Street extends \Magento\Core\Model\Config\Value
     ) {
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**

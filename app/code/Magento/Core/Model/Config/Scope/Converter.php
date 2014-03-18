@@ -1,13 +1,13 @@
 <?php
 /**
- * DB store configuration data converter. Converts associative array to tree array
+ * DB configuration data converter. Converts associative array to tree array
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Scope\Store;
+namespace Magento\Core\Model\Config\Scope;
 
 class Converter extends \Magento\App\Config\Scope\Converter
 {
@@ -33,7 +33,7 @@ class Converter extends \Magento\App\Config\Scope\Converter
      */
     public function convert($source, $initialConfig = array())
     {
-        $storeConfig = array_replace_recursive($initialConfig, parent::convert($source));
-        return $this->_processor->process($storeConfig);
+        $config = array_replace_recursive($initialConfig, parent::convert($source));
+        return $this->_processor->process($config);
     }
 }

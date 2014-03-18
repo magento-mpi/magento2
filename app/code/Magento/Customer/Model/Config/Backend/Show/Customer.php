@@ -50,6 +50,7 @@ class Customer extends \Magento\Core\Model\Config\Value
     ) {
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->storeManager = $storeManager;
     }
 
     /**

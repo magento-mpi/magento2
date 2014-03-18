@@ -74,7 +74,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Store\Model\Config\Reader\Store(
             $this->_initialConfigMock,
             $this->_scopePullMock,
-            new \Magento\Core\Model\Config\Scope\Store\Converter($placeholderProcessor),
+            new \Magento\Core\Model\Config\Scope\Converter($placeholderProcessor),
             $this->_collectionFactory,
             $storeFactoryMock,
             $this->_appStateMock
