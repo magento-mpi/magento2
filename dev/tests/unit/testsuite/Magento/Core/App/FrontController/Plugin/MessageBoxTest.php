@@ -10,7 +10,7 @@ namespace Magento\Core\App\FrontController\Plugin;
 
 /**
  * Class MessageBoxTest
-  */
+ */
 class MessageBoxTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -62,11 +62,10 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
         $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('set', 'get'), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array('isPost'), array(), '', false);
         $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array('isEnabled'), array(), '', false);
-        $this->messageManagerMock = $this->getMock(
-            'Magento\View\Element\Messages',
-            array('getMessageCollection'),
-            array(), '', false
-        );
+        $this->messageManagerMock = $this->getMockBuilder('Magento\Message\ManagerInterface')
+            ->setMethods(array('getMessages', 'getCount'))
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->msgBox =  new MessageBox(
             $this->cookieMock,
@@ -88,7 +87,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
     public function testAfterDispatch()
     {
         $this->messageManagerMock->expects($this->once())
-            ->method('getMessageCollection')
+            ->method('getMessages')
             ->will($this->returnValue(true));
         $this->requestMock->expects($this->once())
             ->method('isPost')
@@ -115,7 +114,7 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
             ->method('isPost')
             ->will($this->returnValue(false));
         $this->messageManagerMock->expects($this->never())
-            ->method('getMessageCollection');
+            ->method('getMessages');
         $this->assertInstanceOf('\Magento\App\ResponseInterface',
             $this->msgBox->afterDispatch($this->objectMock, $this->responseMock));
     }

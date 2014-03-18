@@ -44,7 +44,7 @@ class MessageBox
     protected $config;
 
     /**
-     * @var \Magento\View\Element\Messages
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -52,13 +52,13 @@ class MessageBox
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Request\Http $request
      * @param \Magento\PageCache\Model\Config $config
-     * @param \Magento\View\Element\Messages $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Request\Http $request,
         \Magento\PageCache\Model\Config $config,
-        \Magento\View\Element\Messages $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
@@ -91,6 +91,6 @@ class MessageBox
      */
     protected function isMessage()
     {
-        return $this->messageManager->getMessageCollection() ? true : false;
+        return ($this->messageManager->getMessages()->getCount() > 0) ? true : false;
     }
 }
