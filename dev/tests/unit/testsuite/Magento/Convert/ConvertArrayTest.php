@@ -10,8 +10,6 @@
 
 namespace Magento\Convert;
 
-use Magento\Convert\ConvertArray;
-
 class ConvertArrayTest extends \PHPUnit_Framework_TestCase
 {
     /**
