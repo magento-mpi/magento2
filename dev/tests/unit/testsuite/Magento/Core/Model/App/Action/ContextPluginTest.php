@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\App;
+namespace Magento\Core\Model\App\Action;
 
 /**
  * Class ContextPluginTest
