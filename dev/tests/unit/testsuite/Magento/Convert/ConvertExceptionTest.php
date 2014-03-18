@@ -32,14 +32,14 @@ class ConvertExceptionTest extends \PHPUnit_Framework_TestCase
     public function testLevel()
     {
         $level = 'test_level';
-        $this->model->setContainer($level);
+        $this->model->setLevel($level);
         $this->assertEquals($level, $this->model->getLevel());
     }
 
     public function testPosition()
     {
         $position = 2555;
-        $this->model->setContainer($position);
+        $this->model->setPosition($position);
         $this->assertEquals($position, $this->model->getPosition());
     }
 }
