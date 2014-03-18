@@ -72,4 +72,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $result = $this->_model->getFieldset('test');
         $this->assertEquals($expectedFieldset, $result);
     }
+
+    public function testGetFieldsetIfFieldsetIsEmpty()
+    {
+        $this->_storageMock->expects($this->once())->method('get')
+            ->will($this->returnValue(array()));
+        $result = $this->_model->getFieldset('test');
+        $this->assertEquals(null, $result);
+    }
 }

@@ -28,6 +28,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_attributeOptionId;
 
+    /**
+     * @var \Magento\Catalog\Model\Layer
+     */
+    protected $_layer;
+
     protected function setUp()
     {
         /** @var $attribute \Magento\Catalog\Model\Entity\Attribute */
@@ -41,11 +46,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             }
         }
 
+        $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Layer\Category');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\Filter\Attribute');
+            ->create('Magento\Catalog\Model\Layer\Filter\Attribute', array('layer' => $this->_layer));
         $this->_model->setData(array(
-            'layer' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer'),
             'attribute_model' => $attribute,
         ));
     }

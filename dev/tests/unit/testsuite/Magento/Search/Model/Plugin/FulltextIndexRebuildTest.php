@@ -60,15 +60,20 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
             'Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false
         );
         $this->_filterPriceMock = $this->getMock(
-            'Magento\Search\Model\Catalog\Layer\Filter\Price', array(), array(), '', false
+            'Magento\Search\Model\Layer\Category\Filter\Price', array(), array(), '', false
         );
 
         $this->subjectMock = $this->getMock('Magento\CatalogSearch\Model\Fulltext', array(), array(), '', false);
-        $this->_model = new \Magento\Search\Model\Plugin\FulltextIndexRebuild(
-            $this->_engineProviderMock,
-            $this->_searchHelperMock,
-            $this->_filterPriceMock,
-            $this->_cacheMock
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_model = $objectManager->getObject(
+            '\Magento\Search\Model\Plugin\FulltextIndexRebuild',
+            array(
+                'engineProvider' => $this->_engineProviderMock,
+                'searchHelper' => $this->_searchHelperMock,
+                'layerFilterPrice' => $this->_filterPriceMock,
+                'cache' => $this->_cacheMock,
+            )
         );
     }
 

@@ -186,7 +186,7 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         return array(
             array('backend_model', 'Magento\Backend\Model\Config\Backend\Encrypted', array(
                 'section_1/group_1/field_2',
-                'section_1/group_level_1/group_level_2/group_level_3/field_3.1.1',
+                'section_1/group_level_1/group_level_2/group_level_3/field_3_1_1',
                 'section_2/group_3/field_4',
             )),
             array('attribute_2', 'test_value_2', array('section_2/group_3/field_4'))

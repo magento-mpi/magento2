@@ -80,10 +80,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     . "'invalid' is not a valid value of the atomic type 'emailTemplateFormatType'.",
                 )
             ),
-            'node "template" without attribute "module"' => array(
-                '<config><template id="test" label="Test" file="test.txt" type="text"/></config>',
-                array("Element 'template': The attribute 'module' is required but missing.")
-            ),
             'node "template" with unknown attribute' => array(
                 '<config>
                     <template id="test" label="Test" file="test.txt" type="text" module="Module" unknown="true"/>

@@ -67,7 +67,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_productCollection;
 
     /**
-     * @var \Magento\Search\Model\Catalog\Layer\Filter\Attribute
+     * @var \Magento\Search\Model\Layer\Category\Filter\Attribute
      */
     protected $_model;
 
@@ -125,7 +125,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
-        $this->_model = new \Magento\Search\Model\Catalog\Layer\Filter\Attribute($this->_filterItemFactory,
+        $this->_model = new \Magento\Search\Model\Layer\Category\Filter\Attribute($this->_filterItemFactory,
             $this->_storeManager, $this->_layer, $this->_attributeFactory, $this->_string, $this->_resourceEngine);
     }
 

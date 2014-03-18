@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
-use Magento\Catalog\Model\Layer;
+use Magento\Catalog\Model\Layer\Search as Layer;
 use Magento\CatalogSearch\Model\Advanced;
 use Magento\CatalogSearch\Model\Resource\Advanced\Collection;
 use Magento\UrlFactory;
@@ -46,19 +46,19 @@ class Result extends Template
     /**
      * @param Context $context
      * @param Advanced $catalogSearchAdvanced
-     * @param Layer $catalogLayer
+     * @param Layer $layer
      * @param UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
         Advanced $catalogSearchAdvanced,
-        Layer $catalogLayer,
+        Layer $layer,
         UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
-        $this->_catalogLayer = $catalogLayer;
+        $this->_catalogLayer = $layer;
         $this->_urlFactory = $urlFactory;
         parent::__construct($context, $data);
     }
@@ -90,7 +90,6 @@ class Result extends Template
      * @return void
      */
     public function setListOrders() {
-        $category = $this->_catalogLayer->getCurrentCategory();
         /* @var $category \Magento\Catalog\Model\Category */
         $category = $this->_catalogLayer->getCurrentCategory();
 

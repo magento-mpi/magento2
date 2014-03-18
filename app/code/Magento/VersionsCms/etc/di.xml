@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\VersionsCms\Model\Hierarchy\ConfigInterface" type="Magento\VersionsCms\Model\Hierarchy\Config" />
     <type name="Magento\VersionsCms\Model\Config">
         <arguments>
