@@ -11,7 +11,7 @@ namespace Magento\View\Layout\File\Source;
 class AggregateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Layout\File\Source\Aggregated
+     * @var \Magento\View\Layout\File\Collector\Aggregated
      */
     private $_model;
 
@@ -50,7 +50,7 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         $fileListFactory =
             $this->getMock('Magento\View\File\FileList\Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
-        $this->_model = new \Magento\View\Layout\File\Source\Aggregated(
+        $this->_model = new \Magento\View\Layout\File\Collector\Aggregated(
             $fileListFactory,
             $this->_baseFiles,
             $this->_themeFiles,

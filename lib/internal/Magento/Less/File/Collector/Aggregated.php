@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Layout\File\Source;
+namespace Magento\Less\File\Collector;
 
 use Magento\View\File\CollectorInterface;
-use Magento\View\Design\ThemeInterface;
 use Magento\View\File\FileList\Factory;
+use Magento\View\Design\ThemeInterface;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
@@ -18,82 +18,67 @@ use Magento\View\File\FileList\Factory;
 class Aggregated implements CollectorInterface
 {
     /**
-     * File list factory
-     *
      * @var Factory
      */
     protected $fileListFactory;
 
     /**
-     * Base files
-     *
+     * @var CollectorInterface
+     */
+    protected $libraryFiles;
+
+    /**
      * @var CollectorInterface
      */
     protected $baseFiles;
 
     /**
-     * Theme files
-     *
      * @var CollectorInterface
      */
     protected $themeFiles;
 
     /**
-     * Overridden base files
-     *
-     * @var CollectorInterface
-     */
-    protected $overrideBaseFiles;
-
-    /**
-     * Overridden theme files
-     *
-     * @var CollectorInterface
-     */
-    protected $overrideThemeFiles;
-
-    /**
-     * Constructor
-     *
      * @param Factory $fileListFactory
+     * @param CollectorInterface $libraryFiles
      * @param CollectorInterface $baseFiles
      * @param CollectorInterface $themeFiles
-     * @param CollectorInterface $overrideBaseFiles
-     * @param CollectorInterface $overrideThemeFiles
      */
     public function __construct(
         Factory $fileListFactory,
+        CollectorInterface $libraryFiles,
         CollectorInterface $baseFiles,
-        CollectorInterface $themeFiles,
-        CollectorInterface $overrideBaseFiles,
-        CollectorInterface $overrideThemeFiles
+        CollectorInterface $themeFiles
     ) {
         $this->fileListFactory = $fileListFactory;
+        $this->libraryFiles = $libraryFiles;
         $this->baseFiles = $baseFiles;
         $this->themeFiles = $themeFiles;
-        $this->overrideBaseFiles = $overrideBaseFiles;
-        $this->overrideThemeFiles = $overrideThemeFiles;
     }
 
     /**
      * Retrieve files
      *
-     * Aggregate layout files from modules and a theme and its ancestors
+     * Aggregate LESS files from modules and a theme and its ancestors
      *
-     * @param ThemeInterface $theme
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param string $filePath
      * @return \Magento\View\File[]
+     * @throws \LogicException
      */
     public function getFiles(ThemeInterface $theme, $filePath)
     {
-        $list = $this->fileListFactory->create();
+        $list = $this->fileListFactory->create('Magento\Less\File\FileList\Collator');
+        $list->add($this->libraryFiles->getFiles($theme, $filePath));
         $list->add($this->baseFiles->getFiles($theme, $filePath));
 
         foreach ($theme->getInheritedThemes() as $currentTheme) {
-            $list->add($this->themeFiles->getFiles($currentTheme, $filePath));
-            $list->replace($this->overrideBaseFiles->getFiles($currentTheme, $filePath));
-            $list->replace($this->overrideThemeFiles->getFiles($currentTheme, $filePath));
+            $files = $this->themeFiles->getFiles($currentTheme, $filePath);
+            $list->replace($files);
         }
-        return $list->getAll();
+        $result = $list->getAll();
+        if (empty($result)) {
+            throw new \LogicException('magento_import returns empty result by path ' . $filePath);
+        }
+        return $result;
     }
 }

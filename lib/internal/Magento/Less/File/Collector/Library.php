@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Less\File\Source;
+namespace Magento\Less\File\Collector;
 
 use Magento\View\File\CollectorInterface;
 use Magento\View\Design\ThemeInterface;

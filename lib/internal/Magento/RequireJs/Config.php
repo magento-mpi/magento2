@@ -52,7 +52,7 @@ config;
 
 
     /**
-     * @var \Magento\RequireJs\Config\File\Source\Aggregated
+     * @var \Magento\RequireJs\Config\File\Collector\Aggregated
      */
     private $fileSource;
 
@@ -77,7 +77,7 @@ config;
     private $baseDir;
 
     public function __construct(
-        Config\File\Source\Aggregated $fileSource,
+        Config\File\Collector\Aggregated $fileSource,
         \Magento\View\DesignInterface $design,
         \Magento\App\Filesystem $appFilesystem,
         \Magento\View\Asset\PathGenerator $path,

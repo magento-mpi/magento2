@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Less\File\Source;
+namespace Magento\Less\File\Collector;
 
 class AggregatedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Less\File\Source\Aggregated
+     * @var \Magento\Less\File\Collector\Aggregated
      */
     protected $model;
 
@@ -46,9 +46,11 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var \Magento\View\File\Collector\Base $sourceBase */
-        $sourceBase = $this->objectManager->create('Magento\View\File\Collector\Base', array('filesystem' => $filesystem));
+        $sourceBase = $this->objectManager->create(
+            'Magento\View\File\Collector\Base', array('filesystem' => $filesystem)
+        );
         $this->model = $this->objectManager->create(
-            'Magento\Less\File\Source\Aggregated',
+            'Magento\Less\File\Collector\Aggregated',
             array('baseFiles' => $sourceBase)
         );
     }

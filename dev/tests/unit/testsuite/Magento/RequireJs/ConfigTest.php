@@ -11,7 +11,7 @@ namespace Magento\RequireJs;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\RequireJs\Config\File\Source\Aggregated|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\RequireJs\Config\File\Collector\Aggregated|\PHPUnit_Framework_MockObject_MockObject
      */
     private $fileSource;
 
@@ -43,7 +43,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileSource = $this->getMock(
-            '\Magento\RequireJs\Config\File\Source\Aggregated', array(), array(), '', false
+            '\Magento\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\View\DesignInterface');
         $this->path = $this->getMock('\Magento\View\Asset\PathGenerator', array(), array(), '', false);

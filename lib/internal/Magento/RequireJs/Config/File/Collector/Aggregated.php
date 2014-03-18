@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\RequireJs\Config\File\Source;
+namespace Magento\RequireJs\Config\File\Collector;
 
 use Magento\View\Design\ThemeInterface;
 use Magento\View\File\CollectorInterface;

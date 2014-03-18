@@ -28,7 +28,7 @@
             <argument name="subject" xsi:type="object">requirejsFileSourceThemeFiltered</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\RequireJs\Config\File\Source\Aggregated">
+    <type name="Magento\RequireJs\Config\File\Collector\Aggregated">
         <arguments>
             <argument name="baseFiles" xsi:type="object">requirejsConfigFileSourceBaseSorted</argument>
             <argument name="themeModularFiles" xsi:type="object">requirejsFileSourceThemeSorted</argument>
