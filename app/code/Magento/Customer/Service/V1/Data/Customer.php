@@ -36,7 +36,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**#@-*/
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDefaultBilling()
     {
@@ -46,7 +46,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get default shipping address id
      *
-     * @return string
+     * @return string|null
      */
     public function getDefaultShipping()
     {
@@ -86,7 +86,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get date of birth
      *
-     * @return string
+     * @return string|null
      */
     public function getDob()
     {
@@ -116,7 +116,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get gender
      *
-     * @return string
+     * @return string|null
      */
     public function getGender()
     {
@@ -156,7 +156,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get middle name
      *
-     * @return string
+     * @return string|null
      */
     public function getMiddlename()
     {
@@ -166,7 +166,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get prefix
      *
-     * @return string
+     * @return string|null
      */
     public function getPrefix()
     {
@@ -186,7 +186,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get suffix
      *
-     * @return string
+     * @return string|null
      */
     public function getSuffix()
     {
@@ -196,7 +196,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get tax Vat.
      *
-     * @return string
+     * @return string|null
      */
     public function getTaxvat()
     {
