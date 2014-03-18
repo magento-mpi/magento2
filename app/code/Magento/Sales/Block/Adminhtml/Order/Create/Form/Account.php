@@ -7,19 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
+
+use Magento\Data\Form\Element\AbstractElement;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Create order account form
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
-
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
-
 class Account extends AbstractForm
 {
     /**
+     * Metadata form factory
+     *
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_metadataFormFactory;
@@ -73,7 +75,7 @@ class Account extends AbstractForm
     /**
      * Prepare Form and add elements to form
      *
-     * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\Account
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -115,10 +117,10 @@ class Account extends AbstractForm
     /**
      * Add additional data to form element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return AbstractForm
+     * @param AbstractElement $element
+     * @return $this
      */
-    protected function _addAdditionalFormElementData(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _addAdditionalFormElementData(AbstractElement $element)
     {
         switch ($element->getId()) {
             case 'email':

@@ -24,7 +24,6 @@ class Tablerate extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -34,7 +33,6 @@ class Tablerate extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -42,7 +40,7 @@ class Tablerate extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_tablerateFactory = $tablerateFactory;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

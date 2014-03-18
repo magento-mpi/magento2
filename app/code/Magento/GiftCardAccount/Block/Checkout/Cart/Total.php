@@ -9,6 +9,9 @@ namespace Magento\GiftCardAccount\Block\Checkout\Cart;
 
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_GiftCardAccount::cart/total.phtml';
 
     /**
@@ -47,7 +50,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     }
 
     /**
-     * Get sales quoute
+     * Get sales quote
      *
      * @return \Magento\Sales\Model\Quote
      */
@@ -56,6 +59,9 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         return $this->_checkoutSession->getQuote();
     }
 
+    /**
+     * @return mixed
+     */
     public function getQuoteGiftCards()
     {
         return $this->_giftCardAccountData->getCards($this->getQuote());

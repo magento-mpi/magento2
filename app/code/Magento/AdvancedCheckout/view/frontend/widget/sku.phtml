@@ -29,9 +29,10 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
             <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
             <fieldset class="fieldset" data-container="items"></fieldset>
 
-            <?php echo $this->getChildHtml(); ?>
-
-            <div class="actions">
+            <fieldset class="fieldset">
+                <?php echo $this->getChildHtml(); ?>
+            </fieldset>
+            <div class="actions toolbar">
                 <div class="primary">
                     <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
                             title="<?php echo __('Add to Cart') ?>" class="action tocart">

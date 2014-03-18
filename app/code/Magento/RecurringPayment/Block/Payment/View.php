@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringPayment\Block\Payment;
 
 /**
  * Recurring payment view
  */
-namespace Magento\RecurringPayment\Block\Payment;
-
 class View extends \Magento\View\Element\Template
 {
     /**
@@ -35,7 +34,7 @@ class View extends \Magento\View\Element\Template
     /**
      * Related orders collection
      *
-     * @var \Magento\Sales\Model\Resource\Order\Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection|null
      */
     protected $_relatedOrders = null;
 
@@ -98,7 +97,8 @@ class View extends \Magento\View\Element\Template
      * Add specified data to the $_info
      *
      * @param array $data
-     * @param string $key = null
+     * @param string|null $key
+     * @return void
      */
     protected function _addInfo(array $data, $key = null)
     {
@@ -112,6 +112,8 @@ class View extends \Magento\View\Element\Template
 
     /**
      * Get current payment from registry and assign store/locale information to it
+     *
+     * @return $this
      */
     protected function _prepareLayout()
     {

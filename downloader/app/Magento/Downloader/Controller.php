@@ -183,6 +183,8 @@ final class Controller
 
     /**
      * NoRoute
+     *
+     * @return void
      */
     public function norouteAction()
     {
@@ -192,6 +194,8 @@ final class Controller
 
     /**
      * Login
+     *
+     * @return void
      */
     public function loginAction()
     {
@@ -201,6 +205,8 @@ final class Controller
 
     /**
      * Logout
+     *
+     * @return void
      */
     public function logoutAction()
     {
@@ -210,6 +216,8 @@ final class Controller
 
     /**
      * Index
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -238,6 +246,8 @@ final class Controller
 
     /**
      * Empty Action
+     *
+     * @return void
      */
     public function emptyAction()
     {
@@ -248,6 +258,8 @@ final class Controller
 
     /**
      * Install all magento
+     *
+     * @return void
      */
     public function connectInstallAllAction()
     {
@@ -280,6 +292,8 @@ final class Controller
 
     /**
      * Connect packages
+     *
+     * @return void
      */
     public function connectPackagesAction()
     {
@@ -301,6 +315,8 @@ final class Controller
 
     /**
      * Connect packages POST
+     *
+     * @return void
      */
     public function connectPackagesPostAction()
     {
@@ -315,6 +331,8 @@ final class Controller
 
     /**
      * Prepare package to install, get dependency info.
+     *
+     * @return void
      */
     public function connectPreparePackagePostAction()
     {
@@ -336,6 +354,8 @@ final class Controller
 
     /**
      * Install package
+     *
+     * @return void
      */
     public function connectInstallPackagePostAction()
     {
@@ -348,6 +368,8 @@ final class Controller
 
     /**
      * Install uploaded package
+     *
+     * @return void
      */
     public function connectInstallPackageUploadAction()
     {
@@ -381,6 +403,8 @@ final class Controller
 
     /**
      * Clean cache on ajax request
+     *
+     * @return void
      */
     public function cleanCacheAction()
     {
@@ -390,6 +414,8 @@ final class Controller
 
     /**
      * Settings
+     *
+     * @return void
      */
     public function settingsAction()
     {
@@ -420,6 +446,8 @@ final class Controller
 
     /**
      * Settings post
+     *
+     * @return void
      */
     public function settingsPostAction()
     {
@@ -469,6 +497,8 @@ final class Controller
 
     /**
      * Run
+     *
+     * @return void
      */
     public static function run()
     {
@@ -746,6 +776,7 @@ final class Controller
      *
      * @param string $action
      * @param array $params
+     * @return string
      */
     public function url($action = '', $params = array())
     {
@@ -760,6 +791,8 @@ final class Controller
 
     /**
      * Dispatch process
+     *
+     * @return void
      */
     public function dispatch()
     {
@@ -852,6 +885,9 @@ final class Controller
 
     /**
      * Begin install package(s)
+     *
+     * @return void
+     * @throws \Magento\Exception
      */
     public function startInstall()
     {
@@ -898,6 +934,8 @@ final class Controller
 
     /**
      * End install package(s)
+     *
+     * @return void
      */
     public function endInstall()
     {
@@ -909,6 +947,9 @@ final class Controller
         }
     }
 
+    /**
+     * @return array
+     */
     protected function cleanCache()
     {
         $result = true;
@@ -1037,6 +1078,10 @@ final class Controller
         return $isSuccess;
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     protected function _getExtensionType($type)
     {
         $extensionType = array(
@@ -1049,6 +1094,9 @@ final class Controller
         return $extensionType[$type];
     }
 
+    /**
+     * @return array
+     */
     protected function _getBackupIgnorePaths()
     {
         return array(

@@ -1,0 +1,460 @@
+// /**
+//  * {license_notice}
+//  *
+//  * @category    design
+//  * @copyright   {copyright}
+//  * @license     {license_link}
+//  */
+
+@media only screen
+and (max-width : @breakPoint1) {
+
+    /*
+         Forms
+    -------------------------------------- */
+    .form.reward.settings,
+    .form.add.invitations,
+    .form.create.return,
+    .form.giftregistry.search,
+    .form.addbysku {
+        .formResponsive();
+    }
+
+    /*
+         Gift Card
+    -------------------------------------- */
+
+    .product.info.main {
+        fieldset.giftcard.amount {
+            clear: both;
+            .field.amounts {
+                width: 100%;
+            }
+        }
+        .fieldset.giftcard.send .field {
+            width: 100%;
+            padding-right: 0;
+        }
+    }
+
+    /*
+         My Account -> Gift Card
+    -------------------------------------- */
+
+    .form.giftcard.redeem {
+        .actions {
+            .primary,
+            .secondary {
+                float: none;
+            }
+            .primary {
+                margin: 0;
+            }
+            .secondary {
+                .action {
+                    .mobileSecondaryAction();
+                }
+            }
+        }
+    }
+
+    /*
+    My Account -> Store Credit
+    -------------------------------------- */
+
+    .block.balance.history {
+        overflow-x: scroll;
+    }
+
+    /*
+         My Account -> Reward Points
+    -------------------------------------- */
+
+    .block.reward.history {
+        overflow-x: scroll;
+    }
+
+    /*
+         My Account -> Gift Card Account
+    -------------------------------------- */
+
+    .giftcardaccount {
+        margin-bottom: 20px;
+        .fieldset {
+            border: none;
+            padding: 0;
+        }
+    }
+
+    /*
+        My Account -> Gift Registry
+    -------------------------------------- */
+    .magento-giftregistry-index-index,
+    .magento-giftregistry-index-items {
+        .column.main {
+            overflow-x: scroll;
+            .actions {
+                text-align: left;
+                .primary,
+                .secondary {
+                    float: none;
+                    margin-bottom: 15px;
+                }
+                .action.primary {
+                    .mobilePrimaryAction();
+                }
+            }
+        }
+        .form.giftregistry {
+            overflow-x: scroll;
+         }
+    }
+
+    .magento-giftregistry-index-addselect {
+        .column.main {
+            .form {
+                > .actions {
+                    > .secondary,
+                    > .primary {
+                        float: none;
+                        width: 100%;
+                        .action {
+                            width: 100%;
+                            display: block;
+                            text-align: center;
+                            margin: 0 0 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .magento-giftregistry-index-edit,
+    .magento-giftregistry-index-share {
+        .form.giftregistry {
+            .actions {
+                .secondary,
+                .primary {
+                    float: none;
+                    text-align: center;
+                    .action {
+                        display: block;
+                        width: 100%;
+                        margin: 0 0 15px;
+                        text-align: center;
+                    }
+                }
+            }
+            .fieldset {
+                &.recipients {
+                    .action.remove {
+                        position: static;
+                        margin-bottom: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .block.widget.giftregistry {
+        .field {
+            margin: 0  0 15px;
+        }
+        .actions {
+            margin-right: 0;
+            .action {
+                display: block;
+                width: 100%;
+                margin: 0 0 15px;
+                text-align: center;
+            }
+        }
+    }
+
+    .block.giftregistry.results {
+        overflow-x: scroll;
+    }
+
+    /*
+        My Account -> My Newsletter
+    -------------------------------------- */
+    .account {
+        .form.newsletter {
+            margin-bottom: 20px;
+            .primary {
+                .action {
+                    .mobilePrimaryAction();
+                }
+            }
+            .secondary {
+                float: none;
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    /*
+       My Account -> My Invitations
+   -------------------------------------- */
+    .account {
+        .invitations {
+            .primary {
+                float: none;
+                .action {
+                    .mobilePrimaryAction();
+                }
+            }
+            .secondary {
+                float: none;
+                text-align: center;
+            }
+        }
+    }
+
+    /*
+    Multiple Wish List
+    -------------------------------------- */
+    .wishlist {
+        &.block.management {
+            .action.add {
+                float: none;
+                margin: 0 0 15px;
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+            .content {
+                padding: 10px;
+            }
+            .subtitle {
+                float: none;
+                .actions.change {
+                    display: block;
+                    margin-bottom: 5px;
+                }
+            }
+            .actions.copy,
+            .actions.move {
+                float: none;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    .wishlist,
+    .product.actions,
+    .product.addto,
+    .cart.items.data {
+        .split.button {
+            font-size: 16px;
+            .items {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .products.wrapper.grid .products.list .secondary,
+    .products.wrapper.list .products.list .secondary {
+        .split.button {
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+            .action.change {
+                padding: 0;
+                width: auto;
+                display: inline-block;
+            }
+        }
+    }
+
+    /*
+    Multiple Wish List Search
+    -------------------------------------- */
+    .widget.block.wishlist.find {
+        .action.search {
+            width: 100%;
+            display: block;
+            margin: 0 0 15px;
+            text-align: center;
+        }
+    }
+
+    .form.wishlist {
+        &.find {
+            .action.search {
+                width: 100%;
+                display: block;
+                margin: 0 0 15px;
+                text-align: center
+            }
+        }
+    }
+
+    .block.wishlist.find.results {
+        overflow-x: scroll;
+    }
+
+    /*
+    My Account -> RMA
+    -------------------------------------- */
+    .form.create.return {
+        margin-bottom: 30px;
+        .box {
+            width: 100%;
+        }
+        .fieldset {
+            .field {
+                width: 100%;
+                &.item {
+                    .nested {
+                        overflow-x: scroll;
+                    }
+                }
+            }
+            .actions {
+                .action.add {
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .magento-rma-returns-history {
+        .column.main {
+            overflow-x: scroll;
+        }
+    }
+
+    .returns {
+        &.details.view {
+            .clearfix();
+            .block.returns.requested,
+            .block.returns.shipping {
+                float: none;
+                width: 100%;
+                .content {
+                    padding: 10px;
+                    line-height: 1.5;
+                }
+            }
+
+        }
+        &.items.details {
+            overflow-x: scroll;
+        }
+        &.block.comments {
+            .content {
+                padding: 10px;
+            }
+            .action.submit {
+                display: block;
+                width: 100%;
+            }
+        }
+    }
+
+    /*
+    My Account -> Advanced Checkout -> Order by SKU
+    -------------------------------------- */
+    .block.addbysku {
+        .form.addbysku {
+            .fieldset {
+                margin: 0;
+                .box-sizing();
+                .field {
+                    margin-bottom: 10px;
+                }
+            }
+            .field.upload.skus {
+                float: none;
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+            }
+            .actions {
+                .secondary {
+                    float: none;
+                    margin-right: 0;
+                    .action {
+                        .iconShowText();
+                        .iconRemove('after');
+                        .mobileSecondaryAction();
+                    }
+                }
+                .primary {
+                    .action {
+                        .mobilePrimaryAction();
+                    }
+                }
+            }
+            .sidebar & {
+                .actions {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+
+    /*
+    Catalog Events
+    -------------------------------------- */
+    .block.event {
+        &.category {
+            .content {
+                min-width: 0;
+                max-width: 100%;
+                margin: 0 15px;
+            }
+        }
+
+        .panel {
+            height: auto;
+            > .slider {
+                .item {
+                    display: block;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+
+        .action.slider {
+            display: none;
+        }
+
+        // Layouts updates
+        .layout-2-left .column.main &,
+        .layout-2-right .column.main & {
+            width: 100%;
+            .item {
+                width: 100%;
+            }
+        }
+        .layout-3 .column.main & {
+            .slider .item {
+                width: 100%;
+            }
+        }
+        .layout-1 .column.main & {
+            width: 100%;
+            .item {
+                width: 100%;
+            }
+        }
+        .sidebar & {
+            .slider .item {
+                width: 100%;
+            }
+        }
+        body.account .sidebar & {
+            width: 100%;
+        }
+        body.account .column.main & {
+            width: 100%;
+            .item {
+                width: 100%;
+            }
+        }
+    }
+}
+

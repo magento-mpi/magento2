@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -20,9 +19,7 @@ use Magento\Exception\NoSuchEntityException;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class View
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class View extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Customer\Service\V1\Data\Customer
@@ -317,6 +314,9 @@ class View
         return $this->getCustomer()->getStoreId();
     }
 
+    /**
+     * @return string|null
+     */
     public function getBillingAddressHtml()
     {
         try {

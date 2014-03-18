@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
 class Giftregistry
@@ -47,6 +46,8 @@ class Giftregistry
 
     /**
      * Set identifier and title
+     *
+     * @return void
      */
     protected  function _construct()
     {
@@ -121,6 +122,7 @@ class Giftregistry
     /**
      * Tab URL getter
      *
+     * @return string
      */
     public function getTabUrl()
     {

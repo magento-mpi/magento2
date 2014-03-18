@@ -554,6 +554,7 @@ abstract class AbstractApi extends \Magento\Object
      *
      * @param \Magento\Object $address
      * @param array $to
+     * @return void
      */
     protected function _importStreetFromAddress(\Magento\Object $address, array &$to)
     {
@@ -600,6 +601,7 @@ abstract class AbstractApi extends \Magento\Object
      * Log debug data to file
      *
      * @param mixed $debugData
+     * @return void
      */
     protected function _debug($debugData)
     {

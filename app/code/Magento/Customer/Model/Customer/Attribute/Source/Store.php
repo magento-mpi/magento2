@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Customer\Attribute\Source;
 
 /**
  * Customer store attribute source
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Customer\Attribute\Source;
-
 class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
@@ -48,6 +47,9 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         $this->_storesFactory = $storesFactory;
     }
 
+    /**
+     * @return array
+     */
     public function getAllOptions()
     {
         if (!$this->_options) {
@@ -63,9 +65,15 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
         return $this->_options;
     }
 
+    /**
+     * @param string $value
+     * @return array|string
+     */
     public function getOptionText($value)
     {
-        if(!$value)$value ='0';
+        if (!$value) {
+            $value ='0';
+        }
         $isMultiple = false;
         if (strpos($value, ',')) {
             $isMultiple = true;
@@ -89,11 +97,9 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
                 $values[] = $this->_options[$val];
             }
             return $values;
-        }
-        else {
+        } else {
             return $this->_options[$value];
         }
-        return false;
     }
 
     /**

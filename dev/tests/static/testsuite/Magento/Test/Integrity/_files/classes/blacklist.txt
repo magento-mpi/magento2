@@ -5,11 +5,11 @@
 \Magento\Url
 \Magento\App\Config
 \Magento\App\ReinitableConfig
-\Magento\Core\Model\Config\Scope\ReaderPool
-\Magento\Core\Model\Config\Scope\Store\Converter
-\Magento\Core\Model\Config\Scope\Reader\DefaultReader
-\Magento\Core\Model\Config\Scope\Reader\Store
-\Magento\Core\Model\Config\Scope\Reader\Website
+Magento\Store\Model\Config\Reader\ReaderPool
+\Magento\Core\Model\Config\Scope\Converter
+\Magento\Store\Model\Config\Reader\DefaultReader
+\Magento\Store\Model\Config\Reader\Store
+\Magento\Store\Model\Config\Reader\Website
 \Magento\Core\Model\Config\Scope\Processor\Placeholder
 \Magento\Core\Model\Config\Storage\Db
 \Magento\Core\Model\Config\Value

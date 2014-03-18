@@ -25,6 +25,7 @@ class SearchCriteriaBuilder extends AbstractObjectBuilder
         $this->_data['filters'] = $this->getFilterGroup()->create();
         return parent::create();
     }
+
     /**
      * Add filter
      *

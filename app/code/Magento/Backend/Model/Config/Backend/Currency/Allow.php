@@ -24,7 +24,6 @@ class Allow extends AbstractCurrency
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
@@ -35,7 +34,6 @@ class Allow extends AbstractCurrency
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Locale\CurrencyInterface $localeCurrency,
@@ -44,8 +42,7 @@ class Allow extends AbstractCurrency
         array $data = array()
     ) {
         $this->_localeCurrency = $localeCurrency;
-        parent::__construct($context, $registry, $storeManager, $config, $coreStoreConfig, $resource,
-            $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $coreStoreConfig, $resource, $resourceCollection, $data);
     }
 
     /**

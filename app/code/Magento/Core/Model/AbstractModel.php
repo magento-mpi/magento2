@@ -266,6 +266,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Retrieve collection instance
      *
+     * @deprecated
      * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCollection()

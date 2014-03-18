@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Archive\Helper\File;
 
 /**
 * Helper class that simplifies bz2 files stream reading and writing
@@ -15,15 +16,14 @@
 * @package     Magento_Archive
 * @author      Magento Core Team <core@magentocommerce.com>
 */
-namespace Magento\Archive\Helper\File;
-
 class Bz extends \Magento\Archive\Helper\File
 {
     /**
      * Open bz archive file
      *
-     * @throws \Magento\Exception
      * @param string $mode
+     * @return void
+     * @throws \Magento\Exception
      */
     protected function _open($mode)
     {
@@ -37,8 +37,9 @@ class Bz extends \Magento\Archive\Helper\File
     /**
      * Write data to bz archive
      *
+     * @param string $data
+     * @return void
      * @throws \Magento\Exception
-     * @param $data
      */
     protected function _write($data)
     {
@@ -52,9 +53,9 @@ class Bz extends \Magento\Archive\Helper\File
     /**
      * Read data from bz archive
      *
-     * @throws \Magento\Exception
      * @param int $length
      * @return string
+     * @throws \Magento\Exception
      */
     protected function _read($length)
     {
@@ -69,10 +70,11 @@ class Bz extends \Magento\Archive\Helper\File
 
     /**
      * Close bz archive
+     *
+     * @return void
      */
     protected function _close()
     {
         bzclose($this->_fileHandler);
     }
 }
-

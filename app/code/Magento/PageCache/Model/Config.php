@@ -7,6 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\PageCache\Model;
+
+use Magento\App\ConfigInterface;
+use Magento\App\Filesystem;
+use Magento\Core\Model\Store\Config as StoreConfig;
 
 /**
  * Model is responsible for replacing default vcl template
@@ -16,10 +21,6 @@
  * @package    Magento_PageCache
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\PageCache\Model;
-
-use Magento\App\Filesystem;
 
 /**
  * Class Config
@@ -47,12 +48,12 @@ class Config
     /**#@-*/
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var StoreConfig
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var ConfigInterface
      */
     protected $_config;
 
@@ -66,10 +67,15 @@ class Config
      */
     protected $_modulesDirectory;
 
+    /**
+     * @param Filesystem $filesystem
+     * @param StoreConfig $coreStoreConfig
+     * @param ConfigInterface $config
+     */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\ConfigInterface $config
+        StoreConfig $coreStoreConfig,
+        ConfigInterface $config
     ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_coreStoreConfig = $coreStoreConfig;

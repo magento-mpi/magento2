@@ -69,6 +69,8 @@ class RecurringPayment extends \Magento\App\Action\Action
 
     /**
      * Payments listing
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -80,6 +82,8 @@ class RecurringPayment extends \Magento\App\Action\Action
 
     /**
      * Payment main view
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -88,6 +92,8 @@ class RecurringPayment extends \Magento\App\Action\Action
 
     /**
      * Payment related orders view
+     *
+     * @return void
      */
     public function ordersAction()
     {
@@ -96,6 +102,8 @@ class RecurringPayment extends \Magento\App\Action\Action
 
     /**
      * Attempt to set payment state
+     *
+     * @return void
      */
     public function updateStateAction()
     {
@@ -132,6 +140,8 @@ class RecurringPayment extends \Magento\App\Action\Action
 
     /**
      * Fetch an update with payment
+     *
+     * @return void
      */
     public function updatePaymentAction()
     {
@@ -160,6 +170,8 @@ class RecurringPayment extends \Magento\App\Action\Action
 
     /**
      * Generic payment view action
+     *
+     * @return void
      */
     protected function _viewAction()
     {

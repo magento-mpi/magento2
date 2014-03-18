@@ -11,6 +11,7 @@ abstract class AbstractLeftAssocOperator extends AbstractInfixOperator
 {
     /**
      * All Math Operators have the same associativity
+     *
      * @return int
      */
     public function associativity()

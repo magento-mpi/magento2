@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab;
 
 class General
@@ -69,7 +68,7 @@ class General
     /**
      * Prepare general properties form
      *
-     * @return \Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General
+     * @return $this
      */
     protected function _prepareForm()
     {

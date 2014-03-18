@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento;
 
 /**
  * Shell command line wrapper encapsulates command execution and arguments escaping
  */
-namespace Magento;
-
 class Shell
 {
     /**
@@ -67,6 +66,7 @@ class Shell
      * Run external command in background
      *
      * @param string $command
+     * @return void
      * @throws \Magento\Exception
      */
     public function executeInBackground($command)
@@ -83,6 +83,7 @@ class Shell
      * Log a message, if a logger is specified
      *
      * @param string $message
+     * @return void
      */
     protected function _log($message)
     {

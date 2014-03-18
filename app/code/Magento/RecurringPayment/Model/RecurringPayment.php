@@ -48,7 +48,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     /**
      * Store instance used by locale or method instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Core\Model\Store|null
      */
     protected $_store = null;
 
@@ -62,7 +62,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     /**
      * Payment data
      *
-     * @var \Magento\Payment\Helper\Data
+     * @var \Magento\Payment\Helper\Data|null
      */
     protected $_paymentData = null;
 
@@ -247,7 +247,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
      * Then filter data
      *
      * @param \Magento\Object $buyRequest
-     * @return \Magento\RecurringPayment\Model\RecurringPayment
+     * @return $this
      * @throws \Magento\Core\Exception
      * @throws \Exception
      */
@@ -277,7 +277,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
      * Returns false if it cannot be imported
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\RecurringPayment\Model\RecurringPayment|false
+     * @return $this|false
      */
     public function importProduct(\Magento\Catalog\Model\Product $product)
     {
@@ -369,7 +369,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
      * Store instance setter
      *
      * @param \Magento\Core\Model\Store $store
-     * @return \Magento\RecurringPayment\Model\RecurringPayment
+     * @return $this
      */
     public function setStore(\Magento\Core\Model\Store $store)
     {
@@ -381,7 +381,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
      * Transform some specific data for output
      *
      * @param string $key
-     * @return mixed
+     * @return array|null
      */
     public function renderData($key)
     {
@@ -406,7 +406,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     /**
      * Filter self data to make sure it can be validated properly
      *
-     * @return \Magento\RecurringPayment\Model\RecurringPayment
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _filterValues()
@@ -496,6 +496,7 @@ class RecurringPayment extends \Magento\Core\Model\AbstractModel
     /**
      * Perform full validation before saving
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _validateBeforeSave()

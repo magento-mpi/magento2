@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 use Magento\App\RequestInterface;
@@ -33,7 +32,7 @@ class Multiselect extends Select
     public function compactValue($value)
     {
         if (is_array($value)) {
-            foreach($value as $key => $val) {
+            foreach ($value as $key => $val) {
                 $value[$key] = parent::compactValue($val);
             }
 

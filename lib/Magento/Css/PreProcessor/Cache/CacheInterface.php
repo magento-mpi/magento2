@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache;
 
 /**
@@ -25,6 +24,7 @@ interface CacheInterface
 
     /**
      * @param \Magento\Less\PreProcessor\File\Less $lessFile
+     * @return void
      */
     public function add($lessFile);
 

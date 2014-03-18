@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report\Builder;
 
 use Magento\Tools\Dependency\Report\BuilderInterface;
@@ -39,8 +38,8 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * Builder constructor
      *
-     * @param \Magento\Tools\Dependency\ParserInterface $dependenciesParser
-     * @param \Magento\Tools\Dependency\Report\WriterInterface $reportWriter
+     * @param ParserInterface $dependenciesParser
+     * @param WriterInterface $reportWriter
      */
     public function __construct(
         ParserInterface $dependenciesParser,
@@ -68,6 +67,7 @@ abstract class AbstractBuilder implements BuilderInterface
      * Template method. Check passed options step
      *
      * @param array $options
+     * @return void
      * @throws \InvalidArgumentException
      */
     protected function checkOptions($options)

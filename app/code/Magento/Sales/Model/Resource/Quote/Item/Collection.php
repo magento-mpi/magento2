@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Resource\Quote\Item;
 
 /**
  * Quote item resource collection
  */
-namespace Magento\Sales\Model\Resource\Quote\Item;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -25,7 +24,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Product Ids array
      *
-     * @var array
+     * @var int[]
      */
     protected $_productIds   = array();
 
@@ -52,7 +51,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Sales\Model\Resource\Quote\Item\Option\CollectionFactory $itemOptionCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Sales\Model\Quote\Config $quoteConfig
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -74,6 +73,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -94,7 +95,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set Quote object to Collection
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
+     * @return $this
      */
     public function setQuote($quote)
     {
@@ -115,7 +116,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param string $quotesTableName
      * @param int $productId
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
+     * @return $this
      */
     public function resetJoinQuotes($quotesTableName, $productId = null)
     {
@@ -137,7 +138,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * After load processing
      *
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -168,7 +169,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add options to items
      *
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
+     * @return $this
      */
     protected function _assignOptions()
     {
@@ -186,7 +187,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add products to items and item options
      *
-     * @return \Magento\Sales\Model\Resource\Quote\Item\Collection
+     * @return $this
      */
     protected function _assignProducts()
     {

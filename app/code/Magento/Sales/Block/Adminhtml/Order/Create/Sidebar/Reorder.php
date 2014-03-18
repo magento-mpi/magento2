@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
 /**
  * Adminhtml sales order create sidebar cart block
@@ -15,8 +16,6 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
-
 class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
 {
     /**
@@ -27,6 +26,8 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
     protected $_sidebarStorageAction = 'add_order_item';
 
     /**
+     * Orders factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_ordersFactory;
@@ -51,6 +52,11 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
         parent::__construct($context, $sessionQuote, $orderCreate, $salesConfig, $data);
     }
 
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -58,7 +64,11 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
         $this->setDataId('reorder');
     }
 
-
+    /**
+     * Get header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Last Ordered Items');
@@ -87,7 +97,7 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
     /**
      * Retrieve item collection
      *
-     * @return mixed
+     * @return array|false
      */
     public function getItemCollection()
     {
@@ -103,16 +113,31 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
         return false;
     }
 
+    /**
+     * Retrieve display item qty availability
+     *
+     * @return false
+     */
     public function canDisplayItemQty()
     {
         return false;
     }
 
+    /**
+     * Retrieve remove items availability
+     *
+     * @return false
+     */
     public function canRemoveItems()
     {
         return false;
     }
 
+    /**
+     * Retrieve display price availability
+     *
+     * @return false
+     */
     public function canDisplayPrice()
     {
         return false;

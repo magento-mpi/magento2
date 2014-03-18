@@ -11,43 +11,73 @@
 ?>
 <div class="pager only">
     <div class="pages">
-        <strong><?php echo __('Page:') ?></strong>
-        <ol>
+        <strong class="label" id="paging-label"><?php echo __('Page:') ?></strong>
+        <ul class="items" aria-labelledby="paging-label">
         <?php if ($this->canShowSequence()):?>
             <?php if ($this->canShowPrevious()):?>
-            <li class="item"><a class="action previous" href="<?php echo $this->getPreviousNode()->getUrl()?>"><span><?php echo __('Previous') ?></span></a></li>
+            <li class="item">
+                <a class="action previous" href="<?php echo $this->getPreviousNode()->getUrl()?>">
+                    <span class="label"><?php echo __('Page') ?></span>
+                    <span><?php echo __('Previous') ?></span>
+                </a>
+            </li>
             <?php endif;?>
         <?php endif;?>
 
         <?php if ($this->canShowOuter() && $this->canShowFirst()):?>
-            <li class="item"><a class="first" title="<?php echo $this->escapeHtml($this->getFirstNode()->getLabel())?>" href="<?php echo $this->getFirstNode()->getUrl()?>"><span><?php echo $this->getNodeLabel($this->getFirstNode())?></span></a></li>
+            <li class="item">
+                <a class="page first" title="<?php echo $this->escapeHtml($this->getFirstNode()->getLabel())?>" href="<?php echo $this->getFirstNode()->getUrl()?>">
+                    <span class="label"><?php echo __('Page') ?></span>
+                    <span><?php echo $this->getNodeLabel($this->getFirstNode())?></span>
+                </a>
+            </li>
         <?php endif;?>
 
         <?php if ($this->canShowPreviousJump()):?>
-            <li class="item"><a class="action previous jump" title="<?php echo $this->escapeHtml($this->getPreviousJumpNode()->getLabel())?>" href="<?php echo $this->getPreviousJumpNode()->getUrl()?>"><span>...</span></a></li>
+            <li class="item"><a class="page action previous jump" title="<?php echo $this->escapeHtml($this->getPreviousJumpNode()->getLabel())?>" href="<?php echo $this->getPreviousJumpNode()->getUrl()?>"><span>...</span></a></li>
         <?php endif;?>
 
         <?php foreach ($this->getNodesInRange() as $node):?>
             <?php if ($node->getIsCurrent()):?>
-                <li class="item current"><?php echo $this->getNodeLabel($node)?></li>
+                <li class="item current">
+                    <strong>
+                        <span class="label"><?php echo __('You\'re currently reading page') ?></span>
+                        <span><?php echo $this->getNodeLabel($node)?></span>
+                    </strong>
+                </li>
             <?php else: ?>
-                <li class="item"><a title="<?php echo $this->escapeHtml($node->getLabel())?>" href="<?php echo $node->getUrl()?>"><span><?php echo $this->getNodeLabel($node)?></span></a></li>
+                <li class="item">
+                    <a title="<?php echo $this->escapeHtml($node->getLabel())?>" href="<?php echo $node->getUrl()?>" class="page">
+                        <span class="label"><?php echo __('Page') ?></span>
+                        <span><?php echo $this->getNodeLabel($node)?></span>
+                    </a>
+                </li>
             <?php endif; ?>
         <?php endforeach;?>
 
         <?php if ($this->canShowNextJump()):?>
-            <li class="item"><a class="action forward jump" title="<?php echo $this->escapeHtml($this->getNextJumpNode()->getLabel())?>" href="<?php echo $this->getNextJumpNode()->getUrl()?>"><span>...</span></a></li>
+            <li class="item"><a class="page action forward jump" title="<?php echo $this->escapeHtml($this->getNextJumpNode()->getLabel())?>" href="<?php echo $this->getNextJumpNode()->getUrl()?>"><span>...</span></a></li>
         <?php endif;?>
 
         <?php if ($this->canShowOuter() && $this->canShowLast()):?>
-          <li class="item"><a class="action last" title="<?php echo $this->escapeHtml($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>"><span><?php echo $this->getNodeLabel($this->getLastNode())?></span></a></li>
+          <li class="item">
+              <a class="page last" title="<?php echo $this->escapeHtml($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>">
+                  <span class="label"><?php echo __('Page') ?></span>
+                  <span><?php echo $this->getNodeLabel($this->getLastNode())?></span>
+              </a>
+          </li>
         <?php endif;?>
 
         <?php if ($this->canShowSequence()):?>
             <?php if ($this->canShowNext()):?>
-            <li class="item"><a class="action next" href="<?php echo $this->getNextNode()->getUrl()?>"><span><?php echo __('Next') ?></span></a></li>
+            <li class="item">
+                <a class="action next" href="<?php echo $this->getNextNode()->getUrl()?>">
+                    <span class="label"><?php echo __('Page') ?></span>
+                    <span><?php echo __('Next') ?></span>
+                </a>
+            </li>
             <?php endif;?>
         <?php endif;?>
-        </ol>
+        </ul>
     </div>
 </div>

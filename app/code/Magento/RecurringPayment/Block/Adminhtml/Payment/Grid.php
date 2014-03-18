@@ -5,14 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Recurring payments grid
- */
 namespace Magento\RecurringPayment\Block\Adminhtml\Payment;
 
 /**
- * Class Grid
+ * Class Grid - Recurring profiles grid
  * @todo: convert to layout update
  */
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -60,6 +56,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_fields = $fields;
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -71,7 +70,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -86,7 +85,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\RecurringPayment\Block\Adminhtml\Payment\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

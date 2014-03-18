@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\System\Config\Backend;
 
 class Pool extends \Magento\Core\Model\Config\Value
@@ -22,7 +21,6 @@ class Pool extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -32,7 +30,6 @@ class Pool extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -40,9 +37,12 @@ class Pool extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_giftCardAccountPool = $giftCardAccountPool;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
@@ -54,6 +54,9 @@ class Pool extends \Magento\Core\Model\Config\Value
         parent::_beforeSave();
     }
 
+    /**
+     * @return $this
+     */
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
@@ -65,6 +68,7 @@ class Pool extends \Magento\Core\Model\Config\Value
     /**
      * Check Max Length
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _checkMaxLength()

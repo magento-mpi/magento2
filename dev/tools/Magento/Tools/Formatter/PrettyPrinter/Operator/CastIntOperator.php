@@ -11,6 +11,9 @@ use PHPParser_Node_Expr_Cast_Int;
 
 class CastIntOperator extends AbstractCastOperator
 {
+    /**
+     * @param PHPParser_Node_Expr_Cast_Int $node
+     */
     public function __construct(PHPParser_Node_Expr_Cast_Int $node)
     {
         parent::__construct($node, 'int');

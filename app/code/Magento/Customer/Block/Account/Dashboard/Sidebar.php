@@ -7,20 +7,29 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Wishlist\Model\Resource\Item\Collection;
+use Magento\Wishlist\Model\Wishlist;
+
 /**
  * Account dashboard sidebar
  */
 class Sidebar extends \Magento\View\Element\Template
 {
+    /**
+     * @var int
+     */
     protected $_cartItemsCount;
 
     /**
      * Enter description here...
      *
-     * @var \Magento\Wishlist\Model\Wishlist
+     * @var Wishlist
      */
     protected $_wishlist;
 
+    /**
+     * @var int
+     */
     protected $_compareItems;
 
     /**
@@ -75,12 +84,17 @@ class Sidebar extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
-
+    /**
+     * @return string
+     */
     public function getShoppingCartUrl()
     {
         return $this->_urlBuilder->getUrl('checkout/cart');
     }
 
+    /**
+     * @return int
+     */
     public function getCartItemsCount()
     {
         if (!$this->_cartItemsCount) {
@@ -93,6 +107,9 @@ class Sidebar extends \Magento\View\Element\Template
         return $this->_cartItemsCount;
     }
 
+    /**
+     * @return Collection
+     */
     public function getWishlist()
     {
         if (!$this->_wishlist) {
@@ -111,16 +128,26 @@ class Sidebar extends \Magento\View\Element\Template
         return $this->_wishlist->getItemCollection();
     }
 
+    /**
+     * @return int
+     */
     public function getWishlistCount()
     {
         return $this->getWishlist()->getSize();
     }
 
+    /**
+     * @param Wishlist $wishlistItem
+     * @return string
+     */
     public function getWishlistAddToCartLink($wishlistItem)
     {
         return $this->_urlBuilder->getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
     }
 
+    /**
+     * @return int
+     */
     public function getCompareItems()
     {
         if ( !$this->_compareItems ) {
@@ -137,21 +164,33 @@ class Sidebar extends \Magento\View\Element\Template
         return $this->_compareItems;
     }
 
+    /**
+     * @return string
+     */
     public function getCompareJsObjectName()
     {
         return "dashboardSidebarCompareJsObject";
     }
 
+    /**
+     * @return string
+     */
     public function getCompareRemoveUrlTemplate()
     {
         return $this->getUrl('catalog/product_compare/remove', ['product'=>'#{id}']);
     }
 
+    /**
+     * @return string
+     */
     public function getCompareAddUrlTemplate()
     {
         return $this->getUrl('catalog/product_compare/add');
     }
 
+    /**
+     * @return string
+     */
     public function getCompareUrl()
     {
         return $this->getUrl('catalog/product_compare');
@@ -166,7 +205,7 @@ class Sidebar extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return Wishlist
      */
     protected function _createWishList()
     {

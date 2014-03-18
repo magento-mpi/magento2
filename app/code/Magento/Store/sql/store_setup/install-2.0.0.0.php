@@ -268,7 +268,7 @@ $connection
     ->createTable($table);
 
 /**
- * Insert core websites
+ * Insert websites
  */
 $connection
     ->insertForce(
@@ -296,7 +296,7 @@ $connection
     );
 
 /**
- * Insert core store groups
+ * Insert store groups
  */
 $connection
     ->insertForce(
@@ -322,7 +322,7 @@ $connection
     );
 
 /**
- * Insert core stores
+ * Insert stores
  */
 $connection
     ->insertForce(

@@ -8,8 +8,6 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\Resource\Config;
-use Magento\Core\Model\Website;
-
 
 /**
  * Core config data resource model
@@ -23,6 +21,7 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -76,29 +75,19 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Clear website data
+     * Clear Scope data
      *
-     * @param Website $website
+     * @param string $scopeCode
+     * @param int|array $scopeIds
      * @return void
      */
-    public function clearWebsiteData(Website $website)
+    public function clearScopeData($scopeCode, $scopeIds)
     {
+        if (!is_array($scopeIds)) {
+            $scopeIds = array($scopeIds);
+        }
         $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), array('scope = ?' => 'websites', 'scope_id' => $website->getId())
-        );
-        $this->clearStoreData($website->getStoreIds());
-    }
-
-    /**
-     * Clear store data
-     *
-     * @param array $storeIds
-     * @return void
-     */
-    public function clearStoreData(array $storeIds)
-    {
-        $this->_getWriteAdapter()->delete(
-            $this->getMainTable(), array('scope = ?' => 'stores', 'scope_id IN (?)' => $storeIds)
+            $this->getMainTable(), array('scope = ?' => $scopeCode, 'scope_id IN (?)' => $scopeIds)
         );
     }
 }

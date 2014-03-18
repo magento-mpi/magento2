@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 /**
  * Column renderer for gift registry items grid action column
  */
-namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
-
 class Action
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

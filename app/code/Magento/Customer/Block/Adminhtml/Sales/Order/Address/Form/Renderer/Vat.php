@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Sales\Order\Address\Form\Renderer;
+
+use Magento\View\Element\Template;
 
 /**
  * VAT ID element renderer
@@ -15,12 +18,7 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Sales\Order\Address\Form\Renderer;
-
-use Magento\View\Element\Template;
-
-class Vat
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Vat extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Validate button block
@@ -29,6 +27,9 @@ class Vat
      */
     protected $_validateButton = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'sales/order/create/address/form/renderer/vat.phtml';
 
     /**

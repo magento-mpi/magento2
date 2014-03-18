@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Config;
 
 /**
  * Customer sharing config model
@@ -15,8 +16,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Config;
-
 class Share extends \Magento\Core\Model\Config\Value
     implements \Magento\Option\ArrayInterface
 {
@@ -45,6 +44,9 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     protected $_customerResource;
 
+    /** @var  \Magento\Core\Model\StoreManagerInterface */
+    protected $_storeManager;
+
     /**
      * Constructor
      *
@@ -61,8 +63,8 @@ class Share extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -70,8 +72,9 @@ class Share extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
         $this->_customerResource = $customerResource;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -108,9 +111,9 @@ class Share extends \Magento\Core\Model\Config\Value
     }
 
     /**
-     * Check for email dublicates before saving customers sharing options
+     * Check for email duplicates before saving customers sharing options
      *
-     * @return \Magento\Customer\Model\Config\Share
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function _beforeSave()

@@ -7,14 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable;
+
+use Magento\Downloadable\Model\Link\Purchased;
 
 /**
  * Sales Order downloadable items name column renderer
  */
 class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
 {
+    /**
+     * @var Purchased|null
+     */
     protected $_purchased = null;
 
     /**
@@ -46,6 +50,9 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         parent::__construct($context, $optionFactory, $data);
     }
 
+    /**
+     * @return Purchased
+     */
     public function getLinks()
     {
         $this->_purchased = $this->_purchasedFactory->create()->load($this->getItem()->getOrder()->getId(), 'order_id');
@@ -54,6 +61,9 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         return $this->_purchased;
     }
 
+    /**
+     * @return null|string
+     */
     public function getLinksTitle()
     {
         if ($this->_purchased && $this->_purchased->getLinkSectionTitle()) {

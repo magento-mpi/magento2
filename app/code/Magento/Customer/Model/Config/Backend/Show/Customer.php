@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Config\Backend\Show;
+
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 /**
  * Customer Show Customer Model
@@ -15,8 +18,6 @@
  * @package    Magento_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Model\Config\Backend\Show;
-
 class Customer extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -24,11 +25,14 @@ class Customer extends \Magento\Core\Model\Config\Value
      */
     protected $_eavConfig;
 
+    /** @var \Magento\Core\Model\StoreManagerInterface */
+    protected $storeManager;
+
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -37,15 +41,16 @@ class Customer extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -61,7 +66,7 @@ class Customer extends \Magento\Core\Model\Config\Value
     /**
      * Retrieve attribute objects
      *
-     * @return array
+     * @return AbstractAttribute[]
      */
     protected function _getAttributeObjects()
     {
@@ -73,7 +78,7 @@ class Customer extends \Magento\Core\Model\Config\Value
     /**
      * Actions after save
      *
-     * @return \Magento\Customer\Model\Config\Backend\Show\Customer
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -94,7 +99,7 @@ class Customer extends \Magento\Core\Model\Config\Value
         }
 
         if ($this->getScope() == 'websites') {
-            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
+            $website = $this->storeManager->getWebsite($this->getScopeCode());
             $dataFieldPrefix = 'scope_';
         } else {
             $website = null;
@@ -107,7 +112,7 @@ class Customer extends \Magento\Core\Model\Config\Value
                 $attributeObject->load($attributeObject->getId());
             }
             $attributeObject->setData($dataFieldPrefix . 'is_required', $data['is_required']);
-            $attributeObject->setData($dataFieldPrefix . 'is_visible',  $data['is_visible']);
+            $attributeObject->setData($dataFieldPrefix . 'is_visible', $data['is_visible']);
             $attributeObject->save();
         }
 
@@ -124,12 +129,12 @@ class Customer extends \Magento\Core\Model\Config\Value
         $result = parent::_afterDelete();
 
         if ($this->getScope() == 'websites') {
-            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
+            $website = $this->storeManager->getWebsite($this->getScopeCode());
             foreach ($this->_getAttributeObjects() as $attributeObject) {
                 $attributeObject->setWebsite($website);
                 $attributeObject->load($attributeObject->getId());
                 $attributeObject->setData('scope_is_required', null);
-                $attributeObject->setData('scope_is_visible',  null);
+                $attributeObject->setData('scope_is_visible', null);
                 $attributeObject->save();
             }
         }

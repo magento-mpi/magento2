@@ -12,5 +12,8 @@
         <sequence>
             <module name="Magento_Core"/>
         </sequence>
+        <depends>
+            <module name="Magento_Core"/>
+        </depends>
     </module>
 </config>

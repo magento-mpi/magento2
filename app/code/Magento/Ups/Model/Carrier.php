@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Model;
 
 use Magento\Sales\Model\Quote\Address\RateRequest;
@@ -13,6 +12,7 @@ use Magento\Shipping\Model\Carrier\AbstractCarrierOnline;
 use Magento\Shipping\Model\Rate\Result;
 use Magento\Shipping\Model\Simplexml\Element;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
+use Magento\Ups\Helper\Config;
 
 /**
  * UPS shipping implementation
@@ -119,7 +119,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $_logger;
 
     /**
-     * @var
+     * @var Config
      */
     protected $configHelper;
 
@@ -139,7 +139,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Logger $logger
      * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Ups\Helper\Config $configHelper
+     * @param Config $configHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -160,7 +160,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Logger $logger,
         \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Ups\Helper\Config $configHelper,
+        Config $configHelper,
         array $data = array()
     ) {
         $this->_logger = $logger;

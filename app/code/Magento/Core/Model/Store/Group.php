@@ -363,7 +363,10 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
-        $this->_configDataResource->clearStoreData($this->getStoreIds());
+        $this->_configDataResource->clearScopeData(
+            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            $this->getStoreIds()
+        );
         return parent::_beforeDelete();
     }
 

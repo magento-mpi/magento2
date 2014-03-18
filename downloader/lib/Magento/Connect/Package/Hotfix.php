@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Connect\Package;
 
  /**
  * Class to work with Magento Connect Hotfix
@@ -15,17 +16,13 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Connect\Package;
-
 class Hotfix extends \Magento\Connect\Package
 {
-
     /**
      * Initializes an empty package object
      *
      * @param null|string $definition optional package definition xml
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     protected function _init($definition=null)
     {
@@ -59,10 +56,12 @@ END;
     }
 
     /**
-    * Add content to node <replace/>
-    *
-    * @return \Magento\Connect\Package\Hotfix
-    */
+     * Add content to node <replace/>
+     *
+     * @param string $path
+     * @param string $targetName
+     * @return $this
+     */
     public function addReplace($path, $targetName)
     {
         $found = false;
@@ -89,7 +88,7 @@ END;
      * @param string $path Path to directory
      * @param string $exclude Exclude
      * @param string $include Include
-     * @return \Magento\Connect\Package
+     * @return $this
      */
     public function addReplaceDir($targetName, $targetDir, $path, $exclude=null, $include=null)
     {

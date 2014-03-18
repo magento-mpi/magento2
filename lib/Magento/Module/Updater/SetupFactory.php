@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Module\Updater;
-use Magento\Module\Updater\SetupInterface;
+
 use \Magento\ObjectManager;
 
 class SetupFactory

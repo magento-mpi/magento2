@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Block\Email;
 
 /**
  * Update email template gift registry items block
  */
-namespace Magento\GiftRegistry\Block\Email;
-
 class Items extends \Magento\View\Element\Template
 {
-
     /**
      * Return list of gift registry items
      *
@@ -30,7 +28,7 @@ class Items extends \Magento\View\Element\Template
      * Count gift registry items in last order
      *
      * @param \Magento\GiftRegistry\Model\Resource\Item $item
-     * @return mixed
+     * @return int
      */
     public function getQtyOrdered($item)
     {
@@ -45,7 +43,7 @@ class Items extends \Magento\View\Element\Template
      * Return gift registry entity remained item qty
      *
      * @param \Magento\GiftRegistry\Model\Resource\Item $item
-     * @return mixed
+     * @return int
      */
     public function getRemainedQty($item)
     {
@@ -60,7 +58,7 @@ class Items extends \Magento\View\Element\Template
      * Return gift registry entity item qty
      *
      * @param \Magento\GiftRegistry\Model\Resource\Item $item
-     * @return mixed
+     * @return int
      */
     public function getQty($item)
     {
@@ -71,7 +69,7 @@ class Items extends \Magento\View\Element\Template
      * Return gift registry entity item fulfilled qty
      *
      * @param \Magento\GiftRegistry\Model\Resource\Item $item
-     * @return mixed
+     * @return int
      */
     public function getQtyFulfilled($item)
     {

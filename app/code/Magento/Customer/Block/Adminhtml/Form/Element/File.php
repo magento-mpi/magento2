@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Customer\Block\Adminhtml\Form\Element;
 
 /**
  * Customer Widget Form File Element Block
@@ -16,8 +16,6 @@
  * @package     Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Form\Element;
-
 class File extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -187,7 +185,7 @@ class File extends \Magento\Data\Form\Element\AbstractElement
      *
      * @param string $element
      * @param array $attributes
-     * @param boolean $closed
+     * @param bool $closed
      * @return string
      */
     protected function _drawElementHtml($element, array $attributes, $closed = true)
@@ -203,8 +201,8 @@ class File extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Return escaped value
      *
-     * @param int $index
-     * @return string
+     * @param int|null $index
+     * @return string|false
      */
     public function getEscapedValue($index = null)
     {

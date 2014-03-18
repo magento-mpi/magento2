@@ -57,6 +57,6 @@
         </table>
         <div class="toolbar"><?php echo $this->getChildHtml('pager'); ?></div>
     <?php else: ?>
-        <p><?php echo $this->escapeHtml($this->getEmptyGridMessage()); ?></p>
+        <div class="message info empty"><span><?php echo $this->escapeHtml($this->getEmptyGridMessage()); ?></span></div>
     <?php endif; ?>
 </div>

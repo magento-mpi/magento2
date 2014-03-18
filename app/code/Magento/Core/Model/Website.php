@@ -513,7 +513,14 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
-        $this->_configDataResource->clearWebsiteData($this);
+        $this->_configDataResource->clearScopeData(
+            \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES,
+            $this->getId()
+        );
+        $this->_configDataResource->clearScopeData(
+            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            $this->getStoreIds()
+        );
         return parent::_beforeDelete();
     }
 

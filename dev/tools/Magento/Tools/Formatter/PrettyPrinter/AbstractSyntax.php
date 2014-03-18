@@ -25,12 +25,14 @@ abstract class AbstractSyntax
 
     /**
      * This member holds the current node.
+     *
      * @var PHPParser_Node
      */
     protected $node;
 
     /**
      * This method constructs a new statement based on the specified node.
+     *
      * @param PHPParser_Node $node
      */
     protected function __construct(PHPParser_Node $node)
@@ -40,7 +42,9 @@ abstract class AbstractSyntax
 
     /**
      * This method adds the comments associated with the syntax node to the given tree node.
+     *
      * @param TreeNode $treeNode TreeNode representing the current node.
+     * @return void
      */
     public function addComments(TreeNode $treeNode)
     {
@@ -66,6 +70,7 @@ abstract class AbstractSyntax
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
+     *
      * @param TreeNode $treeNode TreeNode representing the current node.
      * @return TreeNode
      */
@@ -82,8 +87,10 @@ abstract class AbstractSyntax
 
     /**
      * This method adds the current comment line to the current tree node.
+     *
      * @param string $commentLine String containing the current comment.
      * @param TreeNode $treeNode TreeNode representing the current node.
+     * @return void
      */
     protected function addCommentToNode($commentLine, TreeNode $treeNode)
     {
@@ -94,6 +101,7 @@ abstract class AbstractSyntax
 
     /**
      * This method adds the token to the current line in the tree node.
+     *
      * @param TreeNode $treeNode TreeNode representing the current node.
      * @param mixed $token Token to be added to the line.
      * @return Line that was just added to.
@@ -108,6 +116,7 @@ abstract class AbstractSyntax
 
     /**
      * This method returns if the needle can be found at the end of the haystack.
+     *
      * @param string $haystack String to look in.
      * @param string $needle String to find.
      * @param bool $case_insensitivity If true, then comparison is case insensitive.
@@ -129,7 +138,7 @@ abstract class AbstractSyntax
     /**
      * Return the array that contains the comments from the node's attributes, if it is there.
      *
-     * @return mixed
+     * @return null|array
      */
     protected function getComments()
     {
@@ -145,6 +154,7 @@ abstract class AbstractSyntax
 
     /**
      * This method processes the argument list as a parenthesis wrapped argument list.
+     *
      * @param array $arguments Array of arguments to process.
      * @param TreeNode $treeNode TreeNode representing the current node.
      * @param LineBreak $lineBreak Class used to inject between arguments as a separator.
@@ -183,9 +193,11 @@ abstract class AbstractSyntax
 
     /**
      * This method adds the arguments to the current line
+     *
      * @param array $arguments Array of arguments to process.
      * @param TreeNode $treeNode TreeNode representing the current node.
      * @param LineBreak $lineBreak Class used to inject between arguments as a separator.
+     * @return TreeNode
      */
     protected function processArgumentList(array $arguments, TreeNode $treeNode, LineBreak $lineBreak)
     {
@@ -212,6 +224,7 @@ abstract class AbstractSyntax
 
     /**
      * This method processes the newly added node.
+     *
      * @param TreeNode $originatingNode Node where new nodes are originating from
      * @param TreeNode $newNode Newly added node containing the statement
      * @param int $index 0 based index of the new node
@@ -231,7 +244,8 @@ abstract class AbstractSyntax
     /**
      * This method parses the given nodes and places them in the tree by calling processNode. This
      * allows the derived class a chance to insert the new node into the appropriate location.
-     * @param mixed $nodes Array or single node
+     *
+     * @param TreeNode|TreeNode[] $nodes Array or single node
      * @param TreeNode $originatingNode Node where new nodes are originating from
      * @param mixed $data Data that is passed to derived class when processing the node.
      * @return TreeNode
@@ -254,6 +268,7 @@ abstract class AbstractSyntax
 
     /**
      * This method resolves the node immediately.
+     *
      * @param PHPParser_Node $node
      * @param TreeNode $treeNode TreeNode representing the current node.
      * @return TreeNode
@@ -269,7 +284,8 @@ abstract class AbstractSyntax
      * This method will modify the array that is passed in to remove blank lines in the first or last position of the
      * array.
      *
-     * @param $comments
+     * @param string[] &$comments
+     * @return void
      */
     protected function trimComments(&$comments)
     {
@@ -286,6 +302,10 @@ abstract class AbstractSyntax
 
     /**
      * This method is a help method used to return a new node.
+     *
+     * @param AbstractSyntax $syntax
+     * @param Line|null $line
+     * @return TreeNode
      */
     public static function getNode(AbstractSyntax $syntax, $line = null)
     {
@@ -294,6 +314,9 @@ abstract class AbstractSyntax
 
     /**
      * This method is a help method used to return a new node.
+     *
+     * @param Line $line
+     * @return TreeNode
      */
     public static function getNodeLine(Line $line)
     {

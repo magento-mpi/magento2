@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency\Report;
 
 /**
@@ -17,6 +16,7 @@ interface BuilderInterface
      * Build a report
      *
      * @param array $options
+     * @return void
      */
     public function build(array $options);
 }

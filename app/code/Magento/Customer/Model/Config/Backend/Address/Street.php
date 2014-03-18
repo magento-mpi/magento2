@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Model\Config\Backend\Address;
 
 /**
  * Line count config model for customer address street attribute
  *
  * @method string getWebsiteCode
  */
-namespace Magento\Customer\Model\Config\Backend\Address;
-
 class Street extends \Magento\Core\Model\Config\Value
 {
     /**
@@ -22,11 +21,14 @@ class Street extends \Magento\Core\Model\Config\Value
      */
     protected $_eavConfig;
 
+    /** @var \Magento\Core\Model\StoreManagerInterface */
+    protected $_storeManager;
+
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -35,21 +37,22 @@ class Street extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**
      * Actions after save
      *
-     * @return \Magento\Customer\Model\Config\Backend\Address\Street
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -57,7 +60,7 @@ class Street extends \Magento\Core\Model\Config\Value
         $value  = $this->getValue();
         switch ($this->getScope()) {
             case 'websites':
-                $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
+                $website = $this->_storeManager->getWebsite($this->getScopeCode());
                 $attribute->setWebsite($website);
                 $attribute->load($attribute->getId());
                 if ($attribute->getData('multiline_count') != $value) {
@@ -84,7 +87,7 @@ class Street extends \Magento\Core\Model\Config\Value
 
         if ($this->getScope() == 'websites') {
             $attribute = $this->_eavConfig->getAttribute('customer_address', 'street');
-            $website = $this->_storeManager->getWebsite($this->getWebsiteCode());
+            $website = $this->_storeManager->getWebsite($this->getScopeCode());
             $attribute->setWebsite($website);
             $attribute->load($attribute->getId());
             $attribute->setData('scope_multiline_count', null);

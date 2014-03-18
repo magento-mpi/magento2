@@ -287,8 +287,8 @@ class Store extends AbstractModel
     protected $_httpContext;
 
     /**
-     * @param Context $context
-     * @param Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\UrlInterface $url
@@ -929,7 +929,7 @@ class Store extends AbstractModel
     /**
      * Set current currency
      *
-     * @param $currency
+     * @param \Magento\Directory\Model\Currency $currency
      * @return $this
      */
     public function setCurrentCurrency($currency)
@@ -1182,7 +1182,10 @@ class Store extends AbstractModel
         $this->_protectFromNonAdmin();
         \Magento\App\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
             ->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
-        $this->_configDataResource->clearStoreData(array($this->getId()));
+        $this->_configDataResource->clearScopeData(
+            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            $this->getId()
+        );
         return parent::_beforeDelete();
     }
 

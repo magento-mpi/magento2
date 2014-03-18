@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Downloader\Model\Config;
 
 /**
  * Class config
@@ -15,13 +16,12 @@
  * @package    Magento_Connect
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloader\Model\Config;
-
 class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig implements \Magento\Downloader\Model\Config\ConfigInterface
 {
-
     /**
      * Initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -44,7 +44,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @param \Magento\Connect\Config $config
      * @param \Magento\Downloader\View $view
-     * @return null
+     * @return void
      */
     public function setInstallView($config, $view)
     {
@@ -59,7 +59,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      * Set data for Settings View
      * @param mixed $session Session object
      * @param \Magento\Downloader\View $view
-     * @return null
+     * @return void
      */
     public function setSettingsView($session, $view)
     {
@@ -75,7 +75,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      * Set session data for Settings
      * @param array $post post data
      * @param mixed $session Session object
-     * @return null
+     * @return void
      */
     public function setSettingsSession($post, $session)
     {
@@ -106,7 +106,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @param \Magento\Connect\Config $config Config object
      * @param array $post post data
-     * @return null
+     * @return void
      */
     public function setPostData($config, &$post)
     {
@@ -127,7 +127,7 @@ class Enterprise extends \Magento\Downloader\Model\Config\AbstractConfig impleme
      *
      * @param mixed $session Session object
      * @param array $options
-     * @return null
+     * @return void
      */
     public function setCommandOptions($session, &$options)
     {

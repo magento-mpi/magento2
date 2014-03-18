@@ -5,22 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Recurring payments view/management controller
- *
- * TODO: implement ACL restrictions
- */
 namespace Magento\RecurringPayment\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
 use Magento\Core\Exception as CoreException;
 use Magento\Customer\Controller\RegistryConstants;
 
+/**
+ * Recurring payments view/management controller
+ *
+ * TODO: implement ACL restrictions
+ */
 class RecurringPayment extends \Magento\Backend\App\Action
 {
     /**#@+
-     * Request parameter keys
+     * Request parameter key
      */
     const PARAM_CUSTOMER_ID = 'id';
     const PARAM_PAYMENT = 'payment';
@@ -28,7 +27,7 @@ class RecurringPayment extends \Magento\Backend\App\Action
     /**#@-*/
 
     /**#@+
-     * Values for PARAM_ACTION request parameter
+     * Value for PARAM_ACTION request parameter
      */
     const ACTION_CANCEL = 'cancel';
     const ACTION_SUSPEND = 'suspend';
@@ -64,6 +63,8 @@ class RecurringPayment extends \Magento\Backend\App\Action
 
     /**
      * Recurring payments list
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -75,6 +76,8 @@ class RecurringPayment extends \Magento\Backend\App\Action
 
     /**
      * View recurring payment details
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -96,6 +99,8 @@ class RecurringPayment extends \Magento\Backend\App\Action
 
     /**
      * Payments ajax grid
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -113,6 +118,7 @@ class RecurringPayment extends \Magento\Backend\App\Action
     /**
      * Payment orders ajax grid
      *
+     * @return void
      * @throws NotFoundException
      */
     public function ordersAction()
@@ -128,6 +134,8 @@ class RecurringPayment extends \Magento\Backend\App\Action
 
     /**
      * Payment state updater action
+     *
+     * @return void
      */
     public function updateStateAction()
     {
@@ -165,6 +173,8 @@ class RecurringPayment extends \Magento\Backend\App\Action
 
     /**
      * Payment information updater action
+     *
+     * @return void
      */
     public function updatePaymentAction()
     {
@@ -194,6 +204,7 @@ class RecurringPayment extends \Magento\Backend\App\Action
     /**
      * Customer grid ajax action
      *
+     * @return void
      */
     public function customerGridAction()
     {

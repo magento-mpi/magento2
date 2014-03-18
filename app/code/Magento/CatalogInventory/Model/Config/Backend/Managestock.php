@@ -29,7 +29,6 @@ class Managestock
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -39,7 +38,6 @@ class Managestock
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -47,7 +45,7 @@ class Managestock
         array $data = array()
     ) {
         $this->_stockStatus = $stockStatus;
-        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
     }
 
     /**

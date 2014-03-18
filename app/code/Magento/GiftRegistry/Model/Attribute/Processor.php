@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GiftRegistry\Model\Attribute;
 
 /**
  * Gift registry custom attribute processor model
  */
-namespace Magento\GiftRegistry\Model\Attribute;
-
 class Processor extends \Magento\Core\Model\AbstractModel
 {
     const XML_PROTOTYPE_NODE  = 'prototype';
@@ -56,7 +55,8 @@ class Processor extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Simplexml\Element $typeXml
      * @param string $group
-     * @return array $attributes
+     * @param array $attributes
+     * @return void
      */
     public function processDataType($typeXml, $group, $attributes)
     {
@@ -98,6 +98,7 @@ class Processor extends \Magento\Core\Model\AbstractModel
      *
      * @param array $attribute
      * @param \Magento\Simplexml\Element $itemXml
+     * @return void
      */
     public function addSelectOptions($attribute, $itemXml)
     {
@@ -120,6 +121,7 @@ class Processor extends \Magento\Core\Model\AbstractModel
      *
      * @param array $attribute
      * @param \Magento\Simplexml\Element $itemXml
+     * @return void
      */
     public function addDateOptions($attribute, $itemXml)
     {
@@ -132,6 +134,7 @@ class Processor extends \Magento\Core\Model\AbstractModel
      *
      * @param array $attribute
      * @param \Magento\Simplexml\Element $itemXml
+     * @return void
      */
     public function addCountryOptions($attribute, $itemXml)
     {
@@ -144,6 +147,7 @@ class Processor extends \Magento\Core\Model\AbstractModel
      *
      * @param array $attribute
      * @param \Magento\Simplexml\Element $itemXml
+     * @return void
      */
     public function addFrontendParams($attribute, $itemXml)
     {

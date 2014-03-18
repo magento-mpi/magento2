@@ -185,6 +185,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     /**
      * Submit a recurring payment right after an order is placed
      *
+     * @return void
+     * @throws \Exception
      */
     public function submit()
     {
@@ -204,6 +206,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * Activate the suspended payment
+     *
+     * @return void
      */
     public function activate()
     {
@@ -225,6 +229,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * Suspend active payment
+     *
+     * @return void
      */
     public function suspend()
     {
@@ -246,6 +252,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * Cancel active or suspended payment
+     *
+     * @return void
      */
     public function cancel()
     {
@@ -265,6 +273,9 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         return $this->_checkWorkflow(States::CANCELED);
     }
 
+    /**
+     * @return void
+     */
     public function fetchUpdate()
     {
         $result = new \Magento\Object();
@@ -283,6 +294,9 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         }
     }
 
+    /**
+     * @return bool
+     */
     public function canFetchUpdate()
     {
         return $this->getManager()->canGetDetails();
@@ -399,7 +413,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Import quote information to the payment
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return Payment
+     * @return $this
      */
     public function importQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -437,7 +451,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Import quote item information to the payment
      *
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return Payment
+     * @return $this
      */
     public function importQuoteItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -468,7 +482,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Render state as label
      *
      * @param string $key
-     * @return mixed
+     * @return array|null
      */
     public function renderData($key)
     {
@@ -487,7 +501,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      *
      * @param string $infoKey
      * @param string $infoValueKey
-     * @return mixed|null
+     * @return mixed
      */
     public function getInfoValue($infoKey, $infoValueKey)
     {
@@ -510,6 +524,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -534,6 +550,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
     /**
      * Initialize the workflow reference
+     *
+     * @return void
      */
     protected function _initWorkflow()
     {
@@ -573,7 +591,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     /**
      * Return recurring payment child orders Ids
      *
-     * @return array
+     * @return string[]
      */
     public function getChildOrderIds()
     {
@@ -588,7 +606,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Add order relation to recurring payment
      *
      * @param int $orderId
-     * @return Payment
+     * @return $this
      */
     public function addOrderRelation($orderId)
     {
@@ -718,6 +736,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      *
      * @param \Magento\Sales\Model\Order\Item $item
      * @param array $option
+     * @return void
      */
     protected function _addAdditionalOptionToItem($item, $option)
     {
@@ -736,6 +755,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      * Recursively cleanup array from objects
      *
      * @param array &$array
+     * @return void
      */
     private function _cleanupArray(&$array)
     {

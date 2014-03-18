@@ -30,6 +30,7 @@ class PaymentAvailabilityObserver
 
     /**
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function observe(\Magento\Event\Observer $observer)
     {

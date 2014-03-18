@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\HTTP\Client;
 
 /**
  * Class to work with HTTP protocol using curl library
@@ -15,10 +16,7 @@
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\HTTP\Client;
-
-class Curl
-implements \Magento\HTTP\IClient
+class Curl implements \Magento\HTTP\IClient
 {
     /**
      * Session Cookie storage, magento_root/var directory used
@@ -84,7 +82,7 @@ implements \Magento\HTTP\IClient
 
     /**
      * Request timeout
-     * @var intunknown_type
+     * @var int
      */
     protected $_timeout = 300;
 
@@ -100,19 +98,18 @@ implements \Magento\HTTP\IClient
      */
     protected $_ch;
 
-
     /**
      * User ovverides options hash
      * Are applied before curl_exec
      *
-     * @var array();
+     * @var array
      */
     protected $_curlUserOptions = array();
 
     /**
      * User credentials
      *
-     * @var array();
+     * @var array
      */
     protected $_auth = array();
 
@@ -120,6 +117,7 @@ implements \Magento\HTTP\IClient
      * Set request timeout, msec
      *
      * @param int $value
+     * @return void
      */
     public function setTimeout($value)
     {
@@ -147,8 +145,9 @@ implements \Magento\HTTP\IClient
 
     /**
      * Set headers from hash
-
+     *
      * @param array $headers
+     * @return void
      */
     public function setHeaders($headers)
     {
@@ -159,8 +158,9 @@ implements \Magento\HTTP\IClient
     /**
      * Add header
      *
-     * @param $name name, ex. "Location"
-     * @param $value value ex. "http://google.com"
+     * @param string $name name, ex. "Location"
+     * @param string $value value ex. "http://google.com"
+     * @return void
      */
     public function addHeader($name, $value)
     {
@@ -171,6 +171,7 @@ implements \Magento\HTTP\IClient
      * Remove specified header
      *
      * @param string $name
+     * @return void
      */
     public function removeHeader($name)
     {
@@ -184,6 +185,7 @@ implements \Magento\HTTP\IClient
      *
      * @param string $login username
      * @param string $pass password
+     * @return void
      */
     public function setCredentials($login, $pass)
     {
@@ -198,6 +200,7 @@ implements \Magento\HTTP\IClient
      *
      * @param string $name
      * @param string $value
+     * @return void
      */
     public function addCookie($name, $value)
     {
@@ -208,6 +211,7 @@ implements \Magento\HTTP\IClient
      * Remove cookie
      *
      * @param string $name
+     * @return void
      */
     public function removeCookie($name)
     {
@@ -218,6 +222,7 @@ implements \Magento\HTTP\IClient
      * Set cookies array
      *
      * @param array $cookies
+     * @return void
      */
     public function setCookies($cookies)
     {
@@ -226,6 +231,8 @@ implements \Magento\HTTP\IClient
 
     /**
      * Clear cookies
+     *
+     * @return void
      */
     public function removeCookies()
     {
@@ -237,6 +244,7 @@ implements \Magento\HTTP\IClient
      * Make GET request
      *
      * @param string $uri uri relative to host, ex. "/index.php"
+     * @return void
      */
     public function get($uri)
     {
@@ -245,13 +253,16 @@ implements \Magento\HTTP\IClient
 
     /**
      * Make POST request
+     *
+     * @param string $uri
+     * @param array $params
+     * @return void
      * @see lib/Magento/HTTP/\Magento\HTTP\Client#post($uri, $params)
      */
     public function post($uri, $params)
     {
         $this->makeRequest("POST", $uri, $params);
     }
-
 
     /**
      * Get response headers
@@ -339,6 +350,8 @@ implements \Magento\HTTP\IClient
     /**
      * Get response status code
      * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
+     *
+     * @return int
      */
     public function getStatus()
     {
@@ -446,7 +459,8 @@ implements \Magento\HTTP\IClient
 
     /**
      * Throw error excpetion
-     * @param $string
+     *
+     * @return bool
      * @throws \Exception
      */
     public function isAuthorizationRequired()
@@ -459,7 +473,9 @@ implements \Magento\HTTP\IClient
 
     /**
      * Throw error excpetion
-     * @param $string
+     *
+     * @param string $string
+     * @return void
      * @throws \Exception
      */
     public function doError($string)
@@ -509,6 +525,7 @@ implements \Magento\HTTP\IClient
      *
      * @param string $name
      * @param string $value
+     * @return void
      */
     protected function curlOption($name, $value)
     {
@@ -517,15 +534,20 @@ implements \Magento\HTTP\IClient
 
     /**
      * Set curl options array directly
+     *
      * @param array $array
+     * @return void
      */
     protected function curlOptions($array)
     {
-        curl_setopt_array($this->_ch, $arr);
+        curl_setopt_array($this->_ch, $array);
     }
 
     /**
-     * Set CURL options ovverides array	 *
+     * Set CURL options overrides array
+     *
+     * @param array $arr
+     * @return void
      */
     public function setOptions($arr)
     {
@@ -534,6 +556,10 @@ implements \Magento\HTTP\IClient
 
     /**
      * Set curl option
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
      */
     public function setOption($name, $value)
     {

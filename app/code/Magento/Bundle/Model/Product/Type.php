@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Bundle\Model\Product;
 
 /**
  * Bundle Type Model
@@ -15,8 +16,6 @@
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Bundle\Model\Product;
-
 class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     /**
@@ -259,7 +258,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Return product weight based on weight_type attribute
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return decimal
+     * @return float
      */
     public function getWeight($product)
     {
@@ -314,6 +313,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Before save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return $this|void
      */
     public function beforeSave($product)
     {
@@ -324,7 +324,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
             $product->setData('weight', false);
         }
 
-        if ($product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC) {
+        if ($product->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
             $product->setData(
                 'msrp_enabled', \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_NO
             );
@@ -360,7 +360,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Product\Type
+     * @return $this
      */
     public function save($product)
     {
@@ -437,7 +437,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Retrieve bundle options items
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return array
+     * @return \Magento\Object[]
      */
     public function getOptions($product)
     {
@@ -524,7 +524,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param   \Magento\Object   $option
      * @param   mixed           $value
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  \Magento\Bundle\Model\Product\Type
+     * @return $this
      */
     public function updateQtyOption($options, \Magento\Object $option, $value, $product)
     {
@@ -1015,7 +1015,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Check if product can be bought
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Bundle\Model\Product\Type
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function checkProductBuyState($product)
@@ -1171,6 +1171,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Bundle product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @return void
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

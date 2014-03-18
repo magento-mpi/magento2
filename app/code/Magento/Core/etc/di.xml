@@ -18,7 +18,6 @@
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
-    <preference for="Magento\App\Config\Scope\ReaderPoolInterface" type="Magento\Core\Model\Config\Scope\ReaderPool" />
     <preference for="Magento\App\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Db" />
     <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\PubSub\Event\QueueWriter" />
     <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\PubSub\Event\Factory" />
@@ -247,16 +246,6 @@
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Config</argument>
         </arguments>
     </type>
-    <type name="Magento\Core\Model\Config\Scope\Reader\Website">
-        <arguments>
-            <argument name="scopePool" xsi:type="object">Magento\App\Config\ScopePool\Proxy</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Model\Config\Scope\Reader\Store">
-        <arguments>
-            <argument name="scopePool" xsi:type="object">Magento\App\Config\ScopePool\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\App\Config\Initial\SchemaLocator">
         <arguments>
             <argument name="moduleName" xsi:type="string">Magento_Core</argument>
@@ -265,13 +254,6 @@
     <type name="Magento\App\Config\Initial\Reader">
         <arguments>
             <argument name="converter" xsi:type="object">Magento\App\Config\Initial\Converter</argument>
-        </arguments>
-    </type>
-    <type name="Magento\Core\Model\Config\Scope\ReaderPool">
-        <arguments>
-            <argument name="default" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\DefaultReader</argument>
-            <argument name="website" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\Website</argument>
-            <argument name="store" xsi:type="object">Magento\Core\Model\Config\Scope\Reader\Store</argument>
         </arguments>
     </type>
     <type name="Magento\Core\App\Router\Base">
@@ -300,7 +282,7 @@
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="themes" xsi:type="array">
-                <item name="frontend" xsi:type="string">magento_plushe</item>
+                <item name="frontend" xsi:type="string">magento_blank</item>
                 <item name="adminhtml" xsi:type="string">magento_backend</item>
                 <item name="install" xsi:type="string">magento_basic</item>
             </argument>
@@ -393,6 +375,11 @@
     <type name="Magento\Core\Model\Config\Scope\Processor\Placeholder">
         <arguments>
             <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
+            <argument name="urlPaths" xsi:type="array">
+                <item name="unsecureBaseUrl" xsi:type="string">web/unsecure/base_url</item>
+                <item name="secureBaseUrl" xsi:type="string">web/secure/base_url</item>
+            </argument>
+            <argument name="urlPlaceholder" xsi:type="string">{{base_url}}</argument>
         </arguments>
     </type>
     <type name="Magento\App\Helper\Context">
