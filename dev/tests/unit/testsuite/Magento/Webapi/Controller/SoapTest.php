@@ -70,9 +70,7 @@ class SoapTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('maskException'))
             ->getMock();
-        $this->_appStateMock =  $this->getMockBuilder('Magento\App\State')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_appStateMock =  $this->getMock('\Magento\App\State', array(), array(), '', false);
         $localeMock =  $this->getMockBuilder('Magento\Locale')
             ->disableOriginalConstructor()
             ->setMethods(array('getLanguage'))

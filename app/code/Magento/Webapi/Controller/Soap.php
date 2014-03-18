@@ -178,7 +178,8 @@ class Soap implements \Magento\App\FrontControllerInterface
             $this->_application,
             $this->_soapServer,
             $maskedException,
-            $this->_localeResolver
+            $this->_localeResolver,
+            $this->_appState
         );
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());

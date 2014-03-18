@@ -117,18 +117,4 @@ interface AppInterface
      */
     public function getRequest();
 
-    /**
-     * Retrieve response object
-     *
-     * @return \Magento\App\ResponseInterface
-     */
-    public function getResponse();
-
-    /**
-     * Response setter
-     *
-     * @param \Magento\App\ResponseInterface $response
-     * @return \Magento\AppInterface
-     */
-    public function setResponse(\Magento\App\ResponseInterface $response);
 }

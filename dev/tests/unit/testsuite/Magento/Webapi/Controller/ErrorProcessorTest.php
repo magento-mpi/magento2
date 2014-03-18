@@ -18,7 +18,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     protected $_helperMock;
 
     /** @var \Magento\Core\Model\App */
-    protected $_appMock;
+    protected $_appStateMock;
 
     /** @var \Magento\Logger */
     protected $_loggerMock;
@@ -30,7 +30,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
+        $this->_appStateMock = $this->getMockBuilder('Magento\App\State')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -45,7 +45,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         /** Initialize SUT. */
         $this->_errorProcessor = new \Magento\Webapi\Controller\ErrorProcessor(
             $this->_helperMock,
-            $this->_appMock,
+            $this->_appStateMock,
             $this->_loggerMock,
             $filesystemMock
         );
@@ -57,7 +57,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->_errorProcessor);
         unset($this->_helperMock);
-        unset($this->_appMock);
+        unset($this->_appStateMock);
         parent::tearDown();
     }
 
@@ -101,7 +101,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_ACCEPT'] = 'json';
         /** Mock app to return enabled developer mode flag. */
-        $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(true));
+        $this->_appStateMock->expects($this->any())->method('getMode')->will($this->returnValue('developer'));
         /** Assert that jsonEncode method will be executed once. */
         $this->_helperMock->expects($this->once())->method('jsonEncode')->will(
             $this->returnCallback(array($this, 'callbackJsonEncode'), $this->returnArgument(0))
@@ -138,7 +138,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_ACCEPT'] = 'xml';
         /** Mock app to return enabled developer mode flag. */
-        $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(true));
+        $this->_appStateMock->expects($this->any())->method('getMode')->will($this->returnValue('developer'));
         /** Init output buffering to catch output via echo function. */
         ob_start();
         $this->_errorProcessor->render('Message', 'Trace message.', 401);
@@ -169,7 +169,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     public function testMaskExceptionInDeveloperMode()
     {
         /** Mock app isDeveloperMode to return true. */
-        $this->_appMock->expects($this->once())->method('isDeveloperMode')->will($this->returnValue(true));
+        $this->_appStateMock->expects($this->once())->method('getMode')->will($this->returnValue('developer'));
         /** Init Logical exception. */
         $errorMessage = 'Error Message';
         $logicalException = new \LogicException($errorMessage);

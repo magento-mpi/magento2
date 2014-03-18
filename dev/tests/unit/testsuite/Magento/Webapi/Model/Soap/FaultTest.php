@@ -27,6 +27,11 @@ class FaultTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject*/
     protected $_localeResolverMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_appStateMock;
+
     protected function setUp()
     {
         $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
@@ -49,11 +54,14 @@ class FaultTest extends \PHPUnit_Framework_TestCase
         $this->_localeResolverMock->expects(
             $this->any())->method('getLocale')->will($this->returnValue(new \Zend_Locale('en_US')));
 
+        $this->_appStateMock = $this->getMock('\Magento\App\State', array(), array(), '', false);
+
         $this->_soapFault = new \Magento\Webapi\Model\Soap\Fault(
             $this->_appMock,
             $this->_soapServerMock,
             $webapiException,
-            $this->_localeResolverMock
+            $this->_localeResolverMock,
+            $this->_appStateMock
         );
         parent::setUp();
     }
@@ -67,7 +75,7 @@ class FaultTest extends \PHPUnit_Framework_TestCase
 
     public function testToXmlDeveloperModeOff()
     {
-        $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(false));
+        $this->_appStateMock->expects($this->any())->method('getMode')->will($this->returnValue('production'));
         $wsdlUrl = urlencode(self::WSDL_URL);
         $expectedResult = <<<XML
 <?xml version="1.0" encoding="utf-8" ?>
@@ -110,7 +118,7 @@ XML;
 
     public function testToXmlDeveloperModeOn()
     {
-        $this->_appMock->expects($this->any())->method('isDeveloperMode')->will($this->returnValue(true));
+        $this->_appStateMock->expects($this->any())->method('getMode')->will($this->returnValue('developer'));
         $actualXml = $this->_soapFault->toXml(true);
         $this->assertContains('<m:Trace>', $actualXml, 'Exception trace is not found in XML.');
     }
@@ -209,7 +217,8 @@ XML;
             $this->_appMock,
             $this->_soapServerMock,
             $webapiException,
-            $this->_localeResolverMock
+            $this->_localeResolverMock,
+            $this->_appStateMock
         );
         $actualXml = $soapFault->toXml();
         $wsdlUrl = urlencode(self::WSDL_URL);
