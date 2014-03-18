@@ -170,7 +170,7 @@ class Creditmemo
      */
     protected function _saveCreditmemo($creditmemo)
     {
-        $transactionSave = $this->_objectManager->create('Magento\Core\Model\Resource\Transaction')
+        $transactionSave = $this->_objectManager->create('Magento\DB\Transaction')
             ->addObject($creditmemo)
             ->addObject($creditmemo->getOrder());
         if ($creditmemo->getInvoice()) {

@@ -3205,7 +3205,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     {
         $prefix = 't_';
         if (strlen($tableName) > self::LENGTH_TABLE_NAME) {
-            $shortName = Helper::shortName($tableName);
+            $shortName = ExpressionConverter::shortName($tableName);
             if (strlen($shortName) > self::LENGTH_TABLE_NAME) {
                 $hash = md5($tableName);
                 if (strlen($prefix.$hash) > self::LENGTH_TABLE_NAME) {
@@ -3254,7 +3254,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $hash = $tableName . '_' . $fields;
 
         if (strlen($hash) + strlen($prefix) > self::LENGTH_INDEX_NAME) {
-            $short = Helper::shortName($prefix . $hash);
+            $short = ExpressionConverter::shortName($prefix . $hash);
             if (strlen($short) > self::LENGTH_INDEX_NAME) {
                 $hash = md5($hash);
                 if (strlen($hash) + strlen($shortPrefix) > self::LENGTH_INDEX_NAME) {
@@ -3285,7 +3285,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
         $prefix = 'fk_';
         $hash = sprintf('%s_%s_%s_%s', $priTableName, $priColumnName, $refTableName, $refColumnName);
         if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {
-            $short = Helper::shortName($prefix.$hash);
+            $short = ExpressionConverter::shortName($prefix . $hash);
             if (strlen($short) > self::LENGTH_FOREIGN_NAME) {
                 $hash = md5($hash);
                 if (strlen($prefix.$hash) > self::LENGTH_FOREIGN_NAME) {

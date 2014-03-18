@@ -1,6 +1,6 @@
 <?php
 /**
- * Resource helper factory
+ * DB helper factory
  *
  * {license_notice}
  *
@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource;
+namespace Magento\DB;
 
 abstract class HelperFactory
 {
@@ -18,14 +18,14 @@ abstract class HelperFactory
     protected $_moduleName;
 
     /**
-     * @var \Magento\Core\Model\Resource\HelperPool
+     * @var \Magento\DB\HelperPool
      */
     protected $_helperPool;
 
     /**
-     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\DB\HelperPool $helperPool
      */
-    public function __construct(\Magento\Core\Model\Resource\HelperPool $helperPool)
+    public function __construct(\Magento\DB\HelperPool $helperPool)
     {
         $this->_helperPool = $helperPool;
     }

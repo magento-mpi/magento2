@@ -1,15 +1,13 @@
 <?php
 /**
+ * DB helper pool
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Resource helper pool
- */
-namespace Magento\Core\Model\Resource;
+namespace Magento\DB;
 
 class HelperPool
 {
@@ -37,7 +35,7 @@ class HelperPool
      *
      * @param string $moduleName
      * @throws \InvalidArgumentException
-     * @return \Magento\Core\Model\Resource\Helper\AbstractHelper
+     * @return \Magento\DB\Helper\AbstractHelper
      */
     public function get($moduleName)
     {
@@ -50,9 +48,9 @@ class HelperPool
 
         if (!isset($this->_resourceHelpers[$connection])) {
             $helper = $this->_objectManager->create($helperClassName, array('modulePrefix' => $connection));
-            if (false === ($helper instanceof \Magento\Core\Model\Resource\Helper\AbstractHelper)) {
+            if (false === ($helper instanceof \Magento\DB\Helper\AbstractHelper)) {
                 throw new \InvalidArgumentException(
-                    $helperClassName . ' doesn\'t extend \Magento\Core\Model\Resource\Helper\AbstractHelper'
+                    $helperClassName . ' doesn\'t extend \Magento\DB\Helper\AbstractHelper'
                 );
             }
             $this->_resourceHelpers[$connection] = $helper;

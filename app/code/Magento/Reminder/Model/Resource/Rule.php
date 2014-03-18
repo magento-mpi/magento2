@@ -44,18 +44,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Core resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\DB\Helper
      */
     protected $_resourceHelper;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);

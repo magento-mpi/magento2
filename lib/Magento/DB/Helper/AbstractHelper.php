@@ -1,17 +1,14 @@
 <?php
 /**
+ * Abstract DB helper class
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Helper;
+namespace Magento\DB\Helper;
 
-/**
- * Abstract resource helper class
- */
 abstract class AbstractHelper
 {
     /**

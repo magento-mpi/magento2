@@ -32,20 +32,20 @@ class Search extends \Magento\Backend\Block\Widget
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\HelperPool
+     * @var \Magento\DB\HelperPool
      */
     protected $_helperPool;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\DB\HelperPool $helperPool
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Resource\HelperPool $helperPool,
+        \Magento\DB\HelperPool $helperPool,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
         \Magento\Registry $registry,
         array $data = array()

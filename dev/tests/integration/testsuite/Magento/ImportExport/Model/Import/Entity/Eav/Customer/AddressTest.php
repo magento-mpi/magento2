@@ -215,7 +215,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $addressModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Address');
         $tableName = $addressModel->getResource()->getEntityTable();
-        $addressId = $objectManager->get('Magento\Core\Model\Resource\HelperPool')->get('Magento_ImportExport')
+        $addressId = $objectManager->get('Magento\DB\HelperPool')->get('Magento_ImportExport')
             ->getNextAutoincrement($tableName);
 
         /** @var \Magento\Stdlib\DateTime $dateTime */

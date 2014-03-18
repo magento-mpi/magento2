@@ -18,7 +18,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource;
 
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\DB\Helper
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query

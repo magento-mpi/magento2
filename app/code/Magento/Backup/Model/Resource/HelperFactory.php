@@ -10,7 +10,7 @@
 
 namespace Magento\Backup\Model\Resource;
 
-class HelperFactory extends \Magento\Core\Model\Resource\HelperFactory
+class HelperFactory extends \Magento\DB\HelperFactory
 {
     /**
      * Module Name

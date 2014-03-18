@@ -1,21 +1,16 @@
 <?php
 /**
+ * DB transaction model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\DB;
 
 /**
- * Resource transaction model
- *
  * @todo need collect connection by name
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Transaction
 {

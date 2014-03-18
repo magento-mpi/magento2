@@ -28,7 +28,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     /**
      * Resource helper
      *
-     * @var \Magento\Core\Model\Resource\Helper
+     * @var \Magento\DB\Helper
      */
     protected $_resourceHelper;
 
@@ -37,7 +37,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\DB\Helper $resourceHelper
      * @param \Magento\Eav\Model\Config $config
      * @param mixed $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
@@ -47,7 +47,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\DB\Helper $resourceHelper,
         \Magento\Eav\Model\Config $config,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null

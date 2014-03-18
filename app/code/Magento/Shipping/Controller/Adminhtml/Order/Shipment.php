@@ -138,7 +138,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     protected function _saveShipment($shipment)
     {
         $shipment->getOrder()->setIsInProcess(true);
-        $transactionSave = $this->_objectManager->create('Magento\Core\Model\Resource\Transaction')
+        $transactionSave = $this->_objectManager->create('Magento\DB\Transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
             ->save();

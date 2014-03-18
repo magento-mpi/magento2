@@ -101,7 +101,7 @@ $creditmemo->register();
 $creditmemo->save();
 
 $transactionSave = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Resource\Transaction')
+    ->create('Magento\DB\Transaction')
     ->addObject($creditmemo)
     ->addObject($creditmemo->getOrder());
 if ($creditmemo->getInvoice()) {

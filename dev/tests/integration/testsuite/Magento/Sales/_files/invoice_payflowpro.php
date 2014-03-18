@@ -18,5 +18,5 @@ $invoice = $orderService->prepareInvoice();
 $invoice->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::NOT_CAPTURE)->register();
 $order->setIsInProcess(true);
 $transactionSave = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Resource\Transaction');
+    ->create('Magento\DB\Transaction');
 $transactionSave->addObject($invoice)->addObject($order)->save();

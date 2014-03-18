@@ -25,16 +25,16 @@ class Shell
     protected $_resource;
 
     /**
-     * @var \Magento\Core\Model\Resource\HelperFactory
+     * @var \Magento\DB\HelperFactory
      */
     protected $_helperPool;
 
     /**
-     * @param \Magento\Core\Model\Resource\HelperPool $helperPool
+     * @param \Magento\DB\HelperPool $helperPool
      * @param \Magento\App\Resource $resource
      */
     public function __construct(
-        \Magento\Core\Model\Resource\HelperPool $helperPool,
+        \Magento\DB\HelperPool $helperPool,
         \Magento\App\Resource $resource
     ) {
         $this->_helperPool = $helperPool;
