@@ -13,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Interface of locating view files in the file system
  */
-interface SourceInterface
+interface CollectorInterface
 {
     /**
      * Retrieve instances of view files

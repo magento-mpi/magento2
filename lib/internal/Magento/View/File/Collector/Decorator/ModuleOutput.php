@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Decorator;
+namespace Magento\View\File\Collector\Decorator;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\File;
 use Magento\Module\Manager;
 use Magento\View\Design\ThemeInterface;
@@ -16,12 +16,12 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Decorator that filters out view files that belong to modules, output of which is prohibited
  */
-class ModuleOutput implements SourceInterface
+class ModuleOutput implements CollectorInterface
 {
     /**
      * Subject
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     private $subject;
 
@@ -35,11 +35,11 @@ class ModuleOutput implements SourceInterface
     /**
      * Constructor
      *
-     * @param SourceInterface $subject
+     * @param CollectorInterface $subject
      * @param Manager $moduleManager
      */
     public function __construct(
-        SourceInterface $subject,
+        CollectorInterface $subject,
         Manager $moduleManager
     ) {
         $this->subject = $subject;

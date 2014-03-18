@@ -8,7 +8,7 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
@@ -18,7 +18,7 @@ use Magento\View\File\FileList\Factory as FileListFactory;
 /**
  * Source of base layout files introduced by modules
  */
-class Library implements SourceInterface
+class Library implements CollectorInterface
 {
     /**
      * @var Factory

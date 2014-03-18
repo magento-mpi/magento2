@@ -43,10 +43,10 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fileList = $this->getMock('Magento\View\File\FileList', array(), array(), '', false);
-        $this->_baseFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
-        $this->_themeFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
-        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
-        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
+        $this->_baseFiles = $this->getMockForAbstractClass('Magento\View\File\CollectorInterface');
+        $this->_themeFiles = $this->getMockForAbstractClass('Magento\View\File\CollectorInterface');
+        $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\View\File\CollectorInterface');
+        $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\View\File\CollectorInterface');
         $fileListFactory =
             $this->getMock('Magento\View\File\FileList\Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));

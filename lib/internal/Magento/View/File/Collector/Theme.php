@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Override;
+namespace Magento\View\File\Collector;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\File\Factory;
 
 /**
- * Source of view files that explicitly override base files introduced by modules
+ * Source of view files introduced by a theme
  */
-class Base implements SourceInterface
+class Theme implements CollectorInterface
 {
     /**
      * File factory
@@ -64,19 +64,12 @@ class Base implements SourceInterface
      */
     public function getFiles(ThemeInterface $theme, $filePath)
     {
-        $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $searchPattern = "{$themePath}/{$namespace}_{$module}/{$this->subDir}{$filePath}";
-        $files = $this->themesDirectory->search($searchPattern);
+        $files = $this->themesDirectory->search("{$themePath}/{$this->subDir}{$filePath}");
         $result = array();
-        $pattern = "#(?<moduleName>[^/]+)/{$this->subDir}" . strtr(preg_quote($filePath), array('\*' => '[^/]+'))
-            . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
-            if (!preg_match($pattern, $filename, $matches)) {
-                continue;
-            }
-            $result[] = $this->fileFactory->create($filename, $matches['moduleName']);
+            $result[] = $this->fileFactory->create($filename, null, $theme);
         }
         return $result;
     }

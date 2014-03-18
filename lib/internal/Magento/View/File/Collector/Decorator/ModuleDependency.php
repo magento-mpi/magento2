@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Decorator;
+namespace Magento\View\File\Collector\Decorator;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\File;
 use Magento\Module\ModuleListInterface;
 use Magento\View\Design\ThemeInterface;
@@ -16,12 +16,12 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Decorator that sorts view files according to dependencies between modules they belong to
  */
-class ModuleDependency implements SourceInterface
+class ModuleDependency implements CollectorInterface
 {
     /**
      * Subject
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     private $subject;
 
@@ -42,11 +42,11 @@ class ModuleDependency implements SourceInterface
     /**
      * Constructor
      *
-     * @param SourceInterface $subject
+     * @param CollectorInterface $subject
      * @param ModuleListInterface $listInterface
      */
     public function __construct(
-        SourceInterface $subject,
+        CollectorInterface $subject,
         ModuleListInterface $listInterface
     ) {
         $this->subject = $subject;

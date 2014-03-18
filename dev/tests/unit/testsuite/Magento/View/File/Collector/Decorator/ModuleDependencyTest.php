@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Decorator;
+namespace Magento\View\File\Collector\Decorator;
 
 class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\File\Source\Decorator\ModuleDependency
+     * @var \Magento\View\File\Collector\Decorator\ModuleDependency
      */
     private $_model;
 
@@ -39,10 +39,10 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_fileSource = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
+        $this->_fileSource = $this->getMockForAbstractClass('Magento\View\File\CollectorInterface');
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
         $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
-        $this->_model = new \Magento\View\File\Source\Decorator\ModuleDependency(
+        $this->_model = new \Magento\View\File\Collector\Decorator\ModuleDependency(
             $this->_fileSource, $this->_moduleListMock
         );
     }

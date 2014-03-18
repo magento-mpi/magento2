@@ -8,14 +8,14 @@
 
 namespace Magento\View\Layout\File\Source;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\View\File\FileList\Factory;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
  */
-class Aggregated implements SourceInterface
+class Aggregated implements CollectorInterface
 {
     /**
      * File list factory
@@ -27,28 +27,28 @@ class Aggregated implements SourceInterface
     /**
      * Base files
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $baseFiles;
 
     /**
      * Theme files
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $themeFiles;
 
     /**
      * Overridden base files
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $overrideBaseFiles;
 
     /**
      * Overridden theme files
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $overrideThemeFiles;
 
@@ -56,17 +56,17 @@ class Aggregated implements SourceInterface
      * Constructor
      *
      * @param Factory $fileListFactory
-     * @param SourceInterface $baseFiles
-     * @param SourceInterface $themeFiles
-     * @param SourceInterface $overrideBaseFiles
-     * @param SourceInterface $overrideThemeFiles
+     * @param CollectorInterface $baseFiles
+     * @param CollectorInterface $themeFiles
+     * @param CollectorInterface $overrideBaseFiles
+     * @param CollectorInterface $overrideThemeFiles
      */
     public function __construct(
         Factory $fileListFactory,
-        SourceInterface $baseFiles,
-        SourceInterface $themeFiles,
-        SourceInterface $overrideBaseFiles,
-        SourceInterface $overrideThemeFiles
+        CollectorInterface $baseFiles,
+        CollectorInterface $themeFiles,
+        CollectorInterface $overrideBaseFiles,
+        CollectorInterface $overrideThemeFiles
     ) {
         $this->fileListFactory = $fileListFactory;
         $this->baseFiles = $baseFiles;

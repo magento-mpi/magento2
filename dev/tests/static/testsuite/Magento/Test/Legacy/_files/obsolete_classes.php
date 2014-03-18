@@ -1276,16 +1276,16 @@ return array(
     array('Magento\Core\Model\Layout\File\Source\Base','Magento\View\Layout\File\Source\Base'),
     array(
         'Magento\Core\Model\Layout\File\Source\Decorator\ModuleDependency',
-        'Magento\View\File\Source\Decorator\ModuleDependency'
+        'Magento\View\File\Collector\Decorator\ModuleDependency'
     ),
     array(
         'Magento\Core\Model\Layout\File\Source\Decorator\ModuleOutput',
-        'Magento\View\File\Source\Decorator\ModuleOutput'
+        'Magento\View\File\Collector\Decorator\ModuleOutput'
     ),
     array('Magento\Core\Model\Layout\File\Source\Override\Base', 'Magento\View\Layout\File\Override\Base'),
     array('Magento\Core\Model\Layout\File\Source\Override\Theme', 'Magento\View\Layout\File\Override\Theme'),
     array('Magento\Core\Model\Layout\File\Source\Theme', 'Magento\View\Layout\File\Source\Theme'),
-    array('Magento\Core\Model\Layout\File\SourceInterface', 'Magento\View\File\SourceInterface'),
+    array('Magento\Core\Model\Layout\File\SourceInterface', 'Magento\View\File\CollectorInterface'),
     array('Magento\Core\Model\LayoutFactory', 'Magento\View\LayoutFactory'),
     array('Magento\Core\Model\TemplateEngine\EngineInterface', 'Magento\View\TemplateEngineInterface'),
     array('Magento\Core\Model\TemplateEngine\Factory', 'Magento\View\TemplateEngineFactory'),
@@ -2120,26 +2120,26 @@ return array(
     ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
     ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
     ['Magento\View\Url', 'Magento\View\Service'],
-    ['Magento\Less\File\Source\Base', 'Magento\View\File\Source\Base'],
-    ['Magento\Less\File\Source\Theme', 'Magento\View\File\Source\ThemeModular'],
+    ['Magento\Less\File\Source\Base', 'Magento\View\File\Collector\Base'],
+    ['Magento\Less\File\Source\Theme', 'Magento\View\File\Collector\ThemeModular'],
     ['Magento\View\Layout\File\FileList\CollateInterface', 'Magento\View\File\FileList\CollateInterface'],
     ['Magento\View\Layout\File\FileList\Collator', 'Magento\View\File\FileList\Collator'],
     ['Magento\View\Layout\File\FileList\Factory', 'Magento\View\File\FileList\Factory'],
     [
         'Magento\View\Layout\File\Source\Decorator\ModuleDependency',
-        'Magento\View\File\Source\Decorator\ModuleDependency'
+        'Magento\View\File\Collector\Decorator\ModuleDependency'
     ],
     [
         'Magento\View\Layout\File\Source\Decorator\ModuleOutput',
-        'Magento\View\File\Source\Decorator\ModuleOutput'
+        'Magento\View\File\Collector\Decorator\ModuleOutput'
     ],
-    ['Magento\View\Layout\File\Source\Override\Base', 'Magento\View\File\Source\Override\Base'],
-    ['Magento\View\Layout\File\Source\Override\Theme', 'Magento\View\File\Source\Override\ThemeModular'],
-    ['Magento\View\Layout\File\Source\Base', 'Magento\View\File\Source\Base'],
-    ['Magento\View\Layout\File\Source\Theme', 'Magento\View\File\Source\ThemeModular'],
+    ['Magento\View\Layout\File\Source\Override\Base', 'Magento\View\File\Collector\Override\Base'],
+    ['Magento\View\Layout\File\Source\Override\Theme', 'Magento\View\File\Collector\Override\ThemeModular'],
+    ['Magento\View\Layout\File\Source\Base', 'Magento\View\File\Collector\Base'],
+    ['Magento\View\Layout\File\Source\Theme', 'Magento\View\File\Collector\ThemeModular'],
     ['Magento\View\Layout\File\Factory', 'Magento\View\File\Factory'],
     ['Magento\View\Layout\File\FileList', 'Magento\View\File\FileList'],
-    ['Magento\View\Layout\File\SourceInterface', 'Magento\View\File\SourceInterface'],
+    ['Magento\View\Layout\File\SourceInterface', 'Magento\View\File\CollectorInterface'],
     ['Magento\View\Layout\File', 'Magento\View\File'],
     ['Magento\View\Url\Resolver', 'Magento\View\Asset\Service'],
     ['Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css\Group', 'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'],

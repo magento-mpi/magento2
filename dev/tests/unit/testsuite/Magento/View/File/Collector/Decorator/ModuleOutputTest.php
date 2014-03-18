@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Decorator;
+namespace Magento\View\File\Collector\Decorator;
 
 class ModuleOutputTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\File\Source\Decorator\ModuleOutput
+     * @var \Magento\View\File\Collector\Decorator\ModuleOutput
      */
     private $_model;
 
@@ -27,7 +27,7 @@ class ModuleOutputTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_fileSource = $this->getMockForAbstractClass('Magento\View\File\SourceInterface');
+        $this->_fileSource = $this->getMockForAbstractClass('Magento\View\File\CollectorInterface');
         $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->_moduleManager
             ->expects($this->any())
@@ -37,7 +37,7 @@ class ModuleOutputTest extends \PHPUnit_Framework_TestCase
                 array('Module_OutputDisabled', false),
             )))
         ;
-        $this->_model = new \Magento\View\File\Source\Decorator\ModuleOutput(
+        $this->_model = new \Magento\View\File\Collector\Decorator\ModuleOutput(
             $this->_fileSource, $this->_moduleManager
         );
     }

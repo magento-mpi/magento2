@@ -166,65 +166,65 @@
         </arguments>
     </type>
 
-    <virtualType name="layoutFileSourceBase" type="Magento\View\File\Source\Base">
+    <virtualType name="layoutFileSourceBase" type="Magento\View\File\Collector\Base">
         <arguments>
             <argument name="subDir" xsi:type="string">layout</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+    <virtualType name="layoutFileSourceBaseFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceBase</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+    <virtualType name="layoutFileSourceBaseSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="layoutFileSourceTheme" type="Magento\View\File\Source\ThemeModular">
+    <virtualType name="layoutFileSourceTheme" type="Magento\View\File\Collector\ThemeModular">
         <arguments>
             <argument name="subDir" xsi:type="string">layout</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+    <virtualType name="layoutFileSourceThemeFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceTheme</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+    <virtualType name="layoutFileSourceThemeSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceThemeFiltered</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="layoutFileSourceOverrideBase" type="Magento\View\File\Source\Override\Base">
+    <virtualType name="layoutFileSourceOverrideBase" type="Magento\View\File\Collector\Override\Base">
         <arguments>
             <argument name="subDir" xsi:type="string">layout/override</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+    <virtualType name="layoutFileSourceOverrideBaseFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceOverrideBase</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+    <virtualType name="layoutFileSourceOverrideBaseSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceOverrideBaseFiltered</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="layoutFileSourceOverrideTheme" type="Magento\View\File\Source\Override\ThemeModular">
+    <virtualType name="layoutFileSourceOverrideTheme" type="Magento\View\File\Collector\Override\ThemeModular">
         <arguments>
             <argument name="subDir" xsi:type="string">layout/override</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+    <virtualType name="layoutFileSourceOverrideThemeFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceOverrideTheme</argument>
         </arguments>
     </virtualType>
-    <virtualType name="layoutFileSourceOverrideThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+    <virtualType name="layoutFileSourceOverrideThemeSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">layoutFileSourceOverrideThemeFiltered</argument>
         </arguments>
@@ -500,22 +500,22 @@
             <argument name="fileSource" xsi:type="object">Magento\Less\File\Source\Aggregated</argument>
         </arguments>
     </type>
-    <virtualType name="lessFileSourceBaseFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+    <virtualType name="lessFileSourceBaseFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\File\Source\Base</argument>
+            <argument name="subject" xsi:type="object">Magento\View\File\Collector\Base</argument>
         </arguments>
     </virtualType>
-    <virtualType name="lessFileSourceBaseSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+    <virtualType name="lessFileSourceBaseSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">lessFileSourceBaseFiltered</argument>
         </arguments>
     </virtualType>
-    <virtualType name="lessFileSourceThemeFiltered" type="Magento\View\File\Source\Decorator\ModuleOutput">
+    <virtualType name="lessFileSourceThemeFiltered" type="Magento\View\File\Collector\Decorator\ModuleOutput">
         <arguments>
-            <argument name="subject" xsi:type="object">Magento\View\File\Source\ThemeModular</argument>
+            <argument name="subject" xsi:type="object">Magento\View\File\Collector\ThemeModular</argument>
         </arguments>
     </virtualType>
-    <virtualType name="lessFileSourceThemeSorted" type="Magento\View\File\Source\Decorator\ModuleDependency">
+    <virtualType name="lessFileSourceThemeSorted" type="Magento\View\File\Collector\Decorator\ModuleDependency">
         <arguments>
             <argument name="subject" xsi:type="object">lessFileSourceThemeFiltered</argument>
         </arguments>

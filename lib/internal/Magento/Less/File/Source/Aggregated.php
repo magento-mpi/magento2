@@ -8,14 +8,14 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\File\FileList\Factory;
 use Magento\View\Design\ThemeInterface;
 
 /**
  * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
  */
-class Aggregated implements SourceInterface
+class Aggregated implements CollectorInterface
 {
     /**
      * @var Factory
@@ -23,31 +23,31 @@ class Aggregated implements SourceInterface
     protected $fileListFactory;
 
     /**
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $libraryFiles;
 
     /**
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $baseFiles;
 
     /**
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $themeFiles;
 
     /**
      * @param Factory $fileListFactory
-     * @param SourceInterface $libraryFiles
-     * @param SourceInterface $baseFiles
-     * @param SourceInterface $themeFiles
+     * @param CollectorInterface $libraryFiles
+     * @param CollectorInterface $baseFiles
+     * @param CollectorInterface $themeFiles
      */
     public function __construct(
         Factory $fileListFactory,
-        SourceInterface $libraryFiles,
-        SourceInterface $baseFiles,
-        SourceInterface $themeFiles
+        CollectorInterface $libraryFiles,
+        CollectorInterface $baseFiles,
+        CollectorInterface $themeFiles
     ) {
         $this->fileListFactory = $fileListFactory;
         $this->libraryFiles = $libraryFiles;

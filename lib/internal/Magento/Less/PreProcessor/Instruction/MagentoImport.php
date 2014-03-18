@@ -14,7 +14,7 @@ use Magento\View\Asset\LocalInterface;
 use Magento\View\Asset\FileId;
 use Magento\View\Asset\PreProcessor\ModuleNotation;
 use Magento\View\DesignInterface;
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 
 /**
  * LESS @magento_import instruction preprocessor
@@ -32,7 +32,7 @@ class MagentoImport implements PreProcessorInterface
     protected $design;
 
     /**
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $fileSource;
 
@@ -43,12 +43,12 @@ class MagentoImport implements PreProcessorInterface
 
     /**
      * @param DesignInterface $design
-     * @param SourceInterface $fileSource
+     * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
      */
     public function __construct(
         DesignInterface $design,
-        SourceInterface $fileSource,
+        CollectorInterface $fileSource,
         ErrorHandlerInterface $errorHandler
     ) {
         $this->design = $design;

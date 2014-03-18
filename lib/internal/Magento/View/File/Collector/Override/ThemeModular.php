@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Override;
+namespace Magento\View\File\Collector\Override;
 
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
@@ -18,7 +18,7 @@ use Magento\Exception;
 /**
  * Source of view files that explicitly override modular files of ancestor themes
  */
-class ThemeModular implements SourceInterface
+class ThemeModular implements CollectorInterface
 {
     /**
      * Themes directory

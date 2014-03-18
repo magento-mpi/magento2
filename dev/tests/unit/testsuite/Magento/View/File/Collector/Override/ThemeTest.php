@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\File\Source\Override;
+namespace Magento\View\File\Collector\Override;
 
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\File\Source\Override\ThemeModular
+     * @var \Magento\View\File\Collector\Override\ThemeModular
      */
     private $_model;
 
@@ -37,7 +37,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\App\Filesystem::THEMES_DIR))
             ->will($this->returnValue($this->_directory));
         $this->_fileFactory = $this->getMock('Magento\View\File\Factory', array(), array(), '', false);
-        $this->_model = new \Magento\View\File\Source\Override\ThemeModular(
+        $this->_model = new \Magento\View\File\Collector\Override\ThemeModular(
             $filesystem, $this->_fileFactory, 'override/theme'
         );
     }

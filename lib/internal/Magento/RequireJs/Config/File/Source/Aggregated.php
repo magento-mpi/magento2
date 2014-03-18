@@ -9,31 +9,31 @@
 namespace Magento\RequireJs\Config\File\Source;
 
 use Magento\View\Design\ThemeInterface;
-use Magento\View\File\SourceInterface;
+use Magento\View\File\CollectorInterface;
 
 /**
  * Source of RequireJs config files basing on list of directories they may be located in
  */
-class Aggregated implements SourceInterface
+class Aggregated implements CollectorInterface
 {
     /**
      * Base files
      *
-     * @var \Magento\View\File\SourceInterface
+     * @var \Magento\View\File\CollectorInterface
      */
     protected $baseFiles;
 
     /**
      * Theme files
      *
-     * @var \Magento\View\File\SourceInterface
+     * @var \Magento\View\File\CollectorInterface
      */
     protected $themeFiles;
 
     /**
      * Theme modular files
      *
-     * @var SourceInterface
+     * @var CollectorInterface
      */
     protected $themeModularFiles;
 
@@ -50,16 +50,16 @@ class Aggregated implements SourceInterface
     /**
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\File\Factory $fileFactory
-     * @param \Magento\View\File\SourceInterface $baseFiles
-     * @param SourceInterface $themeFiles
-     * @param \Magento\View\File\SourceInterface $themeModularFiles
+     * @param \Magento\View\File\CollectorInterface $baseFiles
+     * @param CollectorInterface $themeFiles
+     * @param \Magento\View\File\CollectorInterface $themeModularFiles
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         \Magento\View\File\Factory $fileFactory,
-        SourceInterface $baseFiles,
-        SourceInterface $themeFiles,
-        SourceInterface $themeModularFiles
+        CollectorInterface $baseFiles,
+        CollectorInterface $themeFiles,
+        CollectorInterface $themeModularFiles
     ) {
         $this->libDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::LIB_WEB);
         $this->fileFactory = $fileFactory;
