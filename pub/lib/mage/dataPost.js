@@ -33,7 +33,6 @@
         postData: function(params) {
             var formKey = $(this.options.formKeyInputSelector).val();
             if (formKey) {
-                console.log(params);
                 params.data.form_key = formKey;
             }
             $.tmpl(this.options.formTemplate, params).appendTo('body').hide().submit();
