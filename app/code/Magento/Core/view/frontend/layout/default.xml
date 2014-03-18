@@ -11,4 +11,11 @@
     <referenceContainer name="content">
         <block class="Magento\Core\Block\Formkey" name="formkey" template="Magento_Core::formkey.phtml"/>
     </referenceContainer>
+    <referenceBlock name="head">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-msg-box-js" after="jquery-jquery-ui-js">
+            <arguments>
+                <argument name="file" xsi:type="string">Magento_Core::js/msg-box.js</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
 </layout>
