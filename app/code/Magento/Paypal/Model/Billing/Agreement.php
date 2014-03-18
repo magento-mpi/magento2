@@ -171,7 +171,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         $paymentMethodInstance = $this->getPaymentMethodInstance()
             ->placeBillingAgreement($this);
 
-        $this->setCustomerId($this->getCustomer()->getId())
+        $this->setCustomerId($this->getCustomerId())
             ->setMethodCode($this->getMethodCode())
             ->setReferenceId($this->getBillingAgreementId())
             ->setStatus(self::STATUS_ACTIVE)

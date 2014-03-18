@@ -129,6 +129,7 @@ class Agreement extends \Magento\App\Action\Action
      */
     public function returnWizardAction()
     {
+        /** @var \Magento\Paypal\Model\Billing\Agreement $agreement */
         $agreement = $this->_objectManager->create('Magento\Paypal\Model\Billing\Agreement');
         $paymentCode = $this->getRequest()->getParam('payment_method');
         $token = $this->getRequest()->getParam('token');
@@ -138,7 +139,7 @@ class Agreement extends \Magento\App\Action\Action
                     ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
                     ->setToken($token)
                     ->setMethodCode($paymentCode)
-                    ->setCustomer($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer())
+                    ->setCustomerId($this->_getSession()->getCustomerId())
                     ->place();
                 $this->messageManager->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
