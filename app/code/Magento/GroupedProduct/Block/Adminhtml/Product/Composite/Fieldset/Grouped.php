@@ -83,9 +83,9 @@ class Grouped
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
+        $this->_customerAccountService = $customerAccountService;
         $this->_coreHelper = $coreHelper;
         $this->priceHelper = $priceHelper;
-        $this->_customerAccountService = $customerAccountService;
         parent::__construct(
             $context,
             $catalogConfig,

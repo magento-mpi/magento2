@@ -55,14 +55,14 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $priceHelper;
 
     /**
-     * @var \Magento\Catalog\Model\Product\PriceModifierInterface
-     */
-    protected $priceModifier;
-
-    /**
      * @var CustomerAccountService
      */
     protected $_customerAccountService;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\PriceModifierInterface
+     */
+    protected $priceModifier;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
