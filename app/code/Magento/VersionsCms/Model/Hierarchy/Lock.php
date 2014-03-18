@@ -30,9 +30,9 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Session model instance
@@ -56,7 +56,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -65,13 +65,13 @@ class Lock extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_backendAuthSession = $backendAuthSession;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -242,7 +242,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)$this->_coreStoreConfig->getValue('cms/hierarchy/lock_timeout', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $timeout = (int)$this->_storeConfig->getValue('cms/hierarchy/lock_timeout', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
     }
 }

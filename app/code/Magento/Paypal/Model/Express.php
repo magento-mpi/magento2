@@ -168,7 +168,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -179,7 +179,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -232,8 +232,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function canUseCheckout()
     {
-        if ($this->_coreStoreConfig->isSetFlag('payment/hosted_pro/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            && !$this->_coreStoreConfig->isSetFlag('payment/hosted_pro/display_ec', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        if ($this->_storeConfig->isSetFlag('payment/hosted_pro/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            && !$this->_storeConfig->isSetFlag('payment/hosted_pro/display_ec', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         ) {
             return false;
         }

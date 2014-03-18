@@ -164,7 +164,7 @@ class Observer
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param \Magento\App\Cache\TypeListInterface $typeList
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Catalog\Model\Session $catalogSession
@@ -188,7 +188,7 @@ class Observer
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\App\Cache\TypeListInterface $typeList,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Catalog\Model\Session $catalogSession,
@@ -201,7 +201,7 @@ class Observer
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistData = $wishlistData;
         $this->_ctlgProdCompare = $ctlgProdCompare;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_processor = $processor;
         $this->_mapper    = $mapper;
         $this->_cacheState = $cacheState;
@@ -293,7 +293,7 @@ class Observer
         $cacheId = \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY;
         $exception = $this->_fpcCache->load($cacheId);
         if (!$exception) {
-            $exception = $this->_coreStoreConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $exception = $this->_storeConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $this->_fpcCache->save($exception, $cacheId);
             $this->_requestIdentifier->refreshRequestIds();
         }
@@ -564,7 +564,7 @@ class Observer
         }
 
         // renew customer viewed product ids cookie
-        $countLimit = $this->_coreStoreConfig->getValue(
+        $countLimit = $this->_storeConfig->getValue(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $collection = $this->_reportsFactory

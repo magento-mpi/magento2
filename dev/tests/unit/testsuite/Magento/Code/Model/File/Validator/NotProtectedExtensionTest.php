@@ -18,7 +18,7 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Store\Model\Config|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var string
@@ -27,12 +27,12 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_coreStoreConfig = $this->getMock('\Magento\Store\Model\Config', array('getConfig'),
+        $this->_storeConfig = $this->getMock('\Magento\Store\Model\Config', array('getConfig'),
             array(), '', false);
-        $this->_coreStoreConfig->expects($this->atLeastOnce())->method('getConfig')->with($this->equalTo(
+        $this->_storeConfig->expects($this->atLeastOnce())->method('getConfig')->with($this->equalTo(
                 \Magento\Core\Model\File\Validator\NotProtectedExtension::XML_PATH_PROTECTED_FILE_EXTENSIONS
             ), $this->equalTo(null))->will($this->returnValue($this->_protectedList));
-        $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_coreStoreConfig);
+        $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_storeConfig);
     }
     public function testGetProtectedFileExtensions()
     {

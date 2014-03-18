@@ -27,7 +27,7 @@ class Invoice extends AbstractPdf
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
      * @param Config $pdfConfig
@@ -43,7 +43,7 @@ class Invoice extends AbstractPdf
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
         Config $pdfConfig,
@@ -164,7 +164,7 @@ class Invoice extends AbstractPdf
             $this->insertOrder(
                 $page,
                 $order,
-                $this->_coreStoreConfig->isSetFlag(
+                $this->_storeConfig->isSetFlag(
                     self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                     $order->getStoreId()
             ));

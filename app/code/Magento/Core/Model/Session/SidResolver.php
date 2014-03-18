@@ -22,7 +22,7 @@ class SidResolver implements SidResolverInterface
     const XML_PATH_USE_FRONTEND_SID = 'web/session/use_frontend_sid';
 
     /**
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $coreStoreConfig;
 
@@ -57,13 +57,13 @@ class SidResolver implements SidResolverInterface
     protected $_useSessionInUrl = true;
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\App\RequestInterface $request
      * @param array $sidNameMap
      */
     public function __construct(
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\UrlInterface $urlBuilder,
         \Magento\App\RequestInterface $request,
         array $sidNameMap = array()

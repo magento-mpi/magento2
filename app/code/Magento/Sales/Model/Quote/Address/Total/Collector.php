@@ -55,9 +55,9 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Sales\Model\Quote\Address\TotalFactory
@@ -68,7 +68,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory
      * @param mixed $sourceData
@@ -78,13 +78,13 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Logger $logger,
         \Magento\Sales\Model\Config $salesConfig,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory,
         $sourceData = null,
         $store = null
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_totalFactory = $totalFactory;
         parent::__construct($configCacheType, $logger, $salesConfig, $sourceData);
         $this->_store = $store ?: $storeManager->getStore();
@@ -146,7 +146,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      */
     protected function _initRetrievers()
     {
-        $sorts = $this->_coreStoreConfig->getValue(self::XML_PATH_SALES_TOTALS_SORT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_store);
+        $sorts = $this->_storeConfig->getValue(self::XML_PATH_SALES_TOTALS_SORT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_store);
         foreach ($sorts as $code => $sortOrder) {
             if (isset($this->_models[$code])) {
                 // Reserve enough space for collisions

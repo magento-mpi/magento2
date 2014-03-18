@@ -44,9 +44,9 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
@@ -56,7 +56,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
@@ -66,12 +66,12 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);
         $this->_fpcCache = $fpcCache;
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -82,7 +82,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      */
     public function prepareContent(\Magento\App\ResponseInterface $response)
     {
-        $countLimit = $this->_coreStoreConfig->getValue(
+        $countLimit = $this->_storeConfig->getValue(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         // save recently viewed product count limit

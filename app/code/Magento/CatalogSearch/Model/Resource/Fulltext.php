@@ -99,9 +99,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Store manager
@@ -147,7 +147,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -164,7 +164,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Filter\FilterManager $filter,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime,
@@ -178,7 +178,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_eventManager = $eventManager;
         $this->filter = $filter;
         $this->_catalogSearchData = $catalogSearchData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_resourceHelper = $resourceHelper;
         $this->_engineProvider = $engineProvider;
@@ -899,9 +899,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getStoreDate($storeId, $date = null)
     {
         if (!isset($this->_dates[$storeId])) {
-            $timezone = $this->_coreStoreConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
-            $locale   = $this->_coreStoreConfig->getValue(
-                $this->_localeResolver->getDefaultLocalePath(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
+            $timezone = $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            $locale   = $this->_storeConfig->getValue(
+                $this->_localeResolver->getDefaultLocalePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
             );
             $locale   = new \Zend_Locale($locale);
 

@@ -38,9 +38,9 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\View\LayoutInterface
@@ -57,7 +57,7 @@ class Data extends \Magento\Core\Helper\Url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\Session $session
      */
     public function __construct(
@@ -65,12 +65,12 @@ class Data extends \Magento\Core\Helper\Url
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $coreRegistry,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\Session $session
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_layout = $layout;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_session = $session;
         parent::__construct($context, $storeManager);
     }
@@ -155,7 +155,7 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isStockAlertAllowed()
     {
-        return $this->_coreStoreConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -165,6 +165,6 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isPriceAlertAllowed()
     {
-        return $this->_coreStoreConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

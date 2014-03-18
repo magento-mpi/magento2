@@ -91,9 +91,9 @@ class Filter extends \Magento\Filter\Template
     /**
      * Setup callbacks for filters
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Layout directive params
@@ -114,7 +114,7 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
@@ -129,7 +129,7 @@ class Filter extends \Magento\Filter\Template
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\View\Url $viewUrl,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
@@ -140,7 +140,7 @@ class Filter extends \Magento\Filter\Template
         $this->_escaper = $escaper;
         $this->_viewUrl = $viewUrl;
         $this->_logger = $logger;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_modifiers['escape'] = array($this, 'modifierEscape');
         $this->_variableFactory = $coreVariableFactory;
         $this->_storeManager = $storeManager;
@@ -544,7 +544,7 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = $this->_coreStoreConfig->getValue($params['path'], \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            $configValue = $this->_storeConfig->getValue($params['path'], \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         }
         return $configValue;
     }

@@ -13,14 +13,14 @@ namespace Magento\Dhl\Model\Plugin\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 class Shippingmethod
 {
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
-    public function __construct(\Magento\Store\Model\Config $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
     {
         $this->_storeConfig = $storeConfig;
     }

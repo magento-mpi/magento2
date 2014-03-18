@@ -18,14 +18,14 @@ class Config implements \Magento\Module\Output\ConfigInterface
     const XML_PATH_MODULE_OUTPUT_STATUS = 'advanced/modules_disable_output/%s';
 
     /**
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
-    public function __construct(\Magento\Store\Model\ConfigInterface $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
     {
         $this->_storeConfig =  $storeConfig;
     }
@@ -43,6 +43,6 @@ class Config implements \Magento\Module\Output\ConfigInterface
      */
     public function isSetFlag($path)
     {
-        return $this->_storeConfig->isSetFlag($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

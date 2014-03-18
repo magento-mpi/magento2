@@ -15,17 +15,17 @@ namespace Magento\Rss\Controller;
 class Catalog extends \Magento\App\Action\Action
 {
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Store\Model\Config $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $storeConfig
     ) {
         $this->_storeConfig = $storeConfig;
         parent::__construct($context);
@@ -86,7 +86,7 @@ class Catalog extends \Magento\App\Action\Action
      */
     protected function _isEnabled($code)
     {
-        return $this->_storeConfig->isSetFlag("rss/catalog/{$code}", \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag("rss/catalog/{$code}", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

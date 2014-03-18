@@ -25,9 +25,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Directory\Model\Resource\CountryFactory
@@ -52,7 +52,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Directory\Model\Resource\CountryFactory $countryFactory
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -65,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Directory\Model\Resource\CountryFactory $countryFactory,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -73,7 +73,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_localeLists = $localeLists;
         $this->_localeResolver = $localeResolver;
         $this->_countryFactory = $countryFactory;
@@ -104,7 +104,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function loadByStore($store = null)
     {
-        $allowCountries = explode(',', (string)$this->_coreStoreConfig->getValue('general/country/allow', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store));
+        $allowCountries = explode(',', (string)$this->_storeConfig->getValue('general/country/allow', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }

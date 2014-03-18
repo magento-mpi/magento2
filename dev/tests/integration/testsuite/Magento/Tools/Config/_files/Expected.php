@@ -23,7 +23,7 @@ class Test
     public function someFunction()
     {
         $store = new \Magento\Object;
-        $this->_coreStoreConfig->getValue(
+        $this->_storeConfig->getValue(
             '1checkout/cart_link/use_qty', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store->getId()
         );
@@ -34,7 +34,7 @@ class Test
         $this->storeConfig->getValue($this->qwe(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $this->storeConfig->getValue($this->asd('asd'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
-        $this->_coreStoreConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        $this->_storeConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
 
         $this->_storeConfig->getValue(
             $this->getXml(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,

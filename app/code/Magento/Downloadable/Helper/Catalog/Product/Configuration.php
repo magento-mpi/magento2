@@ -29,22 +29,22 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfigur,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         $this->_productConfigur = $productConfigur;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -83,7 +83,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         if (strlen($title)) {
             return $title;
         }
-        return $this->_coreStoreConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

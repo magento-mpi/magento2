@@ -33,9 +33,9 @@ class Cart extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Checkout\Model\Cart
@@ -51,7 +51,7 @@ class Cart extends \Magento\Core\Helper\Url
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
@@ -59,12 +59,12 @@ class Cart extends \Magento\Core\Helper\Url
         \Magento\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->_coreData = $coreData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_checkoutCart = $checkoutCart;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $storeManager);
@@ -197,6 +197,6 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getShouldRedirectToCart($store = null)
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_REDIRECT_TO_CART, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_REDIRECT_TO_CART, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

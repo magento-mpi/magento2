@@ -154,30 +154,30 @@ abstract class AbstractEntity
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager   = $storeManager;
         $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
             : $collectionFactory->create(static::ATTRIBUTE_COLLECTION_NAME);
         $this->_pageSize = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int) $this->_coreStoreConfig->getValue(static::XML_PATH_PAGE_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int) $this->_storeConfig->getValue(static::XML_PATH_PAGE_SIZE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) : 0);
         $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
             : $resourceColFactory->create();
     }

@@ -133,7 +133,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Module\ModuleListInterface $moduleList
@@ -154,7 +154,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Logger $logger,
         \Magento\Module\ModuleListInterface $moduleList,
@@ -738,16 +738,16 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         if ($this->_requestHttp->getParam('website')) {
             /** @var $website \Magento\Store\Model\Website */
             $website = $this->_websiteFactory->create()->load($this->_requestHttp->getParam('website'));
-            $secure = $this->_coreStoreConfig->isSetFlag(
-                \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            $secure = $this->_storeConfig->isSetFlag(
+                \Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $website->getDefaultStore()
             );
             $path = $secure
-                ? \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL
-                : \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL;
-            $websiteUrl = $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $website->getDefaultStore());
+                ? \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_LINK_URL
+                : \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL;
+            $websiteUrl = $this->_storeConfig->getValue($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $website->getDefaultStore());
         } else {
-            $secure = $this->_coreStoreConfig->isSetFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $secure = $this->_storeConfig->isSetFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $websiteUrl = $this->_storeManager->getStore()
                 ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure);
         }

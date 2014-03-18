@@ -110,7 +110,7 @@ class Pbridge extends AbstractMethod
      *
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
@@ -123,7 +123,7 @@ class Pbridge extends AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
@@ -571,7 +571,7 @@ class Pbridge extends AbstractMethod
     protected function _getApiRequest()
     {
         $request = new \Magento\Object();
-        $request->setCountryCode($this->_coreStoreConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $request->setCountryCode($this->_storeConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;

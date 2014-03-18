@@ -60,7 +60,7 @@ class Design implements \Magento\View\DesignInterface
     protected $_config;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     private $_storeConfig;
 
@@ -78,7 +78,7 @@ class Design implements \Magento\View\DesignInterface
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
@@ -88,7 +88,7 @@ class Design implements \Magento\View\DesignInterface
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Store\Model\ConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,

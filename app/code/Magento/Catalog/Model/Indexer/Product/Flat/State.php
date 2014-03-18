@@ -26,13 +26,13 @@ class State extends \Magento\Catalog\Model\Indexer\AbstractFlatState
     protected $_productFlatIndexerHelper;
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $flatIndexerHelper
      * @param bool $isAvailable
      */
     public function __construct(
-        \Magento\Store\Model\ConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Catalog\Helper\Product\Flat\Indexer $flatIndexerHelper,
         $isAvailable = false

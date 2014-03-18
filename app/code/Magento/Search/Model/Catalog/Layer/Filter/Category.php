@@ -21,9 +21,9 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
@@ -32,7 +32,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -42,10 +42,10 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Escaper $escaper,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct(
             $filterItemFactory,
             $storeManager,
@@ -102,7 +102,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         $category = $this->getCategory();
         $childrenCategories = $category->getChildrenCategories();
 
-        $useFlat = (bool)$this->_coreStoreConfig->getValue('catalog/frontend/flat_catalog_category', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $useFlat = (bool)$this->_storeConfig->getValue('catalog/frontend/flat_catalog_category', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $categories = ($useFlat)
             ? array_keys($childrenCategories)
             : array_keys($childrenCategories->toArray());

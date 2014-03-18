@@ -23,7 +23,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $coreStoreConfig;
 
@@ -38,12 +38,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->coreStoreConfig = $coreStoreConfig;

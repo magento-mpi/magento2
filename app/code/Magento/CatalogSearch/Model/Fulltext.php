@@ -34,6 +34,17 @@ use Magento\Data\Collection\Db;
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento\CatalogSearch\Model;
+
+use Magento\CatalogSearch\Helper\Data;
+use Magento\CatalogSearch\Model\Query;
+use Magento\Core\Model\AbstractModel;
+use Magento\Model\Context;
+use Magento\Registry;
+use Magento\Core\Model\Resource\AbstractResource;
+use Magento\App\Config\ScopeConfigInterface;
+use Magento\Data\Collection\Db;
+
 class Fulltext extends AbstractModel
 {
     const SEARCH_TYPE_LIKE              = 1;
@@ -53,7 +64,7 @@ class Fulltext extends AbstractModel
      *
      * @var Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param Context $context
@@ -74,7 +85,7 @@ class Fulltext extends AbstractModel
         array $data = array()
     ) {
         $this->_catalogSearchData = $catalogSearchData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -163,7 +174,7 @@ class Fulltext extends AbstractModel
      */
     public function getSearchType($storeId = null)
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_CATALOG_SEARCH_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(self::XML_PATH_CATALOG_SEARCH_TYPE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     // Deprecated methods

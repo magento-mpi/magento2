@@ -58,7 +58,7 @@ class Message extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -69,7 +69,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -124,7 +124,7 @@ class Message extends \Magento\Core\Helper\Data
         if ($type == 'items') {
             $items = $entity->getAllItems();
             if (!is_array($items) || empty($items)) {
-                return $this->_coreStoreConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+                return $this->_storeConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
             }
             if ($entity instanceof \Magento\Sales\Model\Quote) {
                 $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
@@ -165,7 +165,7 @@ class Message extends \Magento\Core\Helper\Data
                 $store
             );
         } else {
-            return $this->_coreStoreConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+            return $this->_storeConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ORDER, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         }
         return false;
     }
@@ -179,7 +179,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     protected function _getDependenceFromStoreConfig($productGiftMessageAllow, $store = null)
     {
-        $result = $this->_coreStoreConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $result = $this->_storeConfig->getValue(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         if ($productGiftMessageAllow === '' || is_null($productGiftMessageAllow)) {
             return $result;
         } else {

@@ -30,17 +30,17 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -51,7 +51,7 @@ class Config
      */
     public function getMaxInvitationsPerSend($storeId = null)
     {
-        $max = (int)$this->_coreStoreConfig->getValue(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $max = (int)$this->_storeConfig->getValue(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         return ($max < 1 ? 1 : $max);
     }
 
@@ -63,7 +63,7 @@ class Config
      */
     public function getInvitationRequired($storeId = null)
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
@@ -74,7 +74,7 @@ class Config
      */
     public function getUseInviterGroup($storeId = null)
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
@@ -85,7 +85,7 @@ class Config
      */
     public function isInvitationMessageAllowed($storeId = null)
     {
-        return (bool) $this->_coreStoreConfig->isSetFlag(self::XML_PATH_USE_INVITATION_MESSAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return (bool) $this->_storeConfig->isSetFlag(self::XML_PATH_USE_INVITATION_MESSAGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
@@ -97,7 +97,7 @@ class Config
      */
     public function isEnabled($storeId = null)
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
@@ -110,7 +110,7 @@ class Config
     public function isEnabledOnFront($storeId = null)
     {
         if ($this->isEnabled($storeId)) {
-            return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ENABLED_ON_FRONT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED_ON_FRONT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         }
 
         return false;

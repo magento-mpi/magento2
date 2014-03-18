@@ -54,9 +54,9 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Core store manager interface
@@ -66,16 +66,16 @@ class Config extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
@@ -299,7 +299,7 @@ class Config extends \Magento\Object
         if (is_null($store)) {
             $store = $this->_store;
         }
-        return $this->_coreStoreConfig->getValue($this->_getPath($path), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore($store));
+        return $this->_storeConfig->getValue($this->_getPath($path), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore($store));
     }
 
     /**
@@ -312,7 +312,7 @@ class Config extends \Magento\Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = $this->_coreStoreConfig->getValue(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
-        return $this->_coreStoreConfig->getValue('trans_email/ident_' . $senderCode . '/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $senderCode = $this->_storeConfig->getValue(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue('trans_email/ident_' . $senderCode . '/email', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

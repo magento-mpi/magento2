@@ -110,9 +110,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\AdvancedCheckout\Model\Cart
@@ -193,7 +193,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -212,7 +212,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -229,7 +229,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_checkoutCart = $checkoutCart;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context);
         $this->_importFactory = $importFactory;
         $this->_stockItemFactory = $stockItemFactory;
@@ -323,7 +323,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSkuEnabled()
     {
-        $storeData = $this->_coreStoreConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $storeData = $this->_storeConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::NO_VALUE != $storeData;
     }
 
@@ -335,7 +335,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isSkuApplied()
     {
         $result = false;
-        $data = $this->_coreStoreConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $data = $this->_storeConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         switch ($data) {
             case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_VALUE:
                 $result = true;
@@ -361,7 +361,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if ($this->_allowedGroups === null) {
             $this->_allowedGroups = explode(
-                ',', trim($this->_coreStoreConfig->getValue(self::XML_PATH_SKU_ALLOWED_GROUPS), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ',', trim($this->_storeConfig->getValue(self::XML_PATH_SKU_ALLOWED_GROUPS), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             );
         }
         return $this->_allowedGroups;

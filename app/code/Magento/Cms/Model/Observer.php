@@ -25,20 +25,20 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\Cms\Helper\Page $cmsPage
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\Cms\Helper\Page $cmsPage,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         $this->_cmsPage = $cmsPage;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -67,7 +67,7 @@ class Observer
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId  = $this->_coreStoreConfig->getValue(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $pageId  = $this->_storeConfig->getValue(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $pageUrl = $this->_cmsPage->getPageUrl($pageId);
 
         if ($pageUrl) {

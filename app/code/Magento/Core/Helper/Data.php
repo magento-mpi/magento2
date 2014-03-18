@@ -46,9 +46,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -67,20 +67,20 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_dbCompatibleMode = $dbCompatibleMode;
@@ -157,7 +157,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $allow = true;
 
-        $allowedIps = $this->_coreStoreConfig->getValue(self::XML_PATH_DEV_ALLOW_IPS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $allowedIps = $this->_storeConfig->getValue(self::XML_PATH_DEV_ALLOW_IPS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         $remoteAddr = $this->_remoteAddress->getRemoteAddress();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
@@ -224,7 +224,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultCountry($store = null)
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_DEFAULT_COUNTRY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue(self::XML_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -247,6 +247,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSingleStoreModeEnabled()
     {
-        return (bool) $this->_coreStoreConfig->getValue(self::XML_PATH_SINGLE_STORE_MODE_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (bool) $this->_storeConfig->getValue(self::XML_PATH_SINGLE_STORE_MODE_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

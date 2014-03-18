@@ -126,9 +126,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_customerData = null;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var Share
@@ -186,11 +186,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Store\Model\Config $coreStoreConfig
-     * @param ResourceCustomer $resource
-     * @param Share $configShare
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
+     * @param Resource\Customer $resource
+     * @param Config\Share $configShare
+     * @param AddressFactory $addressFactory
+     * @param Resource\Address\CollectionFactory $addressesFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param AttributeFactory $attributeFactory
@@ -207,9 +207,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
-        \Magento\Store\Model\Config $coreStoreConfig,
-        ResourceCustomer $resource,
-        Share $configShare,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\Customer\Model\Resource\Customer $resource,
+        \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
@@ -223,7 +223,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_customerData = $customerData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_configShare = $configShare;
@@ -717,7 +717,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         }
         $storeId = $this->getStoreId() ? $this->getStoreId() : null;
 
-        return (bool)$this->_coreStoreConfig->getValue(self::XML_PATH_IS_CONFIRM, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return (bool)$this->_storeConfig->getValue(self::XML_PATH_IS_CONFIRM, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
@@ -756,13 +756,13 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport =  $this->_transportBuilder
-            ->setTemplateIdentifier($this->_coreStoreConfig->getValue($template, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
+            ->setTemplateIdentifier($this->_storeConfig->getValue($template, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $storeId
             ))
             ->setTemplateVars($templateParams)
-            ->setFrom($this->_coreStoreConfig->getValue($sender, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
+            ->setFrom($this->_storeConfig->getValue($sender, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
             ->addTo($this->getEmail(), $this->getName())
             ->getTransport();
         $transport->sendMessage();
@@ -804,14 +804,14 @@ class Customer extends \Magento\Core\Model\AbstractModel
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport =  $this->_transportBuilder
             ->setTemplateIdentifier(
-                $this->_coreStoreConfig->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
+                $this->_storeConfig->getValue(self::XML_PATH_RESET_PASSWORD_TEMPLATE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
             )
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $storeId
             ))
             ->setTemplateVars(array('customer' => $this, 'store' => $this->getStore()))
-            ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_FORGOT_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
+            ->setFrom($this->_storeConfig->getValue(self::XML_PATH_FORGOT_EMAIL_IDENTITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
             ->addTo($this->getEmail(), $this->getName())
             ->getTransport();
         $transport->sendMessage();

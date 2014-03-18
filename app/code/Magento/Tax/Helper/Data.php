@@ -94,9 +94,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -140,7 +140,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -150,7 +150,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_config = $taxConfig;
         $this->_coreData = $coreData;
         $this->_coreRegistry = $coreRegistry;
@@ -845,7 +845,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getTaxBasedOn($store = null)
     {
-        return $this->_coreStoreConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -856,7 +856,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function applyTaxOnCustomPrice($store = null)
     {
-        return ((int) $this->_coreStoreConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) == 0);
+        return ((int) $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) == 0);
     }
 
     /**
@@ -867,7 +867,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function applyTaxOnOriginalPrice($store = null)
     {
-        return ((int) $this->_coreStoreConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) == 1);
+        return ((int) $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_APPLY_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) == 1);
     }
 
     /**
@@ -1015,7 +1015,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultCustomerTaxClass()
     {
-        return $this->_coreStoreConfig->getValue(self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(self::CONFIG_DEFAULT_CUSTOMER_TAX_CLASS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -1025,7 +1025,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultProductTaxClass()
     {
-        return $this->_coreStoreConfig->getValue(self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(self::CONFIG_DEFAULT_PRODUCT_TAX_CLASS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
 }

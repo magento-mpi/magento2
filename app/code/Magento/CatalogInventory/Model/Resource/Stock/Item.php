@@ -23,19 +23,19 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($resource);
     }
 
@@ -97,7 +97,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if ($columns === null) {
             $adapter = $this->_getReadAdapter();
-            $isManageStock = (int)$this->_coreStoreConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $isManageStock = (int)$this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $stockExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 1', $isManageStock, 'cisi.manage_stock');
             $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
 

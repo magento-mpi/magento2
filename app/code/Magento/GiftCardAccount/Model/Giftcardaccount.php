@@ -81,9 +81,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Core date
@@ -146,7 +146,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
@@ -164,7 +164,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
@@ -180,7 +180,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_transportBuilder = $transportBuilder;
         $this->_customerBalance = $customerBalance;
         $this->_coreDate = $coreDate;
@@ -611,7 +611,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 
         $transport = $this->_transportBuilder
             ->setTemplateIdentifier(
-                $this->_coreStoreConfig->getValue('giftcard/giftcardaccount_email/template', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
+                $this->_storeConfig->getValue('giftcard/giftcardaccount_email/template', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
             )
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
@@ -624,7 +624,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
                 'store'         => $recipientStore,
                 'store_name'    => $recipientStore->getName(),
             ))
-            ->setFrom($this->_coreStoreConfig->getValue('giftcard/giftcardaccount_email/identity', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
+            ->setFrom($this->_storeConfig->getValue('giftcard/giftcardaccount_email/identity', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
             ->addTo($recipientEmail, $recipientName)
             ->getTransport();
 

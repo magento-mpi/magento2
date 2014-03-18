@@ -65,9 +65,9 @@ class Quote extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -80,7 +80,7 @@ class Quote extends \Magento\Session\SessionManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -93,13 +93,13 @@ class Quote extends \Magento\Session\SessionManager
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
         if ($this->_storeManager->hasSingleStore()) {
@@ -121,7 +121,7 @@ class Quote extends \Magento\Session\SessionManager
                     ->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId($this->_coreStoreConfig->getValue(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                    ->setCustomerGroupId($this->_storeConfig->getValue(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();

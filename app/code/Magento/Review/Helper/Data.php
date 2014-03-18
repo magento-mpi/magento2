@@ -27,9 +27,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Escaper
@@ -40,17 +40,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filter
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filter
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_escaper = $escaper;
         $this->filter = $filter;
         parent::__construct($context);
@@ -85,7 +85,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getIsGuestAllowToWrite()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_REVIEW_GUETS_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_REVIEW_GUETS_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

@@ -28,9 +28,9 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Store manager
@@ -45,18 +45,18 @@ class Config extends \Magento\Object
     protected $_encryptor;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Encryption\EncryptorInterface $encryptor,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_encryptor = $encryptor;
         parent::__construct($data);
@@ -72,7 +72,7 @@ class Config extends \Magento\Object
     public function getConfigData($key, $storeId = null)
     {
         if (!isset($this->_config[$key][$storeId])) {
-            $value = $this->_coreStoreConfig->getValue('google/googleshopping/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            $value = $this->_storeConfig->getValue('google/googleshopping/' . $key, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
             $this->_config[$key][$storeId] = $value;
         }
         return $this->_config[$key][$storeId];

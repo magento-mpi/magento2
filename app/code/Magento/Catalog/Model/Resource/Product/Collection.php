@@ -199,9 +199,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Customer session
@@ -277,7 +277,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -287,7 +287,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlatState = $catalogProductFlatState;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_productOptionFactory = $productOptionFactory;
         $this->_catalogUrl = $catalogUrl;
         $this->_localeDate = $localeDate;
@@ -1195,7 +1195,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        $useCategoryUrl = $this->_coreStoreConfig->getValue(
+        $useCategoryUrl = $this->_storeConfig->getValue(
             \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId()
         );
         if ($useCategoryUrl) {

@@ -96,9 +96,9 @@ class Download extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\Filesystem
@@ -116,7 +116,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
@@ -124,13 +124,13 @@ class Download extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_filesystem = $filesystem;
 
         parent::__construct($context);
@@ -272,6 +272,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
      */
     public function getContentDisposition($store = null)
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_CONTENT_DISPOSITION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue(self::XML_PATH_CONTENT_DISPOSITION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

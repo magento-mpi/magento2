@@ -35,12 +35,12 @@ class Config
 
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      */
     public function __construct(
-        \Magento\Store\Model\ConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig
     ) {

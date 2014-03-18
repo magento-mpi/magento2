@@ -20,7 +20,7 @@ class Noroute extends \Magento\App\Action\Action
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
         $this->getResponse()->setHeader('Status', '404 File not found');
 
-        $pageId = $this->_objectManager->get('Magento\Store\Model\Config')
+        $pageId = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
             ->getConfig(\Magento\Cms\Helper\Page::XML_PATH_NO_ROUTE_PAGE);
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
             $this->_forward('defaultNoRoute');

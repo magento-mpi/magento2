@@ -17,7 +17,7 @@ namespace Magento\Rss\Helper;
 class Order extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -28,12 +28,12 @@ class Order extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory
     ) {
         $this->_storeConfig = $storeConfig;

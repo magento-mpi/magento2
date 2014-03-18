@@ -26,9 +26,9 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Tax\Model\Calculation
@@ -37,16 +37,16 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Tax\Model\Calculation $calculation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Tax\Model\Calculation $calculation
     ) {
         $this->_taxData = $taxData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_calculation = $calculation;
         $this->setCode('tax');
     }
@@ -172,7 +172,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             }
         }
 
-        $shippingTaxClass = $this->_coreStoreConfig->getValue(
+        $shippingTaxClass = $this->_storeConfig->getValue(
             \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );

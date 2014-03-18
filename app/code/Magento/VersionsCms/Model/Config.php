@@ -42,9 +42,9 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Backend\Model\Auth\Session
@@ -53,15 +53,15 @@ class Config
 
     /**
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_backendAuthSession = $backendAuthSession;
     }
@@ -196,6 +196,6 @@ class Config
      */
     public function getDefaultVersioningStatus()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

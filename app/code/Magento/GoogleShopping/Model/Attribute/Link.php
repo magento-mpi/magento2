@@ -21,9 +21,9 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\Model\Context $context
@@ -33,7 +33,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
      * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -45,11 +45,11 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct(
             $context,
             $registry,
@@ -74,7 +74,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $url = $product->getProductUrl(false);
         if ($url) {
-            if (!$this->_coreStoreConfig->isSetFlag('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+            if (!$this->_storeConfig->isSetFlag('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 $urlInfo = parse_url($url);
                 $store = $product->getStore()->getCode();
                 if (isset($urlInfo['query']) && $urlInfo['query'] != '') {

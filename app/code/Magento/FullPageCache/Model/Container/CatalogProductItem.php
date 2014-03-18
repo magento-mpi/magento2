@@ -35,7 +35,7 @@ class CatalogProductItem
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -46,7 +46,7 @@ class CatalogProductItem
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory

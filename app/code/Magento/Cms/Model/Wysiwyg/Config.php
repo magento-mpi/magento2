@@ -64,9 +64,9 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var array
@@ -86,7 +86,7 @@ class Config extends \Magento\Object
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Variable\Config $variableConfig
      * @param \Magento\Widget\Model\Widget\Config $widgetConfig
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param array $windowSize
      * @param array $data
      */
@@ -98,14 +98,14 @@ class Config extends \Magento\Object
         \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         array $windowSize = array(),
         array $data = array()
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
         $this->_cmsData = $cmsData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_authorization = $authorization;
         $this->_viewUrl = $viewUrl;
         $this->_variableConfig = $variableConfig;
@@ -199,7 +199,7 @@ class Config extends \Magento\Object
      */
     public function isEnabled()
     {
-        $wysiwygState = $this->_coreStoreConfig->getValue('cms/wysiwyg/enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
+        $wysiwygState = $this->_storeConfig->getValue('cms/wysiwyg/enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
         return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
     }
 
@@ -210,6 +210,6 @@ class Config extends \Magento\Object
      */
     public function isHidden()
     {
-        return $this->_coreStoreConfig->getValue('cms/wysiwyg/enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == self::WYSIWYG_HIDDEN;
+        return $this->_storeConfig->getValue('cms/wysiwyg/enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == self::WYSIWYG_HIDDEN;
     }
 }

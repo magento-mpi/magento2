@@ -18,14 +18,14 @@ namespace Magento\OfflineShipping\Model\Plugin\Checkout\Block\Cart;
 class Shipping
 {
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
-    public function __construct(\Magento\Store\Model\Config $storeConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $storeConfig)
     {
         $this->_storeConfig = $storeConfig;
     }
@@ -38,6 +38,6 @@ class Shipping
      */
     public function afterGetStateActive(\Magento\Checkout\Block\Cart\Shipping $subject, $result)
     {
-        return (bool)$result || (bool)$this->_storeConfig->getValue('carriers/tablerate/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (bool)$result || (bool)$this->_storeConfig->getValue('carriers/tablerate/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

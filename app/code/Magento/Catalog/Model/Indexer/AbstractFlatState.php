@@ -21,7 +21,7 @@ abstract class AbstractFlatState
     const INDEXER_ENABLED_XML_PATH = '';
 
     /**
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $storeConfig;
 
@@ -36,12 +36,12 @@ abstract class AbstractFlatState
     protected $flatIndexer;
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param bool $isAvailable
      */
     public function __construct(
-        \Magento\Store\Model\ConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         $isAvailable = false
     ) {

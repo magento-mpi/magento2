@@ -51,9 +51,9 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -69,7 +69,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -88,10 +88,10 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_store = $storeManager->getStore();
         $this->_localeFormat = $localeFormat;
         parent::__construct(
@@ -216,7 +216,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = $this->_coreStoreConfig->isSetFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $messageAllowed = $this->_storeConfig->isSetFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         } else {
             $messageAllowed = (int) $product->getAllowMessage();
         }

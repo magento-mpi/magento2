@@ -20,7 +20,7 @@ namespace Magento\CatalogEvent\Helper;
 use Magento\App\Helper\AbstractHelper;
 use Magento\App\Helper\Context;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Store\Model\Config;
+use Magento\App\Config\ScopeConfigInterface;
 
 class Data extends AbstractHelper
 {
@@ -31,7 +31,7 @@ class Data extends AbstractHelper
      *
      * @var Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param Context $context
@@ -41,7 +41,7 @@ class Data extends AbstractHelper
         Context $context,
         Config $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -67,6 +67,6 @@ class Data extends AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

@@ -25,9 +25,9 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Constructor
@@ -35,7 +35,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -44,12 +44,12 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct(
             $context,
             $registry,
@@ -82,7 +82,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      */
     protected function _getInstalledCurrencies()
     {
-        return explode(',', $this->_coreStoreConfig->getValue('system/currency/installed'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return explode(',', $this->_storeConfig->getValue('system/currency/installed'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

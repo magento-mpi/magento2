@@ -35,9 +35,9 @@ class Cron extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\TranslateInterface
@@ -66,7 +66,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Log\Model\Log $log
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -78,7 +78,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
         \Magento\Log\Model\Log $log,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\TranslateInterface $translate,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -87,7 +87,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
         $this->_log = $log;
         $this->_storeManager = $storeManager;
         $this->_translate = $translate;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -101,21 +101,21 @@ class Cron extends \Magento\Core\Model\AbstractModel
         if (!$this->_errors) {
             return $this;
         }
-        if (!$this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if (!$this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return $this;
         }
 
         $this->_translate->setTranslateInline(false);
 
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             ))
             ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-            ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            ->addTo($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->setFrom($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->addTo($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ->getTransport();
 
         $transport->sendMessage();
@@ -131,7 +131,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
      */
     public function logClean()
     {
-        if (!$this->_coreStoreConfig->isSetFlag(self::XML_PATH_LOG_CLEAN_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_LOG_CLEAN_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return $this;
         }
 

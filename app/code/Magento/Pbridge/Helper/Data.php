@@ -67,9 +67,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Locale\ResolverInterface
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -139,7 +139,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -149,7 +149,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\State $appState,
         \Magento\Payment\Model\CartFactory $cartFactory
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
@@ -169,7 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled($store = null)
     {
-        return $this->_coreStoreConfig->isSetFlag('payment/pbridge/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) && $this->isAvailable($store);
+        return $this->_storeConfig->isSetFlag('payment/pbridge/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) && $this->isAvailable($store);
     }
 
     /**
@@ -180,7 +180,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function arePaymentProfilesEnables($store = null)
     {
-        return $this->_coreStoreConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
+        return $this->_storeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
             &&
             $this->isEnabled($store);
     }
@@ -193,9 +193,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAvailable($store = null)
     {
-        return (bool)$this->_coreStoreConfig->getValue('payment/pbridge/gatewayurl', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) &&
-            (bool)$this->_coreStoreConfig->getValue('payment/pbridge/merchantcode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) &&
-            (bool)$this->_coreStoreConfig->getValue('payment/pbridge/merchantkey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return (bool)$this->_storeConfig->getValue('payment/pbridge/gatewayurl', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) &&
+            (bool)$this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) &&
+            (bool)$this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -225,8 +225,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $storeId = $this->_storeManager->getStore()->getId();
         }
 
-        $merchantCode = $this->_coreStoreConfig->getValue('payment/pbridge/merchantcode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
-        $uniqueId = $this->_coreStoreConfig->getValue('payment/pbridge/uniquekey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $merchantCode = $this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $uniqueId = $this->_storeConfig->getValue('payment/pbridge/uniquekey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($uniqueId) {
             $uniqueId .= '@';
         }
@@ -253,7 +253,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             }
         }
 
-        $params['merchant_code'] = trim($this->_coreStoreConfig->getValue('payment/pbridge/merchantcode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId));
+        $params['merchant_code'] = trim($this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId));
 
         $sourceUrl .= '?' . http_build_query($params);
 
@@ -273,7 +273,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             'locale' => $this->_localeResolver->getLocaleCode(),
         ), $params);
 
-        $params['merchant_key']  = trim($this->_coreStoreConfig->getValue('payment/pbridge/merchantkey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+        $params['merchant_key']  = trim($this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
 
         $params['scope'] = $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
             ? 'backend' : 'frontend';
@@ -351,7 +351,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $key = trim((string)$this->_coreStoreConfig->getValue('payment/pbridge/transferkey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+            $key = trim((string)$this->_storeConfig->getValue('payment/pbridge/transferkey', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
             $this->_encryptor = $this->_encryptionFactory->create(array('key' => $key));
         }
         return $this->_encryptor;
@@ -434,7 +434,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getBridgeBaseUrl()
     {
-        return trim($this->_coreStoreConfig->getValue('payment/pbridge/gatewayurl', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+        return trim($this->_storeConfig->getValue('payment/pbridge/gatewayurl', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
     }
 
     /**

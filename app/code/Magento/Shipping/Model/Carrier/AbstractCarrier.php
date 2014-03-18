@@ -75,9 +75,9 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory
@@ -90,19 +90,19 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
     protected $_logAdapterFactory;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         parent::__construct($data);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_rateErrorFactory = $rateErrorFactory;
         $this->_logAdapterFactory = $logAdapterFactory;
     }
@@ -119,7 +119,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_coreStoreConfig->isSetFlag($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        return $this->_storeConfig->isSetFlag($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
     }
 
     /**

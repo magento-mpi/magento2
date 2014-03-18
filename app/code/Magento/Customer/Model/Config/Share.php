@@ -35,9 +35,9 @@ class Share extends \Magento\Core\Model\Config\Value
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Customer\Model\Resource\Customer
@@ -53,8 +53,7 @@ class Share extends \Magento\Core\Model\Config\Value
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -65,13 +64,13 @@ class Share extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_customerResource = $customerResource;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -94,7 +93,7 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     public function isWebsiteScope()
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_CUSTOMER_ACCOUNT_SHARE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == self::SHARE_WEBSITE;
+        return $this->_storeConfig->getValue(self::XML_PATH_CUSTOMER_ACCOUNT_SHARE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == self::SHARE_WEBSITE;
     }
 
     /**

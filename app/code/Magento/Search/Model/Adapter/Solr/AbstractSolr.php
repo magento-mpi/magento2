@@ -74,9 +74,9 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -111,7 +111,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -132,7 +132,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Registry $registry,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -142,7 +142,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         $this->_clientFactory = $searchFactory->getFactory();
         $this->_coreRegistry = $registry;
         $this->_clientHelper = $clientHelper;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->dateTime = $dateTime;
         $this->_localeResolver = $localeResolver;
         $this->_localeDate = $localeDate;
@@ -227,10 +227,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     protected function _getSolrDate($storeId, $date = null)
     {
         if (!isset($this->_dateFormats[$storeId])) {
-            $timezone = $this->_coreStoreConfig->getValue(
+            $timezone = $this->_storeConfig->getValue(
                 $this->_localeDate->getDefaultTimezonePath(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
             );
-            $locale   = $this->_coreStoreConfig->getValue(
+            $locale   = $this->_storeConfig->getValue(
                 $this->_localeResolver->getDefaultLocalePath(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
             );
             $locale   = new \Zend_Locale($locale);

@@ -54,9 +54,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Core\Model\App
@@ -76,7 +76,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
@@ -87,7 +87,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
@@ -95,7 +95,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_app = $app;
         $this->_storeManager = $storeManager;
         $this->_httpContext = $httpContext;
@@ -328,14 +328,14 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if ($this->_coreStoreConfig->getValue('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
+            if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if ($this->_coreStoreConfig->getValue('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
+        if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
             $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
         }
 

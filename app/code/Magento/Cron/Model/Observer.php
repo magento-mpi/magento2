@@ -59,9 +59,9 @@ class Observer
     protected $_app;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var ScheduleFactory
@@ -83,7 +83,7 @@ class Observer
      * @param ScheduleFactory $scheduleFactory
      * @param \Magento\AppInterface $app
      * @param ConfigInterface $config
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Console\Request $request
      * @param \Magento\Shell $shell
      */
@@ -92,7 +92,7 @@ class Observer
         \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
         \Magento\AppInterface $app,
         \Magento\Cron\Model\ConfigInterface $config,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Console\Request $request,
         \Magento\Shell $shell
     ) {
@@ -100,7 +100,7 @@ class Observer
         $this->_scheduleFactory = $scheduleFactory;
         $this->_app = $app;
         $this->_config = $config;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_request = $request;
         $this->_shell = $shell;
     }
@@ -122,7 +122,7 @@ class Observer
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             if (
                 $this->_request->getParam('group') === null
-                && $this->_coreStoreConfig->getValue('system/cron/' . $groupId . '/use_separate_process', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == 1
+                && $this->_storeConfig->getValue('system/cron/' . $groupId . '/use_separate_process', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == 1
             ) {
                 $this->_shell->executeInBackground(
                     '"' . PHP_BINARY . '" -f ' . BP . DIRECTORY_SEPARATOR
@@ -172,7 +172,7 @@ class Observer
      */
     protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId)
     {
-        $scheduleLifetime = (int)$this->_coreStoreConfig->getValue(
+        $scheduleLifetime = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
@@ -237,7 +237,7 @@ class Observer
          * check if schedule generation is needed
          */
         $lastRun = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
-        $rawSchedulePeriod = (int)$this->_coreStoreConfig->getValue(
+        $rawSchedulePeriod = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $schedulePeriod = $rawSchedulePeriod * self::SECONDS_IN_MINUTE;
@@ -276,7 +276,7 @@ class Observer
      */
     protected function _generateJobs($jobs, $exists, $groupId)
     {
-        $scheduleAheadFor = (int)$this->_coreStoreConfig->getValue(
+        $scheduleAheadFor = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
@@ -288,7 +288,7 @@ class Observer
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['config_path'])) {
-                $cronExpr = $this->_coreStoreConfig->getValue($jobConfig['config_path'], \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                $cronExpr = $this->_storeConfig->getValue($jobConfig['config_path'], \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             } elseif (empty($cronExpr) && isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
             }
@@ -329,7 +329,7 @@ class Observer
     {
         // check if history cleanup is needed
         $lastCleanup = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
-        $historyCleanUp = (int)$this->_coreStoreConfig->getValue(
+        $historyCleanUp = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($lastCleanup > time() - $historyCleanUp * self::SECONDS_IN_MINUTE) {
@@ -346,10 +346,10 @@ class Observer
                 Schedule::STATUS_ERROR,
             )))->load();
 
-        $historySuccess = (int)$this->_coreStoreConfig->getValue(
+        $historySuccess = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
-        $historyFailure = (int)$this->_coreStoreConfig->getValue(
+        $historyFailure = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE
         , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $historyLifetimes = array(

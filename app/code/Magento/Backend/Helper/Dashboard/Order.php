@@ -21,7 +21,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Reports\Model\Resource\Order\Collection $orderCollection
@@ -29,7 +29,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\Reports\Model\Resource\Order\Collection $orderCollection,

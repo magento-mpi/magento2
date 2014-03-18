@@ -113,7 +113,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
@@ -135,7 +135,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
@@ -287,7 +287,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = $this->_coreStoreConfig->getValue(
+            $origCountry = $this->_storeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
@@ -297,7 +297,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal($this->_coreStoreConfig->getValue(
+            $r->setOrigPostal($this->_storeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
@@ -1341,7 +1341,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                     'PaymentType' => $paymentType,
                     'Payor' => array(
                         'AccountNumber' => $this->getConfigData('account'),
-                        'CountryCode'   => $this->_coreStoreConfig->getValue(
+                        'CountryCode'   => $this->_storeConfig->getValue(
                             \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                             $request->getStoreId()
                         )
@@ -1385,7 +1385,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                         'PaymentType' => $paymentType,
                         'Payor' => array(
                             'AccountNumber' => $this->getConfigData('account'),
-                            'CountryCode'   => $this->_coreStoreConfig->getValue(
+                            'CountryCode'   => $this->_storeConfig->getValue(
                                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                                 $request->getStoreId()
                             )

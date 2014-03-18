@@ -15,15 +15,15 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         $this->_storeConfig = $coreStoreConfig;
     }
@@ -36,8 +36,8 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
         $result = array();
 
         if (!is_array($sender)) {
-            $result['name'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/name', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId);
-            $result['email'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId);
+            $result['name'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/name', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId);
+            $result['email'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/email', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId);
         } else {
             $result = $sender;
         }

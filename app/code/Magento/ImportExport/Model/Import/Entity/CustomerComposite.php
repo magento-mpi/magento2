@@ -125,7 +125,7 @@ class CustomerComposite
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
@@ -139,7 +139,7 @@ class CustomerComposite
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,

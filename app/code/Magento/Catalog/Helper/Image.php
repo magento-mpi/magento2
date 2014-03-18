@@ -102,9 +102,9 @@ class Image extends AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Product image factory
@@ -117,17 +117,17 @@ class Image extends AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
         \Magento\View\Url $viewUrl,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_viewUrl = $viewUrl;
     }
 
@@ -167,16 +167,16 @@ class Image extends AbstractHelper
         $this->setProduct($product);
 
         $this->setWatermark(
-            $this->_coreStoreConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_image")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_image")
         );
         $this->setWatermarkImageOpacity(
-            $this->_coreStoreConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_imageOpacity")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_imageOpacity")
         );
         $this->setWatermarkPosition(
-            $this->_coreStoreConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_position")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_position")
         );
         $this->setWatermarkSize(
-            $this->_coreStoreConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_size")
+            $this->_storeConfig->getValue("design/watermark/{$this->_getModel(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE->getDestinationSubdir()}_size")
         );
 
         if ($imageFile) {

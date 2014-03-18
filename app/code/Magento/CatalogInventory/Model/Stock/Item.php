@@ -137,9 +137,9 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Store model manager
@@ -186,7 +186,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param Status $stockStatus
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Math\Division $mathDivision
@@ -203,7 +203,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         Status $stockStatus,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Math\Division $mathDivision,
@@ -219,7 +219,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $this->_stockStatus = $stockStatus;
         $this->_catalogInventoryData = $catalogInventoryData;
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_localeFormat = $localeFormat;
         $this->mathDivision = $mathDivision;
@@ -294,7 +294,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function canSubtractQty()
     {
-        return $this->getManageStock() && $this->_coreStoreConfig->isSetFlag(self::XML_PATH_CAN_SUBTRACT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->getManageStock() && $this->_storeConfig->isSetFlag(self::XML_PATH_CAN_SUBTRACT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -308,7 +308,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (!$this->getManageStock()) {
             return $this;
         }
-        $config = $this->_coreStoreConfig->isSetFlag(self::XML_PATH_CAN_SUBTRACT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $config = $this->_storeConfig->isSetFlag(self::XML_PATH_CAN_SUBTRACT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!$config) {
             return $this;
         }
@@ -362,7 +362,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getMinQty()
     {
-        return (float)($this->getUseConfigMinQty() ? $this->_coreStoreConfig->getValue(self::XML_PATH_MIN_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return (float)($this->getUseConfigMinQty() ? $this->_storeConfig->getValue(self::XML_PATH_MIN_QTY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             : $this->getData('min_qty'));
     }
 
@@ -417,7 +417,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getMaxSaleQty()
     {
-        return (float)($this->getUseConfigMaxSaleQty() ? $this->_coreStoreConfig->getValue(self::XML_PATH_MAX_SALE_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return (float)($this->getUseConfigMaxSaleQty() ? $this->_storeConfig->getValue(self::XML_PATH_MAX_SALE_QTY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             : $this->getData('max_sale_qty'));
     }
 
@@ -429,7 +429,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getNotifyStockQty()
     {
         if ($this->getUseConfigNotifyStockQty()) {
-            return (float) $this->_coreStoreConfig->getValue(self::XML_PATH_NOTIFY_STOCK_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            return (float) $this->_storeConfig->getValue(self::XML_PATH_NOTIFY_STOCK_QTY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return (float) $this->getData('notify_stock_qty');
     }
@@ -442,7 +442,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getEnableQtyIncrements()
     {
         if ($this->getUseConfigEnableQtyInc()) {
-            return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return (bool) $this->getData('enable_qty_increments');
     }
@@ -457,7 +457,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if ($this->_qtyIncrements === null) {
             if ($this->getEnableQtyIncrements()) {
                 $this->_qtyIncrements = (float)($this->getUseConfigQtyIncrements()
-                    ? $this->_coreStoreConfig->getValue(self::XML_PATH_QTY_INCREMENTS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                    ? $this->_storeConfig->getValue(self::XML_PATH_QTY_INCREMENTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                     : $this->getData('qty_increments'));
                 if ($this->_qtyIncrements <= 0) {
                     $this->_qtyIncrements = false;
@@ -477,8 +477,8 @@ class Item extends \Magento\Core\Model\AbstractModel
       */
     public function getDefaultQtyIncrements()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            ? (int)$this->_coreStoreConfig->getValue(self::XML_PATH_QTY_INCREMENTS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLE_QTY_INCREMENTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ? (int)$this->_storeConfig->getValue(self::XML_PATH_QTY_INCREMENTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             : false;
     }
 
@@ -490,7 +490,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getBackorders()
     {
         if ($this->getUseConfigBackorders()) {
-            return (int) $this->_coreStoreConfig->getValue(self::XML_PATH_BACKORDERS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            return (int) $this->_storeConfig->getValue(self::XML_PATH_BACKORDERS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->getData('backorders');
     }
@@ -503,7 +503,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getManageStock()
     {
         if ($this->getUseConfigManageStock()) {
-            return (int) $this->_coreStoreConfig->isSetFlag(self::XML_PATH_MANAGE_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            return (int) $this->_storeConfig->isSetFlag(self::XML_PATH_MANAGE_STOCK, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->getData('manage_stock');
     }
@@ -515,7 +515,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function getCanBackInStock()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_CAN_BACK_IN_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_CAN_BACK_IN_STOCK, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

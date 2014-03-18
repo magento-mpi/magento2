@@ -20,9 +20,9 @@ class Minsaleqty
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Math\Random
@@ -30,14 +30,14 @@ class Minsaleqty
     protected $mathRandom;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Math\Random $mathRandom
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->mathRandom = $mathRandom;
     }
 
@@ -167,7 +167,7 @@ class Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = $this->_coreStoreConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $value = $this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);

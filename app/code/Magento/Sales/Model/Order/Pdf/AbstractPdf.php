@@ -71,9 +71,9 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\TranslateInterface
@@ -107,7 +107,7 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
      * @param Config $pdfConfig
@@ -121,7 +121,7 @@ abstract class AbstractPdf extends \Magento\Object
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
         Config $pdfConfig,
@@ -133,7 +133,7 @@ abstract class AbstractPdf extends \Magento\Object
         $this->_paymentData = $paymentData;
         $this->_localeDate = $localeDate;
         $this->string = $string;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_translate = $translate;
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
@@ -217,7 +217,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected function insertLogo(&$page, $store = null)
     {
         $this->y = $this->y ? $this->y : 815;
-        $image = $this->_coreStoreConfig->getValue('sales/identity/logo', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $image = $this->_storeConfig->getValue('sales/identity/logo', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         if ($image) {
             $imagePath = '/sales/store/logo/' . $image;
             if ($this->_mediaDirectory->isFile($imagePath)) {
@@ -268,7 +268,7 @@ abstract class AbstractPdf extends \Magento\Object
         $page->setLineWidth(0);
         $this->y = $this->y ? $this->y : 815;
         $top = 815;
-        foreach (explode("\n", $this->_coreStoreConfig->getValue('sales/identity/address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) as $value) {
+        foreach (explode("\n", $this->_storeConfig->getValue('sales/identity/address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) as $value) {
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
                 foreach ($this->string->split($value, 45, true, true) as $_value) {

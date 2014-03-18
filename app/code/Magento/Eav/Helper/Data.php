@@ -34,9 +34,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Eav\Model\Entity\Attribute\Config
@@ -51,16 +51,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Eav\Model\Config $eavConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_attributeConfig = $attributeConfig;
         $this->_eavConfig = $eavConfig;
         parent::__construct($context);
@@ -154,7 +154,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getInputTypesValidatorData()
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

@@ -23,7 +23,7 @@ class Test
     public function someFunction()
     {
         $store = new \Magento\Object;
-        $this->_coreStoreConfig->getConfig(
+        $this->_storeConfig->getConfig(
             '1checkout/cart_link/use_qty',
             $store->getId()
         );
@@ -34,7 +34,7 @@ class Test
         $this->storeConfig->getConfig($this->qwe());
         $this->storeConfig->getConfig($this->asd('asd'));
 
-        $this->_coreStoreConfig->getConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
+        $this->_storeConfig->getConfig($this->_serviceConfigPath . '/' . $key, $this->getStore());
 
         $this->_storeConfig->getConfig(
             $this->getXml(),

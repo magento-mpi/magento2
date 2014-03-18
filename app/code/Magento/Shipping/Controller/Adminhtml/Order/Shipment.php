@@ -495,7 +495,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $outputPdf = $this->_combineLabelsPdf($labelsContent);
         $shipment->setShippingLabel($outputPdf->render());
         $carrierCode = $carrier->getCarrierCode();
-        $carrierTitle = $this->_objectManager->get('Magento\Store\Model\Config')
+        $carrierTitle = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
             ->getConfig('carriers/' . $carrierCode . '/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {

@@ -147,9 +147,9 @@ class Image extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Catalog product media config
@@ -175,7 +175,7 @@ class Image extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Image\Factory $imageFactory
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -190,7 +190,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         \Magento\Image\Factory $imageFactory,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -204,7 +204,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -459,7 +459,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         if (!$file) {
             $this->_isBaseFilePlaceholder = true;
             // check if placeholder defined in config
-            $isConfigPlaceholder = $this->_coreStoreConfig->getValue(
+            $isConfigPlaceholder = $this->_storeConfig->getValue(
                 "catalog/placeholder/{$this->getDestinationSubdir(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE}_placeholder"
             );
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;

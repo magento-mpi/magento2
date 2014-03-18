@@ -50,9 +50,9 @@ class Storage extends AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -89,7 +89,7 @@ class Storage extends AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
      * @param \Magento\Core\Model\File\Storage\FileFactory $fileFactory
@@ -103,7 +103,7 @@ class Storage extends AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Core\Model\File\Storage\Flag $fileFlag,
         \Magento\Core\Model\File\Storage\FileFactory $fileFactory,
@@ -114,7 +114,7 @@ class Storage extends AbstractModel
         array $data = array()
     ) {
         $this->_coreFileStorage = $coreFileStorage;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_fileFlag = $fileFlag;
         $this->_fileFactory = $fileFactory;
@@ -291,7 +291,7 @@ class Storage extends AbstractModel
             $config['allowed_resources'][] = $allowedResource;
         }
 
-        $config['update_time'] = $this->_coreStoreConfig->getValue(self::XML_PATH_MEDIA_UPDATE_TIME, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $config['update_time'] = $this->_storeConfig->getValue(self::XML_PATH_MEDIA_UPDATE_TIME, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         return $config;
     }

@@ -48,9 +48,9 @@ class Config
     /**#@-*/
 
     /**
-     * @var StoreConfig
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -74,11 +74,11 @@ class Config
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        StoreConfig $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_config = $config;
     }
 
@@ -113,8 +113,8 @@ class Config
     protected function _getReplacements()
     {
         return array(
-            '{{ host }}' => $this->_coreStoreConfig->getValue(self::XML_VARNISH_PAGECACHE_BACKEND_HOST), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
-            '{{ port }}' => $this->_coreStoreConfig->getValue(self::XML_VARNISH_PAGECACHE_BACKEND_PORT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            '{{ host }}' => $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_BACKEND_HOST), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            '{{ port }}' => $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_BACKEND_PORT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             '{{ ips }}' => $this->_getAccessList(),
             '{{ design_exceptions_code }}' => $this->_getDesignExceptions()
         );
@@ -134,7 +134,7 @@ class Config
     {
         $result = '';
         $tpl = "    \"%s\";";
-        $accessList = $this->_coreStoreConfig->getValue(self::XML_VARNISH_PAGECACHE_ACCESS_LIST, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $accessList = $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_ACCESS_LIST, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!empty($accessList)) {
             $ips = explode(', ', $accessList);
             foreach ($ips as $ip) {
@@ -160,7 +160,7 @@ class Config
              . "        hash_data(\"%s\");\n"
              . "    }";
 
-        $expressions = $this->_coreStoreConfig->getValue(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $expressions = $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($expressions) {
             $rules = array_values(unserialize($expressions));
             foreach ($rules as $i => $rule) {

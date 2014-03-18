@@ -42,9 +42,9 @@ class AbstractApi extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Logger model
@@ -66,7 +66,7 @@ class AbstractApi extends \Magento\Object
      * @param Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
@@ -74,14 +74,14 @@ class AbstractApi extends \Magento\Object
         Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
         $this->_logger = $logger;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_logAdapterFactory = $logAdapterFactory;
         parent::__construct($data);
     }
@@ -202,7 +202,7 @@ class AbstractApi extends \Magento\Object
      */
     protected function _debug($debugData)
     {
-        $this->_debugFlag = (bool)$this->_coreStoreConfig->isSetFlag('payment/pbridge/debug', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $this->_debugFlag = (bool)$this->_storeConfig->isSetFlag('payment/pbridge/debug', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($this->_debugFlag) {
             $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))
                ->log($debugData);

@@ -80,9 +80,9 @@ class Area
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Logger
@@ -113,7 +113,7 @@ class Area
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Area\DesignExceptions $designExceptions
@@ -126,13 +126,13 @@ class Area
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\ObjectManager $objectManager,
         \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Design $design,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         Area\DesignExceptions $designExceptions,
         $areaCode
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_code = $areaCode;
         $this->_config = $config;
         $this->_objectManager = $objectManager;

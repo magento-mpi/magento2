@@ -27,7 +27,7 @@ class Config extends \Magento\Payment\Model\Config
     protected $_encryptor;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Locale\ListsInterface $localeLists
@@ -36,7 +36,7 @@ class Config extends \Magento\Payment\Model\Config
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Locale\ListsInterface $localeLists,
@@ -59,7 +59,7 @@ class Config extends \Magento\Payment\Model\Config
     public function getConfigData($path, $storeId=null)
     {
         if (!empty($path)) {
-            return $this->_coreStoreConfig->getValue(self::OGONE_PAYMENT_PATH . $path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            return $this->_storeConfig->getValue(self::OGONE_PAYMENT_PATH . $path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         }
         return false;
     }

@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Store\Model\Config as StoreConfig;
+use Magento\App\Config\ScopeConfigInterface as StoreConfig;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\Resource\Group\Collection;

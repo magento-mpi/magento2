@@ -28,9 +28,9 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Downloadable\Model\Link\PurchasedFactory
@@ -64,7 +64,7 @@ class Observer
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory
@@ -74,7 +74,7 @@ class Observer
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory,
@@ -83,7 +83,7 @@ class Observer
         \Magento\Object\Copy $objectCopyService
     ) {
         $this->_helper = $coreData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_purchasedFactory = $purchasedFactory;
         $this->_productFactory = $productFactory;
         $this->_itemFactory = $itemFactory;
@@ -155,7 +155,7 @@ class Observer
                 $linkSectionTitle = (
                     $product->getLinksTitle()
                         ? $product->getLinksTitle()
-                        : $this->_coreStoreConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                        : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -238,7 +238,7 @@ class Observer
         );
 
         $downloadableItemsStatuses = array();
-        $orderItemStatusToEnable = $this->_coreStoreConfig->getValue(
+        $orderItemStatusToEnable = $this->_storeConfig->getValue(
             \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $order->getStoreId()
         );
 
@@ -334,7 +334,7 @@ class Observer
             }
         }
 
-        if ($isContain && $this->_coreStoreConfig->isSetFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
+        if ($isContain && $this->_storeConfig->isSetFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
             $result->setIsAllowed(false);
         }
 

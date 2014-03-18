@@ -47,7 +47,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -88,8 +88,8 @@ class Base extends \Magento\App\Router\AbstractRouter
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface|\Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
      * @param \Magento\Code\NameBuilder $nameBuilder
@@ -103,7 +103,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
         \Magento\Code\NameBuilder $nameBuilder
@@ -324,7 +324,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _getDefaultPath()
     {
-        return $this->_storeConfig->getValue('web/default/front', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue('web/default/front', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -415,9 +415,9 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _shouldBeSecure($path)
     {
-        return parse_url($this->_storeConfig->getValue('web/unsecure/base_url'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) === 'https'
-            || $this->_storeConfig->isSetFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-                && parse_url($this->_storeConfig->getValue('web/secure/base_url'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) == 'https'
+        return parse_url($this->_storeConfig->getValue('web/unsecure/base_url'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) === 'https'
+            || $this->_storeConfig->isSetFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                && parse_url($this->_storeConfig->getValue('web/secure/base_url'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
     }
 }

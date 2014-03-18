@@ -226,14 +226,14 @@ abstract class AbstractEntity
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\App\Resource $resource
@@ -242,13 +242,13 @@ abstract class AbstractEntity
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\App\Resource $resource,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : $importFactory->create()->getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
@@ -256,11 +256,11 @@ abstract class AbstractEntity
         $this->_jsonHelper          =  $coreData;
         $this->string        =  $string;
         $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
-            : (static::XML_PATH_PAGE_SIZE ? (int)$this->_coreStoreConfig->getValue(static::XML_PATH_PAGE_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) : 0);
+            : (static::XML_PATH_PAGE_SIZE ? (int)$this->_storeConfig->getValue(static::XML_PATH_PAGE_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) : 0);
         $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
             : $resourceHelper->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
-            : (static::XML_PATH_BUNCH_SIZE ? (int)$this->_coreStoreConfig->getValue(static::XML_PATH_BUNCH_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) : 0);
+            : (static::XML_PATH_BUNCH_SIZE ? (int)$this->_storeConfig->getValue(static::XML_PATH_BUNCH_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) : 0);
     }
 
     /**

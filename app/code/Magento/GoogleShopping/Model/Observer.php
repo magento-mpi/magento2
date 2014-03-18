@@ -18,9 +18,9 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Message\ManagerInterface
@@ -59,7 +59,7 @@ class Observer
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\GoogleShopping\Model\Flag $flag
      */
@@ -67,14 +67,14 @@ class Observer
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\GoogleShopping\Model\Flag $flag
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_operationsFactory = $operationsFactory;
         $this->_inboxFactory = $inboxFactory;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->messageManager = $messageManager;
         $this->_flag = $flag;
     }
@@ -133,7 +133,7 @@ class Observer
         }
 
         foreach ($items as $item) {
-            if (!$this->_coreStoreConfig->isSetFlag('google/googleshopping/observed', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $item->getStoreId())) {
+            if (!$this->_storeConfig->isSetFlag('google/googleshopping/observed', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $item->getStoreId())) {
                 $items->removeItemByKey($item->getId());
             }
         }

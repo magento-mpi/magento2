@@ -22,17 +22,17 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -42,7 +42,7 @@ class Config
      */
     public function isArchiveActive()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ARCHIVE_ACTIVE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ARCHIVE_ACTIVE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -52,7 +52,7 @@ class Config
      */
     public function getArchiveAge()
     {
-        return (int) $this->_coreStoreConfig->getValue(self::XML_PATH_ARCHIVE_AGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int) $this->_storeConfig->getValue(self::XML_PATH_ARCHIVE_AGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -62,7 +62,7 @@ class Config
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = $this->_coreStoreConfig->getValue(self::XML_PATH_ARCHIVE_ORDER_STATUSES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $statuses = $this->_storeConfig->getValue(self::XML_PATH_ARCHIVE_ORDER_STATUSES, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         if (empty($statuses)) {
             return array();

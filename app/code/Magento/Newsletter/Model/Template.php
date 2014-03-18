@@ -80,9 +80,9 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Template factory
@@ -104,7 +104,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
@@ -117,7 +117,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Filter\FilterManager $filterManager,
         array $data = array()
@@ -126,7 +126,7 @@ class Template extends \Magento\Core\Model\Template
         $this->_storeManager = $storeManager;
         $this->_request = $request;
         $this->_filter = $filter;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_templateFactory = $templateFactory;
         $this->_filterManager = $filterManager;
     }
@@ -336,7 +336,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->isSetFlag(\Magento\Email\Model\Template::XML_PATH_SYSTEM_SMTP_DISABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return !$this->_storeConfig->isSetFlag(\Magento\Email\Model\Template::XML_PATH_SYSTEM_SMTP_DISABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

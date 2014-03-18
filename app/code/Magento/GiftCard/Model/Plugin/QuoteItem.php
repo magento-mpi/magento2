@@ -12,17 +12,17 @@ class QuoteItem
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -64,8 +64,8 @@ class QuoteItem
         $product = $quoteItem->getProduct();
         // set lifetime
         if ($product->getUseConfigLifetime()) {
-            $lifetime = $this->_coreStoreConfig->getValue(
-                \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            $lifetime = $this->_storeConfig->getValue(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_LIFETIME, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $orderItem->getStore()
             );
         } else {
@@ -75,8 +75,8 @@ class QuoteItem
 
         // set is_redeemable
         if ($product->getUseConfigIsRedeemable()) {
-            $isRedeemable = $this->_coreStoreConfig->isSetFlag(
-                \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            $isRedeemable = $this->_storeConfig->isSetFlag(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_IS_REDEEMABLE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $orderItem->getStore()
             );
         } else {
@@ -86,8 +86,8 @@ class QuoteItem
 
         // set email_template
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = $this->_coreStoreConfig->getValue(
-                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            $emailTemplate = $this->_storeConfig->getValue(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_TEMPLATE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $orderItem->getStore()
             );
         } else {

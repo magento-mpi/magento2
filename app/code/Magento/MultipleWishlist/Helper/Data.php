@@ -42,7 +42,7 @@ class Data extends \Magento\Wishlist\Helper\Data
      * @param \Magento\App\Helper\Context                                 $context
      * @param \Magento\Core\Helper\Data                                   $coreData
      * @param \Magento\Registry                                $coreRegistry
-     * @param \Magento\Store\Model\Config                            $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface                            $coreStoreConfig
      * @param \Magento\Customer\Model\Session                             $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory                     $wishlistFactory
      * @param \Magento\Store\Model\StoreManagerInterface                   $storeManager
@@ -54,7 +54,7 @@ class Data extends \Magento\Wishlist\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -101,8 +101,8 @@ class Data extends \Magento\Wishlist\Helper\Data
     public function isMultipleEnabled()
     {
         return $this->isModuleOutputEnabled()
-            && $this->_coreStoreConfig->getValue('wishlist/general/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            && $this->_coreStoreConfig->getValue('wishlist/general/multiple_enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            && $this->_storeConfig->getValue('wishlist/general/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            && $this->_storeConfig->getValue('wishlist/general/multiple_enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -141,7 +141,7 @@ class Data extends \Magento\Wishlist\Helper\Data
      */
     public function getWishlistLimit()
     {
-        return $this->_coreStoreConfig->getValue('wishlist/general/multiple_wishlist_number', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue('wishlist/general/multiple_wishlist_number', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -186,7 +186,7 @@ class Data extends \Magento\Wishlist\Helper\Data
     public function getWishlistItemCount(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
         $collection = $wishlist->getItemCollection();
-        if ($this->_coreStoreConfig->getValue(self::XML_PATH_WISHLIST_LINK_USE_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue(self::XML_PATH_WISHLIST_LINK_USE_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $count = $collection->getItemsQty();
         } else {
             $count = $collection->getSize();

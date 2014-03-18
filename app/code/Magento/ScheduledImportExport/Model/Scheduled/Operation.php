@@ -75,9 +75,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Core\Model\Config\ValueFactory
@@ -125,7 +125,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -141,14 +141,14 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_dateModel = $dateModel;
         $this->_configValueFactory = $configValueFactory;
         $this->_operationFactory = $operationFactory;
@@ -184,11 +184,11 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $receiverEmail = $this->_coreStoreConfig->getValue(
+        $receiverEmail = $this->_storeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver(, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) . '/email',
             $storeId
         );
-        $receiverName  = $this->_coreStoreConfig->getValue(
+        $receiverName  = $this->_storeConfig->getValue(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver(, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) . '/name',
             $storeId
         );

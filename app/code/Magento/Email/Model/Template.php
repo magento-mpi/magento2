@@ -21,7 +21,7 @@ use Magento\Filter\Template as FilterTemplate;
  *
  * // Loading of template
  * \Magento\Email\Model\TemplateFactory $templateFactory
- * $templateFactory->create()->load($this->_coreStoreConfig->getValue('path_to_email_template_id_config'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+ * $templateFactory->create()->load($this->_storeConfig->getValue('path_to_email_template_id_config'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
  * $variables = array(
  *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'
@@ -133,9 +133,9 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Email\Model\Template\Config
@@ -160,7 +160,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
@@ -177,13 +177,13 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_filesystem = $filesystem;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
@@ -362,7 +362,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->isSetFlag('system/smtp/disable', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return !$this->_storeConfig->isSetFlag('system/smtp/disable', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->getSenderName()
             && $this->getSenderEmail()
             && $this->getTemplateSubject();

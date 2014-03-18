@@ -30,7 +30,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
@@ -44,7 +44,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\View\Url $viewUrl,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,

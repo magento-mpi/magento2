@@ -42,18 +42,18 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Init validator
      *
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
-    public function __construct(\Magento\Store\Model\Config $coreStoreConfig)
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
     {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_initMessageTemplates();
         $this->_initProtectedFileExtensions();
     }
@@ -101,7 +101,7 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
      */
     public function getProtectedFileExtensions($store = null)
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue(self::XML_PATH_PROTECTED_FILE_EXTENSIONS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**

@@ -50,6 +50,21 @@ use Magento\Eav\Model\Entity\Collection\AbstractCollection;
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento\CatalogSearch\Model;
+
+use Magento\CatalogSearch\Model\Resource\Query\Collection as QueryCollection;
+use Magento\CatalogSearch\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
+use Magento\CatalogSearch\Model\Resource\Search\Collection;
+use Magento\CatalogSearch\Model\Resource\Search\CollectionFactory;
+use Magento\Core\Model\AbstractModel;
+use Magento\Model\Context;
+use Magento\Registry;
+use Magento\Core\Model\Resource\AbstractResource;
+use Magento\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Data\Collection\Db;
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+
 class Query extends AbstractModel
 {
     /**
@@ -76,7 +91,7 @@ class Query extends AbstractModel
      *
      * @var Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Store manager
@@ -126,7 +141,7 @@ class Query extends AbstractModel
         $this->_queryCollectionFactory = $queryCollectionFactory;
         $this->_searchCollectionFactory = $searchCollectionFactory;
         $this->_storeManager = $storeManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -268,7 +283,7 @@ class Query extends AbstractModel
      */
     public function getMinQueryLength()
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_MIN_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
+        return $this->_storeConfig->getValue(self::XML_PATH_MIN_QUERY_LENGTH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -278,7 +293,7 @@ class Query extends AbstractModel
      */
     public function getMaxQueryLength()
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_MAX_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
+        return $this->_storeConfig->getValue(self::XML_PATH_MAX_QUERY_LENGTH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -288,6 +303,6 @@ class Query extends AbstractModel
      */
     public function getMaxQueryWords()
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_MAX_QUERY_WORDS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
+        return $this->_storeConfig->getValue(self::XML_PATH_MAX_QUERY_WORDS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
     }
 }

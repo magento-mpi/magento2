@@ -29,7 +29,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
     protected $_request;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
@@ -41,7 +41,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Shipping\Model\Shipment\Request $request
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
@@ -85,24 +85,24 @@ class Labels extends \Magento\Shipping\Model\Shipping
         if (!$shipmentCarrier) {
             throw new \Magento\Core\Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());
         }
-        $shipperRegionCode = $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId);
+        $shipperRegionCode = $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId);
         if (is_numeric($shipperRegionCode)) {
             $shipperRegionCode = $this->_regionFactory->create()->load($shipperRegionCode)->getCode();
         }
 
         $recipientRegionCode = $this->_regionFactory->create()->load($address->getRegionId())->getCode();
 
-        $originStreet1 = $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_ADDRESS1, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId);
-        $originStreet2 = $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_ADDRESS2, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId);
+        $originStreet1 = $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_ADDRESS1, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId);
+        $originStreet2 = $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_ADDRESS2, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId);
         $storeInfo = new \Magento\Object(
-            (array)$this->_coreStoreConfig->getValue('general/store_information', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            (array)$this->_storeConfig->getValue('general/store_information', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         );
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
             || !$originStreet1 || !$shipperRegionCode
-            || !$this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
-            || !$this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
-            || !$this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            || !$this->_storeConfig->getValue(Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            || !$this->_storeConfig->getValue(Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            || !$this->_storeConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         ) {
             throw new \Magento\Core\Exception(
                 __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
@@ -122,14 +122,14 @@ class Labels extends \Magento\Shipping\Model\Shipping
         $request->setShipperAddressStreet1($originStreet1);
         $request->setShipperAddressStreet2($originStreet2);
         $request->setShipperAddressCity(
-            $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         );
         $request->setShipperAddressStateOrProvinceCode($shipperRegionCode);
         $request->setShipperAddressPostalCode(
-            $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         );
         $request->setShipperAddressCountryCode(
-            $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            $this->_storeConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         );
         $request->setRecipientContactPersonName(trim($address->getFirstname() . ' ' . $address->getLastname()));
         $request->setRecipientContactPersonFirstName($address->getFirstname());

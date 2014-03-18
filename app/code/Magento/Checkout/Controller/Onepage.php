@@ -219,8 +219,8 @@ class Onepage extends Action
             return;
         }
         if (!$quote->validateMinimumAmount()) {
-            $error = $this->_objectManager->get('Magento\Store\Model\Config')->getConfig('sales/minimum_order/error_message') ?
-                $this->_objectManager->get('Magento\Store\Model\Config')->getConfig('sales/minimum_order/error_message') :
+            $error = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getConfig('sales/minimum_order/error_message') ?
+                $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getConfig('sales/minimum_order/error_message') :
                 __('Subtotal must exceed minimum order amount');
 
             $this->messageManager->addError($error);

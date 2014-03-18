@@ -41,9 +41,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -105,7 +105,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Session\SessionManagerInterface $session
@@ -125,7 +125,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Session\SessionManagerInterface $session,
@@ -142,7 +142,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         array $ignores = array(),
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_customerFactory = $customerFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;
@@ -219,7 +219,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function getOnlineMinutesInterval()
     {
-        $configValue = $this->_coreStoreConfig->getValue('customer/online_customers/online_minutes_interval', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $configValue = $this->_storeConfig->getValue('customer/online_customers/online_minutes_interval', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;

@@ -32,7 +32,7 @@ class Data extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\File\Size $fileSize
@@ -40,7 +40,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\File\Size $fileSize,
@@ -79,7 +79,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getLocalValidPaths()
     {
-        $paths = $this->_coreStoreConfig->getValue(self::XML_PATH_EXPORT_LOCAL_VALID_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $paths = $this->_storeConfig->getValue(self::XML_PATH_EXPORT_LOCAL_VALID_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return $paths;
     }
 
@@ -90,6 +90,6 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getBunchSize()
     {
-        return (int)$this->_coreStoreConfig->getValue(self::XML_PATH_BUNCH_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int)$this->_storeConfig->getValue(self::XML_PATH_BUNCH_SIZE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

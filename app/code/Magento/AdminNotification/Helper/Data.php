@@ -49,9 +49,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_unreadNoticeCounts;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\AdminNotification\Model\InboxFactory
@@ -60,16 +60,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory
     ) {
         parent::__construct($context);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_inboxFactory = $inboxFactory;
     }
 

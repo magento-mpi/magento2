@@ -106,12 +106,12 @@ class Currencysymbol
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ReinitableConfigInterface $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
@@ -121,7 +121,7 @@ class Currencysymbol
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ReinitableConfigInterface $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
@@ -137,7 +137,7 @@ class Currencysymbol
         $this->_locale = $localeResolver->getLocale();
         $this->_systemStore  = $systemStore;
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -183,7 +183,7 @@ class Currencysymbol
 
         $allowedCurrencies = explode(
             self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-            $this->_coreStoreConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null)
+            $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null)
         );
 
         /* @var $storeModel \Magento\Store\Model\System\Store */
@@ -206,7 +206,7 @@ class Currencysymbol
                             $websiteSymbols
                         ));
                     }
-                    $storeSymbols = $this->_coreStoreConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+                    $storeSymbols = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
                     $allowedCurrencies = array_merge($allowedCurrencies, explode(
                         self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
                         $storeSymbols
@@ -330,7 +330,7 @@ class Currencysymbol
     protected function _unserializeStoreConfig($configPath, $storeId = null)
     {
         $result = array();
-        $configData = (string)$this->_coreStoreConfig->getValue($configPath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $configData = (string)$this->_storeConfig->getValue($configPath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if ($configData) {
             $result = unserialize($configData);
         }

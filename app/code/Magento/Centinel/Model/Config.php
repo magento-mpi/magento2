@@ -32,9 +32,9 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Core config interface
@@ -51,16 +51,16 @@ class Config
     protected $_encryptor;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_encryptor = $encryptor;
     }
@@ -135,7 +135,7 @@ class Config
      */
     private function _getServiceConfigValue($key)
     {
-        return $this->_coreStoreConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        return $this->_storeConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
     }
 
     /**

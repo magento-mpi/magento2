@@ -33,9 +33,9 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\TranslateInterface
@@ -59,7 +59,7 @@ class Observer
 
     /**
      * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -67,14 +67,14 @@ class Observer
      */
     public function __construct(
         \Magento\Directory\Model\Currency\Import\Factory $importFactory,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory
     ) {
         $this->_importFactory = $importFactory;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_translate = $translate;
         $this->_transportBuilder = $transportBuilder;
         $this->_storeManager = $storeManager;
@@ -88,15 +88,15 @@ class Observer
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();
-        if (!$this->_coreStoreConfig->getValue(self::IMPORT_ENABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            || !$this->_coreStoreConfig->getValue(self::CRON_STRING_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        if (!$this->_storeConfig->getValue(self::IMPORT_ENABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            || !$this->_storeConfig->getValue(self::CRON_STRING_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         ) {
             return;
         }
 
         $errors = array();
         $rates = array();
-        $service = $this->_coreStoreConfig->getValue(self::IMPORT_SERVICE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $service = $this->_storeConfig->getValue(self::IMPORT_SERVICE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($service) {
             try {
                 $importModel = $this->_importFactory->create($service);
@@ -122,15 +122,15 @@ class Observer
             $this->_translate->setTranslateInline(false);
 
             $this->_transportBuilder->setTemplateIdentifier(
-                    $this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                    $this->_storeConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 )
                 ->setTemplateOptions(array(
                     'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId(),
                 ))
                 ->setTemplateVars(array('warnings' => join("\n", $importWarnings)))
-                ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-                ->addTo($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                ->setFrom($this->_storeConfig->getValue(self::XML_PATH_ERROR_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->addTo($this->_storeConfig->getValue(self::XML_PATH_ERROR_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 

@@ -35,19 +35,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Store\Model\Config $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $storeConfig
     ) {
         parent::__construct($context);
         $this->_modulesReader = $modulesReader;

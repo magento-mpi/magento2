@@ -22,17 +22,17 @@ class Layer
     /**
      * Store config instance
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
-        \Magento\Store\Model\ConfigInterface $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $storeConfig
     ) {
         $this->_stockStatus = $stockStatus;
         $this->_storeConfig = $storeConfig;
@@ -64,6 +64,6 @@ class Layer
      */
     protected function _isEnabledShowOutOfStock()
     {
-        return $this->_storeConfig->isSetFlag('cataloginventory/options/show_out_of_stock', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag('cataloginventory/options/show_out_of_stock', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

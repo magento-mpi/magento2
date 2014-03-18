@@ -73,7 +73,7 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var \Magento\Store\Model\Config */
+    /** @var \Magento\App\Config\ScopeConfigInterface */
     protected $_storeConfig;
 
     /** @var \Magento\Core\Helper\Data */
@@ -114,7 +114,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
@@ -138,7 +138,7 @@ class Account extends \Magento\App\Action\Action
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,
@@ -325,7 +325,7 @@ class Account extends \Magento\App\Action\Action
             if ($this->_getSession()->isLoggedIn()) {
                 if (!$this->_storeConfig->isSetFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-                , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+                , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
                         $referer = $this->coreHelperData->urlDecode($referer);
@@ -556,7 +556,7 @@ class Account extends \Magento\App\Action\Action
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
         if (!$this->_storeConfig->isSetFlag(
                 \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-            , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);

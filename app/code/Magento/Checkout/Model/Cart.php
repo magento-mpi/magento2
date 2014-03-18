@@ -44,9 +44,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -80,7 +80,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
@@ -91,7 +91,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Resource\Cart $resourceCart,
@@ -101,7 +101,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_resourceCart = $resourceCart;
@@ -588,7 +588,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if ($this->_coreStoreConfig->getValue('checkout/cart_link/use_qty', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+            if ($this->_storeConfig->getValue('checkout/cart_link/use_qty', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 $this->_summaryQty = $this->getItemsQty();
             } else {
                 $this->_summaryQty = $this->getItemsCount();

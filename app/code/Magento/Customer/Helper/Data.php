@@ -109,9 +109,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_configShare;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
@@ -167,7 +167,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
@@ -186,7 +186,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,
@@ -201,7 +201,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_coreData = $coreData;
         $this->_storeManager = $storeManager;
         $this->_configShare = $configShare;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_customerSession = $customerSession;
         $this->_accountService = $accountService;
@@ -222,7 +222,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMerchantCountryCode($store = null)
     {
-        return (string) $this->_coreStoreConfig->getValue(self::XML_PATH_MERCHANT_COUNTRY_CODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return (string) $this->_storeConfig->getValue(self::XML_PATH_MERCHANT_COUNTRY_CODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -233,7 +233,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMerchantVatNumber($store = null)
     {
-        return (string) $this->_coreStoreConfig->getValue(self::XML_PATH_MERCHANT_VAT_NUMBER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return (string) $this->_storeConfig->getValue(self::XML_PATH_MERCHANT_VAT_NUMBER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -245,7 +245,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isCountryInEU($countryCode, $storeId = null)
     {
-        $euCountries = explode(',', $this->_coreStoreConfig->getValue(self::XML_PATH_EU_COUNTRIES_LIST, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId));
+        $euCountries = explode(',', $this->_storeConfig->getValue(self::XML_PATH_EU_COUNTRIES_LIST, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId));
         return in_array($countryCode, $euCountries);
     }
 
@@ -324,7 +324,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $referer = $this->_getRequest()->getParam(self::REFERER_QUERY_PARAM_NAME);
 
-        if (!$referer && !$this->_coreStoreConfig->isSetFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        if (!$referer && !$this->_storeConfig->isSetFlag(self::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && !$this->_customerSession->getNoReferer()
         ) {
             $referer = $this->_getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
@@ -572,7 +572,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         ];
 
         if (isset($vatClassToGroupXmlPathMap[$vatClass])) {
-            $groupId = (int)$this->_coreStoreConfig->getValue($vatClassToGroupXmlPathMap[$vatClass], \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+            $groupId = (int)$this->_storeConfig->getValue($vatClassToGroupXmlPathMap[$vatClass], \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         }
 
         return $groupId;

@@ -22,21 +22,21 @@ class Sortby
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Construct
      *
      * @param \Magento\Logger $logger
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($logger);
     }
 
@@ -83,7 +83,7 @@ class Sortby
                     $available = explode(',', $available);
                 }
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
-                       $this->_coreStoreConfig->getValue("catalog/frontend/default_sort_by", \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                       $this->_storeConfig->getValue("catalog/frontend/default_sort_by", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 if (!in_array($data, $available)) {
                     throw new \Magento\Core\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')

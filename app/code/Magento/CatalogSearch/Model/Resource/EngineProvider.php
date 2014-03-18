@@ -26,17 +26,17 @@ class EngineProvider
     protected $_engineFactory;
 
     /**
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineFactory $engineFactory
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineFactory $engineFactory,
-        \Magento\Store\Model\ConfigInterface $storeConfig
+        \Magento\App\Config\ScopeConfigInterface $storeConfig
     ) {
         $this->_engineFactory = $engineFactory;
         $this->_storeConfig = $storeConfig;
@@ -50,7 +50,7 @@ class EngineProvider
     public function get()
     {
         if (!$this->_engine) {
-            $engineClassName = $this->_storeConfig->getValue('catalog/search/engine', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $engineClassName = $this->_storeConfig->getValue('catalog/search/engine', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
             /**
              * This needed if there already was saved in configuration some none-default engine

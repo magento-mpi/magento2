@@ -46,9 +46,9 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Catalog\Model\Session
@@ -63,7 +63,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
@@ -73,12 +73,12 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Store\Model\Config $coreStoreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
     ) {
         parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);
         $this->_catalogSession = $catalogSession;
         $this->_catalogData = $catalogData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -143,7 +143,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
             $params = $this->_getSessionParams();
             $queryParams = $request->getQuery();
             $queryParams = array_merge($queryParams, $params);
-            $maxDepth = $this->_coreStoreConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $maxDepth = $this->_storeConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $res = count($queryParams)<=$maxDepth;
         }
         return $res;

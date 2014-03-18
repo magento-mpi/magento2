@@ -66,7 +66,7 @@ class Config implements ConfigInterface
     protected $options = array();
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -108,7 +108,7 @@ class Config implements ConfigInterface
     protected $_filesystem;
 
     /**
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
@@ -119,7 +119,7 @@ class Config implements ConfigInterface
      * @param null|string $cacheLimiter
      */
     public function __construct(
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
@@ -147,22 +147,22 @@ class Config implements ConfigInterface
             $this->setOption('session.cache_limiter', $cacheLimiter);
         }
 
-        $lifetime = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
+        $lifetime = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_LIFETIME, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
         $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
         $this->setCookieLifetime($lifetime);
 
-        $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
+        $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
         if (empty($path)) {
             $path = $this->_httpRequest->getBasePath();
         }
         $this->setCookiePath($path);
 
-        $domain = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_DOMAIN, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
+        $domain = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_DOMAIN, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
         $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
         $this->setCookieDomain((string)$domain);
 
         $this->setCookieHttpOnly(
-            $this->_storeConfig->getValue(self::XML_PATH_COOKIE_HTTPONLY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore())
+            $this->_storeConfig->getValue(self::XML_PATH_COOKIE_HTTPONLY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore())
         );
     }
 
@@ -376,7 +376,7 @@ class Config implements ConfigInterface
     public function getCookiePath()
     {
         if (!$this->hasOption('session.cookie_path')) {
-            $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
+            $path = $this->_storeConfig->getValue(self::XML_PATH_COOKIE_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeManager->getStore());
             if (empty($path)) {
                 $path = $this->_httpRequest->getBasePath();
             }

@@ -41,9 +41,9 @@ class Category extends AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Store manager
@@ -70,20 +70,20 @@ class Category extends AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Data\CollectionFactory $dataCollectionFactory
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_storeManager = $storeManager;
         $this->_dataCollectionFactory = $dataCollectionFactory;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -177,8 +177,8 @@ class Category extends AbstractHelper
         }
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
-            $this->_categoryUrlSuffix[$storeId] = $this->_coreStoreConfig->getValue(
-                self::XML_PATH_CATEGORY_URL_SUFFIX, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
+            $this->_categoryUrlSuffix[$storeId] = $this->_storeConfig->getValue(
+                self::XML_PATH_CATEGORY_URL_SUFFIX, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
             );
         }
         return $this->_categoryUrlSuffix[$storeId];
@@ -218,6 +218,6 @@ class Category extends AbstractHelper
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_coreStoreConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

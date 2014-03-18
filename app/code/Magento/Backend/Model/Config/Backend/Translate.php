@@ -30,9 +30,9 @@ class Translate extends \Magento\Core\Model\Config\Value
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Constructor
@@ -40,7 +40,7 @@ class Translate extends \Magento\Core\Model\Config\Value
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -50,13 +50,13 @@ class Translate extends \Magento\Core\Model\Config\Value
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_cacheTypeList = $cacheTypeList;
         parent::__construct(
             $context,
@@ -75,7 +75,7 @@ class Translate extends \Magento\Core\Model\Config\Value
      */
     protected function _afterSave()
     {
-        $types = array_keys($this->_coreStoreConfig->getValue(self::XML_PATH_INVALID_CACHES), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $types = array_keys($this->_storeConfig->getValue(self::XML_PATH_INVALID_CACHES), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($this->isValueChanged()) {
             $this->_cacheTypeList->invalidate($types);
         }

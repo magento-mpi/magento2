@@ -43,22 +43,22 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
     ) {
         $this->_config = $config;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context);
     }
 
@@ -131,7 +131,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isShowOutOfStock()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_SHOW_OUT_OF_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_SHOW_OUT_OF_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -141,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAutoReturnEnabled()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ITEM_AUTO_RETURN, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ITEM_AUTO_RETURN, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -152,6 +152,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisplayProductStockStatus()
     {
-        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

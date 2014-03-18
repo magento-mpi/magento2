@@ -244,9 +244,9 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\ImportExport\Model\ImportFactory
@@ -292,7 +292,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      *
@@ -307,7 +307,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
@@ -318,7 +318,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_dataSourceModel = $importData;
         $this->_optionColFactory = $optionColFactory;
         $this->_colIteratorFactory = $colIteratorFactory;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->dateTime = $dateTime;
 
         if (isset($data['connection'])) {
@@ -472,7 +472,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->_pageSize = $data['page_size'];
         } else {
             $this->_pageSize = self::XML_PATH_PAGE_SIZE
-                ? (int) $this->_coreStoreConfig->getValue(self::XML_PATH_PAGE_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ? (int) $this->_storeConfig->getValue(self::XML_PATH_PAGE_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 : 0;
         }
         return $this;

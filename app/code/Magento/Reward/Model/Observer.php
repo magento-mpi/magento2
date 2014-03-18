@@ -49,7 +49,7 @@ class Observer
     /**
      * Core model store configuration
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -89,7 +89,7 @@ class Observer
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory
      * @param \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory
@@ -103,7 +103,7 @@ class Observer
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Logger $logger,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyItemFactory,
         \Magento\Reward\Model\Resource\RewardFactory $rewardResourceFactory,

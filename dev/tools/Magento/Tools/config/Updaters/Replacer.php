@@ -70,7 +70,7 @@ class Replacer
     protected function changeSignature($content)
     {
         $properties = [
-            '->_coreStoreConfig',
+            '->_storeConfig',
             '->_storeConfig',
             '->coreStoreConfig',
             '->storeConfig',

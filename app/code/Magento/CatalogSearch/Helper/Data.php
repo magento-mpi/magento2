@@ -17,7 +17,7 @@ use Magento\CatalogSearch\Model\Query;
 use Magento\CatalogSearch\Model\QueryFactory;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Engine;
 use Magento\CatalogSearch\Model\Resource\Query\Collection;
-use Magento\Store\Model\ConfigInterface;
+use Magento\App\Config\ScopeConfigInterface;
 use Magento\Escaper;
 use Magento\Filter\FilterManager;
 use Magento\Stdlib\String;
@@ -84,7 +84,7 @@ class Data extends AbstractHelper
      *
      * @var ConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Query factory
@@ -122,7 +122,7 @@ class Data extends AbstractHelper
         FilterManager $filter
     ) {
         $this->string = $string;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_queryFactory = $queryFactory;
         $this->_escaper = $escaper;
         $this->filter = $filter;
@@ -268,7 +268,7 @@ class Data extends AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getValue(
+        return $this->_storeConfig->getValue(
             Query::XML_PATH_MIN_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
@@ -282,7 +282,7 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getValue(
+        return $this->_storeConfig->getValue(
             Query::XML_PATH_MAX_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
@@ -296,7 +296,7 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_coreStoreConfig->getValue(
+        return $this->_storeConfig->getValue(
             Query::XML_PATH_MAX_QUERY_WORDS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
@@ -351,7 +351,7 @@ class Data extends AbstractHelper
             );
         }
 
-        $searchType = $this->_coreStoreConfig
+        $searchType = $this->_storeConfig
             ->getValue(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($searchType == Fulltext::SEARCH_TYPE_COMBINE
             || $searchType == Fulltext::SEARCH_TYPE_LIKE

@@ -43,7 +43,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Store\Model\Config|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\Console\Request|\PHPUnit_Framework_MockObject_MockObject
@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMockBuilder('Magento\Cron\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_coreStoreConfig = $this->getMockBuilder('Magento\Store\Model\Config')
+        $this->_storeConfig = $this->getMockBuilder('Magento\Store\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_collection = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule\Collection')
@@ -107,7 +107,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_scheduleFactory,
             $this->_app,
             $this->_config,
-            $this->_coreStoreConfig,
+            $this->_storeConfig,
             $this->_request,
             $this->_shell
         );
@@ -122,7 +122,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_app->expects($this->any())
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(0));
 
@@ -150,7 +150,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_app->expects($this->any())
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(0));
 
@@ -189,7 +189,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_app->expects($this->any())
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(0));
 
@@ -235,7 +235,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_app->expects($this->any())
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(0));
 
@@ -332,7 +332,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
 
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(strtotime('+1 day')));
 
@@ -398,7 +398,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_app->expects($this->any())
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(strtotime('+1 day')));
 
@@ -489,7 +489,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_app->expects($this->any())
             ->method('loadCache')
             ->will($this->returnValue($lastRun));
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(strtotime('+1 day')));
 
@@ -540,7 +540,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\Cron\Model\Observer::CACHE_KEY_LAST_HISTORY_CLEANUP_AT))
             ->will($this->returnValue(time() + 10000000));
 
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(0));
 
@@ -618,7 +618,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\Cron\Model\Observer::CACHE_KEY_LAST_HISTORY_CLEANUP_AT))
             ->will($this->returnValue(time() + 10000000));
 
-        $this->_coreStoreConfig->expects($this->at(0))
+        $this->_storeConfig->expects($this->at(0))
             ->method('getConfig')
             ->will($this->returnValue(0));
 
@@ -702,7 +702,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('loadCache')
             ->will($this->returnValue(time() - 10000000));
 
-        $this->_coreStoreConfig->expects($this->any())
+        $this->_storeConfig->expects($this->any())
             ->method('getConfig')
             ->will($this->returnValue(0));
 

@@ -14,9 +14,9 @@ class CarrierFactory implements CarrierFactoryInterface
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\ObjectManager
@@ -24,14 +24,14 @@ class CarrierFactory implements CarrierFactoryInterface
     protected $_objectManager;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\ObjectManager $objectManager
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_objectManager = $objectManager;
     }
 
@@ -43,7 +43,7 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function get($carrierCode)
     {
-        $className = $this->_coreStoreConfig->getValue('carriers/' . $carrierCode . '/model', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $className = $this->_storeConfig->getValue('carriers/' . $carrierCode . '/model', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!$className) {
             return false;
         }
@@ -61,7 +61,7 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function create($carrierCode, $storeId = null)
     {
-        $className = $this->_coreStoreConfig->getValue('carriers/' . $carrierCode . '/model', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $className = $this->_storeConfig->getValue('carriers/' . $carrierCode . '/model', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if (!$className) {
             return false;
         }
@@ -81,7 +81,7 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function getIfActive($carrierCode)
     {
-        return $this->_coreStoreConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return $this->_storeConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ? $this->get($carrierCode)
             : false;
     }
@@ -95,7 +95,7 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function createIfActive($carrierCode, $storeId = null)
     {
-        return $this->_coreStoreConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return $this->_storeConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ? $this->create($carrierCode, $storeId)
             : false;
     }

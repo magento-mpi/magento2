@@ -22,7 +22,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_activeForCmsFlag;
 
     /**
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -33,12 +33,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\ConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\ConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\GoogleAnalytics\Helper\Data $analyticsHelper
     ) {
         $this->_storeConfig = $storeConfig;

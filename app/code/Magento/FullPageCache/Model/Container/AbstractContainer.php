@@ -53,9 +53,9 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\View\LayoutInterface
@@ -68,7 +68,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
@@ -77,10 +77,10 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\View\LayoutInterface $layout
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_placeholder = $placeholder;
         $this->_fpcCache = $fpcCache;
         $this->_eventManager = $eventManager;
@@ -137,7 +137,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
             return false;
         }
 
-        if ($this->_coreStoreConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_DEBUG, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_DEBUG, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $debugBlock = $this->_layout->createBlock('Magento\FullPageCache\Block\Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());

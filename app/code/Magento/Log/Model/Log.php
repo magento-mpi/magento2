@@ -36,14 +36,14 @@ class Log extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -51,12 +51,12 @@ class Log extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -77,7 +77,7 @@ class Log extends \Magento\Core\Model\AbstractModel
      */
     public function getLogCleanTime()
     {
-        return $this->_coreStoreConfig->getValue(self::XML_LOG_CLEAN_DAYS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) * 60 * 60 * 24;
+        return $this->_storeConfig->getValue(self::XML_LOG_CLEAN_DAYS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) * 60 * 60 * 24;
     }
 
     /**

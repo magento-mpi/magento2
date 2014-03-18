@@ -46,9 +46,9 @@ class DefaultType extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Checkout session
@@ -61,17 +61,17 @@ class DefaultType extends \Magento\Object
      * Construct
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($data);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -188,7 +188,7 @@ class DefaultType extends \Magento\Object
      */
     public function getConfigData($key)
     {
-        return $this->_coreStoreConfig->getValue('catalog/custom_options/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue('catalog/custom_options/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

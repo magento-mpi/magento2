@@ -10,7 +10,7 @@ namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
 use Magento\Payment\Model\Method\Specification\AbstractSpecification;
 use Magento\Payment\Model\Config as PaymentConfig;
-use Magento\Store\Model\ConfigInterface as StoreConfig;
+use Magento\App\Config\ScopeConfigInterface as StoreConfig;
 
 /**
  * 3D secure specification

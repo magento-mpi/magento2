@@ -27,9 +27,9 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Config\DataInterface
@@ -53,20 +53,20 @@ class Config
     /**
      * Construct
      *
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\Locale\ListsInterface $localeLists
      * @param \Magento\Config\DataInterface $dataStorage
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\Locale\ListsInterface $localeLists,
         \Magento\Config\DataInterface $dataStorage
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_dataStorage = $dataStorage;
         $this->_coreConfig = $coreConfig;
         $this->_methodFactory = $paymentMethodFactory;
@@ -82,9 +82,9 @@ class Config
     public function getActiveMethods($store=null)
     {
         $methods = array();
-        $config = $this->_coreStoreConfig->getValue('payment', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $config = $this->_storeConfig->getValue('payment', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         foreach ($config as $code => $methodConfig) {
-            if ($this->_coreStoreConfig->isSetFlag('payment/'.$code.'/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
+            if ($this->_storeConfig->isSetFlag('payment/'.$code.'/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
                 if (array_key_exists('model', $methodConfig)) {
                     $methodModel = $this->_methodFactory->create($methodConfig['model']);
                     if ($methodModel && $methodModel->getConfigData('active', $store)) {
@@ -105,7 +105,7 @@ class Config
     public function getAllMethods($store=null)
     {
         $methods = array();
-        $config = $this->_coreStoreConfig->getValue('payment', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $config = $this->_storeConfig->getValue('payment', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         foreach ($config as $code => $methodConfig) {
             $data = $this->_getMethod($code, $methodConfig);
             if (false !== $data) {

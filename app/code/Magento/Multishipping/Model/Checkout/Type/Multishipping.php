@@ -32,9 +32,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Core\Model\Session
@@ -74,7 +74,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
@@ -89,7 +89,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         \Magento\Sales\Model\OrderFactory $orderFactory,
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Session $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
@@ -99,7 +99,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_session = $session;
         $this->_addressFactory = $addressFactory;
         $this->_quote = $quote;
@@ -656,8 +656,8 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function validateMinimumAmount()
     {
-        return !($this->_coreStoreConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            && $this->_coreStoreConfig->isSetFlag('sales/minimum_order/multi_address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+        return !($this->_storeConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            && $this->_storeConfig->isSetFlag('sales/minimum_order/multi_address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && !$this->getQuote()->validateMinimumAmount());
     }
 
@@ -668,9 +668,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function getMinimumAmountDescription()
     {
-        $descr = $this->_coreStoreConfig->getValue('sales/minimum_order/multi_address_description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $descr = $this->_storeConfig->getValue('sales/minimum_order/multi_address_description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (empty($descr)) {
-            $descr = $this->_coreStoreConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $descr = $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $descr;
     }
@@ -680,9 +680,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function getMinimumAmountError()
     {
-        $error = $this->_coreStoreConfig->getValue('sales/minimum_order/multi_address_error_message', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $error = $this->_storeConfig->getValue('sales/minimum_order/multi_address_error_message', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (empty($error)) {
-            $error = $this->_coreStoreConfig->getValue('sales/minimum_order/error_message', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $error = $this->_storeConfig->getValue('sales/minimum_order/error_message', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $error;
     }

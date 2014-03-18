@@ -191,9 +191,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Customer\Model\AddressFactory
@@ -253,7 +253,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory
      * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory
@@ -280,7 +280,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Customer\Model\Address\Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
@@ -299,7 +299,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_addressFactory = $addressFactory;
         $this->_addressItemFactory = $addressItemFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
@@ -1203,7 +1203,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!$this->_coreStoreConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)) {
+        if (!$this->_storeConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)) {
             return true;
         }
 
@@ -1213,7 +1213,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return true;
         }
 
-        $amount = $this->_coreStoreConfig->getValue('sales/minimum_order/amount', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $amount = $this->_storeConfig->getValue('sales/minimum_order/amount', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if ($this->getBaseSubtotalWithDiscount() < $amount) {
             return false;
         }

@@ -136,9 +136,9 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Core\Model\Session
@@ -180,7 +180,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $registry
      * @param \Magento\App\Cache\TypeListInterface $typeList
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param Cookie $fpcCookie
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
@@ -202,7 +202,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $registry,
         \Magento\App\Cache\TypeListInterface $typeList,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         Cookie $fpcCookie,
         \Magento\Core\Model\Session $coreSession,
         \Magento\FullPageCache\Helper\Url $urlHelper,
@@ -210,7 +210,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         array $allowedCache = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_registry = $registry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
@@ -539,7 +539,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $contentSize = strlen($content);
                 $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
-                $maxSizeInBytes = $this->_coreStoreConfig->getValue(self::XML_PATH_CACHE_MAX_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) * 1024 * 1024;
+                $maxSizeInBytes = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MAX_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
                     $this->_typeList->invalidate('full_page');
@@ -593,13 +593,13 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $output = $this->isAllowed();
 
         if ($output) {
-            $maxDepth = $this->_coreStoreConfig->getValue(self::XML_PATH_ALLOWED_DEPTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $maxDepth = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_DEPTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $queryParams = $request->getQuery();
             unset($queryParams[\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM]);
             $output = count($queryParams) <= $maxDepth;
         }
         if ($output) {
-            $multiCurrency = $this->_coreStoreConfig->getValue(self::XML_PATH_CACHE_MULTICURRENCY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $multiCurrency = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MULTICURRENCY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $currency = $this->_environment->getCookie('currency');
             if (!$multiCurrency && !empty($currency)) {
                 $output = false;

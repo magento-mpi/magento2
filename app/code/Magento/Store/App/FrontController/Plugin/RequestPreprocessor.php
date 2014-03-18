@@ -10,7 +10,7 @@ namespace Magento\Store\App\FrontController\Plugin;
 class RequestPreprocessor
 {
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_storeConfig;
 
@@ -38,14 +38,14 @@ class RequestPreprocessor
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\App\ResponseFactory $responseFactory
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\App\ResponseFactory $responseFactory
     ) {
         $this->_storeManager = $storeManager;
@@ -82,7 +82,7 @@ class RequestPreprocessor
                     $redirectUrl = $this->_url->getRedirectUrl(
                         $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
                     );
-                    $redirectCode = (int)$this->_storeConfig->getValue('web/url/redirect_to_base', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) !== 301
+                    $redirectCode = (int)$this->_storeConfig->getValue('web/url/redirect_to_base', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) !== 301
                         ? 302
                         : 301;
 
@@ -104,7 +104,7 @@ class RequestPreprocessor
      */
     protected function _isBaseUrlCheckEnabled()
     {
-        return (bool) $this->_storeConfig->getValue('web/url/redirect_to_base', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (bool) $this->_storeConfig->getValue('web/url/redirect_to_base', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

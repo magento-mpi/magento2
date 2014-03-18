@@ -56,9 +56,9 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * Sales order factory
@@ -113,7 +113,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -129,7 +129,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -143,7 +143,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
 
     ) {
         $this->_rmaData = $rmaData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
         $this->_regionFactory = $regionFactory;
@@ -187,7 +187,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     {
         $shipmentStoreId = $this->getRma()->getStoreId();
         $storeInfo = new \Magento\Object(
-            $this->_coreStoreConfig->getValue('general/store_information', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
+            $this->_storeConfig->getValue('general/store_information', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         );
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());

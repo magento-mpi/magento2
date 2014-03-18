@@ -76,9 +76,9 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Data\Form\FormKey
@@ -103,7 +103,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -126,7 +126,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -149,7 +149,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         $this->formKey = $formKey;
         $this->_storeFactory = $storeFactory;
         $this->_coreConfig = $coreConfig;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
     }
 
     /**
@@ -309,7 +309,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     public function getStartupPageUrl()
     {
-        $menuItem = $this->_getMenu()->get($this->_coreStoreConfig->getValue(self::XML_PATH_STARTUP_MENU_ITEM), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $menuItem = $this->_getMenu()->get($this->_storeConfig->getValue(self::XML_PATH_STARTUP_MENU_ITEM), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!is_null($menuItem)) {
             if ($menuItem->isAllowed() && $menuItem->getAction()) {
                 return $menuItem->getAction();

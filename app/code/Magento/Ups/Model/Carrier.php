@@ -124,7 +124,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
     protected $configHelper;
 
     /**
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory
@@ -145,7 +145,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Simplexml\ElementFactory $xmlElFactory,
@@ -249,7 +249,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = $this->_coreStoreConfig->getValue(
+            $origCountry = $this->_storeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
@@ -260,7 +260,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = $this->_coreStoreConfig->getValue(
+            $origRegionCode = $this->_storeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
@@ -273,7 +273,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigPostcode()) {
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $rowRequest->setOrigPostal($this->_coreStoreConfig->getValue(
+            $rowRequest->setOrigPostal($this->_storeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
@@ -282,7 +282,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigCity()) {
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
-            $rowRequest->setOrigCity($this->_coreStoreConfig->getValue(
+            $rowRequest->setOrigCity($this->_storeConfig->getValue(
                 \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));

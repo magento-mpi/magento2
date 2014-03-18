@@ -8,7 +8,7 @@
 
 namespace Magento\Store\Model;
 
-class Config implements \Magento\Store\Model\ConfigInterface
+class Config implements \Magento\App\Config\ScopeConfigInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface

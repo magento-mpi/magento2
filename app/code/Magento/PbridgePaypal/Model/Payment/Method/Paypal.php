@@ -18,9 +18,9 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\Payment\Helper\Data
@@ -41,20 +41,20 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
 
     /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Store\Model\Config $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Payment\Model\Method\Factory $paymentFactory
      * @param string $paypalClassName
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Store\Model\Config $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Payment\Model\Method\Factory $paymentFactory,
         $paypalClassName
     ) {
         $this->_pbridgeData = $pbridgeData;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_paymentData = $paymentData;
         $this->_paypalMethodInstance = $paymentFactory->create(
             $paypalClassName,
@@ -145,7 +145,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
             $storeId = $this->_paypalMethodInstance->getStore();
         }
         $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
-        return $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
