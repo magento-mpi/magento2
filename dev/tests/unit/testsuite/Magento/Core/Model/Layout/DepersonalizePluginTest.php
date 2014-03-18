@@ -44,6 +44,11 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
     protected $cacheConfigMock;
 
     /**
+     * @var \Magento\Message\Session|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $messageSessionMock;
+
+    /**
      * SetUp
      */
     public function setUp()
@@ -53,11 +58,13 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->eventManagerMock = $this->getMock('Magento\Event\Manager', array(), array(), '', false);
         $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
+        $this->messageSessionMock = $this->getMock('Magento\Message\Session', array('clearStorage'), array(), '', false);
         $this->plugin = new \Magento\Core\Model\Layout\DepersonalizePlugin(
             $this->requestMock,
             $this->moduleManagerMock,
             $this->eventManagerMock,
-            $this->cacheConfigMock
+            $this->cacheConfigMock,
+            $this->messageSessionMock
         );
     }
 
@@ -84,6 +91,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->eventManagerMock->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo('depersonalize_clear_session'));
+        $this->messageSessionMock->expects($this->once())
+            ->method('clearStorage');
 
         $actualResult = $this->plugin->afterGenerateXml($this->layoutMock, $expectedResult);
         $this->assertEquals($expectedResult, $actualResult);

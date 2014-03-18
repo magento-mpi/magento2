@@ -183,7 +183,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
         $this->_localeDate      = $context->getLocaleDate();
-        $this->_isScopePrivate  = false;
         parent::__construct($data);
         $this->_construct();
     }

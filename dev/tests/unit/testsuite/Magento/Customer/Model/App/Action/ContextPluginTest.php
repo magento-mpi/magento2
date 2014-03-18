@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Model\App;
+namespace Magento\Customer\Model\App\Action;
 
 /**
  * Class ContextPluginTest
@@ -17,7 +17,7 @@ namespace Magento\Customer\Model\App;
 class ContextPluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Customer\Model\App\ContextPlugin
+     * @var \Magento\Customer\Model\App\Action\ContextPlugin
      */
     protected $plugin;
 
@@ -32,9 +32,19 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     protected $httpContextMock;
 
     /**
-     * @var \Magento\App\FrontController
+     * @var \Closure
      */
-    protected $frontControllerMock;
+    protected $closureMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $subjectMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
 
     /**
      * Set up
@@ -45,18 +55,21 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
         $this->httpContextMock = $this->getMock('Magento\App\Http\Context',
             array(), array(), '', false);
-        $this->frontControllerMock = $this->getMock('Magento\App\FrontController',
-            array(), array(), '', false);
-        $this->plugin = new \Magento\Customer\Model\App\ContextPlugin(
+        $this->closureMock = function () {
+            return 'ExpectedValue';
+        };
+        $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\App\RequestInterface');
+        $this->plugin = new \Magento\Customer\Model\App\Action\ContextPlugin(
             $this->customerSessionMock,
             $this->httpContextMock
         );
     }
 
     /**
-     * Test beforeLaunch
+     * Test aroundDispatch
      */
-    public function testBeforeDispatch()
+    public function testAroundDispatch()
     {
         $this->customerSessionMock->expects($this->once())
             ->method('getCustomerGroupId')
@@ -70,6 +83,9 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
                 array(\Magento\Customer\Helper\Data::CONTEXT_GROUP, 'UAH', $this->httpContextMock),
                 array(\Magento\Customer\Helper\Data::CONTEXT_AUTH, 0, $this->httpContextMock),
             )));
-        $this->assertNull($this->plugin->beforeDispatch($this->frontControllerMock));
+        $this->assertEquals(
+            'ExpectedValue',
+            $this->plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 }

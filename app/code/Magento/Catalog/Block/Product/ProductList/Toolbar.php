@@ -9,7 +9,8 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-use Magento\Catalog\Helper\Data;
+use Magento\Catalog\Helper\Data,
+    Magento\Catalog\Model\Product\ProductList\Toolbar as ToolbarModel;
 
 /**
  * Product list toolbar
@@ -101,7 +102,7 @@ class Toolbar extends \Magento\View\Element\Template
     protected $_catalogSession;
 
     /**
-     * @var \Magento\Catalog\Model\Product\ProductList\Toolbar
+     * @var ToolbarModel
      */
     protected $_toolbarModel;
 
@@ -119,7 +120,7 @@ class Toolbar extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
+     * @param ToolbarModel $toolbarModel
      * @param Data $helper
      * @param \Magento\Catalog\Helper\Product\ProductList $productListHelper
      * @param array $data
@@ -128,7 +129,7 @@ class Toolbar extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel,
+        ToolbarModel $toolbarModel,
         \Magento\Catalog\Helper\Data $helper,
         \Magento\Catalog\Helper\Product\ProductList $productListHelper,
         array $data = array()
@@ -649,5 +650,24 @@ class Toolbar extends \Magento\View\Element\Template
         }
 
         return '';
+    }
+
+    /**
+     * Retrieve widget options in json format
+     *
+     * @return string
+     */
+    public function getWidgetOptionsJson()
+    {
+        return json_encode(
+            array(
+                'productListToolbarForm' => array(
+                    'modeCookie' => ToolbarModel::MODE_COOKIE_NAME,
+                    'directionCookie' => ToolbarModel::DIRECTION_COOKIE_NAME,
+                    'orderCookie' => ToolbarModel::ORDER_COOKIE_NAME,
+                    'limitCookie' => ToolbarModel::LIMIT_COOKIE_NAME
+                )
+            )
+        );
     }
 }

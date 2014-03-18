@@ -56,7 +56,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $customerAccountService = $objectManager
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $customer = $customerAccountService->getCustomer(1);
-//        Magento\Customer\Service\V1\Data\Customer
         $this->_customerSession->setCustomerId(1);
         $object = $this->_block->getCustomer();
         $this->assertEquals($customer, $object);

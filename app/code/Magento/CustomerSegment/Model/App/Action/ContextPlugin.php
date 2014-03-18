@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Model\App;
+namespace Magento\CustomerSegment\Model\App\Action;
 
 /**
  * Class ContextPlugin
@@ -52,13 +52,15 @@ class ContextPlugin
     }
 
     /**
-     * Before dispatch plugin
-     *
-     * @param \Magento\App\FrontController $subject
-     * @return null
+     * @param \Magento\App\Action\Action $subject
+     * @param callable $proceed
+     * @param \Magento\App\RequestInterface $request
      */
-    public function beforeDispatch(\Magento\App\FrontController $subject)
-    {
+    public function aroundDispatch(
+        \Magento\App\Action\Action $subject,
+        \Closure $proceed,
+        \Magento\App\RequestInterface $request
+    ) {
         if ($this->customerSession->getCustomerId()) {
             $customerSegmentIds = $this->customerSegment->getCustomerSegmentIdsForWebsite(
                 $this->customerSession->getCustomerId(),
@@ -76,6 +78,6 @@ class ContextPlugin
                 array()
             );
         }
-        return;
+        return $proceed($request);
     }
 }
