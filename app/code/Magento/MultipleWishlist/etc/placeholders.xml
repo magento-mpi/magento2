@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../FullPageCache/etc/placeholders.xsd">
     <placeholder name="wishlist" code="WISHLIST" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Wishlist" />
         <block instance="Magento\MultipleWishlist\Block\Customer\Sidebar"/>

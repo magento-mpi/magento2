@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\FullPageCache\Model\Processor\RestrictionInterface" type="Magento\FullPageCache\Model\Processor\Restriction" />
     <type name="Magento\FullPageCache\Model\Request\Identifier">
         <arguments>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="sales_order_place_after">
         <observer name="salesrule" instance="Magento\SalesRule\Model\Observer" method="salesOrderAfterPlace" />
     </event>

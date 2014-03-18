@@ -7,8 +7,8 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <view id="view_one" class="Ogogo\Class\One">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/Magento/Mview/etc/mview.xsd">
+    <view id="view_one" class="Ogogo\Class\One" group="default">
         <subscriptions>
             <table name="some_entity" entity_column="entity_id" />
             <table name="some_product_relation" entity_column="product_id" />

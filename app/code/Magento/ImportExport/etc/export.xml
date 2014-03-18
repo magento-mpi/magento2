@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../ImportExport/etc/export.xsd">
     <entity name="catalog_product" label="Products" model="Magento\ImportExport\Model\Export\Entity\Product" />
     <entity name="customer" label="Customers Main File" model="Magento\ImportExport\Model\Export\Entity\Eav\Customer" />
     <entity name="customer_address" label="Customer Addresses" model="Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address" />

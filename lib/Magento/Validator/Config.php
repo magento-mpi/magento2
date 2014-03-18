@@ -415,7 +415,8 @@ class Config extends \Magento\Config\AbstractXml
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="UTF-8"?><validation></validation>';
+        return '<?xml version="1.0" encoding="UTF-8"?>'.
+               '<validation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></validation>';
     }
 
     /**

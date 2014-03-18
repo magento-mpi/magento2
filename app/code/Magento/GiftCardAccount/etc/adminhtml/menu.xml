@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
         <add id="Magento_GiftCardAccount::customer_giftcardaccount" title="Gift Card Accounts" module="Magento_GiftCardAccount" sortOrder="40" parent="Magento_CatalogRule::promo" action="adminhtml/giftcardaccount" dependsOnModule="Magento_GiftCardAccount" resource="Magento_GiftCardAccount::customer_giftcardaccount"/>
     </menu>

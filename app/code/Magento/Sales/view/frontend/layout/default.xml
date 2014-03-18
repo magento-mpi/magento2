@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceContainer name="right">
         <block class="Magento\Sales\Block\Reorder\Sidebar" name="sale.reorder.sidebar" as="reorder" template="reorder/sidebar.phtml"/>
     </referenceContainer>
