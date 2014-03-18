@@ -34,6 +34,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $objectManager->get('Magento\App\Http\Context')
+            ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
         $objectManager->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
