@@ -44,7 +44,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -56,7 +56,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
@@ -66,7 +66,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Config $coreStoreConfig
     ) {
         parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);
         $this->_fpcCache = $fpcCache;

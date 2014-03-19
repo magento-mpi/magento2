@@ -75,7 +75,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => 'Magento\Store\Model\Store\Group',
+                    'store_data' => 'Magento\Store\Model\Store',
                 ),
                 'Magento\Backend\Block\System\Store\Edit\Form\Group',
             ),
@@ -132,7 +132,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => 'Magento\Store\Model\Store\Group',
+                    'store_data' => 'Magento\Store\Model\Store',
                     'store_action' => 'add',
                 ),
                 'New Store',
@@ -140,7 +140,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'store_type' => 'group',
-                    'store_data' => 'Magento\Store\Model\Store\Group',
+                    'store_data' => 'Magento\Store\Model\Store',
                     'store_action' => 'edit',
                 ),
                 'Edit Store',

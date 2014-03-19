@@ -15,7 +15,7 @@ use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
-use Magento\Store\Model\Store\Config;
+use Magento\Store\Model\Config;
 use Magento\Data\Collection\Db;
 
 /**

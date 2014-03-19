@@ -17,7 +17,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     const ACL_STORE_LEVEL = 'store';
 
     /**
-     * @var \Magento\Store\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
@@ -83,7 +83,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
-     * @param \Magento\Store\Model\Resource\Store\Group\Collection $storeGroups
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroups
      * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
@@ -98,7 +98,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Acl\Builder $aclBuilder,
         \Magento\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
-        \Magento\Store\Model\Resource\Store\Group\Collection $storeGroups,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroups,
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
@@ -211,7 +211,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Get all store groups
      *
-     * @return \Magento\Store\Model\Resource\Store\Group\Collection
+     * @return \Magento\Store\Model\Resource\Group\Collection
      */
     protected function _getAllStoreGroups()
     {

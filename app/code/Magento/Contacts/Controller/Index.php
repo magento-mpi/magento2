@@ -54,7 +54,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Store\Model\Store\Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
+        if (!$this->_objectManager->get('Magento\Store\Model\Config')->getConfigFlag(self::XML_PATH_ENABLED)) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
@@ -118,7 +118,7 @@ class Index extends \Magento\App\Action\Action
                     throw new \Exception();
                 }
 
-                $storeConfig = $this->_objectManager->get('Magento\Store\Model\Store\Config');
+                $storeConfig = $this->_objectManager->get('Magento\Store\Model\Config');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 $transport = $this->_transportBuilder
                     ->setTemplateIdentifier($storeConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE))

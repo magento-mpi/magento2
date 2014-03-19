@@ -68,7 +68,7 @@ class Config extends \Magento\Eav\Model\Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -121,7 +121,7 @@ class Config extends \Magento\Eav\Model\Config
      * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory
@@ -136,7 +136,7 @@ class Config extends \Magento\Eav\Model\Config
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,

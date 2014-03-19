@@ -31,7 +31,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $flatIndexerHelperMock = $this->getMock(
             'Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false
         );
-        $configMock = $this->getMock('Magento\Store\Model\Store\ConfigInterface', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\Store\Model\ConfigInterface', array(), array(), '', false);
         $this->_model = $this->_objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\State', array(
             'storeConfig' => $configMock,
             'flatIndexer'  => $indexerMock,

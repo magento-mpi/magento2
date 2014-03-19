@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
 interface ConfigInterface extends \Magento\Locale\ScopeConfigInterface
 {

@@ -199,7 +199,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -277,7 +277,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,

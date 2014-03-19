@@ -69,7 +69,7 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -120,7 +120,7 @@ class Observer
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -133,7 +133,7 @@ class Observer
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,

@@ -102,7 +102,7 @@ class Image extends AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -117,13 +117,13 @@ class Image extends AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
         \Magento\View\Url $viewUrl,
-        \Magento\Store\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Config $coreStoreConfig
     ) {
         $this->_productImageFactory = $productImageFactory;
         parent::__construct($context);

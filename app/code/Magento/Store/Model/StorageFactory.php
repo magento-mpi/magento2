@@ -5,11 +5,11 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
 use Magento\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 class StorageFactory
 {
@@ -92,8 +92,8 @@ class StorageFactory
         \Magento\App\State $appState,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Http\Context $httpContext,
-        $defaultStorageClassName = 'Magento\Store\Model\Store\Storage\DefaultStorage',
-        $installedStoreClassName = 'Magento\Store\Model\Store\Storage\Db',
+        $defaultStorageClassName = 'Magento\Store\Model\Storage\DefaultStorage',
+        $installedStoreClassName = 'Magento\Store\Model\Storage\Db',
         $writerModel = ''
     ) {
         $this->_objectManager = $objectManager;

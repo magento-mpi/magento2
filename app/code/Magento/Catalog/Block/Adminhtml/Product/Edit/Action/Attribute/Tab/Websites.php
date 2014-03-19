@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
 
-use Magento\Store\Model\Store\Group;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\Website;
 
 class Websites

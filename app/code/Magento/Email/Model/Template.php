@@ -133,7 +133,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -160,7 +160,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
@@ -177,7 +177,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,

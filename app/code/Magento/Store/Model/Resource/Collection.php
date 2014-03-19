@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\Model\Resource\Store;
+namespace Magento\Store\Model\Resource;
 
 /**
  * Stores collection
@@ -180,13 +180,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addRootCategoryIdAttribute()
     {
-        if (!$this->getFlag('core_store_group_table_joined')) {
+        if (!$this->getFlag('store_group_table_joined')) {
             $this->getSelect()->join(
                 array('group_table' => $this->getTable('store_group')),
                 'main_table.group_id = group_table.group_id',
                 array('root_category_id')
             );
-            $this->setFlag('core_store_group_table_joined', true);
+            $this->setFlag('store_group_table_joined', true);
         }
 
         return $this;

@@ -24,7 +24,7 @@ class DebugHints
     private $_objectManager;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     private $_storeConfig;
 
@@ -35,12 +35,12 @@ class DebugHints
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\Core\Helper\Data $coreData
     ) {
         $this->_objectManager = $objectManager;

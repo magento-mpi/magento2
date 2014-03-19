@@ -10,7 +10,7 @@ namespace Magento\Integration\Helper\Oauth;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Store\Model\Store\Config */
+    /** @var \Magento\Store\Model\Config */
     protected $_storeConfigMock;
 
     /** @var \Magento\Integration\Helper\Oauth\Data */
@@ -18,7 +18,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfigMock = $this->getMockBuilder('Magento\Store\Model\Store\Config')
+        $this->_storeConfigMock = $this->getMockBuilder('Magento\Store\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
 

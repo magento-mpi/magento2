@@ -28,17 +28,17 @@ class Index extends \Magento\App\Action\Action
     protected $_customer;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Store\Model\Store\Config $storeConfig
+        \Magento\Store\Model\Config $storeConfig
     ) {
         $this->_storeConfig = $storeConfig;
         parent::__construct($context);

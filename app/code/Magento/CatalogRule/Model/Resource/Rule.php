@@ -396,7 +396,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         if ($websiteId !== null) {
             $website  = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof \Magento\Store\Model\Store\Group) {
+            if ($defaultGroup instanceof \Magento\Store\Model\Store) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
                 $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
@@ -421,7 +421,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId  = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof \Magento\Store\Model\Store\Group) {
+                if ($defaultGroup instanceof \Magento\Store\Model\Store) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
                     $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;

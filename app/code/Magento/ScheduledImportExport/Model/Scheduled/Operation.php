@@ -75,7 +75,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -125,7 +125,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -141,7 +141,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

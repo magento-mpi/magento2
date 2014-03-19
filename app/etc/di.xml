@@ -18,7 +18,7 @@
     <preference for="Magento\App\CacheInterface" type="Magento\App\Cache\Proxy" />
     <preference for="Magento\App\Cache\StateInterface" type="Magento\App\Cache\State" />
     <preference for="Magento\App\Cache\TypeListInterface" type="Magento\App\Cache\TypeList" />
-    <preference for="Magento\Store\Model\Store\ConfigInterface" type="Magento\Store\Model\Store\Config" />
+    <preference for="Magento\Store\Model\ConfigInterface" type="Magento\Store\Model\Config" />
     <preference for="Magento\Store\Model\StoreManagerInterface" type="Magento\Store\Model\StoreManager" />
     <preference for="Magento\View\DesignInterface" type="Magento\Core\Model\View\Design\Proxy" />
     <preference for="Magento\View\Design\ThemeInterface" type="Magento\Core\Model\Theme" />
@@ -30,7 +30,7 @@
         </arguments>
     </type>
     <preference for="Magento\Locale\ConfigInterface" type="Magento\Locale\Config" />
-    <preference for="Magento\Locale\ScopeConfigInterface" type="Magento\Store\Model\Store\Config" />
+    <preference for="Magento\Locale\ScopeConfigInterface" type="Magento\Store\Model\Config" />
     <preference for="Magento\UrlInterface" type="Magento\Url" />
     <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />

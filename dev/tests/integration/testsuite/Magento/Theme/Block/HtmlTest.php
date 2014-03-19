@@ -19,7 +19,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
-        $storeConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
+        $storeConfig = $this->getMockBuilder('Magento\Store\Model\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $storeConfig->expects($this->any())

@@ -14,7 +14,7 @@ class CarrierFactory implements CarrierFactoryInterface
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -24,11 +24,11 @@ class CarrierFactory implements CarrierFactoryInterface
     protected $_objectManager;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\ObjectManager $objectManager
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

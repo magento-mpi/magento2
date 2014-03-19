@@ -8,9 +8,9 @@
 
 
 /**
- * Core store exception
+ * Store exception
  */
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
 class Exception extends \Magento\Core\Exception
 {}

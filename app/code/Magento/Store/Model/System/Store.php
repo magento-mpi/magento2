@@ -23,7 +23,7 @@ class Store extends \Magento\Object
 
     /**
      * Group collection
-     * groupId => \Magento\Store\Model\Store\Group
+     * groupId => \Magento\Store\Model\Store
      *
      * @var array
      */

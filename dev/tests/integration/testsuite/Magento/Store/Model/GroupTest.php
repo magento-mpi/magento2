@@ -5,21 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
 class GroupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Store\Model\Store\Group
+     * @var \Magento\Store\Model\Store
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store\Group');
+            ->create('Magento\Store\Model\Store');
     }
 
     public function testSetGetWebsite()

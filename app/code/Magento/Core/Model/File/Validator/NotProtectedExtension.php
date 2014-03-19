@@ -42,16 +42,16 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Init validator
      *
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      */
-    public function __construct(\Magento\Store\Model\Store\Config $coreStoreConfig)
+    public function __construct(\Magento\Store\Model\Config $coreStoreConfig)
     {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_initMessageTemplates();

@@ -66,7 +66,7 @@ class Config implements ConfigInterface
     protected $options = array();
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -108,7 +108,7 @@ class Config implements ConfigInterface
     protected $_filesystem;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
@@ -119,7 +119,7 @@ class Config implements ConfigInterface
      * @param null|string $cacheLimiter
      */
     public function __construct(
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,

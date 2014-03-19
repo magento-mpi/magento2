@@ -51,7 +51,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        \Magento\Store\Model\Store\Group::ENTITY => array(
+        \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
         \Magento\App\Config\ValueInterface::ENTITY => array(
@@ -168,8 +168,8 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
             } else {
                 $result = false;
             }
-        } else if ($entity == \Magento\Store\Model\Store\Group::ENTITY) {
-            /* @var $storeGroup \Magento\Store\Model\Store\Group */
+        } else if ($entity == \Magento\Store\Model\Store::ENTITY) {
+            /* @var $storeGroup \Magento\Store\Model\Store */
             $storeGroup = $event->getDataObject();
             if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;
@@ -211,7 +211,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
                 break;
 
             case \Magento\Store\Model\Store::ENTITY:
-            case \Magento\Store\Model\Store\Group::ENTITY:
+            case \Magento\Store\Model\Store::ENTITY:
             case \Magento\App\Config\ValueInterface::ENTITY:
                 $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();

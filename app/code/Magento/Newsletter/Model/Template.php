@@ -80,7 +80,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -104,7 +104,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Newsletter\Model\Template\Filter $filter
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      * @param \Magento\Newsletter\Model\TemplateFactory $templateFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
@@ -117,7 +117,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
         \Magento\Newsletter\Model\Template\Filter $filter,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Filter\FilterManager $filterManager,
         array $data = array()

@@ -21,7 +21,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -32,7 +32,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -42,7 +42,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Escaper $escaper,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

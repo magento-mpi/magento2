@@ -11,7 +11,7 @@ namespace Magento\PageCache\Model;
 
 use Magento\App\ConfigInterface;
 use Magento\App\Filesystem;
-use Magento\Store\Model\Store\Config as StoreConfig;
+use Magento\Store\Model\Config as StoreConfig;
 
 /**
  * Model is responsible for replacing default vcl template

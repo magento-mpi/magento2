@@ -18,14 +18,14 @@ namespace Magento\OfflineShipping\Model\Plugin\Checkout\Block\Cart;
 class Shipping
 {
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      */
-    public function __construct(\Magento\Store\Model\Store\Config $storeConfig)
+    public function __construct(\Magento\Store\Model\Config $storeConfig)
     {
         $this->_storeConfig = $storeConfig;
     }

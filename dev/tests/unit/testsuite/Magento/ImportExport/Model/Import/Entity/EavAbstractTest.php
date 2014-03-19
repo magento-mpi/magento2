@@ -72,7 +72,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_string = new \Magento\Stdlib\String;
-        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
 
         $this->_importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
         $this->_resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);

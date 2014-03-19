@@ -462,7 +462,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelMock()
     {
-        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
         $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
         $storeManager->expects($this->once())
             ->method('getWebsites')

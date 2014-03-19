@@ -85,7 +85,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -148,7 +148,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
@@ -171,7 +171,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\View\DesignInterface $design,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
@@ -273,7 +273,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Get store config
      *
-     * @return \Magento\Store\Model\Store\Config
+     * @return \Magento\Store\Model\Config
      */
     public function getStoreConfig()
     {

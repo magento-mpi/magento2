@@ -46,7 +46,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -66,7 +66,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Weee\Model\Tax $weeeTax
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -74,7 +74,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Weee\Model\Tax $weeeTax,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig
     ) {
         $this->_storeManager = $storeManager;
         $this->_weeeTax = $weeeTax;

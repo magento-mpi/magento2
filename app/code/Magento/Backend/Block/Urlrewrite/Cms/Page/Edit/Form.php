@@ -132,7 +132,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
      * Get catalog entity associated stores
      *
      * @return array
-     * @throws \Magento\Store\Model\Store\Exception
+     * @throws \Magento\Store\Model\Exception
      */
     protected function _getEntityStores()
     {
@@ -145,7 +145,7 @@ class Form extends \Magento\Backend\Block\Urlrewrite\Edit\Form
             $this->_requireStoresFilter = !in_array(0, $entityStores);
 
             if (!$entityStores) {
-                throw new \Magento\Store\Model\Store\Exception(
+                throw new \Magento\Store\Model\Exception(
                     __('Chosen cms page does not associated with any website.')
                 );
             }

@@ -23,7 +23,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
     
@@ -69,7 +69,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Payment\Model\Method\Factory $paymentMethodFactory
      * @param \Magento\App\ConfigInterface $config
@@ -79,7 +79,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Payment\Model\Method\Factory $paymentMethodFactory,
         \Magento\App\ConfigInterface $config,

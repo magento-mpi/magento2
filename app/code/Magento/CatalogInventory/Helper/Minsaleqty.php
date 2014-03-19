@@ -20,7 +20,7 @@ class Minsaleqty
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -30,11 +30,11 @@ class Minsaleqty
     protected $mathRandom;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Math\Random $mathRandom
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

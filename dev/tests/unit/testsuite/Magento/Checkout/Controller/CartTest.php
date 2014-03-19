@@ -54,7 +54,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://some-url/'));
 
-        $configMock = $this->getMock('Magento\Store\Model\Store\ConfigInterface');
+        $configMock = $this->getMock('Magento\Store\Model\ConfigInterface');
         $configMock->expects($this->once())
             ->method('getConfig')
             ->with('checkout/cart/redirect_to_cart')

@@ -58,7 +58,7 @@ class Index extends \Magento\App\Action\Action
     protected $_pageFactory;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -73,7 +73,7 @@ class Index extends \Magento\App\Action\Action
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Store\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
@@ -82,7 +82,7 @@ class Index extends \Magento\App\Action\Action
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Store\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_coreRegistry = $coreRegistry;

@@ -71,7 +71,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -122,7 +122,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
@@ -136,7 +136,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\View\Url $viewUrl,
         \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         $typeSwitcherLabel,
         $reindexPriceIndexerData

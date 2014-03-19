@@ -97,7 +97,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -119,7 +119,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\App\ConfigInterface $config,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory

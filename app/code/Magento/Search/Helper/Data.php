@@ -76,7 +76,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -115,7 +115,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -126,7 +126,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,

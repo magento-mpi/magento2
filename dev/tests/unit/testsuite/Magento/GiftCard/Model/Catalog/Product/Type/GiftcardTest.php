@@ -109,7 +109,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $catalogData,
                 $this->_storeManagerMock,
                 $locale,
-                $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false)
+                $this->getMock('Magento\Store\Model\Config', array(), array(), '', false)
             )
         );
     }

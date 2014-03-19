@@ -39,7 +39,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             $this->indexerMock
         );
         $this->subject = $this->getMock(
-            'Magento\Store\Model\Resource\Store\Group', array(), array(), '', false
+            'Magento\Store\Model\Resource\Group', array(), array(), '', false
         );
     }
 

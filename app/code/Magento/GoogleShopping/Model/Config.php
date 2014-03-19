@@ -28,7 +28,7 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -45,13 +45,13 @@ class Config extends \Magento\Object
     protected $_encryptor;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $data
      */
     public function __construct(
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Encryption\EncryptorInterface $encryptor,
         array $data = array()

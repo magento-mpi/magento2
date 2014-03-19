@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
-class Config implements \Magento\Store\Model\Store\ConfigInterface
+class Config implements \Magento\Store\Model\ConfigInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -21,24 +21,24 @@ class Config implements \Magento\Store\Model\Store\ConfigInterface
     protected $_config;
 
     /**
-     * @var \Magento\Store\Model\Resource\Store\Collection
+     * @var \Magento\Store\Model\Resource\Collection
      */
     protected $_storeCollection;
 
     /**
-     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
+     * @var \Magento\Store\Model\Resource\CollectionFactory
      */
     protected $_factory;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $factory
+     * @param \Magento\Store\Model\Resource\CollectionFactory $factory
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Store\Model\Resource\Store\CollectionFactory $factory
+        \Magento\Store\Model\Resource\CollectionFactory $factory
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;

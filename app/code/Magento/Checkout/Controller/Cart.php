@@ -20,7 +20,7 @@ class Cart
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_storeConfig;
 
@@ -46,7 +46,7 @@ class Cart
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
@@ -54,7 +54,7 @@ class Cart
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Store\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Store\Model\ConfigInterface $storeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,

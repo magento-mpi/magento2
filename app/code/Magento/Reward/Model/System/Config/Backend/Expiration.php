@@ -29,14 +29,14 @@ class Expiration extends \Magento\Core\Model\Config\Value
      */
     protected $_historyFactory;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory
      * @param \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -47,7 +47,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\Config\Data\CollectionFactory $configFactory,
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

@@ -10,7 +10,7 @@ namespace Magento\Core\App\FrontController\Plugin;
 class RequestPreprocessor
 {
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -38,14 +38,14 @@ class RequestPreprocessor
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\App\ResponseFactory $responseFactory
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\App\ResponseFactory $responseFactory
     ) {
         $this->_storeManager = $storeManager;

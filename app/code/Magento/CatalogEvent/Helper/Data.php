@@ -20,7 +20,7 @@ namespace Magento\CatalogEvent\Helper;
 use Magento\App\Helper\AbstractHelper;
 use Magento\App\Helper\Context;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Store\Model\Store\Config;
+use Magento\Store\Model\Config;
 
 class Data extends AbstractHelper
 {

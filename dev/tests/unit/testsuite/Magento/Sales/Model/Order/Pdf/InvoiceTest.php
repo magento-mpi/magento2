@@ -24,7 +24,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
     {
         $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
         $stringMock = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
-        $storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false, false);
+        $storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false, false);
         $translateMock = $this->getMock('Magento\TranslateInterface', array(), array(), '', false, false);
         $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false, false);
         $directoryMock->expects($this->any())

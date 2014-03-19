@@ -41,7 +41,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        \Magento\Store\Model\Store\Group::ENTITY => array(
+        \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
         \Magento\App\Config\ValueInterface::ENTITY => array(
@@ -141,7 +141,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
             } else {
                 $result = false;
             }
-        } else if ($entity == \Magento\Store\Model\Store\Group::ENTITY) {
+        } else if ($entity == \Magento\Store\Model\Store::ENTITY) {
             $storeGroup = $event->getDataObject();
             $hasDataChanges = $storeGroup && ($storeGroup->dataHasChangedFor('root_category_id')
                 || $storeGroup->dataHasChangedFor('website_id'));
@@ -186,7 +186,7 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
                 break;
 
             case \Magento\Store\Model\Store::ENTITY:
-            case \Magento\Store\Model\Store\Group::ENTITY:
+            case \Magento\Store\Model\Store::ENTITY:
             case \Magento\App\Config\ValueInterface::ENTITY:
                 $process = $event->getProcess();
                 $process->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);

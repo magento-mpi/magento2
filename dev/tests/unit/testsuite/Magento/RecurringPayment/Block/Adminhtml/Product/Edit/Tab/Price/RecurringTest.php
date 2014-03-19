@@ -35,7 +35,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
     protected $_eventManager;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -52,7 +52,7 @@ class RecurringTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_eventManager = $this->getMock('Magento\Event\Manager', [], [], '', false);
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
+        $this->_storeConfig = $this->getMock('Magento\Store\Model\Config', [], [], '', false);
         $this->_context = $helper->getObject(
             'Magento\Backend\Block\Template\Context', [
                 'eventManager' => $this->_eventManager,

@@ -47,18 +47,18 @@ class Coupon extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param array $couponParameters
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         array $couponParameters
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -42,14 +42,14 @@
             <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Website\Collection\FetchStrategy</argument>
         </arguments>
     </type>
-    <type name="Magento\Store\Model\Resource\Store\Group\Collection">
+    <type name="Magento\Store\Model\Resource\Group\Collection">
         <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Store\Group\Collection\FetchStrategy</argument>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Group\Collection\FetchStrategy</argument>
         </arguments>
     </type>
-    <type name="Magento\Store\Model\Resource\Store\Collection">
+    <type name="Magento\Store\Model\Resource\Collection">
         <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Store\Collection\FetchStrategy</argument>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Collection\FetchStrategy</argument>
         </arguments>
     </type>
     <type name="Magento\Store\Model\Store">
@@ -64,22 +64,22 @@
             <argument name="helper" xsi:type="object">Magento\Core\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Store\Model\Store\Storage\Db">
+    <type name="Magento\Store\Model\Storage\Db">
         <arguments>
             <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
         </arguments>
     </type>
-    <virtualType name="Magento\Store\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Store\Model\Resource\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
             <argument name="cacheTags" xsi:type="array">
-                <item name="storeTag" xsi:type="const">Magento\Store\Model\Store\Group::CACHE_TAG</item>
+                <item name="storeTag" xsi:type="const">Magento\Store\Model\Store::CACHE_TAG</item>
             </argument>
             <argument name="cacheLifetime" xsi:type="boolean">false</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Store\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Store\Model\Resource\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">app_</argument>

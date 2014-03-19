@@ -239,7 +239,7 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -260,7 +260,7 @@ class Config
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory
      * @param \Magento\Paypal\Model\CertFactory $certFactory
@@ -268,7 +268,7 @@ class Config
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Source\CctypeFactory $cctypeFactory,
         \Magento\Paypal\Model\CertFactory $certFactory,

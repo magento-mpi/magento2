@@ -24,7 +24,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_storeManager;
 
     /**
-     * @var \Magento\Store\Model\Resource\Store\Group\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Resource\Group\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeGroups;
 
@@ -59,13 +59,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $websiteIrrelevant->setId(13);
 
         $storeGroupOne = $this->getMock(
-            'Magento\Store\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('getWebsite', '__wakeup'), array(), '', false
         );
         $storeGroupOne->setId(21);
         $storeGroupOne->setWebsiteId(11);
         $storeGroupOne->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteOne));
         $storeGroupTwo = $this->getMock(
-            'Magento\Store\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('getWebsite', '__wakeup'), array(), '', false
         );
         $storeGroupTwo->setId(22);
         $storeGroupTwo->setWebsiteId(12);
@@ -95,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )));
 
         $this->_storeGroups = $this->getMock(
-            'Magento\Store\Model\Resource\Store\Group\Collection', array('load'), array(), '', false
+            'Magento\Store\Model\Resource\Group\Collection', array('load'), array(), '', false
         );
         $this->_storeGroups->addItem($storeGroupOne);
         $this->_storeGroups->addItem($storeGroupTwo);
@@ -155,6 +155,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->addDataAfterRoleLoad($observer);
 
+        var_Dump($expectedRoleData, $role->getData());
         $this->assertEquals($expectedRoleData, $role->getData());
     }
 

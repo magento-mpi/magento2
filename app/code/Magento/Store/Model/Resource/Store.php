@@ -8,7 +8,7 @@
 namespace Magento\Store\Model\Resource;
 
 /**
- * Core Store Resource Model
+ * Store Resource Model
  */
 class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
@@ -70,7 +70,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Remove core configuration data after delete store
+     * Remove configuration data after delete store
      *
      * @param \Magento\Core\Model\AbstractModel $model
      * @return $this

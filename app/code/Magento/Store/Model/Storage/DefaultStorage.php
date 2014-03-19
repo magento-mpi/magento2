@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Store\Model\Store\Storage;
+namespace Magento\Store\Model\Storage;
 
 class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
 {
@@ -28,19 +28,19 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Application website object
      *
-     * @var \Magento\Store\Model\Store\Group
+     * @var \Magento\Store\Model\Store
      */
     protected $_group;
 
     /**
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Store\Model\Website\Factory $websiteFactory
-     * @param \Magento\Store\Model\Store\Group\Factory $groupFactory
+     * @param \Magento\Store\Model\Group\Factory $groupFactory
      */
     public function __construct(
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Store\Model\Website\Factory $websiteFactory,
-        \Magento\Store\Model\Store\Group\Factory $groupFactory
+        \Magento\Store\Model\Group\Factory $groupFactory
     ) {
 
         $this->_store = $storeFactory->create();
@@ -109,7 +109,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
      * @return \Magento\Store\Model\Website
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Store\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -142,13 +142,13 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|\Magento\Store\Model\Store\Group|string $groupId
-     * @return \Magento\Store\Model\Store\Group
-     * @throws \Magento\Core\Exception
+     * @param null|\Magento\Store\Model\Store|string $groupId
+     * @return \Magento\Store\Model\Store
+     * @throws \Magento\Store\Model\Exception
      */
     public function getGroup($groupId = null)
     {
-        if ($groupId instanceof \Magento\Store\Model\Store\Group) {
+        if ($groupId instanceof \Magento\Store\Model\Store) {
             return $groupId;
         }
 
@@ -162,7 +162,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Store\Model\Store\Group[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
@@ -229,7 +229,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
 
     /**
      * @return void
-     * @throws \Magento\Store\Model\Store\Exception
+     * @throws \Magento\Store\Model\Exception
      */
     public function throwStoreException()
     {

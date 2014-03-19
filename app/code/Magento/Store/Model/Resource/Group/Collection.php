@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\Model\Resource\Store\Group;
+namespace Magento\Store\Model\Resource\Group;
 
 /**
  * Store group collection
@@ -20,7 +20,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _construct()
     {
         $this->setFlag('load_default_store_group', false);
-        $this->_init('Magento\Store\Model\Store\Group', 'Magento\Store\Model\Resource\Store\Group');
+        $this->_init('Magento\Store\Model\Store', 'Magento\Store\Model\Resource\Group');
     }
 
     /**

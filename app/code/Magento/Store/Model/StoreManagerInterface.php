@@ -42,9 +42,9 @@ interface StoreManagerInterface
     /**
      * Retrieve application store object
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return \Magento\Core\Model\Store
-     * @throws \Magento\Core\Model\Store\Exception
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
+     * @return \Magento\Store\Model\Store
+     * @throws \Magento\Store\Model\Exception
      */
     public function getStore($storeId = null);
 
@@ -53,16 +53,16 @@ interface StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getStores($withDefault = false, $codeKey = false);
 
     /**
      * Retrieve application website object
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\Core\Model\Website
-     * @throws \Magento\Core\Exception
+     * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
+     * @return \Magento\Store\Model\Website
+     * @throws \Magento\Store\Model\Exception
      */
     public function getWebsite($websiteId = null);
 
@@ -71,7 +71,7 @@ interface StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool|string $codeKey
-     * @return \Magento\Core\Model\Website[]
+     * @return \Magento\Store\Model\Website[]
      */
     public function getWebsites($withDefault = false, $codeKey = false);
 
@@ -85,16 +85,16 @@ interface StoreManagerInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getDefaultStoreView();
 
     /**
      * Retrieve application store group object
      *
-     * @param null|\Magento\Core\Model\Store\Group|string $groupId
-     * @return \Magento\Core\Model\Store\Group
-     * @throws \Magento\Core\Exception
+     * @param null|\Magento\Store\Model\Store|string $groupId
+     * @return \Magento\Store\Model\Store
+     * @throws \Magento\Store\Model\Exception
      */
     public function getGroup($groupId = null);
 
@@ -105,14 +105,14 @@ interface StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Core\Model\Store\Group[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getGroups($withDefault = false, $codeKey = false);
 
     /**
      *  Unset website by id from app cache
      *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @param null|bool|int|string|\Magento\Store\Model\Website $websiteId
      * @return void
      */
     public function clearWebsiteCache($websiteId = null);
@@ -120,7 +120,7 @@ interface StoreManagerInterface
     /**
      * Get either default or any store view
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getAnyStoreView();
 
@@ -141,7 +141,7 @@ interface StoreManagerInterface
 
     /**
      * @return void
-     * @throws \Magento\Core\Model\Store\Exception
+     * @throws \Magento\Store\Model\Exception
      */
     public function throwStoreException();
 }

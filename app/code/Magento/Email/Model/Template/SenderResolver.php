@@ -15,15 +15,15 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig
     ) {
         $this->_storeConfig = $coreStoreConfig;
     }

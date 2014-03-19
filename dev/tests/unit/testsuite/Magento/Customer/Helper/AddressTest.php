@@ -22,7 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
-    /** @var \Magento\Store\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $coreStoreConfig;
 
     /** @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -38,7 +38,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()->getMock();
-        $this->coreStoreConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
+        $this->coreStoreConfig = $this->getMockBuilder('Magento\Store\Model\Config')
             ->disableOriginalConstructor()->getMock();
         $this->customerMetadataService = $this->getMockBuilder(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface'

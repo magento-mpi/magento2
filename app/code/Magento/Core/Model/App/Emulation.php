@@ -37,7 +37,7 @@ class Emulation extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -62,7 +62,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Model\Design $design
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Helper\Translate $helperTranslate
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
@@ -73,7 +73,7 @@ class Emulation extends \Magento\Object
         \Magento\Core\Model\Design $design,
         \Magento\TranslateInterface $translate,
         \Magento\Core\Helper\Translate $helperTranslate,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Translate\Inline\ConfigFactory $configFactory,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()

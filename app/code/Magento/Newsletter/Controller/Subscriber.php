@@ -92,7 +92,7 @@ class Subscriber extends \Magento\App\Action\Action
                     throw new \Magento\Core\Exception(__('Please enter a valid email address.'));
                 }
 
-                if ($this->_objectManager->get('Magento\Store\Model\Store\Config')
+                if ($this->_objectManager->get('Magento\Store\Model\Config')
                         ->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
                     && !$this->_customerSession->isLoggedIn()) {
                     throw new \Magento\Core\Exception(__('Sorry, but the administrator denied subscription for guests. '

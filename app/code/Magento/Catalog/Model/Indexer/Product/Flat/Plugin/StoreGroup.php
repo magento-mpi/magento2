@@ -31,14 +31,14 @@ class StoreGroup
     /**
      * Before save handler
      *
-     * @param \Magento\Store\Model\Resource\Store\Group $subject
+     * @param \Magento\Store\Model\Resource\Group $subject
      * @param \Magento\Core\Model\AbstractModel $object
      *
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeSave(
-        \Magento\Store\Model\Resource\Store\Group $subject,
+        \Magento\Store\Model\Resource\Group $subject,
         \Magento\Core\Model\AbstractModel $object
     ) {
         if (!$object->getId() || $object->dataHasChangedFor('root_category_id')) {

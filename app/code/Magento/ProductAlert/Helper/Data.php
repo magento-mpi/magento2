@@ -38,7 +38,7 @@ class Data extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -57,7 +57,7 @@ class Data extends \Magento\Core\Helper\Url
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $session
      */
     public function __construct(
@@ -65,7 +65,7 @@ class Data extends \Magento\Core\Helper\Url
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $coreRegistry,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $session
     ) {
         $this->_coreRegistry = $coreRegistry;

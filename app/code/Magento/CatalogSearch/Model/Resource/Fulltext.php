@@ -99,7 +99,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -147,7 +147,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -164,7 +164,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Filter\FilterManager $filter,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime,

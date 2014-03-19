@@ -25,17 +25,17 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\Cms\Helper\Page $cmsPage
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\Cms\Helper\Page $cmsPage,
-        \Magento\Store\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Config $coreStoreConfig
     ) {
         $this->_cmsPage = $cmsPage;
         $this->_coreStoreConfig = $coreStoreConfig;

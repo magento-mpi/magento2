@@ -12,15 +12,15 @@ class QuoteItem
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      */
     public function __construct(
-        \Magento\Store\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
     }

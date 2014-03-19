@@ -54,7 +54,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -76,7 +76,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
@@ -87,7 +87,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
@@ -118,7 +118,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         if ($this->hasCategoryId()) {
-            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store\Group::CACHE_TAG);
+            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store::CACHE_TAG);
         }
 
         parent::_afterSave();

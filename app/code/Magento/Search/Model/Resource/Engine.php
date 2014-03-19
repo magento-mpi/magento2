@@ -89,7 +89,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -106,7 +106,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
@@ -116,7 +116,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {

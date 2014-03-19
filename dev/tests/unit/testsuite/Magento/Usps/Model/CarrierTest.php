@@ -33,7 +33,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     {
         $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $coreStoreConfig = $this->getMockBuilder('\Magento\Store\Model\Store\Config')
+        $coreStoreConfig = $this->getMockBuilder('\Magento\Store\Model\Config')
             ->setMethods(array('getConfigFlag', 'getConfig'))
             ->disableOriginalConstructor()
             ->getMock();

@@ -142,7 +142,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param Category $catalogCategory
      * @param Product $catalogProduct
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param \Magento\Escaper $escaper
      * @param string $templateFilterModel
@@ -158,7 +158,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         Category $catalogCategory,
         Product $catalogProduct,
         \Magento\Registry $coreRegistry,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,
         \Magento\Escaper $escaper,
         $templateFilterModel

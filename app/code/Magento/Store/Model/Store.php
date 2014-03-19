@@ -145,7 +145,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Group model
      *
-     * @var \Magento\Store\Model\Store\Group
+     * @var \Magento\Store\Model\Store
      */
     protected $_group;
 
@@ -256,11 +256,11 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * Core store config
+     * Store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
-    protected $_coreStoreConfig;
+    protected $_storeConfig;
 
     /**
      * @var \Magento\App\ReinitableConfigInterface
@@ -293,7 +293,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\Filesystem $filesystem
-     * @param Store\Config $coreStoreConfig
+     * @param Store\Config $storeConfig
      * @param \Magento\App\ReinitableConfigInterface $coreConfig
      * @param Resource\Store $resource
      * @param StoreManagerInterface $storeManager
@@ -313,7 +313,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\App\ReinitableConfigInterface $coreConfig,
         \Magento\Store\Model\Resource\Store $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -325,7 +325,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_coreStoreConfig = $storeConfig;
         $this->_url = $url;
         $this->_configCacheType = $configCacheType;
         $this->_request = $request;
@@ -365,7 +365,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Helper\File\Storage\Database');
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Store\Model\Store\Config');
+            ->get('Magento\Store\Model\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\App\ReinitableConfigInterface');
         $this->_cookie = \Magento\App\ObjectManager::getInstance()
@@ -704,7 +704,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isFrontUrlSecure()
     {
         if ($this->_isFrontSecure === null) {
-            $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(
+            $this->_isFrontSecure = $this->_storeConfig->getConfigFlag(
                 self::XML_PATH_SECURE_IN_FRONTEND,
                 $this->getId()
             );
@@ -735,7 +735,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         }
 
         if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = $this->_coreStoreConfig->getConfig(self::XML_PATH_SECURE_BASE_URL);
+            $secureBaseUrl = $this->_storeConfig->getConfig(self::XML_PATH_SECURE_BASE_URL);
 
             if (!$secureBaseUrl) {
                 return false;
@@ -1031,7 +1031,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Set group model for store
      *
-     * @param \Magento\Store\Model\Store\Group $group
+     * @param \Magento\Store\Model\Store $group
      * @return void
      */
     public function setGroup($group)
@@ -1042,7 +1042,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve group model
      *
-     * @return \Magento\Store\Model\Store\Group|bool
+     * @return \Magento\Store\Model\Store|bool
      */
     public function getGroup()
     {
@@ -1249,7 +1249,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function getFrontendName()
     {
         if (null === $this->_frontendName) {
-            $storeGroupName = (string) $this->_coreStoreConfig->getConfig('general/store_information/name', $this);
+            $storeGroupName = (string) $this->_storeConfig->getConfig('general/store_information/name', $this);
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;

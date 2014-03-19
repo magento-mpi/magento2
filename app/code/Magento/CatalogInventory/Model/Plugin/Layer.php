@@ -22,17 +22,17 @@ class Layer
     /**
      * Store config instance
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
-     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\ConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
-        \Magento\Store\Model\Store\ConfigInterface $storeConfig
+        \Magento\Store\Model\ConfigInterface $storeConfig
     ) {
         $this->_stockStatus = $stockStatus;
         $this->_storeConfig = $storeConfig;

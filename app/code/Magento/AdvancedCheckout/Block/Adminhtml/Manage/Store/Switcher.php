@@ -33,7 +33,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Store\Model\Website\Factory $websiteFactory
-     * @param \Magento\Store\Model\Store\Group\Factory $storeGroupFactory
+     * @param \Magento\Store\Model\Group\Factory $storeGroupFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Registry $coreRegistry
      * @param array $data
@@ -41,7 +41,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Store\Model\Website\Factory $websiteFactory,
-        \Magento\Store\Model\Store\Group\Factory $storeGroupFactory,
+        \Magento\Store\Model\Group\Factory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Registry $coreRegistry,
         array $data = array()

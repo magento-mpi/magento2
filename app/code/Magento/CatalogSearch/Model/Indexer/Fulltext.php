@@ -26,7 +26,7 @@ use Magento\Model\Context;
 use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\Store\Group;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Data\Collection\Db;
 use Magento\Index\Model\Event;

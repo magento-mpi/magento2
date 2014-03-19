@@ -44,7 +44,7 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -69,14 +69,14 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param Resource\Sitemap\CollectionFactory $collectionFactory
      * @param \Magento\TranslateInterface $translateModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      */
     public function __construct(
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
         \Magento\TranslateInterface $translateModel,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

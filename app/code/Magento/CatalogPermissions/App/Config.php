@@ -18,14 +18,14 @@ class Config implements ConfigInterface
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $coreStoreConfig;
 
     /**
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      */
-    public function __construct(\Magento\Store\Model\Store\ConfigInterface $coreStoreConfig)
+    public function __construct(\Magento\Store\Model\ConfigInterface $coreStoreConfig)
     {
         $this->coreStoreConfig = $coreStoreConfig;
     }

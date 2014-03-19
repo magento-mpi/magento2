@@ -1,6 +1,6 @@
 <?php
 /**
- * Test class for \Magento\Store\Model\Store\StorageFactory
+ * Test class for \Magento\Store\Model\StorageFactory
  *
  * {license_notice}
  *
@@ -8,12 +8,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
 class StorageFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Store\Model\Store\StorageFactory
+     * @var \Magento\Store\Model\StorageFactory
      */
     protected $_model;
 
@@ -55,12 +55,12 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $_defaultStorage = 'Magento\Store\Model\Store\Storage\DefaultStorage';
+    protected $_defaultStorage = 'Magento\Store\Model\Storage\DefaultStorage';
 
     /**
      * @var string
      */
-    protected $_dbStorage = 'Magento\Store\Model\Store\Storage\Db';
+    protected $_dbStorage = 'Magento\Store\Model\Storage\Db';
 
     /**
      * @var array
@@ -85,7 +85,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
         $this->_httpContext = $this->getMock('Magento\App\Http\Context', [], [], '', false);
 
-        $this->_model = new \Magento\Store\Model\Store\StorageFactory(
+        $this->_model = new \Magento\Store\Model\StorageFactory(
             $this->_objectManagerMock,
             $this->_eventManagerMock,
             $this->_logMock,
@@ -194,12 +194,12 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
 
-        $website = $this->getMock('Magento\Core\Model\Website', [], [], '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', [], [], '', false);
         $website->expects($this->once())->method('getCode')->will($this->returnValue('code'));
         $website->expects($this->any())->method('getDefaultGroupId')->will($this->returnValue(1));
 
         $group = $this->getMock(
-            'Magento\Core\Model\Store\Group',
+            'Magento\Store\Model\Group',
             ['getDefaultStoreId', '__sleep', '__wakeup'],
             [],
             '',
@@ -207,7 +207,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         );
         $group->expects($this->any())->method('getDefaultStoreId')->will($this->returnValue(1));
 
-        $store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $store->expects($this->once())->method('getCode')->will($this->returnValue(1));
         $store->expects($this->once())->method('getId')->will($this->returnValue(1));
         $store->expects($this->once())->method('getIsActive')->will($this->returnValue(true));
@@ -215,7 +215,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValue(1));
 
-        $storage = $this->getMock('Magento\Core\Model\Store\Storage\Db', [], [], '', false);
+        $storage = $this->getMock('Magento\Store\Model\Storage\Db', [], [], '', false);
         $storage->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
         $storage->expects($this->any())->method('getWebsites')->will($this->returnValue(['code' => $website]));
         $storage->expects($this->any())->method('getGroups')->will($this->returnValue(['1' => $group]));

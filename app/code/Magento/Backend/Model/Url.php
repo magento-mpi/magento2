@@ -76,7 +76,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -103,7 +103,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -126,7 +126,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;

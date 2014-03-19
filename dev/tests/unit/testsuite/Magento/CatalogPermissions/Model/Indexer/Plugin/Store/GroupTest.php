@@ -20,7 +20,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     protected $configMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Resource\Store\Group
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Resource\Group
      */
     protected $subjectMock;
 
@@ -31,7 +31,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
@@ -54,7 +54,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockIndexerMethods();
         $groupMock = $this->getMock(
-            'Magento\Store\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
         );
         $groupMock->expects($this->exactly(2))
             ->method('dataHasChangedFor')
@@ -76,7 +76,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveNotNew($valueMap)
     {
         $groupMock = $this->getMock(
-            'Magento\Store\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
         );
         $groupMock->expects($this->exactly(2))
             ->method('dataHasChangedFor')
@@ -107,7 +107,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveWithoutChanges()
     {
         $groupMock = $this->getMock(
-            'Magento\Store\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
         );
         $groupMock->expects($this->exactly(2))
             ->method('dataHasChangedFor')

@@ -28,19 +28,19 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     /**
      * Store config
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\ConfigInterface $storeConfig
     */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Store\Model\Store\ConfigInterface $storeConfig
+        \Magento\Store\Model\ConfigInterface $storeConfig
     ) {
         $this->localeResolver = $localeResolver;
         $this->storeConfig = $storeConfig;

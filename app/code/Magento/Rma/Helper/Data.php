@@ -42,7 +42,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Store config model
      *
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_storeConfig;
 
@@ -143,7 +143,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -161,7 +161,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Store\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Store\Model\ConfigInterface $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

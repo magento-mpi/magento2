@@ -31,7 +31,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\Store\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStoreConfig;
 
@@ -41,7 +41,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', [], [], '', false);
         $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', [], [], '', false);
-        $this->_coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
+        $this->_coreStoreConfig = $this->getMock('Magento\Store\Model\Config', [], [], '', false);
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', ['create'], [], '', false);
         $paymentFactory->expects($this->once())
             ->method('create')

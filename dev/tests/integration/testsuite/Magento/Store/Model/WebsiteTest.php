@@ -45,7 +45,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         /* Groups */
         $expectedGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store\Group');
+            ->create('Magento\Store\Model\Store');
         $expectedGroup->setId(123);
         $this->_model->setDefaultGroupId($expectedGroup->getId());
         $this->_model->setGroups(array($expectedGroup));
@@ -68,7 +68,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         $groups = $this->_model->getGroups();
         $this->assertEquals(array(1), array_keys($groups));
-        $this->assertInstanceOf('Magento\Store\Model\Store\Group', $groups[1]);
+        $this->assertInstanceOf('Magento\Store\Model\Store', $groups[1]);
         $this->assertEquals(1, $groups[1]->getId());
     }
 
@@ -85,7 +85,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     public function testGetDefaultGroup()
     {
         $defaultGroup = $this->_model->getDefaultGroup();
-        $this->assertInstanceOf('Magento\Store\Model\Store\Group', $defaultGroup);
+        $this->assertInstanceOf('Magento\Store\Model\Store', $defaultGroup);
         $this->assertEquals(1, $defaultGroup->getId());
 
         $this->_model->setDefaultGroupId(null);

@@ -22,18 +22,18 @@ class Gws
     public static $websites = array();
 
     /**
-     * @var \Magento\Store\Model\Resource\Store\Group\Collection
+     * @var \Magento\Store\Model\Resource\Group\Collection
      */
     protected $_storeGroupCollection;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Store\Model\Resource\Store\Group\Collection $storeGroupCollection
+     * @param \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Store\Model\Resource\Store\Group\Collection $storeGroupCollection,
+        \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection,
         array $data = array()
     ) {
         $this->_storeGroupCollection = $storeGroupCollection;
@@ -60,7 +60,7 @@ class Gws
         // lookup websites and store groups in system
         if (!self::$websites) {
             foreach ($this->_storeGroupCollection as $storeGroup) {
-                /* @var $storeGroup \Magento\Store\Model\Store\Group */
+                /* @var $storeGroup \Magento\Store\Model\Store */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();

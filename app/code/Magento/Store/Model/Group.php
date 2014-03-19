@@ -9,16 +9,16 @@
 /**
  * Store group model
  *
- * @method \Magento\Store\Model\Resource\Store\Group _getResource()
- * @method \Magento\Store\Model\Resource\Store\Group getResource()
- * @method \Magento\Store\Model\Store\Group setWebsiteId(int $value)
+ * @method \Magento\Store\Model\Resource\Group _getResource()
+ * @method \Magento\Store\Model\Resource\Group getResource()
+ * @method \Magento\Store\Model\Store setWebsiteId(int $value)
  * @method string getName()
  * @method string getCode()
- * @method \Magento\Store\Model\Store\Group setName(string $value)
- * @method \Magento\Store\Model\Store\Group setRootCategoryId(int $value)
- * @method \Magento\Store\Model\Store\Group setDefaultStoreId(int $value)
+ * @method \Magento\Store\Model\Store setName(string $value)
+ * @method \Magento\Store\Model\Store setRootCategoryId(int $value)
+ * @method \Magento\Store\Model\Store setDefaultStoreId(int $value)
  */
-namespace Magento\Store\Model\Store;
+namespace Magento\Store\Model;
 
 use Magento\Store\Model\Website;
 
@@ -45,7 +45,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Group Store collection array
      *
-     * @var \Magento\Store\Model\Resource\Store\Collection[]
+     * @var \Magento\Store\Model\Resource\Collection[]
      */
     protected $_stores;
 
@@ -131,7 +131,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
      */
     protected function _construct()
     {
-        $this->_init('Magento\Store\Model\Resource\Store\Group');
+        $this->_init('Magento\Store\Model\Resource\Group');
     }
 
     /**
@@ -178,7 +178,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve new (not loaded) Store collection object with group filter
      *
-     * @return \Magento\Store\Model\Resource\Store\Collection
+     * @return \Magento\Store\Model\Resource\Collection
      */
     public function getStoreCollection()
     {
@@ -190,7 +190,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve website store objects
      *
-     * @return \Magento\Store\Model\Resource\Store\Collection[]
+     * @return \Magento\Store\Model\Resource\Collection[]
      */
     public function getStores()
     {

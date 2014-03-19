@@ -26,17 +26,17 @@ class EngineProvider
     protected $_engineFactory;
 
     /**
-     * @var \Magento\Store\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\ConfigInterface
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\CatalogSearch\Model\Resource\EngineFactory $engineFactory
-     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\ConfigInterface $storeConfig
      */
     public function __construct(
         \Magento\CatalogSearch\Model\Resource\EngineFactory $engineFactory,
-        \Magento\Store\Model\Store\ConfigInterface $storeConfig
+        \Magento\Store\Model\ConfigInterface $storeConfig
     ) {
         $this->_engineFactory = $engineFactory;
         $this->_storeConfig = $storeConfig;

@@ -136,7 +136,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -180,7 +180,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Registry $registry
      * @param \Magento\App\Cache\TypeListInterface $typeList
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param Cookie $fpcCookie
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
@@ -202,7 +202,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Registry $registry,
         \Magento\App\Cache\TypeListInterface $typeList,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         Cookie $fpcCookie,
         \Magento\Core\Model\Session $coreSession,
         \Magento\FullPageCache\Helper\Url $urlHelper,

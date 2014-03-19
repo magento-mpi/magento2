@@ -95,7 +95,7 @@ class Index
             }
             $customerSession->setBeforeWishlistRequest($request->getParams());
         }
-        if (!$this->_objectManager->get('Magento\Store\Model\Store\Config')->getConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get('Magento\Store\Model\Config')->getConfigFlag('wishlist/general/active')) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
@@ -733,7 +733,7 @@ class Index
             $sharingCode = $wishlist->getSharingCode();
 
             try {
-                $storeConfig = $this->_objectManager->get('Magento\Store\Model\Store\Config');
+                $storeConfig = $this->_objectManager->get('Magento\Store\Model\Config');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 foreach ($emails as $email) {
                     $transport = $this->_transportBuilder

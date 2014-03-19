@@ -15,7 +15,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/magento_customersegment/is_enabled';
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     private $_storeConfig;
 
@@ -26,12 +26,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
     ) {
         parent::__construct($context);

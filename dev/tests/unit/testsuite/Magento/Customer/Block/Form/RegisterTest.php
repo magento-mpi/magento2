@@ -24,7 +24,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Helper\Data */
     private $_coreData;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\Store\Config */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\Config */
     private $_storeConfig;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Session */
@@ -41,7 +41,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $this->_storeConfig = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
         $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);

@@ -38,7 +38,7 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
     {
         //Prepare objects for constructor
         $this->_cacheMock = $this->getMock('Magento\App\CacheInterface');
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config',
+        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Config',
             array('getConfig'), array(), '', false);
         $this->_curlFactoryMock = $this->getMock('Magento\HTTP\Adapter\CurlFactory',
             array('create'), array(), '', false);

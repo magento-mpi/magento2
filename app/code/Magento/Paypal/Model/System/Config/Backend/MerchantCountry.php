@@ -22,7 +22,7 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
     protected $_coreData;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

@@ -81,7 +81,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -146,7 +146,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
@@ -164,7 +164,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,

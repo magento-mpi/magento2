@@ -89,7 +89,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Session\Generic $paypalSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -106,7 +106,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Session\Generic $paypalSession,
         \Magento\Checkout\Model\Session $checkoutSession,

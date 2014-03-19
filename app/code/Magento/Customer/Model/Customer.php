@@ -126,7 +126,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_customerData = null;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -186,7 +186,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param ResourceCustomer $resource
      * @param Share $configShare
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
@@ -207,7 +207,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         ResourceCustomer $resource,
         Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,

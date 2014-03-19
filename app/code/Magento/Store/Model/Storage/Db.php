@@ -7,14 +7,11 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Store\Model\Store\Storage;
+namespace Magento\Store\Model\Storage;
 
-use Magento\Core\Exception;
 use Magento\App\State;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\Store\Group;
-use Magento\Store\Model\Store\Group\Factory;
-use Magento\Store\Model\Store\Exception as StoreException;
+use Magento\Store\Model\Group\Factory;
 use Magento\Store\Model\StoreFactory;
 use Magento\Store\Model\Website;
 use Magento\Store\Model\Website\Factory as WebsiteFactory;
@@ -200,11 +197,11 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         $websiteCollection = $this->_websiteFactory->create()->getCollection();
         $websiteCollection->setLoadDefault(true);
 
-        /** @var $groupCollection \Magento\Store\Model\Resource\Store\Group\Collection */
+        /** @var $groupCollection \Magento\Store\Model\Resource\Group\Collection */
         $groupCollection = $this->_groupFactory->create()->getCollection();
         $groupCollection->setLoadDefault(true);
 
-        /** @var $storeCollection \Magento\Store\Model\Resource\Store\Collection */
+        /** @var $storeCollection \Magento\Store\Model\Resource\Collection */
         $storeCollection = $this->_storeFactory->create()->getCollection();
         $storeCollection->setLoadDefault(true);
 
@@ -305,7 +302,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|string|bool|int|Store $storeId
      * @return Store
-     * @throws StoreException
+     * @throws \Magento\Store\Model\Exception
      */
     public function getStore($storeId = null)
     {
@@ -373,7 +370,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|bool|int|string|Website $websiteId
      * @return Website
-     * @throws Exception
+     * @throws \Magento\Store\Model\Exception
      */
     public function getWebsite($websiteId = null)
     {
@@ -390,7 +387,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
             // load method will load website by code if given ID is not a numeric value
             $website->load($websiteId);
             if (!$website->hasWebsiteId()) {
-                throw new Exception('Invalid website id/code requested.');
+                throw new \Magento\Store\Model\Exception('Invalid website id/code requested.');
             }
             $this->_websites[$website->getWebsiteId()] = $website;
             $this->_websites[$website->getCode()] = $website;
@@ -428,7 +425,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param null|Group|string $groupId
      * @return Group
-     * @throws Exception
+     * @throws \Magento\Store\Model\Exception
      */
     public function getGroup($groupId = null)
     {
@@ -442,7 +439,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
             if (is_numeric($groupId)) {
                 $group->load($groupId);
                 if (!$group->hasGroupId()) {
-                    throw new Exception('Invalid store group id requested.');
+                    throw new \Magento\Store\Model\Exception('Invalid store group id requested.');
                 }
             }
             $this->_groups[$group->getGroupId()] = $group;
@@ -562,11 +559,11 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
 
     /**
      * @return void
-     * @throws StoreException
+     * @throws \Magento\Store\Model\Exception
      */
     public function throwStoreException()
     {
-        throw new StoreException('');
+        throw new \Magento\Store\Model\Exception('');
     }
 
     /**

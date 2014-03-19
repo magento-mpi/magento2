@@ -73,7 +73,7 @@ class Account extends \Magento\App\Action\Action
     /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var \Magento\Store\Model\Store\Config */
+    /** @var \Magento\Store\Model\Config */
     protected $_storeConfig;
 
     /** @var \Magento\Core\Helper\Data */
@@ -114,7 +114,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\Core\Helper\Data $coreHelperData
      * @param \Magento\Escaper $escaper
      * @param \Magento\App\State $appState
@@ -138,7 +138,7 @@ class Account extends \Magento\App\Action\Action
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\Core\Helper\Data $coreHelperData,
         \Magento\Escaper $escaper,
         \Magento\App\State $appState,

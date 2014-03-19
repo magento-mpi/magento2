@@ -33,7 +33,7 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
     public function testGetIdentities()
     {
         $this->assertEquals(
-            array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store\Group::CACHE_TAG),
+            array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store::CACHE_TAG),
             $this->block->getIdentities()
         );
     }

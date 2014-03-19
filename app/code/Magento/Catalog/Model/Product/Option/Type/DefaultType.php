@@ -46,7 +46,7 @@ class DefaultType extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -61,12 +61,12 @@ class DefaultType extends \Magento\Object
      * Construct
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;

@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -52,7 +52,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Locale\ListsInterface $localeLists
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Directory\Model\Resource\CountryFactory $countryFactory
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -65,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Locale\ListsInterface $localeLists,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Directory\Model\Resource\CountryFactory $countryFactory,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Locale\ResolverInterface $localeResolver,

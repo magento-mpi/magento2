@@ -107,9 +107,9 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
      */
     public function testAddNewStoreGroup()
     {
-        /** @var \Magento\Store\Model\Store\Group $storeGroup */
+        /** @var \Magento\Store\Model\Store $storeGroup */
         $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store\Group');
+            ->create('Magento\Store\Model\Store');
         $storeGroup->setData(array(
             'website_id' => 1,
             'name' => 'New Store Group',

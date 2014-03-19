@@ -19,7 +19,7 @@
     <type name="Magento\Store\Model\Resource\Store">
         <plugin name="catalogPermissionsIndexerStoreView" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\View" />
     </type>
-    <type name="Magento\Store\Model\Resource\Store\Group">
+    <type name="Magento\Store\Model\Resource\Group">
         <plugin name="catalogPermissionsIndexerStoreGroup" type="Magento\CatalogPermissions\Model\Indexer\Plugin\Store\Group"/>
     </type>
     <type name="Magento\Indexer\Model\Indexer\State">

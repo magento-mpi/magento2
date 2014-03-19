@@ -102,7 +102,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $helperMock->expects($this->any())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
         $this->_storeConfigMock->expects($this->any())
             ->method('getConfig')
             ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)

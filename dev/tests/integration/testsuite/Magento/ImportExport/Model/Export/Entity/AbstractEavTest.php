@@ -52,7 +52,7 @@ class AbstractEavTest extends \PHPUnit_Framework_TestCase
             ->method('getAttributeCollection')
             ->will($this->returnValue($customerAttributes));
         $this->_model->__construct(
-            $objectManager->get('Magento\Store\Model\Store\Config'),
+            $objectManager->get('Magento\Store\Model\Config'),
             $objectManager->get('Magento\Store\Model\StoreManager'),
             $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
             $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory'),

@@ -43,7 +43,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      * @param \Magento\Search\Helper\ClientInterface $clientHelper
      * @param \Magento\Registry $registry
-     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -65,7 +65,7 @@ class HttpStream extends \Magento\Search\Model\Adapter\Solr\AbstractSolr
         \Magento\Search\Model\Factory\Factory $searchFactory,
         \Magento\Search\Helper\ClientInterface $clientHelper,
         \Magento\Registry $registry,
-        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,

@@ -24,7 +24,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
     protected $_engineFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Config
      */
     protected $_storeConfigMock;
 
@@ -32,7 +32,7 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_engineFactoryMock = $this->getMock('Magento\CatalogSearch\Model\Resource\EngineFactory',
             array('create'), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config',
+        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Config',
             array('getConfig'), array(), '', false);
 
         $this->_model = new \Magento\CatalogSearch\Model\Resource\EngineProvider($this->_engineFactoryMock,

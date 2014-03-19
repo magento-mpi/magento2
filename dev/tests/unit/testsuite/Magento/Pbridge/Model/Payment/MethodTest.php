@@ -33,7 +33,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $config = $this->getMockBuilder('Magento\Store\Model\Store\Config')
+        $config = $this->getMockBuilder('Magento\Store\Model\Config')
             ->disableOriginalConstructor()
             ->setMethods(array('getConfig'))
             ->getMock();

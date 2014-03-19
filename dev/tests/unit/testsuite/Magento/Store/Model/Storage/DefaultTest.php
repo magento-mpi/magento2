@@ -6,10 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\Model\Store\Storage;
+namespace Magento\Store\Model\Storage;
 
 /**
- * Test class for \Magento\Store\Model\Store\Storage\DefaultStorage
+ * Test class for \Magento\Store\Model\Storage\DefaultStorage
  */
 class DefaultTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,7 +58,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->_groupMock = $this->getMock('Magento\Store\Model\Store\Group',
+        $this->_groupMock = $this->getMock('Magento\Store\Model\Store',
             array('getCode', 'getId', '__wakeup'),
             array(),
             '',
@@ -73,7 +73,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_websiteMock));
-        $this->_groupFactoryMock = $this->getMock('Magento\Store\Model\Store\Group\Factory',
+        $this->_groupFactoryMock = $this->getMock('Magento\Store\Model\Group\Factory',
             array('create'), array(), '', false, false);
         $this->_groupFactoryMock
             ->expects($this->once())
@@ -154,7 +154,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     public function testGetGroup()
     {
         $groupId = 'testGroup';
-        $this->assertInstanceOf('Magento\Store\Model\Store\Group', $this->_model->getGroup($groupId));
+        $this->assertInstanceOf('Magento\Store\Model\Store', $this->_model->getGroup($groupId));
     }
 
     public function testGetGroupsWithDefault()
@@ -164,7 +164,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $this->_groupMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
         $this->_groupMock->expects($this->never())->method('getId');
         $result = $this->_model->getGroups($withDefault, $codeKey);
-        $this->assertInstanceOf('Magento\Store\Model\Store\Group', $result[0]);
+        $this->assertInstanceOf('Magento\Store\Model\Store', $result[0]);
     }
 
     public function testGetGroupsWithoutDefault()

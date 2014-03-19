@@ -794,7 +794,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Set store group or store read-only
      *
-     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Store\Group $model
+     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Store $model
      * @return void
      */
     public function coreStoreGroupLoadAfter($model)
@@ -808,7 +808,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow saving store group or store
      *
-     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Store\Group $model
+     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Store $model
      * @return void
      */
     public function coreStoreGroupSaveBefore($model)
@@ -860,7 +860,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Disallow deleting store group or store
      *
-     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Store\Group $model
+     * @param \Magento\Store\Model\Store|\Magento\Store\Model\Store $model
      * @return void
      */
     public function coreStoreGroupDeleteBefore($model)

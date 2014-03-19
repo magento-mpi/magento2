@@ -453,7 +453,7 @@ class Role extends \Magento\Object
      * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
-     * @return \Magento\Store\Model\Store\Group|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getGroup($findGroupId)
     {

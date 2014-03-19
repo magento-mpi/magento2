@@ -16,7 +16,7 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
     protected $_request;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_storeConfig;
 
@@ -32,14 +32,14 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Store\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\Store\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Config $storeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()

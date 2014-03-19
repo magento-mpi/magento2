@@ -57,7 +57,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Website Group Collection array
      *
-     * @var \Magento\Store\Model\Store\Group[]
+     * @var \Magento\Store\Model\Store[]
      */
     protected $_groups;
 
@@ -106,7 +106,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Website default group
      *
-     * @var \Magento\Store\Model\Store\Group
+     * @var \Magento\Store\Model\Store
      */
     protected $_defaultGroup;
 
@@ -140,7 +140,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Store\Model\Store\GroupFactory
+     * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeGroupFactory;
 
@@ -170,7 +170,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Store\Model\Store\GroupFactory $storeGroupFactory
+     * @param \Magento\Store\Model\StoreFactory $storeGroupFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\App $app
@@ -185,7 +185,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Store\Model\Store\GroupFactory $storeGroupFactory,
+        \Magento\Store\Model\StoreFactory $storeGroupFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\App $app,
@@ -293,7 +293,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve new (not loaded) Group collection object with website filter
      *
-     * @return \Magento\Store\Model\Resource\Store\Group\Collection
+     * @return \Magento\Store\Model\Resource\Group\Collection
      */
     public function getGroupCollection()
     {
@@ -305,7 +305,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve website groups
      *
-     * @return \Magento\Store\Model\Store\Group[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getGroups()
     {
@@ -344,7 +344,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve default group model
      *
-     * @return \Magento\Store\Model\Store\Group
+     * @return \Magento\Store\Model\Store
      */
     public function getDefaultGroup()
     {
@@ -401,7 +401,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve new (not loaded) Store collection object with website filter
      *
-     * @return \Magento\Store\Model\Resource\Store\Collection
+     * @return \Magento\Store\Model\Resource\Collection
      */
     public function getStoreCollection()
     {

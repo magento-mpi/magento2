@@ -99,7 +99,7 @@ class Node extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -130,7 +130,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\System\Store $systemStore
@@ -143,7 +143,7 @@ class Node extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Store\Model\System\Store $systemStore,

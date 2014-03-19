@@ -41,7 +41,7 @@ class Category extends AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -70,14 +70,14 @@ class Category extends AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\Data\CollectionFactory $dataCollectionFactory
     ) {
         $this->_categoryFactory = $categoryFactory;

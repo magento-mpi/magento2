@@ -49,8 +49,8 @@ class ConfigFixture
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $result = null;
         if ($storeCode !== false) {
-            /** @var \Magento\Store\Model\Store\Config $storeConfig */
-            $storeConfig = $objectManager->get('Magento\Store\Model\Store\Config');
+            /** @var \Magento\Store\Model\Config $storeConfig */
+            $storeConfig = $objectManager->get('Magento\Store\Model\Config');
             $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         return $result;

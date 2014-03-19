@@ -24,7 +24,7 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $this->storeConfigMock = $this->getMock('Magento\Store\Model\Config', array(), array(), '', false);
 
         $this->alerts = $helper->getObject('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts', array(
                 'storeConfig' => $this->storeConfigMock

@@ -26,7 +26,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\App\ConfigInterface $coreConfig
      */
@@ -36,7 +36,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\App\ConfigInterface $coreConfig
     ) {

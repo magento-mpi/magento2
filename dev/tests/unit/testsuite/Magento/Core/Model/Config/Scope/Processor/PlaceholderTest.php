@@ -28,10 +28,10 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Core\Model\Config\Scope\Processor\Placeholder(
             $this->_requestMock,
             array(
-                'unsecureBaseUrl' => \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL,
-                'secureBaseUrl' => \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL
+                'unsecureBaseUrl' => \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
+                'secureBaseUrl' => \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL
             ),
-            \Magento\Core\Model\Store::BASE_URL_PLACEHOLDER
+            \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
         );
     }
 

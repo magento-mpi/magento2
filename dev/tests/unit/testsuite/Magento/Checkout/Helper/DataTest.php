@@ -29,7 +29,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
         $context = $this->getMock('\Magento\App\Helper\Context', array(), array(), '', false);
 
-        $storeConfig = $this->getMock('\Magento\Store\Model\Store\Config', array(), array(), '', false);
+        $storeConfig = $this->getMock('\Magento\Store\Model\Config', array(), array(), '', false);
         $storeConfig->expects($this->any())->method('getConfig')->will($this->returnValueMap(array(
             array('checkout/payment_failed/template',       8, 'fixture_email_template_payment_failed'),
             array('checkout/payment_failed/receiver',       8, 'sysadmin'),

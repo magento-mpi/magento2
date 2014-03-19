@@ -109,7 +109,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_configShare;
 
     /**
-     * @var \Magento\Store\Model\Store\Config
+     * @var \Magento\Store\Model\Config
      */
     protected $_coreStoreConfig;
 
@@ -167,7 +167,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
-     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService
@@ -186,7 +186,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
-        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $accountService,

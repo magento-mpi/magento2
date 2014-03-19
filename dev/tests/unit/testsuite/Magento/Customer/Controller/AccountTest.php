@@ -132,7 +132,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->objectManager->expects($this->any())->method('get')
             ->will($this->returnValueMap([
                 ['Magento\Customer\Helper\Data', new \Magento\Object(['account_url' => 1])],
-                ['Magento\Store\Model\Store\Config', new \Magento\Object(['config_flag' => 1])],
+                ['Magento\Store\Model\Config', new \Magento\Object(['config_flag' => 1])],
                 ['Magento\Core\Helper\Data', $this->getMock('Magento\Core\Helper\Data', [], [], '', false)],
             ]));
         $this->customerSession->expects($this->at(0))->method('isLoggedIn')->with()->will($this->returnValue(0));

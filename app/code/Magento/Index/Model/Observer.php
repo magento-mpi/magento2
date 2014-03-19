@@ -55,7 +55,7 @@ class Observer
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
             $storeGroup,
-            \Magento\Store\Model\Store\Group::ENTITY,
+            \Magento\Store\Model\Store::ENTITY,
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }
@@ -103,7 +103,7 @@ class Observer
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
             $storeGroup,
-            \Magento\Store\Model\Store\Group::ENTITY,
+            \Magento\Store\Model\Store::ENTITY,
             \Magento\Index\Model\Event::TYPE_DELETE
         );
     }

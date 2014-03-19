@@ -25,7 +25,7 @@ class Group extends AbstractPlugin
     /**
      * Invalidate indexer on store group save
      *
-     * @param \Magento\Store\Model\Resource\Store\Group $subject
+     * @param \Magento\Store\Model\Resource\Group $subject
      * @param callable $proceed
      * @param \Magento\Core\Model\AbstractModel $store
      *
@@ -33,7 +33,7 @@ class Group extends AbstractPlugin
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
-        \Magento\Store\Model\Resource\Store\Group $subject,
+        \Magento\Store\Model\Resource\Group $subject,
         \Closure $proceed,
         \Magento\Core\Model\AbstractModel $store
     ) {

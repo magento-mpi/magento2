@@ -61,7 +61,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Core\Helper\Data', [], [], '', false),
             $this->_downloadableFileMock,
             $this->getMock('Magento\Core\Helper\File\Storage\Database', [], [], '', false),
-            $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false),
+            $this->getMock('Magento\Store\Model\Config', [], [], '', false),
             $this->_filesystemMock
         );
     }

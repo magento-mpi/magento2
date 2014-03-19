@@ -9,14 +9,14 @@
 /**
  * Store Group factory
  */
-namespace Magento\Store\Model\Store\Group;
+namespace Magento\Store\Model\Group;
 
 class Factory
 {
     /**
      * Store group model class name
      */
-    const CLASS_NAME = 'Magento\Store\Model\Store\Group';
+    const CLASS_NAME = 'Magento\Store\Model\Group';
 
     /**
      * Object Manager
