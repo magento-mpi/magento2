@@ -1020,6 +1020,9 @@ return array(
     ),
     array('getMerchantVatNumber', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantVatNumber'),
     array('isCountryInEU', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::isCountryInEU'),
+    array('getCurrentCustomer', '\Magento\Core\Helper\Data'),
+    array('getCustomerName', '\Magento\Core\Helper\Data'),
+    array('_createForm', '\Magento\Core\Helper\Data'),
     array('assocToXml', '\Magento\Core\Helper\Data', '\Magento\Convert\ConvertArray::assocToXml'),
     array('xmlToAssoc', '\Magento\Core\Helper\Data', '\Magento\Convert\Xml::xmlToAssoc'),
     array('checkLfiProtection', '\Magento\Core\Helper\Data', '\Magento\Filesystem::checkLfiProtection'),
@@ -1571,5 +1574,7 @@ return array(
     array('getLimitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getOrderUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getModeUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
-    array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar')
+    array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('getCacheIdTags', 'Magento\Core\Model\AbstractModel')
 );

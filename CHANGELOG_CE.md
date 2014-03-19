@@ -3,7 +3,6 @@
   * Content invalidation
   * Added Edge side includes(ESI) supporting
   * Added Built-in caching application
-  * FullPageCache has been completely removed. Events that needed Clean or Invalidate cache have been transferred to PageCache module.
 * GitHub requests:
   * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
