@@ -186,6 +186,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             ->addMessage(new \Magento\Message\Notice('some_notice'))
             ->addMessage(new \Magento\Message\Success('success!'))
         ;
-        $this->messageManager->expects($this->any())->method('getMessages')->will($this->returnValue($messagesCollection));
+        $this->messageManager->expects($this->any())->method('getMessages')
+            ->will($this->returnValue($messagesCollection));
     }
 }
