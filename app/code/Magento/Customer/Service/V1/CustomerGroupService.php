@@ -323,6 +323,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      *
      * @param int $taxClassId The id of the tax class model to check
      * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group The original group parameters
+     * @return void
      * @throws InputException Thrown if the tax class model is invalid
      */
     protected function _verifyTaxClassModel($taxClassId, $group)
