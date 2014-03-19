@@ -126,7 +126,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get group id
      *
-     * @return string
+     * @return string|null
      */
     public function getGroupId()
     {

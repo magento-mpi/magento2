@@ -220,43 +220,6 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);;
     }
 
-    public function testChangePassword()
-    {
-        $customerData = $this->_createSampleCustomer();
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $customerData[Customer::ID] . '/changePassword',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'ChangePassword'
-            ]
-        ];
-        $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
-        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $requestData['customerId'] = $customerData['id'];
-        }
-        $this->_webApiCall($serviceInfo, $requestData);
-
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/authenticate',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Authenticate'
-            ]
-        ];
-        $requestData = ['username' => $customerData[Customer::EMAIL], 'password' => '123@test'];
-        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);;
-    }
-
     public function testValidateResetPasswordLinkToken()
     {
         $customerData = $this->_createSampleCustomer();
@@ -814,7 +777,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerData = [
             Customer::FIRSTNAME => self::FIRSTNAME,
             Customer::LASTNAME => self::LASTNAME,
-            Customer::EMAIL => 'janedoe' . $this->getRandomString() . '@example.com',
+            Customer::EMAIL => 'janedoe' . uniqid() . '@example.com',
             Customer::CONFIRMATION => self::CONFIRMATION,
             Customer::CREATED_AT => self::CREATED_AT,
             Customer::CREATED_IN => self::STORE_NAME,
