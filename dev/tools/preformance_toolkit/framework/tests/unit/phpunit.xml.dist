@@ -12,7 +12,7 @@
 -->
 <phpunit bootstrap="framework/bootstrap.php">
     <testsuites>
-        <testsuite name="Unit Tests for Toolkit Framework">
+        <testsuite name="Unit Tests for Preformance Toolkit Framework">
             <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
