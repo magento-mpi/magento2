@@ -212,7 +212,6 @@ class Application
         $objectManager->configure(array(
             'preferences' => array(
                 'Magento\App\State' => 'Magento\TestFramework\App\State',
-                'Magento\Core\Model\App' => 'Magento\TestFramework\App',
             ),
         ));
 

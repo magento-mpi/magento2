@@ -54,7 +54,6 @@ return array(
         'Magento_Core_Model_Config_Resource::DEFAULT_WRITE_CONNECTION'
     ),
     array('DEFAULT_CURRENCY', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
-    array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App'),
     array('DEFAULT_READ_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_WRITE_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_ERROR_HANDLER', 'Mage'),

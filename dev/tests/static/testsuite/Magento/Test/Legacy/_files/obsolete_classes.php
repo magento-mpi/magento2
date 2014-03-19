@@ -1243,6 +1243,7 @@ return array(
     array('Magento\Core\Model\ModuleListInterface'),
     array('Magento\Core\Model\RouterList'),
     array('Magento\Core\Model\App\State'),
+    array('Magento\Core\Model\App'),
     array('Magento\Core\Model\Event\Config\Converter'),
     array('Magento\Core\Model\Event\Config\Data'),
     array('Magento\Core\Model\Event\Config\Reader'),

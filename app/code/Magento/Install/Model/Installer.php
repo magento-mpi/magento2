@@ -79,9 +79,9 @@ class Installer extends \Magento\Object
     protected $_filesystem;
 
     /**
-     * Application
+     * Area list
      *
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\AreaList
      */
     protected $_areaList;
 

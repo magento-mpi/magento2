@@ -10,6 +10,8 @@
  */
 
 namespace Magento\Backend\Block\Widget\Grid;
+use Magento\Core\Model\StoreManager;
+use Magento\Core\Model\StoreManager;
 
 /**
  * @magentoDataFixture Magento/Backend/Block/_files/backend_theme.php
@@ -51,8 +53,8 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     protected function _setFixtureTheme()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
-            \Magento\Core\Model\App::PARAM_RUN_TYPE => 'store',
+            StoreManager::PARAM_RUN_CODE => 'admin',
+            StoreManager::PARAM_RUN_TYPE => 'store',
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/../../_files/design')
             ),

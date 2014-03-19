@@ -10,6 +10,7 @@
  */
 
 namespace Magento\Backend\Block\System\Config;
+use Magento\App\Cache\State;
 
 /**
  * @magentoAppArea adminhtml
@@ -193,7 +194,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected function _setupFieldsInheritCheckbox($useConfigField, $isConfigDataEmpty, $configDataValue)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Core\Model\App::PARAM_BAN_CACHE => true,
+            State::PARAM_BAN_CACHE => true,
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Config\ScopeInterface')

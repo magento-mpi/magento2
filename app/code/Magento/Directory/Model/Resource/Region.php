@@ -64,7 +64,7 @@ class Region extends \Magento\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
 
         $locale       = $this->_localeResolver->getLocaleCode();
-        $systemLocale = \Magento\Core\Model\App::DISTRO_LOCALE_CODE;
+        $systemLocale = \Magento\AppInterface::DISTRO_LOCALE_CODE;
 
         $regionField = $adapter->quoteIdentifier($this->getMainTable() . '.' . $this->getIdFieldName());
 

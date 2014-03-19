@@ -530,7 +530,6 @@ final class Controller
                         ->get('Magento\App\State')
                         ->setIsDownloader();
                 }
-                \Magento\App\ObjectManager::getInstance()->get('Magento\Core\Model\App');
                 if (self::isInstalled()) {
                     \Mage::getSingleton('Magento\Backend\Model\UrlInterface')->turnOffSecretKey();
                 }

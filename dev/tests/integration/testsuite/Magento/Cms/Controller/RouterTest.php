@@ -70,7 +70,7 @@ class ManagerStub extends Manager
      *
      * @param string $eventName
      * @param array $params
-     * @return \Magento\Core\Model\App|null
+     * @return null
      */
     public function dispatch($eventName, array $params = array())
     {

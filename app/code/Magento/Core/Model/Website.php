@@ -504,7 +504,6 @@ class Website extends \Magento\Model\AbstractModel implements \Magento\Object\Id
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         $this->_configDataResource->clearWebsiteData($this);
         return parent::_beforeDelete();
     }

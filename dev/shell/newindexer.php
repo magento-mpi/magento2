@@ -8,10 +8,12 @@
  * @license     {license_link}
  */
 
+use Magento\Core\Model\StoreManager;
+
 require_once __DIR__ . '/../../app/bootstrap.php';
 $params = array(
-    \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
-    \Magento\Core\Model\App::PARAM_RUN_TYPE => 'store',
+    StoreManager::PARAM_RUN_CODE => 'admin',
+    StoreManager::PARAM_RUN_TYPE => 'store',
 );
 
 $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $params);

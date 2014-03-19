@@ -163,7 +163,7 @@ class Http extends File
 
         $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
             . 'Host: ' . $hostname . "\r\n"
-            . 'User-Agent: Magento ver/' . \Magento\Core\Model\App::VERSION . "\r\n"
+            . 'User-Agent: Magento ver/' . \Magento\AppInterface::VERSION . "\r\n"
             . 'Connection: close' . "\r\n"
             . "\r\n";
 

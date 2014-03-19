@@ -147,10 +147,6 @@
         </item>
         <item>
             <word>Enterprise</word>
-            <path>app/code/Magento/Core/Model/App.php</path>
-        </item>
-        <item>
-            <word>Enterprise</word>
             <path>lib/Magento/DB/Helper.php</path>
         </item>
         <item>

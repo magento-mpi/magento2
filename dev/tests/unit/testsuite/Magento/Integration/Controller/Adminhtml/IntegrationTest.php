@@ -29,9 +29,6 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_appMock;
-
     /** @var \Magento\Core\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutFilterMock;
 
@@ -101,14 +98,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        // Initialize mocks which are used in several test cases
-        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')
-            ->setMethods(array('getConfig'))
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_configMock = $this->getMockBuilder('Magento\App\ConfigInterface')->disableOriginalConstructor()
             ->getMock();
-        $this->_appMock->expects($this->any())->method('getConfig')->will($this->returnValue($this->_configMock));
         $this->_eventManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();

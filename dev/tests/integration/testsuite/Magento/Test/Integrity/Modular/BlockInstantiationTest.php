@@ -35,7 +35,6 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
                     ->get('Magento\Config\ScopeInterface')
                     ->setCurrentScope($area);
 
-                /** @var \Magento\Core\Model\App $app */
                 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($area);
 
                 $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

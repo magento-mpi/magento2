@@ -14,7 +14,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Controller\Rest\Response */
     protected $_responseRest;
 
-    /** @var \Magento\Core\Model\App */
+    /** @var \Magento\App\State */
     protected $_appStateMock;
 
     /** @var \Magento\Webapi\Controller\Rest\Response\Renderer\Xml */

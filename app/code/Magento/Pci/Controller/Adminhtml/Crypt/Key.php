@@ -87,7 +87,7 @@ class Key extends \Magento\Backend\App\Action
                     __('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey)
                 );
             }
-            $this->_objectManager->get('Magento\Core\Model\App')->cleanCache();
+            $this->_objectManager->get('Magento\App\CacheInterface')->clean();
         }
         catch (\Exception $e) {
             if ($message = $e->getMessage()) {

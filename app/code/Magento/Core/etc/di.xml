@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Acl\CacheInterface" type="Magento\Acl\Cache" />
-    <preference for="Magento\App\AreaInterface" type="Magento\Core\Model\Area" />
+    <preference for="Magento\App\AreaInterface" type="Magento\Core\Model\App\Area" />
     <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
     <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />

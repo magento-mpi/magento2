@@ -17,7 +17,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Helper\Data */
     protected $_helperMock;
 
-    /** @var \Magento\Core\Model\App */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_appStateMock;
 
     /** @var \Magento\Logger */

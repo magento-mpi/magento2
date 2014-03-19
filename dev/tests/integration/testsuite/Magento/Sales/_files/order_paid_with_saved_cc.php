@@ -9,7 +9,6 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Core\Model\App $app */
 \Magento\TestFramework\Helper\Bootstrap::getInstance()
     ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 

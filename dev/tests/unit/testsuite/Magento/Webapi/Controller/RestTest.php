@@ -90,10 +90,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        /** @var $applicationMock \Magento\AppInterface */
-        $applicationMock = $this->getMockBuilder('Magento\AppInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
         $layoutMock = $this->getMockBuilder('Magento\View\LayoutInterface')->disableOriginalConstructor()->getMock();
 
         $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', [], [], '', false);
@@ -114,7 +110,6 @@ class RestTest extends \PHPUnit_Framework_TestCase
                 'router' => $this->_routerMock,
                 'objectManager' => $this->_objectManagerMock,
                 'appState' => $this->_appStateMock,
-                'application' => $applicationMock,
                 'layout' => $layoutMock,
                 'authorizationService' => $this->_authzServiceMock,
                 'serializer' => $serializer,

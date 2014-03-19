@@ -89,7 +89,7 @@ class Config
     protected $_collectionAttributes              = array();
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 

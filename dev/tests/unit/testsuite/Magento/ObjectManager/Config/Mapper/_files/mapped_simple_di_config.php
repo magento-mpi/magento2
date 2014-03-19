@@ -8,7 +8,7 @@
 return array(
     'preferences' => array(
         'Magento\Module\UpdaterInterface' => 'Magento\Module\Updaterter',
-        'Magento\AppInterface' => 'Magento\Core\Model\App\Proxy',
+        'Magento\App\RequestInterface' => 'Magento\App\Request\Http\Proxy',
     ),
 
     'Magento\App\State' => array(

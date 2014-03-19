@@ -10,6 +10,14 @@ namespace Magento\Core\Model;
 class StoreManager implements \Magento\Core\Model\StoreManagerInterface
 {
     /**
+     * Application run code
+     */
+    const PARAM_RUN_CODE = 'MAGE_RUN_CODE';
+    /**
+     * Application run type (store|website)
+     */
+    const PARAM_RUN_TYPE = 'MAGE_RUN_TYPE';
+    /**
      * Store storage factory model
      *
      * @var \Magento\Core\Model\Store\StorageFactory
