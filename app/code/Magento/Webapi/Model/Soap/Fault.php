@@ -338,7 +338,7 @@ FAULT_MESSAGE;
     /**
      * Generate XML for wrapped errors.
      *
-     * @param array $parameters
+     * @param array $wrappedErrors
      * @return string
      */
     protected function _getWrappedErrorsXml($wrappedErrors)
@@ -350,18 +350,7 @@ FAULT_MESSAGE;
 
         $errorsXml = '';
         foreach ($wrappedErrors as $error) {
-            $fieldNameNode = self::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME;
-            $codeNode = self::NODE_DETAIL_WRAPPED_ERROR_CODE;
-            $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
-            $wrappedErrorNode = self::NODE_DETAIL_WRAPPED_ERROR;
-
-            $fieldName = isset($error['fieldName']) ? $error['fieldName'] : "";
-            $code = isset($error['code']) ? $error['code'] : "";
-            $value = isset($error['value']) ? $error['value'] : "";
-
-            $errorsXml .= "<m:$wrappedErrorNode><m:$fieldNameNode>$fieldName</m:$fieldNameNode><m:$codeNode>"
-                . "$code</m:$codeNode><m:$valueNode>" . htmlspecialchars($value)
-                .  "</m:$valueNode></m:$wrappedErrorNode>";
+            $errorsXml .= $this->_generateErrorNodeXml($error);
         }
         if (!empty($errorsXml)) {
             $wrappedErrorsNode = self::NODE_DETAIL_WRAPPED_ERRORS;
@@ -369,5 +358,27 @@ FAULT_MESSAGE;
         }
 
         return $result;
+    }
+
+    /**
+     * Generate XML for a particular error node.
+     *
+     * @param array $error
+     * @return string
+     */
+    protected function _generateErrorNodeXML($error)
+    {
+        $fieldNameNode = self::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME;
+        $codeNode = self::NODE_DETAIL_WRAPPED_ERROR_CODE;
+        $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
+        $wrappedErrorNode = self::NODE_DETAIL_WRAPPED_ERROR;
+
+        $fieldName = isset($error['fieldName']) ? $error['fieldName'] : "";
+        $code = isset($error['code']) ? $error['code'] : "";
+        $value = isset($error['value']) ? $error['value'] : "";
+
+        return "<m:$wrappedErrorNode><m:$fieldNameNode>$fieldName</m:$fieldNameNode><m:$codeNode>"
+            . "$code</m:$codeNode><m:$valueNode>" . htmlspecialchars($value)
+            .  "</m:$valueNode></m:$wrappedErrorNode>";
     }
 }
