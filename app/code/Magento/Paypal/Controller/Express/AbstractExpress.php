@@ -132,11 +132,13 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 $this->_getQuote()->removeAllAddresses();
             }
 
-            $customer = $this->_customerSession->getCustomer();
+            $customerData = $this->_customerSession->getCustomerDataObject();
             $quoteCheckoutMethod = $this->_getQuote()->getCheckoutMethod();
-            if ($customer && $customer->getId()) {
+            if ($customerData->getId()) {
                 $this->_checkout->setCustomerWithAddressChange(
-                    $customer, $this->_getQuote()->getBillingAddress(), $this->_getQuote()->getShippingAddress()
+                    $customerData,
+                    $this->_getQuote()->getBillingAddress(),
+                    $this->_getQuote()->getShippingAddress()
                 );
             } elseif (
                 (!$quoteCheckoutMethod || $quoteCheckoutMethod != \Magento\Checkout\Model\Type\Onepage::METHOD_REGISTER)
@@ -159,7 +161,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             // billing agreement
             $isBARequested = (bool)$this->getRequest()
                 ->getParam(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
-            if ($customer && $customer->getId()) {
+            if ($customerData->getId()) {
                 $this->_checkout->setIsBillingAgreementRequested($isBARequested);
             }
 

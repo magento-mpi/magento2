@@ -11,6 +11,7 @@ namespace Magento\Paypal\Model\Express;
 
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Model\Customer;
+use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 
 /**
  * Wrapper that performs Paypal Express and Checkout communication
@@ -375,7 +376,7 @@ class Checkout
     /**
      * Setter for customer with billing and shipping address changing ability
      *
-     * @param Customer $customer
+     * @param CustomerDataObject|Customer $customer
      * @param Address|null $billingAddress
      * @param Address|null $shippingAddress
      * @return $this
