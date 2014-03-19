@@ -18,6 +18,8 @@ use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Service\V1\Data\Filter;
+use Magento\Tax\Model\ClassModel as TaxClassModel;
+use Magento\Tax\Model\ClassModelFactory as TaxClassModelFactory;
 
 /**
  * Class CustomerGroupService
@@ -52,24 +54,37 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     private $_customerGroupBuilder;
 
     /**
+     * @var TaxClassModelFactory
+     */
+    private $_taxClassModelFactory;
+
+    /**
+     * The default tax class id if no tax class id is specified
+     */
+    const DEFAULT_TAX_CLASS_ID = 3;
+
+    /**
      * @param GroupFactory $groupFactory
      * @param StoreConfig $storeConfig
      * @param StoreManagerInterface $storeManager
      * @param Data\SearchResultsBuilder $searchResultsBuilder
      * @param Data\CustomerGroupBuilder $customerGroupBuilder
+     * @param TaxClassModelFactory $taxClassModel
      */
     public function __construct(
         GroupFactory $groupFactory,
         StoreConfig $storeConfig,
         StoreManagerInterface $storeManager,
         Data\SearchResultsBuilder $searchResultsBuilder,
-        Data\CustomerGroupBuilder $customerGroupBuilder
+        Data\CustomerGroupBuilder $customerGroupBuilder,
+        TaxClassModelFactory $taxClassModelFactory
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
         $this->_searchResultsBuilder = $searchResultsBuilder;
         $this->_customerGroupBuilder = $customerGroupBuilder;
+        $this->_taxClassModelFactory = $taxClassModelFactory;
     }
 
     /**
@@ -256,7 +271,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             throw new NoSuchEntityException('groupId', $groupId);
         }
 
-        return !$customerGroup->usesAsDefault();
+        return $groupId > 0 && !$customerGroup->usesAsDefault();
     }
 
     /**
@@ -264,14 +279,62 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function saveGroup(Data\CustomerGroup $group)
     {
+        if (!$group->getCode()) {
+            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
+        }
+
         $customerGroup = $this->_groupFactory->create();
         if ($group->getId()) {
             $customerGroup->load($group->getId());
+
+            // Throw exception if the customer group does not exist
+            if (is_null($customerGroup->getId())) {
+                throw new NoSuchEntityException('id', $group->getId());
+            }
         }
         $customerGroup->setCode($group->getCode());
-        $customerGroup->setTaxClassId($group->getTaxClassId());
-        $customerGroup->save();
+
+        $taxClassId = $group->getTaxClassId();
+        if (!$taxClassId) {
+            $taxClassId = self::DEFAULT_TAX_CLASS_ID;
+        }
+        $this->_verifyTaxClassModel($taxClassId, $group);
+
+        $customerGroup->setTaxClassId($taxClassId);
+        try {
+            $customerGroup->save();
+        } catch (\Magento\Core\Exception $e) {
+            /* Would like a better way to determine this error condition but
+               difficult to do without imposing more database calls
+            */
+            if ($e->getMessage() === __('Customer Group already exists.')) {
+                $e = new InputException($e->getMessage());
+                $e->addError(InputException::INVALID_FIELD_VALUE, 'code', $group->getCode());
+                throw $e;
+            }
+            throw $e;
+        }
+
         return $customerGroup->getId();
+    }
+
+    /**
+     * Verifies that the tax class model exists and is a customer tax class type.
+     *
+     * @param int $taxClassId The id of the tax class model to check
+     * @param \Magento\Customer\Service\V1\Data\CustomerGroup $group The original group parameters
+     * @throws InputException Thrown if the tax class model is invalid
+     */
+    protected function _verifyTaxClassModel($taxClassId, $group)
+    {
+        /* Doing this until a Tax Service API is available */
+        $taxClassModel = $this->_taxClassModelFactory->create();
+        $taxClassModel->load($taxClassId);
+        if (is_null($taxClassModel->getId())
+            || $taxClassModel->getTaxClassType() === TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
+            ) {
+            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'taxClassId', $group->getTaxClassId());
+        }
     }
 
     /**

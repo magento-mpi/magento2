@@ -75,6 +75,7 @@ class Response extends \Magento\Webapi\Controller\Response
         $responseHttpCode = null;
         /** @var \Exception $exception */
         foreach ($this->getException() as $exception) {
+            /** @var \Magento\Webapi\Exception $maskedException */
             $maskedException = $this->_errorProcessor->maskException($exception);
             $messageData = array(
                 'message' => $maskedException->getMessage(),

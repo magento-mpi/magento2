@@ -18,7 +18,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
-    const TAX_CLASS_ID = 4;
+    const TAX_CLASS_ID = 3;
     const GROUP_CODE = 'Test Group';
 
     /**
