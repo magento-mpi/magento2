@@ -9,9 +9,7 @@
  */
 namespace Magento\FullPageCache\Model\Placeholder;
 
-class Config
-    extends \Magento\Config\Data\Scoped
-    implements \Magento\FullPageCache\Model\Placeholder\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements \Magento\FullPageCache\Model\Placeholder\ConfigInterface
 {
     /**
      * Scope priority loading scheme

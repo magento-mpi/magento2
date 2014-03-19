@@ -42,14 +42,17 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
-        $this->_filesystem->expects($this->any())->method('getPath')->with(\Magento\App\Filesystem::MEDIA_DIR)
-            ->will($this->returnValue('/media'));
-
-        $this->_model = new Path(
-            $this->_filesystem,
-            $this->_viewUrlMock,
-            $this->_storeManagerMock
+        $this->_filesystem->expects(
+            $this->any()
+        )->method(
+            'getPath'
+        )->with(
+            \Magento\App\Filesystem::MEDIA_DIR
+        )->will(
+            $this->returnValue('/media')
         );
+
+        $this->_model = new Path($this->_filesystem, $this->_viewUrlMock, $this->_storeManagerMock);
     }
 
     protected function tearDown()
@@ -77,8 +80,13 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testDefaultPreviewImageUrlGetter()
     {
-        $this->_viewUrlMock->expects($this->once())->method('getViewFileUrl')
-            ->with(\Magento\Core\Model\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE);
+        $this->_viewUrlMock->expects(
+            $this->once()
+        )->method(
+            'getViewFileUrl'
+        )->with(
+            \Magento\Core\Model\Theme\Image\Path::DEFAULT_PREVIEW_IMAGE
+        );
         $this->_model->getPreviewImageDefaultUrl();
     }
 
@@ -87,10 +95,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testImagePreviewDirectoryGetter()
     {
-        $this->assertEquals(
-            '/media/theme/preview',
-            $this->_model->getImagePreviewDirectory()
-        );
+        $this->assertEquals('/media/theme/preview', $this->_model->getImagePreviewDirectory());
     }
 
     /**
@@ -98,9 +103,6 @@ class PathTest extends \PHPUnit_Framework_TestCase
      */
     public function testTemporaryDirectoryGetter()
     {
-        $this->assertEquals(
-            '/media/theme/origin',
-            $this->_model->getTemporaryDirectory()
-        );
+        $this->assertEquals('/media/theme/origin', $this->_model->getTemporaryDirectory());
     }
 }

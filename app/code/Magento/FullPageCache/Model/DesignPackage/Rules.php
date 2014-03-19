@@ -12,7 +12,7 @@ class Rules
     /**
      * Design change cache suffix
      */
-    const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
+    const DESIGN_CHANGE_CACHE_SUFFIX = 'FPC_DESIGN_CHANGE_CACHE';
 
     /**
      * Regular expressions matches cache
@@ -98,7 +98,7 @@ class Rules
         $exceptions = $this->_fpcCache->load(\Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY);
 
         $date = date('Y-m-d');
-        $changeCacheId =  $this->getCacheId($storeId, $date);
+        $changeCacheId = $this->getCacheId($storeId, $date);
         $result = $this->_fpcCache->load($changeCacheId);
         if ($result === false) {
             $result = $this->_designChange->getResource()->loadChange($storeId, $date);

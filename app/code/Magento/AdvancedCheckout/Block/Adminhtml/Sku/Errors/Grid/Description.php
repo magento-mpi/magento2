@@ -69,13 +69,19 @@ class Description extends \Magento\Backend\Block\Template
         $itemSku = $this->escapeHtml($this->_jsonEncoder->encode($this->getItem()->getSku()));
 
         /* @var $button \Magento\Backend\Block\Widget\Button */
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button', '', array('data' => array(
-            'class'    => $canConfigure ? 'action-configure' : 'action-configure action-disabled',
-            'onclick'  => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
-            'disabled' => !$canConfigure,
-            'label'    => __('Configure'),
-            'type'     => 'button',
-        )));
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button',
+            '',
+            array(
+                'data' => array(
+                    'class' => $canConfigure ? 'action-configure' : 'action-configure action-disabled',
+                    'onclick' => $canConfigure ? "addBySku.configure({$productId}, {$itemSku})" : '',
+                    'disabled' => !$canConfigure,
+                    'label' => __('Configure'),
+                    'type' => 'button'
+                )
+            )
+        );
 
         return $button->toHtml();
     }

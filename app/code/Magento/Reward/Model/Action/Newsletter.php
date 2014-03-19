@@ -78,9 +78,10 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
         }
 
         /* @var $subscribers \Magento\Newsletter\Model\Resource\Subscriber\Collection */
-        $subscribers = $this->_subscribersFactory->create()
-            ->addFieldToFilter('customer_id', $subscriber->getCustomerId())
-            ->load();
+        $subscribers = $this->_subscribersFactory->create()->addFieldToFilter(
+            'customer_id',
+            $subscriber->getCustomerId()
+        )->load();
         // check for existing customer subscribtions
         $found = false;
         foreach ($subscribers as $item) {
@@ -114,9 +115,7 @@ class Newsletter extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array(
-            'email' => $this->getEntity()->getEmail()
-        ));
+        $this->getHistory()->addAdditionalData(array('email' => $this->getEntity()->getEmail()));
         return $this;
     }
 }

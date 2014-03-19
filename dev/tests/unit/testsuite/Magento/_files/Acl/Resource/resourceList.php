@@ -11,14 +11,14 @@ return array(
         'title' => 'Resource One',
         'sortOrder' => 10,
         'disabled' => false,
-        'children' => array(),
+        'children' => array()
     ),
     array(
         'id' => 'One_Module::resource_one',
         'title' => 'Resource Two',
         'sortOrder' => 30,
         'disabled' => true,
-        'children' => array(),
+        'children' => array()
     ),
     array(
         'id' => 'One_Module::resource_parent',
@@ -37,12 +37,10 @@ return array(
                         'title' => 'Child Resource Level 2 Title',
                         'sortOrder' => 40,
                         'disabled' => false,
-                        'children' => array(),
-                    ),
-                ),
-
-            ),
-        ),
-    ),
-
+                        'children' => array()
+                    )
+                )
+            )
+        )
+    )
 );

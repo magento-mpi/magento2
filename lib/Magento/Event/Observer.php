@@ -7,10 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Event;
 
-use \Magento\Event;
+use Magento\Event;
 
 class Observer extends \Magento\Object
 {
@@ -40,7 +39,11 @@ class Observer extends \Magento\Object
         $callback = $this->getCallback();
         $this->setEvent($event);
 
-        $_profilerKey = 'OBSERVER: '.(is_object($callback[0]) ? get_class($callback[0]) : (string)$callback[0]).' -> '.$callback[1];
+        $_profilerKey = 'OBSERVER: ' . (is_object(
+            $callback[0]
+        ) ? get_class(
+            $callback[0]
+        ) : (string)$callback[0]) . ' -> ' . $callback[1];
         \Magento\Profiler::start($_profilerKey);
         call_user_func($callback, $this);
         \Magento\Profiler::stop($_profilerKey);

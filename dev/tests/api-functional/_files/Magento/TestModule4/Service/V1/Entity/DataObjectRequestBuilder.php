@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule4\Service\V1\Entity;
 
 class DataObjectRequestBuilder extends \Magento\Service\Data\AbstractObjectBuilder
 {
-
     /**
      * @param string $name
      * @return DataObjectRequest
@@ -28,5 +26,4 @@ class DataObjectRequestBuilder extends \Magento\Service\Data\AbstractObjectBuild
     {
         return $this->_set('entity_id', $entityId);
     }
-
 }

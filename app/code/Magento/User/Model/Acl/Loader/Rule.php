@@ -41,8 +41,7 @@ class Rule implements \Magento\Acl\LoaderInterface
 
         $adapter = $this->_resource->getConnection('core_read');
 
-        $select = $adapter->select()
-            ->from(array('r' => $ruleTable));
+        $select = $adapter->select()->from(array('r' => $ruleTable));
 
         $rulesArr = $adapter->fetchAll($select);
 

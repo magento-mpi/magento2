@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor;
 
-use \Magento\Css\PreProcessor\Cache\Import\Cache;
-use \Magento\Css\PreProcessor\Cache\Import\Map\Storage;
+use Magento\Css\PreProcessor\Cache\Import\Cache;
+use Magento\Css\PreProcessor\Cache\Import\Map\Storage;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,13 +33,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->preProcessorLess = $this->objectManager->create('Magento\Css\PreProcessor\Less');
         $this->filesystem = $this->objectManager->get('Magento\Filesystem');
 
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::PUB_LIB_DIR => array(
-                    'path' => __DIR__ . '/_files/cache/lib'
-                ),
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
+            array(
+                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\App\Filesystem::PUB_LIB_DIR => array('path' => __DIR__ . '/_files/cache/lib')
+                )
             )
-        ));
+        );
 
         $this->clearCache();
     }
@@ -52,12 +51,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testLessCache()
     {
-        $file = $this->objectManager->create('Magento\View\Publisher\CssFile',
-            [
-                'filePath' => 'oyejorge.css',
-                'allowDuplication' => false,
-                'viewParams' => $this->getDesignParams()
-            ]
+        $file = $this->objectManager->create(
+            'Magento\View\Publisher\CssFile',
+            array('filePath' => 'oyejorge.css', 'allowDuplication' => false, 'viewParams' => $this->getDesignParams())
         );
 
         $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
@@ -88,7 +84,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     protected function getDesignParams()
     {
-        $designParams = ['area' => 'frontend'];
+        $designParams = array('area' => 'frontend');
         $viewService = $this->objectManager->get('Magento\View\Service');
         $viewService->updateDesignParams($designParams);
 

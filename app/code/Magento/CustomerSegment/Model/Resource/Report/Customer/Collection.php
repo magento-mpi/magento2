@@ -18,8 +18,7 @@
  */
 namespace Magento\CustomerSegment\Model\Resource\Report\Customer;
 
-class Collection
-    extends \Magento\Customer\Model\Resource\Customer\Collection
+class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * View mode
@@ -33,14 +32,14 @@ class Collection
      *
      * @var \Magento\DB\Select
      */
-    protected $_subQuery     = null;
+    protected $_subQuery = null;
 
     /**
      * Websites array for filter
      *
      * @var array
      */
-    protected $_websites     = null;
+    protected $_websites = null;
 
     /**
      * Add filter by segment(s)
@@ -51,12 +50,15 @@ class Collection
     public function addSegmentFilter($segment)
     {
         if ($segment instanceof \Magento\CustomerSegment\Model\Segment) {
-            $segment = ($segment->getId()) ? $segment->getId() : $segment->getMassactionIds();
+            $segment = $segment->getId() ? $segment->getId() : $segment->getMassactionIds();
         }
 
-        $this->_subQuery = ($this->getViewMode() == \Magento\CustomerSegment\Model\Segment::VIEW_MODE_INTERSECT_CODE)
-            ? $this->_getIntersectQuery($segment)
-            : $this->_getUnionQuery($segment);
+        $this->_subQuery = $this->getViewMode() ==
+            \Magento\CustomerSegment\Model\Segment::VIEW_MODE_INTERSECT_CODE ? $this->_getIntersectQuery(
+                $segment
+            ) : $this->_getUnionQuery(
+                $segment
+            );
 
         return $this;
     }
@@ -92,9 +94,12 @@ class Collection
         $select->from(
             $this->getTable('magento_customersegment_customer'),
             'customer_id'
-        )
-        ->where('segment_id IN(?)', $segment)
-        ->where('e.entity_id = customer_id');
+        )->where(
+            'segment_id IN(?)',
+            $segment
+        )->where(
+            'e.entity_id = customer_id'
+        );
         return $select;
     }
 
@@ -111,11 +116,17 @@ class Collection
         $select->from(
             $this->getTable('magento_customersegment_customer'),
             'customer_id'
-        )
-        ->where('segment_id IN(?)', $segment)
-        ->where('e.entity_id = customer_id')
-        ->group('customer_id')
-        ->having('COUNT(segment_id) = ?', count($segment));
+        )->where(
+            'segment_id IN(?)',
+            $segment
+        )->where(
+            'e.entity_id = customer_id'
+        )->group(
+            'customer_id'
+        )->having(
+            'COUNT(segment_id) = ?',
+            count($segment)
+        );
         return $select;
     }
 

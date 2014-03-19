@@ -79,8 +79,8 @@ class Design extends Action
         $this->_setActiveMenu('Magento_Backend::system_design_schedule');
         $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $id  = (int)$this->getRequest()->getParam('id');
-        $design    = $this->_objectManager->create('Magento\Core\Model\Design');
+        $id = (int)$this->getRequest()->getParam('id');
+        $design = $this->_objectManager->create('Magento\Core\Model\Design');
 
         if ($id) {
             $design->load($id);
@@ -106,7 +106,7 @@ class Design extends Action
         $data = $this->getRequest()->getPost();
         if ($data) {
             $data['design'] = $this->_filterPostData($data['design']);
-            $id = (int) $this->getRequest()->getParam('id');
+            $id = (int)$this->getRequest()->getParam('id');
 
             $design = $this->_objectManager->create('Magento\Core\Model\Design');
             if ($id) {
@@ -121,10 +121,10 @@ class Design extends Action
                 $design->save();
 
                 $this->messageManager->addSuccess(__('You saved the design change.'));
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setDesignData($data);
-                $this->_redirect('adminhtml/*/edit', array('id'=>$design->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $design->getId()));
                 return;
             }
         }
@@ -170,7 +170,10 @@ class Design extends Action
     protected function _filterPostData($data)
     {
         $inputFilter = new \Zend_Filter_Input(
-            array('date_from' => $this->dateFilter, 'date_to' => $this->dateFilter), array(), $data);
+            array('date_from' => $this->dateFilter, 'date_to' => $this->dateFilter),
+            array(),
+            $data
+        );
         $data = $inputFilter->getUnescaped();
         return $data;
     }

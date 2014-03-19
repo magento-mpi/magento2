@@ -34,21 +34,28 @@ $installer->getConnection()->addForeignKey(
     'customer_id',
     $installer->getTable('customer_entity'),
     'entity_id',
-    \Magento\DB\Ddl\Table::ACTION_CASCADE, \Magento\DB\Ddl\Table::ACTION_CASCADE
+    \Magento\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\DB\Ddl\Table::ACTION_CASCADE
 );
 
-$installer->getConnection()->addColumn($tableName, 'name', array(
-        'type'     => \Magento\DB\Ddl\Table::TYPE_TEXT,
-        'length'   => 255,
-        'comment'  => 'Wish List Name',
-        'default'  => null
+$installer->getConnection()->addColumn(
+    $tableName,
+    'name',
+    array(
+        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+        'length' => 255,
+        'comment' => 'Wish List Name',
+        'default' => null
     )
 );
 
-$installer->getConnection()->addColumn($tableName, 'visibility', array(
-        'type'     => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+$installer->getConnection()->addColumn(
+    $tableName,
+    'visibility',
+    array(
+        'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'nullable' => true,
-        'default'  => 0,
-        'comment'  => 'Wish list visibility type'
+        'default' => 0,
+        'comment' => 'Wish list visibility type'
     )
 );

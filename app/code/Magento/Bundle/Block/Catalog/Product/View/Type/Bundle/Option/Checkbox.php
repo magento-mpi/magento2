@@ -16,8 +16,7 @@ namespace Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option;
  * @package     Magento_Bundle
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Checkbox
-    extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option
+class Checkbox extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option
 {
     /**
      * @var string

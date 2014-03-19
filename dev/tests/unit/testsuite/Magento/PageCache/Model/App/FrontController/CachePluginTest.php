@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model\App\FrontController;
 
 class CachePluginTest extends \PHPUnit_Framework_TestCase
@@ -70,49 +69,43 @@ class CachePluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDispatchProcessIfCacheMissedForBuiltIn()
     {
-        $this->version
-            ->expects($this->once())
-            ->method('process');
-        $this->config
-            ->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
-        $this->kernel
-            ->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(false));
-        $this->kernel
-            ->expects($this->once())
-            ->method('process')
-            ->with($this->response);
+        $this->version->expects($this->once())->method('process');
+        $this->config->expects(
+            $this->once()
+        )->method(
+            'getType'
+        )->will(
+            $this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN)
+        );
+        $this->kernel->expects($this->once())->method('load')->will($this->returnValue(false));
+        $this->kernel->expects($this->once())->method('process')->with($this->response);
         $this->plugin->aroundDispatch($this->frontController, $this->closure, $this->request);
     }
 
     public function testAroundDispatchReturnsCacheForBuiltIn()
     {
-        $this->version
-            ->expects($this->once())
-            ->method('process');
-        $this->config
-            ->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
-        $this->kernel
-            ->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue($this->response));
+        $this->version->expects($this->once())->method('process');
+        $this->config->expects(
+            $this->once()
+        )->method(
+            'getType'
+        )->will(
+            $this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN)
+        );
+        $this->kernel->expects($this->once())->method('load')->will($this->returnValue($this->response));
         $this->plugin->aroundDispatch($this->frontController, $this->closure, $this->request);
     }
 
     public function testAroundDispatchVarnish()
     {
-        $this->version
-            ->expects($this->once())
-            ->method('process');
-        $this->config
-            ->expects($this->once())
-            ->method('getType')
-            ->will($this->returnValue(\Magento\PageCache\Model\Config::VARNISH));
+        $this->version->expects($this->once())->method('process');
+        $this->config->expects(
+            $this->once()
+        )->method(
+            'getType'
+        )->will(
+            $this->returnValue(\Magento\PageCache\Model\Config::VARNISH)
+        );
         $this->plugin->aroundDispatch($this->frontController, $this->closure, $this->request);
     }
 }

@@ -91,7 +91,6 @@ class Pro extends \Magento\Paypal\Model\Pro
         return $result;
     }
 
-
     /**
      * Refund a capture transaction
      *

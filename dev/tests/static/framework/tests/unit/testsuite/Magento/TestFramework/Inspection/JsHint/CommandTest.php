@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Inspection\JsHint;
 
 class CommandTest extends \PHPUnit_Framework_TestCase
@@ -22,8 +21,15 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cmd = $this->getMock(
             'Magento\TestFramework\Inspection\JsHint\Command',
-            array('_getHostScript', '_fileExists', '_getJsHintPath',
-                '_executeCommand', 'getFileName', '_execShellCmd', '_getJsHintOptions'),
+            array(
+                '_getHostScript',
+                '_fileExists',
+                '_getJsHintPath',
+                '_executeCommand',
+                'getFileName',
+                '_execShellCmd',
+                '_getJsHintOptions'
+            ),
             array('mage.js', 'report.xml')
         );
     }
@@ -31,11 +37,25 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testCanRun()
     {
         $this->_cmd->expects($this->any())->method('_getHostScript')->will($this->returnValue('cscript'));
-        $this->_cmd->expects($this->any())->method('_executeCommand')->with($this->stringContains('cscript'))
-            ->will($this->returnValue(array('output', 0)));
+        $this->_cmd->expects(
+            $this->any()
+        )->method(
+            '_executeCommand'
+        )->with(
+            $this->stringContains('cscript')
+        )->will(
+            $this->returnValue(array('output', 0))
+        );
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
-        $this->_cmd->expects($this->any())->method('_fileExists')->with($this->isType('string'))
-            ->will($this->returnValue(true));
+        $this->_cmd->expects(
+            $this->any()
+        )->method(
+            '_fileExists'
+        )->with(
+            $this->isType('string')
+        )->will(
+            $this->returnValue(true)
+        );
         $this->_cmd->expects($this->any())->method('getFileName')->will($this->returnValue('mage.js'));
         $this->assertEquals(true, $this->_cmd->canRun());
     }
@@ -43,11 +63,18 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testCanRunHostScriptDoesNotExistException()
     {
         $this->_cmd->expects($this->any())->method('_getHostScript')->will($this->returnValue('cscript'));
-        $this->_cmd->expects($this->any())->method('_executeCommand')->with($this->stringContains('cscript'))
-            ->will($this->returnValue(array('output', 1)));
+        $this->_cmd->expects(
+            $this->any()
+        )->method(
+            '_executeCommand'
+        )->with(
+            $this->stringContains('cscript')
+        )->will(
+            $this->returnValue(array('output', 1))
+        );
         try {
             $this->_cmd->canRun();
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->assertEquals('cscript does not exist.', $e->getMessage());
         }
     }
@@ -55,13 +82,28 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testCanRunJsHintPathDoesNotExistException()
     {
         $this->_cmd->expects($this->any())->method('_getHostScript')->will($this->returnValue('cscript'));
-        $this->_cmd->expects($this->any())->method('_executeCommand')->with($this->stringContains('cscript'))
-            ->will($this->returnValue(array('output', 0)));
+        $this->_cmd->expects(
+            $this->any()
+        )->method(
+            '_executeCommand'
+        )->with(
+            $this->stringContains('cscript')
+        )->will(
+            $this->returnValue(array('output', 0))
+        );
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
-        $this->_cmd->expects($this->any())->method('_fileExists')->with('jshint-path')->will($this->returnValue(false));
+        $this->_cmd->expects(
+            $this->any()
+        )->method(
+            '_fileExists'
+        )->with(
+            'jshint-path'
+        )->will(
+            $this->returnValue(false)
+        );
         try {
             $this->_cmd->canRun();
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->assertEquals('jshint-path does not exist.', $e->getMessage());
         }
     }
@@ -69,22 +111,33 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testCanRunJsFileDoesNotExistException()
     {
         $this->_cmd->expects($this->any())->method('_getHostScript')->will($this->returnValue('cscript'));
-        $this->_cmd->expects($this->any())->method('_executeCommand')->with($this->stringContains('cscript'))
-            ->will($this->returnValue(array('output', 0)));
+        $this->_cmd->expects(
+            $this->any()
+        )->method(
+            '_executeCommand'
+        )->with(
+            $this->stringContains('cscript')
+        )->will(
+            $this->returnValue(array('output', 0))
+        );
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
-        $this->_cmd->expects($this->any())->method('_fileExists')->will($this->returnCallback(function () {
-            $arg = func_get_arg(0);
-            if ($arg == 'jshint-path') {
-                return true;
-            }
-            if ($arg == 'mage.js') {
-                return false;
-            }
-        }));
+        $this->_cmd->expects($this->any())->method('_fileExists')->will(
+            $this->returnCallback(
+                function () {
+                    $arg = func_get_arg(0);
+                    if ($arg == 'jshint-path') {
+                        return true;
+                    }
+                    if ($arg == 'mage.js') {
+                        return false;
+                    }
+                }
+            )
+        );
         $this->_cmd->expects($this->any())->method('getFileName')->will($this->returnValue('mage.js'));
         try {
             $this->_cmd->canRun();
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->assertEquals('mage.js does not exist.', $e->getMessage());
         }
     }

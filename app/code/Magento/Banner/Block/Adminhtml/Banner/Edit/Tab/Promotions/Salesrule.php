@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
 use Magento\Backend\Block\Widget\Grid\Column;
@@ -92,55 +91,58 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('in_banner_salesrule', array(
-            'header_css_class' => 'a-center',
-            'type'      => 'checkbox',
-            'name'      => 'in_banner_salesrule',
-            'values'    => $this->_getSelectedRules(),
-            'align'     => 'center',
-            'index'     => 'rule_id'
-        ));
-        $this->addColumn('salesrule_rule_id', array(
-            'header'    => __('ID'),
-            'align'     =>'right',
-            'width'     => '50px',
-            'index'     => 'rule_id',
-        ));
+        $this->addColumn(
+            'in_banner_salesrule',
+            array(
+                'header_css_class' => 'a-center',
+                'type' => 'checkbox',
+                'name' => 'in_banner_salesrule',
+                'values' => $this->_getSelectedRules(),
+                'align' => 'center',
+                'index' => 'rule_id'
+            )
+        );
+        $this->addColumn(
+            'salesrule_rule_id',
+            array('header' => __('ID'), 'align' => 'right', 'width' => '50px', 'index' => 'rule_id')
+        );
 
-        $this->addColumn('salesrule_name', array(
-            'header'    => __('Rule'),
-            'align'     =>'left',
-            'index'     => 'name',
-        ));
+        $this->addColumn('salesrule_name', array('header' => __('Rule'), 'align' => 'left', 'index' => 'name'));
 
-        $this->addColumn('salesrule_from_date', array(
-            'header'    => __('Start on'),
-            'align'     => 'left',
-            'width'     => '120px',
-            'type'      => 'date',
-            'index'     => 'from_date',
-        ));
+        $this->addColumn(
+            'salesrule_from_date',
+            array(
+                'header' => __('Start on'),
+                'align' => 'left',
+                'width' => '120px',
+                'type' => 'date',
+                'index' => 'from_date'
+            )
+        );
 
-        $this->addColumn('salesrule_to_date', array(
-            'header'    => __('End on'),
-            'align'     => 'left',
-            'width'     => '120px',
-            'type'      => 'date',
-            'default'   => '--',
-            'index'     => 'to_date',
-        ));
+        $this->addColumn(
+            'salesrule_to_date',
+            array(
+                'header' => __('End on'),
+                'align' => 'left',
+                'width' => '120px',
+                'type' => 'date',
+                'default' => '--',
+                'index' => 'to_date'
+            )
+        );
 
-        $this->addColumn('salesrule_is_active', array(
-            'header'    => __('Status'),
-            'align'     => 'left',
-            'width'     => '80px',
-            'index'     => 'is_active',
-            'type'      => 'options',
-            'options'   => array(
-                1 => 'Active',
-                0 => 'Inactive',
-            ),
-        ));
+        $this->addColumn(
+            'salesrule_is_active',
+            array(
+                'header' => __('Status'),
+                'align' => 'left',
+                'width' => '80px',
+                'index' => 'is_active',
+                'type' => 'options',
+                'options' => array(1 => 'Active', 0 => 'Inactive')
+            )
+        );
 
         return parent::_prepareColumns();
     }

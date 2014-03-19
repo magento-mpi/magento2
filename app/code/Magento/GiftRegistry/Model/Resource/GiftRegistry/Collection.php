@@ -16,8 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource\GiftRegistry;
  * @package     Enterpise_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\GiftRegistry\Model\Resource\Type\Collection
+class Collection extends \Magento\GiftRegistry\Model\Resource\Type\Collection
 {
     /**
      * Add sore data for load

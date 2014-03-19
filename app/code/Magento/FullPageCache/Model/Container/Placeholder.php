@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Container;
 
 class Placeholder
@@ -51,11 +50,11 @@ class Placeholder
             $definition = self::$_definitionMap[$definition];
         }
         $this->_definition = $definition;
-        $definition     = explode(' ', $definition);
-        $this->_name    = $definition[0];
+        $definition = explode(' ', $definition);
+        $this->_name = $definition[0];
         $count = count($definition);
-        if ($count>1) {
-            for ($i=1; $i<$count; $i++) {
+        if ($count > 1) {
+            for ($i = 1; $i < $count; $i++) {
                 $info = explode('=', $definition[$i]);
                 $this->_attributes[$info[0]] = isset($info[1]) ? trim($info[1], '"\'') : null;
             }
@@ -108,9 +107,9 @@ class Placeholder
     {
         $def = $this->_definition;
         $container = $this->getAttribute('container');
-        $containerClass = 'container="'.$this->getContainerClass().'"';
-        $def = str_replace('container="'.$container.'"', $containerClass, $def);
-        $def = str_replace('container=\''.$container.'\'', $containerClass, $def);
+        $containerClass = 'container="' . $this->getContainerClass() . '"';
+        $def = str_replace('container="' . $container . '"', $containerClass, $def);
+        $def = str_replace('container=\'' . $container . '\'', $containerClass, $def);
         return '<!--{' . $def . '}-->';
     }
 

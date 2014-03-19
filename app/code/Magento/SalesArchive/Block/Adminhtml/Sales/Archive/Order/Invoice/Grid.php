@@ -12,8 +12,7 @@ namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Invoice;
 /**
  * Archive invoices grid block
  */
-class Grid
-    extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
+class Grid extends \Magento\Sales\Block\Adminhtml\Invoice\Grid
 {
     /**
      * Core url
@@ -68,7 +67,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('adminhtml/*/invoicesgrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/invoicesgrid', array('_current' => true));
     }
 
     /**

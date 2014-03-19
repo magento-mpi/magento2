@@ -36,10 +36,8 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
      * @param array $configFiles
      * @param Reader $moduleReader
      */
-    public function __construct(
-        $configFiles,
-        Reader $moduleReader
-    ) {
+    public function __construct($configFiles, Reader $moduleReader)
+    {
         $this->_moduleReader = $moduleReader;
         parent::__construct($configFiles);
     }

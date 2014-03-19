@@ -12,7 +12,6 @@
 /**
  * Test for \Magento\Index\Model\Lock\Storage
  */
-
 namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
 
 /**
@@ -30,8 +29,9 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_application = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\App');
+        $this->_application = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\App'
+        );
     }
 
     /**
@@ -40,8 +40,9 @@ class CouponTest extends \PHPUnit_Framework_TestCase
     public function testAfterToHtml()
     {
         /** @var $block \Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon */
-        $block = $this->_application->getLayout()
-            ->createBlock('Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon');
+        $block = $this->_application->getLayout()->createBlock(
+            'Magento\Sales\Block\Adminhtml\Report\Filter\Form\Coupon'
+        );
         $block->setFilterData(new \Magento\Object());
         $html = $block->toHtml();
 

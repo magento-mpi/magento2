@@ -49,7 +49,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -62,10 +67,11 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected function _initCollection()
     {
         $this->_collection = $this->_collectionFactory->create();
-        $this->_collection
-            ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->addCustomerFilter($this->_customerSession->getCustomerId())
-            ->setDateOrder();
+        $this->_collection->addStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->addCustomerFilter(
+            $this->_customerSession->getCustomerId()
+        )->setDateOrder();
         return $this;
     }
 
@@ -96,8 +102,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'customer_review_list.toolbar')
-            ->setCollection($this->getCollection());
+        $toolbar = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'customer_review_list.toolbar'
+        )->setCollection(
+            $this->getCollection()
+        );
 
         $this->setChild('toolbar', $toolbar);
         return parent::_prepareLayout();
@@ -164,9 +174,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected function _beforeToHtml()
     {
-        $this->_getCollection()
-            ->load()
-            ->addReviewSummary();
+        $this->_getCollection()->load()->addReviewSummary();
         return parent::_beforeToHtml();
     }
 }

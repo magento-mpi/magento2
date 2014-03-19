@@ -28,7 +28,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $path = $basePath . 'menu_hierarchy.xml';
         $domDocument = new \DOMDocument();
         $domDocument->load($path);
-        $expectedData = include($basePath . 'menuHierarchy.php');
+        $expectedData = include $basePath . 'menuHierarchy.php';
         $this->assertEquals($expectedData, $this->_model->convert($domDocument));
     }
 }

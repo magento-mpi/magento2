@@ -70,8 +70,7 @@ class Book extends \Magento\View\Element\Template
      */
     protected function _prepareLayout()
     {
-        $this->getLayout()->getBlock('head')
-            ->setTitle(__('Address Book'));
+        $this->getLayout()->getBlock('head')->setTitle(__('Address Book'));
 
         return parent::_prepareLayout();
     }
@@ -81,7 +80,7 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddAddressUrl()
     {
-        return $this->getUrl('customer/address/new', array('_secure'=>true));
+        return $this->getUrl('customer/address/new', array('_secure' => true));
     }
 
     /**
@@ -92,7 +91,7 @@ class Book extends \Magento\View\Element\Template
         if ($this->getRefererUrl()) {
             return $this->getRefererUrl();
         }
-        return $this->getUrl('customer/account/', array('_secure'=>true));
+        return $this->getUrl('customer/account/', array('_secure' => true));
     }
 
     /**
@@ -109,7 +108,7 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddressEditUrl($addressId)
     {
-        return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id' => $addressId));
+        return $this->getUrl('customer/address/edit', array('_secure' => true, 'id' => $addressId));
     }
 
     /**
@@ -130,7 +129,7 @@ class Book extends \Magento\View\Element\Template
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             return false;
         }
-        $primaryAddressIds = [$this->getDefaultBilling(), $this->getDefaultShipping()];
+        $primaryAddressIds = array($this->getDefaultBilling(), $this->getDefaultShipping());
         foreach ($addresses as $address) {
             if (!in_array($address->getId(), $primaryAddressIds)) {
                 $additional[] = $address;

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\MultipleWishlist\Block\Adminhtml\Sales\Order\Create\Sidebar;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Wishlist
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Wishlist
+class Wishlist extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Wishlist
 {
     /**
      * Item collection factory
@@ -57,9 +55,7 @@ class Wishlist
         if (is_null($collection)) {
             /** @var \Magento\MultipleWishlist\Model\Resource\Item\Collection $collection */
             $collection = $this->_itemCollectionFactory->create();
-            $collection->addCustomerIdFilter($this->getCustomerId())
-                ->addStoreFilter($storeIds)
-                ->setVisibilityFilter();
+            $collection->addCustomerIdFilter($this->getCustomerId())->addStoreFilter($storeIds)->setVisibilityFilter();
             if ($collection) {
                 $collection = $collection->load();
             }
@@ -84,4 +80,3 @@ class Wishlist
         return $wishlists;
     }
 }
-

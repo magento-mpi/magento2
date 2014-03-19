@@ -8,8 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
 
 /**
@@ -39,8 +37,9 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         /** @var \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper */
         $attributeHelper = $objectManager->get('Magento\Catalog\Helper\Product\Edit\Action\Attribute');
         $expectedUrl = $urlBuilder->getUrl(
-            'catalog/product/index', array('store' => $attributeHelper->getSelectedStoreId()))
-        ;
+            'catalog/product/index',
+            array('store' => $attributeHelper->getSelectedStoreId())
+        );
         $isRedirectPresent = false;
         foreach ($this->getResponse()->getHeaders() as $header) {
             if ($header['name'] === 'Location' && strpos($header['value'], $expectedUrl) === 0) {

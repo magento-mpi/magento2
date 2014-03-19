@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
@@ -19,7 +18,8 @@ use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
-class CustomerSegment {
+class CustomerSegment
+{
     /**
      * Prepare POST data for creating customer request
      *
@@ -77,4 +77,4 @@ class CustomerSegment {
 
         return $segmentId;
     }
-} 
+}

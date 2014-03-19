@@ -17,8 +17,7 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-class Upsell
-    extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
+class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
 {
     /**
      * Default MAP renderer type
@@ -50,11 +49,14 @@ class Upsell
             /**
              * Updating collection with desired items
              */
-            $this->_eventManager->dispatch('catalog_product_upsell', array(
-                'product'       => $this->getProduct(),
-                'collection'    => $this->_linkCollection,
-                'limit'         => $this->getPositionLimit()
-            ));
+            $this->_eventManager->dispatch(
+                'catalog_product_upsell',
+                array(
+                    'product' => $this->getProduct(),
+                    'collection' => $this->_linkCollection,
+                    'limit' => $this->getPositionLimit()
+                )
+            );
         }
 
         return $this->_linkCollection;
@@ -77,11 +79,10 @@ class Upsell
             /**
              * Updating collection with desired items
              */
-            $this->_eventManager->dispatch('catalog_product_upsell', array(
-                'product'       => $this->getProduct(),
-                'collection'    => $ids,
-                'limit'         => null,
-            ));
+            $this->_eventManager->dispatch(
+                'catalog_product_upsell',
+                array('product' => $this->getProduct(), 'collection' => $ids, 'limit' => null)
+            );
 
             $this->_allProductIds = array_keys($ids->getItems());
             shuffle($this->_allProductIds);

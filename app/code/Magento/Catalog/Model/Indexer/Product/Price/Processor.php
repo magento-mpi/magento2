@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price;
 
 class Processor
@@ -25,9 +24,8 @@ class Processor
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
-    public function __construct(
-       \Magento\Indexer\Model\IndexerInterface $indexer
-    ) {
+    public function __construct(\Magento\Indexer\Model\IndexerInterface $indexer)
+    {
         $this->_indexer = $indexer;
     }
 

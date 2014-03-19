@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\Config\Source\TaxClass;
 
 class Product implements \Magento\Option\ArrayInterface

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 /**
@@ -88,9 +87,10 @@ class Image extends \Magento\View\Element\Template
     protected function _initTemplate()
     {
         if (null === $this->getTemplate()) {
-            $template = $this->getProductImageView()->isWhiteBorders()
-                ? $this->_templateImage
-                : $this->_templateWithBorders;
+            $template = $this->getProductImageView()
+                ->isWhiteBorders() ? $this
+                ->_templateImage : $this
+                ->_templateWithBorders;
             $this->setTemplate($template);
         }
         return $this;

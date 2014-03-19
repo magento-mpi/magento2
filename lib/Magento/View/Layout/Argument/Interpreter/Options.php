@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\ObjectManager;
@@ -42,10 +41,10 @@ class Options implements InterpreterInterface
         }
         $modelClass = $data['model'];
         $modelInstance = $this->objectManager->get($modelClass);
-        if (!($modelInstance instanceof \Magento\Data\OptionSourceInterface)) {
-            throw new \UnexpectedValueException(sprintf(
-                "Instance of the options source model is expected, got %s instead.", get_class($modelInstance)
-            ));
+        if (!$modelInstance instanceof \Magento\Data\OptionSourceInterface) {
+            throw new \UnexpectedValueException(
+                sprintf("Instance of the options source model is expected, got %s instead.", get_class($modelInstance))
+            );
         }
         $result = array();
         foreach ($modelInstance->toOptionArray() as $value => $label) {

@@ -26,5 +26,4 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     {
         return $attribute->getIsFilterableInSearch();
     }
-
 }

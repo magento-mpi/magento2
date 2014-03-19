@@ -43,58 +43,53 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetActualHandles()
     {
         $this->prepareMocks();
-        $layoutHandles = [
-            'handle1',
-            'config_layout_handle1',
-            'handle2'
-        ];
-        $configHandles = [
-            'config_layout_handle1'
-        ];
-        $resultHandles = [
-            'default',
-            'config_layout_handle1'
-        ];
+        $layoutHandles = array('handle1', 'config_layout_handle1', 'handle2');
+        $configHandles = array('config_layout_handle1');
+        $resultHandles = array('default', 'config_layout_handle1');
 
-        $this->updateLayoutMock->expects($this->once())
-            ->method('getHandles')
-            ->will($this->returnValue($layoutHandles));
-        $this->configMock->expects($this->once())
-            ->method('getPageLayoutHandles')
-            ->will($this->returnValue($configHandles));
+        $this->updateLayoutMock->expects(
+            $this->once()
+        )->method(
+            'getHandles'
+        )->will(
+            $this->returnValue($layoutHandles)
+        );
+        $this->configMock->expects(
+            $this->once()
+        )->method(
+            'getPageLayoutHandles'
+        )->will(
+            $this->returnValue($configHandles)
+        );
 
         $this->assertEquals($resultHandles, $this->helper->getActualHandles());
     }
 
     protected function prepareMocks()
     {
-        $this->configMock = $this->getMock('Magento\Theme\Model\Layout\Config', [], [], '', false);
-        $viewMock = $this->getMock('Magento\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
+        $this->configMock = $this->getMock('Magento\Theme\Model\Layout\Config', array(), array(), '', false);
+        $viewMock = $this->getMock('Magento\App\View', array('getLayout'), array('getPageLayoutHandles'), '', false);
         $layoutMock = $this->getMockForAbstractClass(
             'Magento\View\LayoutInterface',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            ['getUpdate']
+            array('getUpdate')
         );
         $this->updateLayoutMock = $this->getMockForAbstractClass(
             'Magento\View\Layout\ProcessorInterface',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            []
+            array()
         );
 
-        $viewMock->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-        $layoutMock->expects($this->once())
-            ->method('getUpdate')
-            ->will($this->returnValue($this->updateLayoutMock));
+        $viewMock->expects($this->once())->method('getLayout')->will($this->returnValue($layoutMock));
+        $layoutMock->expects($this->once())->method('getUpdate')->will($this->returnValue($this->updateLayoutMock));
 
         $this->helper = new \Magento\PageCache\Helper\Data($this->configMock, $viewMock);
     }

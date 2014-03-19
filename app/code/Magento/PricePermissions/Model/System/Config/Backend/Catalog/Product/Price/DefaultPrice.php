@@ -14,8 +14,7 @@ namespace Magento\PricePermissions\Model\System\Config\Backend\Catalog\Product\P
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class DefaultPrice
-    extends \Magento\Core\Model\Config\Value
+class DefaultPrice extends \Magento\Core\Model\Config\Value
 {
     /**
      * Price permissions data
@@ -57,9 +56,7 @@ class DefaultPrice
     {
         parent::_beforeSave();
         $defaultProductPriceValue = floatval($this->getValue());
-        if (!$this->_pricePermData->getCanAdminEditProductPrice()
-            || ($defaultProductPriceValue < 0)
-        ) {
+        if (!$this->_pricePermData->getCanAdminEditProductPrice() || $defaultProductPriceValue < 0) {
             $defaultProductPriceValue = floatval($this->getOldValue());
         }
         $this->setValue((string)$defaultProductPriceValue);

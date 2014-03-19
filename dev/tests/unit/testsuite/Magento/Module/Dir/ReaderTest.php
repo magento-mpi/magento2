@@ -54,8 +54,14 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_protFactoryMock = $this->getMock('Magento\Core\Model\Config\BaseFactory',
-            array(), array(), '', false, false);
+        $this->_protFactoryMock = $this->getMock(
+            'Magento\Core\Model\Config\BaseFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $this->_dirsMock = $this->getMock('Magento\Module\Dir', array(), array(), '', false, false);
         $this->_baseConfigMock = $this->getMock('Magento\Core\Model\Config\Base', array(), array(), '', false, false);
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
@@ -73,10 +79,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetModuleDirWhenCustomDirIsNotSet()
     {
-        $this->_dirsMock->expects($this->any())
-            ->method('getDir')
-            ->with('Test_Module', 'etc')
-            ->will($this->returnValue('app/code/Test/Module/etc'));
+        $this->_dirsMock->expects(
+            $this->any()
+        )->method(
+            'getDir'
+        )->with(
+            'Test_Module',
+            'etc'
+        )->will(
+            $this->returnValue('app/code/Test/Module/etc')
+        );
         $this->assertEquals('app/code/Test/Module/etc', $this->_model->getModuleDir('etc', 'Test_Module'));
     }
 

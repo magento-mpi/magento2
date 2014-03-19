@@ -25,4 +25,3 @@ class Conditions implements \Magento\Data\Form\Element\Renderer\RendererInterfac
         return '';
     }
 }
-

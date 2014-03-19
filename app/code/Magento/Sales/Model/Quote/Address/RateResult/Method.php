@@ -27,10 +27,8 @@ class Method extends AbstractResult
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager, array $data = array())
+    {
         $this->_storeManager = $storeManager;
         parent::__construct($data);
     }

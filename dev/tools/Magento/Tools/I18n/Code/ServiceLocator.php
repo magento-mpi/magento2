@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code;
 
 use Magento\Tools\I18n\Code\Parser;
@@ -60,7 +59,7 @@ class ServiceLocator
             $adapters = array(
                 'php' => new Parser\Adapter\Php($phraseCollector),
                 'js' => new Parser\Adapter\Js(),
-                'xml' => new Parser\Adapter\Xml(),
+                'xml' => new Parser\Adapter\Xml()
             );
 
             $parser = new Parser\Parser($filesCollector, self::_getFactory());

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -66,14 +65,12 @@ class Js extends \Magento\Backend\Block\Template
             );
 
             foreach ($website->getGroups() as $groupId => $group) {
-                $result[$websiteId]['groups'][$groupId] = array(
-                    'name' => $group->getName()
-                );
+                $result[$websiteId]['groups'][$groupId] = array('name' => $group->getName());
 
                 foreach ($group->getStores() as $storeId => $store) {
                     $result[$websiteId]['groups'][$groupId]['stores'][] = array(
                         'name' => $store->getName(),
-                        'store_id' => $storeId,
+                        'store_id' => $storeId
                     );
                 }
             }

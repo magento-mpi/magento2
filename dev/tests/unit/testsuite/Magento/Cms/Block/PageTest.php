@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block;
 
 class PageTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +29,6 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         $this->block->setPageId($id);
-        $this->assertEquals(
-            array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $id),
-            $this->block->getIdentities()
-        );
+        $this->assertEquals(array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $id), $this->block->getIdentities());
     }
 }

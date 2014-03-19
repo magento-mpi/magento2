@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Controller;
 
 class IndexTest extends \Magento\TestFramework\TestCase\AbstractController

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
 class Bundle
@@ -60,4 +59,4 @@ class Bundle
 
         return $product;
     }
-} 
+}

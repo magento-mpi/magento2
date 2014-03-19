@@ -9,13 +9,16 @@
  */
 namespace Magento\Tools\Translate;
 
+
 require_once __DIR__ . '/config.inc.php';
 
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 }
 
-define('MT_USAGE', <<<MTUSAGE
+define(
+    'MT_USAGE',
+<<<MTUSAGE
 USAGE:
 ---------------------------------------------------------------------------------
 Collect translation files from modules to app/locale/locale_NAME directory:
@@ -35,12 +38,14 @@ MTUSAGE
 
 global $argv;
 global $CONFIG;
-
 class ModuleTranslations
 {
     const ACTION_CLEAN = 1;
+
     const ACTION_COLLECT = 2;
+
     const ACTION_DISTRIBUTE = 4;
+
     /**
      * Requested action
      *
@@ -67,24 +72,24 @@ class ModuleTranslations
      *
      * @param array $argv
      */
-    function __construct($argv = array())
+    public function __construct($argv = array())
     {
         if (!(!empty($argv) && ($argv[0] == __FILE__ || $argv[0] == basename(__FILE__)))) {
             return;
         }
-        foreach ($argv as $k=>$arg) {
-            switch($arg) {
+        foreach ($argv as $k => $arg) {
+            switch ($arg) {
                 case '--collect':
                     if (empty($this->_action)) {
                         $this->_action = self::ACTION_COLLECT;
-                        $this->_locale = @$argv[$k+1];
+                        $this->_locale = @$argv[$k + 1];
                     }
                     break;
 
                 case '--distribute':
                     if (empty($this->_action)) {
                         $this->_action = self::ACTION_DISTRIBUTE;
-                        $this->_locale = @$argv[$k+1];
+                        $this->_locale = @$argv[$k + 1];
                     }
                     break;
                 case '--clean':
@@ -104,7 +109,7 @@ class ModuleTranslations
      * @return bool
      * @throws \Exception
      */
-    public static function collectTranslations($locale='')
+    public static function collectTranslations($locale = '')
     {
         $writeError = false;
         $_config = self::getConfig();
@@ -114,16 +119,15 @@ class ModuleTranslations
                 $writeError = true;
             }
         } else {
-            if(!is_writable($localeDir)) {
+            if (!is_writable($localeDir)) {
                 $writeError = true;
             }
         }
         if ($writeError) {
-            throw new \Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory {$localeDir} is not writable \n\n");
         }
 
-        $files = glob(BASE_PATH . '/app/code/*/*/locale/'
-            . $locale . '/*.' . EXTENSION);
+        $files = glob(BASE_PATH . '/app/code/*/*/locale/' . $locale . '/*.' . EXTENSION);
         $newFileMask = $localeDir . '/%s';
         foreach ($files as $file) {
             copy($file, sprintf($newFileMask, basename($file)));
@@ -145,12 +149,11 @@ class ModuleTranslations
         $pathLocales = $_config['paths']['locale'];
         $localeDir = BASE_PATH . '/' . $pathLocales . $locale;
         if (!is_dir($localeDir)) {
-            throw new \Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory {$localeDir} is not writable \n\n");
         }
 
         $files = glob($localeDir . '/*.' . EXTENSION);
-        $newFileMask = BASE_PATH . '/app/code/%s/%s/locale/'
-            . $locale . '/%s' . '.' . EXTENSION;
+        $newFileMask = BASE_PATH . '/app/code/%s/%s/locale/' . $locale . '/%s' . '.' . EXTENSION;
         foreach ($files as $file) {
             $baseFileName = basename($file, '.' . EXTENSION);
             $parts = explode('_', $baseFileName);
@@ -165,7 +168,7 @@ class ModuleTranslations
                 }
             }
             if ($writeError || !copy($file, $newFileName)) {
-                throw new \Exception("Directory $newFilePath is not writable \n\n");
+                throw new \Exception("Directory {$newFilePath} is not writable \n\n");
             }
         }
         return true;
@@ -183,7 +186,7 @@ class ModuleTranslations
         $_config = self::getConfig();
         $localeDir = BASE_PATH . '/' . $_config['paths']['locale'] . $locale;
         if (!is_dir($localeDir)) {
-            throw new \Exception("Directory $localeDir is not writable \n\n");
+            throw new \Exception("Directory {$localeDir} is not writable \n\n");
         }
         $files = glob($localeDir . '/*.' . EXTENSION);
         foreach ($files as $file) {

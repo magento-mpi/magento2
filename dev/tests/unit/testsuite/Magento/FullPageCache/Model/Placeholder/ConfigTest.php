@@ -33,7 +33,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock(
             'Magento\FullPageCache\Model\Placeholder\Config\Reader',
-            array(), array(), '', false
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');

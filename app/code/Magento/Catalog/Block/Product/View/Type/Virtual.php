@@ -19,5 +19,4 @@ namespace Magento\Catalog\Block\Product\View\Type;
 
 class Virtual extends \Magento\Catalog\Block\Product\View\AbstractView
 {
-
 }

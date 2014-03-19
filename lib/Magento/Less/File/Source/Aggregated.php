@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;

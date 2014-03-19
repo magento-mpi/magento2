@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
 class State extends \Magento\Catalog\Model\Indexer\AbstractFlatState

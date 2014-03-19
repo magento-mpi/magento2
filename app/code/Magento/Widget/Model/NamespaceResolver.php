@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Model;
 
 class NamespaceResolver
@@ -49,8 +48,10 @@ class NamespaceResolver
             }
         }
 
-        $explodeString = (strpos($name, \Magento\Autoload\IncludePath::NS_SEPARATOR) === false) ?
-            '_' :  \Magento\Autoload\IncludePath::NS_SEPARATOR;
+        $explodeString = strpos(
+            $name,
+            \Magento\Autoload\IncludePath::NS_SEPARATOR
+        ) === false ? '_' : \Magento\Autoload\IncludePath::NS_SEPARATOR;
         $name = explode($explodeString, strtolower($name));
 
         $partsNum = count($name);
@@ -74,4 +75,4 @@ class NamespaceResolver
         }
         return '';
     }
-} 
+}

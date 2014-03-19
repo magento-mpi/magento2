@@ -41,5 +41,4 @@ class Page implements \Magento\Option\ArrayInterface
         }
         return $this->_options;
     }
-
 }

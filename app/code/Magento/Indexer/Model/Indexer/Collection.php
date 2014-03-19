@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model\Indexer;
 
 class Collection extends \Magento\Data\Collection

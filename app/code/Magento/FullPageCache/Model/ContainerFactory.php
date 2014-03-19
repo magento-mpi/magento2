@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model;
 
 class ContainerFactory
@@ -38,8 +37,10 @@ class ContainerFactory
     {
         $processor = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($processor instanceof \Magento\FullPageCache\Model\ContainerInterface)) {
-            throw new \LogicException($className . ' doesn\'t implement \Magento\FullPageCache\Model\ContainerInterface');
+        if (false === $processor instanceof \Magento\FullPageCache\Model\ContainerInterface) {
+            throw new \LogicException(
+                $className . ' doesn\'t implement \Magento\FullPageCache\Model\ContainerInterface'
+            );
         }
 
         return $processor;

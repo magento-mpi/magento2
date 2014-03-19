@@ -39,12 +39,12 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $this->_request = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $constructArguments =  $objectManagerHelper->getConstructArguments(
+        $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content',
             array(
-                'urlBuilder'    => $this->_urlBuilder,
-                'request'       => $this->_request,
-                'storageHelper' => $this->_helperStorage,
+                'urlBuilder' => $this->_urlBuilder,
+                'request' => $this->_request,
+                'storageHelper' => $this->_helperStorage
             )
         );
         $this->_filesContent = $objectManagerHelper->getObject(
@@ -61,14 +61,24 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedUrl = 'some_url';
 
-        $this->_helperStorage->expects($this->once())
-            ->method('getRequestParams')
-            ->will($this->returnValue($requestParams));
+        $this->_helperStorage->expects(
+            $this->once()
+        )->method(
+            'getRequestParams'
+        )->will(
+            $this->returnValue($requestParams)
+        );
 
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/*/newFolder', $requestParams)
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/*/newFolder',
+            $requestParams
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getNewfolderUrl());
     }
@@ -81,14 +91,24 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedUrl = 'some_url';
 
-        $this->_helperStorage->expects($this->once())
-            ->method('getRequestParams')
-            ->will($this->returnValue($requestParams));
+        $this->_helperStorage->expects(
+            $this->once()
+        )->method(
+            'getRequestParams'
+        )->will(
+            $this->returnValue($requestParams)
+        );
 
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/*/deleteFiles', $requestParams)
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/*/deleteFiles',
+            $requestParams
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getDeleteFilesUrl());
     }
@@ -101,14 +121,24 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedUrl = 'some_url';
 
-        $this->_helperStorage->expects($this->once())
-            ->method('getRequestParams')
-            ->will($this->returnValue($requestParams));
+        $this->_helperStorage->expects(
+            $this->once()
+        )->method(
+            'getRequestParams'
+        )->will(
+            $this->returnValue($requestParams)
+        );
 
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/*/onInsert', $requestParams)
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/*/onInsert',
+            $requestParams
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getOnInsertUrl());
     }
@@ -121,9 +151,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'requestParams' => array(
-                \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => 1,
+                \Magento\Theme\Helper\Storage::PARAM_THEME_ID => 1,
                 \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE,
-                \Magento\Theme\Helper\Storage::PARAM_NODE         => 'root'
+                \Magento\Theme\Helper\Storage::PARAM_NODE => 'root'
             )
         );
     }
@@ -132,10 +162,15 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     {
         $expectedRequest = 'some_request';
 
-        $this->_request->expects($this->once())
-            ->method('getParam')
-            ->with('target_element_id')
-            ->will($this->returnValue($expectedRequest));
+        $this->_request->expects(
+            $this->once()
+        )->method(
+            'getParam'
+        )->with(
+            'target_element_id'
+        )->will(
+            $this->returnValue($expectedRequest)
+        );
 
         $this->assertEquals($expectedRequest, $this->_filesContent->getTargetElementId());
     }
@@ -147,24 +182,39 @@ class ContentTest extends \PHPUnit_Framework_TestCase
         $expectedRequest = 'some_request';
 
         $requestParams = array(
-            \Magento\Theme\Helper\Storage::PARAM_THEME_ID     => 1,
+            \Magento\Theme\Helper\Storage::PARAM_THEME_ID => 1,
             \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE,
-            \Magento\Theme\Helper\Storage::PARAM_NODE         => 'root'
+            \Magento\Theme\Helper\Storage::PARAM_NODE => 'root'
         );
 
-        $this->_urlBuilder->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/*/contents', array('type' => $expectedRequest) + $requestParams)
-            ->will($this->returnValue($expectedUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/*/contents',
+            array('type' => $expectedRequest) + $requestParams
+        )->will(
+            $this->returnValue($expectedUrl)
+        );
 
-        $this->_request->expects($this->once())
-            ->method('getParam')
-            ->with('type')
-            ->will($this->returnValue($expectedRequest));
+        $this->_request->expects(
+            $this->once()
+        )->method(
+            'getParam'
+        )->with(
+            'type'
+        )->will(
+            $this->returnValue($expectedRequest)
+        );
 
-        $this->_helperStorage->expects($this->once())
-            ->method('getRequestParams')
-            ->will($this->returnValue($requestParams));
+        $this->_helperStorage->expects(
+            $this->once()
+        )->method(
+            'getRequestParams'
+        )->will(
+            $this->returnValue($requestParams)
+        );
 
         $this->assertEquals($expectedUrl, $this->_filesContent->getContentsUrl());
     }

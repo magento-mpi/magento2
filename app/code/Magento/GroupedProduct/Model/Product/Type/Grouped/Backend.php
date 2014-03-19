@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product\Type\Grouped;
 
 /**

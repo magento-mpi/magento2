@@ -91,7 +91,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $excludeTypes = array($excludeTypes);
         }
 
-        foreach ($container->getElements()as $element) {
+        foreach ($container->getElements() as $element) {
             if ($element->getType() == 'fieldset') {
                 $this->addOnChangeToFormElements($element, $onChange, $excludeTypes);
             } else {

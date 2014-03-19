@@ -74,9 +74,13 @@ class Expiration extends \Magento\Core\Model\Config\Value
         if ($this->getWebsiteCode()) {
             $websiteIds = array($this->_storeManager->getWebsite($this->getWebsiteCode())->getId());
         } else {
-            $collection = $this->_configFactory->create()
-                ->addFieldToFilter('path', self::XML_PATH_EXPIRATION_DAYS)
-                ->addFieldToFilter('scope', 'websites');
+            $collection = $this->_configFactory->create()->addFieldToFilter(
+                'path',
+                self::XML_PATH_EXPIRATION_DAYS
+            )->addFieldToFilter(
+                'scope',
+                'websites'
+            );
             $websiteScopeIds = array();
             foreach ($collection as $item) {
                 $websiteScopeIds[] = $item->getScopeId();

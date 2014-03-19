@@ -80,6 +80,4 @@ class Totals extends \Magento\Sales\Block\Order\Totals
         $this->removeTotal('base_grandtotal');
         return $this;
     }
-
-
 }

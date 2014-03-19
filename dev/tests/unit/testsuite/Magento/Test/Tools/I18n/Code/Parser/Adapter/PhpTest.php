@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Parser\Adapter;
 
 class PhpTest extends \PHPUnit_Framework_TestCase
@@ -25,29 +24,31 @@ class PhpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_phraseCollectorMock = $this->getMock(
             'Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector',
-            array(), array(), '', false);
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_adapter = $objectManagerHelper->getObject('Magento\Tools\I18n\Code\Parser\Adapter\Php', array(
-            'phraseCollector' => $this->_phraseCollectorMock,
-        ));
+        $this->_adapter = $objectManagerHelper->getObject(
+            'Magento\Tools\I18n\Code\Parser\Adapter\Php',
+            array('phraseCollector' => $this->_phraseCollectorMock)
+        );
     }
 
     public function testParse()
     {
-        $expectedResult = array(
-            array(
-                'phrase' => 'phrase1',
-                'file' => 'file1',
-                'line' => 15,
-                'quote' => '',
-            ),
-        );
+        $expectedResult = array(array('phrase' => 'phrase1', 'file' => 'file1', 'line' => 15, 'quote' => ''));
 
         $this->_phraseCollectorMock->expects($this->once())->method('parse')->with('file1');
-        $this->_phraseCollectorMock->expects($this->once())->method('getPhrases')->will($this->returnValue(array(
-            array('phrase' => 'phrase1', 'file' => 'file1', 'line' => 15),
-        )));
+        $this->_phraseCollectorMock->expects(
+            $this->once()
+        )->method(
+            'getPhrases'
+        )->will(
+            $this->returnValue(array(array('phrase' => 'phrase1', 'file' => 'file1', 'line' => 15)))
+        );
 
         $this->_adapter->parse('file1');
         $this->assertEquals($expectedResult, $this->_adapter->getPhrases());

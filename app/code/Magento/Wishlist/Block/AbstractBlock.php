@@ -221,13 +221,13 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         return $this->_getHelper()->getAddParams($product);
     }
 
-     /**
-      * Returns item configure url in wishlist
-      *
-      * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $product
-      *
-      * @return string
-      */
+    /**
+     * Returns item configure url in wishlist
+     *
+     * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $product
+     *
+     * @return string
+     */
     public function getItemConfigureUrl($product)
     {
         return $this->_getHelper()->getConfigureUrl($product);
@@ -335,22 +335,31 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     {
         $type_id = $product->getTypeId();
         if ($this->_catalogData->canApplyMsrp($product)) {
-            $realPriceHtml = $this->_preparePriceRenderer($type_id)
-                ->setProduct($product)
-                ->setDisplayMinimalPrice($displayMinimalPrice)
-                ->setIdSuffix($idSuffix)
-                ->setIsEmulateMode(true)
-                ->toHtml();
+            $realPriceHtml = $this->_preparePriceRenderer(
+                $type_id
+            )->setProduct(
+                $product
+            )->setDisplayMinimalPrice(
+                $displayMinimalPrice
+            )->setIdSuffix(
+                $idSuffix
+            )->setIsEmulateMode(
+                true
+            )->toHtml();
             $product->setAddToCartUrl($this->getAddToCartUrl($product));
             $product->setRealPriceHtml($realPriceHtml);
             $type_id = $this->_mapRenderer;
         }
 
-        return $this->_preparePriceRenderer($type_id)
-            ->setProduct($product)
-            ->setDisplayMinimalPrice($displayMinimalPrice)
-            ->setIdSuffix($idSuffix)
-            ->toHtml();
+        return $this->_preparePriceRenderer(
+            $type_id
+        )->setProduct(
+            $product
+        )->setDisplayMinimalPrice(
+            $displayMinimalPrice
+        )->setIdSuffix(
+            $idSuffix
+        )->toHtml();
     }
 
     /**
@@ -371,9 +380,11 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         if (is_object($buyRequest)) {
             $config = $buyRequest->getSuperProductConfig();
             if ($config && !empty($config['product_id'])) {
-                $product = $this->_productFactory->create()
-                    ->setStoreId($this->_storeManager->getStore()->getStoreId())
-                    ->load($config['product_id']);
+                $product = $this->_productFactory->create()->setStoreId(
+                    $this->_storeManager->getStore()->getStoreId()
+                )->load(
+                    $config['product_id']
+                );
             }
         }
         return parent::getProductUrl($product, $additional);
@@ -387,8 +398,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     public function getImageUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'small_image')
-            ->resize($this->getImageSize());
+        return (string)$this->_imageHelper->init($product, 'small_image')->resize($this->getImageSize());
     }
 
     /**

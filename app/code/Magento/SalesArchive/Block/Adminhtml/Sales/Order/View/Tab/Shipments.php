@@ -12,8 +12,7 @@ namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab;
 /**
  * Shipments tab
  */
-class Shipments
-     extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments
+class Shipments extends \Magento\Sales\Block\Adminhtml\Order\View\Tab\Shipments
 {
     /**
      * Retrieve collection class

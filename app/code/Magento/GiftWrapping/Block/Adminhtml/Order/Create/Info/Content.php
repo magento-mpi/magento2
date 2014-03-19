@@ -17,7 +17,6 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info;
 
-class Content
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
+class Content extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info
 {
 }

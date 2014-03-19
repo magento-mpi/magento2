@@ -31,10 +31,10 @@ class Cache extends \Magento\App\Cache
      */
     public function __construct(\Magento\App\Cache\Frontend\Pool $frontendPool)
     {
-        \Magento\Profiler::start('magento_fullpage_cache_create', array(
-            'group' => 'magento_fullpage_cache',
-            'operation' => 'magento_fullpage_cache:create'
-        ));
+        \Magento\Profiler::start(
+            'magento_fullpage_cache_create',
+            array('group' => 'magento_fullpage_cache', 'operation' => 'magento_fullpage_cache:create')
+        );
 
         parent::__construct($frontendPool);
         \Magento\Profiler::stop('magento_fullpage_cache_create');

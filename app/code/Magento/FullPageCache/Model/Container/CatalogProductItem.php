@@ -13,11 +13,11 @@
  */
 namespace Magento\FullPageCache\Model\Container;
 
-class CatalogProductItem
-    extends \Magento\FullPageCache\Model\Container\Advanced\Quote
+class CatalogProductItem extends \Magento\FullPageCache\Model\Container\Advanced\Quote
 {
-    const BLOCK_NAME_RELATED           = 'CATALOG_PRODUCT_ITEM_RELATED';
-    const BLOCK_NAME_UPSELL            = 'CATALOG_PRODUCT_ITEM_UPSELL';
+    const BLOCK_NAME_RELATED = 'CATALOG_PRODUCT_ITEM_RELATED';
+
+    const BLOCK_NAME_UPSELL = 'CATALOG_PRODUCT_ITEM_UPSELL';
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -52,7 +52,13 @@ class CatalogProductItem
         \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         parent::__construct(
-            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+            $eventManager,
+            $fpcCache,
+            $placeholder,
+            $coreRegistry,
+            $urlHelper,
+            $coreStoreConfig,
+            $layout
         );
         $this->_storeManager = $storeManager;
         $this->_productFactory = $productFactory;
@@ -92,14 +98,8 @@ class CatalogProductItem
      * @var null|array
      */
     protected static $_sharedInfoData = array(
-        self::BLOCK_NAME_RELATED => array(
-            'first'  => true,
-            'info'   => null,
-        ),
-        self::BLOCK_NAME_UPSELL => array(
-            'first'  => true,
-            'info'   => null,
-        ),
+        self::BLOCK_NAME_RELATED => array('first' => true, 'info' => null),
+        self::BLOCK_NAME_UPSELL => array('first' => true, 'info' => null)
     );
 
     /**
@@ -127,10 +127,12 @@ class CatalogProductItem
     protected function _getInfoCacheId()
     {
         if (is_null($this->_infoCacheId)) {
-            $this->_infoCacheId = 'CATALOG_PRODUCT_LIST_SHARED_'
-                . md5($this->_placeholder->getName()
-                    . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CART, '')
-                    . $this->_getProductId());
+            $this->_infoCacheId = 'CATALOG_PRODUCT_LIST_SHARED_' . md5(
+                $this->_placeholder->getName() . $this->_getCookieValue(
+                    \Magento\FullPageCache\Model\Cookie::COOKIE_CART,
+                    ''
+                ) . $this->_getProductId()
+            );
         }
         return $this->_infoCacheId;
     }
@@ -188,7 +190,7 @@ class CatalogProductItem
             }
             self::$_sharedInfoData[$placeholderName]['info'] = $info;
         }
-        return isset($key) ? (isset($info[$key]) ? $info[$key] : null) : $info;
+        return isset($key) ? isset($info[$key]) ? $info[$key] : null : $info;
     }
 
     /**
@@ -239,10 +241,11 @@ class CatalogProductItem
                 if ($parentBlock) {
                     $productId = $this->_getProductId();
                     if ($productId && !$this->_coreRegistry->registry('product')) {
-                        $product = $this->_productFactory
-                            ->create()
-                            ->setStoreId($this->_storeManager->getStore()->getId())
-                            ->load($productId);
+                        $product = $this->_productFactory->create()->setStoreId(
+                            $this->_storeManager->getStore()->getId()
+                        )->load(
+                            $productId
+                        );
                         if ($product) {
                             $this->_coreRegistry->register('product', $product);
                         }
@@ -343,10 +346,7 @@ class CatalogProductItem
         }
 
         /** @var $item \Magento\Catalog\Model\Product */
-        $item = $this->_productFactory
-            ->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->load($itemId);
+        $item = $this->_productFactory->create()->setStoreId($this->_storeManager->getStore()->getId())->load($itemId);
 
         $block = $this->_getPlaceHolderBlock();
         $block->setItem($item);

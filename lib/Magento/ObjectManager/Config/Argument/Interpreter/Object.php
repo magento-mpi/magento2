@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\Config\Argument\Interpreter;
 
 use Magento\ObjectManager\Config;

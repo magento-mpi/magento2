@@ -121,8 +121,12 @@ class Standard extends \Magento\Core\App\Router\Base
             /** @var $controller \Magento\App\Action\AbstractAction */
             $controller = $router->match($request);
             if ($controller) {
-                $this->_objectManager->get('Magento\DesignEditor\Model\State')
-                    ->update(\Magento\Core\Model\App\Area::AREA_FRONTEND, $request);
+                $this->_objectManager->get(
+                    'Magento\DesignEditor\Model\State'
+                )->update(
+                    \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    $request
+                );
                 break;
             }
         }

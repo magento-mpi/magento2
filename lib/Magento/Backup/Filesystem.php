@@ -73,8 +73,11 @@ class Filesystem extends AbstractBackup
         set_time_limit(0);
         ignore_user_abort(true);
 
-        $rollbackWorker = $this->_useFtp ? new \Magento\Backup\Filesystem\Rollback\Ftp($this)
-            : new \Magento\Backup\Filesystem\Rollback\Fs($this);
+        $rollbackWorker = $this->_useFtp ? new \Magento\Backup\Filesystem\Rollback\Ftp(
+            $this
+        ) : new \Magento\Backup\Filesystem\Rollback\Fs(
+            $this
+        );
         $rollbackWorker->run();
 
         $this->_lastOperationSucceed = true;
@@ -105,7 +108,9 @@ class Filesystem extends AbstractBackup
         );
 
         if (!$filesInfo['readable']) {
-            throw new \Magento\Backup\Exception\NotEnoughPermissions('Not enough permissions to read files for backup');
+            throw new \Magento\Backup\Exception\NotEnoughPermissions(
+                'Not enough permissions to read files for backup'
+            );
         }
 
         $freeSpace = disk_free_space($this->getBackupsDir());
@@ -117,8 +122,7 @@ class Filesystem extends AbstractBackup
         $tarTmpPath = $this->_getTarTmpPath();
 
         $tarPacker = new \Magento\Backup\Archive\Tar();
-        $tarPacker->setSkipFiles($this->getIgnorePaths())
-            ->pack($this->getRootDir(), $tarTmpPath, true);
+        $tarPacker->setSkipFiles($this->getIgnorePaths())->pack($this->getRootDir(), $tarTmpPath, true);
 
         if (!is_file($tarTmpPath) || filesize($tarTmpPath) == 0) {
             throw new \Magento\Exception('Failed to create backup');
@@ -269,7 +273,7 @@ class Filesystem extends AbstractBackup
      */
     protected function _getTarTmpPath()
     {
-        $tmpName = '~tmp-'. microtime(true) . '.tar';
+        $tmpName = '~tmp-' . microtime(true) . '.tar';
         return $this->getBackupsDir() . '/' . $tmpName;
     }
 }

@@ -33,9 +33,12 @@ class GenericFactory
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
-        if (false == ($modelInstance instanceof \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface)) {
+        if (false ==
+            $modelInstance instanceof \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
+        ) {
             throw new \InvalidArgumentException(
-                $model . 'doesn\'t implement \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface'
+                $model .
+                'doesn\'t implement \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface'
             );
         }
         return $modelInstance;

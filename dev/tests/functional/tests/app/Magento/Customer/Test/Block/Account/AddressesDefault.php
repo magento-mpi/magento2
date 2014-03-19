@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Test\Block\Account;
 
 use Mtf\Block\Block;
@@ -34,7 +33,7 @@ class AddressesDefault extends Block
      */
     public function goToAddressBook()
     {
-        $this->waitForElementVisible($this->changeBillingAddressSelector,Locator::SELECTOR_CSS);
+        $this->waitForElementVisible($this->changeBillingAddressSelector, Locator::SELECTOR_CSS);
         $this->_rootElement->find($this->changeBillingAddressSelector, Locator::SELECTOR_CSS)->click();
     }
 }

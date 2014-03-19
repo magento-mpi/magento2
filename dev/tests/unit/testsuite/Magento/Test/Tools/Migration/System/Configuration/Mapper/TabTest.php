@@ -7,14 +7,15 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Test\Tools\Migration\System\Configuration\Mapper;
 
-require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
-require_once realpath(__DIR__ . '/../../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 
+require_once realpath(
+    __DIR__ . '/../../../../../../../../../../'
+) . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
+require_once realpath(
+    __DIR__ . '/../../../../../../../../../../'
+) . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/Tab.php';
 /**
  * Test case for \Magento\Tools\Migration\System\Configuration\Mapper\Tab
  */
@@ -45,36 +46,19 @@ class TabTest extends \PHPUnit_Framework_TestCase
                 'label' => array('#text' => 'tab label'),
                 'comment' => array('#cdata-section' => 'tab comment')
             ),
-            'tab_2' => array(),
+            'tab_2' => array()
         );
 
         $expected = array(
             array(
                 'nodeName' => 'tab',
-                '@attributes' => array (
-                    'id' => 'tab_1',
-                    'sortOrder' => 10,
-                    'type' => 'text',
-                    'class' => 'css class',
-                ),
-                'parameters' => array (
-                    array(
-                        'name' => 'label',
-                        '#text' => 'tab label'
-                    ),
-                    array(
-                        'name' => 'comment',
-                        '#cdata-section' => 'tab comment'
-                    ),
+                '@attributes' => array('id' => 'tab_1', 'sortOrder' => 10, 'type' => 'text', 'class' => 'css class'),
+                'parameters' => array(
+                    array('name' => 'label', '#text' => 'tab label'),
+                    array('name' => 'comment', '#cdata-section' => 'tab comment')
                 )
             ),
-            array(
-                'nodeName' => 'tab',
-                '@attributes' => array (
-                    'id' => 'tab_2',
-                ),
-                'parameters' => array ()
-            )
+            array('nodeName' => 'tab', '@attributes' => array('id' => 'tab_2'), 'parameters' => array())
         );
 
         $actual = $this->_object->transform($config);

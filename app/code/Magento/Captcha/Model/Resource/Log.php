@@ -75,8 +75,10 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
-                     'type' => self::TYPE_LOGIN, 'value' => $login, 'count' => 1,
-                     'updated_at' => $this->_coreDate->gmtDate()
+                    'type' => self::TYPE_LOGIN,
+                    'value' => $login,
+                    'count' => 1,
+                    'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -86,8 +88,10 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getMainTable(),
                 array(
-                     'type' => self::TYPE_REMOTE_ADDRESS, 'value' => $ip, 'count' => 1,
-                     'updated_at' => $this->_coreDate->gmtDate()
+                    'type' => self::TYPE_REMOTE_ADDRESS,
+                    'value' => $ip,
+                    'count' => 1,
+                    'updated_at' => $this->_coreDate->gmtDate()
                 ),
                 array('count' => new \Zend_Db_Expr('count+1'), 'updated_at')
             );
@@ -112,7 +116,8 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
         $ip = $this->_remoteAddress->getRemoteAddress();
         if ($ip != null) {
             $this->_getWriteAdapter()->delete(
-                $this->getMainTable(), array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
+                $this->getMainTable(),
+                array('type = ?' => self::TYPE_REMOTE_ADDRESS, 'value = ?' => $ip)
             );
         }
 
@@ -131,8 +136,16 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             return 0;
         }
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable(), 'count')->where('type = ?', self::TYPE_REMOTE_ADDRESS)
-            ->where('value = ?', $ip);
+        $select = $read->select()->from(
+            $this->getMainTable(),
+            'count'
+        )->where(
+            'type = ?',
+            self::TYPE_REMOTE_ADDRESS
+        )->where(
+            'value = ?',
+            $ip
+        );
         return $read->fetchOne($select);
     }
 
@@ -148,8 +161,16 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
             return 0;
         }
         $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable(), 'count')->where('type = ?', self::TYPE_LOGIN)
-            ->where('value = ?', $login);
+        $select = $read->select()->from(
+            $this->getMainTable(),
+            'count'
+        )->where(
+            'type = ?',
+            self::TYPE_LOGIN
+        )->where(
+            'value = ?',
+            $login
+        );
         return $read->fetchOne($select);
     }
 
@@ -162,7 +183,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('updated_at < ?' => $this->_coreDate->gmtDate(null, time() - 60*30))
+            array('updated_at < ?' => $this->_coreDate->gmtDate(null, time() - 60 * 30))
         );
     }
 }

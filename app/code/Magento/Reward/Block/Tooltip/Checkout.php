@@ -37,13 +37,7 @@ class Checkout extends \Magento\Reward\Block\Tooltip
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
-        parent::__construct(
-            $context,
-            $rewardHelper,
-            $customerSession,
-            $rewardInstance,
-            $data
-        );
+        parent::__construct($context, $rewardHelper, $customerSession, $rewardInstance, $data);
     }
 
     /**

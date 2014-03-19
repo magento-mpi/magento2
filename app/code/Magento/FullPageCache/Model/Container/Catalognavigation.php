@@ -40,7 +40,13 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
         parent::__construct(
-            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+            $eventManager,
+            $fpcCache,
+            $placeholder,
+            $coreRegistry,
+            $urlHelper,
+            $coreStoreConfig,
+            $layout
         );
         $this->_categoryFactory = $categoryFactory;
     }
@@ -64,7 +70,7 @@ class Catalognavigation extends \Magento\FullPageCache\Model\Container\AbstractC
         if (!$shortCacheId || !$categoryPath) {
             return false;
         }
-        return $shortCacheId . '_' . $categoryPath . ($categoryId ? ('_' . $categoryId) : '');
+        return $shortCacheId . '_' . $categoryPath . ($categoryId ? '_' . $categoryId : '');
     }
 
     /**

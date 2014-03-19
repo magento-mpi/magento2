@@ -89,15 +89,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $localeDate,
-            $dateTime,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $localeDate, $dateTime, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
         $this->_shipmentFactory = $shipmentFactory;
     }
@@ -152,7 +144,7 @@ class Track extends \Magento\Sales\Model\AbstractModel
      */
     public function getShipment()
     {
-        if (!($this->_shipment instanceof \Magento\Sales\Model\Order\Shipment)) {
+        if (!$this->_shipment instanceof \Magento\Sales\Model\Order\Shipment) {
             $this->_shipment = $this->_shipmentFactory->create()->load($this->getParentId());
         }
 

@@ -25,7 +25,7 @@ class Gearman implements \Magento\JobQueue\ClientInterface
      */
     public function __construct(ConfigInterface $config, $adaptedClient = null)
     {
-        if ($adaptedClient && !($adaptedClient instanceof \GearmanClient)) {
+        if ($adaptedClient && !$adaptedClient instanceof \GearmanClient) {
             throw new \InvalidArgumentException('adaptedClient must be instance of GearmanClient');
         }
 
@@ -56,7 +56,7 @@ class Gearman implements \Magento\JobQueue\ClientInterface
                 $priorityMethodName = 'doBackground';
                 break;
         }
-        return $this->_adaptedClient->$priorityMethodName($name, json_encode($params), $uniqueId);
+        return $this->_adaptedClient->{$priorityMethodName}($name, json_encode($params), $uniqueId);
     }
 
     /**
@@ -72,13 +72,9 @@ class Gearman implements \Magento\JobQueue\ClientInterface
     public function getStatus($taskHandle)
     {
         $status = $this->_adaptedClient->jobStatus($taskHandle);
-        $result = array(
-            'isEnqueued' => $status[0],
-            'isRunning' => $status[1],
-            'percentage' => 0
-        );
+        $result = array('isEnqueued' => $status[0], 'isRunning' => $status[1], 'percentage' => 0);
         if ($status[1] && $status[3]) {
-            $result['percentage'] = $status[2]/$status[3];
+            $result['percentage'] = $status[2] / $status[3];
         }
         return $result;
     }

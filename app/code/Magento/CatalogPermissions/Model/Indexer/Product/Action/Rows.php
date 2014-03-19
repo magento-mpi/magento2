@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Product\Action;
 
-use \Magento\CatalogPermissions\Model\Indexer\AbstractAction;
+use Magento\CatalogPermissions\Model\Indexer\AbstractAction;
 
 class Rows extends AbstractAction
 {
@@ -26,7 +25,7 @@ class Rows extends AbstractAction
      * @param bool $useIndexTempTable
      * @return void
      */
-    public function execute(array $entityIds = [], $useIndexTempTable = false)
+    public function execute(array $entityIds = array(), $useIndexTempTable = false)
     {
         if ($entityIds) {
             $this->entityIds = $entityIds;
@@ -58,7 +57,7 @@ class Rows extends AbstractAction
     {
         $this->getWriteAdapter()->delete(
             $this->getProductIndexTempTable(),
-            ['product_id IN (?)' => $this->entityIds]
+            array('product_id IN (?)' => $this->entityIds)
         );
     }
 
@@ -91,6 +90,6 @@ class Rows extends AbstractAction
      */
     protected function getCategoryList()
     {
-        return [];
+        return array();
     }
 }

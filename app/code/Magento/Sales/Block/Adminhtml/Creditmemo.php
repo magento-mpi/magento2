@@ -29,5 +29,4 @@ class Creditmemo extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

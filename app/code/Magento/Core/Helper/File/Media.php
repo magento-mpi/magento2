@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Helper\File;
 
 /**
@@ -24,7 +23,7 @@ class Media extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
-    
+
     /**
      * Constructor
      *
@@ -77,10 +76,10 @@ class Media extends \Magento\App\Helper\AbstractHelper
         }
 
         return array(
-            'filename'      => basename($path),
-            'content'       => $dir->readFile($relativePath),
-            'update_time'   => $this->_date->date(),
-            'directory'     => $directory
+            'filename' => basename($path),
+            'content' => $dir->readFile($relativePath),
+            'update_time' => $this->_date->date(),
+            'directory' => $directory
         );
     }
 }

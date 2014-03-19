@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Convert\ConvertArray;
@@ -32,4 +31,4 @@ class AddressConverter
         $flatAddressArray[Address::KEY_STREET] = $street;
         return $flatAddressArray;
     }
-} 
+}

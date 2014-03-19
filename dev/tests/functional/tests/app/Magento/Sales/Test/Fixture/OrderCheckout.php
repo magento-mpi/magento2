@@ -88,10 +88,8 @@ class OrderCheckout extends Checkout
     public function persist()
     {
         $this->checkoutFixture->persist();
-        if(!is_null($this->additionalProducts))
-        {
-            foreach($this->additionalProducts as $product)
-            {
+        if (!is_null($this->additionalProducts)) {
+            foreach ($this->additionalProducts as $product) {
                 $this->checkoutFixture->addProduct($product);
             }
         }

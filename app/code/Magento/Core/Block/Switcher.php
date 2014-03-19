@@ -81,9 +81,7 @@ class Switcher extends \Magento\View\Element\Template
                 }
                 $store->setLocaleCode($store->getConfig('general/locale/code'));
 
-                $params = array(
-                    '_query' => array()
-                );
+                $params = array('_query' => array());
                 if (!$this->isStoreInUrl()) {
                     $params['_query']['___store'] = $store->getCode();
                 }

@@ -69,7 +69,13 @@ class Edit extends \Magento\Directory\Block\Data
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
         parent::__construct(
-            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollectionFactory, $countryCollectionFactory, $data
+            $context,
+            $coreData,
+            $jsonEncoder,
+            $configCacheType,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -128,11 +134,9 @@ class Edit extends \Magento\Directory\Block\Data
     public function getTypeList()
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $collection = $this->typeFactory->create()
-            ->getCollection()
-            ->addStoreData($storeId)
-            ->applyListedFilter()
-            ->applySortOrder();
+        $collection = $this->typeFactory->create()->getCollection()->addStoreData(
+            $storeId
+        )->applyListedFilter()->applySortOrder();
         $list = $collection->toOptionArray();
         return $list;
     }
@@ -196,7 +200,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function addInputTypeTemplate($type, $template)
     {
-        $params = array('_relative'=>true);
+        $params = array('_relative' => true);
         $area = $this->getArea();
         if ($area) {
             $params['area'] = $area;

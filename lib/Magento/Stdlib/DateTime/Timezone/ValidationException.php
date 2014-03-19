@@ -9,10 +9,8 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib\DateTime\Timezone;
 
 class ValidationException extends \Exception
 {
-
 }

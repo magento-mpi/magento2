@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Validator;
 
-require_once ('_files/ClassesForArgumentSequence.php');
 
+require_once '_files/ClassesForArgumentSequence.php';
 class ArgumentSequenceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -39,16 +38,21 @@ class ArgumentSequenceTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidSequence()
     {
-        $expectedSequence = '$contextObject, $parentRequiredObject, $parentRequiredScalar, '
-            . '$childRequiredObject, $childRequiredScalar, $parentOptionalObject, $data, $parentOptionalScalar, '
-            . '$childOptionalObject, $childOptionalScalar';
+        $expectedSequence = '$contextObject, $parentRequiredObject, $parentRequiredScalar, ' .
+            '$childRequiredObject, $childRequiredScalar, $parentOptionalObject, $data, $parentOptionalScalar, ' .
+            '$childOptionalObject, $childOptionalScalar';
 
-        $actualSequence = '$contextObject, $childRequiredObject, $parentRequiredObject, $parentRequiredScalar, '
-            . '$childRequiredScalar, $parentOptionalObject, $data, $parentOptionalScalar, '
-            . '$childOptionalObject, $childOptionalScalar';
+        $actualSequence = '$contextObject, $childRequiredObject, $parentRequiredObject, $parentRequiredScalar, ' .
+            '$childRequiredScalar, $parentOptionalObject, $data, $parentOptionalScalar, ' .
+            '$childOptionalObject, $childOptionalScalar';
 
-        $message = 'Incorrect argument sequence in class %s in ' . $this->_fixturePath . PHP_EOL
-            . 'Required: %s' . PHP_EOL . 'Actual  : %s' . PHP_EOL;
+        $message = 'Incorrect argument sequence in class %s in ' .
+            $this->_fixturePath .
+            PHP_EOL .
+            'Required: %s' .
+            PHP_EOL .
+            'Actual  : %s' .
+            PHP_EOL;
         $message = sprintf($message, '\ArgumentSequence\InvalidChildClass', $expectedSequence, $actualSequence);
         $this->setExpectedException('\Magento\Code\ValidationException', $message);
         $this->_validator->validate('\ArgumentSequence\InvalidChildClass');

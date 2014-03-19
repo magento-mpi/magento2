@@ -9,8 +9,7 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer;
 
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
@@ -50,9 +49,11 @@ class Edit
 
         $confirmMessage = __('Are you sure you want to delete this gift registry?');
         $this->_updateButton('delete', 'label', __('Delete Registry'));
-        $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
-            );
+        $this->_updateButton(
+            'delete',
+            'onclick',
+            'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+        );
     }
 
     /**

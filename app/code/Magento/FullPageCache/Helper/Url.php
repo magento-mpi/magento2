@@ -73,7 +73,7 @@ class Url
             $content,
             $replacementCount
         );
-        return ($replacementCount > 0);
+        return $replacementCount > 0;
     }
 
     /**
@@ -90,7 +90,7 @@ class Url
         }
         $replacementCount = 0;
         $content = str_replace(self::_getSidMarker(), $sidValue, $content, $replacementCount);
-        return ($replacementCount > 0);
+        return $replacementCount > 0;
     }
 
     /**

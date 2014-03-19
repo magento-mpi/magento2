@@ -16,8 +16,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Braintree;
 
-class Basic
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Basic extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Braintree payment code

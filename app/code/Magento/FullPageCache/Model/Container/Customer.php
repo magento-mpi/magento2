@@ -41,7 +41,13 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\App\ConfigInterface $coreConfig
     ) {
         parent::__construct(
-            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+            $eventManager,
+            $fpcCache,
+            $placeholder,
+            $coreRegistry,
+            $urlHelper,
+            $coreStoreConfig,
+            $layout
         );
         $this->_coreConfig = $coreConfig;
     }

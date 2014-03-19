@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin\Store;
 
 class Group extends AbstractPlugin
@@ -18,8 +17,11 @@ class Group extends AbstractPlugin
      */
     protected function validate(\Magento\Core\Model\AbstractModel $group)
     {
-        return ($group->dataHasChangedFor('website_id') || $group->dataHasChangedFor('root_category_id'))
-            && !$group->isObjectNew();
+        return ($group->dataHasChangedFor(
+            'website_id'
+        ) || $group->dataHasChangedFor(
+            'root_category_id'
+        )) && !$group->isObjectNew();
     }
 
     /**

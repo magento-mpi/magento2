@@ -41,7 +41,7 @@ namespace Magento\Reminder\Model;
  */
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
-    const XML_PATH_EMAIL_TEMPLATE  = 'magento_reminder_email_template';
+    const XML_PATH_EMAIL_TEMPLATE = 'magento_reminder_email_template';
 
     /**
      * Store template data defined per store view, will be used in email templates as variables
@@ -177,7 +177,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $defaultTemplate = self::XML_PATH_EMAIL_TEMPLATE;
 
         foreach ($storeData as $data) {
-            $template = (empty($data['template_id'])) ? $defaultTemplate : $data['template_id'];
+            $template = empty($data['template_id']) ? $defaultTemplate : $data['template_id'];
             $this->setData('store_template_' . $data['store_id'], $template);
             $this->setData('store_label_' . $data['store_id'], $data['label']);
             $this->setData('store_description_' . $data['store_id'], $data['description']);
@@ -193,9 +193,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->setConditionSql(
-            $this->getConditions()->getConditionsSql(null, new \Zend_Db_Expr(':website_id'))
-        );
+        $this->setConditionSql($this->getConditions()->getConditionsSql(null, new \Zend_Db_Expr(':website_id')));
 
         if (!$this->getSalesruleId()) {
             $this->setSalesruleId(null);
@@ -263,23 +261,24 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             $coupon = $this->couponFactory->create()->load($recipient['coupon_id']);
 
             $templateVars = array(
-                'store'          => $store,
-                'coupon'         => $coupon,
-                'customer'       => $customer,
+                'store' => $store,
+                'coupon' => $coupon,
+                'customer' => $customer,
                 'promotion_name' => $storeData['label'],
                 'promotion_description' => $storeData['description']
             );
 
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($storeData['template_id'])
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $store->getId()
-                ))
-                ->setTemplateVars($templateVars)
-                ->setFrom($identity)
-                ->addTo($customer->getEmail())
-                ->getTransport();
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $storeData['template_id']
+            )->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+            )->setTemplateVars(
+                $templateVars
+            )->setFrom(
+                $identity
+            )->addTo(
+                $customer->getEmail()
+            )->getTransport();
 
             try {
                 $transport->sendMessage();
@@ -300,9 +299,9 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     protected function _matchCustomers()
     {
-        $threshold   = $this->_reminderData->getSendFailureThreshold();
+        $threshold = $this->_reminderData->getSendFailureThreshold();
         $currentDate = $this->dateFactory->create()->date('Y-m-d');
-        $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
+        $rules = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
         if ($this->getRuleId()) {
             $rules->addRuleFilter($this->getRuleId());
         }
@@ -341,8 +340,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     $data['template_id'] = self::XML_PATH_EMAIL_TEMPLATE;
                 }
                 $this->_storeData[$ruleId][$storeId] = $data;
-            }
-            else {
+            } else {
                 return false;
             }
         }

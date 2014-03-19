@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 class MergeServiceTest extends \PHPUnit_Framework_TestCase
@@ -47,9 +46,13 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $this->_directory = $this->getMock('\Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_state = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_filesystem->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($this->_directory));
+        $this->_filesystem->expects(
+            $this->any()
+        )->method(
+            'getDirectoryWrite'
+        )->will(
+            $this->returnValue($this->_directory)
+        );
 
         $this->_object = new \Magento\View\Asset\MergeService(
             $this->_objectManager,
@@ -78,31 +81,32 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetMergedAssets(array $assets, $contentType, $appMode, $mergeStrategy)
     {
         $mergedAsset = $this->getMock('Magento\View\Asset\AssetInterface');
-        $this->_config->expects($this->once())
-            ->method('isMergeCssFiles')
-            ->will($this->returnValue(true));
-        $this->_config->expects($this->once())
-            ->method('isMergeJsFiles')
-            ->will($this->returnValue(true));
+        $this->_config->expects($this->once())->method('isMergeCssFiles')->will($this->returnValue(true));
+        $this->_config->expects($this->once())->method('isMergeJsFiles')->will($this->returnValue(true));
 
         $mergeStrategyMock = $this->getMock($mergeStrategy, array(), array(), '', false);
 
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->with(
-                'Magento\View\Asset\Merged',
-                array('assets' => $assets, 'mergeStrategy' => $mergeStrategyMock)
-            )
-            ->will($this->returnValue($mergedAsset));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\View\Asset\Merged',
+            array('assets' => $assets, 'mergeStrategy' => $mergeStrategyMock)
+        )->will(
+            $this->returnValue($mergedAsset)
+        );
 
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with($mergeStrategy)
-            ->will($this->returnValue($mergeStrategyMock));
-        $this->_state
-            ->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue($appMode));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            $mergeStrategy
+        )->will(
+            $this->returnValue($mergeStrategyMock)
+        );
+        $this->_state->expects($this->once())->method('getMode')->will($this->returnValue($appMode));
         $this->assertSame($mergedAsset, $this->_object->getMergedAssets($assets, $contentType));
     }
 
@@ -152,16 +156,14 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
                 \Magento\View\Publisher::CONTENT_TYPE_CSS,
                 \Magento\App\State::MODE_DEVELOPER,
                 'Magento\View\Asset\MergeStrategy\Checksum'
-            ),
+            )
         );
     }
 
     public function testCleanMergedJsCss()
     {
         $mergedDir = \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR;
-        $this->_directory->expects($this->once())
-            ->method('delete')
-            ->with($mergedDir);
+        $this->_directory->expects($this->once())->method('delete')->with($mergedDir);
 
         $this->_object->cleanMergedJsCss();
     }

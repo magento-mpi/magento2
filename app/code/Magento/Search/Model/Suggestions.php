@@ -9,7 +9,7 @@
  */
 namespace Magento\Search\Model;
 
- /**
+/**
  * Enterprise search suggestions model
  *
  * @category   Magento
@@ -28,7 +28,7 @@ class Suggestions
     /**
      * @param \Magento\Catalog\Model\Layer\Search $searchLayer
      */
-    function __construct(
+    public function __construct(
         \Magento\Catalog\Model\Layer\Search $searchLayer
     ) {
         $this->_searchLayer = $searchLayer;

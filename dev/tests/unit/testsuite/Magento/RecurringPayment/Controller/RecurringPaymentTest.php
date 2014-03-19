@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Controller;
 
 class RecurringPaymentTest extends \PHPUnit_Framework_TestCase

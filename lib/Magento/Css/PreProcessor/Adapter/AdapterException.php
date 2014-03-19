@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Adapter;
 
 /**
@@ -13,5 +12,4 @@ namespace Magento\Css\PreProcessor\Adapter;
  */
 class AdapterException extends \Exception
 {
-
 }

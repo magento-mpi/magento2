@@ -12,8 +12,7 @@ namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbala
 /**
  * Customer balance history grid
  */
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\CustomerBalance\Model\Resource\Balance\Collection
@@ -77,9 +76,10 @@ class Grid
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_historyFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('customer_id', $this->getRequest()->getParam('id'));
+        $collection = $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'customer_id',
+            $this->getRequest()->getParam('id')
+        );
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -92,71 +92,85 @@ class Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('updated_at', array(
-            'header'    => __('Date'),
-            'index'     => 'updated_at',
-            'type'      => 'datetime',
-            'filter'    => false,
-            'width'     => 200,
-        ));
+        $this->addColumn(
+            'updated_at',
+            array(
+                'header' => __('Date'),
+                'index' => 'updated_at',
+                'type' => 'datetime',
+                'filter' => false,
+                'width' => 200
+            )
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('website_id', array(
-                'header'    => __('Website'),
-                'index'     => 'website_id',
-                'type'      => 'options',
-                'options'   => $this->_systemStore->getWebsiteOptionHash(),
-                'sortable'  => false,
-                'width'     => 200,
-            ));
+            $this->addColumn(
+                'website_id',
+                array(
+                    'header' => __('Website'),
+                    'index' => 'website_id',
+                    'type' => 'options',
+                    'options' => $this->_systemStore->getWebsiteOptionHash(),
+                    'sortable' => false,
+                    'width' => 200
+                )
+            );
         }
 
-        $this->addColumn('balance_action', array(
-            'header'    => __('Action'),
-            'width'     => 70,
-            'index'     => 'action',
-            'sortable'  => false,
-            'type'      => 'options',
-            'options'   => $this->_history->getActionNamesArray()
-        ));
+        $this->addColumn(
+            'balance_action',
+            array(
+                'header' => __('Action'),
+                'width' => 70,
+                'index' => 'action',
+                'sortable' => false,
+                'type' => 'options',
+                'options' => $this->_history->getActionNamesArray()
+            )
+        );
 
-        $this->addColumn('balance_delta', array(
-            'header'    => __('Balance Change'),
-            'width'     => 50,
-            'index'     => 'balance_delta',
-            'type'      => 'price',
-            'sortable'  => false,
-            'filter'    => false,
-            'renderer'  => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
-        ));
+        $this->addColumn(
+            'balance_delta',
+            array(
+                'header' => __('Balance Change'),
+                'width' => 50,
+                'index' => 'balance_delta',
+                'type' => 'price',
+                'sortable' => false,
+                'filter' => false,
+                'renderer' => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency'
+            )
+        );
 
-        $this->addColumn('balance_amount', array(
-            'header'    => __('Balance'),
-            'width'     => 50,
-            'index'     => 'balance_amount',
-            'sortable'  => false,
-            'filter'    => false,
-            'renderer'  => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency',
-        ));
+        $this->addColumn(
+            'balance_amount',
+            array(
+                'header' => __('Balance'),
+                'width' => 50,
+                'index' => 'balance_amount',
+                'sortable' => false,
+                'filter' => false,
+                'renderer' => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency'
+            )
+        );
 
-        $this->addColumn('is_customer_notified', array(
-            'header'    => __('Customer notified'),
-            'index'     => 'is_customer_notified',
-            'type'      => 'options',
-            'options'   => array(
-                '1' => __('Notified'),
-                '0' => __('No'),
-            ),
-            'sortable'  => false,
-            'filter'    => false,
-            'width'     => 75,
-        ));
+        $this->addColumn(
+            'is_customer_notified',
+            array(
+                'header' => __('Customer notified'),
+                'index' => 'is_customer_notified',
+                'type' => 'options',
+                'options' => array('1' => __('Notified'), '0' => __('No')),
+                'sortable' => false,
+                'filter' => false,
+                'width' => 75
+            )
+        );
 
-        $this->addColumn('additional_info', array(
-            'header'    => __('More information'),
-            'index'     => 'additional_info',
-            'sortable'  => false,
-        ));
+        $this->addColumn(
+            'additional_info',
+            array('header' => __('More information'), 'index' => 'additional_info', 'sortable' => false)
+        );
 
         return parent::_prepareColumns();
     }
@@ -168,6 +182,6 @@ class Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/gridHistory', array('_current'=> true));
+        return $this->getUrl('adminhtml/*/gridHistory', array('_current' => true));
     }
 }

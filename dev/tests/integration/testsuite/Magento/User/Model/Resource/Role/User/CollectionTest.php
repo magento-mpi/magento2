@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource\Role\User;
 
 /**
@@ -23,8 +22,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\Resource\Role\User\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\User\Model\Resource\Role\User\Collection'
+        );
     }
 
     public function testSelectQueryInitialized()

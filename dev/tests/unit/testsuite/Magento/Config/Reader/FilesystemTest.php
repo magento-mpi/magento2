@@ -53,8 +53,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'fileName',
             array()
         );
-        $this->_fileResolverMock
-            ->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
 
         $dom = new \DomDocument();
         $dom->loadXML($this->_file);
@@ -68,9 +67,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadWithInvalidDom()
     {
-        $this->_schemaLocatorMock->expects($this->once())
-            ->method('getSchema')
-            ->will($this->returnValue(__DIR__ . "/../_files/reader/schema.xsd"));
+        $this->_schemaLocatorMock->expects(
+            $this->once()
+        )->method(
+            'getSchema'
+        )->will(
+            $this->returnValue(__DIR__ . "/../_files/reader/schema.xsd")
+        );
         $this->_validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
         $model = new Filesystem(
             $this->_fileResolverMock,
@@ -80,8 +83,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'fileName',
             array()
         );
-        $this->_fileResolverMock
-            ->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
 
         $model->read('scope');
     }
@@ -92,9 +94,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadWithInvalidXml()
     {
-        $this->_schemaLocatorMock->expects($this->any())
-            ->method('getPerFileSchema')
-            ->will($this->returnValue(__DIR__ . "/../_files/reader/schema.xsd"));
+        $this->_schemaLocatorMock->expects(
+            $this->any()
+        )->method(
+            'getPerFileSchema'
+        )->will(
+            $this->returnValue(__DIR__ . "/../_files/reader/schema.xsd")
+        );
         $this->_validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
 
         $model = new Filesystem(
@@ -105,8 +111,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             'fileName',
             array()
         );
-        $this->_fileResolverMock
-            ->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
+        $this->_fileResolverMock->expects($this->once())->method('get')->will($this->returnValue(array($this->_file)));
         $model->read('scope');
     }
 

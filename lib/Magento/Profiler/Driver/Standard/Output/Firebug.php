@@ -130,5 +130,4 @@ class Firebug extends AbstractOutput
         }
         return $this->_response;
     }
-
 }

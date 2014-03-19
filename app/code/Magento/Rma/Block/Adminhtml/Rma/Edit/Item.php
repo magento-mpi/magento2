@@ -82,27 +82,23 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
 
         /* @var $customerForm \Magento\Rma\Model\Item\Form */
         $customerForm = $this->_itemFormFactory->create();
-        $customerForm->setEntity($item)
-            ->setFormCode('default')
-            ->initDefaultValues();
+        $customerForm->setEntity($item)->setFormCode('default')->initDefaultValues();
 
-        $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>__('RMA Item Details'))
-        );
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('RMA Item Details')));
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('OK'),
-                'class'   => 'ok_button',
-            ));
+        $okButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('OK'), 'class' => 'ok_button')
+        );
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('Cancel'),
-                'class'   => 'cancel_button',
-            ));
+        $cancelButton = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Cancel'), 'class' => 'cancel_button')
+        );
         $fieldset->setCancelButton($cancelButton->toHtml());
 
 
@@ -159,7 +155,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         return array(
             'text' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Text',
             'textarea' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Textarea',
-            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image',
+            'image' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element\Image'
         );
     }
 

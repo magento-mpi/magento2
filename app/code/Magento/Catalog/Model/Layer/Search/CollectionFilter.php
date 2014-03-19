@@ -71,4 +71,4 @@ class CollectionFilter implements CollectionFilterInterface
             ->addUrlRewrite()
             ->setVisibility($this->productVisibility->getVisibleInSearchIds());
     }
-} 
+}

@@ -32,10 +32,10 @@ class MenuHierarchyConfigFilesTest extends \PHPUnit_Framework_TestCase
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento\VersionsCms\Model\Hierarchy\Config\Reader', array(
-            'fileResolver' => $fileResolverMock,
-            'validationState' => $validationStateMock,
-        ));
+        $this->_model = $objectManager->create(
+            'Magento\VersionsCms\Model\Hierarchy\Config\Reader',
+            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+        );
     }
 
     public function testMenuHierarchyConfigFiles()

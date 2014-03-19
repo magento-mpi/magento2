@@ -66,11 +66,14 @@ class Details extends \Magento\Backend\Block\Widget\Container
     protected function _construct()
     {
         parent::_construct();
-        $this->_addButton('back', array(
-            'label'   => __('Back'),
-            'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
-            'class'   => 'back'
-        ));
+        $this->_addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => "setLocation('" . $this->_urlBuilder->getUrl('adminhtml/*/') . "')",
+                'class' => 'back'
+            )
+        );
     }
 
     /**

@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib\DateTime;
 
 class Date extends \Zend_Date implements \Magento\Stdlib\DateTime\DateInterface

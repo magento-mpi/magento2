@@ -17,8 +17,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Input
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Input extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var array

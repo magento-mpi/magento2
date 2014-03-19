@@ -18,8 +18,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class Firstdata
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Firstdata extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Payone payment code

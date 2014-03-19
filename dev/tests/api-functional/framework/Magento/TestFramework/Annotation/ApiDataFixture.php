@@ -99,7 +99,7 @@ class ApiDataFixture
         if (is_callable($fixture)) {
             call_user_func($fixture);
         } else {
-            require($fixture);
+            require $fixture;
         }
         $this->_appliedFixtures[] = $fixture;
     }

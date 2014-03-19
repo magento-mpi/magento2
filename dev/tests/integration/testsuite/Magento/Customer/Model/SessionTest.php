@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -25,15 +24,17 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Session');
+        $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Session'
+        );
     }
 
     public function testLoginById()
     {
         $this->markTestSkipped('MAGETWO-18328');
         $oldSessionId = $this->_customerSession->getSessionId();
-        $this->assertTrue($this->_customerSession->loginById(1)); // fixture
+        $this->assertTrue($this->_customerSession->loginById(1));
+        // fixture
         $this->assertTrue($this->_customerSession->isLoggedIn());
         $newSessionId = $this->_customerSession->getSessionId();
         $this->assertNotEquals($oldSessionId, $newSessionId);

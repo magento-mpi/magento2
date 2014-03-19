@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
 class PathTest extends \PHPUnit_Framework_TestCase
@@ -35,24 +34,18 @@ class PathTest extends \PHPUnit_Framework_TestCase
                                 'group_1' => array(
                                     'id' => 'group_1',
                                     'children' => array(
-                                        'field_1' => array(
-                                            'id' => 'field_1',
-                                        ),
+                                        'field_1' => array('id' => 'field_1'),
                                         'group_1.1' => array(
                                             'id' => 'group_1.1',
-                                            'children' => array(
-                                                'field_1.2' => array(
-                                                    'id' => 'field_1.2',
-                                                )
-                                            ),
-                                        ),
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+                                            'children' => array('field_1.2' => array('id' => 'field_1.2'))
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         );
         $expected = array(
             'config' => array(
@@ -64,28 +57,25 @@ class PathTest extends \PHPUnit_Framework_TestCase
                                 'group_1' => array(
                                     'id' => 'group_1',
                                     'children' => array(
-                                        'field_1' => array(
-                                            'id' => 'field_1',
-                                            'path' => 'section_1/group_1',
-                                        ),
+                                        'field_1' => array('id' => 'field_1', 'path' => 'section_1/group_1'),
                                         'group_1.1' => array(
                                             'id' => 'group_1.1',
                                             'children' => array(
                                                 'field_1.2' => array(
                                                     'id' => 'field_1.2',
-                                                    'path' => 'section_1/group_1/group_1.1',
-                                                ),
+                                                    'path' => 'section_1/group_1/group_1.1'
+                                                )
                                             ),
-                                            'path' => 'section_1/group_1',
-                                        ),
+                                            'path' => 'section_1/group_1'
+                                        )
                                     ),
-                                    'path' => 'section_1',
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+                                    'path' => 'section_1'
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         );
 
         $actual = $this->_model->map($data);

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma;
 
 class NewRma extends \Magento\Backend\Block\Widget\Form\Container
@@ -63,15 +62,13 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
         $order = $this->_coreRegistry->registry('current_order');
 
         if ($order && $order->getId()) {
-            $orderId    = $order->getId();
-            $referer    = $this->getRequest()->getServer('HTTP_REFERER');
+            $orderId = $order->getId();
+            $referer = $this->getRequest()->getServer('HTTP_REFERER');
 
             if (strpos($referer, 'customer') !== false) {
-                $link = $this->getUrl('customer/index/edit/',
-                    array(
-                        'id'  => $order->getCustomerId(),
-                        'active_tab'=> 'orders'
-                    )
+                $link = $this->getUrl(
+                    'customer/index/edit/',
+                    array('id' => $order->getCustomerId(), 'active_tab' => 'orders')
                 );
             }
         } else {
@@ -105,6 +102,9 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('order_id' => $this->_coreRegistry->registry('current_order')->getId()));
+        return $this->getUrl(
+            'adminhtml/*/save',
+            array('order_id' => $this->_coreRegistry->registry('current_order')->getId())
+        );
     }
 }

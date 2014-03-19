@@ -14,9 +14,8 @@ namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Profile
-    extends \Magento\Pbridge\Block\Iframe\AbstractIframe
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Block template
@@ -64,14 +63,7 @@ class Profile
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct(
-            $context,
-            $customerSession,
-            $pbridgeSession,
-            $regionFactory,
-            $pbridgeData,
-            $data
-        );
+        parent::__construct($context, $customerSession, $pbridgeSession, $regionFactory, $pbridgeData, $data);
     }
 
     /**
@@ -146,10 +138,10 @@ class Profile
         return $helper->getPaymentProfileUrl(
             array(
                 'billing_address' => $this->_getAddressInfo(),
-                'css_url'         => null,
-                'customer_id'     => $this->getCustomerIdentifier(),
-                'customer_name'   => $this->getCustomerName(),
-                'customer_email'  => $this->getCustomerEmail()
+                'css_url' => null,
+                'customer_id' => $this->getCustomerIdentifier(),
+                'customer_name' => $this->getCustomerName(),
+                'customer_email' => $this->getCustomerEmail()
             )
         );
     }

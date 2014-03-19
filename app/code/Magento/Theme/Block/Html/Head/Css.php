@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html\Head;
 
 /**
@@ -26,10 +25,9 @@ class Css extends \Magento\View\Element\AbstractBlock implements AssetBlockInter
         parent::__construct($context, $data);
 
         $this->setAsset(
-            $viewFileFactory->create(array(
-                'file' => (string)$this->getFile(),
-                'contentType' => \Magento\View\Publisher::CONTENT_TYPE_CSS
-            ))
+            $viewFileFactory->create(
+                array('file' => (string)$this->getFile(), 'contentType' => \Magento\View\Publisher::CONTENT_TYPE_CSS)
+            )
         );
     }
 

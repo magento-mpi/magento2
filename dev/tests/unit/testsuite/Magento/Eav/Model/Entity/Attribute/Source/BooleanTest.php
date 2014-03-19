@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 use Magento\TestFramework\Helper\ObjectManager;
@@ -30,12 +29,13 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
     {
         $abstractAttributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getAttributeCode', '__wakeup'), array(), '', false
+            array('getAttributeCode', '__wakeup'),
+            array(),
+            '',
+            false
         );
 
-        $abstractAttributeMock->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue('code'));
+        $abstractAttributeMock->expects($this->any())->method('getAttributeCode')->will($this->returnValue('code'));
 
         $this->_model->setAttribute($abstractAttributeMock);
 

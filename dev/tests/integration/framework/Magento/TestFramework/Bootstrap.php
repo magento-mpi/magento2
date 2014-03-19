@@ -20,6 +20,7 @@ class Bootstrap
      * Predefined admin user credentials
      */
     const ADMIN_NAME = 'user';
+
     const ADMIN_PASSWORD = 'password1';
 
     /**
@@ -96,7 +97,7 @@ class Bootstrap
         $this->_application = $this->_createApplication(
             array(
                 $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_FILE'),
-                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE'),
+                $this->_settings->getAsConfigFile('TESTS_LOCAL_CONFIG_EXTRA_FILE')
             ),
             $this->_settings->get('TESTS_GLOBAL_CONFIG_DIR'),
             $this->_settings->getAsMatchingPaths('TESTS_MODULE_CONFIG_FILES'),
@@ -144,7 +145,8 @@ class Bootstrap
         }
 
         $memoryBootstrap = $this->_createMemoryBootstrap(
-            $this->_settings->get('TESTS_MEM_USAGE_LIMIT', 0), $this->_settings->get('TESTS_MEM_LEAK_LIMIT', 0)
+            $this->_settings->get('TESTS_MEM_USAGE_LIMIT', 0),
+            $this->_settings->get('TESTS_MEM_LEAK_LIMIT', 0)
         );
         $memoryBootstrap->activateStatsDisplaying();
         $memoryBootstrap->activateLimitValidation();
@@ -170,9 +172,13 @@ class Bootstrap
      */
     protected function _createMemoryBootstrap($memUsageLimit, $memLeakLimit)
     {
-        return new \Magento\TestFramework\Bootstrap\Memory(new \Magento\TestFramework\MemoryLimit(
-            $memUsageLimit, $memLeakLimit, new \Magento\TestFramework\Helper\Memory($this->_shell)
-        ));
+        return new \Magento\TestFramework\Bootstrap\Memory(
+            new \Magento\TestFramework\MemoryLimit(
+                $memUsageLimit,
+                $memLeakLimit,
+                new \Magento\TestFramework\Helper\Memory($this->_shell)
+            )
+        );
     }
 
     /**
@@ -185,7 +191,10 @@ class Bootstrap
      * @return \Magento\TestFramework\Application
      */
     protected function _createApplication(
-        array $localConfigFiles, $globalConfigDir, array $moduleConfigFiles, $appMode
+        array $localConfigFiles,
+        $globalConfigDir,
+        array $moduleConfigFiles,
+        $appMode
     ) {
         $localConfigXml = $this->_loadConfigFiles($localConfigFiles);
         $dbConfig = $localConfigXml->connection;
@@ -257,7 +266,7 @@ class Bootstrap
         $dbVendorAlias = 'mysql4';
         $dbVendorMap = array('mysql4' => 'mysql');
         if (!array_key_exists($dbVendorAlias, $dbVendorMap)) {
-            throw new \Magento\Exception("Database vendor '$dbVendorAlias' is not supported.");
+            throw new \Magento\Exception("Database vendor '{$dbVendorAlias}' is not supported.");
         }
         return $dbVendorMap[$dbVendorAlias];
     }

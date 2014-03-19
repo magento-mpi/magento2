@@ -10,6 +10,7 @@
 namespace Magento\Search\Model;
 
 use Magento\Event\Observer as EventObserver;
+
 /**
  * Enterprise search model observer
  */
@@ -114,15 +115,20 @@ class Observer
             return;
         }
 
-        $form      = $observer->getEvent()->getForm();
+        $form = $observer->getEvent()->getForm();
         $attribute = $observer->getEvent()->getAttribute();
-        $fieldset  = $form->getElement('front_fieldset');
+        $fieldset = $form->getElement('front_fieldset');
 
-        $fieldset->addField('search_weight', 'select', array(
-            'name'        => 'search_weight',
-            'label'       => __('Search Weight'),
-            'values'      => $this->_sourceWeight->getOptions(),
-        ), 'is_searchable');
+        $fieldset->addField(
+            'search_weight',
+            'select',
+            array(
+                'name' => 'search_weight',
+                'label' => __('Search Weight'),
+                'values' => $this->_sourceWeight->getOptions()
+            ),
+            'is_searchable'
+        );
         /**
          * Disable default search fields
          */
@@ -142,8 +148,8 @@ class Observer
     public function searchQueryEditFormAfterSave(EventObserver $observer)
     {
         $searchQuryModel = $observer->getEvent()->getDataObject();
-        $queryId         = $searchQuryModel->getId();
-        $relatedQueries  = $searchQuryModel->getSelectedQueriesGrid();
+        $queryId = $searchQuryModel->getId();
+        $relatedQueries = $searchQuryModel->getSelectedQueriesGrid();
 
         if (strlen($relatedQueries) == 0) {
             $relatedQueries = array();
@@ -151,8 +157,7 @@ class Observer
             $relatedQueries = explode('&', $relatedQueries);
         }
 
-        $this->_searchRecommendationsFactory->create()
-            ->saveRelatedQueries($queryId, $relatedQueries);
+        $this->_searchRecommendationsFactory->create()->saveRelatedQueries($queryId, $relatedQueries);
     }
 
     /**
@@ -171,8 +176,11 @@ class Observer
 
         $object = $observer->getEvent()->getDataObject();
         if ($object->isObjectNew() || $object->getTaxClassId() != $object->getOrigData('tax_class_id')) {
-            $this->_indexer->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+            $this->_indexer->getProcessByCode(
+                'catalogsearch_fulltext'
+            )->changeStatus(
+                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
+            );
         }
     }
 
@@ -184,7 +192,7 @@ class Observer
      */
     public function storeSearchableAttributes(EventObserver $observer)
     {
-        $engine     = $observer->getEvent()->getEngine();
+        $engine = $observer->getEvent()->getEngine();
         $attributes = $observer->getEvent()->getAttributes();
         if (!$engine || !$attributes || !$this->_searchData->isThirdPartyEngineAvailable()) {
             return;
@@ -195,10 +203,12 @@ class Observer
                 continue;
             }
 
-            $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()
-                ->setAttributeFilter($attribute->getAttributeId())
-                ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
-                ->load();
+            $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()->setAttributeFilter(
+                $attribute->getAttributeId()
+            )->setPositionOrder(
+                \Magento\DB\Select::SQL_ASC,
+                true
+            )->load();
 
             $optionsOrder = array();
             foreach ($optionCollection as $option) {
@@ -238,9 +248,7 @@ class Observer
         }
 
         $object = $observer->getEvent()->getDataObject();
-        if ($object instanceof \Magento\Core\Model\Website
-            || $object instanceof \Magento\Core\Model\Store\Group
-        ) {
+        if ($object instanceof \Magento\Core\Model\Website || $object instanceof \Magento\Core\Model\Store\Group) {
             $storeIds = $object->getStoreIds();
         } elseif ($object instanceof \Magento\Core\Model\Store) {
             $storeIds = $object->getId();

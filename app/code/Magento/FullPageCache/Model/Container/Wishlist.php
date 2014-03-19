@@ -22,9 +22,16 @@ class Wishlist extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _getIdentifier()
     {
-        return $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS, '')
-            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST, '')
-            . ($this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_GROUP, ''));
+        return $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST_ITEMS,
+            ''
+        ) . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_WISHLIST,
+            ''
+        ) . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_GROUP,
+            ''
+        );
     }
 
     /**
@@ -52,9 +59,15 @@ class Wishlist extends \Magento\FullPageCache\Model\Container\AbstractContainer
         $block->setTemplate($template);
 
         /** @var $blockPrice \Magento\Catalog\Block\Product\Price\Template */
-        $blockPrice = $this->_layout
-            ->createBlock('Magento\Catalog\Block\Product\Price\Template', 'catalog_product_price_template');
-        $blockPrice->addPriceBlockType('msrp', 'Magento\Catalog\Block\Product\Price', 'catalog/product/price_msrp.phtml');
+        $blockPrice = $this->_layout->createBlock(
+            'Magento\Catalog\Block\Product\Price\Template',
+            'catalog_product_price_template'
+        );
+        $blockPrice->addPriceBlockType(
+            'msrp',
+            'Magento\Catalog\Block\Product\Price',
+            'catalog/product/price_msrp.phtml'
+        );
 
         $this->_eventManager->dispatch('render_block', array('block' => $block, 'placeholder' => $this->_placeholder));
 

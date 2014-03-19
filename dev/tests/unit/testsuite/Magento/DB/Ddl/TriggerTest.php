@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DB\Ddl;
 
 class TriggerTest extends \PHPUnit_Framework_TestCase
@@ -65,7 +64,8 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNameWithException()
     {
-        $triggerName = new \stdClass();//non string
+        $triggerName = new \stdClass();
+        //non string
 
         $this->_object->setName($triggerName);
     }
@@ -78,7 +78,8 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetTableWithException()
     {
-        $tableName = new \stdClass();//non string
+        $tableName = new \stdClass();
+        //non string
 
         $this->_object->setTable($tableName);
     }
@@ -94,10 +95,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
         $tableName = 'TEST_TABLE_NAME_' . mt_rand(100, 999);
         $event = \Magento\DB\Ddl\Trigger::EVENT_INSERT;
 
-        $this->_object
-            ->setTable($tableName)
-            ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
-            ->setEvent($event);
+        $this->_object->setTable($tableName)->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)->setEvent($event);
 
         $this->_object->getName();
     }
@@ -113,9 +111,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
         $tableName = 'TEST_TABLE_NAME_' . mt_rand(100, 999);
         $event = \Magento\DB\Ddl\Trigger::EVENT_INSERT;
 
-        $this->_object
-            ->setTable($tableName)
-            ->setEvent($event);
+        $this->_object->setTable($tableName)->setEvent($event);
 
         $this->_object->getTime();
     }
@@ -130,9 +126,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
     {
         $event = \Magento\DB\Ddl\Trigger::EVENT_INSERT;
 
-        $this->_object
-            ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
-            ->setEvent($event);
+        $this->_object->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)->setEvent($event);
 
         $this->_object->getTable();
     }
@@ -147,9 +141,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
     {
         $tableName = 'TEST_TABLE_NAME_' . mt_rand(100, 999);
 
-        $this->_object
-            ->setTable($tableName)
-            ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER);
+        $this->_object->setTable($tableName)->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER);
 
         $this->_object->getEvent();
     }
@@ -180,7 +172,8 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddStatementWithException()
     {
-        $statement = new \stdClass();//non string
+        $statement = new \stdClass();
+        //non string
 
         $this->_object->addStatement($statement);
     }
@@ -190,16 +183,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function getStatementsDataProvider()
     {
-        return array(
-            array(
-                'SQL',
-                array('SQL;')
-            ),
-            array(
-                'SQL;',
-                array('SQL;')
-            ),
-        );
+        return array(array('SQL', array('SQL;')), array('SQL;', array('SQL;')));
     }
 
     /**

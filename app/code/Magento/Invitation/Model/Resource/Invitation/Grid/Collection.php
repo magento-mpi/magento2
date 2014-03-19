@@ -17,8 +17,7 @@
  */
 namespace Magento\Invitation\Model\Resource\Invitation\Grid;
 
-class Collection
-    extends \Magento\Invitation\Model\Resource\Invitation\Collection
+class Collection extends \Magento\Invitation\Model\Resource\Invitation\Collection
 {
     /**
      * Join website ID and referrals information (email)
