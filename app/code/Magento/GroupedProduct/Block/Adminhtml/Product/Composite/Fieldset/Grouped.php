@@ -13,6 +13,9 @@
  */
 namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface as CustomerAccountService;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -36,6 +39,11 @@ class Grouped
     protected $_coreHelper;
 
     /**
+     * @var CustomerAccountService
+     */
+    protected $_customerAccountService;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Registry $registry
@@ -50,6 +58,7 @@ class Grouped
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param \Magento\Core\Helper\Data $coreHelper
+     * @param CustomerAccountService $customerAccountService
      * @param array $data
      * @param array $priceBlockTypes
      *
@@ -70,9 +79,11 @@ class Grouped
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Catalog\Helper\Product\Price $priceHelper,
         \Magento\Core\Helper\Data $coreHelper,
+        CustomerAccountService $customerAccountService,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
+        $this->_customerAccountService = $customerAccountService;
         $this->_coreHelper = $coreHelper;
         $this->priceHelper = $priceHelper;
         parent::__construct(
@@ -106,8 +117,11 @@ class Grouped
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
 
-        if (!$this->priceHelper->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (is_null($this->priceHelper->getCustomer()->getId())
+            && $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
+        ) {
+            $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
+            $this->priceHelper->setCustomer($this->_customerAccountService->getCustomer($customerId));
         }
     }
 

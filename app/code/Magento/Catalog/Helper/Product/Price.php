@@ -8,7 +8,8 @@
 namespace Magento\Catalog\Helper\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\Customer\Model\Customer;
+use Magento\Customer\Service\V1\Data\Customer;
+
 
 /**
  * Collection of tax module calls
@@ -85,13 +86,13 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Get customer object
+     * Get customer data object
      *
-     * @return bool|Customer
+     * @return Customer CustomerDataObject
      */
     public function getCustomer()
     {
-        return $this->taxCalculation->getCustomer();
+        return $this->taxCalculation->getCustomerData();
     }
 
     /**
@@ -102,7 +103,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
      */
     public function setCustomer(Customer $customer)
     {
-        $this->taxCalculation->setCustomer($customer);
+        $this->taxCalculation->setCustomerData($customer);
         return $this;
     }
 

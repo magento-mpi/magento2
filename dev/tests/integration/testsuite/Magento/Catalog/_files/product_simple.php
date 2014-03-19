@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,13 +24,13 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
         array(
             array(
                 'website_id' => 0,
-                'cust_group' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
+                'cust_group' => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL,
                 'price_qty'  => 2,
                 'price'      => 8,
             ),
             array(
                 'website_id' => 0,
-                'cust_group' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
+                'cust_group' => \Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL,
                 'price_qty'  => 5,
                 'price'      => 5,
             ),

@@ -190,6 +190,7 @@ return array(
     array('addConstraint', 'Magento\DB\Adapter\Pdo\Mysql'),
     array('addCss', 'Magento\Theme\Block\Html\Head'),
     array('addCssIe', 'Magento\Theme\Block\Html\Head'),
+    array('addCustomerData', 'Magento\Catalog\Model\Product\Item', 'setCustomerId'),
     array('addCustomersToAlertQueueAction'),
     array('addCustomerToSegments'),
     array('addHandle', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),

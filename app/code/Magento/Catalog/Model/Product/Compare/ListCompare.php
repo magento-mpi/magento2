@@ -157,7 +157,7 @@ class ListCompare extends \Magento\Object
     {
         $item->addVisitorId($this->_logVisitor->getId());
         if ($this->_customerSession->isLoggedIn()) {
-            $item->addCustomerData($this->_customerSession->getCustomer());
+            $item->setCustomerId($this->_customerSession->getCustomerId());
         }
 
         return $this;
@@ -172,7 +172,7 @@ class ListCompare extends \Magento\Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return $this->_catalogProductCompareItem
+        return (bool)$this->_catalogProductCompareItem
             ->getCount($customerId, $visitorId);
     }
 }

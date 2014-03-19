@@ -24,7 +24,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_subjectMock;
 
@@ -33,7 +33,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_subjectMock = $this->getMock(
-            'Magento\Customer\Model\Resource\Group', array(), array(), '', false
+            '\Magento\Customer\Service\V1\CustomerGroupServiceInterface', array(), array(), '', false
         );
 
         $indexerMock = $this->getMock(
@@ -50,11 +50,11 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDelete()
     {
-        $this->assertEquals('return_value', $this->_model->afterDelete($this->_subjectMock, 'return_value'));
+        $this->assertEquals('return_value', $this->_model->afterDeleteGroup($this->_subjectMock, 'return_value'));
     }
 
     public function testAroundSave()
     {
-        $this->assertEquals('return_value', $this->_model->afterSave($this->_subjectMock, 'return_value'));
+        $this->assertEquals('return_value', $this->_model->afterSaveGroup($this->_subjectMock, 'return_value'));
     }
 }

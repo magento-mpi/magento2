@@ -166,6 +166,13 @@ class Composite extends \Magento\App\Helper\AbstractHelper
             $this->_coreRegistry->register('current_product', $product);
             $this->_coreRegistry->register('product', $product);
 
+            // Using the customer_id with the customer service going forward.
+            // @TOFIX: Remove the customer model from the registry
+            $this->_coreRegistry->register(
+                RegistryConstants::CURRENT_CUSTOMER_ID,
+                (int)$configureResult->getCurrentCustomerId()
+            );
+
             // Register customer we're working with
             $currentCustomer = $configureResult->getCurrentCustomer();
             if (!$currentCustomer) {
@@ -176,6 +183,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
             }
             if ($currentCustomer) {
                 $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $currentCustomer);
+                $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $currentCustomer->getId());
             }
 
             // Prepare buy request values
