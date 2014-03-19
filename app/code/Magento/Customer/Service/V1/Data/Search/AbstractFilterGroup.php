@@ -22,7 +22,7 @@ abstract class AbstractFilterGroup extends AbstractObject
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Service\V1\Data\Filter[]
+     * @return \Magento\Service\V1\Data\Filter[]|null
      */
     public function getFilters()
     {
@@ -33,7 +33,7 @@ abstract class AbstractFilterGroup extends AbstractObject
     /**
      * Returns a list of filter groups in this group
      *
-     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup[]
+     * @return \Magento\Customer\Service\V1\Data\Search\AndGroup[]|null
      */
     public function getAndGroups()
     {
@@ -44,7 +44,7 @@ abstract class AbstractFilterGroup extends AbstractObject
     /**
      * Returns a list of filter groups in this group
      *
-     * @return \Magento\Customer\Service\V1\Data\Search\OrGroup[]
+     * @return \Magento\Customer\Service\V1\Data\Search\OrGroup[]|null
      */
     public function getOrGroups()
     {

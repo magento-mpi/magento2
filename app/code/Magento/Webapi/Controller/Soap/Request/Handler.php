@@ -122,7 +122,7 @@ class Handler
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $arguments = $this->_toArray($arguments);
+        $arguments = $this->_helper->_toArray($arguments);
         return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 
@@ -136,10 +136,10 @@ class Handler
     protected function _prepareResponseData($data)
     {
         if ($data instanceof AbstractObject) {
-            $result = $this->_unpackDataObject($data);
+            $result = $this->_helper->unpackDataObject($data);
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $value instanceof AbstractObject ? $this->_unpackDataObject($value) : $value;
+                $result[$key] = $value instanceof AbstractObject ? $this->_helper->unpackDataObject($value) : $value;
             }
         } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;
@@ -149,65 +149,4 @@ class Handler
         return array(self::RESULT_NODE_NAME => $result);
     }
 
-    /**
-     * Create new object and initialize its public fields with data retrieved from Data Object.
-     *
-     * This method processes all nested Data Objects recursively.
-     *
-     * @param AbstractObject $dataObject
-     * @return \stdClass
-     * @throws \InvalidArgumentException
-     */
-    protected function _unpackDataObject(AbstractObject $dataObject)
-    {
-        return $this->_unpackArray($dataObject->__toArray());
-    }
-
-    /**
-     * Unpack as an array and convert keys to camelCase to match property names in WSDL
-     *
-     * @param array $dataArray
-     * @return \stdClass
-     */
-    protected function _unpackArray(array $dataArray)
-    {
-        $response = new \stdClass();
-        foreach ($dataArray as $fieldName => $fieldValue) {
-            if ($fieldValue instanceof AbstractObject) {
-                $fieldValue = $this->_unpackDataObject($fieldValue);
-            }
-            if (is_array($fieldValue)) {
-                $isAssociative = array_keys($fieldValue) !== range(0, count($fieldValue) - 1);
-                if ($isAssociative) {
-                    $fieldValue = $this->_unpackArray($fieldValue);
-                }
-            }
-            $fieldName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
-            $response->$fieldName = $fieldValue;
-        }
-        return $response;
-    }
-
-    /**
-     * Convert multidimensional object/array into multidimensional array of primitives.
-     *
-     * @param object|array $input
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    protected function _toArray($input)
-    {
-        if (!is_object($input) && !is_array($input)) {
-            throw new \InvalidArgumentException("Input argument must be an array or object");
-        }
-        $result = array();
-        foreach ((array)$input as $key => $value) {
-            if (is_object($value) || is_array($value)) {
-                $result[$key] = $this->_toArray($value);
-            } else {
-                $result[$key] = $value;
-            }
-        }
-        return $result;
-    }
 }

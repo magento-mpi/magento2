@@ -66,6 +66,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
 
+    /** @var \Magento\Webapi\Helper\Data */
+    private $helper;
+
     /**
      * Execute per test initialization.
      */
@@ -86,6 +89,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $this->searchCriteriaBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\Data\SearchCriteriaBuilder'
         );
+        $this->helper = Bootstrap::getObjectManager()->create('Magento\Webapi\Helper\Data');
     }
 
     /**
@@ -113,7 +117,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'CreateAccount'
             ]
         ];
-        $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();
+        $customerDetailsAsArray = $this->helper->unpackArray($this->_createSampleCustomerDetailsData()->__toArray());
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
         $customerData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($customerData['id']);;
@@ -131,10 +135,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomer'
+                'operation' => self::SERVICE_NAME . 'GetCustomerDetails'
             ]
         ];
-        $customerDetailsData = $this->_webApiCall($serviceInfo);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $customerDetailsData = $this->toSnakeCase(
+                $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']])
+            );
+        } else {
+            $customerDetailsData = $this->_webApiCall($serviceInfo);
+        }
         $this->assertNotNull($customerData, $customerDetailsData['customer']);
     }
 
@@ -153,7 +163,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetCustomer'
             ]
         ];
-        $customerResponseData = $this->_webApiCall($serviceInfo);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $customerResponseData = $this->toSnakeCase(
+                $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']])
+            );
+        } else {
+            $customerResponseData = $this->_webApiCall($serviceInfo);
+        }
         $this->assertNotNull($customerData, $customerResponseData);
     }
 
@@ -173,7 +189,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['confirmationKey' => $customerData[Customer::CONFIRMATION]];
-        $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $requestData['customerId'] = $customerData['id'];
+            $customerResponseData = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
+        } else {
+            $customerResponseData = $this->_webApiCall($serviceInfo);
+        }
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
         // Confirmation key is removed after confirmation
         $this->assertFalse(isset($customerResponseData[Customer::CONFIRMATION]));
@@ -215,7 +236,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
-        $this->_webApiCall($serviceInfo, $requestData);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $requestData['customerId'] = $customerData['id'];
+            $this->_webApiCall($serviceInfo, $requestData);
+        } else {
+            $this->_webApiCall($serviceInfo);
+        }
 
         $serviceInfo = [
             'rest' => [
@@ -256,7 +282,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'ValidateResetPasswordLinkToken'
             ]
         ];
-        $this->_webApiCall($serviceInfo);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->_webApiCall(
+                $serviceInfo,
+                ['customerId' => $customerData['id'], 'resetPasswordLinkToken' => $rpToken]
+            );
+        } else {
+            $this->_webApiCall($serviceInfo);
+        }
     }
 
     public function testValidateResetPasswordLinkTokenInvalidToken()
@@ -275,7 +308,14 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         try {
-            $this->_webApiCall($serviceInfo);
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall(
+                    $serviceInfo,
+                    ['customerId' => $customerData['id'], 'resetPasswordLinkToken' => 'invalid']
+                );
+            } else {
+                $this->_webApiCall($serviceInfo);
+            }
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals("Reset password token mismatch.", $errorObj['message']);
@@ -352,7 +392,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'GetConfirmationStatus'
             ]
         ];
-        $confirmationResponse = $this->_webApiCall($serviceInfo);
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $confirmationResponse = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+        } else {
+            $confirmationResponse = $this->_webApiCall($serviceInfo);
+        }
         $this->assertEquals(CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED, $confirmationResponse);
     }
 
@@ -448,7 +492,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'CanModify'
             ]
         ];
-        $this->assertTrue($this->_webApiCall($serviceInfo));
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+        } else {
+            $response = $this->_webApiCall($serviceInfo);
+        }
+        $this->assertTrue($response);
     }
 
     public function testCanDelete()
@@ -466,7 +515,12 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'CanDelete'
             ]
         ];
-        $this->assertTrue($this->_webApiCall($serviceInfo));
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+        } else {
+            $response = $this->_webApiCall($serviceInfo);
+        }
+        $this->assertTrue($response);
     }
 
     public function testDeleteCustomer()
@@ -484,15 +538,17 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'DeleteCustomer'
             ]
         ];
-        $this->_webApiCall($serviceInfo);
-
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+        } else {
+            $this->_webApiCall($serviceInfo);
+        }
         //Verify if the customer is deleted
         $this->setExpectedException(
             'Magento\Exception\NoSuchEntityException',
             sprintf("No such entity with customerId = %s", $customerData[Customer::ID])
         );
         $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
-
     }
 
     public function testDeleteCustomerInvalidCustomerId()
@@ -510,7 +566,11 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         try {
-            $this->_webApiCall($serviceInfo);
+            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+                $this->_webApiCall($serviceInfo, ['customerId' => $invalidId]);
+            } else {
+                $this->_webApiCall($serviceInfo);
+            }
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
@@ -586,7 +646,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'UpdateCustomer'
             ]
         ];
-        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
         $requestData = ['customerDetails' => $customerDetailsAsArray];
         $this->_webApiCall($serviceInfo, $requestData);
 
@@ -601,7 +661,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
         $lastName = $customerDetails->getCustomer()->getLastname();
 
-        //Set non-existent id
+        //Set non-existent id = -1
         $updatedCustomer = $this->customerBuilder->populate($customerDetails->getCustomer())->setLastname(
             $lastName . "Updated"
         )->setId(-1)->create();
@@ -622,7 +682,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'UpdateCustomer'
             ]
         ];
-        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
+        $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
         $requestData = ['customerDetails' => $customerDetailsAsArray];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -654,7 +714,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(1, $searchResults['total_count']);
+        $this->assertEquals(1, $searchResults['totalCount']);
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
     }
 
@@ -774,6 +834,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
     }
 
     /**
+     * Create sample customer data using REST api
+     *
      * @return array
      */
     protected function _createSampleCustomer()

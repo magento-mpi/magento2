@@ -31,7 +31,7 @@ class SearchCriteria extends AbstractObject
     /**
      * Get sort order
      *
-     * @return string[]
+     * @return string[]|null
      */
     public function getSortOrders()
     {
@@ -41,7 +41,7 @@ class SearchCriteria extends AbstractObject
     /**
      * Get page size
      *
-     * @return int
+     * @return int|null
      */
     public function getPageSize()
     {
@@ -51,7 +51,7 @@ class SearchCriteria extends AbstractObject
     /**
      * Get current page
      *
-     * @return int
+     * @return int|null
      */
     public function getCurrentPage()
     {

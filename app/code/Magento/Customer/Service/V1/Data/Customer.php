@@ -66,7 +66,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get created at time
      *
-     * @return string
+     * @return string|null
      */
     public function getCreatedAt()
     {
@@ -76,7 +76,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get created in area
      *
-     * @return string
+     * @return string|null
      */
     public function getCreatedIn()
     {
@@ -136,7 +136,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get customer id
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {

@@ -36,7 +36,7 @@ class Filter extends \Magento\Service\Data\AbstractObject
     /**
      * Get condition type
      *
-     * @return string
+     * @return string|null
      */
     public function getConditionType()
     {
