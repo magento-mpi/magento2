@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-use Magento\Catalog\Helper\Data,
-    Magento\Catalog\Model\Product\ProductList\Toolbar as ToolbarModel;
+use Magento\Catalog\Helper\Data;
+use Magento\Catalog\Model\Product\ProductList\Toolbar as ToolbarModel;
 
 /**
  * Product list toolbar
@@ -533,8 +533,7 @@ class Toolbar extends \Magento\View\Element\Template
     {
         if ($this->getCurrentMode() == 'list' && $default = $this->getDefaultListPerPage()) {
             return $default;
-        }
-        elseif ($this->getCurrentMode() == 'grid' && $default = $this->getDefaultGridPerPage()) {
+        } elseif ($this->getCurrentMode() == 'grid' && $default = $this->getDefaultGridPerPage()) {
             return $default;
         }
         return $this->_productListHelper->getDefaultLimitPerPageValue($this->getCurrentMode());

@@ -97,8 +97,8 @@ class DepersonalizePlugin
     public function beforeGenerateXml(\Magento\View\LayoutInterface $subject)
     {
         if ($this->moduleManager->isEnabled(
-                'Magento_PageCache'
-            ) && $this->cacheConfig->isEnabled() && !$this->request->isAjax() && $subject->isCacheable()
+            'Magento_PageCache'
+        ) && $this->cacheConfig->isEnabled() && !$this->request->isAjax() && $subject->isCacheable()
         ) {
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
