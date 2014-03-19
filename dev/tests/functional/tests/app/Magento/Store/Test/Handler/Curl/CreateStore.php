@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Handler\Curl;
+namespace Magento\Store\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
@@ -22,7 +22,7 @@ use Mtf\System\Config;
 /**
  * Curl handler for persisting Magento store view
  *
- * @package Magento\Core\Test\Handler\Curl
+ * @package Magento\Store\Test\Handler\Curl
  */
 class CreateStore extends Curl
 {

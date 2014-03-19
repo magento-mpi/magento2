@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\TestCase;
+namespace Magento\Store\Test\TestCase;
 
 use Mtf\TestCase\Functional;
 use Mtf\Factory\Factory;
@@ -28,7 +28,7 @@ class StoreTest extends Functional
      */
     public function testCreateNewLocalizedStoreView()
     {
-        $storeFixture = Factory::getFixtureFactory()->getMagentoCoreStore();
+        $storeFixture = Factory::getFixtureFactory()->getMagentoStoreStore();
 
         $storeListPage = Factory::getPageFactory()->getAdminSystemStore();
         $storeListPage->open();

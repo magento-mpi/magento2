@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Fixture;
+namespace Magento\Store\Test\Fixture;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 
@@ -43,6 +43,6 @@ class StoreGroup extends DataFixture
      */
     public function persist()
     {
-        return Factory::getApp()->magentoCoreCreateStoreGroup($this);
+        return Factory::getApp()->magentoStoreCreateStoreGroup($this);
     }
 }

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Test\Block;
+namespace Magento\Store\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;

@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Fixture;
+namespace Magento\Store\Test\Fixture;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 
@@ -49,7 +49,7 @@ class Store extends DataFixture
         );
 
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCoreCustomStore($this->_dataConfig, $this->_data);
+            ->getMagentoStoreCustomStore($this->_dataConfig, $this->_data);
     }
 
 
@@ -60,7 +60,7 @@ class Store extends DataFixture
      */
     public function persist()
     {
-        return Factory::getApp()->magentoCoreCreateStore($this);
+        return Factory::getApp()->magentoStoreCreateStore($this);
     }
 
     /**
