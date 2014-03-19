@@ -2,26 +2,15 @@
 /**
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Convert
  * @copyright  {copyright}
  * @license    {license_link}
  */
 
-
-/**
- * Convert column mapper
- *
- * @category   Magento
- * @package    Magento_Convert
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Convert\Mapper;
 
 use Magento\Convert\Container\AbstractContainer;
 
-class Column extends AbstractContainer
-    implements MapperInterface
+class Column extends AbstractContainer implements MapperInterface
 {
     /**
      * @return $this
@@ -37,9 +26,9 @@ class Column extends AbstractContainer
         }
         $onlySpecified = (bool)$this->getVar('_only_specified')===true;
         $mappedData = array();
-        foreach ($data as $i=>$row) {
+        foreach ($data as $i => $row) {
             $newRow = array();
-            foreach ($row as $field=>$value) {
+            foreach ($row as $field => $value) {
                 if (!$onlySpecified || $onlySpecified && isset($attributesToSelect[$field])) {
                     $newRow[$this->getVar($field, $field)] = $value;
                 }
