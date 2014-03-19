@@ -56,8 +56,7 @@ class MessageBox
         \Magento\App\Request\Http $request,
         \Magento\PageCache\Model\Config $config,
         \Magento\Message\ManagerInterface $messageManager
-    )
-    {
+    ) {
         $this->cookie = $cookie;
         $this->request = $request;
         $this->config = $config;
