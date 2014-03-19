@@ -1,19 +1,11 @@
 <?php
 /**
+ *  Reviews products admin grid
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Reviews products admin grid
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Review\Block\Adminhtml\Product\Edit\Tab;
 

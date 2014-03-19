@@ -1562,5 +1562,10 @@ return array(
     ),
     array('displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'),
     array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
-    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage'),
+    array(
+        'reviewsAction',
+        'Magento\Catalog\Controller\Adminhtml\Product',
+        'Magento\Review\Controller\Adminhtml\Product\Reviews::gridAction'
+    ),
 );

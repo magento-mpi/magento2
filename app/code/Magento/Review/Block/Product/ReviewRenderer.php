@@ -1,9 +1,9 @@
 <?php
 /**
+ * Review renderer
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,18 +12,6 @@ namespace Magento\Review\Block\Product;
 use Magento\Catalog\Block\Product\ReviewRendererInterface;
 use Magento\Catalog\Model\Product;
 
-/**
- * Review renderer
- *
- * @method \Magento\Catalog\Model\Product getProduct()
- * @method setProduct(\Magento\Catalog\Model\Product $product)
- * @method setDisplayIfEmpty(bool $flag)
- * @method bool getDisplayIfEmpty()
- *
- * @category   Magento
- * @package    Magento_Review
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 class ReviewRenderer extends \Magento\View\Element\Template implements ReviewRendererInterface
 {
     /**
