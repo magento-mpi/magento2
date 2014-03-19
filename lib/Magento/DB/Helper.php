@@ -13,17 +13,6 @@ namespace Magento\DB;
 class Helper extends \Magento\DB\Helper\AbstractHelper
 {
     /**
-     * @param \Magento\App\Resource $resource
-     * @param string $modulePrefix
-     */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix
-    ) {
-        parent::__construct($resource, $modulePrefix);
-    }
-
-    /**
      * Returns array of quoted orders with direction
      *
      * @param \Magento\DB\Select $select

@@ -13,7 +13,7 @@ use Magento\App\Filesystem;
 use Magento\Cache\FrontendInterface;
 use Magento\DB\Adapter\AdapterInterface;
 use Magento\DB\Ddl\Table;
-use Magento\DB\Helper;
+use Magento\DB\ExpressionConverter;
 use Magento\DB\Profiler;
 use Magento\DB\Select;
 use Magento\DB\Statement\Parameter;
