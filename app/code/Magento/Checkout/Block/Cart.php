@@ -130,8 +130,8 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
             $isActive = $this->_storeConfig->getConfig(
-                    'wishlist/general/active'
-                ) && $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
+                'wishlist/general/active'
+            ) && $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;

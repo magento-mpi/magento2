@@ -50,7 +50,7 @@ class Block extends \Magento\App\Action\Action
             $html = $blockInstance->toHtml();
             $ttl = $blockInstance->getTtl();
             if ($blockInstance instanceof \Magento\View\Block\IdentityInterface) {
-               $response->setHeader('X-Magento-Tags', implode(',', $blockInstance->getIdentities()));
+                $response->setHeader('X-Magento-Tags', implode(',', $blockInstance->getIdentities()));
             }
         }
         $response->appendBody($html);

@@ -143,11 +143,10 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
         /**
          * Updating collection with desired items
          */
-        $this->_eventManager->dispatch('catalog_product_upsell', array(
-            'product'       => $product,
-            'collection'    => $this->_itemCollection,
-            'limit'         => null
-        ));
+        $this->_eventManager->dispatch(
+            'catalog_product_upsell',
+            array('product' => $product, 'collection' => $this->_itemCollection, 'limit' => null)
+        );
 
         foreach ($this->_itemCollection as $product) {
             $product->setDoNotUseCategoryId(true);

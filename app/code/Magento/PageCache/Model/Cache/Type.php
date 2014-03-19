@@ -30,4 +30,4 @@ class Type extends \Magento\Cache\Frontend\Decorator\TagScope
     {
         parent::__construct($cacheFrontendPool->get(self::TYPE_IDENTIFIER), self::CACHE_TAG);
     }
-} 
+}
