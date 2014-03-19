@@ -332,7 +332,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $taxClassModel = $this->_taxClassModelFactory->create();
         $taxClassModel->load($taxClassId);
         if (is_null($taxClassModel->getId())
-            || $taxClassModel->getTaxClassType() === TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
+            || $taxClassModel->getClassType() !== TaxClassModel::TAX_CLASS_TYPE_CUSTOMER
             ) {
             throw InputException::create(InputException::INVALID_FIELD_VALUE, 'taxClassId', $group->getTaxClassId());
         }
