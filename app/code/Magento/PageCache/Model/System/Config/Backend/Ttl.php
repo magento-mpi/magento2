@@ -25,7 +25,7 @@ class Ttl extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         $value = $this->getValue();
-        if($value < 0 || !preg_match('/^[0-9]+$/', $value)) {
+        if ($value < 0 || !preg_match('/^[0-9]+$/', $value)) {
             throw new \Magento\Core\Exception(
                 __('Ttl value "%1" is not valid. Please use only numbers equal or greater than zero.', $value)
             );

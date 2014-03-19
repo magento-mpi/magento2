@@ -132,8 +132,8 @@ class Form extends \Magento\View\Element\Template
         }
 
         $this->setAllowWriteReviewFlag(
-            $this->httpContext->getValue(
-                \Magento\Customer\Helper\Data::CONTEXT_AUTH) || $this->_reviewData->getIsGuestAllowToWrite()
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)
+            || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = $this->_coreData->urlEncode(

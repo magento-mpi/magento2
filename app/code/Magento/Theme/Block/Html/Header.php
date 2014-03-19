@@ -65,13 +65,9 @@ class Header extends \Magento\View\Element\Template
      */
     public function isHomePage()
     {
-        return $this->getUrl(
-            '',
-            array('_current' => true)
-        ) == $this->getUrl(
-            '*/*/*',
-            array('_current' => true, '_use_rewrite' => true)
-        );
+        $currentUrl = $this->getUrl('', array('_current' => true));
+        $urlRewrite = $this->getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+        return $currentUrl == $urlRewrite;
     }
 
     /**
@@ -109,8 +105,10 @@ class Header extends \Magento\View\Element\Template
     {
         if (empty($this->_data['welcome'])) {
             if ($this->_appState->isInstalled() && $this->httpContext->getValue(Data::CONTEXT_AUTH)) {
-                $this->_data['welcome'] = __('Welcome, %1!',
-                    $this->escapeHtml($this->_customerSession->getCustomer()->getName()));
+                $this->_data['welcome'] = __(
+                    'Welcome, %1!',
+                    $this->escapeHtml($this->_customerSession->getCustomer()->getName())
+                );
             } else {
                 $this->_data['welcome'] = $this->_storeConfig->getConfig('design/header/welcome');
             }

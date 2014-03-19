@@ -116,7 +116,9 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function getEntityCollection()
     {
         if (!$this->hasEntityCollection()) {
-            $this->setData('entity_collection', $this->entityFactory->create()->getCollection()
+            $this->setData(
+                'entity_collection',
+                $this->entityFactory->create()->getCollection()
                 ->filterByCustomerId($this->currentCustomer->getCustomerId())
             );
         }
@@ -130,9 +132,10 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function canAddNewEntity()
     {
-        $collection = $this->typeFactory->create()->getCollection()->addStoreData(
-            $this->_storeManager->getStore()->getId()
-        )->applyListedFilter();
+        $collection = $this->typeFactory->create()
+            ->getCollection()
+            ->addStoreData($this->_storeManager->getStore()->getId())
+            ->applyListedFilter();
 
         return (bool)$collection->getSize();
     }

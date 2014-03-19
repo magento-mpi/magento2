@@ -63,7 +63,7 @@ class Observer
         \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\App\PageCache\FormKey $formKey,
         \Magento\Core\Model\Session $session
-    ){
+    ) {
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_helper = $helper;
@@ -133,9 +133,9 @@ class Observer
      */
     public function flushCacheByTags(\Magento\Event\Observer $observer)
     {
-        if($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->_config->isEnabled()) {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::BUILT_IN && $this->_config->isEnabled()) {
             $object = $observer->getEvent()->getObject();
-            if($object instanceof \Magento\Object\IdentityInterface) {
+            if ($object instanceof \Magento\Object\IdentityInterface) {
                 $tags = $object->getIdentities();
                 foreach ($tags as $tag) {
                     $tags[] = preg_replace("~_\\d+$~", '', $tag);

@@ -93,7 +93,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         /*
         * setting cache to save the rss for 10 minutes
         */
-        $this->setCacheKey('rss_catalog_category_'
+        $this->setCacheKey(
+            'rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
             . $this->customerSession->getId()

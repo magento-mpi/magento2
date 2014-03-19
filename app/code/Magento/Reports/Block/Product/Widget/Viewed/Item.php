@@ -14,9 +14,7 @@ namespace Magento\Reports\Block\Product\Widget\Viewed;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Item
-    extends \Magento\Catalog\Block\Product\AbstractProduct
-    implements \Magento\Widget\Block\BlockInterface
+class Item extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Viewed Product Index type

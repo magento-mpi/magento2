@@ -53,7 +53,7 @@ class AbstractBlock extends \Magento\View\Element\Template
     protected function _getCustomerGroupId()
     {
         $customerGroupId =   (int) $this->getRequest()->getParam('cid');
-        if($customerGroupId == null) {
+        if ($customerGroupId == null) {
             $customerGroupId = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP);
         }
         return $customerGroupId;
