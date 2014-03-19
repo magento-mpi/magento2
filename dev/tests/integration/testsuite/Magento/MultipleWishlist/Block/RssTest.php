@@ -78,10 +78,10 @@ class RssTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Escaper $escaper */
         $escaper = $this->_objectManager->create('Magento\Escaper');
 
-        $expectedSting = sprintf("%%A<title><![CDATA[%s %s's Wish List]]></title>%%A",
+        $expectedSting = '%A' . __("<title><![CDATA[%1 %2's Wish List]]></title>",
             $escaper->escapeHtml($this->_customerSession->getCustomerDataObject()->getFirstname()),
             $escaper->escapeHtml($this->_customerSession->getCustomerDataObject()->getLastname())
-        );
+        ) . '%A';
         $this->assertStringMatchesFormat($expectedSting, $block->toHtml());
     }
 }
