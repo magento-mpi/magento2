@@ -88,7 +88,8 @@ class FilterList
      * @return mixed
      */
     protected function createAttributeFilter(
-        \Magento\Catalog\Model\Resource\Eav\Attribute $attribute, \Magento\Catalog\Model\Layer $layer
+        \Magento\Catalog\Model\Resource\Eav\Attribute $attribute,
+        \Magento\Catalog\Model\Layer $layer
     ) {
         $filterClassName = $this->filterTypes[self::ATTRIBUTE_FILTER];
 

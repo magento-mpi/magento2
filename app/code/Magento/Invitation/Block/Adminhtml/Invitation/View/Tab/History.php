@@ -15,9 +15,7 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
  * @category   Magento
  * @package    Magento_Invitation
  */
-class History
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class History extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -112,10 +110,12 @@ class History
      */
     public function getHistoryCollection()
     {
-        return $this->_historyFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('invitation_id', $this->getInvitation()->getId())
-            ->addOrder('history_id');
+        return $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'invitation_id',
+            $this->getInvitation()->getId()
+        )->addOrder(
+            'history_id'
+        );
     }
 
     /**

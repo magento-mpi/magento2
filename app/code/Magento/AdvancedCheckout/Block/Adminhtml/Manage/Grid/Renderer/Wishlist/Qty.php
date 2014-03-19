@@ -17,8 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist;
 
-class Qty
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty
+class Qty extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty
 {
     /**
      * Returns whether this qty field must be inactive

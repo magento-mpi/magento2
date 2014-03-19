@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Controller\Express;
 
 interface RedirectLoginInterface
@@ -40,4 +39,4 @@ interface RedirectLoginInterface
      * @return \Magento\App\ResponseInterface
      */
     public function getResponse();
-} 
+}

@@ -55,7 +55,7 @@ class Plugin
         if ($sortOrderA == $sortOrderB) {
             return 0;
         }
-        return ($sortOrderA < $sortOrderB) ? -1 : 1;
+        return $sortOrderA < $sortOrderB ? -1 : 1;
     }
 
     /**

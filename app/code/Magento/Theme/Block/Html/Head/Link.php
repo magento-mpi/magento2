@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html\Head;
 
 /**
@@ -30,10 +29,9 @@ class Link extends \Magento\View\Element\Template implements AssetBlockInterface
     ) {
         parent::__construct($context, $data);
         $this->setAsset(
-            $remoteFactory->create(array(
-                'url' => (string)$this->getData('url'),
-                'contentType' => self::VIRTUAL_CONTENT_TYPE,
-            ))
+            $remoteFactory->create(
+                array('url' => (string)$this->getData('url'), 'contentType' => self::VIRTUAL_CONTENT_TYPE)
+            )
         );
     }
 

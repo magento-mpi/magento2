@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Collection;
 
 class DbTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +36,13 @@ class DbTest extends \PHPUnit_Framework_TestCase
     public function testSetAddOrder()
     {
         $adapter = $this->getMockForAbstractClass(
-            'Zend_Db_Adapter_Abstract', array(), '', false, true, true, array('fetchAll')
+            'Zend_Db_Adapter_Abstract',
+            array(),
+            '',
+            false,
+            true,
+            true,
+            array('fetchAll')
         );
         $this->_collection->setConnection($adapter);
 
@@ -83,10 +88,16 @@ class DbTest extends \PHPUnit_Framework_TestCase
     public function testAddFieldToFilter()
     {
         $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), array(), '', false);
-        $adapter->expects($this->any())
-            ->method('prepareSqlCondition')
-            ->with($this->stringContains('is_imported'), $this->anything())
-            ->will($this->returnValue('is_imported = 1'));
+        $adapter->expects(
+            $this->any()
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            $this->stringContains('is_imported'),
+            $this->anything()
+        )->will(
+            $this->returnValue('is_imported = 1')
+        );
         $this->_collection->setConnection($adapter);
         $select = $this->_collection->getSelect()->from('test');
 
@@ -101,14 +112,26 @@ class DbTest extends \PHPUnit_Framework_TestCase
     public function testAddFieldToFilterWithMultipleParams()
     {
         $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), array(), '', false);
-        $adapter->expects($this->at(0))
-            ->method('prepareSqlCondition')
-            ->with('`weight`', array('in' => array(1, 3)))
-            ->will($this->returnValue('weight in (1, 3)'));
-        $adapter->expects($this->at(1))
-            ->method('prepareSqlCondition')
-            ->with('`name`', array('like' => 'M%'))
-            ->will($this->returnValue("name like 'M%'"));
+        $adapter->expects(
+            $this->at(0)
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            '`weight`',
+            array('in' => array(1, 3))
+        )->will(
+            $this->returnValue('weight in (1, 3)')
+        );
+        $adapter->expects(
+            $this->at(1)
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            '`name`',
+            array('like' => 'M%')
+        )->will(
+            $this->returnValue("name like 'M%'")
+        );
         $this->_collection->setConnection($adapter);
         $select = $this->_collection->getSelect()->from("test");
 
@@ -122,13 +145,16 @@ class DbTest extends \PHPUnit_Framework_TestCase
             $select->assemble()
         );
 
-        $adapter->expects($this->at(0))
-            ->method('prepareSqlCondition')
-            ->with(
-                '`is_imported`',
-                $this->anything()
-            )
-            ->will($this->returnValue('is_imported = 1'));
+        $adapter->expects(
+            $this->at(0)
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            '`is_imported`',
+            $this->anything()
+        )->will(
+            $this->returnValue('is_imported = 1')
+        );
 
         $this->_collection->addFieldToFilter('is_imported', array('eq' => '1'));
         $this->assertEquals(
@@ -142,16 +168,24 @@ class DbTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFieldToFilterValueContainsQuestionMark()
     {
-        $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql',
-            array('select', 'prepareSqlCondition', 'supportStraightJoin'), array(), '', false
+        $adapter = $this->getMock(
+            'Zend_Db_Adapter_Pdo_Mysql',
+            array('select', 'prepareSqlCondition', 'supportStraightJoin'),
+            array(),
+            '',
+            false
         );
-        $adapter->expects($this->once())
-            ->method('prepareSqlCondition')
-            ->with('`email`', array('like' => 'value?'))
-            ->will($this->returnValue('email LIKE \'%value?%\''));
-        $adapter->expects($this->once())
-            ->method('select')
-            ->will($this->returnValue(new \Magento\DB\Select($adapter)));
+        $adapter->expects(
+            $this->once()
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            '`email`',
+            array('like' => 'value?')
+        )->will(
+            $this->returnValue('email LIKE \'%value?%\'')
+        );
+        $adapter->expects($this->once())->method('select')->will($this->returnValue(new \Magento\DB\Select($adapter)));
         $this->_collection->setConnection($adapter);
 
         $select = $this->_collection->getSelect()->from('test');
@@ -164,16 +198,32 @@ class DbTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFieldToFilterFieldIsQuoted()
     {
-        $adapter = $this->getMock('Zend_Db_Adapter_Pdo_Mysql',
-            array('quoteIdentifier', 'prepareSqlCondition'), array(), '', false);
-        $adapter->expects($this->once())
-            ->method('quoteIdentifier')
-            ->with('email')
-            ->will($this->returnValue('`email`'));
-        $adapter->expects($this->any())
-            ->method('prepareSqlCondition')
-            ->with($this->stringContains('`email`'), $this->anything())
-            ->will($this->returnValue('`email` = "foo@example.com"'));
+        $adapter = $this->getMock(
+            'Zend_Db_Adapter_Pdo_Mysql',
+            array('quoteIdentifier', 'prepareSqlCondition'),
+            array(),
+            '',
+            false
+        );
+        $adapter->expects(
+            $this->once()
+        )->method(
+            'quoteIdentifier'
+        )->with(
+            'email'
+        )->will(
+            $this->returnValue('`email`')
+        );
+        $adapter->expects(
+            $this->any()
+        )->method(
+            'prepareSqlCondition'
+        )->with(
+            $this->stringContains('`email`'),
+            $this->anything()
+        )->will(
+            $this->returnValue('`email` = "foo@example.com"')
+        );
         $this->_collection->setConnection($adapter);
         $select = $this->_collection->getSelect()->from('test');
 
@@ -196,7 +246,9 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $clonedCollection = clone $this->_collection;
 
         $this->assertInstanceOf('Zend_Db_Select', $clonedCollection->getSelect());
-        $this->assertNotSame($clonedCollection->getSelect(), $this->_collection->getSelect(),
+        $this->assertNotSame(
+            $clonedCollection->getSelect(),
+            $this->_collection->getSelect(),
             'Collection was cloned but $this->_select in both initial and cloned collections reference the same object'
         );
     }
@@ -220,8 +272,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(false, false, 'some_query', ''),
-            array(true,  false, 'some_query', 'some_query'),
-            array(false,  true, 'some_query', 'some_query'),
+            array(true, false, 'some_query', 'some_query'),
+            array(false, true, 'some_query', 'some_query')
         );
     }
 
@@ -249,10 +301,6 @@ class DbTest extends \PHPUnit_Framework_TestCase
 
     public function printLogQueryLoggingDataProvider()
     {
-        return array(
-            array(true, false, 1),
-            array(false, true, 1),
-            array(false, false, 0),
-        );
+        return array(array(true, false, 1), array(false, true, 1), array(false, false, 0));
     }
 }

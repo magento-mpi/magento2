@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -20,7 +19,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_requestData = [
+        $this->_requestData = array(
             'id' => 13,
             'default_shipping' => true,
             'default_billing' => false,
@@ -32,14 +31,14 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S46',
             'firstname' => 'John',
             'lastname' => 'Doe',
-            'street' => ['2211 North First Street'],
+            'street' => array('2211 North First Street'),
             'city' => 'San Jose',
             'country_id' => 'US',
             'postcode' => '95131',
             'telephone' => '5135135135',
             'region_id' => 12,
             'region' => 'California'
-        ];
+        );
 
         $this->_expectedData = $this->_requestData;
 
@@ -54,8 +53,7 @@ class FormFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         /** @var FormFactory $formFactory */
-        $formFactory = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Metadata\FormFactory');
+        $formFactory = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Metadata\FormFactory');
         $form = $formFactory->create('customer_address', 'customer_address_edit');
 
         $this->assertInstanceOf('\Magento\Customer\Model\Metadata\Form', $form);

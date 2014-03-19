@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Service\Entity;
 
 class TestService
@@ -17,7 +16,7 @@ class TestService
      */
     public function simple($entityId, $name)
     {
-        return [$entityId, $name];
+        return array($entityId, $name);
     }
 
     /**

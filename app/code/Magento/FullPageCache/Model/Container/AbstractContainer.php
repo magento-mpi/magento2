@@ -216,8 +216,11 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     {
         $tags[] = \Magento\FullPageCache\Model\Processor::CACHE_TAG;
         if (is_null($lifetime)) {
-            $lifetime = $this->_placeholder->getAttribute('cache_lifetime') ?
-                $this->_placeholder->getAttribute('cache_lifetime') : false;
+            $lifetime = $this->_placeholder->getAttribute(
+                'cache_lifetime'
+            ) ? $this->_placeholder->getAttribute(
+                'cache_lifetime'
+            ) : false;
         }
 
         /**
@@ -238,7 +241,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
      */
     protected static function _getCookieValue($cookieName, $defaultValue = null)
     {
-        return (array_key_exists($cookieName, $_COOKIE) ? $_COOKIE[$cookieName] : $defaultValue);
+        return array_key_exists($cookieName, $_COOKIE) ? $_COOKIE[$cookieName] : $defaultValue;
     }
 
     /**
@@ -261,8 +264,9 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     protected function _getCategoryId()
     {
         if ($this->_processor) {
-            $categoryId = $this->_processor
-                ->getMetadata(\Magento\FullPageCache\Model\Processor\Category::METADATA_CATEGORY_ID);
+            $categoryId = $this->_processor->getMetadata(
+                \Magento\FullPageCache\Model\Processor\Category::METADATA_CATEGORY_ID
+            );
             if ($categoryId) {
                 return $categoryId;
             }
@@ -287,8 +291,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
             return null;
         }
 
-        return $this->_processor
-            ->getMetadata(\Magento\FullPageCache\Model\Processor\Product::METADATA_PRODUCT_ID);
+        return $this->_processor->getMetadata(\Magento\FullPageCache\Model\Processor\Product::METADATA_PRODUCT_ID);
     }
 
     /**

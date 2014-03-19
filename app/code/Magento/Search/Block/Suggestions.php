@@ -9,7 +9,7 @@
  */
 namespace Magento\Search\Block;
 
- /**
+/**
  * Enterprise search suggestions block
  *
  * @category   Magento
@@ -77,7 +77,6 @@ class Suggestions extends \Magento\View\Element\Template
      */
     public function isCountResultsEnabled()
     {
-        return (bool)$this->_searchData
-            ->getSolrConfigData('server_suggestion_count_results_enabled');
+        return (bool)$this->_searchData->getSolrConfigData('server_suggestion_count_results_enabled');
     }
 }

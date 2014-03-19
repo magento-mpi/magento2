@@ -47,12 +47,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexer()
     {
         $indexerConfig = array('indexerName' => 'indexerConfig');
-        $this->_configScopeMock->expects($this->once())
-            ->method('getCurrentScope')
-            ->will($this->returnValue('global'));
-        $this->_cacheMock->expects($this->once())
-            ->method('load')->with('global::indexerConfigCache')
-            ->will($this->returnValue(serialize($indexerConfig)));
+        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue('global'));
+        $this->_cacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            'global::indexerConfigCache'
+        )->will(
+            $this->returnValue(serialize($indexerConfig))
+        );
         $this->assertEquals('indexerConfig', $this->_model->getIndexer('indexerName'));
     }
 
@@ -62,10 +66,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetAll()
     {
         $indexerConfig = array('indexerName' => 'indexerConfig');
-        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')
-            ->will($this->returnValue('global'));
-        $this->_cacheMock->expects($this->once())->method('load')->with('global::indexerConfigCache')
-            ->will($this->returnValue(serialize($indexerConfig)));
+        $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue('global'));
+        $this->_cacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            'global::indexerConfigCache'
+        )->will(
+            $this->returnValue(serialize($indexerConfig))
+        );
         $this->assertEquals($indexerConfig, $this->_model->getAll());
     }
 }

@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Action;
 
 class TitleTest extends \PHPUnit_Framework_TestCase
@@ -40,5 +39,4 @@ class TitleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual);
     }
-
 }

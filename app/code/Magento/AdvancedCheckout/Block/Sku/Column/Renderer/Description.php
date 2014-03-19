@@ -9,8 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Sku\Column\Renderer;
 
-class Description
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Description extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @param \Magento\Object $row
@@ -26,5 +25,4 @@ class Description
 
         return $descriptionBlock->toHtml();
     }
-
 }

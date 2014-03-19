@@ -7,12 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Collection;
 
 interface EntityFactoryInterface
 {
-
     /**
      * Create new object instance
      *

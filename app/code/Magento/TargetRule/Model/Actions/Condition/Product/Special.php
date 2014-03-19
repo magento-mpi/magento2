@@ -15,8 +15,7 @@ namespace Magento\TargetRule\Model\Actions\Condition\Product;
  * @category   Magento
  * @package    Magento_TargetRule
  */
-class Special
-    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
+class Special extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -39,7 +38,14 @@ class Special
         array $data = array()
     ) {
         parent::__construct(
-            $context, $backendData, $config, $product, $productResource, $attrSetCollection, $localeFormat, $data
+            $context,
+            $backendData,
+            $config,
+            $product,
+            $productResource,
+            $attrSetCollection,
+            $localeFormat,
+            $data
         );
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special');
         $this->setValue(null);
@@ -59,9 +65,6 @@ class Special
             )
         );
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Product Special')
-        );
+        return array('value' => $conditions, 'label' => __('Product Special'));
     }
 }

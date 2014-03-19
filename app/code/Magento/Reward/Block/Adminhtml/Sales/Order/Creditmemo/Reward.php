@@ -18,8 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Sales\Order\Creditmemo;
 
-class Reward
-    extends \Magento\Backend\Block\Template
+class Reward extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry

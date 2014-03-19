@@ -18,8 +18,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create;
 
-class Items
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Get order item from parent block

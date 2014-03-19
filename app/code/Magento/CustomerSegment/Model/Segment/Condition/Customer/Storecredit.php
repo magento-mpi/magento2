@@ -54,10 +54,7 @@ class Storecredit extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(array(
-            'value' => $this->getType(),
-            'label' => __('Store Credit')
-         ));
+        return array(array('value' => $this->getType(), 'label' => __('Store Credit')));
     }
 
     /**
@@ -69,8 +66,11 @@ class Storecredit extends AbstractCondition
     {
         $operator = $this->getOperatorElementHtml();
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml() . __('Customer Store Credit Amount %1 %2:', $operator, $element)
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Customer Store Credit Amount %1 %2:',
+            $operator,
+            $element
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**

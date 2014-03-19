@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Catalog\Layer\Filter;
 
 /**
@@ -103,13 +102,15 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMaxPriceIntCached()
     {
-        $this->_productCollection->expects($this->once())
-            ->method('getExtendedSearchParams')
-            ->will($this->returnValue(array('param1' => 'value1')));
+        $this->_productCollection->expects(
+            $this->once()
+        )->method(
+            'getExtendedSearchParams'
+        )->will(
+            $this->returnValue(array('param1' => 'value1'))
+        );
 
-        $this->_cache->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(143));
+        $this->_cache->expects($this->once())->method('load')->will($this->returnValue(143));
 
         $this->_model->setData('currency_rate', 1);
         $result = $this->_model->getMaxPriceInt();
@@ -124,25 +125,34 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Search\Model\Layer\Category\Filter\Price::RANGE_CALCULATION_IMPROVED));
 
         $separators = '*-9,9-19';
-        $this->_cache->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue($separators));
+        $this->_cache->expects($this->once())->method('load')->will($this->returnValue($separators));
 
-        $this->_resourceEngine->expects($this->once())
-            ->method('getSearchEngineFieldName')
-            ->with('price')
-            ->will($this->returnValue('price_field'));
-
-        $expectedFacets = array(
-            array('from' => '*', 'to' => 8.999),
-            array('from' => 8.999, 'to' => 18.999),
+        $this->_resourceEngine->expects(
+            $this->once()
+        )->method(
+            'getSearchEngineFieldName'
+        )->with(
+            'price'
+        )->will(
+            $this->returnValue('price_field')
         );
-        $this->_productCollection->expects($this->at(1))
-            ->method('setFacetCondition')
-            ->with('price_field', $expectedFacets);
-        $this->_productCollection->expects($this->at(0))
-            ->method('getExtendedSearchParams')
-            ->will($this->returnValue(array('param1' => 'value1')));
+
+        $expectedFacets = array(array('from' => '*', 'to' => 8.999), array('from' => 8.999, 'to' => 18.999));
+        $this->_productCollection->expects(
+            $this->at(1)
+        )->method(
+            'setFacetCondition'
+        )->with(
+            'price_field',
+            $expectedFacets
+        );
+        $this->_productCollection->expects(
+            $this->at(0)
+        )->method(
+            'getExtendedSearchParams'
+        )->will(
+            $this->returnValue(array('param1' => 'value1'))
+        );
 
         $this->_model->setData('currency_rate', 1);
         $this->_model->addFacetCondition();

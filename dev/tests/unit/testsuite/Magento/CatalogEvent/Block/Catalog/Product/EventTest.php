@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogEvent\Block\Catalog\Product;
 
 class EventTest extends \PHPUnit_Framework_TestCase
@@ -40,16 +39,16 @@ class EventTest extends \PHPUnit_Framework_TestCase
     {
         $productTags = array('catalog_product_1');
         $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $product->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue($productTags));
-        $this->registryMock->expects($this->once())
-            ->method('registry')
-            ->with('current_product')
-            ->will($this->returnValue($product));
-        $this->assertEquals(
-            $productTags,
-            $this->block->getIdentities()
+        $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTags));
+        $this->registryMock->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_product'
+        )->will(
+            $this->returnValue($product)
         );
+        $this->assertEquals($productTags, $this->block->getIdentities());
     }
 }

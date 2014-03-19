@@ -8,12 +8,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Attribute;
 
 class Group extends \Magento\Eav\Model\Entity\Attribute\Group
 {
-
     /**
      * Attribute collection factory
      *

@@ -62,25 +62,37 @@ return array(
     array('getCacheInstance', 'Magento\FullPageCache\Model\Cache'),
     array('saveCustomerSegments', 'Magento\Banner\Model\Resource\Banner'),
     array('saveOptions', 'Magento\FullPageCache\Model\Cache'),
-    array('refreshRequestIds', 'Magento\FullPageCache\Model\Processor',
+    array(
+        'refreshRequestIds',
+        'Magento\FullPageCache\Model\Processor',
         'Magento_FullPageCache_Model_Request_Identifier::refreshRequestIds'
     ),
     array('removeCartLink', 'Magento\PersistentHistory\Model\Observer'),
     array('resetColumns', 'Magento\Banner\Model\Resource\Salesrule\Collection'),
     array('resetSelect', 'Magento\Banner\Model\Resource\Catalogrule\Collection'),
-    array('prepareCacheId', 'Magento\FullPageCache\Model\Processor',
+    array(
+        'prepareCacheId',
+        'Magento\FullPageCache\Model\Processor',
         'Magento_FullPageCache_Model_Request_Identifier::prepareCacheId'
     ),
-    array('_getQuote', 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon',
+    array(
+        '_getQuote',
+        'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form\Coupon',
         'Magento_AdvancedCheckout_Block_Adminhtml_Manage_Form_Coupon::getQuote()'
     ),
-    array('_getQuote', 'Magento\GiftCardAccount\Block\Checkout\Cart\Total',
+    array(
+        '_getQuote',
+        'Magento\GiftCardAccount\Block\Checkout\Cart\Total',
         'Magento_GiftCardAccount_Block_Checkout_Cart_Total::getQuote()'
     ),
-    array('_getQuote', 'Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional',
+    array(
+        '_getQuote',
+        'Magento\GiftCardAccount\Block\Checkout\Onepage\Payment\Additional',
         'Magento_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional::getQuote()'
     ),
-    array('_getQuote', 'Magento\GiftWrapping\Block\Checkout\Options',
+    array(
+        '_getQuote',
+        'Magento\GiftWrapping\Block\Checkout\Options',
         'Magento_GiftWrapping_Block_Checkout_Options::getQuote()'
     ),
     array('addCustomerSegmentRelationsToCollection', 'Magento\TargetRule\Model\Resource\Rule'),
@@ -125,60 +137,91 @@ return array(
     array('applyIndexChanges', 'Magento\Search\Model\Observer'),
     array('holdCommit', 'Magento\Search\Model\Observer'),
     array('getDefaultMenuLayoutCode', 'Magento\VersionsCms\Model\Hierarchy\Config'),
-    array(
-        'coreBlockAbstractToHtmlBefore',
-        'Magento\PricePermissions\Model\Observer',
-        'viewBlockAbstractToHtmlBefore'
-    ),
+    array('coreBlockAbstractToHtmlBefore', 'Magento\PricePermissions\Model\Observer', 'viewBlockAbstractToHtmlBefore'),
     array(
         'coreBlockAbstractToHtmlBefore',
         'Magento\PromotionPermissions\Model\Observer',
         'viewBlockAbstractToHtmlBefore'
     ),
     array('getServerIoDriver', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'),
-    array('addPrivacyHeader', '\Magento\Pbridge\Model\Observer',
+    array(
+        'addPrivacyHeader',
+        '\Magento\Pbridge\Model\Observer',
         '\Magento\Pbridge\App\Action\Plugin\PrivacyHeader::afterDispatch'
     ),
     array('_isConfigured', '\Magento\AdvancedCheckout\Model\Cart'),
-    ['_getIsAllowedGrant', 'Magento\CatalogPermissions\Helper\Data', 'isAllowedGrant'],
-    ['isEnabled', 'Magento\CatalogPermissions\Helper\Data',
-        'Magento\CatalogPermissions\App\ConfigInterface::isEnabled'],
-    ['applyCategoryPermissionOnProductCount', 'Magento\CatalogPermissions\Model\Observer',
-        'applyProductPermissionOnCollection'],
-    ['addIndexToProductCount', 'Magento\CatalogPermissions\Model\Permission\Index',
-        'addIndexToProductCollection'],
-    ['applyPriceGrantToPriceIndex', 'Magento\CatalogPermissions\Model\Permission\Index'],
-    ['addIndexToProductCount', 'Magento\CatalogPermissions\Model\Resource\Permission\Index',
-        'addIndexToProductCollection'],
-    ['reindex', 'Magento\CatalogPermissions\Model\Resource\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::reindex'],
-    ['reindexProducts', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'],
-    ['reindexProductsStandalone', 'Magento\CatalogPermissions\Model\Resource\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::populateProductIndex'],
-    ['_getConfigGrantDbExpr', 'Magento\CatalogPermissions\Model\Resource\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::getConfigGrantDbExpr'],
-    ['_getStoreIds', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'],
-    ['applyPriceGrantToPriceIndex', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'],
-    ['_beginInsert', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'],
-    ['_commitInsert', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'],
-    ['_insert', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'],
-    ['_inheritCategoryPermission', 'Magento\CatalogPermissions\Model\Resource\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::prepareInheritedCategoryIndexPermissions'],
-    ['reindexAll', 'Magento\CatalogPermissions\Model\Resource\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::reindex'],
-    ['reindex', 'Magento\CatalogPermissions\Model\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\Category\Action\Rows::execute'],
-    ['reindexProducts', 'Magento\CatalogPermissions\Model\Permission\Index'],
-    ['getName', 'Magento\CatalogPermissions\Model\Permission\Index'],
-    ['_registerEvent', 'Magento\CatalogPermissions\Model\Permission\Index'],
-    ['_processEvent', 'Magento\CatalogPermissions\Model\Permission\Index'],
-    ['reindexProductsStandalone', 'Magento\CatalogPermissions\Model\Permission\Index',
-        'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows::execute'],
-    ['reindex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
-    ['saveCategoryPermissions', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
-    ['reindexCategoryPermissionOnMove', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
-    ['reindexPermissions', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
-    ['reindexAfterProductAssignedWebsite', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
-    ['saveProductPermissionIndex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
-    ['reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
+    array('_getIsAllowedGrant', 'Magento\CatalogPermissions\Helper\Data', 'isAllowedGrant'),
+    array(
+        'isEnabled',
+        'Magento\CatalogPermissions\Helper\Data',
+        'Magento\CatalogPermissions\App\ConfigInterface::isEnabled'
+    ),
+    array(
+        'applyCategoryPermissionOnProductCount',
+        'Magento\CatalogPermissions\Model\Observer',
+        'applyProductPermissionOnCollection'
+    ),
+    array(
+        'addIndexToProductCount',
+        'Magento\CatalogPermissions\Model\Permission\Index',
+        'addIndexToProductCollection'
+    ),
+    array('applyPriceGrantToPriceIndex', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    array(
+        'addIndexToProductCount',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'addIndexToProductCollection'
+    ),
+    array(
+        'reindex',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::reindex'
+    ),
+    array('reindexProducts', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array(
+        'reindexProductsStandalone',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::populateProductIndex'
+    ),
+    array(
+        '_getConfigGrantDbExpr',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::getConfigGrantDbExpr'
+    ),
+    array('_getStoreIds', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('applyPriceGrantToPriceIndex', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_beginInsert', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_commitInsert', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array('_insert', 'Magento\CatalogPermissions\Model\Resource\Permission\Index'),
+    array(
+        '_inheritCategoryPermission',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::prepareInheritedCategoryIndexPermissions'
+    ),
+    array(
+        'reindexAll',
+        'Magento\CatalogPermissions\Model\Resource\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\AbstractAction::reindex'
+    ),
+    array(
+        'reindex',
+        'Magento\CatalogPermissions\Model\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\Category\Action\Rows::execute'
+    ),
+    array('reindexProducts', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    array('getName', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    array('_registerEvent', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    array('_processEvent', 'Magento\CatalogPermissions\Model\Permission\Index'),
+    array(
+        'reindexProductsStandalone',
+        'Magento\CatalogPermissions\Model\Permission\Index',
+        'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows::execute'
+    ),
+    array('reindex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('saveCategoryPermissions', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('reindexCategoryPermissionOnMove', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('reindexPermissions', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('reindexAfterProductAssignedWebsite', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('saveProductPermissionIndex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer')
 );

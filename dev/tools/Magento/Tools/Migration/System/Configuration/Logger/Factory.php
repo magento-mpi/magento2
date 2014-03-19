@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Configuration\Logger;
 
 class Factory
@@ -26,8 +25,10 @@ class Factory
         $loggerInstance = null;
         switch ($loggerType) {
             case 'file':
-                $loggerInstance =
-                    new \Magento\Tools\Migration\System\Configuration\Logger\File($filePath, $fileManager);
+                $loggerInstance = new \Magento\Tools\Migration\System\Configuration\Logger\File(
+                    $filePath,
+                    $fileManager
+                );
                 break;
             default:
                 $loggerInstance = new \Magento\Tools\Migration\System\Configuration\Logger\Console();

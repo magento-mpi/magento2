@@ -16,7 +16,7 @@ namespace Magento\Reports\Block\Product;
  */
 class Viewed extends \Magento\Reports\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
-    const XML_PATH_RECENTLY_VIEWED_COUNT    = 'catalog/recently_products/viewed_count';
+    const XML_PATH_RECENTLY_VIEWED_COUNT = 'catalog/recently_products/viewed_count';
 
     /**
      * Viewed Product Index type

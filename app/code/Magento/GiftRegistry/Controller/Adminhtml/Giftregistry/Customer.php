@@ -92,7 +92,11 @@ class Customer extends \Magento\Backend\App\Action
     {
         try {
             $model = $this->_initEntity();
-            $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($model->getCustomerId());
+            $customer = $this->_objectManager->create(
+                'Magento\Customer\Model\Customer'
+            )->load(
+                $model->getCustomerId()
+            );
 
             $this->_title->add(__('Customers'));
             $this->_title->add(__('Customers'));
@@ -102,17 +106,17 @@ class Customer extends \Magento\Backend\App\Action
             $this->_view->loadLayout()->renderLayout();
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('customer/index/edit', array(
-                'id'         => $this->getRequest()->getParam('customer'),
-                'active_tab' => 'giftregistry'
-            ));
+            $this->_redirect(
+                'customer/index/edit',
+                array('id' => $this->getRequest()->getParam('customer'), 'active_tab' => 'giftregistry')
+            );
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Something went wrong while editing the gift registry.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_redirect('customer/index/edit', array(
-                'id'         => $this->getRequest()->getParam('customer'),
-                'active_tab' => 'giftregistry'
-            ));
+            $this->_redirect(
+                'customer/index/edit',
+                array('id' => $this->getRequest()->getParam('customer'), 'active_tab' => 'giftregistry')
+            );
         }
     }
 
@@ -211,15 +215,11 @@ class Customer extends \Magento\Backend\App\Action
             $model->setStoreId($storeId);
 
             try {
-                $sentCount   = 0;
+                $sentCount = 0;
                 $failedCount = 0;
                 foreach ($emails as $email) {
                     if (!empty($email)) {
-                        if ($model->sendShareRegistryEmail(
-                            $email,
-                            $storeId,
-                            $this->getRequest()->getParam('message')
-                        )
+                        if ($model->sendShareRegistryEmail($email, $storeId, $this->getRequest()->getParam('message'))
                         ) {
                             $sentCount++;
                         } else {

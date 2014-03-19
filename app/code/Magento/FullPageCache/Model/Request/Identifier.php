@@ -167,8 +167,8 @@ class Identifier
             $uri = implode('_', $uriParts);
         }
 
-        $this->_requestId       = $uri;
-        $this->_requestCacheId  = $this->prepareCacheId($this->_requestId);
+        $this->_requestId = $uri;
+        $this->_requestCacheId = $this->prepareCacheId($this->_requestId);
     }
 
     /**

@@ -72,10 +72,10 @@ class State extends \Magento\View\Element\Template
         foreach ($this->getActiveFilters() as $item) {
             $filterState[$item->getFilter()->getRequestVar()] = $item->getFilter()->getCleanValue();
         }
-        $params['_current']     = true;
+        $params['_current'] = true;
         $params['_use_rewrite'] = true;
-        $params['_query']       = $filterState;
-        $params['_escape']      = true;
+        $params['_query'] = $filterState;
+        $params['_escape'] = true;
         return $this->_urlBuilder->getUrl('*/*/*', $params);
     }
 

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Convert;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +18,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Convert\Xml;
+        $this->_model = new \Magento\Convert\Xml();
     }
 
     public function testXmlToAssoc()
@@ -29,6 +28,6 @@ class XmlTest extends \PHPUnit_Framework_TestCase
 <_><one>1</one><two><three>3</three><four>4</four></two></_>
 XML;
         $result = $this->_model->xmlToAssoc(new \SimpleXMLElement($xmlstr));
-        $this->assertEquals(array('one' => '1', 'two' => array('three' => '3', 'four'  => '4')), $result);
+        $this->assertEquals(array('one' => '1', 'two' => array('three' => '3', 'four' => '4')), $result);
     }
 }

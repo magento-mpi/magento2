@@ -9,11 +9,10 @@
  */
 namespace Magento\Tools\Translate;
 
-/*
 
+/*
 Usage:
  php -f split.php -- --input <file> --locale <locale_NAME>
-
 */
 
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
@@ -24,12 +23,11 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/');
 
-include(BASE_PATH . '/lib/Magento/File/Csv.php');
-include(__DIR__ . '/ModuleTranslations.php');
+include BASE_PATH . '/lib/Magento/File/Csv.php';
+include __DIR__ . '/ModuleTranslations.php';
 
 
 global $argv;
-
 class Split
 {
     /**
@@ -91,14 +89,14 @@ class Split
         $inputFileName = null;
         $localeName = null;
 
-        foreach ($argv as $k=>$arg) {
-            switch($arg) {
+        foreach ($argv as $k => $arg) {
+            switch ($arg) {
                 case '--input':
-                    $inputFileName = @$argv[$k+1];
+                    $inputFileName = @$argv[$k + 1];
                     break;
 
                 case '--locale':
-                    $localeName = @$argv[$k+1];
+                    $localeName = @$argv[$k + 1];
                     break;
 
                 case '--distribute':
@@ -112,32 +110,34 @@ class Split
         }
 
         if (!$inputFileName || !$localeName) {
-            $this->_addMessage(MESSAGE_TYPE_ERROR,
-                "Use this script as follows:\n"
-                . "\tsplit.php --input <file> --locale <locale_NAME> [--distribute [--clean]]");
+            $this->_addMessage(
+                MESSAGE_TYPE_ERROR,
+                "Use this script as follows:\n" .
+                "\tsplit.php --input <file> --locale <locale_NAME> [--distribute [--clean]]"
+            );
             $this->_error = true;
             return;
         }
 
-        if (!file_exists($inputFileName)){
+        if (!file_exists($inputFileName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("File '%s' doesn't exists", $inputFileName));
             $this->_error = true;
             return;
         }
 
-        if (!is_readable($inputFileName)){
+        if (!is_readable($inputFileName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("File '%s' isn't readable", $inputFileName));
             $this->_error = true;
             return;
         }
 
-        if (!is_dir(sprintf($this->_localePath, $localeName))){
+        if (!is_dir(sprintf($this->_localePath, $localeName))) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Locale '%s' was not found", $localeName));
             $this->_error = true;
             return;
         }
 
-        if (!is_writable(sprintf($this->_localePath, $localeName))){
+        if (!is_writable(sprintf($this->_localePath, $localeName))) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Locale '%s' is not writeable", $localeName));
             $this->_error = true;
             return;
@@ -163,11 +163,11 @@ class Split
         $inputData = $csv->getData($this->_inputFileName);
         $output = array();
 
-        foreach ($inputData as $row){
+        foreach ($inputData as $row) {
             $output[$row[0]][] = array_slice($row, 1);
         }
 
-        foreach ($output as $file=>$data){
+        foreach ($output as $file => $data) {
             $outputFileName = sprintf($this->_localePath, $this->_localeName) . "{$file}.csv";
             $csv->saveData($outputFileName, $data);
         }
@@ -191,11 +191,11 @@ class Split
     {
         $result = array();
 
-        foreach ($this->_messages as $message){
+        foreach ($this->_messages as $message) {
             $type = $message['type'];
             $text = $message['text'];
 
-            switch($type){
+            switch ($type) {
                 case MESSAGE_TYPE_ERROR:
                     $type = 'Error';
                     break;
@@ -223,7 +223,7 @@ class Split
      */
     private function _addMessage($type, $message)
     {
-        $this->_messages[] = array('type'=>$type, 'text'=>$message);
+        $this->_messages[] = array('type' => $type, 'text' => $message);
     }
 }
 

@@ -23,8 +23,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Downloadable\Model\Product\Type');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Downloadable\Model\Product\Type'
+        );
     }
 
     /**
@@ -33,8 +34,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteTypeSpecificData()
     {
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->load(1);
         $product->setOrigData();
         $downloadableData = array();
@@ -52,8 +54,9 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
         $product->setDownloadableData($downloadableData);
         $this->_model->deleteTypeSpecificData($product);
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->load(1);
 
         $links = $this->_model->getLinks($product);

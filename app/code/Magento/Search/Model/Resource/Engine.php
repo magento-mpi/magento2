@@ -46,10 +46,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      *
      * @var string[]
      */
-    protected $_advancedDynamicIndexFields = array(
-        '#position_category_',
-        '#price_'
-    );
+    protected $_advancedDynamicIndexFields = array('#position_category_', '#price_');
 
     /**
      * Catalog product visibility
@@ -142,8 +139,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
-        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
-            || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
+        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL ||
+            $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
     }
 
     /**
@@ -157,8 +154,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
         );
 
-        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
-            || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;
+        return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL ||
+            $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;
     }
 
     /**
@@ -284,7 +281,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         if (is_null($storeIds) || $storeIds == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $storeIds = array_keys($this->_storeManager->getStores());
         } else {
-            $storeIds = (array) $storeIds;
+            $storeIds = (array)$storeIds;
         }
 
         $queries = array();
@@ -293,7 +290,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
                 $queries[] = 'store_id:' . $storeId;
             }
         } else {
-            $entityIds = (array) $entityIds;
+            $entityIds = (array)$entityIds;
             $uniqueKey = $this->_adapter->getUniqueKey();
             foreach ($storeIds as $storeId) {
                 foreach ($entityIds as $entityId) {
@@ -553,9 +550,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         $advancedIndex = array();
 
         foreach ($productData as $field => $value) {
-            if (in_array($field, $this->_advancedStaticIndexFields)
-                || $this->_isDynamicField($field)
-            ) {
+            if (in_array($field, $this->_advancedStaticIndexFields) || $this->_isDynamicField($field)) {
                 if (!empty($value)) {
                     $advancedIndex[$field] = $value;
                 }

@@ -16,10 +16,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/menuLayout' => 'name',
-        '/config/menuLayout/pageLayout' => 'handle',
-    );
+    protected $_idAttributes = array('/config/menuLayout' => 'name', '/config/menuLayout/pageLayout' => 'handle');
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
@@ -52,5 +49,4 @@ class Reader extends \Magento\Config\Reader\Filesystem
             $defaultScope
         );
     }
-
 }

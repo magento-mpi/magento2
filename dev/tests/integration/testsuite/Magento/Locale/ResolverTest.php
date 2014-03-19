@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Locale;
 
 class ResolverTest extends \PHPUnit_Framework_TestCase

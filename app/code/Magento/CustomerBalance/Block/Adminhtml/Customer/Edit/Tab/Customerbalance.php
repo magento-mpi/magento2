@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -15,9 +14,7 @@ use Magento\Customer\Controller\RegistryConstants;
 /**
  * Customer account Store Credit tab
  */
-class Customerbalance
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Customerbalance extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry

@@ -13,10 +13,8 @@
  */
 namespace Magento\FullPageCache\Model\Container;
 
-class CatalogProductList
-    extends \Magento\FullPageCache\Model\Container\Advanced\Quote
+class CatalogProductList extends \Magento\FullPageCache\Model\Container\Advanced\Quote
 {
-
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
@@ -50,7 +48,13 @@ class CatalogProductList
         \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         parent::__construct(
-            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+            $eventManager,
+            $fpcCache,
+            $placeholder,
+            $coreRegistry,
+            $urlHelper,
+            $coreStoreConfig,
+            $layout
         );
         $this->_storeManager = $storeManager;
         $this->_productFactory = $productFactory;
@@ -65,10 +69,7 @@ class CatalogProductList
     {
         $productId = $this->_getProductId();
         if ($productId && !$this->_coreRegistry->registry('product')) {
-            $product = $this->_productFactory
-                ->create()
-                ->setStoreId($this->_storeManager->getId())
-                ->load($productId);
+            $product = $this->_productFactory->create()->setStoreId($this->_storeManager->getId())->load($productId);
             if ($product) {
                 $this->_coreRegistry->register('product', $product);
             }
@@ -76,10 +77,10 @@ class CatalogProductList
 
         if ($this->_coreRegistry->registry('product')) {
             $block = $this->_getPlaceHolderBlock();
-            $this->_eventManager->dispatch('render_block', array(
-                'block' => $block,
-                'placeholder' => $this->_placeholder,
-            ));
+            $this->_eventManager->dispatch(
+                'render_block',
+                array('block' => $block, 'placeholder' => $this->_placeholder)
+            );
             return $block->toHtml();
         }
 

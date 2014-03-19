@@ -57,10 +57,14 @@ class Mapper
             return null;
         }
 
-        $placeholder = $placeholderData['code']
-            . ' container="' . $placeholderData['container'] . '"'
-            . ' block="' . get_class($block) . '"'
-            . ' cache_id="' . $block->getCacheKey() . '"';
+        $placeholder = $placeholderData['code'] .
+            ' container="' .
+            $placeholderData['container'] .
+            '"' .
+            ' block="' .
+            get_class(
+                $block
+            ) . '"' . ' cache_id="' . $block->getCacheKey() . '"';
 
         foreach ($block->getCacheKeyInfo() as $key => $value) {
             if (is_string($key) && !empty($key)) {

@@ -18,8 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Grid\Column\Renderer;
 
-class Rate
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Rate extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface

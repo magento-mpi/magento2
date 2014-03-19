@@ -38,7 +38,7 @@ class AbstractBlock extends \Magento\View\Element\Template
      */
     protected function _getStoreId()
     {
-        $storeId =   (int) $this->getRequest()->getParam('store_id');
+        $storeId = (int)$this->getRequest()->getParam('store_id');
         if ($storeId == null) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
@@ -52,7 +52,7 @@ class AbstractBlock extends \Magento\View\Element\Template
      */
     protected function _getCustomerGroupId()
     {
-        $customerGroupId =   (int) $this->getRequest()->getParam('cid');
+        $customerGroupId = (int)$this->getRequest()->getParam('cid');
         if ($customerGroupId == null) {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }

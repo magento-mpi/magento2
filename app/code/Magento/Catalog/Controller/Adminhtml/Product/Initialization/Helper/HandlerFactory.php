@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
 class HandlerFactory
@@ -38,14 +37,16 @@ class HandlerFactory
 
         if (!is_subclass_of(
             $instance,
-            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface')
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
+        )
         ) {
             throw new \InvalidArgumentException(
-                $instance . ' does not implement '
-                 . 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
+                $instance .
+                ' does not implement ' .
+                'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
             );
         }
 
         return $this->objectManager->create($instance, $arguments);
     }
-} 
+}

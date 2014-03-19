@@ -24,4 +24,4 @@ interface ContextInterface
      * @return CollectionFilterInterface
      */
     public function getCollectionFilter();
-} 
+}

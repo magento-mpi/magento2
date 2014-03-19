@@ -18,9 +18,7 @@
  */
 namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer;
 
-class Rate
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Rate extends \Magento\Backend\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * Reward rate template

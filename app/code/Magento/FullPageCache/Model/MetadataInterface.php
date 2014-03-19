@@ -12,7 +12,7 @@ interface MetadataInterface
     /**
      * Metadata cache suffix
      */
-    const METADATA_CACHE_SUFFIX        = '_metadata';
+    const METADATA_CACHE_SUFFIX = '_metadata';
 
     /**
      * Get metadata value for specified key

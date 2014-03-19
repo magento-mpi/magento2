@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Layout;
 
 /**
@@ -87,7 +86,6 @@ class DepersonalizePlugin
         $this->eventManager = $eventManager;
         $this->request = $request;
         $this->moduleManager = $moduleManager;
-
     }
 
     /**
@@ -99,9 +97,9 @@ class DepersonalizePlugin
      */
     public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
     {
-        if ($this->moduleManager->isEnabled('Magento_PageCache')
-            && !$this->request->isAjax()
-            && $this->layout->isCacheable()
+        if ($this->moduleManager->isEnabled(
+            'Magento_PageCache'
+        ) && !$this->request->isAjax() && $this->layout->isCacheable()
         ) {
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);

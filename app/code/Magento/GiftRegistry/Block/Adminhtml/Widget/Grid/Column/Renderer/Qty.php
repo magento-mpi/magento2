@@ -12,8 +12,7 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
 /**
  * Column renderer for gift registry item grid qty column
  */
-class Qty
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render gift registry item qty as input html element

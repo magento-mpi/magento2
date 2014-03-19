@@ -75,7 +75,9 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     public function getBillingAgreementCode()
     {
         $customerId = $this->_customerSession->getCustomerId();
-        return $this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)
-            ? \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT : null;
+        return $this->_paypalData->shouldAskToCreateBillingAgreement(
+            $this->_config,
+            $customerId
+        ) ? \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT : null;
     }
 }

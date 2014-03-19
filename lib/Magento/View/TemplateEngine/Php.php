@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\TemplateEngine;
 
 use Magento\View\TemplateEngineInterface;
@@ -96,7 +95,7 @@ class Php implements TemplateEngineInterface
      */
     public function __isset($name)
     {
-        return isset($this->_currentBlock->$name);
+        return isset($this->_currentBlock->{$name});
     }
 
     /**
@@ -110,7 +109,7 @@ class Php implements TemplateEngineInterface
      */
     public function __get($name)
     {
-        return $this->_currentBlock->$name;
+        return $this->_currentBlock->{$name};
     }
 
     /**
@@ -123,10 +122,8 @@ class Php implements TemplateEngineInterface
     public function helper($className)
     {
         $helper = $this->_helperFactory->get($className);
-        if (false === ($helper instanceof \Magento\App\Helper\AbstractHelper)) {
-            throw new \LogicException(
-                $className . ' doesn\'t extends Magento\App\Helper\AbstractHelper'
-            );
+        if (false === $helper instanceof \Magento\App\Helper\AbstractHelper) {
+            throw new \LogicException($className . ' doesn\'t extends Magento\App\Helper\AbstractHelper');
         }
 
         return $helper;

@@ -12,15 +12,14 @@ namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Address;
 /**
  * Customer Sales Address abstract resource
  */
-abstract class AbstractAddress
-    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
+abstract class AbstractAddress extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\AbstractSales
 {
     /**
      * Used us prefix to name of column table
      *
      * @var null | string
      */
-    protected $_columnPrefix     = null;
+    protected $_columnPrefix = null;
 
     /**
      * Attach data to models
@@ -30,8 +29,8 @@ abstract class AbstractAddress
      */
     public function attachDataToEntities(array $entities)
     {
-        $items      = array();
-        $itemIds    = array();
+        $items = array();
+        $itemIds = array();
         foreach ($entities as $item) {
             /** @var $item \Magento\Object */
             $itemIds[] = $item->getId();
@@ -39,9 +38,12 @@ abstract class AbstractAddress
         }
 
         if ($itemIds) {
-            $select = $this->_getReadAdapter()->select()
-                ->from($this->getMainTable())
-                ->where("{$this->getIdFieldName()} IN (?)", $itemIds);
+            $select = $this->_getReadAdapter()->select()->from(
+                $this->getMainTable()
+            )->where(
+                "{$this->getIdFieldName()} IN (?)",
+                $itemIds
+            );
             $rowSet = $this->_getReadAdapter()->fetchAll($select);
             foreach ($rowSet as $row) {
                 $items[$row[$this->getIdFieldName()]]->addData($row);

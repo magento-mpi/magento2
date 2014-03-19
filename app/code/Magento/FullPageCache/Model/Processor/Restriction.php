@@ -9,13 +9,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Processor;
 
-class Restriction
-    implements \Magento\FullPageCache\Model\Processor\RestrictionInterface
+class Restriction implements \Magento\FullPageCache\Model\Processor\RestrictionInterface
 {
-
     /**
      * @var \Magento\App\Cache\StateInterface
      */
@@ -64,7 +61,8 @@ class Restriction
         }
 
         if ($this->_environment->hasCookie(
-              \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE
+        )
         ) {
             return false;
         }

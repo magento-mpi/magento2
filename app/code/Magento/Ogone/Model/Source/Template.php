@@ -24,7 +24,7 @@ class Template implements \Magento\Option\ArrayInterface
     {
         return array(
             array('value' => \Magento\Ogone\Model\Api::TEMPLATE_OGONE, 'label' => __('Ogone')),
-            array('value' => \Magento\Ogone\Model\Api::TEMPLATE_MAGENTO, 'label' => __('Magento')),
+            array('value' => \Magento\Ogone\Model\Api::TEMPLATE_MAGENTO, 'label' => __('Magento'))
         );
     }
 }

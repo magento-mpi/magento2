@@ -54,8 +54,6 @@ class Result extends \Magento\Backend\Block\Template
      */
     public function getJsonHiddenPbridgeParams()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_pbridgeData->getPbridgeParams()
-        );
+        return $this->_jsonEncoder->encode($this->_pbridgeData->getPbridgeParams());
     }
 }

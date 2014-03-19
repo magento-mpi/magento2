@@ -23,11 +23,7 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_textFieldTypes = array(
-        'text',
-        'varchar',
-        'int'
-    );
+    protected $_textFieldTypes = array('text', 'varchar', 'int');
 
     /**
      * @var \Magento\Search\Model\Resource\Engine
@@ -69,7 +65,6 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      */
     protected function _construct()
     {
-
     }
 
     /**
@@ -102,13 +97,19 @@ class Advanced extends \Magento\Core\Model\Resource\AbstractResource
      */
     protected function _getSearchParam($collection, $attribute, $value)
     {
-        if ((!is_string($value) && empty($value))
-            || (is_string($value) && strlen(trim($value)) == 0)
-            || (is_array($value)
-                && isset($value['from'])
-                && empty($value['from'])
-                && isset($value['to'])
-                && empty($value['to']))
+        if (!is_string(
+            $value
+        ) && empty($value) || is_string(
+            $value
+        ) && strlen(
+            trim($value)
+        ) == 0 || is_array(
+            $value
+        ) && isset(
+            $value['from']
+        ) && empty($value['from']) && isset(
+            $value['to']
+        ) && empty($value['to'])
         ) {
             return array();
         }

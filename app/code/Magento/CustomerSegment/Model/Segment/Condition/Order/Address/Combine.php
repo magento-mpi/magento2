@@ -14,10 +14,8 @@ use Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine;
 /**
  * Order address attribute conditions combine
  */
-
 class Combine extends AbstractCombine
 {
-
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
@@ -41,14 +39,14 @@ class Combine extends AbstractCombine
      */
     public function getNewChildSelectOptions()
     {
-        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
+        $result = array_merge_recursive(
+            parent::getNewChildSelectOptions(),
             array(
-                'value' => $this->getType(),
-                'label' => __('Conditions Combination'),
-            ),
-            $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
-            $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions(),
-        ));
+                array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+                $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
+                $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions()
+            )
+        );
         return $result;
     }
 }

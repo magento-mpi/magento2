@@ -14,7 +14,7 @@ class State implements StateInterface
     /**
      * Cache identifier used to store cache type statuses
      */
-    const CACHE_ID  = 'core_cache_options';
+    const CACHE_ID = 'core_cache_options';
 
     /**
      * Persistent storage of cache type statuses

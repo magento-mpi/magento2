@@ -12,4 +12,4 @@ namespace Magento\Catalog\Model\Layer\Search;
 class AvailabilityFlag extends \Magento\Catalog\Model\Layer\Category\AvailabilityFlag
 {
 
-} 
+}

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Store;
 
 /**
@@ -66,28 +65,20 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(
-                    'store_type' => 'website',
-                    'store_data' => 'Magento\Core\Model\Website',
-                ),
-                'Magento\Backend\Block\System\Store\Edit\Form\Website',
+                array('store_type' => 'website', 'store_data' => 'Magento\Core\Model\Website'),
+                'Magento\Backend\Block\System\Store\Edit\Form\Website'
             ),
             array(
-                array(
-                    'store_type' => 'group',
-                    'store_data' => 'Magento\Core\Model\Store\Group',
-                ),
-                'Magento\Backend\Block\System\Store\Edit\Form\Group',
+                array('store_type' => 'group', 'store_data' => 'Magento\Core\Model\Store\Group'),
+                'Magento\Backend\Block\System\Store\Edit\Form\Group'
             ),
             array(
-                array(
-                    'store_type' => 'store',
-                    'store_data' => 'Magento\Core\Model\Store',
-                ),
-                'Magento\Backend\Block\System\Store\Edit\Form\Store',
-            ),
+                array('store_type' => 'store', 'store_data' => 'Magento\Core\Model\Store'),
+                'Magento\Backend\Block\System\Store\Edit\Form\Store'
+            )
         );
     }
+
     /**
      * @magentoAppIsolation enabled
      * @param $registryData
@@ -117,50 +108,42 @@ class EditTest extends \PHPUnit_Framework_TestCase
                 array(
                     'store_type' => 'website',
                     'store_data' => 'Magento\Core\Model\Website',
-                    'store_action' => 'add',
+                    'store_action' => 'add'
                 ),
-                'New Web Site',
+                'New Web Site'
             ),
             array(
                 array(
                     'store_type' => 'website',
                     'store_data' => 'Magento\Core\Model\Website',
-                    'store_action' => 'edit',
+                    'store_action' => 'edit'
                 ),
-                'Edit Web Site',
+                'Edit Web Site'
             ),
             array(
                 array(
                     'store_type' => 'group',
                     'store_data' => 'Magento\Core\Model\Store\Group',
-                    'store_action' => 'add',
+                    'store_action' => 'add'
                 ),
-                'New Store',
+                'New Store'
             ),
             array(
                 array(
                     'store_type' => 'group',
                     'store_data' => 'Magento\Core\Model\Store\Group',
-                    'store_action' => 'edit',
+                    'store_action' => 'edit'
                 ),
-                'Edit Store',
+                'Edit Store'
             ),
             array(
-                array(
-                    'store_type' => 'store',
-                    'store_data' => 'Magento\Core\Model\Store',
-                    'store_action' => 'add',
-                ),
-                'New Store View',
+                array('store_type' => 'store', 'store_data' => 'Magento\Core\Model\Store', 'store_action' => 'add'),
+                'New Store View'
             ),
             array(
-                array(
-                    'store_type' => 'store',
-                    'store_data' => 'Magento\Core\Model\Store',
-                    'store_action' => 'edit',
-                ),
-                'Edit Store View',
-            ),
+                array('store_type' => 'store', 'store_data' => 'Magento\Core\Model\Store', 'store_action' => 'edit'),
+                'Edit Store View'
+            )
         );
     }
 }

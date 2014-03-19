@@ -15,8 +15,7 @@ use Zend_Db_Expr;
 /**
  * Shopping cart/wishlist items condition
  */
-class ListCombine
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class ListCombine extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Flag of using condition combine (for conditions of Product_Attribute)
@@ -25,8 +24,9 @@ class ListCombine
      */
     protected $_combineProductCondition = true;
 
-    const WISHLIST  = 'wishlist';
-    const CART      = 'shopping_cart';
+    const WISHLIST = 'wishlist';
+
+    const CART = 'shopping_cart';
 
     /**
      * @var string
@@ -76,9 +76,11 @@ class ListCombine
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Product\Combine')
-            ->setDateConditions(true)
-            ->getNewChildSelectOptions();
+        return $this->_conditionFactory->create(
+            'Product\Combine'
+        )->setDateConditions(
+            true
+        )->getNewChildSelectOptions();
     }
 
     /**
@@ -88,10 +90,7 @@ class ListCombine
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            self::CART      => __('Shopping Cart'),
-            self::WISHLIST  => __('Wish List'),
-        ));
+        $this->setValueOption(array(self::CART => __('Shopping Cart'), self::WISHLIST => __('Wish List')));
         return $this;
     }
 
@@ -137,10 +136,7 @@ class ListCombine
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '=='  => __('found'),
-            '!='  => __('not found')
-        ));
+        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
         return $this;
     }
 
@@ -151,9 +147,12 @@ class ListCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Product is %1 in the %2 with %3 of these Conditions match:', $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Product is %1 in the %2 with %3 of these Conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -174,11 +173,7 @@ class ListCombine
                     array(new \Zend_Db_Expr(1))
                 );
                 $conditions = "item.wishlist_id = list.wishlist_id";
-                $select->joinInner(
-                    array('list' => $this->getResource()->getTable('wishlist')),
-                    $conditions,
-                    array()
-                );
+                $select->joinInner(array('list' => $this->getResource()->getTable('wishlist')), $conditions, array());
                 $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
                 break;
@@ -215,7 +210,7 @@ class ListCombine
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getOperator() == '==');
+        return $this->getOperator() == '==';
     }
 
     /**
@@ -235,9 +230,6 @@ class ListCombine
                 break;
         }
 
-        return array(
-            'product' => 'item.product_id',
-            'date'    => $dateField
-        );
+        return array('product' => 'item.product_id', 'date' => $dateField);
     }
 }

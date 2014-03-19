@@ -35,7 +35,9 @@ class Version extends \Magento\Core\Model\AbstractModel
      * Access level constants
      */
     const ACCESS_LEVEL_PRIVATE = 'private';
+
     const ACCESS_LEVEL_PROTECTED = 'protected';
+
     const ACCESS_LEVEL_PUBLIC = 'public';
 
     /**
@@ -182,12 +184,15 @@ class Version extends \Magento\Core\Model\AbstractModel
             if ($this->getInitialRevisionData()) {
                 $revision->setData($this->getInitialRevisionData());
             } else {
-                $revision->loadWithRestrictions($accessLevel, $userId, $this->getOrigData($this->getIdFieldName()), 'version_id');
+                $revision->loadWithRestrictions(
+                    $accessLevel,
+                    $userId,
+                    $this->getOrigData($this->getIdFieldName()),
+                    'version_id'
+                );
             }
 
-            $revision->setVersionId($this->getId())
-                ->setUserId($userId)
-                ->save();
+            $revision->setVersionId($this->getId())->setUserId($userId)->save();
 
             $this->setLastRevision($revision);
         }

@@ -17,8 +17,7 @@
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;
 
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * Instantiate collection and set required data joins

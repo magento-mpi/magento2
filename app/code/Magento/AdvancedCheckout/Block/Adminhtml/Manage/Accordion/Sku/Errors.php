@@ -17,8 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Sku;
 
-class Errors
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
+class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
      * @var \Magento\Registry
@@ -50,10 +49,7 @@ class Errors
     {
         $customer = $this->_registry->registry('checkout_current_customer');
         $store = $this->_registry->registry('checkout_current_store');
-        $params = array(
-            'customer'   => $customer->getId(),
-            'store'    => $store->getId()
-        );
+        $params = array('customer' => $customer->getId(), 'store' => $store->getId());
         return $this->getUrl('checkout/index/configureProductToAdd', $params);
     }
 

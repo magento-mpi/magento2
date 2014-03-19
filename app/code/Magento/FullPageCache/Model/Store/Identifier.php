@@ -37,7 +37,7 @@ class Identifier
      */
     public function getStoreId($requestId)
     {
-        return (int) $this->_fpcCache->load(self::CACHE_ID . '_' . $requestId);
+        return (int)$this->_fpcCache->load(self::CACHE_ID . '_' . $requestId);
     }
 
     /**

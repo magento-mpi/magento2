@@ -6,9 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\Action\Plugin;
-
 
 class Install
 {
@@ -65,9 +63,7 @@ class Install
     ) {
         if (!$this->_appState->isInstalled()) {
             $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
-            $this->_response->setRedirect(
-                $this->_url->getUrl('install')
-            );
+            $this->_response->setRedirect($this->_url->getUrl('install'));
             return $this->_response;
         }
         return $proceed($request);

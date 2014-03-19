@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reports\Model;
 
 class DateFactory
@@ -21,5 +20,4 @@ class DateFactory
     {
         return new \Magento\Stdlib\DateTime\Date($date, $part, $locale);
     }
-
-} 
+}

@@ -71,11 +71,13 @@ class Tooltip extends \Magento\View\Element\Template
             if (!$this->_rewardHelper->isEnabledOnFront()) {
                 return $this;
             }
-            $this->_rewardInstance
-                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-                ->setCustomer($this->_customerSession->getCustomer())
-                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())
-                ->loadByCustomer();
+            $this->_rewardInstance->setWebsiteId(
+                $this->_storeManager->getStore()->getWebsiteId()
+            )->setCustomer(
+                $this->_customerSession->getCustomer()
+            )->setWebsiteId(
+                $this->_storeManager->getStore()->getWebsiteId()
+            )->loadByCustomer();
             $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
         }
         return $this;
@@ -114,10 +116,12 @@ class Tooltip extends \Magento\View\Element\Template
     protected function _prepareTemplateData()
     {
         if ($this->_actionInstance) {
-            $this->addData(array(
-                'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
-                'landing_page_url' => $this->_rewardHelper->getLandingPageUrl(),
-            ));
+            $this->addData(
+                array(
+                    'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
+                    'landing_page_url' => $this->_rewardHelper->getLandingPageUrl()
+                )
+            );
 
             if ($this->_rewardInstance->getId()) {
                 // estimate qty limitations (actually can be used without customer reward record)
@@ -130,10 +134,12 @@ class Tooltip extends \Magento\View\Element\Template
                     $this->unsGuestNote();
                 }
 
-                $this->addData(array(
-                    'points_balance' => $this->_rewardInstance->getPointsBalance(),
-                    'currency_balance' => $this->_rewardInstance->getCurrencyAmount(),
-                ));
+                $this->addData(
+                    array(
+                        'points_balance' => $this->_rewardInstance->getPointsBalance(),
+                        'currency_balance' => $this->_rewardInstance->getCurrencyAmount()
+                    )
+                );
                 // estimate monetary reward
                 $amount = $this->_rewardInstance->estimateRewardAmount($this->_actionInstance);
                 if (null !== $amount) {
@@ -141,7 +147,9 @@ class Tooltip extends \Magento\View\Element\Template
                 }
             } else {
                 if ($this->hasIsGuestNote() && !$this->hasGuestNote()) {
-                    $this->setGuestNote(__('This applies only to registered users and may vary when a user is logged in.'));
+                    $this->setGuestNote(
+                        __('This applies only to registered users and may vary when a user is logged in.')
+                    );
                 }
             }
         }

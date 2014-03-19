@@ -17,8 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
 
-class Copy
-    extends \Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management
+class Copy extends \Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management
 {
     /**
      * Checks whether column should be shown in table
@@ -57,11 +56,14 @@ class Copy
      */
     public function getJs()
     {
-        return parent::getJs() . "
+        return parent::getJs() .
+            "
             if (typeof Enterprise.Wishlist.url == 'undefined') {
                 Enterprise.Wishlist.url = {};
             }
-            Enterprise.Wishlist.url.copyItem = '" . $this->getCopyItemUrl() . "';
+            Enterprise.Wishlist.url.copyItem = '" .
+            $this->getCopyItemUrl() .
+            "';
         ";
     }
 }

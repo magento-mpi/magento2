@@ -48,8 +48,8 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
         parent::_construct();
         $this->_statuses = array(
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Coming Soon'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN     => __('Sale Ends In'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED   => __('Closed'),
+            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Sale Ends In'),
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
         );
     }
 
@@ -79,7 +79,9 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventTime($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_localeDate->getTimeFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getTimeFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            );
         }
 
         return $this->_getEventDate($type, $event, $format);
@@ -96,11 +98,12 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
     public function getEventDate($type, $event, $format = null)
     {
         if ($format === null) {
-            $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
+            $format = $this->_localeDate->getDateFormat(
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
+            );
         }
 
         return $this->_getEventDate($type, $event, $format);
-
     }
 
     /**

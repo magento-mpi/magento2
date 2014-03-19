@@ -61,14 +61,19 @@ class Collection extends \Magento\Data\Collection\Filesystem
     {
         $row = parent::_generateRow($filename);
         $date = new \Magento\Stdlib\DateTime\Date(
-            str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', $this->_localeResolver->getLocaleCode()
+            str_replace('.csv', '', $row['basename']),
+            'yyyyMMddHH',
+            $this->_localeResolver->getLocaleCode()
         );
         $row['time'] = $date;
         /**
          * Used in date filter, becouse $date contains hours
          */
-        $dateWithoutHours = new \Magento\Stdlib\DateTime\Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd',
-            $this->_localeResolver->getLocaleCode());
+        $dateWithoutHours = new \Magento\Stdlib\DateTime\Date(
+            str_replace('.csv', '', $row['basename']),
+            'yyyyMMdd',
+            $this->_localeResolver->getLocaleCode()
+        );
         $row['timestamp'] = $dateWithoutHours->toString('yyyy-MM-dd');
         return $row;
     }
@@ -87,7 +92,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     {
         $rowValue = $row[$field];
         if ($field == 'time') {
-            $rowValue    = $row['timestamp'];
+            $rowValue = $row['timestamp'];
         }
         return $rowValue > $filterValue;
     }
@@ -106,7 +111,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     {
         $rowValue = $row[$field];
         if ($field == 'time') {
-            $rowValue    = $row['timestamp'];
+            $rowValue = $row['timestamp'];
         }
         return $rowValue < $filterValue;
     }

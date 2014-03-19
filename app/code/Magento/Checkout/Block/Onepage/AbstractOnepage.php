@@ -79,6 +79,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      * @var CustomerAddressService
      */
     protected $_customerAddressService;
+
     /**
      * @var \Magento\Customer\Model\Address\Config
      */
@@ -195,9 +196,9 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     public function getRegionCollection()
     {
         if (!$this->_regionCollection) {
-            $this->_regionCollection = $this->_regionCollectionFactory->create()
-                ->addCountryFilter($this->getAddress()->getCountryId())
-                ->load();
+            $this->_regionCollection = $this->_regionCollectionFactory->create()->addCountryFilter(
+                $this->getAddress()->getCountryId()
+            )->load();
         }
         return $this->_regionCollection;
     }
@@ -222,25 +223,23 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     {
         if ($this->isCustomerLoggedIn()) {
             $customerId = $this->_getCustomerData()->getId();
-            $options = [];
+            $options = array();
 
             try {
                 $addresses = $this->_customerAddressService->getAddresses($customerId);
             } catch (NoSuchEntityException $e) {
-                $addresses = [];
+                $addresses = array();
             }
 
             foreach ($addresses as $address) {
                 /** @var \Magento\Customer\Service\V1\Data\Address $address */
-                $label = $this->_addressConfig
-                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
-                    ->getRenderer()
-                    ->renderArray(\Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address));
+                $label = $this->_addressConfig->getFormatByCode(
+                    AddressConfig::DEFAULT_ADDRESS_FORMAT
+                )->getRenderer()->renderArray(
+                    \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address)
+                );
 
-                $options[] = [
-                    'value' => $address->getId(),
-                    'label' => $label
-                ];
+                $options[] = array('value' => $address->getId(), 'label' => $label);
             }
 
             $addressId = $this->getAddress()->getCustomerAddressId();
@@ -284,16 +283,23 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         if (is_null($countryId)) {
             $countryId = $this->_coreData->getDefaultCountry();
         }
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName($type.'[country_id]')
-            ->setId($type.':country_id')
-            ->setTitle(__('Country'))
-            ->setClass('validate-select')
-            ->setValue($countryId)
-            ->setOptions($this->getCountryOptions());
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setName(
+            $type . '[country_id]'
+        )->setId(
+            $type . ':country_id'
+        )->setTitle(
+            __('Country')
+        )->setClass(
+            'validate-select'
+        )->setValue(
+            $countryId
+        )->setOptions(
+            $this->getCountryOptions()
+        );
         return $select->getHtml();
     }
-
 
     /**
      * @param string $type
@@ -301,13 +307,21 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
      */
     public function getRegionHtmlSelect($type)
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName($type.'[region]')
-            ->setId($type.':region')
-            ->setTitle(__('State/Province'))
-            ->setClass('required-entry validate-state')
-            ->setValue($this->getAddress()->getRegionId())
-            ->setOptions($this->getRegionCollection()->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setName(
+            $type . '[region]'
+        )->setId(
+            $type . ':region'
+        )->setTitle(
+            __('State/Province')
+        )->setClass(
+            'required-entry validate-state'
+        )->setValue(
+            $this->getAddress()->getRegionId()
+        )->setOptions(
+            $this->getRegionCollection()->toOptionArray()
+        );
 
         return $select->getHtml();
     }

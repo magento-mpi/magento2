@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Service\Data\EAV;
 
 /**
@@ -49,7 +48,7 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
      */
     public function getCustomAttributesCodes()
     {
-        return [];
+        return array();
     }
 
     /**
@@ -64,7 +63,10 @@ abstract class AbstractObjectBuilder extends \Magento\Service\Data\AbstractObjec
         $customAttributesCodes = $this->getCustomAttributesCodes();
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
-            $possibleMethods = ['get' . $this->_snakeCaseToCamelCase($key), 'is' . $this->_snakeCaseToCamelCase($key)];
+            $possibleMethods = array(
+                'get' . $this->_snakeCaseToCamelCase($key),
+                'is' . $this->_snakeCaseToCamelCase($key)
+            );
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
             } elseif (in_array($key, $customAttributesCodes)) {

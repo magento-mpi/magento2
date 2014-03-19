@@ -60,9 +60,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if ($this->_catalogData->isModuleEnabled('Magento_Cms')
-            && $this->_wysiwygConfig->isEnabled()
-        ) {
+        if ($this->_catalogData->isModuleEnabled('Magento_Cms') && $this->_wysiwygConfig->isEnabled()) {
             $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
     }
@@ -91,11 +89,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
             $fieldset = $form->addFieldset(
                 'group-fields-' . $group->getAttributeGroupCode(),
-                 array(
-                    'class' => 'user-defined',
-                    'legend' => $legend,
-                    'collapsable' => $isCollapsable
-                )
+                array('class' => 'user-defined', 'legend' => $legend, 'collapsable' => $isCollapsable)
             );
 
             $attributes = $this->getGroupAttributes();
@@ -124,26 +118,39 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
             }
 
             // Add new attribute controls if it is not an image tab
-            if (!$form->getElement('media_gallery')
-                && $this->_authorization->isAllowed('Magento_Catalog::attributes_attributes')
-                && $isWrapped
+            if (!$form->getElement(
+                'media_gallery'
+            ) && $this->_authorization->isAllowed(
+                'Magento_Catalog::attributes_attributes'
+            ) && $isWrapped
             ) {
-                $attributeCreate = $this->getLayout()
-                    ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Create');
+                $attributeCreate = $this->getLayout()->createBlock(
+                    'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Create'
+                );
 
-                $attributeCreate->getConfig()
-                    ->setAttributeGroupCode($group->getAttributeGroupCode())
-                    ->setTabId('group_' . $group->getId())
-                    ->setGroupId($group->getId())
-                    ->setStoreId($form->getDataObject()->getStoreId())
-                    ->setAttributeSetId($form->getDataObject()->getAttributeSetId())
-                    ->setTypeId($form->getDataObject()->getTypeId())
-                    ->setProductId($form->getDataObject()->getId());
+                $attributeCreate->getConfig()->setAttributeGroupCode(
+                    $group->getAttributeGroupCode()
+                )->setTabId(
+                    'group_' . $group->getId()
+                )->setGroupId(
+                    $group->getId()
+                )->setStoreId(
+                    $form->getDataObject()->getStoreId()
+                )->setAttributeSetId(
+                    $form->getDataObject()->getAttributeSetId()
+                )->setTypeId(
+                    $form->getDataObject()->getTypeId()
+                )->setProductId(
+                    $form->getDataObject()->getId()
+                );
 
-                $attributeSearch = $this->getLayout()
-                    ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search')
-                    ->setGroupId($group->getId())
-                    ->setGroupCode($group->getAttributeGroupCode());
+                $attributeSearch = $this->getLayout()->createBlock(
+                    'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search'
+                )->setGroupId(
+                    $group->getId()
+                )->setGroupCode(
+                    $group->getAttributeGroupCode()
+                );
 
                 $attributeSearch->setAttributeCreate($attributeCreate->toHtml());
 
@@ -175,7 +182,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
             $this->_eventManager->dispatch(
                 'adminhtml_catalog_product_edit_prepare_form',
-                ['form' => $form, 'layout' => $this->getLayout()]
+                array('form' => $form, 'layout' => $this->getLayout())
             );
 
             $this->setForm($form);
@@ -190,12 +197,12 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
     protected function _getAdditionalElementTypes()
     {
         $result = array(
-            'price'    => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price',
-            'weight'   => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
-            'gallery'  => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery',
-            'image'    => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Image',
-            'boolean'  => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean',
-            'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg',
+            'price' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price',
+            'weight' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
+            'gallery' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery',
+            'image' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Image',
+            'boolean' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean',
+            'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg'
         );
 
         $response = new \Magento\Object();

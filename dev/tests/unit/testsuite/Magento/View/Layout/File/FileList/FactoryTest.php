@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\FileList;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -32,17 +31,26 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $collator = $helperObjectManager->getObject(\Magento\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR);
         $list = $helperObjectManager->getObject('Magento\View\Layout\File\FileList');
 
-        $this->objectManager
-            ->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo(\Magento\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR))
-            ->will($this->returnValue($collator));
+        $this->objectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            $this->equalTo(\Magento\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR)
+        )->will(
+            $this->returnValue($collator)
+        );
 
-        $this->objectManager
-            ->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo('Magento\View\Layout\File\FileList'), $this->equalTo(array('collator' => $collator)))
-            ->will($this->returnValue($list));
+        $this->objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo('Magento\View\Layout\File\FileList'),
+            $this->equalTo(array('collator' => $collator))
+        )->will(
+            $this->returnValue($list)
+        );
         $this->assertSame($list, $this->model->create());
     }
 
@@ -54,11 +62,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $collator = new \stdClass();
 
-        $this->objectManager
-            ->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo(\Magento\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR))
-            ->will($this->returnValue($collator));
+        $this->objectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            $this->equalTo(\Magento\View\Layout\File\FileList\Factory::FILE_LIST_COLLATOR)
+        )->will(
+            $this->returnValue($collator)
+        );
 
         $this->model->create();
     }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Processor;
 
 class RestrictionTest extends \PHPUnit_Framework_TestCase
@@ -38,11 +37,16 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_environmentMock = $this->getMock(
-            'Magento\FullPageCache\Model\Environment', array(), array(), '', false
+            'Magento\FullPageCache\Model\Environment',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_cacheStateMock = $this->getMock('Magento\App\Cache\StateInterface');
         $this->_model = new \Magento\FullPageCache\Model\Processor\Restriction(
-            $this->_cacheStateMock, $this->_environmentMock
+            $this->_cacheStateMock,
+            $this->_environmentMock
         );
     }
 
@@ -73,8 +77,15 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
         $this->_environmentMock->expects($this->never())->method('hasQuery');
         $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
-        $this->_environmentMock->expects($this->once())
-            ->method('getServer')->with('HTTPS')->will($this->returnValue('on'));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'getServer'
+        )->with(
+            'HTTPS'
+        )->will(
+            $this->returnValue('on')
+        );
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
     }
@@ -84,13 +95,25 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
         $this->_environmentMock->expects($this->never())->method('hasQuery');
         $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
-        $this->_environmentMock->expects($this->once())
-            ->method('getServer')->with('HTTPS')->will($this->returnValue('off'));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'getServer'
+        )->with(
+            'HTTPS'
+        )->will(
+            $this->returnValue('off')
+        );
 
-        $this->_environmentMock->expects($this->once())
-            ->method('hasCookie')
-            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
-            ->will($this->returnValue(true));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'hasCookie'
+        )->with(
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE
+        )->will(
+            $this->returnValue(true)
+        );
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
     }
@@ -99,18 +122,35 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
-        $this->_environmentMock->expects($this->once())
-            ->method('getServer')->with('HTTPS')->will($this->returnValue('off'));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'getServer'
+        )->with(
+            'HTTPS'
+        )->will(
+            $this->returnValue('off')
+        );
 
-        $this->_environmentMock->expects($this->once())
-            ->method('hasCookie')
-            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
-            ->will($this->returnValue(false));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'hasCookie'
+        )->with(
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE
+        )->will(
+            $this->returnValue(false)
+        );
 
-        $this->_environmentMock->expects($this->once())
-            ->method('hasQuery')
-            ->with('no_cache')
-            ->will($this->returnValue(true));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'hasQuery'
+        )->with(
+            'no_cache'
+        )->will(
+            $this->returnValue(true)
+        );
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
     }
@@ -119,63 +159,113 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cacheStateMock->expects($this->never())->method('isEnabled');
 
-        $this->_environmentMock->expects($this->once())
-            ->method('getServer')->with('HTTPS')->will($this->returnValue('off'));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'getServer'
+        )->with(
+            'HTTPS'
+        )->will(
+            $this->returnValue('off')
+        );
 
-        $this->_environmentMock->expects($this->once())
-            ->method('hasCookie')
-            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
-            ->will($this->returnValue(false));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'hasCookie'
+        )->with(
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE
+        )->will(
+            $this->returnValue(false)
+        );
 
 
         $valueMap = array(
             array('no_cache', false),
-            array(\Magento\Core\Model\Session\SidResolver::SESSION_ID_QUERY_PARAM, true),
+            array(\Magento\Core\Model\Session\SidResolver::SESSION_ID_QUERY_PARAM, true)
         );
 
-        $this->_environmentMock->expects($this->exactly(2))
-            ->method('hasQuery')
-            ->will($this->returnValueMap($valueMap));
+        $this->_environmentMock->expects(
+            $this->exactly(2)
+        )->method(
+            'hasQuery'
+        )->will(
+            $this->returnValueMap($valueMap)
+        );
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
     }
 
     public function testIsAllowedWithDisabledCache()
     {
-        $this->_environmentMock->expects($this->once())
-            ->method('getServer')->with('HTTPS')->will($this->returnValue('off'));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'getServer'
+        )->with(
+            'HTTPS'
+        )->will(
+            $this->returnValue('off')
+        );
 
-        $this->_environmentMock->expects($this->once())
-            ->method('hasCookie')
-            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
-            ->will($this->returnValue(false));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'hasCookie'
+        )->with(
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE
+        )->will(
+            $this->returnValue(false)
+        );
 
-        $this->_environmentMock->expects($this->exactly(2))
-            ->method('hasQuery')
-            ->will($this->returnValue(false));
+        $this->_environmentMock->expects($this->exactly(2))->method('hasQuery')->will($this->returnValue(false));
 
-        $this->_cacheStateMock->expects($this->once())
-            ->method('isEnabled')->with('full_page')->will($this->returnValue(false));
+        $this->_cacheStateMock->expects(
+            $this->once()
+        )->method(
+            'isEnabled'
+        )->with(
+            'full_page'
+        )->will(
+            $this->returnValue(false)
+        );
 
         $this->assertFalse($this->_model->isAllowed($this->_requestId));
     }
 
     public function testIsAllowedSuccess()
     {
-        $this->_environmentMock->expects($this->once())
-            ->method('getServer')->with('HTTPS')->will($this->returnValue('off'));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'getServer'
+        )->with(
+            'HTTPS'
+        )->will(
+            $this->returnValue('off')
+        );
 
-        $this->_environmentMock->expects($this->once())
-            ->method('hasCookie')
-            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
-            ->will($this->returnValue(false));
+        $this->_environmentMock->expects(
+            $this->once()
+        )->method(
+            'hasCookie'
+        )->with(
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE
+        )->will(
+            $this->returnValue(false)
+        );
 
-        $this->_environmentMock->expects($this->exactly(2))
-            ->method('hasQuery')
-            ->will($this->returnValue(false));
+        $this->_environmentMock->expects($this->exactly(2))->method('hasQuery')->will($this->returnValue(false));
 
-        $this->_cacheStateMock->expects($this->once())
-            ->method('isEnabled')->with('full_page')->will($this->returnValue(true));
+        $this->_cacheStateMock->expects(
+            $this->once()
+        )->method(
+            'isEnabled'
+        )->with(
+            'full_page'
+        )->will(
+            $this->returnValue(true)
+        );
 
         $this->assertTrue($this->_model->isAllowed($this->_requestId));
     }

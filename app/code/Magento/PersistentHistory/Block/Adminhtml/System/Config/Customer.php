@@ -38,16 +38,23 @@ class Customer extends \Magento\Backend\Block\System\Config\Form\Field
             PersistentCustomerSegmentation = Class.create();
             PersistentCustomerSegmentation.prototype = {
                 initialize : function () {
-                    this._element = $("'.$elementId.'");
+                    this._element = $("' .
+            $elementId .
+            '");
                     var funcTrackOnChangeShoppingCart = this.trackOnChangeShoppingCart.bind(this);
                     document.observe("dom:loaded", funcTrackOnChangeShoppingCart);
-                    $("'.$optionShoppingCartId.'").observe("change", funcTrackOnChangeShoppingCart);
-                    $("'.$optionEnabled.'").observe("change", function() {
+                    $("' .
+            $optionShoppingCartId .
+            '").observe("change", funcTrackOnChangeShoppingCart);
+                    $("' .
+            $optionEnabled .
+            '").observe("change", function() {
                         setTimeout(funcTrackOnChangeShoppingCart, 1);
-                    });'
-                    .(($addInheritCheckbox)?
-                        '$("'.$elementId.'_inherit").observe("change", funcTrackOnChangeShoppingCart);' : '')
-                .'},
+                    });' .
+            ($addInheritCheckbox ? '$("' .
+            $elementId .
+            '_inherit").observe("change", funcTrackOnChangeShoppingCart);' : '') .
+            '},
 
                 disable: function() {
                     this._element.disabled = true;
@@ -59,14 +66,22 @@ class Customer extends \Magento\Backend\Block\System\Config\Form\Field
                 },
 
                 trackOnChangeShoppingCart: function() {
-                    if ($("'.$optionEnabled.'").value == 1 && $("'.$optionShoppingCartId.'").value == 1 ) {
+                    if ($("' .
+            $optionEnabled .
+            '").value == 1 && $("' .
+            $optionShoppingCartId .
+            '").value == 1 ) {
                          this.disable();
                     } else {
-                        '.(($addInheritCheckbox)? 'if ($("'.$elementId.'_inherit").checked) {
+                        ' .
+            ($addInheritCheckbox ? 'if ($("' .
+            $elementId .
+            '_inherit").checked) {
                             this.disable();
                         } else {
                             this.enable();
-                        }' : 'this.enable();' ).'
+                        }' : 'this.enable();') .
+            '
 
                     }
                 }
@@ -74,6 +89,6 @@ class Customer extends \Magento\Backend\Block\System\Config\Form\Field
         var persistentCustomerSegmentation = new PersistentCustomerSegmentation();
         </script>';
 
-        return parent::render($element).$html;
+        return parent::render($element) . $html;
     }
 }

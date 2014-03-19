@@ -10,4 +10,4 @@
  */
 
 $type = 'upsell';
-include(__DIR__ . '/related.php');
+include __DIR__ . '/related.php';

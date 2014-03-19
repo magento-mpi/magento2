@@ -23,14 +23,14 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      *
      * @var int
      */
-    protected $_ratingLimit        = 5;
+    protected $_ratingLimit = 5;
 
     /**
      * Columns for select
      *
      * @var array
      */
-    protected $_selectedColumns    = array();
+    protected $_selectedColumns = array();
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -66,11 +66,11 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                 $this->_selectedColumns = $this->getAggregatedColumns();
             } else {
                 $this->_selectedColumns = array(
-                    'period'         =>  sprintf('MAX(%s)', $adapter->getDateFormatSql('period', '%Y-%m-%d')),
-                    'qty_ordered'    => 'SUM(qty_ordered)',
-                    'product_id'     => 'product_id',
-                    'product_name'   => 'MAX(product_name)',
-                    'product_price'  => 'MAX(product_price)',
+                    'period' => sprintf('MAX(%s)', $adapter->getDateFormatSql('period', '%Y-%m-%d')),
+                    'qty_ordered' => 'SUM(qty_ordered)',
+                    'product_id' => 'product_id',
+                    'product_name' => 'MAX(product_name)',
+                    'product_price' => 'MAX(product_price)'
                 );
                 if ('year' == $this->_period) {
                     $this->_selectedColumns['period'] = $adapter->getDateFormatSql('period', '%Y');
@@ -92,15 +92,24 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     protected function _makeBoundarySelect($from, $to)
     {
         $adapter = $this->getConnection();
-        $cols    = $this->_getSelectedColumns();
+        $cols = $this->_getSelectedColumns();
         $cols['qty_ordered'] = 'SUM(qty_ordered)';
-        $sel     = $adapter->select()
-            ->from($this->getResource()->getMainTable(), $cols)
-            ->where('period >= ?', $from)
-            ->where('period <= ?', $to)
-            ->group('product_id')
-            ->order('qty_ordered DESC')
-            ->limit($this->_ratingLimit);
+        $sel = $adapter->select()->from(
+            $this->getResource()->getMainTable(),
+            $cols
+        )->where(
+            'period >= ?',
+            $from
+        )->where(
+            'period <= ?',
+            $to
+        )->group(
+            'product_id'
+        )->order(
+            'qty_ordered DESC'
+        )->limit(
+            $this->_ratingLimit
+        );
 
         $this->_applyStoresFilterToSelect($sel);
 
@@ -130,12 +139,21 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
             //exclude removed products
             $subSelect = $this->getConnection()->select();
-            $subSelect->from(array('existed_products' => $this->getTable('catalog_product_entity')), new \Zend_Db_Expr('1)'));
+            $subSelect->from(
+                array('existed_products' => $this->getTable('catalog_product_entity')),
+                new \Zend_Db_Expr('1)')
+            );
 
-            $select->exists($subSelect, $mainTable . '.product_id = existed_products.entity_id')
-                ->group('product_id')
-                ->order('qty_ordered ' . \Magento\DB\Select::SQL_DESC)
-                ->limit($this->_ratingLimit);
+            $select->exists(
+                $subSelect,
+                $mainTable . '.product_id = existed_products.entity_id'
+            )->group(
+                'product_id'
+            )->order(
+                'qty_ordered ' . \Magento\DB\Select::SQL_DESC
+            )->limit(
+                $this->_ratingLimit
+            );
 
             return $this;
         }
@@ -183,8 +201,12 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             $storeIds = array($storeIds);
         }
         $currentStoreIds = $this->_storesIds;
-        if (isset($currentStoreIds) && $currentStoreIds != \Magento\Core\Model\Store::DEFAULT_STORE_ID
-            && $currentStoreIds != array(\Magento\Core\Model\Store::DEFAULT_STORE_ID)) {
+        if (isset(
+            $currentStoreIds
+        ) && $currentStoreIds != \Magento\Core\Model\Store::DEFAULT_STORE_ID && $currentStoreIds != array(
+            \Magento\Core\Model\Store::DEFAULT_STORE_ID
+        )
+        ) {
             if (!is_array($currentStoreIds)) {
                 $currentStoreIds = array($currentStoreIds);
             }
@@ -213,9 +235,9 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             $selectUnions = array();
 
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
-            $dtFormat   = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
-            $periodFrom = (!is_null($this->_from) ? new \Magento\Stdlib\DateTime\Date($this->_from, $dtFormat) : null);
-            $periodTo   = (!is_null($this->_to)   ? new \Magento\Stdlib\DateTime\Date($this->_to,   $dtFormat) : null);
+            $dtFormat = \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
+            $periodFrom = !is_null($this->_from) ? new \Magento\Stdlib\DateTime\Date($this->_from, $dtFormat) : null;
+            $periodTo = !is_null($this->_to) ? new \Magento\Stdlib\DateTime\Date($this->_to, $dtFormat) : null;
             if ('year' == $this->_period) {
 
                 if ($periodFrom) {
@@ -231,11 +253,15 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                             );
 
                             // first day of the next year
-                            $this->_from = $periodFrom->getDate()
-                                ->addYear(1)
-                                ->setMonth(1)
-                                ->setDay(1)
-                                ->toString($dtFormat);
+                            $this->_from = $periodFrom->getDate()->addYear(
+                                1
+                            )->setMonth(
+                                1
+                            )->setDay(
+                                1
+                            )->toString(
+                                $dtFormat
+                            );
                         }
                     }
                 }
@@ -243,7 +269,8 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                 if ($periodTo) {
                     // not the last day of the year
                     if ($periodTo->toValue(\Zend_Date::MONTH) != 12 || $periodTo->toValue(\Zend_Date::DAY) != 31) {
-                        $dtFrom = $periodTo->getDate()->setMonth(1)->setDay(1);  // first day of the year
+                        $dtFrom = $periodTo->getDate()->setMonth(1)->setDay(1);
+                        // first day of the year
                         $dtTo = $periodTo->getDate();
                         if (!$periodFrom || $dtFrom->isLater($periodFrom)) {
                             $selectUnions[] = $this->_makeBoundarySelect(
@@ -252,11 +279,15 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                             );
 
                             // last day of the previous year
-                            $this->_to = $periodTo->getDate()
-                                ->subYear(1)
-                                ->setMonth(12)
-                                ->setDay(31)
-                                ->toString($dtFormat);
+                            $this->_to = $periodTo->getDate()->subYear(
+                                1
+                            )->setMonth(
+                                12
+                            )->setDay(
+                                31
+                            )->toString(
+                                $dtFormat
+                            );
                         }
                     }
                 }
@@ -274,8 +305,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                         $this->getSelect()->where('1<>1');
                     }
                 }
-
-            } else if ('month' == $this->_period) {
+            } elseif ('month' == $this->_period) {
                 if ($periodFrom) {
                     // not the first day of the month
                     if ($periodFrom->toValue(\Zend_Date::DAY) != 1) {
@@ -297,7 +327,8 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                 if ($periodTo) {
                     // not the last day of the month
                     if ($periodTo->toValue(\Zend_Date::DAY) != $periodTo->toValue(\Zend_Date::MONTH_DAYS)) {
-                        $dtFrom = $periodTo->getDate()->setDay(1);  // first day of the month
+                        $dtFrom = $periodTo->getDate()->setDay(1);
+                        // first day of the month
                         $dtTo = $periodTo->getDate();
                         if (!$periodFrom || $dtFrom->isLater($periodFrom)) {
                             $selectUnions[] = $this->_makeBoundarySelect(
@@ -313,8 +344,15 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
                 if ($periodFrom && $periodTo) {
                     // the same month
-                    if ($periodFrom->toValue(\Zend_Date::YEAR) == $periodTo->toValue(\Zend_Date::YEAR)
-                        && $periodFrom->toValue(\Zend_Date::MONTH) == $periodTo->toValue(\Zend_Date::MONTH)
+                    if ($periodFrom->toValue(
+                        \Zend_Date::YEAR
+                    ) == $periodTo->toValue(
+                        \Zend_Date::YEAR
+                    ) && $periodFrom->toValue(
+                        \Zend_Date::MONTH
+                    ) == $periodTo->toValue(
+                        \Zend_Date::MONTH
+                    )
                     ) {
                         $dtFrom = $periodFrom->getDate();
                         $dtTo = $periodTo->getDate();
@@ -326,7 +364,6 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                         $this->getSelect()->where('1<>1');
                     }
                 }
-
             }
 
             $this->_applyDateRangeFilter();

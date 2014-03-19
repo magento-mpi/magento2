@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\MultipleWishlist\Block\Adminhtml\Manage\Accordion;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Wishlist
-    extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
+class Wishlist extends \Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion\Wishlist
 {
     /**
      * Item collection factory
@@ -44,14 +42,7 @@ class Wishlist
         array $data = array()
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        parent::__construct(
-            $context,
-            $backendHelper,
-            $collectionFactory,
-            $coreRegistry,
-            $itemFactory,
-            $data
-        );
+        parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $itemFactory, $data);
     }
 
     /**
@@ -71,11 +62,10 @@ class Wishlist
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('wishlist_name', array(
-            'header'    => __('Wishlist'),
-            'index'     => 'wishlist_name',
-            'sortable'  => false
-        ));
+        $this->addColumn(
+            'wishlist_name',
+            array('header' => __('Wishlist'), 'index' => 'wishlist_name', 'sortable' => false)
+        );
 
         return parent::_prepareColumns();
     }

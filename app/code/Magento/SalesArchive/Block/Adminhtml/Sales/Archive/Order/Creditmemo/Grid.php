@@ -12,8 +12,7 @@ namespace Magento\SalesArchive\Block\Adminhtml\Sales\Archive\Order\Creditmemo;
 /**
  * Archive creditmemos grid block
  */
-class Grid
-    extends \Magento\Sales\Block\Adminhtml\Creditmemo\Grid
+class Grid extends \Magento\Sales\Block\Adminhtml\Creditmemo\Grid
 {
     /**
      * Core url
@@ -69,7 +68,7 @@ class Grid
      */
     public function getGridUrl()
     {
-         return $this->getUrl('adminhtml/*/creditmemosgrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/creditmemosgrid', array('_current' => true));
     }
 
     /**

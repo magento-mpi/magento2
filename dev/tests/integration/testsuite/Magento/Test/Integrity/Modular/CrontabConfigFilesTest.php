@@ -15,10 +15,7 @@ class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/group'     => 'id',
-        '/config/group/job' => 'name',
-    );
+    protected $_idAttributes = array('/config/group' => 'id', '/config/group/job' => 'name');
 
     /**
      * Path to tough XSD for merged file validation

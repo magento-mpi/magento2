@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Locale;
 
 interface FormatInterface
@@ -36,5 +35,4 @@ interface FormatInterface
      * @return array
      */
     public function getPriceFormat();
-
 }

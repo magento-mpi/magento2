@@ -7,11 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Rule\Block;
 
 class Rule extends \Magento\View\Element\AbstractBlock
 {
-
 }

@@ -26,7 +26,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
         '/logging/groups/group/events/event/skip_on_back/controller_action' => 'name',
         '/logging/groups/group/expected_models/expected_model' => 'class',
         '/logging/groups/group/expected_models/expected_model/additional_fields/field' => 'name',
-        '/logging/groups/group/expected_models/expected_model/skip_fields/field' => 'name',
+        '/logging/groups/group/expected_models/expected_model/skip_fields/field' => 'name'
     );
 
     /**

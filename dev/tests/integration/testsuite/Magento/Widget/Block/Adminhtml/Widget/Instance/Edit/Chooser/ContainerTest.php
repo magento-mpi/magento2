@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
@@ -25,8 +24,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container'
+        );
     }
 
     public function testSetGetAllowedContainers()

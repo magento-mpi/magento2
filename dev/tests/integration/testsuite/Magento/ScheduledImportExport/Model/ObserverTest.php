@@ -16,23 +16,32 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testScheduledLogClean()
     {
-        $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\ScheduledImportExport\Model\Scheduled\OperationFactory');
-        $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Mail\Template\TransportBuilder');
-        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManager');
-        $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Store\Config');
-        $filesystem =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Filesystem');
+        $operationFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\ScheduledImportExport\Model\Scheduled\OperationFactory'
+        );
+        $transportBuilder = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Mail\Template\TransportBuilder'
+        );
+        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManager'
+        );
+        $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\Store\Config'
+        );
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(
-            $operationFactory, $transportBuilder, $storeConfig, $storeManager, $filesystem
+            $operationFactory,
+            $transportBuilder,
+            $storeConfig,
+            $storeManager,
+            $filesystem
         );
         $model->scheduledLogClean('not_used', true);
 
-        $this->assertFileExists($filesystem->getPath(\Magento\App\Filesystem::LOG_DIR)
-            . '/' . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
+        $this->assertFileExists(
+            $filesystem->getPath(
+                \Magento\App\Filesystem::LOG_DIR
+            ) . '/' . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );
     }
 }

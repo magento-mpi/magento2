@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Export;
 
 /**
@@ -47,5 +46,4 @@ interface RowCustomizerInterface
      * @return mixed
      */
     public function getAdditionalRowsCount($additionalRowsCount, $productId);
-
 }

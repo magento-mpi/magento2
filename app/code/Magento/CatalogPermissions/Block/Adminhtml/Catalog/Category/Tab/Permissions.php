@@ -102,12 +102,16 @@ class Permissions extends AbstractCategory implements TabInterface
     {
         $this->addChild('row', 'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row');
 
-        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('New Permission'),
-            'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
-            'type'  => 'button',
-            'disabled' => $this->isReadonly()
-        ));
+        $this->addChild(
+            'add_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('New Permission'),
+                'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
+                'type' => 'button',
+                'disabled' => $this->isReadonly()
+            )
+        );
 
         return parent::_prepareLayout();
     }
@@ -156,9 +160,13 @@ class Permissions extends AbstractCategory implements TabInterface
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = $this->_permissionCollectionFactory->create()
-                ->addFieldToFilter('category_id', $this->getCategoryId())
-                ->setOrder('permission_id', 'asc');
+            $collection = $this->_permissionCollectionFactory->create()->addFieldToFilter(
+                'category_id',
+                $this->getCategoryId()
+            )->setOrder(
+                'permission_id',
+                'asc'
+            );
             $this->setData('permisssion_collection', $collection);
         }
 
@@ -175,16 +183,14 @@ class Permissions extends AbstractCategory implements TabInterface
         $categoryId = null;
         if ($this->getCategoryId()) {
             $categoryId = $this->getCategory()->getParentId();
-        }
-        elseif ($this->getRequest()->getParam('parent')) {
+        } elseif ($this->getRequest()->getParam('parent')) {
             // parent category
             $categoryId = $this->getRequest()->getParam('parent');
         }
 
         $permissions = array();
         if ($categoryId) {
-            $index  = $this->_permIndexFactory->create()
-                ->getIndexForCategory($categoryId, null, null);
+            $index = $this->_permIndexFactory->create()->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
                 $permissions[$permissionKey] = array(
@@ -196,10 +202,10 @@ class Permissions extends AbstractCategory implements TabInterface
         }
 
         $websites = $this->_storeManager->getWebsites(false);
-        $groups   = $this->_groupCollectionFactory->create()->getAllIds();
+        $groups = $this->_groupCollectionFactory->create()->getAllIds();
 
         /* @var $helper Data */
-        $helper   = $this->_catalogPermData;
+        $helper = $this->_catalogPermData;
 
         $parent = (string)Permission::PERMISSION_PARENT;
         $allow = (string)Permission::PERMISSION_ALLOW;
@@ -212,7 +218,7 @@ class Permissions extends AbstractCategory implements TabInterface
 
                 $store = $website->getDefaultStore();
                 $category = $helper->isAllowedCategoryView($store, $groupId);
-                $product  = $helper->isAllowedProductPrice($store, $groupId);
+                $product = $helper->isAllowedProductPrice($store, $groupId);
                 $checkout = $helper->isAllowedCheckoutItems($store, $groupId);
 
                 $permissionKey = $websiteId . '_' . $groupId;
@@ -226,9 +232,9 @@ class Permissions extends AbstractCategory implements TabInterface
                     // validate and rewrite parent values for exists data
                     $data = $permissions[$permissionKey];
                     $permissions[$permissionKey] = array(
-                        'category' => $data['category'] == $parent ? ($category ? $allow : $deny) : $data['category'],
-                        'product' => $data['product'] == $parent ? ($checkout ? $allow : $deny) : $data['product'],
-                        'checkout' => $data['checkout'] == $parent ? ($product ? $allow : $deny) : $data['checkout'],
+                        'category' => $data['category'] == $parent ? $category ? $allow : $deny : $data['category'],
+                        'product' => $data['product'] == $parent ? $checkout ? $allow : $deny : $data['product'],
+                        'checkout' => $data['checkout'] == $parent ? $product ? $allow : $deny : $data['checkout']
                     );
                 }
             }
@@ -266,8 +272,9 @@ class Permissions extends AbstractCategory implements TabInterface
     {
         $canShow = $this->getCanShowTab();
         if (is_null($canShow)) {
-            $canShow = $this->_authorization
-                ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions');
+            $canShow = $this->_authorization->isAllowed(
+                'Magento_CatalogPermissions::catalog_magento_catalogpermissions'
+            );
         }
         return $canShow;
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
 /**
@@ -14,8 +13,11 @@ namespace Magento\Customer\Service\V1;
 interface CustomerMetadataServiceInterface
 {
     const ATTRIBUTE_SET_ID_CUSTOMER = 1;
+
     const ATTRIBUTE_SET_ID_ADDRESS = 2;
+
     const ENTITY_TYPE_CUSTOMER = 'customer';
+
     const ENTITY_TYPE_ADDRESS = 'customer_address';
 
     /**

@@ -59,26 +59,26 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     public function getAddressHtmlSelect($domId = 'address_type_or_id')
     {
         if ($this->isCustomerLoggedIn()) {
-            $options = array(array(
-                'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE,
-                'label' => __('None')
-            ));
+            $options = array(array('value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NONE, 'label' => __('None')));
             foreach ($this->getCustomer()->getAddresses() as $address) {
-                $options[] = array(
-                    'value' => $address->getId(),
-                    'label' => $address->format('oneline')
-                );
+                $options[] = array('value' => $address->getId(), 'label' => $address->format('oneline'));
             }
             $options[] = array(
                 'value' => \Magento\GiftRegistry\Helper\Data::ADDRESS_NEW,
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-                ->setName('address_type_or_id')
-                ->setId($domId)
-                ->setClass('address-select')
-                ->setOptions($options);
+            $select = $this->getLayout()->createBlock(
+                'Magento\View\Element\Html\Select'
+            )->setName(
+                'address_type_or_id'
+            )->setId(
+                $domId
+            )->setClass(
+                'address-select'
+            )->setOptions(
+                $options
+            );
 
             return $select->getHtml();
         }

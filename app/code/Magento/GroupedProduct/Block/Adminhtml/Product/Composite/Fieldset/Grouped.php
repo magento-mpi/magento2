@@ -16,10 +16,8 @@ namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Grouped
-    extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
+class Grouped extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
 {
-
     /**
      * @var \Magento\Catalog\Helper\Product\Price
      */
@@ -140,8 +138,7 @@ class Grouped
     public function getAssociatedProducts()
     {
         $product = $this->getProduct();
-        $result = $product->getTypeInstance()
-            ->getAssociatedProducts($product);
+        $result = $product->getTypeInstance()->getAssociatedProducts($product);
 
         $storeId = $product->getStoreId();
         foreach ($result as $item) {
@@ -150,7 +147,6 @@ class Grouped
 
         return $result;
     }
-
 
     /**
      * Set preconfigured values to grouped associated products

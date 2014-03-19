@@ -12,8 +12,7 @@ namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Order;
 /**
  * Customer Order Address resource model
  */
-class Address
-    extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
+class Address extends \Magento\CustomerCustomAttributes\Model\Resource\Sales\Address\AbstractAddress
 {
     /**
      * Main entity resource model

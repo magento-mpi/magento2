@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Resource;
 
 class Crawler extends \Magento\Core\Model\Resource\Db\AbstractDb
@@ -31,10 +30,15 @@ class Crawler extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getUrlsPaths($storeId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('core_url_rewrite'), array('request_path'))
-            ->where('store_id=?', $storeId)
-            ->where('is_system=1');
+        $select = $adapter->select()->from(
+            $this->getTable('core_url_rewrite'),
+            array('request_path')
+        )->where(
+            'store_id=?',
+            $storeId
+        )->where(
+            'is_system=1'
+        );
         return $adapter->fetchCol($select);
     }
 }

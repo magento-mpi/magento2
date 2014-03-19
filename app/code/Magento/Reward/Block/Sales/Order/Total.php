@@ -79,16 +79,20 @@ class Total extends \Magento\View\Element\Template
      */
     public function initTotals()
     {
-        if ((float) $this->getOrder()->getBaseRewardCurrencyAmount()) {
+        if ((double)$this->getOrder()->getBaseRewardCurrencyAmount()) {
             $source = $this->getSource();
-            $value  = - $source->getRewardCurrencyAmount();
+            $value = -$source->getRewardCurrencyAmount();
 
-            $this->getParentBlock()->addTotal(new \Magento\Object(array(
-                'code'   => 'reward_points',
-                'strong' => false,
-                'label'  => $this->_rewardData->formatReward($source->getRewardPointsBalance()),
-                'value'  => $source instanceof \Magento\Sales\Model\Order\Creditmemo  ? - $value : $value
-            )));
+            $this->getParentBlock()->addTotal(
+                new \Magento\Object(
+                    array(
+                        'code' => 'reward_points',
+                        'strong' => false,
+                        'label' => $this->_rewardData->formatReward($source->getRewardPointsBalance()),
+                        'value' => $source instanceof \Magento\Sales\Model\Order\Creditmemo ? -$value : $value
+                    )
+                )
+            );
         }
 
         return $this;

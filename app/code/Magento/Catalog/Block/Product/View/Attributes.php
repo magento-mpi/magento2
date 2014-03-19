@@ -51,7 +51,7 @@ class Attributes extends \Magento\View\Element\Template
     /**
      * @return Product
      */
-    function getProduct()
+    public function getProduct()
     {
         if (!$this->_product) {
             $this->_product = $this->_coreRegistry->registry('product');
@@ -87,7 +87,7 @@ class Attributes extends \Magento\View\Element\Template
                     $data[$attribute->getAttributeCode()] = array(
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'code'  => $attribute->getAttributeCode()
+                        'code' => $attribute->getAttributeCode()
                     );
                 }
             }

@@ -15,7 +15,6 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Newsletter\Block\Adminhtml;
 
 use Magento\Newsletter\Model\Resource\Queue\Collection;
@@ -72,7 +71,9 @@ class Subscriber extends \Magento\Backend\Block\Template
     {
         if (is_null($this->_queueCollection)) {
             /** @var $this->_queueCollection \Magento\Newsletter\Model\Resource\Queue\Collection */
-            $this->_queueCollection = $this->_collectionFactory->create()
+            $this->_queueCollection = $this
+                ->_collectionFactory
+                ->create()
                 ->addTemplateInfo()
                 ->addOnlyUnsentFilter()
                 ->load();

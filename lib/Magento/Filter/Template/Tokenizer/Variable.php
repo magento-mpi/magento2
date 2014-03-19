@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter\Template\Tokenizer;
 
 /**
@@ -35,19 +34,15 @@ class Variable extends \Magento\Filter\Template\Tokenizer\AbstractTokenizer
             } elseif ($this->char() == '(') {
                 // Method declaration
                 $methodArgs = $this->getMethodArgs();
-                $actions[] = array('type' => 'method',
-                                   'name' => $parameterName,
-                                   'args' => $methodArgs);
+                $actions[] = array('type' => 'method', 'name' => $parameterName, 'args' => $methodArgs);
                 $parameterName = '';
             } elseif ($parameterName != '') {
                 // Property or variable declaration
                 if ($variableSet) {
-                    $actions[] = array('type' => 'property',
-                                       'name' => $parameterName);
+                    $actions[] = array('type' => 'property', 'name' => $parameterName);
                 } else {
                     $variableSet = true;
-                    $actions[] = array('type' => 'variable',
-                                       'name' => $parameterName);
+                    $actions[] = array('type' => 'variable', 'name' => $parameterName);
                 }
                 $parameterName = '';
             }
@@ -55,11 +50,9 @@ class Variable extends \Magento\Filter\Template\Tokenizer\AbstractTokenizer
 
         if ($parameterName != '') {
             if ($variableSet) {
-                    $actions[] = array('type' => 'property',
-                                       'name' => $parameterName);
+                $actions[] = array('type' => 'property', 'name' => $parameterName);
             } else {
-                $actions[] = array('type' => 'variable',
-                                   'name' => $parameterName);
+                $actions[] = array('type' => 'variable', 'name' => $parameterName);
             }
         }
 
@@ -80,10 +73,10 @@ class Variable extends \Magento\Filter\Template\Tokenizer\AbstractTokenizer
         $qouteStart = $this->isQuote();
 
         if ($qouteStart) {
-           $breakSymbol = $this->char();
+            $breakSymbol = $this->char();
         } else {
-           $breakSymbol = false;
-           $value .= $this->char();
+            $breakSymbol = false;
+            $value .= $this->char();
         }
 
         while ($this->next()) {
@@ -134,7 +127,7 @@ class Variable extends \Magento\Filter\Template\Tokenizer\AbstractTokenizer
         while ($this->next() && $this->char() != ')') {
             if ($this->isWhiteSpace() || $this->char() == ',') {
                 continue;
-            } elseif($this->isNumeric()) {
+            } elseif ($this->isNumeric()) {
                 $value[] = $this->getNumber();
             } else {
                 $value[] = $this->getString();

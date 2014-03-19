@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Response;
+
 use Magento\App\RequestInterface;
-use \Magento\Core\Model,
-    \Magento\Core\Helper;
+use Magento\Core\Model;
+use Magento\Core\Helper;
 
 class Plugin
 {
@@ -66,9 +66,7 @@ class Plugin
         if ($httpHost != $urlHost && $this->messageManager->getMessages()->getCount() > 0) {
             $url = $this->_urlHelper->addRequestParam(
                 $url,
-                array(
-                    \Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM => null
-                )
+                array(\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM => null)
             );
         }
         return array('url' => $url, 'code' => $code);

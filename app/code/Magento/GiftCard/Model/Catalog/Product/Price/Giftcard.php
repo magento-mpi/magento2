@@ -48,7 +48,6 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
         parent::__construct($ruleFactory, $storeManager, $localeDate, $customerSession, $eventManager);
     }
 
-
     /**
      * Return price of the specified product
      *
@@ -104,9 +103,8 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             }
         }
 
-        return ($prices) ? $prices : array();
+        return $prices ? $prices : array();
     }
-
 
     /**
      * Return minimal amount for Giftcard product
@@ -197,7 +195,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
                 }
             }
 
-            $this->_minMaxCache[$product->getId()] = array('min'=>$min, 'max'=>$max);
+            $this->_minMaxCache[$product->getId()] = array('min' => $min, 'max' => $max);
         }
         return $this->_minMaxCache[$product->getId()];
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Filesystem\DirectoryList;
 
 use Magento\App\State;
@@ -39,7 +38,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                     \Magento\App\Filesystem::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, true, 'base_dir/var/session')
-                ),
+                )
             ),
             'with_not_existing_dirs' => array(
                 State::MODE_DEFAULT,
@@ -47,7 +46,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                     \Magento\App\Filesystem::CACHE_DIR => array(false, true, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(false, true, 'base_dir/var/session')
-                ),
+                )
             ),
             'production mode' => array(
                 State::MODE_PRODUCTION,
@@ -55,8 +54,8 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                     \Magento\App\Filesystem::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, true, 'base_dir/var/session')
-                ),
-            ),
+                )
+            )
         );
     }
 
@@ -88,7 +87,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                     \Magento\App\Filesystem::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, false, 'base_dir/var/session')
-                ),
+                )
             )
         );
     }
@@ -121,7 +120,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
                     \Magento\App\Filesystem::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, false, 'base_dir/var/session', true)
-                ),
+                )
             )
         );
     }
@@ -137,9 +136,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getFilesystemMock($expectedDirs);
         $appState = $this->getMock('Magento\App\State', array('getMode'), array(), '', false);
-        $appState->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue($mode));
+        $appState->expects($this->once())->method('getMode')->will($this->returnValue($mode));
         return new Verification($filesystem, $appState);
     }
 
@@ -164,9 +161,13 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             $directory = $this->getDirectoryMock($config[0], $config[1], $config[2], $createException);
             $valueMap[] = array($code, $directory);
         }
-        $filesystem->expects($this->exactly(count($dirsToVerify)))
-            ->method('getDirectoryWrite')
-            ->will($this->returnValueMap($valueMap));
+        $filesystem->expects(
+            $this->exactly(count($dirsToVerify))
+        )->method(
+            'getDirectoryWrite'
+        )->will(
+            $this->returnValueMap($valueMap)
+        );
 
         return $filesystem;
     }
@@ -189,30 +190,27 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $directory->expects($this->once())
-            ->method('isExist')
-            ->will($this->returnValue($existing));
+        $directory->expects($this->once())->method('isExist')->will($this->returnValue($existing));
 
         if (!$existing) {
             if (!$createException) {
-                $directory->expects($this->once())
-                    ->method('create');
+                $directory->expects($this->once())->method('create');
             } else {
-                $directory->expects($this->once())
-                    ->method('create')
-                    ->will($this->throwException(new \Magento\Filesystem\FilesystemException('')));
+                $directory->expects(
+                    $this->once()
+                )->method(
+                    'create'
+                )->will(
+                    $this->throwException(new \Magento\Filesystem\FilesystemException(''))
+                );
             }
             return $directory;
         }
 
-        $directory->expects($this->once())
-            ->method('isWritable')
-            ->will($this->returnValue($writable));
+        $directory->expects($this->once())->method('isWritable')->will($this->returnValue($writable));
 
         if (!$writable) {
-            $directory->expects($this->once())
-                ->method('getAbsolutePath')
-                ->will($this->returnValue($absolutePath));
+            $directory->expects($this->once())->method('getAbsolutePath')->will($this->returnValue($absolutePath));
         }
 
         return $directory;

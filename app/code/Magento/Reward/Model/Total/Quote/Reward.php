@@ -60,12 +60,8 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
 
         if (!$quote->getRewardPointsTotalReseted() && $address->getBaseGrandTotal() > 0) {
-            $quote->setRewardPointsBalance(0)
-                ->setRewardCurrencyAmount(0)
-                ->setBaseRewardCurrencyAmount(0);
-            $address->setRewardPointsBalance(0)
-                ->setRewardCurrencyAmount(0)
-                ->setBaseRewardCurrencyAmount(0);
+            $quote->setRewardPointsBalance(0)->setRewardCurrencyAmount(0)->setBaseRewardCurrencyAmount(0);
+            $address->setRewardPointsBalance(0)->setRewardCurrencyAmount(0)->setBaseRewardCurrencyAmount(0);
             $quote->setRewardPointsTotalReseted(true);
         }
 
@@ -73,14 +69,18 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $quote->getRewardInstance();
             if (!$reward || !$reward->getId()) {
-                $reward = $this->_rewardFactory->create()
-                    ->setCustomer($quote->getCustomer())
-                    ->setCustomerId($quote->getCustomer()->getId())
-                    ->setWebsiteId($quote->getStore()->getWebsiteId())
-                    ->loadByCustomer();
+                $reward = $this->_rewardFactory->create()->setCustomer(
+                    $quote->getCustomer()
+                )->setCustomerId(
+                    $quote->getCustomer()->getId()
+                )->setWebsiteId(
+                    $quote->getStore()->getWebsiteId()
+                )->loadByCustomer();
             }
             $pointsLeft = $reward->getPointsBalance() - $quote->getRewardPointsBalance();
-            $rewardCurrencyAmountLeft = ($quote->getStore()->convertPrice($reward->getCurrencyAmount())) - $quote->getRewardCurrencyAmount();
+            $rewardCurrencyAmountLeft = $quote->getStore()->convertPrice(
+                $reward->getCurrencyAmount()
+            ) - $quote->getRewardCurrencyAmount();
             $baseRewardCurrencyAmountLeft = $reward->getCurrencyAmount() - $quote->getBaseRewardCurrencyAmount();
             if ($baseRewardCurrencyAmountLeft >= $address->getBaseGrandTotal()) {
                 $pointsBalanceUsed = $reward->getPointsEquivalent($address->getBaseGrandTotal());
@@ -124,11 +124,13 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             return $this;
         }
         if ($address->getRewardCurrencyAmount()) {
-            $address->addTotal(array(
-                'code'  => $this->getCode(),
-                'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
-                'value' => -$address->getRewardCurrencyAmount()
-            ));
+            $address->addTotal(
+                array(
+                    'code' => $this->getCode(),
+                    'title' => $this->_rewardData->formatReward($address->getRewardPointsBalance()),
+                    'value' => -$address->getRewardCurrencyAmount()
+                )
+            );
         }
         return $this;
     }

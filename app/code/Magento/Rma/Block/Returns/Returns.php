@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Returns;
 
 class Returns extends \Magento\View\Element\Template
@@ -75,10 +74,15 @@ class Returns extends \Magento\View\Element\Template
         if ($this->_rmaData->isEnabled()) {
             $this->setTemplate('return/returns.phtml');
             /** @var $returns \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $returns = $this->_collectionFactory->create()
-                ->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', $this->_coreRegistry->registry('current_order')->getId())
-                ->setOrder('date_requested', 'desc');
+            $returns = $this->_collectionFactory->create()->addFieldToSelect(
+                '*'
+            )->addFieldToFilter(
+                'order_id',
+                $this->_coreRegistry->registry('current_order')->getId()
+            )->setOrder(
+                'date_requested',
+                'desc'
+            );
 
             if ($this->_customerSession->isLoggedIn()) {
                 $returns->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId());
@@ -96,9 +100,12 @@ class Returns extends \Magento\View\Element\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()
-            ->createBlock('Magento\Theme\Block\Html\Pager', 'sales.order.history.pager')
-            ->setCollection($this->getReturns());
+        $pager = $this->getLayout()->createBlock(
+            'Magento\Theme\Block\Html\Pager',
+            'sales.order.history.pager'
+        )->setCollection(
+            $this->getReturns()
+        );
         $this->setChild('pager', $pager);
         $this->getReturns()->load();
         return $this;
@@ -154,6 +161,6 @@ class Returns extends \Magento\View\Element\Template
      */
     public function getPrintUrl($order)
     {
-         return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
     }
 }

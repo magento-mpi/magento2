@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Theme;
 
 class XmlFilesTest extends \PHPUnit_Framework_TestCase
@@ -36,9 +35,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function viewConfigFileDataProvider()
     {
         $result = array();
-        $files = glob(
-            $this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/view.xml'
-        );
+        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/view.xml');
         foreach ($files as $file) {
             $result[$file] = array($file);
         }
@@ -60,9 +57,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function themeConfigFileExistsDataProvider()
     {
         $result = array();
-        $files = glob(
-            $this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*', GLOB_ONLYDIR
-        );
+        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*', GLOB_ONLYDIR);
         foreach ($files as $themeDir) {
             $result[$themeDir] = array($themeDir);
         }
@@ -101,9 +96,7 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
     public function themeConfigFileDataProvider()
     {
         $result = array();
-        $files = glob(
-            $this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/theme.xml'
-        );
+        $files = glob($this->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/*/*/theme.xml');
         foreach ($files as $file) {
             $result[$file] = array($file);
         }
@@ -136,7 +129,10 @@ class XmlFilesTest extends \PHPUnit_Framework_TestCase
      */
     protected function getPath($code)
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Filesystem')->getPath($code);
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem'
+        )->getPath(
+            $code
+        );
     }
 }

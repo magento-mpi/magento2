@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Form\Element;
 
 class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +24,7 @@ class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
         $values = array(
             array('value' => 1, 'label' => 'Value1'),
             array('value' => 2, 'label' => 'Value2'),
-            array('value' => 3, 'label' => 'Value3'),
+            array('value' => 3, 'label' => 'Value3')
         );
         $value = array(1, 3);
         $this->_model->setForm(new \Magento\Object());

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code;
 
 class FilesCollectorTest extends \PHPUnit_Framework_TestCase
@@ -31,19 +30,14 @@ class FilesCollectorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFilesWithoutMask()
     {
-        $expectedResult = array(
-            $this->_testDir . 'default.xml',
-            $this->_testDir . 'file.js',
-        );
+        $expectedResult = array($this->_testDir . 'default.xml', $this->_testDir . 'file.js');
         $files = $this->_filesCollector->getFiles(array($this->_testDir));
         $this->assertEquals($expectedResult, $files);
     }
 
     public function testGetFilesWithMask()
     {
-        $expectedResult = array(
-            $this->_testDir . 'file.js',
-        );
+        $expectedResult = array($this->_testDir . 'file.js');
         $this->assertEquals($expectedResult, $this->_filesCollector->getFiles(array($this->_testDir), '/\.js$/'));
     }
 }

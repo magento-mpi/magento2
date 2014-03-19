@@ -30,47 +30,47 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = false;
+    protected $_canAuthorize = false;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial = false;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = false;
+    protected $_canRefund = false;
 
     /**
      * @var bool
      */
-    protected $_canVoid                 = false;
+    protected $_canVoid = false;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
      */
-    protected $_canSaveCc               = true;
+    protected $_canSaveCc = true;
 
     /**
      * Capturing method being executed via Payment Bridge

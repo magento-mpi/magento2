@@ -24,7 +24,7 @@ interface TokenStorageInterface
     public function hasAccessToken($service);
 
     /**
-    * Delete the users token. Aka, log out.
-    */
+     * Delete the users token. Aka, log out.
+     */
     public function clearToken();
 }

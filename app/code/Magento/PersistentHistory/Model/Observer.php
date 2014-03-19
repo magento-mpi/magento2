@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PersistentHistory\Model;
 
 use Magento\Event\Observer as EventObserver;
@@ -173,8 +172,7 @@ class Observer
      */
     public function emulateCustomer($observer)
     {
-        if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_ePersistentData->isCustomerAndSegmentsPersist()
+        if (!$this->_mPersistentData->canProcess($observer) || !$this->_ePersistentData->isCustomerAndSegmentsPersist()
         ) {
             return $this;
         }
@@ -184,8 +182,7 @@ class Observer
             $customer = $this->_customerFactory->create()->load(
                 $this->_getPersistentHelper()->getSession()->getCustomerId()
             );
-            $this->_customerSession->setCustomerId($customer->getId())
-                ->setCustomerGroupId($customer->getGroupId());
+            $this->_customerSession->setCustomerId($customer->getId())->setCustomerGroupId($customer->getGroupId());
 
             // apply persistent data to segments
             $this->_coreRegistry->register('segment_customer', $customer, true);
@@ -206,9 +203,7 @@ class Observer
     {
         /** @var $salesObserver \Magento\Sales\Model\Observer */
         $salesObserver = $observer->getEvent()->getSalesObserver();
-        $salesObserver->setExpireQuotesAdditionalFilterFields(array(
-            'is_persistent' => 0
-        ));
+        $salesObserver->setExpireQuotesAdditionalFilterFields(array('is_persistent' => 0));
     }
 
     /**
@@ -219,14 +214,15 @@ class Observer
      */
     public function applyPersistentData($observer)
     {
-        if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_isPersistent() || $this->_customerSession->isLoggedIn()
+        if (!$this->_mPersistentData->canProcess(
+            $observer
+        ) || !$this->_isPersistent() || $this->_customerSession->isLoggedIn()
         ) {
             return;
         }
-        $this->_configFactory->create()
-            ->setConfigFilePath($this->_ePersistentData->getPersistentConfigFilePath())
-            ->fire();
+        $this->_configFactory->create()->setConfigFilePath(
+            $this->_ePersistentData->getPersistentConfigFilePath()
+        )->fire();
     }
 
     /**
@@ -235,9 +231,7 @@ class Observer
      */
     public function applyBlockPersistentData($observer)
     {
-        $observer->getEvent()->setConfigFilePath(
-            $this->_ePersistentData->getPersistentConfigFilePath()
-        );
+        $observer->getEvent()->setConfigFilePath($this->_ePersistentData->getPersistentConfigFilePath());
         return $this->_observer->applyBlockPersistentData($observer);
     }
 
@@ -298,9 +292,7 @@ class Observer
             return;
         }
         $customerId = $this->_getCustomerId();
-        $block->getModel()
-            ->setCustomerId($customerId)
-            ->calculate();
+        $block->getModel()->setCustomerId($customerId)->calculate();
         $block->setCustomerId($customerId);
     }
 
@@ -317,9 +309,7 @@ class Observer
         }
         $customerId = $this->_getCustomerId();
         $block->setCustomerId($customerId);
-        $block->getModel()
-            ->setCustomerId($customerId)
-            ->calculate();
+        $block->getModel()->setCustomerId($customerId)->calculate();
     }
 
     /**
@@ -333,9 +323,7 @@ class Observer
         if (!$this->_isCompareProductsPersist()) {
             return;
         }
-        $collection = $block->getCompareProductHelper()
-            ->setCustomerId($this->_getCustomerId())
-            ->getItemCollection();
+        $collection = $block->getCompareProductHelper()->setCustomerId($this->_getCustomerId())->getItemCollection();
         $block->setItems($collection);
     }
 
@@ -376,8 +364,7 @@ class Observer
      */
     public function emulateWishlist($observer)
     {
-        if (!$this->_mPersistentData->canProcess($observer)
-            || !$this->_isPersistent() || !$this->_isWishlistPersist()
+        if (!$this->_mPersistentData->canProcess($observer) || !$this->_isPersistent() || !$this->_isWishlistPersist()
         ) {
             return;
         }
@@ -447,12 +434,15 @@ class Observer
         $eventDataObject = $observer->getEvent()->getDataObject();
 
         if ($eventDataObject->getValue()) {
-            $optionCustomerSegm = $this->_valueFactory->create()
-                ->setScope($eventDataObject->getScope())
-                ->setScopeId($eventDataObject->getScopeId())
-                ->setPath(\Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM)
-                ->setValue(true)
-                ->save();
+            $optionCustomerSegm = $this->_valueFactory->create()->setScope(
+                $eventDataObject->getScope()
+            )->setScopeId(
+                $eventDataObject->getScopeId()
+            )->setPath(
+                \Magento\PersistentHistory\Helper\Data::XML_PATH_PERSIST_CUSTOMER_AND_SEGM
+            )->setValue(
+                true
+            )->save();
         }
     }
 
@@ -492,9 +482,7 @@ class Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        $this->_comparedFactory->create()
-            ->purgeVisitorByCustomer()
-            ->calculate();
+        $this->_comparedFactory->create()->purgeVisitorByCustomer()->calculate();
     }
 
     /**
@@ -507,9 +495,7 @@ class Observer
         if (!$this->_isComparedProductsPersist()) {
             return;
         }
-        $this->_viewedFactory->create()
-            ->purgeVisitorByCustomer()
-            ->calculate();
+        $this->_viewedFactory->create()->purgeVisitorByCustomer()->calculate();
     }
 
     /**

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Mapper;
 
 class SortingTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +27,7 @@ class SortingTest extends \PHPUnit_Framework_TestCase
         $tabs = array(
             'tab_1' => array('sortOrder' => 10),
             'tab_2' => array('sortOrder' => 5),
-            'tab_3' => array('sortOrder' => 1),
+            'tab_3' => array('sortOrder' => 1)
         );
 
         $sections = array(
@@ -49,23 +48,16 @@ class SortingTest extends \PHPUnit_Framework_TestCase
                                 'sortOrder' => 0,
                                 'children' => array(
                                     'field_4' => array('sortOrder' => 200),
-                                    'field_5' => array('sortOrder' => 100),
-                                ),
-                            ),
+                                    'field_5' => array('sortOrder' => 100)
+                                )
+                            )
                         )
-                    ),
-                )
-            ),
-        );
-
-        $data = array(
-            'config' => array(
-                'system' => array(
-                    'tabs' => $tabs,
-                    'sections' => $sections,
+                    )
                 )
             )
         );
+
+        $data = array('config' => array('system' => array('tabs' => $tabs, 'sections' => $sections)));
 
         $expected = array(
             'config' => array(
@@ -73,7 +65,7 @@ class SortingTest extends \PHPUnit_Framework_TestCase
                     'tabs' => array(
                         'tab_3' => array('sortOrder' => 1),
                         'tab_2' => array('sortOrder' => 5),
-                        'tab_1' => array('sortOrder' => 10),
+                        'tab_1' => array('sortOrder' => 10)
                     ),
                     'sections' => array(
                         'section_3' => array('sortOrder' => 1),
@@ -90,19 +82,19 @@ class SortingTest extends \PHPUnit_Framework_TestCase
                                             'sortOrder' => 0,
                                             'children' => array(
                                                 'field_5' => array('sortOrder' => 100),
-                                                'field_4' => array('sortOrder' => 200),
-                                            ),
+                                                'field_4' => array('sortOrder' => 200)
+                                            )
                                         ),
                                         'field_2' => array('sortOrder' => 100),
-                                        'field_1' => array('sortOrder' => 200),
-                                    ),
+                                        'field_1' => array('sortOrder' => 200)
+                                    )
                                 ),
-                                'group_1' => array('sortOrder' => 150),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+                                'group_1' => array('sortOrder' => 150)
+                            )
+                        )
+                    )
+                )
+            )
         );
         $actual = $this->_model->map($data);
         $this->assertEquals($expected, $actual);

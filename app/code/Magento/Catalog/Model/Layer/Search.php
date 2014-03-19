@@ -36,8 +36,14 @@ class Search extends \Magento\Catalog\Model\Layer
         array $data = array()
     ) {
         parent::__construct(
-            $context, $layerStateFactory, $categoryFactory, $attributeCollectionFactory, $catalogProduct,
-            $storeManager, $registry, $data
+            $context,
+            $layerStateFactory,
+            $categoryFactory,
+            $attributeCollectionFactory,
+            $catalogProduct,
+            $storeManager,
+            $registry,
+            $data
         );
     }
-} 
+}

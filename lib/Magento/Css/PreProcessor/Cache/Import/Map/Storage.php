@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache\Import\Map;
 
 use Magento\App\Filesystem;
@@ -28,9 +27,8 @@ class Storage
     /**
      * @param Filesystem $filesystem
      */
-    public function __construct(
-        Filesystem $filesystem
-    ) {
+    public function __construct(Filesystem $filesystem)
+    {
         $this->mapsDirectory = $filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
         if (!$this->mapsDirectory->isDirectory(self::MAPS_DIR)) {
             $this->mapsDirectory->create(self::MAPS_DIR);

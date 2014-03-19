@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Js;
 
 use Magento\Session\Config\ConfigInterface;
@@ -28,11 +27,8 @@ class Cookie extends Template
      * @param ConfigInterface $cookieConfig
      * @param array $data
      */
-    public function __construct(
-        Context $context,
-        ConfigInterface $cookieConfig,
-        array $data = array()
-    ) {
+    public function __construct(Context $context, ConfigInterface $cookieConfig, array $data = array())
+    {
         $this->sessionConfig = $cookieConfig;
         parent::__construct($context, $data);
     }
@@ -45,8 +41,8 @@ class Cookie extends Template
     public function getDomain()
     {
         $domain = $this->sessionConfig->getCookieDomain();
-        if (!empty($domain[0]) && ($domain[0] !== '.')) {
-            $domain = '.'.$domain;
+        if (!empty($domain[0]) && $domain[0] !== '.') {
+            $domain = '.' . $domain;
         }
         return $domain;
     }

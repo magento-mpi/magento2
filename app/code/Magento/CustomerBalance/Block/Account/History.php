@@ -73,12 +73,19 @@ class History extends \Magento\View\Element\Template
             return false;
         }
 
-        $collection = $this->_historyFactory->create()
-                ->getCollection()
-                ->addFieldToFilter('customer_id', $customerId)
-                ->addFieldToFilter('website_id', $this->_storeManager->getStore()->getWebsiteId())
-                ->addOrder('updated_at', 'DESC')
-                ->addOrder('history_id', 'DESC');
+        $collection = $this->_historyFactory->create()->getCollection()->addFieldToFilter(
+            'customer_id',
+            $customerId
+        )->addFieldToFilter(
+            'website_id',
+            $this->_storeManager->getStore()->getWebsiteId()
+        )->addOrder(
+            'updated_at',
+            'DESC'
+        )->addOrder(
+            'history_id',
+            'DESC'
+        );
 
         return $collection;
     }
