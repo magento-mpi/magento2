@@ -112,7 +112,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     {
         return array(
             \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED,
-            \Magento\TargetRule\Model\Rule::RULE_BASED_ONLY,
+            \Magento\TargetRule\Model\Rule::RULE_BASED_ONLY
         );
     }
 
@@ -125,7 +125,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     {
         return array(
             \Magento\TargetRule\Model\Rule::BOTH_SELECTED_AND_RULE_BASED,
-            \Magento\TargetRule\Model\Rule::SELECTED_ONLY,
+            \Magento\TargetRule\Model\Rule::SELECTED_ONLY
         );
     }
 
@@ -258,7 +258,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     public function getItemCollection()
     {
         if (is_null($this->_items)) {
-            $behavior   = $this->getPositionBehavior();
+            $behavior = $this->getPositionBehavior();
 
             $this->_items = array();
 

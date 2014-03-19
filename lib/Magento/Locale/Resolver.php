@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Locale;
 
 class Resolver implements \Magento\Locale\ResolverInterface
@@ -111,7 +110,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
      */
     public function setLocale($locale = null)
     {
-        if (($locale !== null) && is_string($locale)) {
+        if ($locale !== null && is_string($locale)) {
             $this->_localeCode = $locale;
         } else {
             $this->_localeCode = $this->getDefaultLocale();
@@ -163,9 +162,9 @@ class Resolver implements \Magento\Locale\ResolverInterface
         $result = null;
         if ($scopeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = $this->_localeFactory->create(array(
-                'locale' => $this->_scopeConfig->getConfig($this->getDefaultLocalePath(), $scopeId)
-            ));
+            $this->_locale = $this->_localeFactory->create(
+                array('locale' => $this->_scopeConfig->getConfig($this->getDefaultLocalePath(), $scopeId))
+            );
             $this->_localeCode = $this->_locale->toString();
             $result = $this->_localeCode;
         } else {

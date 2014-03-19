@@ -9,7 +9,6 @@
  */
 namespace Magento\Reports\Block\Product;
 
-
 /**
  * Reports Recently Products Abstract Block
  *
@@ -124,18 +123,19 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         if (is_null($this->_collection)) {
             $attributes = $this->_catalogConfig->getProductAttributes();
 
-            $this->_collection = $this->_getModel()
-                ->getCollection()
-                ->addAttributeToSelect($attributes);
+            $this->_collection = $this->_getModel()->getCollection()->addAttributeToSelect($attributes);
 
-                if ($this->getCustomerId()) {
-                    $this->_collection->setCustomerId($this->getCustomerId());
-                }
+            if ($this->getCustomerId()) {
+                $this->_collection->setCustomerId($this->getCustomerId());
+            }
 
-                $this->_collection->excludeProductIds($this->_getModel()->getExcludeProductIds())
-                    ->addUrlRewrite()
-                    ->setPageSize($this->getPageSize())
-                    ->setCurPage(1);
+            $this->_collection->excludeProductIds(
+                $this->_getModel()->getExcludeProductIds()
+            )->addUrlRewrite()->setPageSize(
+                $this->getPageSize()
+            )->setCurPage(
+                1
+            );
 
             /* Price data is added to consider item stock status using price index */
             $this->_collection->addPriceData();
@@ -146,8 +146,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
             } else {
                 $this->_collection->addFilterByIds($ids);
             }
-            $this->_collection->setAddedAtOrder()
-                ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
+            $this->_collection->setAddedAtOrder()->setVisibility($this->_productVisibility->getVisibleInSiteIds());
         }
 
         return $this->_collection;

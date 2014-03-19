@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Wishlist\Item\Column;
 
 /**
@@ -60,12 +59,10 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**
@@ -109,7 +106,9 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         $addUrl = $this->getUrl('giftregistry/index/wishlist');
         return "
         function addProductToGiftregistry(itemId, giftregistryId) {
-            var form = new Element('form', {method: 'post', action: '" . $addUrl . "'});
+            var form = new Element('form', {method: 'post', action: '" .
+            $addUrl .
+            "'});
             form.insert(new Element('input', {type: 'hidden', name: 'item', value: itemId}));
             form.insert(new Element('input', {type: 'hidden', name: 'entity', value: giftregistryId}));
             $(document.body).insert(form);

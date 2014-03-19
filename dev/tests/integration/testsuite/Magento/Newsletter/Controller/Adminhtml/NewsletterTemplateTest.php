@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Controller\Adminhtml;
 
 /**
@@ -24,14 +23,17 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
     protected function setUp()
     {
         parent::setUp();
-        $post = array('code'=>'test data',
-                      'subject'=>'test data2',
-                      'sender_email'=>'sender@email.com',
-                      'sender_name'=>'Test Sender Name',
-                      'text'=>'Template Content');
+        $post = array(
+            'code' => 'test data',
+            'subject' => 'test data2',
+            'sender_email' => 'sender@email.com',
+            'sender_name' => 'Test Sender Name',
+            'text' => 'Template Content'
+        );
         $this->getRequest()->setPost($post);
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Newsletter\Model\Template');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Newsletter\Model\Template'
+        );
     }
 
     protected function tearDown()
@@ -39,8 +41,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
         /**
          * Unset messages
          */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
-            ->destroy();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')->destroy();
         unset($this->_model);
     }
 
@@ -96,11 +97,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionTemplateWithInvalidDataAndVerifySuccessMessage()
     {
-        $post = array('code'=>'test data',
-                      'subject'=>'test data2',
-                      'sender_email'=>'sender_email.com',
-                      'sender_name'=>'Test Sender Name',
-                      'text'=>'Template Content');
+        $post = array(
+            'code' => 'test data',
+            'subject' => 'test data2',
+            'sender_email' => 'sender_email.com',
+            'sender_name' => 'Test Sender Name',
+            'text' => 'Template Content'
+        );
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/newsletter/template/save');
 
@@ -109,7 +112,8 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
          */
         $this->assertSessionMessages(
             $this->logicalNot($this->isEmpty()),
-            \Magento\Message\MessageInterface::TYPE_ERROR);
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
 
         /**
          * Check that success message is not set

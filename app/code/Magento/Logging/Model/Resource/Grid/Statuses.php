@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Logging\Model\Resource\Grid;
 
 class Statuses implements \Magento\Option\ArrayInterface
@@ -19,7 +18,7 @@ class Statuses implements \Magento\Option\ArrayInterface
     {
         return array(
             \Magento\Logging\Model\Event::RESULT_SUCCESS => __('Success'),
-            \Magento\Logging\Model\Event::RESULT_FAILURE => __('Failure'),
+            \Magento\Logging\Model\Event::RESULT_FAILURE => __('Failure')
         );
     }
 }

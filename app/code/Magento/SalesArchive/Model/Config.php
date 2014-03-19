@@ -16,7 +16,9 @@ namespace Magento\SalesArchive\Model;
 class Config
 {
     const XML_PATH_ARCHIVE_ACTIVE = 'sales/magento_salesarchive/active';
+
     const XML_PATH_ARCHIVE_AGE = 'sales/magento_salesarchive/age';
+
     const XML_PATH_ARCHIVE_ORDER_STATUSES = 'sales/magento_salesarchive/order_statuses';
 
     /**
@@ -29,9 +31,8 @@ class Config
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
+    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -52,7 +53,7 @@ class Config
      */
     public function getArchiveAge()
     {
-        return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
     }
 
     /**

@@ -34,8 +34,8 @@ class CustomerRegistration
     public function afterIsRegistrationAllowed(\Magento\Customer\Helper\Data $subject, $invocationResult)
     {
         if ($invocationResult) {
-            $invocationResult = (!$this->_restrictionConfig->isRestrictionEnabled())
-                || (\Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER === $this->_restrictionConfig->getMode());
+            $invocationResult = !$this->_restrictionConfig->isRestrictionEnabled() ||
+                \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER === $this->_restrictionConfig->getMode();
         }
         return $invocationResult;
     }

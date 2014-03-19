@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Block\Product;
 
 use Magento\Catalog\Block\Product\ReviewRendererInterface;
@@ -34,7 +33,7 @@ class ReviewRenderer extends \Magento\View\Element\Template implements ReviewRen
      */
     protected $_availableTemplates = array(
         self::DEFAULT_REVIEW => 'helper/summary.phtml',
-        self::SHORT_REVIEW   => 'helper/summary_short.phtml'
+        self::SHORT_REVIEW => 'helper/summary_short.phtml'
     );
 
     /**
@@ -115,9 +114,9 @@ class ReviewRenderer extends \Magento\View\Element\Template implements ReviewRen
      */
     public function getReviewsUrl()
     {
-        return $this->getUrl('review/product/list', array(
-           'id'        => $this->getProduct()->getId(),
-           'category'  => $this->getProduct()->getCategoryId()
-        ));
+        return $this->getUrl(
+            'review/product/list',
+            array('id' => $this->getProduct()->getId(), 'category' => $this->getProduct()->getCategoryId())
+        );
     }
 }

@@ -9,8 +9,7 @@
  */
 namespace Magento\Backend\Model\Widget\Grid;
 
-abstract class AbstractTotals
-    implements \Magento\Backend\Model\Widget\Grid\TotalsInterface
+abstract class AbstractTotals implements \Magento\Backend\Model\Widget\Grid\TotalsInterface
 {
     /**
      * List of columns should be proceed with expression
@@ -171,7 +170,7 @@ abstract class AbstractTotals
                 $result = $firstOperand * $secondOperand;
                 break;
             case '/':
-                $result = ($secondOperand) ? $firstOperand / $secondOperand : $secondOperand;
+                $result = $secondOperand ? $firstOperand / $secondOperand : $secondOperand;
                 break;
         }
         return $result;
@@ -245,7 +244,6 @@ abstract class AbstractTotals
     {
         return $this->_factory->create($this->_totals);
     }
-
 
     /**
      * Reset totals and columns set

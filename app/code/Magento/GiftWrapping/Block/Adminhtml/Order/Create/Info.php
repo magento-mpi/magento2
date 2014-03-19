@@ -16,8 +16,7 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
  * @package     Magento_GiftWrapping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Info
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
+class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCreate
 {
     /**
      * Prepare html output
@@ -36,13 +35,15 @@ class Info
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => 'giftwrapping_design',
-                'class' => 'select'
-            ))
-            ->setName('giftwrapping[' . $this->getEntityId() . '][design]')
-            ->setOptions($this->getDesignCollection()->toOptionArray());
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array('id' => 'giftwrapping_design', 'class' => 'select')
+        )->setName(
+            'giftwrapping[' . $this->getEntityId() . '][design]'
+        )->setOptions(
+            $this->getDesignCollection()->toOptionArray()
+        );
         return $select->getHtml();
     }
 
@@ -75,6 +76,7 @@ class Info
     {
         return (int)$this->getQuote()->getGwAddCard();
     }
+
     /**
      * Check ability to display both prices for printed card in shopping cart
      *
@@ -122,10 +124,9 @@ class Info
      */
     public function canDisplayGiftWrappingForOrder()
     {
-        return ($this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId())
-            || $this->getAllowPrintedCard()
-            || $this->getAllowGiftReceipt())
-                && !$this->getQuote()->isVirtual();
+        return ($this->_giftWrappingData->isGiftWrappingAvailableForOrder(
+            $this->getStoreId()
+        ) || $this->getAllowPrintedCard() || $this->getAllowGiftReceipt()) && !$this->getQuote()->isVirtual();
     }
 
     /**

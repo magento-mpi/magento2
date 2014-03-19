@@ -58,11 +58,8 @@ class Event extends AbstractHelper
      * @param CollectionFactory $factory
      * @param CategoryFactory $categoryFactory
      */
-    public function __construct(
-        Context $context,
-        CollectionFactory $factory,
-        CategoryFactory $categoryFactory
-    ) {
+    public function __construct(Context $context, CollectionFactory $factory, CategoryFactory $categoryFactory)
+    {
         parent::__construct($context);
 
         $this->_eventCollectionFactory = $factory;
@@ -79,7 +76,8 @@ class Event extends AbstractHelper
         if ($this->_categories === null) {
             /** @var $tree Tree */
             $tree = $this->_categoryFactory->create()->getTreeModel();
-            $tree->load(null, 2); // Load only to second level.
+            $tree->load(null, 2);
+            // Load only to second level.
             $tree->addCollectionData(null, 'position');
             $this->_categories = $tree->getNodeById(Category::TREE_ROOT_ID)->getChildren();
         }
@@ -97,15 +95,13 @@ class Event extends AbstractHelper
     {
         $result = array();
         foreach ($this->getCategories() as $category) {
-            if (! in_array($category->getId(), $without)) {
+            if (!in_array($category->getId(), $without)) {
                 $result[] = $this->_treeNodeToOption($category, $without);
             }
         }
 
         if ($emptyOption) {
-            array_unshift($result, array(
-                'label' => '' , 'value' => ''
-            ));
+            array_unshift($result, array('label' => '', 'value' => ''));
         }
         return $result;
     }
@@ -146,7 +142,11 @@ class Event extends AbstractHelper
         foreach ($categories as $category) {
             if ($category->getId() == $categoryId) {
                 return $category;
-            } elseif ($category->hasChildren() && ($foundCategory = $this->searchInCategories($category->getChildren(), $categoryId))) {
+            } elseif ($category->hasChildren() && ($foundCategory = $this->searchInCategories(
+                $category->getChildren(),
+                $categoryId
+            ))
+            ) {
                 return $foundCategory;
             }
         }

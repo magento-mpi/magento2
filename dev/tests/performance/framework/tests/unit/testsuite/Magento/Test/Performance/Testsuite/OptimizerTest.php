@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Performance\Testsuite;
 
 class OptimizerTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +19,7 @@ class OptimizerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_optimizer = new \Magento\TestFramework\Performance\Testsuite\Optimizer;
+        $this->_optimizer = new \Magento\TestFramework\Performance\Testsuite\Optimizer();
     }
 
     protected function tearDown()
@@ -45,38 +44,19 @@ class OptimizerTest extends \PHPUnit_Framework_TestCase
     public function optimizeFixtureSetsDataProvider()
     {
         return array(
-            'empty_list' => array(
-                'fixtureSets' => array(),
-                'expected' => array(),
-            ),
-            'single_scenario' => array(
-                'fixtureSets' => array(
-                    'a' => array('f1', 'f2')
-                ),
-                'expected' => array('a'),
-            ),
+            'empty_list' => array('fixtureSets' => array(), 'expected' => array()),
+            'single_scenario' => array('fixtureSets' => array('a' => array('f1', 'f2')), 'expected' => array('a')),
             'empty_fixtures' => array(
-                'fixtureSets' => array(
-                    'a' => array(),
-                    'b' => array()
-                ),
-                'expected' => array('a', 'b'),
+                'fixtureSets' => array('a' => array(), 'b' => array()),
+                'expected' => array('a', 'b')
             ),
             'from_smaller_to_bigger' => array(
-                'fixtureSets' => array(
-                    'a' => array('f1', 'f2'),
-                    'b' => array('f2'),
-                    'c' => array('f3')
-                ),
-                'expected' => array('b', 'a', 'c'),
+                'fixtureSets' => array('a' => array('f1', 'f2'), 'b' => array('f2'), 'c' => array('f3')),
+                'expected' => array('b', 'a', 'c')
             ),
             'same_together' => array(
-                'fixtureSets' => array(
-                    'a' => array('f1', 'f2'),
-                    'b' => array('f1'),
-                    'c' => array('f1'),
-                ),
-                'expected' => array('b', 'c', 'a'),
+                'fixtureSets' => array('a' => array('f1', 'f2'), 'b' => array('f1'), 'c' => array('f1')),
+                'expected' => array('b', 'c', 'a')
             )
         );
     }

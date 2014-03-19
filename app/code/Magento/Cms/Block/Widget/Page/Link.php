@@ -12,9 +12,7 @@ namespace Magento\Cms\Block\Widget\Page;
 /**
  * Widget to display link to CMS page
  */
-class Link
-    extends \Magento\View\Element\Html\Link
-    implements \Magento\Widget\Block\BlockInterface
+class Link extends \Magento\View\Element\Html\Link implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Prepared href attribute
@@ -101,7 +99,7 @@ class Link
                 $this->_title = $this->getData('title');
             } else if ($this->getData('page_id')) {
                 $this->_title = $this->_resourcePage->getCmsPageTitleById($this->getData('page_id'));
-            } else if ($this->getData('href')) {
+            } elseif ($this->getData('href')) {
                 $this->_title = $this->_resourcePage->setStore($this->_storeManager->getStore())
                     ->getCmsPageTitleByIdentifier($this->getData('href'));
             }
@@ -124,8 +122,11 @@ class Link
         } elseif ($this->getTitle()) {
             $this->_anchorText = $this->getTitle();
         } elseif ($this->getData('href')) {
-            $this->_anchorText = $this->_resourcePage->setStore($this->_storeManager->getStore())
-                ->getCmsPageTitleByIdentifier($this->getData('href'));
+            $this->_anchorText = $this->_resourcePage->setStore(
+                $this->_storeManager->getStore()
+            )->getCmsPageTitleByIdentifier(
+                $this->getData('href')
+            );
         } elseif ($this->getData('page_id')) {
             $this->_anchorText = $this->_resourcePage->getCmsPageTitleById($this->getData('page_id'));
         } else {

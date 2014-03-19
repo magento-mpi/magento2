@@ -19,7 +19,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
         '/config/group' => 'name',
         '/config/group/callback' => 'class',
         '/config/aclDeny/level' => 'name',
-        '/config/aclDeny/level/rule' => 'name',
+        '/config/aclDeny/level/rule' => 'name'
     );
 
     /**

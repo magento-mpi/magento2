@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Service\Entity;
 
 use Magento\Service\Data\AbstractObjectBuilder;

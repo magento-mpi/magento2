@@ -24,28 +24,24 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $dom = new \DOMDocument();
         $file = realpath(__DIR__ . '/_files/placeholders.xml');
         $dom->load($file);
-        $expected = array (
+        $expected = array(
             'blockInstanceOne' => array(
-                array(
-                    'code' => 'codeOne',
-                    'cache_lifetime' => 86400,
-                    'container' => 'containerInstanceOne',
-                ),
+                array('code' => 'codeOne', 'cache_lifetime' => 86400, 'container' => 'containerInstanceOne'),
                 array(
                     'code' => 'codeTwo',
                     'cache_lifetime' => 0,
                     'container' => 'containerInstanceTwo',
-                    'name' => 'blockNameThree',
-                ),
+                    'name' => 'blockNameThree'
+                )
             ),
-            'blockInstanceTwo' => array (
+            'blockInstanceTwo' => array(
                 array(
                     'code' => 'codeTwo',
                     'cache_lifetime' => 86400,
                     'container' => 'containerInstanceTwo',
-                    'name' => 'blockNameTwo',
-                ),
-            ),
+                    'name' => 'blockNameTwo'
+                )
+            )
         );
         $actual = $this->_model->convert($dom);
         $this->assertEquals($expected, $actual);

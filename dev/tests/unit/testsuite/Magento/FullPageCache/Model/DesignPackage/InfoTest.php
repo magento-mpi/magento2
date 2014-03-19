@@ -29,19 +29,27 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_packageRulesMock = $this->getMock('Magento\FullPageCache\Model\DesignPackage\Rules', array(),
-            array(), '', false
+        $this->_packageRulesMock = $this->getMock(
+            'Magento\FullPageCache\Model\DesignPackage\Rules',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_fpcCacheMock = $this->getMock('Magento\FullPageCache\Model\Cache', array(), array(), '', false);
     }
 
     public function testGetPackageName()
     {
-        $this->_packageRulesMock
-            ->expects($this->once())
-            ->method('getPackageName')
-            ->with(1)
-            ->will($this->returnValue('test_package'));
+        $this->_packageRulesMock->expects(
+            $this->once()
+        )->method(
+            'getPackageName'
+        )->with(
+            1
+        )->will(
+            $this->returnValue('test_package')
+        );
 
         $model = new \Magento\FullPageCache\Model\DesignPackage\Info($this->_fpcCacheMock, $this->_packageRulesMock);
 
@@ -57,15 +65,23 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         $this->_frontendMock = $this->getMock('Zend_Cache_Core', array(), array(), '', false);
 
-        $this->_fpcCacheMock->expects($this->once())
-            ->method('getFrontend')
-            ->will($this->returnValue($this->_frontendMock));
+        $this->_fpcCacheMock->expects(
+            $this->once()
+        )->method(
+            'getFrontend'
+        )->will(
+            $this->returnValue($this->_frontendMock)
+        );
 
-        $this->_frontendMock
-            ->expects($this->once())
-            ->method('test')
-            ->with(\Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY)
-            ->will($this->returnValue('some_value'));
+        $this->_frontendMock->expects(
+            $this->once()
+        )->method(
+            'test'
+        )->with(
+            \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY
+        )->will(
+            $this->returnValue('some_value')
+        );
 
         $model = new \Magento\FullPageCache\Model\DesignPackage\Info($this->_fpcCacheMock, $this->_packageRulesMock);
         $this->assertEquals('some_value', $model->isDesignExceptionExistsInCache());

@@ -44,11 +44,7 @@ return array(
         'frontend',
         array(
             'Magento\Interception\Custom\Module\Model\Item' => array(
-                'plugins' => array(
-                    'simple_plugin' => array(
-                        'disabled' => true,
-                    )
-                )
+                'plugins' => array('simple_plugin' => array('disabled' => true))
             ),
             'Magento\Interception\Custom\Module\Model\Item\Enhanced' => array(
                 'plugins' => array(
@@ -66,5 +62,5 @@ return array(
                 )
             )
         )
-    ),
+    )
 );

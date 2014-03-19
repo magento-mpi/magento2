@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
@@ -72,7 +71,9 @@ class CatalogProductReview extends Page
      */
     public function getEditForm()
     {
-        return Factory::getBlockFactory()->getMagentoReviewAdminhtmlEdit($this->_browser->find($this->editFormSelector));
+        return Factory::getBlockFactory()->getMagentoReviewAdminhtmlEdit(
+            $this->_browser->find($this->editFormSelector)
+        );
     }
 
     /**

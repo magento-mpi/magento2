@@ -35,10 +35,15 @@ class IdentifierTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStoreId()
     {
-        $this->_fpcCacheMock->expects($this->once())
-            ->method('load')
-            ->with(\Magento\FullPageCache\Model\Store\Identifier::CACHE_ID . '_' . $this->_requestId)
-            ->will($this->returnValue('10'));
+        $this->_fpcCacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            \Magento\FullPageCache\Model\Store\Identifier::CACHE_ID . '_' . $this->_requestId
+        )->will(
+            $this->returnValue('10')
+        );
         $this->assertEquals(10, $this->_model->getStoreId($this->_requestId));
     }
 
@@ -47,10 +52,17 @@ class IdentifierTest extends \PHPUnit_Framework_TestCase
         $storeId = 10;
         $requestId = \Magento\FullPageCache\Model\Store\Identifier::CACHE_ID . '_' . $this->_requestId;
         $tags = array('some_tags');
-        $this->_fpcCacheMock->expects($this->once())
-            ->method('save')
-            ->with($storeId, $requestId, $tags)
-            ->will($this->returnValue('10'));
+        $this->_fpcCacheMock->expects(
+            $this->once()
+        )->method(
+            'save'
+        )->with(
+            $storeId,
+            $requestId,
+            $tags
+        )->will(
+            $this->returnValue('10')
+        );
         $this->_model->save($storeId, $this->_requestId, $tags);
     }
 }

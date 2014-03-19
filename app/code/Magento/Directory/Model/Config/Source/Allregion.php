@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Model\Config\Source;
 
 class Allregion implements \Magento\Option\ArrayInterface
@@ -51,8 +50,7 @@ class Allregion implements \Magento\Option\ArrayInterface
     public function toOptionArray($isMultiselect = false)
     {
         if (!$this->_options) {
-            $countriesArray = $this->_countryCollectionFactory->create()->load()
-                ->toOptionArray(false);
+            $countriesArray = $this->_countryCollectionFactory->create()->load()->toOptionArray(false);
             $this->_countries = array();
             foreach ($countriesArray as $a) {
                 $this->_countries[$a['value']] = $a['label'];

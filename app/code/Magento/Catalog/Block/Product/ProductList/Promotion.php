@@ -67,8 +67,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
             $collection = $this->_productCollectionFactory->create();
             $this->_layerFactory->create()->prepareProductCollection($collection);
 
-            $collection->addAttributeToFilter('promotion', 1)
-                ->addStoreFilter();
+            $collection->addAttributeToFilter('promotion', 1)->addStoreFilter();
 
             $this->_productCollection = $collection;
         }

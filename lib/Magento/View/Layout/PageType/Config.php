@@ -30,9 +30,8 @@ class Config
      *
      * @param \Magento\Config\DataInterface $dataStorage
      */
-    public function __construct(
-        \Magento\Config\DataInterface $dataStorage
-    ) {
+    public function __construct(\Magento\Config\DataInterface $dataStorage)
+    {
         $this->_dataStorage = $dataStorage;
     }
 

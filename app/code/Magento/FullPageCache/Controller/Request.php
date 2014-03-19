@@ -48,9 +48,9 @@ class Request extends \Magento\App\Action\Action
         /**
          * @var $processor \Magento\FullPageCache\Model\Processor
          */
-        $processor  = $this->_objectManager->get('Magento\FullPageCache\Model\Processor');
+        $processor = $this->_objectManager->get('Magento\FullPageCache\Model\Processor');
 
-        $content    = $this->_coreRegistry->registry('cached_page_content');
+        $content = $this->_coreRegistry->registry('cached_page_content');
         /**
          * @var $containers \Magento\FullPageCache\Model\ContainerInterface[]
          */
@@ -78,9 +78,9 @@ class Request extends \Magento\App\Action\Action
         $cookieName = $session->getName();
         $cookieInfo = array(
             'lifetime' => $sessionConfig->getCookieLifetime(),
-            'path'     => $sessionConfig->getCookiePath(),
-            'domain'   => $sessionConfig->getCookieDomain(),
-            'secure'   => $sessionConfig->getCookieSecure(),
+            'path' => $sessionConfig->getCookiePath(),
+            'domain' => $sessionConfig->getCookieDomain(),
+            'secure' => $sessionConfig->getCookieSecure(),
             'httponly' => $sessionConfig->getCookieHttpOnly()
         );
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {

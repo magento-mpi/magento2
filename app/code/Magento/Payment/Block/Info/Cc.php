@@ -34,6 +34,7 @@ class Cc extends \Magento\Payment\Block\Info
         parent::__construct($context, $data);
         $this->_paymentConfig = $paymentConfig;
     }
+
     /**
      * Retrieve credit card type name
      *
@@ -46,7 +47,7 @@ class Cc extends \Magento\Payment\Block\Info
         if (isset($types[$ccType])) {
             return $types[$ccType];
         }
-        return (empty($ccType)) ? __('N/A') : $ccType;
+        return empty($ccType) ? __('N/A') : $ccType;
     }
 
     /**
@@ -67,8 +68,8 @@ class Cc extends \Magento\Payment\Block\Info
     public function getCcExpMonth()
     {
         $month = $this->getInfo()->getCcExpMonth();
-        if ($month<10) {
-            $month = '0'.$month;
+        if ($month < 10) {
+            $month = '0' . $month;
         }
         return $month;
     }
@@ -112,7 +113,7 @@ class Cc extends \Magento\Payment\Block\Info
             $year = $this->getInfo()->getCcSsStartYear();
             $month = $this->getInfo()->getCcSsStartMonth();
             if ($year && $month) {
-                $data[__('Switch/Solo/Maestro Start Date')] =  $this->_formatCardDate($year, $month);
+                $data[__('Switch/Solo/Maestro Start Date')] = $this->_formatCardDate($year, $month);
             }
         }
         return $transport->setData(array_merge($data, $transport->getData()));

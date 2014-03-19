@@ -62,11 +62,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => 'customer_group_code',
-                'title' => __('Customer Group')
-            ));
+        $this->_uniqueFields = array(array('field' => 'customer_group_code', 'title' => __('Customer Group')));
 
         return $this;
     }
@@ -94,9 +90,10 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $group)
     {
-        $customerCollection = $this->_createCustomersCollection()
-            ->addAttributeToFilter('group_id', $group->getId())
-            ->load();
+        $customerCollection = $this->_createCustomersCollection()->addAttributeToFilter(
+            'group_id',
+            $group->getId()
+        )->load();
         foreach ($customerCollection as $customer) {
             $customer->load();
             $defaultGroupId = $this->_customerData->getDefaultCustomerGroupId($customer->getStoreId());

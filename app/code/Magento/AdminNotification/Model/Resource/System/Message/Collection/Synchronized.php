@@ -5,11 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\AdminNotification\Model\Resource\System\Message\Collection;
 
-class Synchronized
-    extends \Magento\AdminNotification\Model\Resource\System\Message\Collection
+class Synchronized extends \Magento\AdminNotification\Model\Resource\System\Message\Collection
 {
     /**
      * Unread message list
@@ -43,11 +41,9 @@ class Synchronized
         foreach ($removed as $removedItem) {
             $removedItem->delete();
         }
-        foreach ($unread as $unreadItem ) {
+        foreach ($unread as $unreadItem) {
             $item = $this->getNewEmptyItem();
-            $item->setIdentity($unreadItem->getIdentity())
-                ->setSeverity($unreadItem->getSeverity())
-                ->save();
+            $item->setIdentity($unreadItem->getIdentity())->setSeverity($unreadItem->getSeverity())->save();
         }
         if (count($removed) || count($unread)) {
             $this->_unreadMessages = $unread;

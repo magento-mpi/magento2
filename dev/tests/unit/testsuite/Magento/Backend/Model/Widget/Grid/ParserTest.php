@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Widget\Grid;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
@@ -39,42 +38,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function parseExpressionDataProvider()
     {
         return array(
-            array(
-                '1-2',
-                array('1', '2', '-')
-            ),
-            array(
-                '1*2',
-                array('1', '2', '*')
-            ),
-            array(
-                '1/2',
-                array('1', '2', '/')
-            ),
-            array(
-                '1+2+3',
-                array('1', '2', '+', '3', '+')
-            ),
-            array(
-                '1*2*3+4',
-                array('1', '2', '*', '3', '*', '4', '+')
-            ),
-            array(
-                '1-2-3',
-                array('1', '2', '-', '3', '-')
-            ),
-            array(
-                '1*2*3',
-                array('1', '2', '*', '3', '*')
-            ),
-            array(
-                '1/2/3',
-                array('1', '2', '/', '3', '/')
-            ),
+            array('1-2', array('1', '2', '-')),
+            array('1*2', array('1', '2', '*')),
+            array('1/2', array('1', '2', '/')),
+            array('1+2+3', array('1', '2', '+', '3', '+')),
+            array('1*2*3+4', array('1', '2', '*', '3', '*', '4', '+')),
+            array('1-2-3', array('1', '2', '-', '3', '-')),
+            array('1*2*3', array('1', '2', '*', '3', '*')),
+            array('1/2/3', array('1', '2', '/', '3', '/')),
             array(
                 '1 * 2 / 3 + 4 * 5 * 6 - 7 - 8',
                 array('1', '2', '*', '3', '/', '4', '5', '*', '6', '*', '+', '7', '-', '8', '-')
-            ),
+            )
         );
     }
 

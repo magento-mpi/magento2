@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Controller;
 
 class AjaxTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -25,9 +24,6 @@ class AjaxTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function translateActionDataProvider()
     {
-        return array(
-            array('test'),
-            array(array('test'))
-        );
+        return array(array('test'), array(array('test')));
     }
 }

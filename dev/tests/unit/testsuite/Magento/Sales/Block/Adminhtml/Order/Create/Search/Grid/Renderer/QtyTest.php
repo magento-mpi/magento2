@@ -5,9 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer;
-
 
 class QtyTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,31 +28,35 @@ class QtyTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->rowMock =
-            $this->getMock('Magento\Object', array('getTypeId', 'getIndex'),
-                array(), '', false);
+        $this->rowMock = $this->getMock('Magento\Object', array('getTypeId', 'getIndex'), array(), '', false);
         $this->typeConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
         $this->renderer = $helper->getObject(
             'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty',
-            array(
-                'typeConfig' => $this->typeConfigMock
-            )
+            array('typeConfig' => $this->typeConfigMock)
         );
     }
 
     public function testRender()
     {
-        $expected = '<input type="text" name="id_name" value="" disabled="disabled" '  .
-         'class="input-text inline_css input-inactive" />';
-        $this->typeConfigMock
-            ->expects($this->any())
-            ->method('isProductSet')
-            ->with('id')
-            ->will($this->returnValue(true));
+        $expected = '<input type="text" name="id_name" value="" disabled="disabled" ' .
+            'class="input-text inline_css input-inactive" />';
+        $this->typeConfigMock->expects(
+            $this->any()
+        )->method(
+            'isProductSet'
+        )->with(
+            'id'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->rowMock->expects($this->once())->method('getTypeId')->will($this->returnValue('id'));
-        $columnMock =
-            $this->getMock('Magento\Backend\Block\Widget\Grid\Column',
-                array('getInlineCss', 'getId'), array(), '', false);
+        $columnMock = $this->getMock(
+            'Magento\Backend\Block\Widget\Grid\Column',
+            array('getInlineCss', 'getId'),
+            array(),
+            '',
+            false
+        );
         $this->renderer->setColumn($columnMock);
 
         $columnMock->expects($this->once())->method('getId')->will($this->returnValue('id_name'));
@@ -63,4 +65,3 @@ class QtyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->renderer->render($this->rowMock));
     }
 }
-

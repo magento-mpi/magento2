@@ -14,8 +14,7 @@ namespace Magento\Reminder\Model\Resource\Reminder;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Reminder\Model\Resource\Rule\Collection
+class Collection extends \Magento\Reminder\Model\Resource\Rule\Collection
 {
     /**
      * Initialize reminder rule collection select

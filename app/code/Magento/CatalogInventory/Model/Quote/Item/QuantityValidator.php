@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogInventory\Model\Quote\Item;
 
-class QuantityValidator 
+class QuantityValidator
 {
     /**
      * @var QuantityValidator\Initializer\Option
@@ -46,8 +46,11 @@ class QuantityValidator
         /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getItem();
 
-        if (!$quoteItem || !$quoteItem->getProductId() || !$quoteItem->getQuote()
-            || $quoteItem->getQuote()->getIsSuperMode()) {
+        if (!$quoteItem ||
+            !$quoteItem->getProductId() ||
+            !$quoteItem->getQuote() ||
+            $quoteItem->getQuote()->getIsSuperMode()
+        ) {
             return;
         }
 
@@ -66,7 +69,7 @@ class QuantityValidator
         }
 
         if ($stockItem) {
-            if (!$stockItem->getIsInStock() || ($parentStockItem && !$parentStockItem->getIsInStock())) {
+            if (!$stockItem->getIsInStock() || $parentStockItem && !$parentStockItem->getIsInStock()) {
                 $quoteItem->addErrorInfo(
                     'cataloginventory',
                     \Magento\CatalogInventory\Helper\Data::ERROR_QTY,
@@ -138,7 +141,6 @@ class QuantityValidator
                     $this->_removeErrorsFromQuoteAndItem($quoteItem, \Magento\CatalogInventory\Helper\Data::ERROR_QTY);
                 }
             }
-
         } else {
             /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
             if (!$stockItem instanceof \Magento\CatalogInventory\Model\Stock\Item) {
@@ -177,10 +179,7 @@ class QuantityValidator
     protected function _removeErrorsFromQuoteAndItem($item, $code)
     {
         if ($item->getHasError()) {
-            $params = array(
-                'origin' => 'cataloginventory',
-                'code' => $code
-            );
+            $params = array('origin' => 'cataloginventory', 'code' => $code);
             $item->removeErrorInfosByParams($params);
         }
 
@@ -207,10 +206,7 @@ class QuantityValidator
         }
 
         if ($quote->getHasError() && $canRemoveErrorFromQuote) {
-            $params = array(
-                'origin' => 'cataloginventory',
-                'code' => $code
-            );
+            $params = array('origin' => 'cataloginventory', 'code' => $code);
             $quote->removeErrorInfosByParams(null, $params);
         }
     }

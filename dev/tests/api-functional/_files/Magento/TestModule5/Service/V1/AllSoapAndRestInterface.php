@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V1;
 
 interface AllSoapAndRestInterface

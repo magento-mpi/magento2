@@ -36,7 +36,7 @@ class RequestProcessorFactory
     {
         $processor = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($processor instanceof \Magento\FullPageCache\Model\RequestProcessorInterface)) {
+        if (false === $processor instanceof \Magento\FullPageCache\Model\RequestProcessorInterface) {
             throw new \LogicException(
                 $className . ' doesn\'t implement \Magento\FullPageCache\Model\RequestProcessorInterface'
             );

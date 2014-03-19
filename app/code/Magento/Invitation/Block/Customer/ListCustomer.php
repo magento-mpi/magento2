@@ -52,7 +52,12 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->_invitationFactory = $invitationFactory;
         $this->_invitationStatus = $invitationStatus;
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
         $this->_isScopePrivate = true;
     }
@@ -65,9 +70,14 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function getInvitationCollection()
     {
         if (!$this->hasInvitationCollection()) {
-            $this->setData('invitation_collection', $this->_invitationFactory->create()->getCollection()
-                ->addOrder('invitation_id', \Magento\Data\Collection::SORT_ORDER_DESC)
-                ->loadByCustomerId($this->_customerSession->getCustomerId())
+            $this->setData(
+                'invitation_collection',
+                $this->_invitationFactory->create()->getCollection()->addOrder(
+                    'invitation_id',
+                    \Magento\Data\Collection::SORT_ORDER_DESC
+                )->loadByCustomerId(
+                    $this->_customerSession->getCustomerId()
+                )
             );
         }
         return $this->_getData('invitation_collection');

@@ -69,7 +69,7 @@ class LineBreakTest extends TestBase
         return array(
             array($arrayAlpha, 0, "array(1, 2, 3)\n"),
             array($arrayAlpha, 1, "array(\n1,\n2,\n3\n)\n"),
-            array($arrayAlpha, 2, "array(\n1,\n2,\n3\n)\n"),
+            array($arrayAlpha, 2, "array(\n1,\n2,\n3\n)\n")
         );
     }
 
@@ -86,19 +86,19 @@ class LineBreakTest extends TestBase
     public function dataClassImplements()
     {
         /*
-        class alpha extends beta implementsxi1,xi2,xi3
-        {
+                class alpha extends beta implementsxi1,xi2,xi3
+                {
 
-        class alpha extends beta implementsx
-            i1,x
-            i2,x
-            i3
-        {
+                class alpha extends beta implementsx
+           i1,x
+           i2,x
+           i3
+                {
 
-        1	blank	\n
-        2	blank	\n
-        3	blank	\n
-         */
+                1	blank	\n
+                2	blank	\n
+                3	blank	\n
+        */
         $lineBreak = new ClassInterfaceLineBreak();
         $classAlpha = array(
             'class ',
@@ -116,7 +116,7 @@ class LineBreakTest extends TestBase
             'i3',
             new HardLineBreak(),
             '{',
-            new HardLineBreak(),
+            new HardLineBreak()
         );
 
         $classBeta = array(
@@ -127,40 +127,16 @@ class LineBreakTest extends TestBase
             'i1',
             new HardLineBreak(),
             '{',
-            new HardLineBreak(),
+            new HardLineBreak()
         );
 
         return array(
-            array(
-                $classAlpha,
-                0,
-                "class alpha extends beta implements i1, i2, i3\n{\n"
-            ),
-            array(
-                $classAlpha,
-                1,
-                "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"
-            ),
-            array(
-                $classAlpha,
-                2,
-                "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"
-            ),
-            array(
-                $classBeta,
-                0,
-                "class beta implements i1\n{\n"
-            ),
-            array(
-                $classBeta,
-                1,
-                "class beta implements\ni1\n{\n"
-            ),
-            array(
-                $classBeta,
-                2,
-                "class beta implements\ni1\n{\n"
-            ),
+            array($classAlpha, 0, "class alpha extends beta implements i1, i2, i3\n{\n"),
+            array($classAlpha, 1, "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"),
+            array($classAlpha, 2, "class alpha extends beta implements\ni1,\ni2,\ni3\n{\n"),
+            array($classBeta, 0, "class beta implements i1\n{\n"),
+            array($classBeta, 1, "class beta implements\ni1\n{\n"),
+            array($classBeta, 2, "class beta implements\ni1\n{\n")
         );
     }
 
@@ -197,18 +173,10 @@ class LineBreakTest extends TestBase
             ' = ',
             '\'c\'',
             ';',
-            new HardLineBreak(),
+            new HardLineBreak()
         );
 
-        $constNumber = array(
-            'const ',
-            $lineBreak,
-            'ONE',
-            ' = ',
-            '\'1\'',
-            ';',
-            new HardLineBreak(),
-        );
+        $constNumber = array('const ', $lineBreak, 'ONE', ' = ', '\'1\'', ';', new HardLineBreak());
 
         return array(
             array($constAlpha, 0, "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"),
@@ -219,11 +187,7 @@ class LineBreakTest extends TestBase
             array($constNumber, 2, "const ONE = '1';\n"),
             array(array("HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ';'), 0, "HEREDOC;"),
             array(
-                array(
-                    "HEREDOC",
-                    new HardConditionalLineBreak(new LineBreakCondition(';')),
-                    ',"other")'
-                ),
+                array("HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ',"other")'),
                 0,
                 "HEREDOC\n,\"other\")"
             ),
@@ -236,7 +200,7 @@ class LineBreakTest extends TestBase
                 ),
                 1,
                 "HEREDOC\n);"
-            ),
+            )
         );
     }
 
@@ -303,16 +267,7 @@ class LineBreakTest extends TestBase
             '{',
             new HardLineBreak()
         );
-        $functionGamma = array(
-            'protected ',
-            'function ',
-            'gamma',
-            '(',
-            ')',
-            $lineBreak,
-            '{',
-            new HardLineBreak()
-        );
+        $functionGamma = array('protected ', 'function ', 'gamma', '(', ')', $lineBreak, '{', new HardLineBreak());
 
         return array(
             array(

@@ -12,8 +12,7 @@ namespace Magento\VersionsCms\Model\Resource\Page\Revision;
 /**
  * Cms page revision collection
  */
-class Collection
-    extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor

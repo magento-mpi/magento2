@@ -62,7 +62,7 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
     {
         $moduleConfig['dependencies']['extensions']['alternatives'][] = array(
             array('name' => 'ext1'),
-            array('name' => 'ext2'),
+            array('name' => 'ext2')
         );
         $this->model->checkModuleDependencies($moduleConfig);
     }
@@ -87,18 +87,18 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
                                     'minVersion' => '0.0.0.1',
                                 ),array(
                                     'name' => 'spl',
-                                ),
+                                )
                             ),
                             'alternatives' => array(
                                 array(
                                     array('name' => 'dom'),
-                                    array('name' => 'hash'),
-                                ),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+                                    array('name' => 'hash')
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         );
     }
 
@@ -137,11 +137,8 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
                         'active' => true,
                         'dependencies' => array(
                             'modules' => array('Module_Two'),
-                            'extensions' => array(
-                                'strict' => array(),
-                                'alternatives' => array(),
-                            ),
-                        ),
+                            'extensions' => array('strict' => array(), 'alternatives' => array())
+                        )
                     ),
                     'Module_Two' => array(
                         'name' => 'Module_Two',
@@ -149,14 +146,11 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
                         'active' => true,
                         'dependencies' => array(
                             'modules' => array(),
-                            'extensions' => array(
-                                'strict' => array(),
-                                'alternatives' => array(),
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+                            'extensions' => array('strict' => array(), 'alternatives' => array())
+                        )
+                    )
+                )
+            )
         );
     }
 }

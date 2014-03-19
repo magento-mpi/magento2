@@ -57,7 +57,7 @@ class Debug
      */
     public static function backtrace($return = false, $html = true, $withArgs = true)
     {
-        $trace  = debug_backtrace();
+        $trace = debug_backtrace();
         return self::trace($trace, $return, $html, $withArgs);
     }
 
@@ -72,7 +72,7 @@ class Debug
      */
     public static function trace(array $trace, $return = false, $html = true, $withArgs = true)
     {
-        $out    = '';
+        $out = '';
         if ($html) {
             $out .= '<pre>';
         }
@@ -102,7 +102,8 @@ class Debug
                     $className .= sprintf('#%s#', spl_object_hash($data['object']));
                 }
 
-                $methodName = sprintf('%s%s%s(%s)',
+                $methodName = sprintf(
+                    '%s%s%s(%s)',
                     $className,
                     isset($data['type']) ? $data['type'] : '->',
                     $data['function'],
@@ -154,10 +155,9 @@ class Debug
         $out = '';
         if (is_object($arg)) {
             $out .= sprintf("&%s#%s#", get_class($arg), spl_object_hash($arg));
-
-        } else if (is_resource($arg)) {
+        } elseif (is_resource($arg)) {
             $out .= '#[' . get_resource_type($arg) . ']';
-        } else if (is_array($arg)) {
+        } elseif (is_array($arg)) {
             $isAssociative = false;
             $args = array();
             foreach ($arg as $k => $v) {

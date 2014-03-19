@@ -10,14 +10,14 @@ namespace Magento\Paypal\Model\Payment\Method\Billing;
 /**
  * Billing Agreement Payment Method Abstract model
  */
-abstract class AbstractAgreement
-    extends \Magento\Payment\Model\Method\AbstractMethod
+abstract class AbstractAgreement extends \Magento\Payment\Model\Method\AbstractMethod
 {
     /**
      * Transport billing agreement id
      */
     const TRANSPORT_BILLING_AGREEMENT_ID = 'ba_agreement_id';
-    const PAYMENT_INFO_REFERENCE_ID      = 'ba_reference_id';
+
+    const PAYMENT_INFO_REFERENCE_ID = 'ba_reference_id';
 
     /**
      * @var string
@@ -78,8 +78,8 @@ abstract class AbstractAgreement
                 $this->_canUseCheckout = $this->_canUseInternal = $isAvailableBA;
             }
             $this->_isAvailable = parent::isAvailable($quote) && $this->_isAvailable($quote);
-            $this->_canUseCheckout = ($this->_isAvailable && $this->_canUseCheckout);
-            $this->_canUseInternal = ($this->_isAvailable && $this->_canUseInternal);
+            $this->_canUseCheckout = $this->_isAvailable && $this->_canUseCheckout;
+            $this->_canUseInternal = $this->_isAvailable && $this->_canUseInternal;
         }
         return $this->_isAvailable;
     }
@@ -105,8 +105,13 @@ abstract class AbstractAgreement
             $info = $this->getInfoInstance();
             $ba = $this->_agreementFactory->create()->load($id);
             if ($ba->getId() && $ba->getCustomerId() == $info->getQuote()->getCustomerId()) {
-                $info->setAdditionalInformation($key, $id)
-                    ->setAdditionalInformation(self::PAYMENT_INFO_REFERENCE_ID, $ba->getReferenceId());
+                $info->setAdditionalInformation(
+                    $key,
+                    $id
+                )->setAdditionalInformation(
+                    self::PAYMENT_INFO_REFERENCE_ID,
+                    $ba->getReferenceId()
+                );
             }
         }
         return $result;

@@ -9,9 +9,9 @@
  */
 namespace Magento\Review\Block\Customer;
 
-use Magento\Catalog\Model\Product as Product;
+use Magento\Catalog\Model\Product;
 use Magento\Rating\Model\Resource\Rating\Option\Vote\Collection as VoteCollection;
-use Magento\Review\Model\Review as Review;
+use Magento\Review\Model\Review;
 
 /**
  * Customer Review detailed view block
@@ -117,9 +117,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getProductData()
     {
         if ($this->getReviewId() && !$this->getProductCacheData()) {
-            $product = $this->_productFactory->create()
-                ->setStoreId($this->_storeManager->getStore()->getId())
-                ->load($this->getReviewData()->getEntityPkValue());
+            $product = $this->_productFactory->create()->setStoreId(
+                $this->_storeManager->getStore()->getId()
+            )->load(
+                $this->getReviewData()->getEntityPkValue()
+            );
             $this->setProductCacheData($product);
         }
         return $this->getProductCacheData();
@@ -156,14 +158,15 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRating()
     {
         if (!$this->getRatingCollection()) {
-            $ratingCollection = $this->_voteFactory->create()
-                ->getResourceCollection()
-                ->setReviewFilter($this->getReviewId())
-                ->addRatingInfo($this->_storeManager->getStore()->getId())
-                ->setStoreFilter($this->_storeManager->getStore()->getId())
-                ->load();
+            $ratingCollection = $this->_voteFactory->create()->getResourceCollection()->setReviewFilter(
+                $this->getReviewId()
+            )->addRatingInfo(
+                $this->_storeManager->getStore()->getId()
+            )->setStoreFilter(
+                $this->_storeManager->getStore()->getId()
+            )->load();
 
-            $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
+            $this->setRatingCollection($ratingCollection->getSize() ? $ratingCollection : false);
         }
 
         return $this->getRatingCollection();
@@ -177,7 +180,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRatingSummary()
     {
         if (!$this->getRatingSummaryCache()) {
-            $this->setRatingSummaryCache($this->_ratingFactory->create()->getEntitySummary($this->getProductData()->getId()));
+            $this->setRatingSummaryCache(
+                $this->_ratingFactory->create()->getEntitySummary($this->getProductData()->getId())
+            );
         }
         return $this->getRatingSummaryCache();
     }
@@ -190,7 +195,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getTotalReviews()
     {
         if (!$this->getTotalReviewsCache()) {
-            $this->setTotalReviewsCache($this->_reviewFactory->create()->getTotalReviews($this->getProductData()->getId()), false, $this->_storeManager->getStore()->getId());
+            $this->setTotalReviewsCache(
+                $this->_reviewFactory->create()->getTotalReviews($this->getProductData()->getId()),
+                false,
+                $this->_storeManager->getStore()->getId()
+            );
         }
         return $this->getTotalReviewsCache();
     }
@@ -213,6 +222,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function isReviewOwner()
     {
-        return ($this->getReviewData()->getCustomerId() == $this->_customerSession->getCustomerId());
+        return $this->getReviewData()->getCustomerId() == $this->_customerSession->getCustomerId();
     }
 }

@@ -13,9 +13,7 @@
  */
 namespace Magento\Sales\Block\Widget\Guest;
 
-class Form
-    extends \Magento\View\Element\Template
-    implements \Magento\Widget\Block\BlockInterface
+class Form extends \Magento\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -44,7 +42,7 @@ class Form
      */
     public function isEnable()
     {
-        return !($this->_customerSession->isLoggedIn());
+        return !$this->_customerSession->isLoggedIn();
     }
 
     /**
@@ -54,14 +52,17 @@ class Form
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setData(array(
-                'id'    => 'quick_search_type_id',
-                'class' => 'select guest-select',
-            ))
-            ->setName('oar_type')
-            ->setOptions($this->_getFormOptions())
-            ->setExtraParams('onchange="showIdentifyBlock(this.value);"');
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setData(
+            array('id' => 'quick_search_type_id', 'class' => 'select guest-select')
+        )->setName(
+            'oar_type'
+        )->setOptions(
+            $this->_getFormOptions()
+        )->setExtraParams(
+            'onchange="showIdentifyBlock(this.value);"'
+        );
         return $select->getHtml();
     }
 
@@ -75,14 +76,8 @@ class Form
         $options = $this->getData('identifymeby_options');
         if (is_null($options)) {
             $options = array();
-            $options[] = array(
-                'value' => 'email',
-                'label' => 'Email Address'
-            );
-            $options[] = array(
-                'value' => 'zip',
-                'label' => 'ZIP Code'
-            );
+            $options[] = array('value' => 'email', 'label' => 'Email Address');
+            $options[] = array('value' => 'zip', 'label' => 'ZIP Code');
             $this->setData('identifymeby_options', $options);
         }
 

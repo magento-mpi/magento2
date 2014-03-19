@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\App\FrontController\Plugin;
+
 class InstallTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -63,12 +64,21 @@ class InstallTest extends \PHPUnit_Framework_TestCase
     public function testAroundDispatch()
     {
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
-        $this->_cacheMock
-            ->expects($this->once())->method('load')->with('data_upgrade')->will($this->returnValue(false));
+        $this->_cacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->with(
+            'data_upgrade'
+        )->will(
+            $this->returnValue(false)
+        );
         $this->_dbUpdaterMock->expects($this->once())->method('updateScheme');
         $this->_dbUpdaterMock->expects($this->once())->method('updateData');
         $this->_cacheMock->expects($this->once())->method('save')->with('true', 'data_upgrade');
-        $this->assertEquals('Expected',
-            $this->_model->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock));
+        $this->assertEquals(
+            'Expected',
+            $this->_model->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
+        );
     }
 }

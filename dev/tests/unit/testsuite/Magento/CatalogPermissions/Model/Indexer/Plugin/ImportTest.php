@@ -21,30 +21,29 @@ class ImportTest extends \PHPUnit_Framework_TestCase
     {
         $config = $this->getMockBuilder('Magento\CatalogPermissions\App\ConfigInterface')->getMock();
 
-        $indexer = $this->getMockBuilder('Magento\Indexer\Model\Indexer')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $indexer = $this->getMockBuilder('Magento\Indexer\Model\Indexer')->disableOriginalConstructor()->getMock();
 
-        $indexerFactory = $this->getMockBuilder('Magento\Indexer\Model\IndexerFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
+        $indexerFactory = $this->getMockBuilder(
+            'Magento\Indexer\Model\IndexerFactory'
+        )->disableOriginalConstructor()->setMethods(
+            array('create')
+        )->getMock();
 
-        $config->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $config->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
 
-        $indexerFactory->expects($this->exactly(2))
-            ->method('create')
-            ->will($this->returnValue($indexer));
+        $indexerFactory->expects($this->exactly(2))->method('create')->will($this->returnValue($indexer));
 
-        $indexer->expects($this->exactly(2))
-            ->method('load')
-            ->with($this->logicalOr(Category::INDEXER_ID, Product::INDEXER_ID))
-            ->will($this->returnSelf());
+        $indexer->expects(
+            $this->exactly(2)
+        )->method(
+            'load'
+        )->with(
+            $this->logicalOr(Category::INDEXER_ID, Product::INDEXER_ID)
+        )->will(
+            $this->returnSelf()
+        );
 
-        $indexer->expects($this->exactly(2))
-            ->method('invalidate');
+        $indexer->expects($this->exactly(2))->method('invalidate');
 
         $import = new Import($config, $indexerFactory);
 

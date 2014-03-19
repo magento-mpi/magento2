@@ -177,7 +177,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             return '';
         }
 
-        $block  = $this->getChildBlock('item_options');
+        $block = $this->getChildBlock('item_options');
         if (!$block) {
             return '';
         }
@@ -219,10 +219,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     {
         return $this->getUrl(
             '*/*/allcart',
-            array(
-                'wishlist_id' => $this->getWishlistInstance()->getId(),
-                'form_key' => $this->_formKey->getFormKey(),
-            )
+            array('wishlist_id' => $this->getWishlistInstance()->getId(), 'form_key' => $this->_formKey->getFormKey())
         );
     }
 }

@@ -36,6 +36,5 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     {
         $this->addAttributeToFilter('rma_entity_id', $rmaEntityId);
         return $this;
-
     }
 }

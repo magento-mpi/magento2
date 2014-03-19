@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array (
+return array(
     'admin_assert' => 'Magento_Adminhtml',
     'admin_role' => 'Magento_Adminhtml',
     'admin_rule' => 'Magento_Adminhtml',

@@ -108,13 +108,14 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getRating()
     {
         if (!$this->getRatingCollection()) {
-            $ratingCollection = $this->_voteFactory->create()
-                ->getResourceCollection()
-                ->setReviewFilter($this->getReviewId())
-                ->setStoreFilter($this->_storeManager->getStore()->getId())
-                ->addRatingInfo($this->_storeManager->getStore()->getId())
-                ->load();
-            $this->setRatingCollection( ( $ratingCollection->getSize() ) ? $ratingCollection : false );
+            $ratingCollection = $this->_voteFactory->create()->getResourceCollection()->setReviewFilter(
+                $this->getReviewId()
+            )->setStoreFilter(
+                $this->_storeManager->getStore()->getId()
+            )->addRatingInfo(
+                $this->_storeManager->getStore()->getId()
+            )->load();
+            $this->setRatingCollection($ratingCollection->getSize() ? $ratingCollection : false);
         }
         return $this->getRatingCollection();
     }
@@ -144,7 +145,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         if (!$this->getTotalReviewsCache()) {
             $this->setTotalReviewsCache(
                 $this->_reviewFactory->create()->getTotalReviews(
-                    $this->getProductData()->getId(), false, $this->_storeManager->getStore()->getId()
+                    $this->getProductData()->getId(),
+                    false,
+                    $this->_storeManager->getStore()->getId()
                 )
             );
         }

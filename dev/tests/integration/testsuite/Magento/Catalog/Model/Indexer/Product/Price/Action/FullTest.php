@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 
 /**
@@ -23,8 +22,9 @@ class FullTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\Indexer\Product\Price\Processor');
+        $this->_processor = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\Indexer\Product\Price\Processor'
+        );
     }
 
     /**
@@ -36,10 +36,12 @@ class FullTest extends \PHPUnit_Framework_TestCase
     {
         $this->_processor->reindexAll();
 
-        $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Catalog\Model\CategoryFactory');
-        $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('\Magento\Catalog\Block\Product\ListProduct');
+        $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Catalog\Model\CategoryFactory'
+        );
+        $listProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            '\Magento\Catalog\Block\Product\ListProduct'
+        );
 
         $category = $categoryFactory->create()->load(2);
         $layer = $listProduct->getLayer();

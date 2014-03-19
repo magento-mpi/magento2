@@ -132,8 +132,8 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getAddToWishlistParams($product)
     {
-        $continueUrl    = $this->_coreData->urlEncode($this->getUrl('customer/account'));
-        $urlParamName   = Action::PARAM_NAME_URL_ENCODED;
+        $continueUrl = $this->_coreData->urlEncode($this->getUrl('customer/account'));
+        $urlParamName = Action::PARAM_NAME_URL_ENCODED;
 
         $continueUrlParams = array($urlParamName => $continueUrl);
 
@@ -165,8 +165,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $this->_compareProduct->setAllowUsedFlat(false);
 
             $this->_items = $this->_itemCollectionFactory->create();
-            $this->_items->useProductItem(true)
-                ->setStoreId($this->_storeManager->getStore()->getId());
+            $this->_items->useProductItem(true)->setStoreId($this->_storeManager->getStore()->getId());
 
             if ($this->_customerSession->isLoggedIn()) {
                 $this->_items->setCustomerId($this->_customerSession->getCustomerId());
@@ -176,12 +175,11 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
                 $this->_items->setVisitorId($this->_logVisitor->getId());
             }
 
-            $this->_items
-                ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
-                ->loadComparableAttributes()
-                ->addMinimalPrice()
-                ->addTaxPercents()
-                ->setVisibility($this->_catalogProductVisibility->getVisibleInSiteIds());
+            $this->_items->addAttributeToSelect(
+                $this->_catalogConfig->getProductAttributes()
+            )->loadComparableAttributes()->addMinimalPrice()->addTaxPercents()->setVisibility(
+                $this->_catalogProductVisibility->getVisibleInSiteIds()
+            );
         }
 
         return $this->_items;
@@ -214,15 +212,17 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             return __('N/A');
         }
 
-        if ($attribute->getSourceModel()
-            || in_array($attribute->getFrontendInput(), array('select','boolean','multiselect'))
+        if ($attribute->getSourceModel() || in_array(
+            $attribute->getFrontendInput(),
+            array('select', 'boolean', 'multiselect')
+        )
         ) {
             //$value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
             $value = $attribute->getFrontend()->getValue($product);
         } else {
             $value = $product->getData($attribute->getAttributeCode());
         }
-        return ((string)$value == '') ? __('No') : $value;
+        return (string)$value == '' ? __('No') : $value;
     }
 
     /**
@@ -232,7 +232,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/*', array('_current'=>true, 'print'=>1));
+        return $this->getUrl('*/*/*', array('_current' => true, 'print' => 1));
     }
 
     /**

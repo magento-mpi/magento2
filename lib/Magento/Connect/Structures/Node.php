@@ -102,15 +102,15 @@ class Node
      * @return   mixed
      * @throws   \Exception
      */
-    public function & getMetadata($key, $nullIfNonexistent = false)
+    public function &getMetadata($key, $nullIfNonexistent = false)
     {
         if (array_key_exists($key, $this->_metadata)) {
             return $this->_metadata[$key];
         } elseif ($nullIfNonexistent) {
-                $a = null;
-                return $a;
+            $a = null;
+            return $a;
         } else {
-            throw new \Exception(__METHOD__." : requested key doesn't exist: {$key}");
+            throw new \Exception(__METHOD__ . " : requested key doesn't exist: {$key}");
         }
     }
 
@@ -125,7 +125,6 @@ class Node
         if (array_key_exists($key, $this->_metadata)) {
             unset($this->_metadata[$key]);
         }
-
     }
 
     /**
@@ -163,17 +162,17 @@ class Node
     public function connectTo(&$destinationNode)
     {
         $class = get_class($this);
-        if(!$destinationNode instanceof $class) {
-            throw new \Exception(__METHOD__." : argument should be instance of {$class}");
+        if (!$destinationNode instanceof $class) {
+            throw new \Exception(__METHOD__ . " : argument should be instance of {$class}");
         }
 
         // Nodes must already be in graphs to be connected
         if ($this->_graph == null) {
-            throw new \Exception(__METHOD__." : tried to connect to null graph");
+            throw new \Exception(__METHOD__ . " : tried to connect to null graph");
         }
 
         if ($destinationNode->getGraph() == null) {
-            throw new \Exception(__METHOD__." : tried to connect to node that is not connected to any graph");
+            throw new \Exception(__METHOD__ . " : tried to connect to node that is not connected to any graph");
         }
 
         // Connect here
@@ -203,7 +202,7 @@ class Node
     public function connectsTo(&$target)
     {
         $arcKeys = array_keys($this->_arcs);
-        foreach($arcKeys as $key) {
+        foreach ($arcKeys as $key) {
             $arc =& $this->_arcs[$key];
             if ($target === $arc) {
                 return true;
@@ -241,7 +240,6 @@ class Node
             }
         }
         return $result;
-
     }
 
     /**

@@ -59,9 +59,9 @@ class Profiler
     public function registerFileProfiler($profilerOutputFile)
     {
         $this->_registerDriver();
-        $this->_driver->registerOutput(new \Magento\Profiler\Driver\Standard\Output\Csvfile(array(
-            'filePath' => $profilerOutputFile
-        )));
+        $this->_driver->registerOutput(
+            new \Magento\Profiler\Driver\Standard\Output\Csvfile(array('filePath' => $profilerOutputFile))
+        );
     }
 
     /**
@@ -73,9 +73,10 @@ class Profiler
     public function registerBambooProfiler($profilerOutputFile, $profilerMetricsFile)
     {
         $this->_registerDriver();
-        $this->_driver->registerOutput(new \Magento\TestFramework\Profiler\OutputBamboo(array(
-            'filePath' => $profilerOutputFile,
-            'metrics'  => require($profilerMetricsFile)
-        )));
+        $this->_driver->registerOutput(
+            new \Magento\TestFramework\Profiler\OutputBamboo(
+                array('filePath' => $profilerOutputFile, 'metrics' => require $profilerMetricsFile)
+            )
+        );
     }
 }

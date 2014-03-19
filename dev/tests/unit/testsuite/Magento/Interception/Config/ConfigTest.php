@@ -5,8 +5,8 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Interception\Config;
+
 
 require_once __DIR__ . '/../Custom/Module/Model/Item.php';
 require_once __DIR__ . '/../Custom/Module/Model/Item/Enhanced.php';
@@ -15,7 +15,6 @@ require_once __DIR__ . '/../Custom/Module/Model/ItemContainer/Enhanced.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemContainerPlugin/Simple.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Simple.php';
 require_once __DIR__ . '/../Custom/Module/Model/ItemPlugin/Advanced.php';
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**

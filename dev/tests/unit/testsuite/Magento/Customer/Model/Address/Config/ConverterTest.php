@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Address\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase

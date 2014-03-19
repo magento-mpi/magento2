@@ -17,8 +17,7 @@ namespace Magento\ImportExport\Model\Source\Import\Behavior;
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Basic
-    extends \Magento\ImportExport\Model\Source\Import\AbstractBehavior
+class Basic extends \Magento\ImportExport\Model\Source\Import\AbstractBehavior
 {
     /**
      * {@inheritdoc}
@@ -26,12 +25,9 @@ class Basic
     public function toArray()
     {
         return array(
-            \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
-                => __('Append Complex Data'),
-            \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE
-                => __('Replace Existing Complex Data'),
-            \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
-                => __('Delete Entities'),
+            \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND => __('Append Complex Data'),
+            \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE => __('Replace Existing Complex Data'),
+            \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => __('Delete Entities')
         );
     }
 

@@ -72,7 +72,7 @@ class Form extends \Magento\View\Element\Template
      *
      * @var string
      */
-    protected $_fieldIdFormat   = '%1$s';
+    protected $_fieldIdFormat = '%1$s';
 
     /**
      * Format for HTML elements name attribute
@@ -229,9 +229,13 @@ class Form extends \Magento\View\Element\Template
     public function getForm()
     {
         if (is_null($this->_form)) {
-            $this->_form = $this->_formFactory->create($this->_formModelPath)
-                ->setFormCode($this->_formCode)
-                ->setEntity($this->getEntity());
+            $this->_form = $this->_formFactory->create(
+                $this->_formModelPath
+            )->setFormCode(
+                $this->_formCode
+            )->setEntity(
+                $this->getEntity()
+            );
             if ($this->_entityType) {
                 $this->_form->setEntityType($this->_entityType);
             }
@@ -259,7 +263,8 @@ class Form extends \Magento\View\Element\Template
     {
         $attributes = array();
         foreach ($this->getForm()->getUserAttributes() as $attribute) {
-            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))) {
+            if ($this->getExcludeFileAttributes() && in_array($attribute->getFrontendInput(), array('image', 'file'))
+            ) {
                 continue;
             }
             if ($attribute->getIsVisible()) {
@@ -277,13 +282,18 @@ class Form extends \Magento\View\Element\Template
      */
     public function getAttributeHtml(\Magento\Eav\Model\Attribute $attribute)
     {
-        $type   = $attribute->getFrontendInput();
-        $block  = $this->getRenderer($type);
+        $type = $attribute->getFrontendInput();
+        $block = $this->getRenderer($type);
         if ($block) {
-            $block->setAttributeObject($attribute)
-                ->setEntity($this->getEntity())
-                ->setFieldIdFormat($this->_fieldIdFormat)
-                ->setFieldNameFormat($this->_fieldNameFormat);
+            $block->setAttributeObject(
+                $attribute
+            )->setEntity(
+                $this->getEntity()
+            )->setFieldIdFormat(
+                $this->_fieldIdFormat
+            )->setFieldNameFormat(
+                $this->_fieldNameFormat
+            );
             return $block->toHtml();
         }
         return false;

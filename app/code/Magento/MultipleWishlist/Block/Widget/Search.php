@@ -13,8 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Widget;
 
-class Search extends \Magento\View\Element\Template
-    implements \Magento\Widget\Block\BlockInterface
+class Search extends \Magento\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Search form select options
@@ -124,18 +123,20 @@ class Search extends \Magento\View\Element\Template
      */
     public function getSearchFormSelect()
     {
-        $options = array_merge(array(
-            array(
-                'value' => '',
-                'label' => __('Select Search Type'))
-            ),
+        $options = array_merge(
+            array(array('value' => '', 'label' => __('Select Search Type'))),
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
-            ->setName('search_by')
-            ->setId($this->getBlockId() . '-search_by')
-            ->setOptions($options);
+        $select = $this->getLayout()->createBlock(
+            'Magento\View\Element\Html\Select'
+        )->setName(
+            'search_by'
+        )->setId(
+            $this->getBlockId() . '-search_by'
+        )->setOptions(
+            $options
+        );
 
         return $select->getHtml();
     }
@@ -168,18 +169,15 @@ class Search extends \Magento\View\Element\Template
             if (in_array($codeAll, $useForms)) {
                 unset($allForms[$codeAll]);
             } else {
-                 foreach ($allForms as $type => $label) {
-                     if (!in_array($type, $useForms)) {
-                         unset($allForms[$type]);
+                foreach ($allForms as $type => $label) {
+                    if (!in_array($type, $useForms)) {
+                        unset($allForms[$type]);
                     }
                 }
             }
             $options = array();
             foreach ($allForms as $type => $label) {
-                $options[] = array(
-                    'value' => $type,
-                    'label' => $label
-                );
+                $options[] = array('value' => $type, 'label' => $label);
             }
             $this->_selectOptions = $options;
         }

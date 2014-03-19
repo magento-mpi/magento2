@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule3\Service\V1\Entity;
 
 class Parameter extends \Magento\Service\Data\AbstractObject

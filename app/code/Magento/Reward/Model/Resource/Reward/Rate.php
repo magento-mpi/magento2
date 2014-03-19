@@ -39,19 +39,26 @@ class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function fetch(RewardRate $rate, $customerGroupId, $websiteId, $direction)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('website_id IN (:website_id, 0)')
-            ->where('customer_group_id IN (:customer_group_id, 0)')
-            ->where('direction = :direction')
-            ->order('customer_group_id DESC')
-            ->order('website_id DESC')
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'website_id IN (:website_id, 0)'
+        )->where(
+            'customer_group_id IN (:customer_group_id, 0)'
+        )->where(
+            'direction = :direction'
+        )->order(
+            'customer_group_id DESC'
+        )->order(
+            'website_id DESC'
+        )->limit(
+            1
+        );
 
         $bind = array(
-            ':website_id'        => (int)$websiteId,
+            ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction'         => $direction
+            ':direction' => $direction
         );
 
         $row = $this->_getReadAdapter()->fetchRow($select, $bind);
@@ -73,15 +80,19 @@ class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getRateData($websiteId, $customerGroupId, $direction)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('website_id = :website_id')
-            ->where('customer_group_id = :customer_group_id')
-            ->where('direction = :direction');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'website_id = :website_id'
+        )->where(
+            'customer_group_id = :customer_group_id'
+        )->where(
+            'direction = :direction'
+        );
         $bind = array(
-            ':website_id'        => (int)$websiteId,
+            ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction'         => $direction
+            ':direction' => $direction
         );
         $data = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($data) {

@@ -73,6 +73,7 @@
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types
 * Updated XML files to include relative path reference to schema file (MAGETWO-15527)
+* Updated code to be PSR-2 compliant
 
 2.0.0.0-dev68
 =============

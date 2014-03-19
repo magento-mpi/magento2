@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Email\Model\Template;
 
 class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
@@ -22,9 +21,8 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
     /**
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-    ) {
+    public function __construct(\Magento\Core\Model\Store\ConfigInterface $coreStoreConfig)
+    {
         $this->_storeConfig = $coreStoreConfig;
     }
 

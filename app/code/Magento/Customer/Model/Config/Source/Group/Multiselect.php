@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Config\Source\Group;
 
 class Multiselect implements \Magento\Option\ArrayInterface

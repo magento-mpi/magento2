@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V2;
 
 use Magento\TestModule1\Service\V2\Entity\Item;

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Status\Grid\Column;
 
 class Unassign extends \Magento\Backend\Block\Widget\Grid\Column
@@ -36,10 +35,7 @@ class Unassign extends \Magento\Backend\Block\Widget\Grid\Column
         $cell = '';
         $state = $row->getState();
         if (!empty($state)) {
-            $url = $this->getUrl(
-                '*/*/unassign',
-                array('status' => $row->getStatus(), 'state' => $row->getState())
-            );
+            $url = $this->getUrl('*/*/unassign', array('status' => $row->getStatus(), 'state' => $row->getState()));
             $label = __('Unassign');
             $cell = '<a href="' . $url . '">' . $label . '</a>';
         }

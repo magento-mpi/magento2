@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
 /**
@@ -41,11 +40,11 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
             )
         );
 
-        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\App\Filesystem\DirectoryList');
+        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem\DirectoryList'
+        );
         /** @var $directoryList \Magento\App\Filesystem\DirectoryList */
-        $directoryList->addDirectory(\Magento\App\Filesystem::SYS_TMP_DIR,
-            array('path' => '/'));
+        $directoryList->addDirectory(\Magento\App\Filesystem::SYS_TMP_DIR, array('path' => '/'));
 
         $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->getCollection()->getFirstItem();
 

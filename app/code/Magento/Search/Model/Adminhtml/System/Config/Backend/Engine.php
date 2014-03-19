@@ -58,8 +58,11 @@ class Engine extends \Magento\Core\Model\Config\Value
         parent::_afterSave();
 
         if ($this->isValueChanged()) {
-            $this->_indexer->getProcessByCode('catalogsearch_fulltext')
-                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
+            $this->_indexer->getProcessByCode(
+                'catalogsearch_fulltext'
+            )->changeStatus(
+                \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX
+            );
         }
 
         return $this;

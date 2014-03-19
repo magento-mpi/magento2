@@ -17,8 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Adminhtml\Report\Customer\Wishlist;
 
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**
      * @return $this

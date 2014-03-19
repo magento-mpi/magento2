@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array (
+return array(
     'magento_rma_item_entity_datetime' => 'Magento_Rma',
     'magento_rma_item_entity_decimal' => 'Magento_Rma',
     'magento_rma_item_entity_int' => 'Magento_Rma',
@@ -88,5 +88,5 @@ return array (
     'magento_targetrule_index_upsell' => 'Magento_TargetRule',
     'magento_targetrule_product' => 'Magento_TargetRule',
     'magento_targetrule' => 'Magento_TargetRule',
-    'job_queue' => 'Magento_Queue',
+    'job_queue' => 'Magento_Queue'
 );

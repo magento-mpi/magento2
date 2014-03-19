@@ -82,13 +82,7 @@ class Message extends \Magento\Core\Helper\Data
         $this->_productFactory = $productFactory;
         $this->_layoutFactory = $layoutFactory;
         $this->_giftMessageFactory = $giftMessageFactory;
-        parent::__construct(
-            $context,
-            $coreStoreConfig,
-            $storeManager,
-            $appState,
-            $dbCompatibleMode
-        );
+        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
     }
 
     /**
@@ -104,11 +98,17 @@ class Message extends \Magento\Core\Helper\Data
         if (!$this->isMessagesAvailable($type, $entity)) {
             return '';
         }
-        return $this->_layoutFactory->create()->createBlock('Magento\GiftMessage\Block\Message\Inline')
-            ->setId('giftmessage_form_' . $this->_nextId++)
-            ->setDontDisplayContainer($dontDisplayContainer)
-            ->setEntity($entity)
-            ->setType($type)->toHtml();
+        return $this->_layoutFactory->create()->createBlock(
+            'Magento\GiftMessage\Block\Message\Inline'
+        )->setId(
+            'giftmessage_form_' . $this->_nextId++
+        )->setDontDisplayContainer(
+            $dontDisplayContainer
+        )->setEntity(
+            $entity
+        )->setType(
+            $type
+        )->toHtml();
     }
 
     /**
@@ -140,24 +140,19 @@ class Message extends \Magento\Core\Helper\Data
                 }
             }
         } elseif ($type == 'item') {
-            return $this->_getDependenceFromStoreConfig(
-                $entity->getProduct()->getGiftMessageAvailable(),
-                $store
-            );
+            return $this->_getDependenceFromStoreConfig($entity->getProduct()->getGiftMessageAvailable(), $store);
         } elseif ($type == 'order_item') {
-            return $this->_getDependenceFromStoreConfig(
-                $entity->getGiftMessageAvailable(),
-                $store
-            );
+            return $this->_getDependenceFromStoreConfig($entity->getGiftMessageAvailable(), $store);
         } elseif ($type == 'address_item') {
             $storeId = is_numeric($store) ? $store : $this->_storeManager->getStore($store)->getId();
             if (!$this->isCached('address_item_' . $entity->getProductId())) {
                 $this->setCached(
                     'address_item_' . $entity->getProductId(),
-                    $this->_productFactory->create()
-                        ->setStoreId($storeId)
-                        ->load($entity->getProductId())
-                        ->getGiftMessageAvailable()
+                    $this->_productFactory->create()->setStoreId(
+                        $storeId
+                    )->load(
+                        $entity->getProductId()
+                    )->getGiftMessageAvailable()
                 );
             }
             return $this->_getDependenceFromStoreConfig(

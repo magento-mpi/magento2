@@ -15,5 +15,4 @@ namespace Magento\FullPageCache\Model\Container;
 
 class Blackhole extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
-
 }

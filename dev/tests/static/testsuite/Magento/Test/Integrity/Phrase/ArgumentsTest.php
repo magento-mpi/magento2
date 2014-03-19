@@ -22,7 +22,6 @@ class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
      */
     protected $_phraseCollector;
 
-
     /**
      * List of files that must be omitted
      *
@@ -40,7 +39,7 @@ class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
         $rootDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
         $this->blackList = array(
             // the file below is the only file where strings are translated without corresponding arguments
-            $rootDir . str_replace('/', DIRECTORY_SEPARATOR, '/app/code/Magento/Core/Helper/Js.php'),
+            $rootDir . str_replace('/', DIRECTORY_SEPARATOR, '/app/code/Magento/Core/Helper/Js.php')
         );
     }
 
@@ -63,8 +62,11 @@ class ArgumentsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
         }
         $this->assertEmpty(
             $errors,
-            sprintf("\n%d usages of inconsistency the number of arguments and placeholders were discovered: \n%s",
-                count($errors), implode("\n\n", $errors))
+            sprintf(
+                "\n%d usages of inconsistency the number of arguments and placeholders were discovered: \n%s",
+                count($errors),
+                implode("\n\n", $errors)
+            )
         );
     }
 }

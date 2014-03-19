@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache\Plugin;
 
 use Magento\Filesystem;
@@ -31,10 +30,8 @@ class Less
      * @param CacheManager $cacheManager
      * @param \Magento\Logger $logger
      */
-    public function __construct(
-        CacheManager $cacheManager,
-        \Magento\Logger $logger
-    ) {
+    public function __construct(CacheManager $cacheManager, \Magento\Logger $logger)
+    {
         $this->cacheManager = $cacheManager;
         $this->logger = $logger;
     }

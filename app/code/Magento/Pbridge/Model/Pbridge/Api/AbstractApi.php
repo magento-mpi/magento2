@@ -131,23 +131,20 @@ class AbstractApi extends \Magento\Object
             $this->_debug($debugData);
 
             if ($curlErrorNumber) {
-                $this->_logger->logException(new \Exception(
-                    sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
-                ));
-
-                throw new \Magento\Core\Exception(
-                    __('Unable to communicate with Payment Bridge service.')
+                $this->_logger->logException(
+                    new \Exception(
+                        sprintf('Payment Bridge CURL connection error #%s: %s', $curlErrorNumber, $curlError)
+                    )
                 );
+
+                throw new \Magento\Core\Exception(__('Unable to communicate with Payment Bridge service.'));
             }
             if (isset($response['status']) && $response['status'] == 'Success') {
                 $this->_response = $response;
                 return true;
             }
         } else {
-            $response = array(
-                'status' => 'Fail',
-                'error' => __('Empty response received from Payment Bridge.')
-            );
+            $response = array('status' => 'Fail', 'error' => __('Empty response received from Payment Bridge.'));
         }
 
         $this->_handleError($response);
@@ -204,8 +201,7 @@ class AbstractApi extends \Magento\Object
     {
         $this->_debugFlag = (bool)$this->_coreStoreConfig->getConfigFlag('payment/pbridge/debug');
         if ($this->_debugFlag) {
-            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))
-               ->log($debugData);
+            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))->log($debugData);
         }
     }
 

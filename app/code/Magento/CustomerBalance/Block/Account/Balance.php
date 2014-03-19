@@ -54,9 +54,7 @@ class Balance extends \Magento\View\Element\Template
             return 0;
         }
 
-        $model = $this->_balanceFactory->create()
-            ->setCustomerId($customerId)
-            ->loadByCustomer();
+        $model = $this->_balanceFactory->create()->setCustomerId($customerId)->loadByCustomer();
 
         return $model->getAmount();
     }

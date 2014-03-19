@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Tools\Layout\Reference;
 
 use Magento\Tools\Layout\Formatter;

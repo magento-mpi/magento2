@@ -26,7 +26,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
      * @var \Magento\Payment\Model\Config
      */
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!$model = $this->_coreStoreConfig->getConfig($prefix . 'model', $store)) {
+            if (!($model = $this->_coreStoreConfig->getConfig($prefix . 'model', $store))) {
                 continue;
             }
             $methodInstance = $this->_methodFactory->create($model);
@@ -155,7 +155,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _sortMethods($a, $b)
     {
         if (is_object($a)) {
-            return (int)$a->sort_order < (int)$b->sort_order ? -1 : ((int)$a->sort_order > (int)$b->sort_order ? 1 : 0);
+            return (int)$a->sort_order <
+                (int)$b->sort_order ? -1 : ((int)$a->sort_order >
+                (int)$b->sort_order ? 1 : 0);
         }
         return 0;
     }
@@ -206,8 +208,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = $info->getBlockMock() ?: $this->getInfoBlock($info);
-            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-                ->setIsSecureMode(true);
+            $paymentBlock->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->setIsSecureMode(true);
             $paymentBlock->getMethod()->setStore($storeId);
             $paymentBlockHtml = $paymentBlock->toHtml();
         } catch (\Exception $exception) {
@@ -277,7 +278,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $groupRelations = array();
 
         foreach ($this->getPaymentMethods() as $code => $data) {
-            if ((isset($data['title']))) {
+            if (isset($data['title'])) {
                 $methods[$code] = $data['title'];
             } else {
                 if ($this->getMethodInstance($code)) {
@@ -326,8 +327,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isZeroSubTotal($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
+        return $this->_coreStoreConfig->getConfig(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE,
+            $store
+        );
     }
 
     /**
@@ -338,8 +341,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalOrderStatus($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
+        return $this->_coreStoreConfig->getConfig(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS,
+            $store
+        );
     }
 
     /**
@@ -350,7 +355,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
-        return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
+        return $this->_coreStoreConfig->getConfig(
+            \Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION,
+            $store
+        );
     }
 }

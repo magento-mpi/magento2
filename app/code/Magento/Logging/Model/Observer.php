@@ -192,16 +192,18 @@ class Observer
         if (!$userId) {
             $userId = $this->_user->loadByUsername($username)->getId();
         }
-        $this->_event->setData(array(
-            'ip'         => $this->_remoteAddress->getRemoteAddress(),
-            'user'       => $username,
-            'user_id'    => $userId,
-            'is_success' => $success,
-            'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}"
-                . "_{$this->_request->getActionName()}",
-            'event_code' => $eventCode,
-            'action'     => 'login',
-        ));
+        $this->_event->setData(
+            array(
+                'ip' => $this->_remoteAddress->getRemoteAddress(),
+                'user' => $username,
+                'user_id' => $userId,
+                'is_success' => $success,
+                'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}" .
+                "_{$this->_request->getActionName()}",
+                'event_code' => $eventCode,
+                'action' => 'login'
+            )
+        );
         return $this->_event->save();
     }
 
@@ -215,9 +217,9 @@ class Observer
         $lastRotationFlag = $this->_flagFactory->create()->loadSelf();
         $lastRotationTime = $lastRotationFlag->getFlagData();
         $rotationFrequency = 3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/frequency', 'default');
-        if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
+        if (!$lastRotationTime || $lastRotationTime < time() - $rotationFrequency) {
             $this->eventFactory->create()->rotate(
-                3600 * 24 *(int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
+                3600 * 24 * (int)$this->_coreConfig->getValue('system/rotation/lifetime', 'default')
             );
         }
         $lastRotationFlag->setFlagData(time())->save();

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Encryption;
 
 class UrlCoderTest extends \PHPUnit_Framework_TestCase
@@ -38,9 +37,15 @@ class UrlCoderTest extends \PHPUnit_Framework_TestCase
 
     public function testDecode()
     {
-        $this->_urlMock
-            ->expects($this->once())
-            ->method('sessionUrlVar')->with($this->_url)->will($this->returnValue('expected'));
+        $this->_urlMock->expects(
+            $this->once()
+        )->method(
+            'sessionUrlVar'
+        )->with(
+            $this->_url
+        )->will(
+            $this->returnValue('expected')
+        );
         $this->assertEquals('expected', $this->_urlCoder->decode($this->_encodeUrl));
     }
 

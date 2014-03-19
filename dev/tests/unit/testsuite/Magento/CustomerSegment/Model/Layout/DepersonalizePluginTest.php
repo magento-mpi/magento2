@@ -14,7 +14,7 @@ namespace Magento\CustomerSegment\Model\Layout;
  * Class DepersonalizePluginTest
  * @package Magento\CustomerSegment\Model\Layout
  */
-class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
+class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Customer\Model\Layout\DepersonalizePluginTest
@@ -86,19 +86,23 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $expectedCustomerSegmentIds = array(1, 2, 3);
         $result = 'test';
 
-        $this->requestMock->expects($this->once())
-            ->method('isAjax')
-            ->will($this->returnValue(false));
-        $this->layoutMock->expects($this->once())
-            ->method('isCacheable')
-            ->will($this->returnValue(true));
-        $this->customerSessionMock->expects($this->once())
-            ->method('getCustomerSegmentIds')
-            ->will($this->returnValue($expectedCustomerSegmentIds));
+        $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(false));
+        $this->layoutMock->expects($this->once())->method('isCacheable')->will($this->returnValue(true));
+        $this->customerSessionMock->expects(
+            $this->once()
+        )->method(
+            'getCustomerSegmentIds'
+        )->will(
+            $this->returnValue($expectedCustomerSegmentIds)
+        );
 
-        $this->customerSessionMock->expects($this->once())
-            ->method('setCustomerSegmentIds')
-            ->with($this->equalTo($expectedCustomerSegmentIds));
+        $this->customerSessionMock->expects(
+            $this->once()
+        )->method(
+            'setCustomerSegmentIds'
+        )->with(
+            $this->equalTo($expectedCustomerSegmentIds)
+        );
         $this->plugin->beforeGenerateXml($this->layoutMock);
         $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
         $this->assertSame($result, $output);
@@ -111,11 +115,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     {
         $result = 'test';
 
-        $this->requestMock->expects($this->once())
-            ->method('isAjax')
-            ->will($this->returnValue(true));
-        $this->layoutMock->expects($this->never())
-            ->method('isCacheable');
+        $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
+        $this->layoutMock->expects($this->never())->method('isCacheable');
         $this->plugin->beforeGenerateXml($this->layoutMock);
         $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
         $this->assertSame($result, $output);
@@ -128,14 +129,9 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     {
         $result = 'test';
 
-        $this->requestMock->expects($this->once())
-            ->method('isAjax')
-            ->will($this->returnValue(false));
-        $this->layoutMock->expects($this->once())
-            ->method('isCacheable')
-            ->will($this->returnValue(false));
-        $this->customerSessionMock->expects($this->never())
-            ->method('setCustomerSegmentIds');
+        $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(false));
+        $this->layoutMock->expects($this->once())->method('isCacheable')->will($this->returnValue(false));
+        $this->customerSessionMock->expects($this->never())->method('setCustomerSegmentIds');
         $this->plugin->beforeGenerateXml($this->layoutMock, $result);
         $output = $this->plugin->afterGenerateXml($this->layoutMock, $result);
         $this->assertSame($result, $output);

@@ -83,14 +83,17 @@ class Result extends Template
         // add Home breadcrumb
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $breadcrumbs->addCrumb('home', array(
-                'label' => __('Home'),
-                'title' => __('Go to Home Page'),
-                'link'  => $this->_storeManager->getStore()->getBaseUrl(),
-            ))->addCrumb('search', array(
-                'label' => $title,
-                'title' => $title
-            ));
+            $breadcrumbs->addCrumb(
+                'home',
+                array(
+                    'label' => __('Home'),
+                    'title' => __('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()
+                )
+            )->addCrumb(
+                'search',
+                array('label' => $title, 'title' => $title)
+            );
         }
 
         return parent::_prepareLayout();
@@ -127,14 +130,15 @@ class Result extends Template
         /* @var $category \Magento\Catalog\Model\Category */
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
-        $availableOrders = array_merge(array(
-            'relevance' => __('Relevance')
-        ), $availableOrders);
+        $availableOrders = array_merge(array('relevance' => __('Relevance')), $availableOrders);
 
-        $this->getListBlock()
-            ->setAvailableOrders($availableOrders)
-            ->setDefaultDirection('desc')
-            ->setSortBy('relevance');
+        $this->getListBlock()->setAvailableOrders(
+            $availableOrders
+        )->setDefaultDirection(
+            'desc'
+        )->setSortBy(
+            'relevance'
+        );
 
         return $this;
     }
@@ -158,9 +162,9 @@ class Result extends Template
      */
     public function setListCollection()
     {
-//        $this->getListBlock()
-//           ->setCollection($this->_getProductCollection());
-       return $this;
+        //        $this->getListBlock()
+        //           ->setCollection($this->_getProductCollection());
+        return $this;
     }
 
     /**

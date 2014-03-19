@@ -16,8 +16,7 @@ use Zend_Db_Select;
 /**
  * Root segment condition (top level condition)
  */
-class Root
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
+class Root extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
 {
     /**
      * @var \Magento\Customer\Model\Config\Share

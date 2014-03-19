@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Log\Model\Resource\Visitor\Online\Grid\Row;
 
-class UrlGenerator
-    extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
+class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
      * @var \Magento\AuthorizationInterface

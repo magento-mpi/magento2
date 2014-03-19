@@ -74,7 +74,6 @@ abstract class AbstractBackup implements BackupInterface
      */
     protected $_lastErrorMessage;
 
-
     /**
      * Set Backup Extension
      *

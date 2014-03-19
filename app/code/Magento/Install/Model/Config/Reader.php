@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem

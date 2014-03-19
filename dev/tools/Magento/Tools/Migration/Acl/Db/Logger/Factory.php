@@ -23,10 +23,7 @@ class Factory
      */
     public function __construct()
     {
-        $this->_allowedLoggerTypes = array(
-            'console',
-            'file',
-        );
+        $this->_allowedLoggerTypes = array('console', 'file');
     }
 
     /**

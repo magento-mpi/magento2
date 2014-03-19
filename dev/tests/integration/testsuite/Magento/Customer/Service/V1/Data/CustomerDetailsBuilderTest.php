@@ -43,12 +43,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_builder =
-            $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
-        $this->_customerBuilder =
-            $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
-        $this->_addressBuilder =
-            $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
+        $this->_builder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Data\AddressBuilder');
     }
 
     /**
@@ -67,14 +64,14 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             $customer = $this->_customerBuilder->populateWithArray($customer)->create();
         }
         if (!is_null($expectedAddresses)) {
-            $addressArray = [];
+            $addressArray = array();
             foreach ($expectedAddresses as $expectedAddress) {
                 $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
             }
             $expectedAddresses = $addressArray;
         }
         if (!is_null($addresses)) {
-            $addressArray = [];
+            $addressArray = array();
             foreach ($addresses as $address) {
                 $addressArray[] = $this->_addressBuilder->populateWithArray($address)->create();
             }
@@ -92,7 +89,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
     public function createDataProvider()
     {
 
-        $customerData = [
+        $customerData = array(
             'group_id' => 1,
             'website_id' => 1,
             'firstname' => 'test firstname',
@@ -100,9 +97,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
-        ];
+        );
 
-        $addressData = [
+        $addressData = array(
             'id' => 14,
             'default_shipping' => true,
             'default_billing' => false,
@@ -114,25 +111,22 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S45',
             'firstname' => 'Jane',
             'lastname' => 'Doe',
-            'street' => ['7700 W Parmer Ln'],
+            'street' => array('7700 W Parmer Ln'),
             'city' => 'Austin',
             'country_id' => 'US',
             'postcode' => '78620',
             'telephone' => '5125125125',
-            'region' => [
-                'region_id' => 0,
-                'region' => 'Texas',
-            ],
-        ];
+            'region' => array('region_id' => 0, 'region' => 'Texas')
+        );
 
-        return [
-            [null, null, [], null],
-            [$customerData, null, $customerData, null],
-            [null, [], [], []],
-            [$customerData, [$addressData], $customerData, [$addressData]],
-            [$customerData, [$addressData, $addressData], $customerData, [$addressData, $addressData]],
-            [null, [$addressData, $addressData], [], [$addressData, $addressData]],
-        ];
+        return array(
+            array(null, null, array(), null),
+            array($customerData, null, $customerData, null),
+            array(null, array(), array(), array()),
+            array($customerData, array($addressData), $customerData, array($addressData)),
+            array($customerData, array($addressData, $addressData), $customerData, array($addressData, $addressData)),
+            array(null, array($addressData, $addressData), array(), array($addressData, $addressData))
+        );
     }
 
     /**
@@ -146,7 +140,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         $expectedCustomer = $this->_customerBuilder->populateWithArray($expectedCustomer)->create();
 
         if (!is_null($expectedAddresses)) {
-            $addressArray = [];
+            $addressArray = array();
             foreach ($expectedAddresses as $expectedAddress) {
                 $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
             }
@@ -171,7 +165,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
         $expectedCustomer = $this->_customerBuilder->populateWithArray($expectedCustomer)->create();
 
         if (!is_null($expectedAddresses)) {
-            $addressArray = [];
+            $addressArray = array();
             foreach ($expectedAddresses as $expectedAddress) {
                 $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
             }
@@ -187,7 +181,7 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function populateWithArrayDataProvider()
     {
-        $customer = [
+        $customer = array(
             'group_id' => 1,
             'website_id' => 1,
             'firstname' => 'test firstname',
@@ -195,9 +189,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
-        ];
+        );
 
-        $address1 = [
+        $address1 = array(
             'id' => 14,
             'default_shipping' => true,
             'default_billing' => false,
@@ -209,18 +203,15 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S45',
             'firstname' => 'Jane',
             'lastname' => 'Doe',
-            'street' => ['7700 W Parmer Ln'],
+            'street' => array('7700 W Parmer Ln'),
             'city' => 'Austin',
             'country_id' => 'US',
             'postcode' => '78620',
             'telephone' => '5125125125',
-            'region' => [
-                'region_id' => 0,
-                'region' => 'Texas',
-            ],
-        ];
+            'region' => array('region_id' => 0, 'region' => 'Texas')
+        );
 
-        $address2 = [
+        $address2 = array(
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
             'street' => array('test street'),
@@ -229,33 +220,29 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'postcode' => '01001',
             'telephone' => '+7000000001',
             'id' => 2
-        ];
+        );
 
-        return [
-            [[], [], null],
-            [['customer' => $customer], $customer, null],
-            [['customer' => $customer, 'addresses' => null], $customer, null],
-            [
-                ['customer' => $customer, 'addresses' => [$address1, $address2]],
+        return array(
+            array(array(), array(), null),
+            array(array('customer' => $customer), $customer, null),
+            array(array('customer' => $customer, 'addresses' => null), $customer, null),
+            array(
+                array('customer' => $customer, 'addresses' => array($address1, $address2)),
                 $customer,
-                [$address1, $address2]
-            ],
-            [
-                ['addresses' => [$address1, $address2]],
-                [],
-                [$address1, $address2]
-            ],
-            [
-                ['customer' => null, 'addresses' => [$address1, $address2]],
-                [],
-                [$address1, $address2]
-            ],
-        ];
+                array($address1, $address2)
+            ),
+            array(array('addresses' => array($address1, $address2)), array(), array($address1, $address2)),
+            array(
+                array('customer' => null, 'addresses' => array($address1, $address2)),
+                array(),
+                array($address1, $address2)
+            )
+        );
     }
 
     public function testMergeDataObjects()
     {
-        $customer = [
+        $customer = array(
             'group_id' => 1,
             'website_id' => 1,
             'firstname' => 'test firstname',
@@ -263,9 +250,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
-        ];
+        );
 
-        $address1 = [
+        $address1 = array(
             'id' => 14,
             'default_shipping' => true,
             'default_billing' => false,
@@ -277,18 +264,15 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S45',
             'firstname' => 'Jane',
             'lastname' => 'Doe',
-            'street' => ['7700 W Parmer Ln'],
+            'street' => array('7700 W Parmer Ln'),
             'city' => 'Austin',
             'country_id' => 'US',
             'postcode' => '78620',
             'telephone' => '5125125125',
-            'region' => [
-                'region_id' => 0,
-                'region' => 'Texas',
-            ],
-        ];
+            'region' => array('region_id' => 0, 'region' => 'Texas')
+        );
 
-        $address2 = [
+        $address2 = array(
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
             'street' => array('test street'),
@@ -297,9 +281,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'postcode' => '01001',
             'telephone' => '+7000000001',
             'id' => 2
-        ];
+        );
 
-        $addressMerge = [
+        $addressMerge = array(
             'id' => 2,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
@@ -307,25 +291,25 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'city' => 'test city',
             'country_id' => 'US',
             'postcode' => '01001',
-            'telephone' => '+7000000001',
-        ];
+            'telephone' => '+7000000001'
+        );
 
-        $customerDetails = $this->_builder
-            ->populateWithArray(['customer' => $customer, 'addresses' => [$addressMerge]])
-            ->create();
-        $customerDetailsC = $this->_builder
-            ->populateWithArray(['customer' => $customer, 'addresses' => [$address1]])
-            ->create();
-        $customerDetailsA = $this->_builder
-            ->populateWithArray(['customer' => $customer, 'addresses' => [$address2]])
-            ->create();
+        $customerDetails = $this->_builder->populateWithArray(
+            array('customer' => $customer, 'addresses' => array($addressMerge))
+        )->create();
+        $customerDetailsC = $this->_builder->populateWithArray(
+            array('customer' => $customer, 'addresses' => array($address1))
+        )->create();
+        $customerDetailsA = $this->_builder->populateWithArray(
+            array('customer' => $customer, 'addresses' => array($address2))
+        )->create();
         $customerDetailsB = $this->_builder->mergeDataObjects($customerDetailsC, $customerDetailsA);
         $this->assertEquals($customerDetails->__toArray(), $customerDetailsB->__toArray());
     }
 
     public function testMergeDataWithArray()
     {
-        $customer = [
+        $customer = array(
             'group_id' => 1,
             'website_id' => 1,
             'firstname' => 'test firstname',
@@ -333,9 +317,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'email' => 'example@domain.com',
             'default_billing' => '_item1',
             'password' => '123123q'
-        ];
+        );
 
-        $address1 = [
+        $address1 = array(
             'id' => 14,
             'default_shipping' => true,
             'default_billing' => false,
@@ -347,18 +331,15 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S45',
             'firstname' => 'Jane',
             'lastname' => 'Doe',
-            'street' => ['7700 W Parmer Ln'],
+            'street' => array('7700 W Parmer Ln'),
             'city' => 'Austin',
             'country_id' => 'US',
             'postcode' => '78620',
             'telephone' => '5125125125',
-            'region' => [
-                'region_id' => 0,
-                'region' => 'Texas',
-            ],
-        ];
+            'region' => array('region_id' => 0, 'region' => 'Texas')
+        );
 
-        $address2 = [
+        $address2 = array(
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
             'street' => array('test street'),
@@ -367,9 +348,9 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'postcode' => '01001',
             'telephone' => '+7000000001',
             'id' => 2
-        ];
+        );
 
-        $addressMerge = [
+        $addressMerge = array(
             'id' => 2,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
@@ -377,17 +358,19 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'city' => 'test city',
             'country_id' => 'US',
             'postcode' => '01001',
-            'telephone' => '+7000000001',
-        ];
+            'telephone' => '+7000000001'
+        );
 
-        $customerDetails = $this->_builder
-            ->populateWithArray(['customer' => $customer, 'addresses' => [$addressMerge]])
-            ->create();
-        $customerDetailsC = $this->_builder
-            ->populateWithArray(['customer' => $customer, 'addresses' => [$address1]])
-            ->create();
-        $customerDetailsB = $this->_builder->mergeDataObjectWithArray($customerDetailsC, ['addresses' => [$address2]]);
+        $customerDetails = $this->_builder->populateWithArray(
+            array('customer' => $customer, 'addresses' => array($addressMerge))
+        )->create();
+        $customerDetailsC = $this->_builder->populateWithArray(
+            array('customer' => $customer, 'addresses' => array($address1))
+        )->create();
+        $customerDetailsB = $this->_builder->mergeDataObjectWithArray(
+            $customerDetailsC,
+            array('addresses' => array($address2))
+        );
         $this->assertEquals($customerDetails->__toArray(), $customerDetailsB->__toArray());
     }
 }
-

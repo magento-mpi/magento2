@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V1\Entity;
 
 class Item extends \Magento\Service\Data\AbstractObject
@@ -25,5 +24,4 @@ class Item extends \Magento\Service\Data\AbstractObject
     {
         return $this->_data['name'];
     }
-
 }

@@ -39,7 +39,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
                     $data[] = array(
                         'label' => $this->_renderItemLabel($range, $rangeKey),
                         'value' => $rangeKey . ',' . $range,
-                        'count' => $count,
+                        'count' => $count
                     );
                 }
             }
@@ -91,20 +91,17 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
      */
     public function addFacetCondition()
     {
-        $range    = $this->getRange();
+        $range = $this->getRange();
         $maxValue = $this->getMaxValue();
         if ($maxValue > 0) {
             $facets = array();
             $facetCount = ceil($maxValue / $range);
             for ($i = 0; $i < $facetCount; $i++) {
-                $facets[] = array(
-                    'from' => $i * $range,
-                    'to'   => ($i + 1) * $range - 0.001
-                );
+                $facets[] = array('from' => $i * $range, 'to' => ($i + 1) * $range - 0.001);
             }
 
             $attributeCode = $this->getAttributeModel()->getAttributeCode();
-            $field         = 'attr_decimal_' . $attributeCode;
+            $field = 'attr_decimal_' . $attributeCode;
 
             $this->getLayer()->getProductCollection()->setFacetCondition($field, $facets);
         }
@@ -123,15 +120,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\Decimal
     public function applyFilterToCollection($filter, $range, $index)
     {
         $productCollection = $filter->getLayer()->getProductCollection();
-        $attributeCode     = $filter->getAttributeModel()->getAttributeCode();
-        $field             = 'attr_decimal_'. $attributeCode;
+        $attributeCode = $filter->getAttributeModel()->getAttributeCode();
+        $field = 'attr_decimal_' . $attributeCode;
 
-        $value = array(
-            $field => array(
-                'from' => ($range * ($index - 1)),
-                'to'   => $range * $index - 0.001
-            )
-        );
+        $value = array($field => array('from' => $range * ($index - 1), 'to' => $range * $index - 0.001));
 
         $productCollection->addFqFilter($value);
         return $this;

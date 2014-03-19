@@ -18,10 +18,8 @@
  */
 namespace Magento\Catalog\Block\Product\View\Options\Type;
 
-class Text
-    extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
+class Text extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
 {
-
     /**
      * Returns default value to show in text input
      *

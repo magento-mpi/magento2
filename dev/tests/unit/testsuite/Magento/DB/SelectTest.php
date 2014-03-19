@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DB;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
@@ -46,7 +45,11 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     protected function _getAdapterMockWithMockedQuote($callCount, $returnValue = null)
     {
         $adapter = $this->getMock(
-            'Zend_Db_Adapter_Pdo_Mysql', array('supportStraightJoin', 'quote'), array(), '', false
+            'Zend_Db_Adapter_Pdo_Mysql',
+            array('supportStraightJoin', 'quote'),
+            array(),
+            '',
+            false
         );
         $method = $adapter->expects($this->exactly($callCount))->method('quote');
         if ($callCount > 0) {

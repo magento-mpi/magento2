@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Dhl\Model;
 
 use Magento\Sales\Model\Order\Shipment;
@@ -17,20 +16,20 @@ use Magento\Shipping\Model\Rate\Result;
 /**
  * DHL International (API v1.4)
  */
-class Carrier
-    extends \Magento\Dhl\Model\AbstractDhl
-    implements \Magento\Shipping\Model\Carrier\CarrierInterface
+class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
      * Carrier Product indicator
      */
-    const DHL_CONTENT_TYPE_DOC        = 'D';
-    const DHL_CONTENT_TYPE_NON_DOC    = 'N';
+    const DHL_CONTENT_TYPE_DOC = 'D';
+
+    const DHL_CONTENT_TYPE_NON_DOC = 'N';
 
     /**
      * Minimum allowed values for shipping package dimensions
      */
     const DIMENSION_MIN_CM = 3;
+
     const DIMENSION_MIN_IN = 1;
 
     /**
@@ -121,15 +120,15 @@ class Carrier
      * @var array
      */
     protected $_requestVariables = array(
-        'id'                => array('code' => 'dhl_id',                'setCode' => 'id'),
-        'password'          => array('code' => 'dhl_password',          'setCode' => 'password'),
-        'account'           => array('code' => 'dhl_account',           'setCode' => 'account_nbr'),
-        'shipping_key'      => array('code' => 'dhl_shipping_key',      'setCode' => 'shipping_key'),
-        'shipping_intlkey'  => array('code' => 'dhl_shipping_intl_key', 'setCode' => 'shipping_intl_key'),
-        'shipment_type'     => array('code' => 'dhl_shipment_type',     'setCode' => 'shipment_type'),
-        'dutiable'          => array('code' => 'dhl_dutiable',          'setCode' => 'dutiable'),
-        'dutypaymenttype'   => array('code' => 'dhl_duty_payment_type', 'setCode' => 'duty_payment_type'),
-        'contentdesc'       => array('code' => 'dhl_content_desc',      'setCode' => 'content_desc')
+        'id' => array('code' => 'dhl_id', 'setCode' => 'id'),
+        'password' => array('code' => 'dhl_password', 'setCode' => 'password'),
+        'account' => array('code' => 'dhl_account', 'setCode' => 'account_nbr'),
+        'shipping_key' => array('code' => 'dhl_shipping_key', 'setCode' => 'shipping_key'),
+        'shipping_intlkey' => array('code' => 'dhl_shipping_intl_key', 'setCode' => 'shipping_intl_key'),
+        'shipment_type' => array('code' => 'dhl_shipment_type', 'setCode' => 'shipment_type'),
+        'dutiable' => array('code' => 'dhl_dutiable', 'setCode' => 'dutiable'),
+        'dutypaymenttype' => array('code' => 'dhl_duty_payment_type', 'setCode' => 'duty_payment_type'),
+        'contentdesc' => array('code' => 'dhl_content_desc', 'setCode' => 'content_desc')
     );
 
     /**
@@ -280,10 +279,7 @@ class Carrier
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = $this->_coreStoreConfig->getConfig(
-                $pathToValue,
-                $this->getStore()
-            );
+            $origValue = $this->_coreStoreConfig->getConfig($pathToValue, $this->getStore());
         }
 
         return $origValue;
@@ -301,35 +297,29 @@ class Carrier
             return false;
         }
 
-        $requestDhl     = clone $request;
+        $requestDhl = clone $request;
         $this->setStore($requestDhl->getStoreId());
 
         $origCompanyName = $this->_getDefaultValue(
             $requestDhl->getOrigCompanyName(),
             \Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME
         );
-        $origCountryId = $this->_getDefaultValue(
-            $requestDhl->getOrigCountryId(),
-            Shipment::XML_PATH_STORE_COUNTRY_ID
-        );
-        $origState = $this->_getDefaultValue(
-            $requestDhl->getOrigState(),
-            Shipment::XML_PATH_STORE_REGION_ID
-        );
-        $origCity = $this->_getDefaultValue(
-            $requestDhl->getOrigCity(),
-            Shipment::XML_PATH_STORE_CITY
-        );
-        $origPostcode = $this->_getDefaultValue(
-            $requestDhl->getOrigPostcode(),
-            Shipment::XML_PATH_STORE_ZIP
-        );
+        $origCountryId = $this->_getDefaultValue($requestDhl->getOrigCountryId(), Shipment::XML_PATH_STORE_COUNTRY_ID);
+        $origState = $this->_getDefaultValue($requestDhl->getOrigState(), Shipment::XML_PATH_STORE_REGION_ID);
+        $origCity = $this->_getDefaultValue($requestDhl->getOrigCity(), Shipment::XML_PATH_STORE_CITY);
+        $origPostcode = $this->_getDefaultValue($requestDhl->getOrigPostcode(), Shipment::XML_PATH_STORE_ZIP);
 
-        $requestDhl->setOrigCompanyName($origCompanyName)
-            ->setCountryId($origCountryId)
-            ->setOrigState($origState)
-            ->setOrigCity($origCity)
-            ->setOrigPostal($origPostcode);
+        $requestDhl->setOrigCompanyName(
+            $origCompanyName
+        )->setCountryId(
+            $origCountryId
+        )->setOrigState(
+            $origState
+        )->setOrigCity(
+            $origCity
+        )->setOrigPostal(
+            $origPostcode
+        );
         $this->setRequest($requestDhl);
 
         $this->_result = $this->_getQuotes();
@@ -413,36 +403,53 @@ class Carrier
         }
 
         $requestObject->setOrigCountry(
-                $this->_getDefaultValue(
-                    $request->getOrigCountry(), Shipment::XML_PATH_STORE_COUNTRY_ID)
-            )
-            ->setOrigCountryId(
-                $this->_getDefaultValue(
-                    $request->getOrigCountryId(), Shipment::XML_PATH_STORE_COUNTRY_ID)
-            );
+            $this->_getDefaultValue($request->getOrigCountry(), Shipment::XML_PATH_STORE_COUNTRY_ID)
+        )->setOrigCountryId(
+            $this->_getDefaultValue($request->getOrigCountryId(), Shipment::XML_PATH_STORE_COUNTRY_ID)
+        );
 
         $shippingWeight = $request->getPackageWeight();
 
-        $requestObject->setValue(round($request->getPackageValue(), 2))
-            ->setValueWithDiscount($request->getPackageValueWithDiscount())
-            ->setCustomsValue($request->getPackageCustomsValue())
-            ->setDestStreet($this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35))
-            ->setDestStreetLine2($request->getDestStreetLine2())
-            ->setDestCity($request->getDestCity())
-            ->setOrigCompanyName($request->getOrigCompanyName())
-            ->setOrigCity($request->getOrigCity())
-            ->setOrigPhoneNumber($request->getOrigPhoneNumber())
-            ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail($this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
-            ->setOrigCity($request->getOrigCity())
-            ->setOrigPostal($request->getOrigPostal())
-            ->setOrigStreetLine2($request->getOrigStreetLine2())
-            ->setDestPhoneNumber($request->getDestPhoneNumber())
-            ->setDestPersonName($request->getDestPersonName())
-            ->setDestCompanyName($request->getDestCompanyName());
+        $requestObject->setValue(
+            round($request->getPackageValue(), 2)
+        )->setValueWithDiscount(
+            $request->getPackageValueWithDiscount()
+        )->setCustomsValue(
+            $request->getPackageCustomsValue()
+        )->setDestStreet(
+            $this->string->substr(str_replace("\n", '', $request->getDestStreet()), 0, 35)
+        )->setDestStreetLine2(
+            $request->getDestStreetLine2()
+        )->setDestCity(
+            $request->getDestCity()
+        )->setOrigCompanyName(
+            $request->getOrigCompanyName()
+        )->setOrigCity(
+            $request->getOrigCity()
+        )->setOrigPhoneNumber(
+            $request->getOrigPhoneNumber()
+        )->setOrigPersonName(
+            $request->getOrigPersonName()
+        )->setOrigEmail(
+            $this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $requestObject->getStoreId())
+        )->setOrigCity(
+            $request->getOrigCity()
+        )->setOrigPostal(
+            $request->getOrigPostal()
+        )->setOrigStreetLine2(
+            $request->getOrigStreetLine2()
+        )->setDestPhoneNumber(
+            $request->getDestPhoneNumber()
+        )->setDestPersonName(
+            $request->getDestPersonName()
+        )->setDestCompanyName(
+            $request->getDestCompanyName()
+        );
 
         $originStreet2 = $this->_coreStoreConfig->getConfig(
-            Shipment::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
+            Shipment::XML_PATH_STORE_ADDRESS2,
+            $requestObject->getStoreId()
+        );
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
@@ -460,17 +467,23 @@ class Carrier
 
         // for DHL, Puerto Rico state for US will assume as Puerto Rico country
         // for Puerto Rico, dhl will ship as international
-        if ($destCountry == self::USA_COUNTRY_ID && ($request->getDestPostcode() == '00912'
-                                                     || $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
+        if ($destCountry == self::USA_COUNTRY_ID && ($request->getDestPostcode() == '00912' ||
+            $request->getDestRegionCode() == self::PUERTORICO_COUNTRY_ID)
         ) {
             $destCountry = self::PUERTORICO_COUNTRY_ID;
         }
 
-        $requestObject->setDestCountryId($destCountry)
-            ->setDestState($request->getDestRegionCode())
-            ->setWeight($shippingWeight)
-            ->setFreeMethodWeight($request->getFreeMethodWeight())
-            ->setOrderShipment($request->getOrderShipment());
+        $requestObject->setDestCountryId(
+            $destCountry
+        )->setDestState(
+            $request->getDestRegionCode()
+        )->setWeight(
+            $shippingWeight
+        )->setFreeMethodWeight(
+            $request->getFreeMethodWeight()
+        )->setOrderShipment(
+            $request->getOrderShipment()
+        );
 
         if ($request->getPackageId()) {
             $requestObject->setPackageId($request->getPackageId());
@@ -493,7 +506,8 @@ class Carrier
         $contentType = $this->getConfigData('content_type');
         $allowedMethods = array();
         if ($this->_isDomestic) {
-            $allowedMethods = array_merge(explode(',', $this->getConfigData('doc_methods')),
+            $allowedMethods = array_merge(
+                explode(',', $this->getConfigData('doc_methods')),
                 explode(',', $this->getConfigData('nondoc_methods'))
             );
         } else {
@@ -525,41 +539,24 @@ class Carrier
     public function getCode($type, $code = '')
     {
         $codes = array(
-            'unit_of_measure'   => array(
-                'L' => __('Pounds'),
-                'K' => __('Kilograms'),
-            ),
-            'unit_of_dimension' => array(
-                'I' => __('Inches'),
-                'C' => __('Centimeters'),
-            ),
-            'unit_of_dimension_cut' => array(
-                'I' => __('inch'),
-                'C' => __('cm'),
-            ),
-            'dimensions' => array(
-                'HEIGHT'    => __('Height'),
-                'DEPTH'     => __('Depth'),
-                'WIDTH'     => __('Width'),
-            ),
-            'size'              => array(
-                '0' => __('Regular'),
-                '1' => __('Specific'),
-            ),
-            'dimensions_variables'  => array(
-                'L'         => \Zend_Measure_Weight::POUND,
-                'LB'        => \Zend_Measure_Weight::POUND,
-                'POUND'     => \Zend_Measure_Weight::POUND,
-                'K'         => \Zend_Measure_Weight::KILOGRAM,
-                'KG'        => \Zend_Measure_Weight::KILOGRAM,
-                'KILOGRAM'  => \Zend_Measure_Weight::KILOGRAM,
-                'I'         => \Zend_Measure_Length::INCH,
-                'IN'        => \Zend_Measure_Length::INCH,
-                'INCH'      => \Zend_Measure_Length::INCH,
-                'C'         => \Zend_Measure_Length::CENTIMETER,
-                'CM'        => \Zend_Measure_Length::CENTIMETER,
-                'CENTIMETER'=> \Zend_Measure_Length::CENTIMETER,
-
+            'unit_of_measure' => array('L' => __('Pounds'), 'K' => __('Kilograms')),
+            'unit_of_dimension' => array('I' => __('Inches'), 'C' => __('Centimeters')),
+            'unit_of_dimension_cut' => array('I' => __('inch'), 'C' => __('cm')),
+            'dimensions' => array('HEIGHT' => __('Height'), 'DEPTH' => __('Depth'), 'WIDTH' => __('Width')),
+            'size' => array('0' => __('Regular'), '1' => __('Specific')),
+            'dimensions_variables' => array(
+                'L' => \Zend_Measure_Weight::POUND,
+                'LB' => \Zend_Measure_Weight::POUND,
+                'POUND' => \Zend_Measure_Weight::POUND,
+                'K' => \Zend_Measure_Weight::KILOGRAM,
+                'KG' => \Zend_Measure_Weight::KILOGRAM,
+                'KILOGRAM' => \Zend_Measure_Weight::KILOGRAM,
+                'I' => \Zend_Measure_Length::INCH,
+                'IN' => \Zend_Measure_Length::INCH,
+                'INCH' => \Zend_Measure_Length::INCH,
+                'C' => \Zend_Measure_Length::CENTIMETER,
+                'CM' => \Zend_Measure_Length::CENTIMETER,
+                'CENTIMETER' => \Zend_Measure_Length::CENTIMETER
             )
         );
 
@@ -605,7 +602,7 @@ class Carrier
             'R' => __('Globalmail business'),
             'S' => __('Same day'),
             'T' => __('Express 12:00'),
-            'X' => __('Express envelope'),
+            'X' => __('Express envelope')
         );
 
         $nonDocType = array(
@@ -621,7 +618,7 @@ class Carrier
             'J' => __('Jumbo box'),
             'M' => __('Express 10:30'),
             'V' => __('Europack'),
-            'Y' => __('Express 12:00'),
+            'Y' => __('Express 12:00')
         );
 
         if ($this->_isDomestic) {
@@ -664,7 +661,10 @@ class Carrier
         } elseif ($configWeightUnit) {
             $configWeightUnit = $this->getCode('dimensions_variables', $configWeightUnit);
         } else {
-            $configWeightUnit = $this->getCode('dimensions_variables', (string)$this->getConfigData('unit_of_measure'));
+            $configWeightUnit = $this->getCode(
+                'dimensions_variables',
+                (string)$this->getConfigData('unit_of_measure')
+            );
         }
 
         $countryWeightUnit = $this->getCode('dimensions_variables', $this->_getWeightUnit());
@@ -687,43 +687,41 @@ class Carrier
      */
     protected function _getAllItems()
     {
-        $allItems   = $this->_request->getAllItems();
-        $fullItems  = array();
+        $allItems = $this->_request->getAllItems();
+        $fullItems = array();
 
         foreach ($allItems as $item) {
-            if ($item->getProductType() ==  \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-                && $item->getProduct()->getShipmentType()
+            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE &&
+                $item->getProduct()->getShipmentType()
             ) {
                 continue;
             }
 
-            $qty            = $item->getQty();
-            $changeQty      = true;
-            $checkWeight    = true;
-            $decimalItems   = array();
+            $qty = $item->getQty();
+            $changeQty = true;
+            $checkWeight = true;
+            $decimalItems = array();
 
             if ($item->getParentItem()) {
                 if (!$item->getParentItem()->getProduct()->getShipmentType()) {
                     continue;
                 }
-                $qty = $item->getIsQtyDecimal()
-                    ? $item->getParentItem()->getQty()
-                    : $item->getParentItem()->getQty() * $item->getQty();
+                $qty = $item->getIsQtyDecimal() ? $item->getParentItem()->getQty() : $item->getParentItem()->getQty() *
+                    $item->getQty();
             }
 
             $itemWeight = $item->getWeight();
-            if ($item->getIsQtyDecimal()
-                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            if ($item->getIsQtyDecimal() && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $stockItem = $item->getProduct()->getStockItem();
                 if ($stockItem->getIsDecimalDivided()) {
                     if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
                         $itemWeight = $itemWeight * $stockItem->getQtyIncrements();
-                        $qty        = round(($item->getWeight() / $itemWeight) * $qty);
-                        $changeQty  = false;
+                        $qty = round($item->getWeight() / $itemWeight * $qty);
+                        $changeQty = false;
                     } else {
                         $itemWeight = $this->_getWeight($itemWeight * $item->getQty());
-                        $maxWeight  = $this->_getWeight($this->_maxWeight, true);
+                        $maxWeight = $this->_getWeight($this->_maxWeight, true);
                         if ($itemWeight > $maxWeight) {
                             $qtyItem = floor($itemWeight / $maxWeight);
                             $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
@@ -743,15 +741,18 @@ class Carrier
                 return array();
             }
 
-            if ($changeQty && !$item->getParentItem() && $item->getIsQtyDecimal()
-                && $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            if ($changeQty &&
+                !$item->getParentItem() &&
+                $item->getIsQtyDecimal() &&
+                $item->getProductType() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
             ) {
                 $qty = 1;
             }
 
             if (!empty($decimalItems)) {
                 foreach ($decimalItems as $decimalItem) {
-                    $fullItems = array_merge($fullItems,
+                    $fullItems = array_merge(
+                        $fullItems,
                         array_fill(0, $decimalItem['qty'] * $qty, $decimalItem['weight'])
                     );
                 }
@@ -791,10 +792,10 @@ class Carrier
                 unset($items[$key]);
                 $sumWeight = $weight;
                 foreach ($items as $key => $weight) {
-                    if (($sumWeight + $weight) < $maxWeight) {
+                    if ($sumWeight + $weight < $maxWeight) {
                         unset($items[$key]);
                         $sumWeight += $weight;
-                    } elseif (($sumWeight + $weight) > $maxWeight) {
+                    } elseif ($sumWeight + $weight > $maxWeight) {
                         $numberOfPieces++;
                         $nodePiece = $nodePieces->addChild('Piece', '', '');
                         $nodePiece->addChild('PieceID', $numberOfPieces);
@@ -845,7 +846,10 @@ class Carrier
     protected function _getDimension($dimension, $configWeightUnit = false)
     {
         if (!$configWeightUnit) {
-            $configWeightUnit = $this->getCode('dimensions_variables', (string)$this->getConfigData('unit_of_measure'));
+            $configWeightUnit = $this->getCode(
+                'dimensions_variables',
+                (string)$this->getConfigData('unit_of_measure')
+            );
         } else {
             $configWeightUnit = $this->getCode('dimensions_variables', $configWeightUnit);
         }
@@ -902,16 +906,16 @@ class Carrier
             $debugData = array();
             for ($offset = 0; $offset <= self::UNAVAILABLE_DATE_LOOK_FORWARD; $offset++) {
                 $debugData['try-' . $offset] = array();
-                $debugPoint = &$debugData['try-' . $offset];
+                $debugPoint =& $debugData['try-' . $offset];
 
                 $requestXml = $this->_buildQuotesRequestXml();
-                $date = date(self::REQUEST_DATE_FORMAT, strtotime($this->_getShipDate() . " +$offset days"));
+                $date = date(self::REQUEST_DATE_FORMAT, strtotime($this->_getShipDate() . " +{$offset} days"));
                 $this->_setQuotesRequestXmlDate($requestXml, $date);
 
                 $request = $requestXml->asXML();
                 $debugPoint['request'] = $request;
                 $responseBody = $this->_getCachedQuotes($request);
-                $debugPoint['from_cache'] = ($responseBody === null);
+                $debugPoint['from_cache'] = $responseBody === null;
 
                 if ($debugPoint['from_cache']) {
                     $responseBody = $this->_getQuotesFromServer($request);
@@ -919,15 +923,10 @@ class Carrier
 
                 $debugPoint['response'] = $responseBody;
 
-                $bodyXml = $this->_xmlElFactory->create(
-                    array('data' => $responseBody)
-                );
+                $bodyXml = $this->_xmlElFactory->create(array('data' => $responseBody));
                 $code = $bodyXml->xpath('//GetQuoteResponse/Note/Condition/ConditionCode');
                 if (isset($code[0]) && (int)$code[0] == self::CONDITION_CODE_SERVICE_DATE_UNAVAILABLE) {
-                    $debugPoint['info'] = sprintf(
-                        __("DHL service is not available at %s date"),
-                        $date
-                    );
+                    $debugPoint['info'] = sprintf(__("DHL service is not available at %s date"), $date);
                 } else {
                     break;
                 }
@@ -964,11 +963,11 @@ class Carrier
     protected function _buildQuotesRequestXml()
     {
         $rawRequest = $this->_rawRequest;
-        $xmlStr = '<?xml version = "1.0" encoding = "UTF-8"?>'
-            . '<p:DCTRequest xmlns:p="http://www.dhl.com" xmlns:p1="http://www.dhl.com/datatypes" '
-            . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
-            . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-            . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
+        $xmlStr = '<?xml version = "1.0" encoding = "UTF-8"?>' .
+            '<p:DCTRequest xmlns:p="http://www.dhl.com" xmlns:p1="http://www.dhl.com/datatypes" ' .
+            'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" ' .
+            'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
+            'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
         $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
         $nodeGetQuote = $xml->addChild('GetQuote', '', '');
         $nodeRequest = $nodeGetQuote->addChild('Request');
@@ -1005,9 +1004,9 @@ class Carrier
             // IsDutiable flag and Dutiable node indicates that cargo is not a documentation
             $nodeBkgDetails->addChild('IsDutiable', 'Y');
             $nodeDutiable = $nodeGetQuote->addChild('Dutiable');
-            $baseCurrencyCode = $this->_storeManager
-                ->getWebsite($this->_request->getWebsiteId())
-                ->getBaseCurrencyCode();
+            $baseCurrencyCode = $this->_storeManager->getWebsite(
+                $this->_request->getWebsiteId()
+            )->getBaseCurrencyCode();
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
             $nodeDutiable->addChild('DeclaredValue', sprintf("%.2F", $rawRequest->getValue()));
         }
@@ -1036,14 +1035,18 @@ class Carrier
      */
     protected function _parseResponse($response)
     {
-        $responseError =  __('The response is in wrong format.');
+        $responseError = __('The response is in wrong format.');
 
         if (strlen(trim($response)) > 0) {
             if (strpos(trim($response), '<?xml') === 0) {
                 $xml = simplexml_load_string($response);
                 if (is_object($xml)) {
-                    if (in_array($xml->getName(), array('ErrorResponse', 'ShipmentValidateErrorResponse'))
-                        || isset($xml->GetQuoteResponse->Note->Condition)
+                    if (in_array(
+                        $xml->getName(),
+                        array('ErrorResponse', 'ShipmentValidateErrorResponse')
+                    ) || isset(
+                        $xml->GetQuoteResponse->Note->Condition
+                    )
                     ) {
                         $code = null;
                         $data = null;
@@ -1119,20 +1122,27 @@ class Carrier
      */
     protected function _addRate(\SimpleXMLElement $shipmentDetails)
     {
-        if (isset($shipmentDetails->ProductShortName)
-            && isset($shipmentDetails->ShippingCharge)
-            && isset($shipmentDetails->GlobalProductCode)
-            && isset($shipmentDetails->CurrencyCode)
-            && array_key_exists((string)$shipmentDetails->GlobalProductCode, $this->getAllowedMethods())
+        if (isset(
+            $shipmentDetails->ProductShortName
+        ) && isset(
+            $shipmentDetails->ShippingCharge
+        ) && isset(
+            $shipmentDetails->GlobalProductCode
+        ) && isset(
+            $shipmentDetails->CurrencyCode
+        ) && array_key_exists(
+            (string)$shipmentDetails->GlobalProductCode,
+            $this->getAllowedMethods()
+        )
         ) {
             // DHL product code, e.g. '3', 'A', 'Q', etc.
-            $dhlProduct             = (string)$shipmentDetails->GlobalProductCode;
-            $totalEstimate          = (float)(string)$shipmentDetails->ShippingCharge;
-            $currencyCode           = (string)$shipmentDetails->CurrencyCode;
-            $baseCurrencyCode       = $this->_storeManager
-                ->getWebsite($this->_request->getWebsiteId())
-                ->getBaseCurrencyCode();
-            $dhlProductDescription  = $this->getDhlProductTitle($dhlProduct);
+            $dhlProduct = (string)$shipmentDetails->GlobalProductCode;
+            $totalEstimate = (double)(string)$shipmentDetails->ShippingCharge;
+            $currencyCode = (string)$shipmentDetails->CurrencyCode;
+            $baseCurrencyCode = $this->_storeManager->getWebsite(
+                $this->_request->getWebsiteId()
+            )->getBaseCurrencyCode();
+            $dhlProductDescription = $this->getDhlProductTitle($dhlProduct);
 
             if ($currencyCode != $baseCurrencyCode) {
                 /* @var $currency \Magento\Directory\Model\Currency */
@@ -1144,21 +1154,27 @@ class Carrier
                 } else {
                     $rates = $currency->getCurrencyRates($baseCurrencyCode, array($currencyCode));
                     if (!empty($rates) && isset($rates[$currencyCode])) {
-                        $totalEstimate = $totalEstimate/$rates[$currencyCode];
+                        $totalEstimate = $totalEstimate / $rates[$currencyCode];
                     }
                     if (!isset($rates[$currencyCode]) || !$totalEstimate) {
                         $totalEstimate = false;
-                        $this->_errors[] = __('We had to skip DHL method %1 because we couldn\'t find exchange rate %2 (Base Currency).', $currencyCode, $baseCurrencyCode);
+                        $this->_errors[] = __(
+                            'We had to skip DHL method %1 because we couldn\'t find exchange rate %2 (Base Currency).',
+                            $currencyCode,
+                            $baseCurrencyCode
+                        );
                     }
                 }
             }
             if ($totalEstimate) {
-                $data = array('term' => $dhlProductDescription,
-                    'price_total' => $this->getMethodPrice($totalEstimate, $dhlProduct));
+                $data = array(
+                    'term' => $dhlProductDescription,
+                    'price_total' => $this->getMethodPrice($totalEstimate, $dhlProduct)
+                );
                 if (!empty($this->_rates)) {
                     foreach ($this->_rates as $product) {
-                        if ($product['data']['term'] == $data['term']
-                            && $product['data']['price_total'] == $data['price_total']
+                        if ($product['data']['term'] == $data['term'] &&
+                            $product['data']['price_total'] == $data['price_total']
                         ) {
                             return $this;
                         }
@@ -1171,7 +1187,7 @@ class Carrier
         } else {
             $dhlProductDescription = false;
             if (isset($shipmentDetails->GlobalProductCode)) {
-                $dhlProductDescription  = $this->getDhlProductTitle((string)$shipmentDetails->GlobalProductCode);
+                $dhlProductDescription = $this->getDhlProductTitle((string)$shipmentDetails->GlobalProductCode);
             }
             $dhlProductDescription = $dhlProductDescription ? $dhlProductDescription : __("DHL");
             $this->_errors[] = __("Zero shipping charge for '%1'", $dhlProductDescription);
@@ -1223,16 +1239,12 @@ class Carrier
     {
         if (empty($this->_countryParams)) {
             $etcPath = $this->_configReader->getModuleDir('etc', 'Magento_Dhl');
-            $countriesXmlPath = $this->modulesDirectory->getRelativePath(
-                $etcPath  . '/countries.xml'
-            );
+            $countriesXmlPath = $this->modulesDirectory->getRelativePath($etcPath . '/countries.xml');
             $countriesXml = $this->modulesDirectory->readFile($countriesXmlPath);
-            $this->_countryParams = $this->_xmlElFactory->create(
-                array('data' => $countriesXml)
-            );
+            $this->_countryParams = $this->_xmlElFactory->create(array('data' => $countriesXml));
         }
-        if (isset($this->_countryParams->$countryCode)) {
-            $countryParams = new \Magento\Object($this->_countryParams->$countryCode->asArray());
+        if (isset($this->_countryParams->{$countryCode})) {
+            $countryParams = new \Magento\Object($this->_countryParams->{$countryCode}->asArray());
         }
         return isset($countryParams) ? $countryParams : new \Magento\Object();
     }
@@ -1310,8 +1322,8 @@ class Carrier
     public function getContainerTypes(\Magento\Object $params = null)
     {
         return array(
-            self::DHL_CONTENT_TYPE_DOC      => __('Documents'),
-            self::DHL_CONTENT_TYPE_NON_DOC  => __('Non Documents')
+            self::DHL_CONTENT_TYPE_DOC => __('Documents'),
+            self::DHL_CONTENT_TYPE_NON_DOC => __('Non Documents')
         );
     }
 
@@ -1340,23 +1352,30 @@ class Carrier
             }
 
             $weightUnits = $piece['params']['weight_units'];
-            $piece['params']['height']          =  $this->_getDimension($piece['params']['height'], $weightUnits);
-            $piece['params']['length']          =  $this->_getDimension($piece['params']['length'], $weightUnits);
-            $piece['params']['width']           =  $this->_getDimension($piece['params']['width'], $weightUnits);
-            $piece['params']['dimension_units'] =  $this->_getDimensionUnit();
-            $piece['params']['weight']          =  $this->_getWeight($piece['params']['weight'], false, $weightUnits);
-            $piece['params']['weight_units']    =  $this->_getWeightUnit();
+            $piece['params']['height'] = $this->_getDimension($piece['params']['height'], $weightUnits);
+            $piece['params']['length'] = $this->_getDimension($piece['params']['length'], $weightUnits);
+            $piece['params']['width'] = $this->_getDimension($piece['params']['width'], $weightUnits);
+            $piece['params']['dimension_units'] = $this->_getDimensionUnit();
+            $piece['params']['weight'] = $this->_getWeight($piece['params']['weight'], false, $weightUnits);
+            $piece['params']['weight_units'] = $this->_getWeightUnit();
 
             $customsValue += $piece['params']['customs_value'];
             $packageWeight += $piece['params']['weight'];
         }
 
-        $request->setPackages($packages)
-            ->setPackageWeight($packageWeight)
-            ->setPackageValue($customsValue)
-            ->setValueWithDiscount($customsValue)
-            ->setPackageCustomsValue($customsValue)
-            ->setFreeMethodWeight(0);
+        $request->setPackages(
+            $packages
+        )->setPackageWeight(
+            $packageWeight
+        )->setPackageValue(
+            $customsValue
+        )->setValueWithDiscount(
+            $customsValue
+        )->setPackageCustomsValue(
+            $customsValue
+        )->setFreeMethodWeight(
+            0
+        );
     }
 
     /**
@@ -1392,12 +1411,15 @@ class Carrier
             $originRegion = '';
         }
 
-        $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>'
-            . '<req:ShipmentValidateRequest' . $originRegion
-            . ' xmlns:req="http://www.dhl.com"'
-            . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-            . ' xsi:schemaLocation="http://www.dhl.com ship-val-req'
-            . ($originRegion ? '_' . $originRegion : '') . '.xsd" />';
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>' .
+            '<req:ShipmentValidateRequest' .
+            $originRegion .
+            ' xmlns:req="http://www.dhl.com"' .
+            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
+            ' xsi:schemaLocation="http://www.dhl.com ship-val-req' .
+            ($originRegion ? '_' .
+            $originRegion : '') .
+            '.xsd" />';
         $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
 
         $nodeRequest = $xml->addChild('Request', '', '');
@@ -1433,13 +1455,13 @@ class Carrier
         /* Receiver */
         $nodeConsignee = $xml->addChild('Consignee', '', '');
 
-        $companyName = ($rawRequest->getRecipientContactCompanyName())
-            ? $rawRequest->getRecipientContactCompanyName()
-            : $rawRequest->getRecipientContactPersonName();
+        $companyName = $rawRequest->getRecipientContactCompanyName() ? $rawRequest
+            ->getRecipientContactCompanyName() : $rawRequest
+            ->getRecipientContactPersonName();
 
         $nodeConsignee->addChild('CompanyName', substr($companyName, 0, 35));
 
-        $address = $rawRequest->getRecipientAddressStreet1(). ' ' . $rawRequest->getRecipientAddressStreet2();
+        $address = $rawRequest->getRecipientAddressStreet1() . ' ' . $rawRequest->getRecipientAddressStreet2();
         $address = $this->string->split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
@@ -1453,7 +1475,8 @@ class Carrier
         $nodeConsignee->addChild('Division', $rawRequest->getRecipientAddressStateOrProvinceCode());
         $nodeConsignee->addChild('PostalCode', $rawRequest->getRecipientAddressPostalCode());
         $nodeConsignee->addChild('CountryCode', $rawRequest->getRecipientAddressCountryCode());
-        $nodeConsignee->addChild('CountryName',
+        $nodeConsignee->addChild(
+            'CountryName',
             $this->getCountryParams($rawRequest->getRecipientAddressCountryCode())->getName()
         );
         $nodeContact = $nodeConsignee->addChild('Contact');
@@ -1467,14 +1490,16 @@ class Carrier
         $nodeCommodity = $xml->addChild('Commodity', '', '');
         $nodeCommodity->addChild('CommodityCode', '1');
 
-        $this->_checkDomesticStatus($rawRequest->getShipperAddressCountryCode(),
+        $this->_checkDomesticStatus(
+            $rawRequest->getShipperAddressCountryCode(),
             $rawRequest->getRecipientAddressCountryCode()
         );
 
         /* Dutiable */
         if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC && !$this->_isDomestic) {
             $nodeDutiable = $xml->addChild('Dutiable', '', '');
-            $nodeDutiable->addChild('DeclaredValue',
+            $nodeDutiable->addChild(
+                'DeclaredValue',
                 sprintf("%.2F", $rawRequest->getOrderShipment()->getOrder()->getSubtotal())
             );
             $baseCurrencyCode = $this->_storeManager->getWebsite($rawRequest->getWebsiteId())->getBaseCurrencyCode();
@@ -1498,7 +1523,7 @@ class Carrier
         $nodeShipper->addChild('CompanyName', $rawRequest->getShipperContactCompanyName());
         $nodeShipper->addChild('RegisteredAccount', (string)$this->getConfigData('account'));
 
-        $address = $rawRequest->getShipperAddressStreet1(). ' ' . $rawRequest->getShipperAddressStreet2();
+        $address = $rawRequest->getShipperAddressStreet1() . ' ' . $rawRequest->getShipperAddressStreet2();
         $address = $this->string->split($address, 35, false, true);
         if (is_array($address)) {
             foreach ($address as $addressLine) {
@@ -1512,7 +1537,8 @@ class Carrier
         $nodeShipper->addChild('Division', $rawRequest->getShipperAddressStateOrProvinceCode());
         $nodeShipper->addChild('PostalCode', $rawRequest->getShipperAddressPostalCode());
         $nodeShipper->addChild('CountryCode', $rawRequest->getShipperAddressCountryCode());
-        $nodeShipper->addChild('CountryName',
+        $nodeShipper->addChild(
+            'CountryName',
             $this->getCountryParams($rawRequest->getShipperAddressCountryCode())->getName()
         );
         $nodeContact = $nodeShipper->addChild('Contact', '', '');
@@ -1559,7 +1585,8 @@ class Carrier
         $nodeShipmentDetails->addChild('NumberOfPieces', count($rawRequest->getPackages()));
 
         if ($originRegion) {
-            $nodeShipmentDetails->addChild('CurrencyCode',
+            $nodeShipmentDetails->addChild(
+                'CurrencyCode',
                 $this->_storeManager->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
             );
         }
@@ -1618,7 +1645,7 @@ class Carrier
              * Door non-compliant)
              */
             $nodeShipmentDetails->addChild('DoorTo', 'DD');
-            $nodeShipmentDetails->addChild('DimensionUnit', substr($this->_getDimensionUnit(),0,1));
+            $nodeShipmentDetails->addChild('DimensionUnit', substr($this->_getDimensionUnit(), 0, 1));
             if ($package['params']['container'] == self::DHL_CONTENT_TYPE_NON_DOC) {
                 $packageType = 'CP';
             }
@@ -1626,7 +1653,8 @@ class Carrier
             if ($this->getConfigData('content_type') == self::DHL_CONTENT_TYPE_NON_DOC) {
                 $nodeShipmentDetails->addChild('IsDutiable', 'Y');
             }
-            $nodeShipmentDetails->addChild('CurrencyCode',
+            $nodeShipmentDetails->addChild(
+                'CurrencyCode',
                 $this->_storeManager->getWebsite($this->_request->getWebsiteId())->getBaseCurrencyCode()
             );
         } else {
@@ -1677,11 +1705,11 @@ class Carrier
      */
     protected function _getXMLTracking($trackings)
     {
-        $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>'
-            . '<req:KnownTrackingRequest'
-            . ' xmlns:req="http://www.dhl.com"'
-            . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-            . ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
+        $xmlStr = '<?xml version="1.0" encoding="UTF-8"?>' .
+            '<req:KnownTrackingRequest' .
+            ' xmlns:req="http://www.dhl.com"' .
+            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' .
+            ' xsi:schemaLocation="http://www.dhl.com TrackingRequestKnown.xsd" />';
 
         $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
 
@@ -1754,9 +1782,13 @@ class Carrier
             if (!is_object($xml)) {
                 $errorTitle = __('Response is in the wrong format');
             }
-            if (is_object($xml) && ((isset($xml->Response->Status->ActionStatus)
-                && $xml->Response->Status->ActionStatus == 'Failure')
-                || isset($xml->GetQuoteResponse->Note->Condition))
+            if (is_object(
+                $xml
+            ) && (isset(
+                $xml->Response->Status->ActionStatus
+            ) && $xml->Response->Status->ActionStatus == 'Failure' || isset(
+                $xml->GetQuoteResponse->Note->Condition
+            ))
             ) {
                 if (isset($xml->Response->Status->Condition)) {
                     $nodeCondition = $xml->Response->Status->Condition;
@@ -1785,12 +1817,16 @@ class Carrier
                     if (isset($shipmentInfo->ShipmentEvent)) {
                         foreach ($shipmentInfo->ShipmentEvent as $shipmentEvent) {
                             $shipmentEventArray = array();
-                            $shipmentEventArray['activity'] = (string)$shipmentEvent->ServiceEvent->EventCode
-                                . ' ' . (string)$shipmentEvent->ServiceEvent->Description;
+                            $shipmentEventArray['activity'] = (string)$shipmentEvent->ServiceEvent->EventCode .
+                                ' ' .
+                                (string)$shipmentEvent->ServiceEvent->Description;
                             $shipmentEventArray['deliverydate'] = (string)$shipmentEvent->Date;
                             $shipmentEventArray['deliverytime'] = (string)$shipmentEvent->Time;
-                            $shipmentEventArray['deliverylocation'] = (string)$shipmentEvent->ServiceArea->Description
-                                . ' [' . (string)$shipmentEvent->ServiceArea->ServiceAreaCode . ']';
+                            $shipmentEventArray['deliverylocation'] = (string)$shipmentEvent->ServiceArea
+                                ->Description .
+                                ' [' .
+                                (string)$shipmentEvent->ServiceArea->ServiceAreaCode .
+                                ']';
                             $packageProgress[] = $shipmentEventArray;
                         }
                         $awbinfoData['progressdetail'] = $packageProgress;
@@ -1839,7 +1875,7 @@ class Carrier
     protected function _getPerpackagePrice($cost, $handlingType, $handlingFee)
     {
         if ($handlingType == AbstractCarrier::HANDLING_TYPE_PERCENT) {
-            return $cost + ($cost * $this->_numBoxes * $handlingFee / 100);
+            return $cost + $cost * $this->_numBoxes * $handlingFee / 100;
         }
 
         return $cost + $this->_numBoxes * $handlingFee;
@@ -1860,12 +1896,16 @@ class Carrier
         }
         $result = $this->_doShipmentRequest($request);
 
-        $response = new \Magento\Object(array(
-            'info' => array(array(
-                'tracking_number' => $result->getTrackingNumber(),
-                'label_content'   => $result->getShippingLabelContent()
-            ))
-        ));
+        $response = new \Magento\Object(
+            array(
+                'info' => array(
+                    array(
+                        'tracking_number' => $result->getTrackingNumber(),
+                        'label_content' => $result->getShippingLabelContent()
+                    )
+                )
+            )
+        );
 
         $request->setMasterTrackingId($result->getTrackingNumber());
 

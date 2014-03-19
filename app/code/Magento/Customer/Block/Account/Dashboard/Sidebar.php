@@ -98,10 +98,9 @@ class Sidebar extends \Magento\View\Element\Template
     public function getCartItemsCount()
     {
         if (!$this->_cartItemsCount) {
-            $this->_cartItemsCount = $this->_createQuote()
-                ->setId($this->_checkoutSession->getQuote()->getId())
-                ->getItemsCollection()
-                ->getSize();
+            $this->_cartItemsCount = $this->_createQuote()->setId(
+                $this->_checkoutSession->getQuote()->getId()
+            )->getItemsCollection()->getSize();
         }
 
         return $this->_cartItemsCount;
@@ -114,15 +113,23 @@ class Sidebar extends \Magento\View\Element\Template
     {
         if (!$this->_wishlist) {
             $this->_wishlist = $this->_createWishList()->loadByCustomer($this->_customerSession->getCustomer());
-            $this->_wishlist->getItemCollection()
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('price')
-                ->addAttributeToSelect('small_image')
-                ->addAttributeToFilter('store_id', array('in' => $this->_wishlist->getSharedStoreIds()))
-                ->addAttributeToSort('added_at', 'desc')
-                ->setCurPage(1)
-                ->setPageSize(3)
-                ->load();
+            $this->_wishlist->getItemCollection()->addAttributeToSelect(
+                'name'
+            )->addAttributeToSelect(
+                'price'
+            )->addAttributeToSelect(
+                'small_image'
+            )->addAttributeToFilter(
+                'store_id',
+                array('in' => $this->_wishlist->getSharedStoreIds())
+            )->addAttributeToSort(
+                'added_at',
+                'desc'
+            )->setCurPage(
+                1
+            )->setPageSize(
+                3
+            )->load();
         }
 
         return $this->_wishlist->getItemCollection();
@@ -150,16 +157,12 @@ class Sidebar extends \Magento\View\Element\Template
      */
     public function getCompareItems()
     {
-        if ( !$this->_compareItems ) {
-            $this->_compareItems =
-                $this->_createProductCompareCollection()->setStoreId($this->_storeManager->getStore()->getId());
-            $this->_compareItems->setCustomerId(
-                $this->_customerSession->getCustomerId()
+        if (!$this->_compareItems) {
+            $this->_compareItems = $this->_createProductCompareCollection()->setStoreId(
+                $this->_storeManager->getStore()->getId()
             );
-            $this->_compareItems
-                ->addAttributeToSelect('name')
-                ->useProductItem()
-                ->load();
+            $this->_compareItems->setCustomerId($this->_customerSession->getCustomerId());
+            $this->_compareItems->addAttributeToSelect('name')->useProductItem()->load();
         }
         return $this->_compareItems;
     }
@@ -177,7 +180,7 @@ class Sidebar extends \Magento\View\Element\Template
      */
     public function getCompareRemoveUrlTemplate()
     {
-        return $this->getUrl('catalog/product_compare/remove', ['product'=>'#{id}']);
+        return $this->getUrl('catalog/product_compare/remove', array('product' => '#{id}'));
     }
 
     /**

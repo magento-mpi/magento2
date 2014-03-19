@@ -77,8 +77,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLinkSelectionRequired()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getLinkSelectionRequired($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getLinkSelectionRequired($this->getProduct());
     }
 
     /**
@@ -86,8 +85,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function hasLinks()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->hasLinks($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->hasLinks($this->getProduct());
     }
 
     /**
@@ -95,8 +93,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getLinks()
     {
-        return $this->getProduct()->getTypeInstance()
-            ->getLinks($this->getProduct());
+        return $this->getProduct()->getTypeInstance()->getLinks($this->getProduct());
     }
 
     /**
@@ -130,8 +127,12 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         } elseif ($taxHelper->displayBothPrices()) {
             $priceStr .= $coreHelper->currencyByStore($_priceExclTax, $store);
             if ($_priceInclTax != $_priceExclTax) {
-                $priceStr .= ' (+'.$coreHelper
-                    ->currencyByStore($_priceInclTax, $store).' '.__('Incl. Tax').')';
+                $priceStr .= ' (+' . $coreHelper->currencyByStore(
+                    $_priceInclTax,
+                    $store
+                ) . ' ' . __(
+                    'Incl. Tax'
+                ) . ')';
             }
         }
         $priceStr .= '</span>';
@@ -211,7 +212,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             return false;
         }
 
-        return $configValue && (in_array($link->getId(), $configValue));
+        return $configValue && in_array($link->getId(), $configValue);
     }
 
     /**

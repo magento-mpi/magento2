@@ -17,8 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
 
-class Selector
-    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
+class Selector extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Render block
@@ -47,7 +46,8 @@ class Selector
      */
     public function getJs()
     {
-        return parent::getJs() . "
+        return parent::getJs() .
+            "
             var selector = $('select-all'),
                 checkboxes = $(selector).up('#wishlist-table').select('.select'),
                 counter = 0;

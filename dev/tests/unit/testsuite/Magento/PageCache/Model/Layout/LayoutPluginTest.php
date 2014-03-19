@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model\Layout;
 
 class LayoutPluginTest extends \PHPUnit_Framework_TestCase
@@ -34,28 +33,22 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->layoutMock = $this->getMockForAbstractClass(
             'Magento\Core\Model\Layout',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            ['isCacheable']
+            array('isCacheable')
         );
-        $this->responseMock = $this->getMock(
-            '\Magento\App\Response\Http',
-            [],
-            [],
-            '',
-            false
-        );
+        $this->responseMock = $this->getMock('\Magento\App\Response\Http', array(), array(), '', false);
         $this->configMock = $this->getMockForAbstractClass(
             'Magento\App\ConfigInterface',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            ['isSetFlag', 'getValue']
+            array('isSetFlag', 'getValue')
         );
 
         $this->model = new \Magento\PageCache\Model\Layout\LayoutPlugin(
@@ -74,32 +67,28 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
         $maxAge = 180;
         $result = 'test';
 
-        $this->layoutMock->expects($this->once())
-            ->method('isCacheable')
-            ->will($this->returnValue($layoutIsCacheable));
+        $this->layoutMock->expects($this->once())->method('isCacheable')->will($this->returnValue($layoutIsCacheable));
         if ($layoutIsCacheable) {
-            $this->configMock->expects($this->once())
-                ->method('getValue')
-                ->with(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL)
-                ->will($this->returnValue($maxAge));
-            $this->responseMock->expects($this->once())
-                ->method('setPublicHeaders')
-                ->with($maxAge);
+            $this->configMock->expects(
+                $this->once()
+            )->method(
+                'getValue'
+            )->with(
+                \Magento\PageCache\Model\Config::XML_PAGECACHE_TTL
+            )->will(
+                $this->returnValue($maxAge)
+            );
+            $this->responseMock->expects($this->once())->method('setPublicHeaders')->with($maxAge);
         } else {
-            $this->responseMock->expects($this->never())
-                ->method('setPublicHeaders');
+            $this->responseMock->expects($this->never())->method('setPublicHeaders');
         }
         $output = $this->model->afterGenerateXml($this->layoutMock, $result);
         $this->assertSame($result, $output);
-
     }
 
     public function afterGenerateXmlDataProvider()
     {
-        return [
-            'Layout is cache-able' => [true],
-            'Layout is not cache-able' => [false]
-        ];
+        return array('Layout is cache-able' => array(true), 'Layout is not cache-able' => array(false));
     }
 
     /**
@@ -110,16 +99,11 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     {
         $html = 'html';
 
-        $this->layoutMock->expects($this->once())
-            ->method('isCacheable')
-            ->will($this->returnValue($layoutIsCacheable));
+        $this->layoutMock->expects($this->once())->method('isCacheable')->will($this->returnValue($layoutIsCacheable));
         if ($layoutIsCacheable) {
-            $this->responseMock->expects($this->once())
-                ->method('setHeader')
-                ->with('X-Magento-Tags');
+            $this->responseMock->expects($this->once())->method('setHeader')->with('X-Magento-Tags');
         } else {
-            $this->responseMock->expects($this->never())
-                ->method('setHeader');
+            $this->responseMock->expects($this->never())->method('setHeader');
         }
         $output = $this->model->afterGetOutput($this->layoutMock, $html);
         $this->assertSame($output, $html);
@@ -127,9 +111,6 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
 
     public function afterGetOutputDataProvider()
     {
-        return [
-            'Layout is cache-able' => [true],
-            'Layout is not cache-able' => [false]
-        ];
+        return array('Layout is cache-able' => array(true), 'Layout is not cache-able' => array(false));
     }
-} 
+}

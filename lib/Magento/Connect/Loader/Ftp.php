@@ -73,8 +73,8 @@ class Ftp
         $uri = dirname($uri);
         $uri = str_replace('http://', '', $uri);
         $uri = str_replace('ftp://', '', $uri);
-        $uri = self::FTP_USER.":".self::FTP_PASS."@".$uri;
-        $this->getFtp()->connect("ftp://".$uri);
+        $uri = self::FTP_USER . ":" . self::FTP_PASS . "@" . $uri;
+        $this->getFtp()->connect("ftp://" . $uri);
         $this->getFtp()->pasv(true);
         $localFile = self::TEMPORARY_DIR . '/' . time() . '.xml';
 
@@ -106,5 +106,4 @@ class Ftp
     {
         return $this->_responseBody;
     }
-
 }

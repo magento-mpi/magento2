@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model;
 
 use Magento\Core\Model\Store;
@@ -20,17 +19,25 @@ class Config extends \Magento\Object
     /**
      * XML configuration paths
      */
-    const XML_PATH_RMA_EMAIL                    = 'sales_email/magento_rma';
-    const XML_PATH_AUTH_EMAIL                   = 'sales_email/magento_rma_auth';
-    const XML_PATH_COMMENT_EMAIL                = 'sales_email/magento_rma_comment';
-    const XML_PATH_CUSTOMER_COMMENT_EMAIL       = 'sales_email/magento_rma_customer_comment';
+    const XML_PATH_RMA_EMAIL = 'sales_email/magento_rma';
 
-    const XML_PATH_EMAIL_ENABLED                = '/enabled';
-    const XML_PATH_EMAIL_TEMPLATE               = '/template';
-    const XML_PATH_EMAIL_GUEST_TEMPLATE         = '/guest_template';
-    const XML_PATH_EMAIL_IDENTITY               = '/identity';
-    const XML_PATH_EMAIL_COPY_TO                = '/copy_to';
-    const XML_PATH_EMAIL_COPY_METHOD            = '/copy_method';
+    const XML_PATH_AUTH_EMAIL = 'sales_email/magento_rma_auth';
+
+    const XML_PATH_COMMENT_EMAIL = 'sales_email/magento_rma_comment';
+
+    const XML_PATH_CUSTOMER_COMMENT_EMAIL = 'sales_email/magento_rma_customer_comment';
+
+    const XML_PATH_EMAIL_ENABLED = '/enabled';
+
+    const XML_PATH_EMAIL_TEMPLATE = '/template';
+
+    const XML_PATH_EMAIL_GUEST_TEMPLATE = '/guest_template';
+
+    const XML_PATH_EMAIL_IDENTITY = '/identity';
+
+    const XML_PATH_EMAIL_COPY_TO = '/copy_to';
+
+    const XML_PATH_EMAIL_COPY_METHOD = '/copy_method';
 
     /**
      * XML configuration path for customer comments recipient
@@ -121,7 +128,7 @@ class Config extends \Magento\Object
      */
     public function getStore($store = null)
     {
-        if($store){
+        if ($store) {
             if ($store instanceof Store) {
                 return $store;
             } elseif (is_int($store)) {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Rule\Condition;
 
 use Magento\DB\Select;
@@ -99,11 +98,9 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption(array(
-            '==' => __('for'),
-            '>'  => __('for greater than'),
-            '>=' => __('for or greater than')
-        ));
+        $this->setOperatorOption(
+            array('==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than'))
+        );
         return $this;
     }
 
@@ -124,10 +121,12 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Shopping cart is not empty and abandoned %1 %2 days and %3 of these conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -157,12 +156,16 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
-            ->formatDate($currentTime));
+        $daysDiffSql = $this->_resourceHelper->getDateDiff(
+            'quote.updated_at',
+            $select->getAdapter()->formatDate($currentTime)
+        );
         if ($operator == '>=' && $conditionValue == 0) {
             $currentTime = $this->_dateModel->gmtDate();
-            $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
-                ->formatDate($currentTime));
+            $daysDiffSql = $this->_resourceHelper->getDateDiff(
+                'quote.updated_at',
+                $select->getAdapter()->formatDate($currentTime)
+            );
         }
         $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where('quote.is_active = 1');
@@ -181,10 +184,10 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function getConditionsSql($customer, $website)
     {
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {

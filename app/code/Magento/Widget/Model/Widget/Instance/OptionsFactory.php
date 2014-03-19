@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Model\Widget\Instance;
 
 class OptionsFactory

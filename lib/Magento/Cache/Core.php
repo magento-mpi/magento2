@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Cache;
 
 class Core extends \Zend_Cache_Core
@@ -21,10 +20,7 @@ class Core extends \Zend_Cache_Core
      * -- 'options' - optional array of specific decorator options
      * @var array
      */
-    protected $_specificOptions = array(
-        'backend_decorators'    => array(),
-        'disable_save'          => false,
-    );
+    protected $_specificOptions = array('backend_decorators' => array(), 'disable_save' => false);
 
     /**
      * Make and return a cache id
@@ -53,7 +49,7 @@ class Core extends \Zend_Cache_Core
      */
     protected function _tags($tags)
     {
-        foreach ($tags as $key=>$tag) {
+        foreach ($tags as $key => $tag) {
             $tags[$key] = $this->_id($tag);
         }
         return $tags;
@@ -159,21 +155,26 @@ class Core extends \Zend_Cache_Core
 
         foreach ($this->_specificOptions['backend_decorators'] as $decoratorName => $decoratorOptions) {
             if (!is_array($decoratorOptions) || !array_key_exists('class', $decoratorOptions)) {
-                \Zend_Cache::throwException("Concrete decorator options in '" . $decoratorName
-                    . "' should be an array containing 'class' key" );
+                \Zend_Cache::throwException(
+                    "Concrete decorator options in '" . $decoratorName . "' should be an array containing 'class' key"
+                );
             }
             $classOptions = array_key_exists('options', $decoratorOptions) ? $decoratorOptions['options'] : array();
             $classOptions['concrete_backend'] = $backendObject;
 
             if (!class_exists($decoratorOptions['class'])) {
-                \Zend_Cache::throwException("Class '" . $decoratorOptions['class'] . "' specified in '"
-                    . $decoratorName . "' does not exist");
+                \Zend_Cache::throwException(
+                    "Class '" . $decoratorOptions['class'] . "' specified in '" . $decoratorName . "' does not exist"
+                );
             }
 
             $backendObject = new $decoratorOptions['class']($classOptions);
-            if (!($backendObject instanceof \Magento\Cache\Backend\Decorator\AbstractDecorator)) {
-                \Zend_Cache::throwException("Decorator in '" . $decoratorName
-                    . "' should extend \Magento\Cache\Backend\Decorator\AbstractDecorator");
+            if (!$backendObject instanceof \Magento\Cache\Backend\Decorator\AbstractDecorator) {
+                \Zend_Cache::throwException(
+                    "Decorator in '" .
+                    $decoratorName .
+                    "' should extend \Magento\Cache\Backend\Decorator\AbstractDecorator"
+                );
             }
         }
 
