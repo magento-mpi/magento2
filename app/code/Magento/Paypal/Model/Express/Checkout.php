@@ -363,28 +363,31 @@ class Checkout
     /**
      * Setter for customer
      *
-     * @param Customer $customer
+     * @param CustomerDataObject $customerData
      * @return $this
      */
-    public function setCustomer($customer)
+    public function setCustomerData(CustomerDataObject $customerData)
     {
-        $this->_quote->assignCustomer($customer);
-        $this->_customerId = $customer->getId();
+        $this->_quote->assignCustomer($customerData);
+        $this->_customerId = $customerData->getId();
         return $this;
     }
 
     /**
      * Setter for customer with billing and shipping address changing ability
      *
-     * @param CustomerDataObject|Customer $customer
+     * @param CustomerDataObject $customerData
      * @param Address|null $billingAddress
      * @param Address|null $shippingAddress
      * @return $this
      */
-    public function setCustomerWithAddressChange($customer, $billingAddress = null, $shippingAddress = null)
-    {
-        $this->_quote->assignCustomerWithAddressChange($customer, $billingAddress, $shippingAddress);
-        $this->_customerId = $customer->getId();
+    public function setCustomerWithAddressChange(
+        CustomerDataObject $customerData,
+        $billingAddress = null,
+        $shippingAddress = null
+    ) {
+        $this->_quote->assignCustomerWithAddressChange($customerData, $billingAddress, $shippingAddress);
+        $this->_customerId = $customerData->getId();
         return $this;
     }
 
@@ -1027,7 +1030,7 @@ class Checkout
             $customerBilling->setIsDefaultShipping(true);
         }
         /**
-         * @todo integration with dynamica attributes customer_dob, customer_taxvat, customer_gender
+         * @todo integration with dynamic attributes customer_dob, customer_taxvat, customer_gender
          */
         if ($quote->getCustomerDob() && !$billing->getCustomerDob()) {
             $billing->setCustomerDob($quote->getCustomerDob());
