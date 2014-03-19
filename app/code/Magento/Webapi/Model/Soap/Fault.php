@@ -313,22 +313,25 @@ FAULT_MESSAGE;
     protected function _getParametersXml($parameters)
     {
         $result = '';
-        if (is_array($parameters)) {
-            $paramsXml = '';
-            foreach ($parameters as $parameterName => $parameterValue) {
-                if (is_string($parameterName) && (is_string($parameterValue) || is_numeric($parameterValue))) {
-                    $keyNode = self::NODE_DETAIL_PARAMETER_KEY;
-                    $valueNode = self::NODE_DETAIL_PARAMETER_VALUE;
-                    $parameterNode = self::NODE_DETAIL_PARAMETER;
-                    $paramsXml .= "<m:$parameterNode><m:$keyNode>$parameterName</m:$keyNode><m:$valueNode>"
-                        . htmlspecialchars($parameterValue) . "</m:$valueNode></m:$parameterNode>";
-                }
-            }
-            if (!empty($paramsXml)) {
-                $parametersNode = self::NODE_DETAIL_PARAMETERS;
-                $result = "<m:$parametersNode>" . $paramsXml . "</m:$parametersNode>";
+        if (!is_array($parameters)) {
+            return $result;
+        }
+
+        $paramsXml = '';
+        foreach ($parameters as $parameterName => $parameterValue) {
+            if (is_string($parameterName) && (is_string($parameterValue) || is_numeric($parameterValue))) {
+                $keyNode = self::NODE_DETAIL_PARAMETER_KEY;
+                $valueNode = self::NODE_DETAIL_PARAMETER_VALUE;
+                $parameterNode = self::NODE_DETAIL_PARAMETER;
+                $paramsXml .= "<m:$parameterNode><m:$keyNode>$parameterName</m:$keyNode><m:$valueNode>"
+                    . htmlspecialchars($parameterValue) . "</m:$valueNode></m:$parameterNode>";
             }
         }
+        if (!empty($paramsXml)) {
+            $parametersNode = self::NODE_DETAIL_PARAMETERS;
+            $result = "<m:$parametersNode>" . $paramsXml . "</m:$parametersNode>";
+        }
+
         return $result;
     }
 
@@ -337,32 +340,34 @@ FAULT_MESSAGE;
      *
      * @param array $parameters
      * @return string
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _getWrappedErrorsXml($wrappedErrors)
     {
         $result = '';
-        if (is_array($wrappedErrors)) {
-            $errorsXml = '';
-            foreach ($wrappedErrors as $error) {
-                $fieldNameNode = self::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME;
-                $codeNode = self::NODE_DETAIL_WRAPPED_ERROR_CODE;
-                $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
-                $wrappedErrorNode = self::NODE_DETAIL_WRAPPED_ERROR;
-
-                $fieldName = isset($error['fieldName']) ? $error['fieldName'] : "";
-                $code = isset($error['code']) ? $error['code'] : "";
-                $value = isset($error['value']) ? $error['value'] : "";
-
-                $errorsXml .= "<m:$wrappedErrorNode><m:$fieldNameNode>$fieldName</m:$fieldNameNode><m:$codeNode>"
-                    . "$code</m:$codeNode><m:$valueNode>" . htmlspecialchars($value)
-                    .  "</m:$valueNode></m:$wrappedErrorNode>";
-            }
-            if (!empty($errorsXml)) {
-                $wrappedErrorsNode = self::NODE_DETAIL_WRAPPED_ERRORS;
-                $result = "<m:$wrappedErrorsNode>" . $errorsXml . "</m:$wrappedErrorsNode>";
-            }
+        if (!is_array($wrappedErrors)) {
+            return $result;
         }
+
+        $errorsXml = '';
+        foreach ($wrappedErrors as $error) {
+            $fieldNameNode = self::NODE_DETAIL_WRAPPED_ERROR_FIELD_NAME;
+            $codeNode = self::NODE_DETAIL_WRAPPED_ERROR_CODE;
+            $valueNode = self::NODE_DETAIL_WRAPPED_ERROR_VALUE;
+            $wrappedErrorNode = self::NODE_DETAIL_WRAPPED_ERROR;
+
+            $fieldName = isset($error['fieldName']) ? $error['fieldName'] : "";
+            $code = isset($error['code']) ? $error['code'] : "";
+            $value = isset($error['value']) ? $error['value'] : "";
+
+            $errorsXml .= "<m:$wrappedErrorNode><m:$fieldNameNode>$fieldName</m:$fieldNameNode><m:$codeNode>"
+                . "$code</m:$codeNode><m:$valueNode>" . htmlspecialchars($value)
+                .  "</m:$valueNode></m:$wrappedErrorNode>";
+        }
+        if (!empty($errorsXml)) {
+            $wrappedErrorsNode = self::NODE_DETAIL_WRAPPED_ERRORS;
+            $result = "<m:$wrappedErrorsNode>" . $errorsXml . "</m:$wrappedErrorsNode>";
+        }
+
         return $result;
     }
 }
