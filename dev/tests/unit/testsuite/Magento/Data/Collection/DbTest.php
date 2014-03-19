@@ -121,8 +121,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('is_imported = 1')
         );
-        $this->_collection->setConnection($adapter);
-        $select = $this->_collection->getSelect()->from('test');
+        $this->collection->setConnection($adapter);
+        $select = $this->collection->getSelect()->from('test');
 
         $this->collection->addFieldToFilter('is_imported', array('eq' => '1'));
         $this->assertEquals('SELECT `test`.* FROM `test` WHERE (is_imported = 1)', $select->assemble());
@@ -155,8 +155,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue("name like 'M%'")
         );
-        $this->_collection->setConnection($adapter);
-        $select = $this->_collection->getSelect()->from("test");
+        $this->collection->setConnection($adapter);
+        $select = $this->collection->getSelect()->from("test");
 
         $this->collection->addFieldToFilter(
             array('weight', 'name'),
@@ -209,7 +209,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('email LIKE \'%value?%\'')
         );
         $adapter->expects($this->once())->method('select')->will($this->returnValue(new \Magento\DB\Select($adapter)));
-        $this->_collection->setConnection($adapter);
+        $this->collection->setConnection($adapter);
 
         $select = $this->collection->getSelect()->from('test');
         $this->collection->addFieldToFilter('email', array('like' => 'value?'));
@@ -247,8 +247,8 @@ class DbTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('`email` = "foo@example.com"')
         );
-        $this->_collection->setConnection($adapter);
-        $select = $this->_collection->getSelect()->from('test');
+        $this->collection->setConnection($adapter);
+        $select = $this->collection->getSelect()->from('test');
 
         $this->collection->addFieldToFilter('email', array('eq' => 'foo@example.com'));
         $this->assertEquals('SELECT `test`.* FROM `test` WHERE (`email` = "foo@example.com")', $select->assemble());
@@ -271,7 +271,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend_Db_Select', $clonedCollection->getSelect());
         $this->assertNotSame(
             $clonedCollection->getSelect(),
-            $this->_collection->getSelect(),
+            $this->collection->getSelect(),
             'Collection was cloned but $this->_select in both initial and cloned collections reference the same object'
         );
     }

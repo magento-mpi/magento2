@@ -34,32 +34,29 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             array('getItems')
         )->disableOriginalConstructor()->getMock();
 
-        $state = $this->getMockBuilder(
-            'Magento\Mview\View\State'
-        )->setMethods(
-            array('getViewId', '__wakeup')
-        )->disableOriginalConstructor()->getMock();
+        $state = $this->getMockForAbstractClass(
+            'Magento\Mview\View\StateInterface', [], '', false, false, true,
+            ['getViewId', 'getMode', '__wakeup']
+        );
 
         $state->expects($this->any())->method('getViewId')->will($this->returnValue('second_indexer_id'));
 
-        $state->expects($this->any())
-            ->method('getMode')
-            ->will($this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED));
+        $state->expects(
+            $this->any()
+        )->method(
+            'getMode'
+        )->will(
+            $this->returnValue(\Magento\Mview\View\StateInterface::MODE_DISABLED)
+        );
 
         $view = $this->getMockForAbstractClass(
             'Magento\Mview\ViewInterface', [], '', false, false, true,
             ['load', 'setState', 'getState', '__wakeup']
         );
 
-        $view->expects($this->once())
-            ->method('setState')
-            ->with($state);
-        $view->expects($this->any())
-            ->method('getState')
-            ->will($this->returnValue($state));
-        $view->expects($this->any())
-            ->method('load')
-            ->with($this->logicalOr($indexerIdOne, $indexerIdSecond));
+        $view->expects($this->once())->method('setState')->with($state);
+        $view->expects($this->any())->method('getState')->will($this->returnValue($state));
+        $view->expects($this->any())->method('load')->with($this->logicalOr($indexerIdOne, $indexerIdSecond));
 
         $entityFactory->expects(
             $this->any()
