@@ -786,7 +786,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groupData = [
             'id' => $groupId,
             'code' => 'Updated Group SOAP',
-            'taxClassId' => 2
+            'taxClassId' => 3
         ];
         $requestData = ['group' => $groupData];
 
