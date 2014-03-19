@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\Response;
+namespace Magento\Store\App\Response;
 
 class Redirect implements \Magento\App\Response\RedirectInterface
 {

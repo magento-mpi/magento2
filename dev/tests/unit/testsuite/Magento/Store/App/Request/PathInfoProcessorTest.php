@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\Area\Request;
+namespace Magento\Store\App\Request;
 class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\App\Request\PathInfoProcessor
+     * @var \Magento\Store\App\Request\PathInfoProcessor
      */
     protected $_model;
 
@@ -36,7 +36,7 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_model = new \Magento\Core\App\Request\PathInfoProcessor($this->_storeManagerMock);
+        $this->_model = new \Magento\Store\App\Request\PathInfoProcessor($this->_storeManagerMock);
     }
 
     public function testProcessIfStoreExistsAndIsNotDirectAcccessToFrontName()

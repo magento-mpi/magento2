@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\App\Action\Action\Plugin;
+namespace Magento\Store\App\Action\Plugin;
 
 class StoreCheck
 {

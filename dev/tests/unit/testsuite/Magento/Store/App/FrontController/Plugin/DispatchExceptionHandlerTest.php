@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\FrontController\Plugin;
+namespace Magento\Store\App\FrontController\Plugin;
 
 class DispatchExceptionHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler
+     * @var \Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler
      */
     protected $_model;
 

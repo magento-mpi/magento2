@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\FrontController\Plugin;
+namespace Magento\Store\App\FrontController\Plugin;
 
 class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\App\FrontController\Plugin\RequestPreprocessor
+     * @var \Magento\Store\App\FrontController\Plugin\RequestPreprocessor
      */
     protected $_model;
 
@@ -66,7 +66,7 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
         $this->_urlMock = $this->getMock('\Magento\Url', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('\Magento\Store\Model\Config', array(), array(), '', false);
         $this->subjectMock = $this->getMock('Magento\App\FrontController', array(), array(), '', false);
-        $this->_model = new \Magento\Core\App\FrontController\Plugin\RequestPreprocessor(
+        $this->_model = new \Magento\Store\App\FrontController\Plugin\RequestPreprocessor(
             $this->_storeManagerMock,
             $this->_appStateMock,
             $this->_urlMock,

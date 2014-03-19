@@ -180,7 +180,7 @@ return array(
     array('_filesystem', 'Magento\Index\Model\Lock\Storage'),
     array('_coreDir', 'Magento\Sales\Model\Order\Pdf\AbstractPdf'),
     array('_coreDir', 'Magento\ScheduledImportExport\Model\Scheduled\Operation'),
-    array('_dir', 'Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler'),
+    array('_dir', 'Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler'),
     array('_dirs', 'Magento\Core\Block\Template'),
     array('_applicationDirs', 'Magento\Core\Model\Config\FileResolver'),
     array('_dir', 'Magento\Core\Model\File\Storage'),

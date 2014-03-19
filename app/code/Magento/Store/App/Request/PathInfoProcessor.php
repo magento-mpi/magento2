@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\Request;
+namespace Magento\Store\App\Request;
 
 class PathInfoProcessor implements \Magento\App\Request\PathInfoProcessorInterface
 {

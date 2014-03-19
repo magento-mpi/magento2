@@ -59,13 +59,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $websiteIrrelevant->setId(13);
 
         $storeGroupOne = $this->getMock(
-            'Magento\Store\Model\Store', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group', array('getWebsite', '__wakeup'), array(), '', false
         );
         $storeGroupOne->setId(21);
         $storeGroupOne->setWebsiteId(11);
         $storeGroupOne->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteOne));
         $storeGroupTwo = $this->getMock(
-            'Magento\Store\Model\Store', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Group', array('getWebsite', '__wakeup'), array(), '', false
         );
         $storeGroupTwo->setId(22);
         $storeGroupTwo->setWebsiteId(12);
@@ -122,7 +122,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getStoreIds')
             ->will(
                 $this->returnValue(
-                    array(1, 2, 3, 4,5)
+                    array(1, 2, 3, 4, 5)
                 )
             );
 
@@ -155,7 +155,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->addDataAfterRoleLoad($observer);
 
-        var_Dump($expectedRoleData, $role->getData());
         $this->assertEquals($expectedRoleData, $role->getData());
     }
 

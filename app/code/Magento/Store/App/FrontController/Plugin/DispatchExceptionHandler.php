@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\FrontController\Plugin;
+namespace Magento\Store\App\FrontController\Plugin;
 
 use Magento\Store\Model\StoreManager,
     Magento\App\Filesystem;

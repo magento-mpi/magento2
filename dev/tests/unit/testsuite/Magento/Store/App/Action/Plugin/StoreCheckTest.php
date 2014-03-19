@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\App\Action\Action\Plugin;
+namespace Magento\Store\App\Action\Plugin;
 
 class StoreCheckTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Store\App\Action\Action\Plugin\StoreCheck
+     * @var \Magento\Store\App\Action\Plugin\StoreCheck
      */
     protected $_plugin;
 
@@ -50,7 +50,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
             return 'Expected';
         };
         $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->_plugin = new \Magento\Store\App\Action\Action\Plugin\StoreCheck($this->_storeManagerMock);
+        $this->_plugin = new \Magento\Store\App\Action\Plugin\StoreCheck($this->_storeManagerMock);
     }
 
     public function testAroundDispatchWhenStoreNotActive()
