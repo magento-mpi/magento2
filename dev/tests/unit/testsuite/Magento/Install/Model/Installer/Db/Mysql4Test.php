@@ -27,10 +27,10 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
 
         $adapterFactory = $this->getMock(
-            'Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory', array('create'), array(), '', false
+            'Magento\Model\Resource\Type\Db\Pdo\MysqlFactory', array('create'), array(), '', false
         );
         $adapterMock = $this->getMock(
-            'Magento\Core\Model\Resource\Type\Db\Pdo\Mysql', array('getConnection'), array(), '', false
+            'Magento\Model\Resource\Type\Db\Pdo\Mysql', array('getConnection'), array(), '', false
         );
         $adapterMock->expects($this->once())->method('getConnection')->will($this->returnValue($connectionMock));
         $adapterFactory->expects($this->once())->method('create')->will($this->returnValue($adapterMock));
@@ -66,7 +66,7 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
     public function testGetRequiredExtensions($config, $dbExtensions, $expectedResult)
     {
         $adapterFactory = $this->getMock(
-            'Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory', array('create'), array(), '', false
+            'Magento\Model\Resource\Type\Db\Pdo\MysqlFactory', array('create'), array(), '', false
         );
         $localConfig =
             $this->getMockBuilder('\Magento\App\Arguments')->disableOriginalConstructor()->getMock();

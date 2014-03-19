@@ -35,7 +35,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
     protected $_productStatus;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -45,7 +45,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\CatalogInventory\Model\Resource\StockFactory $stockFactory
      * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $productStatus
-     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Model\Resource\Iterator $resourceIterator
      * @param array $data
      */
     public function __construct(
@@ -54,7 +54,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\CatalogInventory\Model\Resource\StockFactory $stockFactory,
         \Magento\Catalog\Model\Product\Attribute\Source\Status $productStatus,
-        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Model\Resource\Iterator $resourceIterator,
         array $data = array()
     ) {
         $this->_rssFactory = $rssFactory;

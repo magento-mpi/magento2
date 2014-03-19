@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource\Db\Collection;
+namespace Magento\Model\Resource\Db\Collection;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Event\ManagerInterface');
 
         $entityFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\EntityFactory');
+            ->get('Magento\Model\EntityFactory');
         $logger = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Logger');
 

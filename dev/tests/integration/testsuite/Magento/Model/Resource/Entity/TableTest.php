@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource\Entity;
+namespace Magento\Model\Resource\Entity;
 
 class TableTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Entity\Table
+     * @var \Magento\Model\Resource\Entity\Table
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Entity\Table', array('config' => $config));
+            ->create('Magento\Model\Resource\Entity\Table', array('config' => $config));
     }
 
     public function testGetTable()

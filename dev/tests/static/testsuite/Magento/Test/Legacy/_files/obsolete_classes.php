@@ -738,7 +738,14 @@ return array(
     array('Magento\Core\Model\Flag', 'Magento\Model\Flag'),
     array('Magento\Core\Model\Resource\AbstractResource', 'Magento\Model\Resource\AbstractResource'),
     array('Magento\Core\Model\Resource\Db\AbstractDb', 'Magento\Model\Resource\Db\AbstractDb'),
+    array('Magento\Core\Model\Resource\Db\Profiler', 'Magento\Model\Resource\Db\Profiler'),
+    array('Magento\Core\Model\Resource\Entity\AbstractEntity', 'Magento\Model\Resource\Entity\AbstractEntity'),
+    array('Magento\Core\Model\Resource\Entity\Table', 'Magento\Model\Resource\Entity\Table'),
     array('Magento\Core\Model\Resource\Flag', 'Magento\Model\Resource\Flag'),
+    array('Magento\Core\Model\Resource\Iterator', 'Magento\Model\Resource\Iterator'),
+    array('Magento\Core\Model\Resource\Type\AbstractType', 'Magento\Model\Resource\Type\AbstractType'),
+    array('Magento\Core\Model\Resource\Type\Db', 'Magento\Model\Resource\Type\Db'),
+    array('Magento\Core\Model\Resource\Type\Db\Pdo\Mysql', 'Magento\Model\Resource\Type\Db\Pdo\Mysql'),
     array(
         'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
         'Magento\Model\Resource\Db\Collection\AbstractCollection'

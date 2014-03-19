@@ -1,13 +1,13 @@
 <?php
 /**
- * Test for \Magento\Core\Model\Resource
+ * Test for \Magento\Model\Resource
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\Model;
 
 class ResourceTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,7 +50,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             array(
                 'config' => array(
                     'profiler' => array(
-                        'class' => 'Magento\Core\Model\Resource\Db\Profiler',
+                        'class' => 'Magento\Model\Resource\Db\Profiler',
                         'enabled' => 'true'
                     ),
                     'username' => 'username',
@@ -62,10 +62,10 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
+        /** @var \Magento\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
 
-        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Model\Resource\Db\Profiler', $profiler);
         $this->assertTrue($profiler->getEnabled());
     }
 }

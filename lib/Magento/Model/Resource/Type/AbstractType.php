@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Type;
+namespace Magento\Model\Resource\Type;
 
 abstract class AbstractType
 {
@@ -23,7 +23,7 @@ abstract class AbstractType
      *
      * @var String
      */
-    protected $_entityClass = 'Magento\Core\Model\Resource\Entity\AbstractEntity';
+    protected $_entityClass = 'Magento\Model\Resource\Entity\AbstractEntity';
 
     /**
      * Retrieve entity type

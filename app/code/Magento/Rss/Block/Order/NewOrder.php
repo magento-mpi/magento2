@@ -25,7 +25,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -38,7 +38,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      */
@@ -46,7 +46,7 @@ class NewOrder extends \Magento\Backend\Block\AbstractBlock
         \Magento\Backend\Block\Context $context,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Model\Resource\Iterator $resourceIterator,
         \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {

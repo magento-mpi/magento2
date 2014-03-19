@@ -107,7 +107,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_relatedCacheTypes;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -161,7 +161,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory
      * @param \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
@@ -182,7 +182,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\CatalogRule\Model\Rule\Condition\CombineFactory $combineFactory,
         \Magento\CatalogRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Model\Resource\Iterator $resourceIterator,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,

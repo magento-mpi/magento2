@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Entity;
+namespace Magento\Model\Resource\Entity;
 
 abstract class AbstractEntity
 {

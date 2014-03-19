@@ -1,13 +1,13 @@
 <?php
 /**
- * Test for \Magento\Core\Model\Resource\Db\Profiler
+ * Test for \Magento\Model\Resource\Db\Profiler
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Db;
+namespace Magento\Model\Resource\Db;
 
 class ProfilerTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +48,7 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         $localConfig = $objectManager->get('Magento\App\Arguments');
         $connectionConfig = $localConfig->getConnection('default');
         $connectionConfig['profiler'] = array(
-            'class' => 'Magento\Core\Model\Resource\Db\Profiler',
+            'class' => 'Magento\Model\Resource\Db\Profiler',
             'enabled' => 'true'
         );
         $connectionConfig['dbname'] = $connectionConfig['dbName'];
@@ -79,9 +79,9 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
             $result->fetchAll();
         }
 
-        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
+        /** @var \Magento\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
-        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Model\Resource\Db\Profiler', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles($queryType);
         $this->assertCount(1, $queryProfiles);
@@ -131,9 +131,9 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         $testTableName = $resource->getTableName('core_resource');
         $connection->query('SELECT * FROM ' . $testTableName);
 
-        /** @var \Magento\Core\Model\Resource\Db\Profiler $profiler */
+        /** @var \Magento\Model\Resource\Db\Profiler $profiler */
         $profiler = $connection->getProfiler();
-        $this->assertInstanceOf('Magento\Core\Model\Resource\Db\Profiler', $profiler);
+        $this->assertInstanceOf('Magento\Model\Resource\Db\Profiler', $profiler);
 
         $queryProfiles = $profiler->getQueryProfiles(\Magento\DB\Profiler::SELECT);
         $this->assertCount(2, $queryProfiles);

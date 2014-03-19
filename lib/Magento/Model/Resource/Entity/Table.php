@@ -7,14 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Entity;
+namespace Magento\Model\Resource\Entity;
 
 
 /**
  * Class describing db table resource entity
  *
  */
-class Table extends \Magento\Core\Model\Resource\Entity\AbstractEntity
+class Table extends \Magento\Model\Resource\Entity\AbstractEntity
 {
     /**
      * Get table

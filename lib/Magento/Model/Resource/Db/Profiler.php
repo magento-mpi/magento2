@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento Core profiler for requests to database
+ * Magento profiler for requests to database
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Db;
+namespace Magento\Model\Resource\Db;
 
 class Profiler extends \Magento\DB\Profiler
 {
@@ -35,7 +35,7 @@ class Profiler extends \Magento\DB\Profiler
     protected function _getTimerName($operation)
     {
         // default name of connection type
-        $timerName = \Magento\Core\Model\Resource\Db\Profiler::DEFAULT_CONNECTION_TYPE;
+        $timerName = \Magento\Model\Resource\Db\Profiler::DEFAULT_CONNECTION_TYPE;
 
         // connection type to database
         if (!empty($this->_type)) {
@@ -50,7 +50,7 @@ class Profiler extends \Magento\DB\Profiler
             $timerName .= '_' . $this->_host;
         }
 
-        return \Magento\Core\Model\Resource\Db\Profiler::TIMER_PREFIX . ':' . $timerName;
+        return \Magento\Model\Resource\Db\Profiler::TIMER_PREFIX . ':' . $timerName;
     }
 
     /**

@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource;
+namespace Magento\Model\Resource;
 
 class IteratorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_model;
 
@@ -28,15 +28,7 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Iterator');
-    }
-
-    public function testWalk()
-    {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Store\Collection');
-        $this->_model->walk($collection->getSelect(), array(array($this, 'walkCallback')));
-        $this->assertGreaterThan(0, $this->_callbackCounter);
+            ->create('Magento\Model\Resource\Iterator');
     }
 
     /**

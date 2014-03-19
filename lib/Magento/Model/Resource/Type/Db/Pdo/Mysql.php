@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Type\Db\Pdo;
+namespace Magento\Model\Resource\Type\Db\Pdo;
 
-class Mysql extends \Magento\Core\Model\Resource\Type\Db
+class Mysql extends \Magento\Model\Resource\Type\Db
     implements \Magento\App\Resource\ConnectionAdapterInterface
 {
     /**

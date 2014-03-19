@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Lib
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource\Db;
+namespace Magento\Model\Resource\Db;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {

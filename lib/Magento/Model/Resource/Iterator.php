@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Model\Resource;
 
 class Iterator extends \Magento\Object
 {
@@ -24,7 +24,7 @@ class Iterator extends \Magento\Object
      * @param array|string $callbacks
      * @param array $args
      * @param \Magento\DB\Adapter\AdapterInterface $adapter
-     * @return \Magento\Core\Model\Resource\Iterator
+     * @return \Magento\Model\Resource\Iterator
      */
     public function walk($query, array $callbacks, array $args=array(), $adapter = null)
     {

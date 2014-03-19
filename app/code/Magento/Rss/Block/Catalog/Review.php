@@ -20,7 +20,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
     protected $_rssFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Iterator
+     * @var \Magento\Model\Resource\Iterator
      */
     protected $_resourceIterator;
 
@@ -37,7 +37,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Rss\Model\RssFactory $rssFactory
-     * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
+     * @param \Magento\Model\Resource\Iterator $resourceIterator
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
@@ -45,7 +45,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Rss\Model\RssFactory $rssFactory,
-        \Magento\Core\Model\Resource\Iterator $resourceIterator,
+        \Magento\Model\Resource\Iterator $resourceIterator,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
