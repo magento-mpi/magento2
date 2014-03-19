@@ -26,7 +26,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_websites = array(
-        \Magento\Core\Model\Store::DEFAULT_STORE_ID  => 'admin',
+        \Magento\Store\Model\Store::DEFAULT_STORE_ID  => 'admin',
         1                                                       => 'website1',
     );
 
@@ -62,7 +62,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
         $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(), array(), '', false, false
@@ -72,7 +72,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory', array(), array(), '', false, false
         );
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects($this->exactly(2))
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
@@ -153,7 +153,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
             $websiteData = array(

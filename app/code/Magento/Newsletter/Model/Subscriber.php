@@ -76,7 +76,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -97,7 +97,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -119,10 +119,10 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Helper\Data $newsletterData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -133,10 +133,10 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Newsletter\Helper\Data $newsletterData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

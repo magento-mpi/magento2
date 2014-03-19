@@ -92,12 +92,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_ratesArray = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -118,16 +118,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\App\ConfigInterface $config,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Reward\Model\Resource\Reward\Rate\CollectionFactory $ratesFactory

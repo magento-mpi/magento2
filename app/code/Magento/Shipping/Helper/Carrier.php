@@ -28,19 +28,19 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     /**
      * Store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
     */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig
+        \Magento\Store\Model\Store\ConfigInterface $storeConfig
     ) {
         $this->localeResolver = $localeResolver;
         $this->storeConfig = $storeConfig;
@@ -50,7 +50,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     /**
      * Get online shipping carrier codes
      *
-     * @param int|\Magento\Core\Model\Store|null $store
+     * @param int|\Magento\Store\Model\Store|null $store
      * @return array
      */
     public function getOnlineCarrierCodes($store = null)

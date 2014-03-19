@@ -44,12 +44,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -80,9 +80,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
      * @param Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -91,9 +91,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Resource\Cart $resourceCart,
         Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,

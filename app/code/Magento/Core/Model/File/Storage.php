@@ -50,7 +50,7 @@ class Storage extends AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -89,7 +89,7 @@ class Storage extends AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
      * @param \Magento\Core\Model\File\Storage\FileFactory $fileFactory
@@ -103,7 +103,7 @@ class Storage extends AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Helper\File\Storage $coreFileStorage,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Core\Model\File\Storage\Flag $fileFlag,
         \Magento\Core\Model\File\Storage\FileFactory $fileFactory,

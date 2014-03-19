@@ -26,7 +26,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
@@ -60,8 +60,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_coreHelper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
+        $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
         $storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));

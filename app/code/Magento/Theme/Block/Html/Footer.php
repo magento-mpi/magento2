@@ -49,7 +49,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
         $this->addData(array(
             'cache_lifetime'=> false,
             'cache_tags' => array(
-                \Magento\Core\Model\Store::CACHE_TAG,
+                \Magento\Store\Model\Store::CACHE_TAG,
                 \Magento\Cms\Model\Block::CACHE_TAG,
             )
         ));
@@ -91,7 +91,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
      */
     public function getIdentities()
     {
-        return array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
+        return array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
 
 }

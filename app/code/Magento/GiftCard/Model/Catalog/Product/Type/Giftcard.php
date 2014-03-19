@@ -32,7 +32,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Store instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -51,7 +51,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -67,9 +67,9 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -86,9 +86,9 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -36,7 +36,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_websites = array(
-        \Magento\Core\Model\Store::DEFAULT_STORE_ID  => 'admin',
+        \Magento\Store\Model\Store::DEFAULT_STORE_ID  => 'admin',
         1                                                       => 'website1',
         2                                                       => 'website2',
     );
@@ -163,7 +163,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $rewardFactory->expects($this->any())->method('create')
             ->will($this->returnValue($this->getModelInstance('Magento\Reward\Model\Reward')));
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $adminUser = $this->getMock('stdClass', array('getUsername'));
         $adminUser->expects($this->any())
@@ -174,7 +174,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue($adminUser));
 
-        $storeManager = $this->getMock('\Magento\Core\Model\StoreManager', array('getWebsites'), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
         $storeManager->expects($this->once())
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
@@ -331,7 +331,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             unset($websites[0]);
         }
         foreach ($this->_websites as $id => $code) {
-            if (!$withDefault && $id == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+            if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
             $websiteData = array(

@@ -151,7 +151,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_proTypeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -168,10 +168,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
@@ -179,10 +179,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         array $data = array()
@@ -212,7 +212,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
      * Store setter
      * Also updates store ID in config object
      *
-     * @param \Magento\Core\Model\Store|int $store
+     * @param \Magento\Store\Model\Store|int $store
      * @return $this
      */
     public function setStore($store)

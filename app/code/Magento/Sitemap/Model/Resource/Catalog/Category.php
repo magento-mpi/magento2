@@ -31,7 +31,7 @@ class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_attributesCache    = array();
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -42,12 +42,12 @@ class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category $categoryResource
     ) {
         $this->_storeManager = $storeManager;
@@ -66,14 +66,14 @@ class Category extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Get category collection array
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
+     * @param null|string|bool|int|\Magento\Store\Model\Store $storeId
      * @return array|bool
      */
     public function getCollection($storeId)
     {
         $categories = array();
 
-        /* @var $store \Magento\Core\Model\Store */
+        /* @var $store \Magento\Store\Model\Store */
         $store = $this->_storeManager->getStore($storeId);
 
         if (!$store) {

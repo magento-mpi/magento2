@@ -9,7 +9,7 @@
  */
 namespace Magento\Tax\Helper;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\Customer\Model\Address;
 
 /**
@@ -94,12 +94,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -127,10 +127,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Model\Calculation $calculation
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
@@ -140,10 +140,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Registry $coreRegistry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Model\Calculation $calculation,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,

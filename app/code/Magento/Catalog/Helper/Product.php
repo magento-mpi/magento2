@@ -8,7 +8,7 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Product as ModelProduct;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Catalog category helper
@@ -71,7 +71,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -115,28 +115,28 @@ class Product extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      * @param \Magento\Catalog\Model\CategoryFactory $reindexPriceIndexerData
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\View\Url $viewUrl,
         \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         $typeSwitcherLabel,
         $reindexPriceIndexerData

@@ -46,7 +46,7 @@ abstract class AbstractGroupprice
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
@@ -54,7 +54,7 @@ abstract class AbstractGroupprice
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Product\Type $catalogProductType
@@ -75,7 +75,7 @@ abstract class AbstractGroupprice
             $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                 'default');
             foreach ($this->_storeManager->getWebsites() as $website) {
-                /* @var $website \Magento\Core\Model\Website */
+                /* @var $website \Magento\Store\Model\Website */
                 if ($website->getBaseCurrencyCode() != $baseCurrency) {
                     $rate = $this->_currencyFactory->create()
                         ->load($baseCurrency)

@@ -74,10 +74,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->_designModel = $this->getMock('Magento\Core\Model\View\Design',
             array('getDesignTheme'),
             array(
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
+                $objectManager->get('Magento\Store\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\View\Design\Theme\FlyweightFactory'),
                 $objectManager->get('Magento\App\ConfigInterface'),
-                $objectManager->get('Magento\Core\Model\Store\Config'),
+                $objectManager->get('Magento\Store\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\ThemeFactory'),
                 $objectManager->get('Magento\Locale\ResolverInterface'),
                 $objectManager->get('Magento\App\State'),

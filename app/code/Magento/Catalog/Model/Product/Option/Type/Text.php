@@ -30,14 +30,14 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Escaper $escaper
      * @param \Magento\Stdlib\String $string
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Escaper $escaper,
         \Magento\Stdlib\String $string,
         array $data = array()

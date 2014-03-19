@@ -26,7 +26,7 @@ class Config
     protected $_configData;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -50,7 +50,7 @@ class Config
     /**
      * @param \Magento\App\Config\ValueInterface $configData
      * @param \Magento\App\Config\Storage\WriterInterface $configWriter
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cache\FrontendInterface $configCache
      * @param \Magento\Cache\FrontendInterface $layoutCache
@@ -58,7 +58,7 @@ class Config
     public function __construct(
         \Magento\App\Config\ValueInterface $configData,
         \Magento\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cache\FrontendInterface $configCache,
         \Magento\Cache\FrontendInterface $layoutCache
@@ -82,7 +82,7 @@ class Config
     public function assignToStore(
         $theme,
         array $stores = array(),
-        $scope = \Magento\Core\Model\ScopeInterface::SCOPE_STORES
+        $scope = \Magento\Store\Model\ScopeInterface::SCOPE_STORES
     ) {
         $isReassigned = false;
 

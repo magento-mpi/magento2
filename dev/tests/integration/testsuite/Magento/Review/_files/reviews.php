@@ -19,11 +19,11 @@ $review->setEntityId($review->getEntityIdByCode(\Magento\Review\Model\Review::EN
     ->setEntityPkValue($product->getId()) // the last product from the fixture file included above
     ->setStatusId(\Magento\Review\Model\Review::STATUS_PENDING)
     ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getId()
     )
     ->setStores(array(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getId()
     ))
     ->save()

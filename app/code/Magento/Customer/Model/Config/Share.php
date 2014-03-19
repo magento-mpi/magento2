@@ -35,7 +35,7 @@ class Share extends \Magento\Core\Model\Config\Value
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -52,9 +52,9 @@ class Share extends \Magento\Core\Model\Config\Value
      *
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -65,7 +65,7 @@ class Share extends \Magento\Core\Model\Config\Value
         \Magento\Registry $registry,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

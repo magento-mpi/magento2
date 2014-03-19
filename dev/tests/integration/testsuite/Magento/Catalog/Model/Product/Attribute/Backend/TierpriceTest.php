@@ -139,10 +139,10 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     public function testAfterSaveEmpty()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->setCurrentStore(
+            ->get('Magento\Store\Model\StoreManagerInterface')->setCurrentStore(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')
-                    ->getStore(\Magento\Core\Model\Store::DEFAULT_STORE_ID)
+                    ->get('Magento\Store\Model\StoreManagerInterface')
+                    ->getStore(\Magento\Store\Model\Store::DEFAULT_STORE_ID)
             );
         /** @var $product \Magento\Catalog\Model\Product */
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

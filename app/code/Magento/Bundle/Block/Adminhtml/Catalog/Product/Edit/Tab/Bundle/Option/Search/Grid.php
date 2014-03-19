@@ -108,7 +108,7 @@ class Grid
             ->addAttributeToFilter('entity_id', array('nin' => $this->_getSelectedProducts()))
             ->addAttributeToFilter('type_id', array('in' => $this->getAllowedSelectionTypes()))
             ->addFilterByRequiredOptions()
-            ->addStoreFilter(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            ->addStoreFilter(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
         if ($this->getFirstShow()) {
             $collection->addIdFilter('-1');

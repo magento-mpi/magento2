@@ -47,7 +47,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -57,7 +57,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected $_url;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -88,8 +88,8 @@ class Base extends \Magento\App\Router\AbstractRouter
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\State $appState
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Core\Model\StoreManagerInterface|\Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
      * @param \Magento\Code\NameBuilder $nameBuilder
@@ -102,8 +102,8 @@ class Base extends \Magento\App\Router\AbstractRouter
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\State $appState,
         \Magento\UrlInterface $url,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
         \Magento\Code\NameBuilder $nameBuilder
@@ -416,7 +416,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected function _shouldBeSecure($path)
     {
         return parse_url($this->_storeConfig->getConfig('web/unsecure/base_url'), PHP_URL_SCHEME) === 'https'
-            || $this->_storeConfig->getConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)
+            || $this->_storeConfig->getConfigFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND)
                 && parse_url($this->_storeConfig->getConfig('web/secure/base_url'), PHP_URL_SCHEME) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
     }

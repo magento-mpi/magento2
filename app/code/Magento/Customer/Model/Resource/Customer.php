@@ -20,7 +20,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -36,7 +36,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
@@ -48,7 +48,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Stdlib\DateTime $dateTime,
         $data = array()

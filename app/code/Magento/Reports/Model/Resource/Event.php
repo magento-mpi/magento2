@@ -23,24 +23,24 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -24,14 +24,14 @@ class DesignExceptions
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      */
-    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    public function __construct(\Magento\Store\Model\Store\Config $coreStoreConfig)
     {
         $this->coreStoreConfig = $coreStoreConfig;
     }

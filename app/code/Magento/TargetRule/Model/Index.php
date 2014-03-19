@@ -81,7 +81,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_indexer;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -104,7 +104,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $session
@@ -118,7 +118,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $session,
@@ -362,7 +362,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         $websites = $this->_storeManager->getWebsites();
 
         foreach ($websites as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
             $store = $website->getDefaultStore();
             $date  = $this->_localeDate->scopeDate($store);
             if ($date->equals(0, \Zend_Date::HOUR)) {
@@ -480,7 +480,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Remove targetrule's index
      *
      * @param int|null $typeId
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     protected function _cleanIndex($typeId = null, $store = null)

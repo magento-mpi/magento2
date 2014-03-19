@@ -217,7 +217,7 @@ class Cart
             $cart = $this->_getCart();
 
             $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
-                ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
+                ->setStoreId($this->_objectManager->get('Magento\Store\Model\StoreManager')->getStore()->getId())
                 ->load($id);
 
             $cart->addProduct($product, $buyRequest)->save();

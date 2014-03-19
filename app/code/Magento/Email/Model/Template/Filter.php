@@ -74,7 +74,7 @@ class Filter extends \Magento\Filter\Template
     protected $_variableFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +91,7 @@ class Filter extends \Magento\Filter\Template
     /**
      * Setup callbacks for filters
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -114,9 +114,9 @@ class Filter extends \Magento\Filter\Template
      * @param \Magento\Logger $logger
      * @param \Magento\Escaper $escaper
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\VariableFactory $coreVariableFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\View\LayoutFactory $layoutFactory
      * @param \Magento\App\State $appState
@@ -129,9 +129,9 @@ class Filter extends \Magento\Filter\Template
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\View\Url $viewUrl,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\VariableFactory $coreVariableFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
         \Magento\View\LayoutFactory $layoutFactory,
         \Magento\App\State $appState,

@@ -23,16 +23,16 @@ class Reorder extends \Magento\Core\Helper\Data
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      * @param \Magento\Customer\Model\Session $customerSession
      * @param bool $dbCompatibleMode
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
         \Magento\Customer\Model\Session $customerSession,
         $dbCompatibleMode = true
@@ -58,7 +58,7 @@ class Reorder extends \Magento\Core\Helper\Data
     /**
      * Check if reorder is allowed for given store
      *
-     * @param \Magento\Core\Model\Store|int|null $store
+     * @param \Magento\Store\Model\Store|int|null $store
      * @return bool
      */
     public function isAllowed($store = null)

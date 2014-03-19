@@ -54,7 +54,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -64,7 +64,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -76,9 +76,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -87,9 +87,9 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Http\Context $httpContext,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -118,7 +118,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
     protected function _afterSave()
     {
         if ($this->hasCategoryId()) {
-            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Core\Model\Store\Group::CACHE_TAG);
+            $this->_cacheTag = array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store\Group::CACHE_TAG);
         }
 
         parent::_afterSave();
@@ -302,8 +302,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
             $currentStore = $this->_storeManager->getStore();
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
-            $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
-            $this->_httpContext->setValue(\Magento\Core\Model\Store::ENTITY, $currentStore->getCode());
+            $this->_app->getCookie()->set(\Magento\Store\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
+            $this->_httpContext->setValue(\Magento\Store\Model\Store::ENTITY, $currentStore->getCode());
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);
@@ -319,8 +319,8 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         $isPermanentRedirectOption = $this->hasOption('RP');
         if ($external === 'http:/' || $external === 'https:') {
             $destinationStoreCode = $this->_storeManager->getStore($this->getStoreId())->getCode();
-            $this->_app->getCookie()->set(\Magento\Core\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
-            $this->_httpContext->setValue(\Magento\Core\Model\Store::ENTITY, $destinationStoreCode);
+            $this->_app->getCookie()->set(\Magento\Store\Model\Store::COOKIE_NAME, $destinationStoreCode, true);
+            $this->_httpContext->setValue(\Magento\Store\Model\Store::ENTITY, $destinationStoreCode);
 
             $this->_sendRedirectHeaders($this->getTargetPath(), $isPermanentRedirectOption);
         } else {

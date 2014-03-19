@@ -40,7 +40,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -54,7 +54,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -64,7 +64,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\Rate $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

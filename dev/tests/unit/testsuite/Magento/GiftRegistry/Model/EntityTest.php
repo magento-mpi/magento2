@@ -43,8 +43,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
         $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
+        $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore'))
             ->getMockForAbstractClass();
@@ -71,7 +71,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);

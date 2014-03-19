@@ -22,12 +22,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected $_filterItemFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Store|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_store;
 
@@ -93,8 +93,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_filterItem));
 
-        $this->_store = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
-        $this->_storeManager = $this->getMock('\Magento\Core\Model\StoreManagerInterface', array(), array(), '', false);
+        $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
         $this->_storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));

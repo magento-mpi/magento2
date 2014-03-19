@@ -44,7 +44,7 @@ abstract class AbstractAction
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -92,7 +92,7 @@ abstract class AbstractAction
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -103,7 +103,7 @@ abstract class AbstractAction
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime $dateTime,
@@ -206,7 +206,7 @@ abstract class AbstractAction
 
         $data = array();
         foreach ($write->fetchAll($select) as $item) {
-            /** @var $website \Magento\Core\Model\Website */
+            /** @var $website \Magento\Store\Model\Website */
             $website = $this->_storeManager->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
@@ -220,7 +220,7 @@ abstract class AbstractAction
                 $rate = 1;
             }
 
-            /** @var $store \Magento\Core\Model\Store */
+            /** @var $store \Magento\Store\Model\Store */
             $store = $this->_storeManager->getStore($item['store_id']);
             if ($store) {
                 $timestamp = $this->_localeDate->scopeTimeStamp($store);

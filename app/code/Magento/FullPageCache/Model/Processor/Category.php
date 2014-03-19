@@ -46,7 +46,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -63,7 +63,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
@@ -73,7 +73,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($fpcProcessor, $coreSession, $appState, $placeholderFactory, $containerFactory);
         $this->_catalogSession = $catalogSession;

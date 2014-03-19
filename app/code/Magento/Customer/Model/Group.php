@@ -58,7 +58,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     protected static $_taxClassIds = array();
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -72,7 +72,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -81,7 +81,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

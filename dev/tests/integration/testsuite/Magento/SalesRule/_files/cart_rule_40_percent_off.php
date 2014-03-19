@@ -26,6 +26,6 @@ $salesRule->setData(array(
     'discount_amount' => 40,
     'stop_rules_processing' => 1,
     'website_ids' => array(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId()),
+        ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId()),
 ));
 $salesRule->save();

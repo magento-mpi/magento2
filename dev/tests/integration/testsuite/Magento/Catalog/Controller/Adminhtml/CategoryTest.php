@@ -27,9 +27,9 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
     {
-        /** @var $store \Magento\Core\Model\Store */
+        /** @var $store \Magento\Store\Model\Store */
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Store');
+            ->create('Magento\Store\Model\Store');
         $store->load('fixturestore', 'code');
         $storeId = $store->getId();
 

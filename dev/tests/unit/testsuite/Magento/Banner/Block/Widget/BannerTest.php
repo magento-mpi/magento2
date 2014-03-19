@@ -57,7 +57,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $currentStore = new \Magento\Object(array('id' => 42));
         $currentWebsite = new \Magento\Object(array('id' => 57));
         $storeManager = $this->getMockForAbstractClass(
-            'Magento\Core\Model\StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
+            'Magento\Store\Model\StoreManagerInterface', array(), '', true, true, true, array('getStore', 'getWebsite')
         );
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($currentStore));
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($currentWebsite));

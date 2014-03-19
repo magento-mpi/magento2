@@ -96,7 +96,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -116,7 +116,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
@@ -124,7 +124,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreData,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;

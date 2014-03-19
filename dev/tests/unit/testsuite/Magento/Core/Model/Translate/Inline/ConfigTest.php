@@ -16,7 +16,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $store = 'some store';
         $result = 'result';
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
         $coreStoreConfig
             ->expects($this->once())
             ->method('getConfigFlag')

@@ -59,7 +59,7 @@ class Observer
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -83,7 +83,7 @@ class Observer
      * @param ScheduleFactory $scheduleFactory
      * @param \Magento\AppInterface $app
      * @param ConfigInterface $config
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Console\Request $request
      * @param \Magento\Shell $shell
      */
@@ -92,7 +92,7 @@ class Observer
         \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
         \Magento\AppInterface $app,
         \Magento\Cron\Model\ConfigInterface $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\Console\Request $request,
         \Magento\Shell $shell
     ) {

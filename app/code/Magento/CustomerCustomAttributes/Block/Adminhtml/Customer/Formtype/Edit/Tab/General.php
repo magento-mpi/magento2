@@ -22,7 +22,7 @@ class General
     protected $_themeLabelFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -31,7 +31,7 @@ class General
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
@@ -39,7 +39,7 @@ class General
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;

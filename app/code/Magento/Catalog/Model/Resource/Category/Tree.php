@@ -72,7 +72,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -95,7 +95,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      *
      * @param \Magento\Catalog\Model\Resource\Category $catalogCategory
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Resource $resource
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
@@ -104,7 +104,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     public function __construct(
         \Magento\Catalog\Model\Resource\Category $catalogCategory,
         \Magento\App\CacheInterface $cache,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Resource $resource,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
@@ -619,7 +619,7 @@ class Tree extends \Magento\Data\Tree\Dbp
                         array($tableDefault => $attribute->getBackend()->getTable()),
                         sprintf('%1$s.entity_id=e.entity_id AND %1$s.attribute_id=%2$d'
                             . ' AND %1$s.entity_type_id=e.entity_type_id AND %1$s.store_id=%3$d',
-                            $tableDefault, $attribute->getId(), \Magento\Core\Model\Store::DEFAULT_STORE_ID),
+                            $tableDefault, $attribute->getId(), \Magento\Store\Model\Store::DEFAULT_STORE_ID),
                         array($attributeCode => 'value'))
                     ->joinLeft(
                         array($tableStore => $attribute->getBackend()->getTable()),

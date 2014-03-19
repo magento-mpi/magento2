@@ -31,7 +31,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStoreConfig;
 
@@ -41,7 +41,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', [], [], '', false);
         $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
         $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', [], [], '', false);
-        $this->_coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', [], [], '', false);
+        $this->_coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', [], [], '', false);
         $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', ['create'], [], '', false);
         $paymentFactory->expects($this->once())
             ->method('create')
@@ -152,7 +152,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
 
     public function testSetStoreObject()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $store->expects($this->once())->method('getId')->will($this->returnValue('store id'));
         $this->_methodInstance->expects($this->once())->method('setData')->with('store', $store);
         $this->_pbridgeData->expects($this->once())->method('setStoreId')->with('store id');

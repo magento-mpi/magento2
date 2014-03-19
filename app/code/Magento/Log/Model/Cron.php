@@ -35,7 +35,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -45,7 +45,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -64,9 +64,9 @@ class Cron extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Log\Model\Log $log
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -76,9 +76,9 @@ class Cron extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Log\Model\Log $log,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\TranslateInterface $translate,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

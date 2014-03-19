@@ -18,7 +18,7 @@ class CatalogProductList
 {
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -33,9 +33,9 @@ class CatalogProductList
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      */
     public function __construct(
@@ -44,9 +44,9 @@ class CatalogProductList
         \Magento\FullPageCache\Model\Container\Placeholder $placeholder,
         \Magento\Registry $coreRegistry,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         parent::__construct(

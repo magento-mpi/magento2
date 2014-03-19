@@ -36,7 +36,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
                 'username' => 'Admin user'
             )));
         $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')
+            ->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()
             ->getWebsiteId();
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

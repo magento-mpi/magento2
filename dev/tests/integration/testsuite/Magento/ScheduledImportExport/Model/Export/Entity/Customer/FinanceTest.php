@@ -19,7 +19,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 {
     protected function tearDown()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->reinitStores();
     }
 
@@ -42,7 +42,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(
             count(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')->getWebsites()
+                    ->get('Magento\Store\Model\StoreManagerInterface')->getWebsites()
             ),
             $csvData
         );
@@ -62,8 +62,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $websites = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsites();
-        /** @var $website \Magento\Core\Model\Website */
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $websiteCode = $website->getCode();
             // CSV data
@@ -76,7 +76,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     => $objectManager->get('Magento\Registry')->registry('customer_finance_email'),
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_WEBSITE
                     => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                        ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsite()->getCode(),
+                        ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsite()->getCode(),
                 \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::

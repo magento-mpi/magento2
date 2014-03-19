@@ -123,7 +123,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $this->_application = $this->getMock('Magento\Core\Model\App', array('getStore', 'getConfig'),
             array(), '', false);
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('setConfig'), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('setConfig'), array(), '', false);
         $storeManager->expects($this->any())
             ->method('setConfig')
             ->with(

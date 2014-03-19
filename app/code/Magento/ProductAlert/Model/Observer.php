@@ -69,12 +69,12 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -120,8 +120,8 @@ class Observer
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -133,8 +133,8 @@ class Observer
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -185,7 +185,7 @@ class Observer
     {
         $email->setType('price');
         foreach ($this->_getWebsites() as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
 
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
@@ -272,7 +272,7 @@ class Observer
         $email->setType('stock');
 
         foreach ($this->_getWebsites() as $website) {
-            /* @var $website \Magento\Core\Model\Website */
+            /* @var $website \Magento\Store\Model\Website */
 
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;

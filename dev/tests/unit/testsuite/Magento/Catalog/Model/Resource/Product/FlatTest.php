@@ -20,24 +20,24 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManagerInterface;
 
     public function setUp()
     {
         $this->_store = $this->getMock(
-            '\Magento\Core\Model\Store',
+            '\Magento\Store\Model\Store',
             array(), array(), '', false
         );
 
         $this->_storeManagerInterface = $this->getMock(
-            '\Magento\Core\Model\StoreManagerInterface');
+            '\Magento\Store\Model\StoreManagerInterface');
 
         $this->_storeManagerInterface->expects($this->any())
             ->method('getStore')

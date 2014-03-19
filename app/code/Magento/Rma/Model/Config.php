@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Model;
 
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * RMA config
@@ -54,25 +54,25 @@ class Config extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

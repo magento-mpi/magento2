@@ -34,7 +34,7 @@ class Currency
     /**
      * Application object
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -55,7 +55,7 @@ class Currency
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\App\ConfigInterface $config
@@ -64,7 +64,7 @@ class Currency
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\App\ConfigInterface $config,

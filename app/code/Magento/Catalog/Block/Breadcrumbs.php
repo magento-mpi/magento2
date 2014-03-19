@@ -18,7 +18,7 @@
 namespace Magento\Catalog\Block;
 
 use Magento\Catalog\Helper\Data;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 use Magento\View\Element\Template\Context;
 
 class Breadcrumbs extends \Magento\View\Element\Template

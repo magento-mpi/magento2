@@ -31,8 +31,8 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $this->_websiteFactoryMock = $this->getMock('Magento\Core\Model\Website\Factory', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_websiteFactoryMock = $this->getMock('Magento\Store\Model\Website\Factory', array(), array(), '', false);
 
         $this->_object = $helper->getObject('Magento\Backend\Block\Store\Switcher', array(
             'websiteFactory' => $this->_websiteFactoryMock,
@@ -46,9 +46,9 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWebsiteCollectionWhenWebSiteIdsEmpty()
     {
-        $websiteModel = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false, false);
+        $websiteModel = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false, false);
         $collection = $this->getMock(
-            'Magento\Core\Model\Resource\Website\Collection', array(), array(), '', false, false
+            'Magento\Store\Model\Resource\Website\Collection', array(), array(), '', false, false
         );
         $websiteModel->expects($this->once())->method('getResourceCollection')->will($this->returnValue($collection));
 
@@ -72,9 +72,9 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWebsiteCollectionWhenWebSiteIdsIsSet()
     {
-        $websiteModel = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false, false);
+        $websiteModel = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false, false);
         $collection = $this->getMock(
-            'Magento\Core\Model\Resource\Website\Collection',
+            'Magento\Store\Model\Resource\Website\Collection',
             array(),
             array(),
             '',

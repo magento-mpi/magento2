@@ -28,7 +28,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function setDesignConfigExceptionDataProvider()
     {
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+            ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
         return array(
             array(array()),
             array(array('area' => 'frontend')),

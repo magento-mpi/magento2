@@ -35,19 +35,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_modulesReader;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\Store\Model\Store\Config $storeConfig
     ) {
         parent::__construct($context);
         $this->_modulesReader = $modulesReader;
@@ -67,7 +67,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether wishlist is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isWishlistPersist($store = null)
@@ -78,7 +78,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether ordered items is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isOrderedItemsPersist($store = null)
@@ -89,7 +89,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether compare products is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isCompareProductsPersist($store = null)
@@ -100,7 +100,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether compared products is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isComparedProductsPersist($store = null)
@@ -111,7 +111,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether viewed products is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isViewedProductsPersist($store = null)
@@ -122,7 +122,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether customer and segments is persist
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return bool
      */
     public function isCustomerAndSegmentsPersist($store = null)

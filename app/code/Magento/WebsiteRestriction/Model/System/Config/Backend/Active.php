@@ -61,7 +61,7 @@ class Active extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged()) {
-            $this->_app->cleanCache(array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG));
+            $this->_app->cleanCache(array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG));
         }
         return parent::_afterSave();
     }

@@ -19,7 +19,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrintLogoUrl($configData, $returnValue)
     {
-        $storeConfig = $this->getMockBuilder('Magento\Core\Model\Store\Config')
+        $storeConfig = $this->getMockBuilder('Magento\Store\Model\Store\Config')
             ->disableOriginalConstructor()
             ->getMock();
         $storeConfig->expects($this->any())
@@ -57,7 +57,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             'urlBuilder' => $urlBuilder,
         ));
         $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface');
+            ->get('Magento\Store\Model\StoreManagerInterface');
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Theme\Block\Html', array(
                 'storeManager'  => $storeManager,

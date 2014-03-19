@@ -33,14 +33,14 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,14 +49,14 @@ class Observer
      *
      * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_configWriter = $configWriter;
         $this->_configCacheType = $configCacheType;

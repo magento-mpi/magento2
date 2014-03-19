@@ -41,7 +41,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -58,7 +58,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_ignores;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -105,11 +105,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\HTTP\Header $httpHeader
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -125,11 +125,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Session\SessionManagerInterface $session,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,

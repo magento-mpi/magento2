@@ -27,10 +27,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\DomDocument\Factory */
     protected $_domDocumentFactory;
 
-    /** @var \Magento\Core\Model\Store */
+    /** @var \Magento\Store\Model\Store */
     protected $_storeMock;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $_storeManagerMock;
 
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
@@ -41,9 +41,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()->getMock();
-        $this->_storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
+        $this->_storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()->getMock();
 
         $this->_areaListMock = $this->getMock('Magento\App\AreaList', array(), array(), '', false);

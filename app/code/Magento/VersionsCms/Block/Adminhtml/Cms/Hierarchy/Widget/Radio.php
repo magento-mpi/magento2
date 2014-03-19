@@ -55,7 +55,7 @@ class Radio extends \Magento\Backend\Block\Template
     protected $_hierarchyNode;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -63,14 +63,14 @@ class Radio extends \Magento\Backend\Block\Template
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

@@ -10,13 +10,13 @@
  */
 
 // add new website
-/** @var $website \Magento\Core\Model\Website */
+/** @var $website \Magento\Store\Model\Website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Website');
+    ->create('Magento\Store\Model\Website');
 $website->setCode('finance_website')
     ->setName('Finance Website');
 $website->save();
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
     ->reinitStores();
 
 // create test customer
@@ -35,7 +35,7 @@ $objectManager->get('Magento\Registry')->unregister($registerKey);
 $objectManager->get('Magento\Registry')->register($registerKey, $customerEmail);
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
-    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
         ->getStore()->getWebsiteId()
 );
 $customer->save();
@@ -46,9 +46,9 @@ $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Mage
 
 // increment to modify balance values
 $increment = 0;
-$websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+$websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
     ->getWebsites();
-/** @var $website \Magento\Core\Model\Website */
+/** @var $website \Magento\Store\Model\Website */
 foreach ($websites as $website) {
     $increment += 10;
 

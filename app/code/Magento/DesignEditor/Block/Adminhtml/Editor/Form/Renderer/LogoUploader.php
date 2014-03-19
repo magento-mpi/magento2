@@ -63,7 +63,7 @@ class LogoUploader
     /**
      * Get logo upload url
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
     public function getLogoUploadUrl($store)
@@ -76,7 +76,7 @@ class LogoUploader
     /**
      * Get logo upload url
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
     public function getLogoRemoveUrl($store)
@@ -89,7 +89,7 @@ class LogoUploader
     /**
      * Get logo image
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string|null
      */
     public function getLogoImage($store)
@@ -104,7 +104,7 @@ class LogoUploader
     /**
      * Get stores list
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getStoresList()
     {

@@ -49,8 +49,8 @@ class ConfigFixture
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $result = null;
         if ($storeCode !== false) {
-            /** @var \Magento\Core\Model\Store\Config $storeConfig */
-            $storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
+            /** @var \Magento\Store\Model\Store\Config $storeConfig */
+            $storeConfig = $objectManager->get('Magento\Store\Model\Store\Config');
             $result = $storeConfig->getConfig($configPath, $storeCode);
         }
         return $result;
@@ -72,7 +72,7 @@ class ConfigFixture
                 $objectManager->get('Magento\App\ConfigInterface')->setValue($configPath, $value);
             }
         } else {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore($storeCode)->setConfig($configPath, $value);
         }
     }

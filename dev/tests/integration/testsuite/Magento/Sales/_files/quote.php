@@ -46,7 +46,7 @@ $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Quote');
 $quote->setCustomerIsGuest(true)
     ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore()->getId()
     )
     ->setReservedOrderId('test01')

@@ -27,14 +27,14 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $this->storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->storeMock->expects($this->any())
             ->method('getConfig')
             ->with(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK)
             ->will($this->returnValue(1));
 
-        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->storeManagerMock->expects($this->any())
             ->method('getStore')

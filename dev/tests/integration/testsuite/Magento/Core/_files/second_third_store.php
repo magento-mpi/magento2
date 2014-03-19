@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Core\Model\Website $website */
+/** @var \Magento\Store\Model\Website $website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Website');
+    ->create('Magento\Store\Model\Website');
 $website->setName('Second Website')
         ->setCode('secondwebsite')
         ->save();
@@ -16,9 +16,9 @@ $website->setName('Second Website')
 $websiteId = $website->getId();
 $groupId = $website->getDefaultGroupId();
 
-/** @var \Magento\Core\Model\Store $store */
+/** @var \Magento\Store\Model\Store $store */
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Store');
+    ->create('Magento\Store\Model\Store');
 $store->setCode('secondstore')
     ->setName('Second Store')
     ->setSortOrder(10)
@@ -26,9 +26,9 @@ $store->setCode('secondstore')
 $store->save();
 
 
-/** @var \Magento\Core\Model\Website $website */
+/** @var \Magento\Store\Model\Website $website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Website');
+    ->create('Magento\Store\Model\Website');
 $website->setName('Third Website')
     ->setCode('thirdwebsite')
     ->save();
@@ -36,9 +36,9 @@ $website->setName('Third Website')
 $websiteId = $website->getId();
 $groupId = $website->getDefaultGroupId();
 
-/** @var \Magento\Core\Model\Store $store */
+/** @var \Magento\Store\Model\Store $store */
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Store');
+    ->create('Magento\Store\Model\Store');
 $store->setCode('thirdstore')
     ->setName('Third Store')
     ->setSortOrder(10)
@@ -46,5 +46,5 @@ $store->setCode('thirdstore')
 $store->save();
 
 /* Refresh stores memory cache */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
     ->reinitStores();

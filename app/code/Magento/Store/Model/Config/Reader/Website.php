@@ -30,7 +30,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Core\Model\WebsiteFactory
+     * @var \Magento\Store\Model\WebsiteFactory
      */
     protected $_websiteFactory;
 
@@ -44,7 +44,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
      * @param \Magento\App\Config\ScopePool $scopePool
      * @param \Magento\App\Config\Scope\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
-     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param \Magento\App\State $appState
      */
     public function __construct(
@@ -52,7 +52,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
         \Magento\App\Config\ScopePool $scopePool,
         \Magento\App\Config\Scope\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
-        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\App\State $appState
     ) {
         $this->_initialConfig = $initialConfig;

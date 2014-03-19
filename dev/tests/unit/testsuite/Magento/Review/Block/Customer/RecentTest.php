@@ -29,12 +29,12 @@ class RecentTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $session;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
     protected function setUp()
     {
-        $this->storeManager = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
+        $this->storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
         $this->context->expects($this->any())->method('getStoreManager')->will($this->returnValue($this->storeManager));
         $this->collection

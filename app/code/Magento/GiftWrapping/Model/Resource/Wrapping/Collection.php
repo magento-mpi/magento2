@@ -76,7 +76,7 @@ class Collection
     /**
      * Limit gift wrapping collection by specific website
      *
-     * @param  int|array|\Magento\Core\Model\Website $websiteId
+     * @param  int|array|\Magento\Store\Model\Website $websiteId
      * @return $this
      */
     public function applyWebsiteFilter($websiteId)
@@ -90,7 +90,7 @@ class Collection
             );
         }
 
-        if ($websiteId instanceof \Magento\Core\Model\Website) {
+        if ($websiteId instanceof \Magento\Store\Model\Website) {
             $websiteId = $websiteId->getId();
         }
         $this->getSelect()->where('website.website_id IN (?)', $websiteId);

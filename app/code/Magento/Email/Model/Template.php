@@ -133,7 +133,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -156,11 +156,11 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
@@ -173,11 +173,11 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
         \Magento\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
@@ -206,7 +206,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     /**
      * Return logo URL for emails. Take logo from theme if custom logo is undefined
      *
-     * @param  \Magento\Core\Model\Store|int|string $store
+     * @param  \Magento\Store\Model\Store|int|string $store
      * @return string
      */
     protected function _getLogoUrl($store)
@@ -240,7 +240,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     /**
      * Return logo alt for emails
      *
-     * @param  \Magento\Core\Model\Store|int|string $store
+     * @param  \Magento\Store\Model\Store|int|string $store
      * @return string
      */
     protected function _getLogoAlt($store)

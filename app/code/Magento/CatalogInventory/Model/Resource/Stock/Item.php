@@ -23,17 +23,17 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);

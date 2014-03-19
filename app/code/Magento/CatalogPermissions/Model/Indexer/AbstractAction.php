@@ -8,11 +8,11 @@
 
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-use \Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use \Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use \Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
 use \Magento\CatalogPermissions\Model\Permission;
 use \Magento\CatalogPermissions\App\ConfigInterface;
-use \Magento\Core\Model\StoreManagerInterface;
+use \Magento\Store\Model\StoreManagerInterface;
 use \Magento\Catalog\Model\Config as CatalogConfig;
 
 abstract class AbstractAction

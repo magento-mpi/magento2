@@ -57,7 +57,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -68,14 +68,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Captcha\Model\CaptchaFactory $factory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\App\Filesystem $filesystem,
         \Magento\Captcha\Model\CaptchaFactory $factory
@@ -113,7 +113,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Returns config value
      *
      * @param string $key The last part of XML_PATH_$area_CAPTCHA_ constant (case insensitive)
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return \Magento\Core\Model\Config\Element
      */
     public function getConfig($key, $store = null)

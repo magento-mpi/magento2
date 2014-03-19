@@ -150,7 +150,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Return current store from registry
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getStore()
     {

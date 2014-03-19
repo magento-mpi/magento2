@@ -39,7 +39,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\DesignInterface');
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
+            ->get('Magento\Store\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
         $designChange = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Design');
         $designChange->loadChange($storeId)->changeDesign($design);
@@ -108,7 +108,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Stdlib\DateTime');
         $date = $dateTime->now(true);
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
+            ->get('Magento\Store\Model\StoreManagerInterface')->getAnyStoreView()->getId(); // fixture design_change
 
         $cacheId = 'design_change_' . md5($storeId . $date);
 
@@ -163,7 +163,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         }
 
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeCode);
+            ->get('Magento\Store\Model\StoreManagerInterface')->getStore($storeCode);
         $defaultTimeZonePath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Stdlib\DateTime\TimezoneInterface')->getDefaultTimezonePath();
         $store->setConfig($defaultTimeZonePath, $storeTimezone);

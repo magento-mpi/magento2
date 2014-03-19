@@ -75,7 +75,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -107,7 +107,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDependenciesWhenDependentIsInvisible($isValueSatisfy)
     {
-        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
+        $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_storeManagerMock->expects($this->exactly(count($this->_testData)))

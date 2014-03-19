@@ -16,7 +16,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Core\Model\Store\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Store\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeConfigMock;
 
@@ -28,7 +28,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeConfigMock = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Store\ConfigInterface',
+            'Magento\Store\Model\Store\ConfigInterface',
             array(), '', false, false, true, array('getConfigFlag', '__wakeup')
         );
 

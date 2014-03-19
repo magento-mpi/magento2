@@ -89,7 +89,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_catalogProduct = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -144,7 +144,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Bundle\Model\Resource\Selection $bundleSelection
      * @param \Magento\Bundle\Model\OptionFactory $bundleOption
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -168,7 +168,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Catalog\Model\Config $config,
         \Magento\Bundle\Model\Resource\Selection $bundleSelection,
         \Magento\Bundle\Model\OptionFactory $bundleOption,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
@@ -469,7 +469,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->setPositionOrder();
 
             $storeId = $this->getStoreFilter($product);
-            if ($storeId instanceof \Magento\Core\Model\Store) {
+            if ($storeId instanceof \Magento\Store\Model\Store) {
                 $storeId = $storeId->getId();
             }
 

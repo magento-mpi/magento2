@@ -39,13 +39,13 @@ class HmacTest extends \PHPUnit_Framework_TestCase
     private $_mockUser;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Core\Model\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject \Magento\Store\Model\StoreManagerInterface
      */
     private $_mockStoreManager;
 
     protected function setUp()
     {
-        $this->_mockStoreManager = $this->getMockBuilder('Magento\Core\Model\StoreManagerInterface')
+        $this->_mockStoreManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new \Magento\Outbound\Authentication\Hmac($this->_mockStoreManager);
@@ -64,7 +64,7 @@ class HmacTest extends \PHPUnit_Framework_TestCase
 
     public function testHeaders()
     {
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockStoreManager->expects($this->once())

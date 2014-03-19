@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+$storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
     ->getAnyStoreView()->getId();
 /** @var $change \Magento\Core\Model\Design */
 $change = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

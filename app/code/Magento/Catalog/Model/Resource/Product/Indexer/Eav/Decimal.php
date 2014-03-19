@@ -64,8 +64,8 @@ class Decimal extends AbstractEav
                 'pds.entity_id = pdd.entity_id AND pds.attribute_id = pdd.attribute_id'
                     . ' AND pds.store_id=cs.store_id',
                 array('value' => $productValueExpression))
-            ->where('pdd.store_id=?', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
-            ->where('cs.store_id!=?', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
+            ->where('pdd.store_id=?', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
+            ->where('cs.store_id!=?', \Magento\Store\Model\Store::DEFAULT_STORE_ID)
             ->where('pdd.attribute_id IN(?)', $attrIds)
             ->where("{$productValueExpression} IS NOT NULL");
 

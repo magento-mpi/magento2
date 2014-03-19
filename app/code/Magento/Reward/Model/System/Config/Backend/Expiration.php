@@ -85,7 +85,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
                 $websiteScopeIds[] = $item->getScopeId();
             }
             foreach ($this->_storeManager->getWebsites() as $website) {
-                /* @var $website \Magento\Core\Model\Website */
+                /* @var $website \Magento\Store\Model\Website */
                 if (!in_array($website->getId(), $websiteScopeIds)) {
                     $websiteIds[] = $website->getId();
                 }

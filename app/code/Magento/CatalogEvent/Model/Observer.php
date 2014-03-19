@@ -16,7 +16,7 @@ use Magento\Catalog\Model\Product;
 use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Resource\Event\Collection as EventCollection;
 use Magento\Registry;
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Data\Collection;
 use Magento\Data\Tree\Node;
 use Magento\Event\Observer as EventObserver;

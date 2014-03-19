@@ -21,7 +21,7 @@ class Links extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      *
      * @var string[]
      */
-    protected $_cacheTags = array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
+    protected $_cacheTags = array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
 
 
     /**
@@ -31,7 +31,7 @@ class Links extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      */
     public function getIdentities()
     {
-        return array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
+        return array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
 
 }

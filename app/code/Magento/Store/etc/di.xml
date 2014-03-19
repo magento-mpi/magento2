@@ -33,4 +33,70 @@
         </arguments>
     </type>
     <preference for="Magento\App\Config\Scope\ReaderPoolInterface" type="Magento\Store\Model\Config\Reader\ReaderPool"/>
+    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Store\Model\BaseScopeResolver" />
+    <type name="Magento\App\Action\Action">
+        <plugin name="storeCheck" type="Magento\Store\App\Action\Action\Plugin\StoreCheck" sortOrder="10"/>
+    </type>
+    <type name="Magento\Store\Model\Resource\Website\Collection">
+        <arguments>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Website\Collection\FetchStrategy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\Resource\Store\Group\Collection">
+        <arguments>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Store\Group\Collection\FetchStrategy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\Resource\Store\Collection">
+        <arguments>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Store\Collection\FetchStrategy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\Store">
+        <arguments>
+            <argument name="isCustomEntryPoint" xsi:type="init_parameter">Magento\Store\Model\Store::CUSTOM_ENTRY_POINT_PARAM</argument>
+            <argument name="url" xsi:type="object" shared="false">Magento\UrlInterface</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\StoreManager">
+        <arguments>
+            <argument name="request" xsi:type="object">Magento\App\Request\Http\Proxy</argument>
+            <argument name="helper" xsi:type="object">Magento\Core\Helper\Data\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Store\Model\Store\Storage\Db">
+        <arguments>
+            <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\Store\Model\Resource\Store\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
+            <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
+            <argument name="cacheTags" xsi:type="array">
+                <item name="storeTag" xsi:type="const">Magento\Store\Model\Store\Group::CACHE_TAG</item>
+            </argument>
+            <argument name="cacheLifetime" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Store\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
+            <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
+            <argument name="cacheTags" xsi:type="array">
+                <item name="storeTag" xsi:type="const">Magento\Store\Model\Store::CACHE_TAG</item>
+            </argument>
+            <argument name="cacheLifetime" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Store\Model\Resource\Website\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
+            <argument name="cacheIdPrefix" xsi:type="string">app_</argument>
+            <argument name="cacheTags" xsi:type="array">
+                <item name="storeTag" xsi:type="const">Magento\Store\Model\Website::CACHE_TAG</item>
+            </argument>
+            <argument name="cacheLifetime" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
 </config>

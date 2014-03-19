@@ -32,7 +32,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\ConfigInterface');
+        $this->_storeConfigMock = $this->getMock('Magento\Store\Model\Store\ConfigInterface');
         $this->_googleAnalyticsHelperMock = $this->getMock('Magento\GoogleAnalytics\Helper\Data', array(), array(), '',
             false);
 

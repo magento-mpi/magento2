@@ -11,7 +11,7 @@ namespace Magento\Catalog\Helper;
 
 use Magento\App\Helper\AbstractHelper;
 use Magento\Catalog\Model\Category as ModelCategory;
-use Magento\Core\Model\Store;
+use Magento\Store\Model\Store;
 
 /**
  * Catalog category helper
@@ -41,14 +41,14 @@ class Category extends AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -69,15 +69,15 @@ class Category extends AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Data\CollectionFactory $dataCollectionFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Data\CollectionFactory $dataCollectionFactory
     ) {
         $this->_categoryFactory = $categoryFactory;

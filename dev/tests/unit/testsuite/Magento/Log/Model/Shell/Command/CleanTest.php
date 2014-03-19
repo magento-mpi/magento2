@@ -26,7 +26,7 @@ class CleanTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_logFactoryMock = $this->getMock('Magento\Log\Model\LogFactory', array('create'), array(), '', false);
         $this->_logMock = $this->getMock('Magento\Log\Model\Log', array(), array(), '', false);
         $this->_logFactoryMock->expects($this->once())->method('create')->will($this->returnValue($this->_logMock));
@@ -43,7 +43,7 @@ class CleanTest extends \PHPUnit_Framework_TestCase
     public function testExecuteWithDaysOffset()
     {
         $model = new \Magento\Log\Model\Shell\Command\Clean($this->_storeManagerMock, $this->_logFactoryMock, 10);
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $this->_logMock->expects($this->once())->method('clean');

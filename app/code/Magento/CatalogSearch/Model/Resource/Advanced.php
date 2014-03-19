@@ -28,7 +28,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -36,12 +36,12 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;

@@ -75,7 +75,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -95,7 +95,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_schedOperFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -120,12 +120,12 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Stdlib\DateTime\DateTime $dateModel
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -136,12 +136,12 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Stdlib\DateTime\DateTime $dateModel,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

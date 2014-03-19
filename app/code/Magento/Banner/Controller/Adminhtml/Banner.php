@@ -111,7 +111,7 @@ class Banner extends \Magento\Backend\App\Action
             }
 
             //Filter disallowed data
-            $currentStores = array_keys($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStores(true));
+            $currentStores = array_keys($this->_objectManager->get('Magento\Store\Model\StoreManager')->getStores(true));
             if (isset($data['store_contents_not_use'])) {
                 $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
             }

@@ -18,7 +18,7 @@ class Observer
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -59,7 +59,7 @@ class Observer
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\GoogleShopping\Model\Flag $flag
      */
@@ -67,7 +67,7 @@ class Observer
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\GoogleShopping\Model\Flag $flag
     ) {

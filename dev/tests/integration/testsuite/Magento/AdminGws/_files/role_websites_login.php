@@ -25,10 +25,10 @@ $role->setName('admingws_role')
     ->setPid('1');
 if ('websites' == $scope) {
     $role->setGwsWebsites(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId());
+        ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId());
 } else {
     $role->setGwsStoreGroups(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getDefaultGroupId());
+        ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getDefaultGroupId());
 }
 $role->save();
 

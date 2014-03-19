@@ -311,13 +311,13 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Helper\Data', array('__construct'), array(), '', false
         );
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\Product\Option(
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
             $this->getMock('Magento\App\Resource', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Resource\Product\Option\CollectionFactory',
                 array(), array(), '', false),

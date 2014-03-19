@@ -79,7 +79,7 @@ class Link
                 $store = $this->_storeManager->getStore();
             }
 
-            /* @var $store \Magento\Core\Model\Store */
+            /* @var $store \Magento\Store\Model\Store */
             $href = "";
             if ($this->getData('id_path')) {
                 $href = $this->_urlRewrite->getRequestPathByIdPath($this->getData('id_path'), $store);

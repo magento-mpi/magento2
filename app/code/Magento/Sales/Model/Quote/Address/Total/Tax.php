@@ -26,7 +26,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -37,12 +37,12 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Tax\Model\Calculation $calculation
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Tax\Model\Calculation $calculation
     ) {
         $this->_taxData = $taxData;

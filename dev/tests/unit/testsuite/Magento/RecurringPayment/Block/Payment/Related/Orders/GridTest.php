@@ -26,7 +26,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $args = array(
             'getIncrementId',
             'getCreatedAt',
@@ -59,7 +59,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->with('current_customer')
             ->will($this->returnValue($customer));
         $payment->expects($this->once())->method('setStore')->with($store)->will($this->returnValue($payment));
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));
         $locale = $this->getMock('\Magento\Stdlib\DateTime\TimezoneInterface');

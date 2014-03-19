@@ -42,7 +42,7 @@ class Config
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -53,12 +53,12 @@ class Config
 
     /**
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

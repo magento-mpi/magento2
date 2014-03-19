@@ -16,7 +16,7 @@
     </type>
     <type name="Magento\FullPageCache\Model\Processor">
         <arguments>
-            <argument name="storeManager" xsi:type="object">Magento\Core\Model\StoreManager\Proxy</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManager\Proxy</argument>
             <argument name="metadata" xsi:type="object">Magento\FullPageCache\Model\Metadata\Proxy</argument>
             <argument name="requestIdentifier" xsi:type="object">Magento\FullPageCache\Model\Request\Identifier\Proxy</argument>
             <argument name="fpcCookie" xsi:type="object">Magento\FullPageCache\Model\Cookie\Proxy</argument>
@@ -64,7 +64,7 @@
                 <item name="review" xsi:type="string">Magento\Review\Model\Review</item>
                 <item name="cms_hierarchy_node" xsi:type="string">Magento\VersionsCms\Model\Hierarchy\Node</item>
                 <item name="banner" xsi:type="string">Magento\Banner\Model\Banner</item>
-                <item name="store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
+                <item name="store_group" xsi:type="string">Magento\Store\Model\Store\Group</item>
             </argument>
             <argument name="deleteDependencies" xsi:type="array">
                 <item name="catalog_category" xsi:type="string">Magento\Catalog\Model\Category</item>
@@ -72,7 +72,7 @@
                 <item name="review" xsi:type="string">Magento\Review\Model\Review</item>
                 <item name="cms_hierarchy_node" xsi:type="string">Magento\VersionsCms\Model\Hierarchy\Node</item>
                 <item name="banner" xsi:type="string">Magento\Banner\Model\Banner</item>
-                <item name="store_group" xsi:type="string">Magento\Core\Model\Store\Group</item>
+                <item name="store_group" xsi:type="string">Magento\Store\Model\Store\Group</item>
             </argument>
         </arguments>
     </type>

@@ -32,7 +32,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -42,7 +42,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -74,11 +74,11 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param \Magento\Multishipping\Helper\Data $helper
      * @param array $data
@@ -89,11 +89,11 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         \Magento\Sales\Model\OrderFactory $orderFactory,
         CustomerAddressServiceInterface $customerAddressService,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Session $session,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         \Magento\Multishipping\Helper\Data $helper,
         array $data = array()

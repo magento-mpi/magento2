@@ -27,7 +27,7 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -44,7 +44,7 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
      * @param \Magento\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param array $data
      */
@@ -52,7 +52,7 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
         \Magento\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
         array $data = array()
     ) {

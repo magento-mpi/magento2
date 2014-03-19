@@ -40,7 +40,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -60,7 +60,7 @@ class Design implements \Magento\View\DesignInterface
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     private $_storeConfig;
 
@@ -75,20 +75,20 @@ class Design implements \Magento\View\DesignInterface
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
      * @param array $themes
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
         \Magento\App\ConfigInterface $config,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Store\Model\Store\ConfigInterface $storeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,

@@ -196,7 +196,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Logger $logger
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
@@ -214,7 +214,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Eav\Model\Config $config,
         \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Logger $logger,
         \Magento\Catalog\Model\Resource\Product\Collection $collection,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
@@ -334,7 +334,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      */
     protected function _initWebsites()
     {
-        /** @var $website \Magento\Core\Model\Website */
+        /** @var $website \Magento\Store\Model\Website */
         foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
@@ -727,7 +727,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         try {
             $collection = $this->_getEntityCollection();
             $validAttrCodes = $this->_getExportAttrCodes();
-            $defaultStoreId  = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+            $defaultStoreId  = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
             $dataRows        = array();
             $rowCategories   = array();
             $rowWebsites     = array();

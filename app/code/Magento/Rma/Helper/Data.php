@@ -42,7 +42,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Store config model
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_storeConfig;
 
@@ -70,7 +70,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -143,10 +143,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -161,10 +161,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Store\ConfigInterface $storeConfig,
+        \Magento\Store\Model\Store\ConfigInterface $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -338,7 +338,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get return address array depending on config settings
      *
-     * @param \Magento\Core\Model\Store|null|int $store
+     * @param \Magento\Store\Model\Store|null|int $store
      * @return array
      */
     public function getReturnAddressData($store = null)
@@ -385,8 +385,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
-        $data['company'] = $this->_storeConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME, $store);
-        $data['telephone']  = $this->_storeConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_STORE_PHONE, $store);
+        $data['company'] = $this->_storeConfig->getConfig(\Magento\Store\Model\Store::XML_PATH_STORE_STORE_NAME, $store);
+        $data['telephone']  = $this->_storeConfig->getConfig(\Magento\Store\Model\Store::XML_PATH_STORE_STORE_PHONE, $store);
 
         return $data;
     }
@@ -417,7 +417,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get key=>value array of "big four" shipping carriers with store-defined labels
      *
-     * @param int|\Magento\Core\Model\Store|null $store
+     * @param int|\Magento\Store\Model\Store|null $store
      * @return array
      */
     public function getShippingCarriers($store = null)
@@ -433,7 +433,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Get key=>value array of enabled in website and enabled for RMA shipping carriers
      * from "big four" with their store-defined labels
      *
-     * @param int|\Magento\Core\Model\Store|null $store
+     * @param int|\Magento\Store\Model\Store|null $store
      * @return array
      */
     public function getAllowedShippingCarriers($store = null)

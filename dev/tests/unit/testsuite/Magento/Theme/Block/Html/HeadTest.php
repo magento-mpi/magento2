@@ -68,7 +68,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFaviconFile()
     {
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())
             ->method('getBaseUrl')
             ->will($this->returnValue('baseUrl/'));

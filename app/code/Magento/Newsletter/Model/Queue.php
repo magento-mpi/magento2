@@ -115,7 +115,7 @@ class Queue extends \Magento\Core\Model\Template
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Newsletter\Model\Template\Filter $templateFilter
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Stdlib\DateTime\DateTime $date
@@ -130,7 +130,7 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\View\DesignInterface $design,
         \Magento\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Newsletter\Model\Template\Filter $templateFilter,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Stdlib\DateTime\DateTime $date,

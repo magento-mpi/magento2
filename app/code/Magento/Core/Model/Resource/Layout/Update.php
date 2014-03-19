@@ -46,10 +46,10 @@ class Update extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $handle
      * @param \Magento\View\Design\ThemeInterface $theme
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return string
      */
-    public function fetchUpdatesByHandle($handle, \Magento\View\Design\ThemeInterface $theme, \Magento\Core\Model\Store $store)
+    public function fetchUpdatesByHandle($handle, \Magento\View\Design\ThemeInterface $theme, \Magento\Store\Model\Store $store)
     {
         $bind = array(
             'layout_update_handle' => $handle,

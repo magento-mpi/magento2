@@ -59,11 +59,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Return store mock instance
      *
-     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Store
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Store\Model\Store
      */
     protected function getStoreMock($websiteId)
     {
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->disableOriginalConstructor();
         $storeMock->setMethods(array('getWebsiteId'));
         $storeMock->expects($this->any())

@@ -16,14 +16,14 @@ class StockDataFilter
     const MAX_QTY_VALUE = 99999999.9999;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
     {
         $this->storeManager = $storeManager;
     }

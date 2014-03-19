@@ -138,7 +138,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $this->_getCustomerEntityMock();
         $data['address_entity']  = $this->_getAddressEntityMock();
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -191,7 +191,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['address_entity']    = $addressEntity;
         $data['data_source_model'] = $dataSourceMock;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -251,7 +251,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -422,7 +422,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -475,7 +475,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -638,7 +638,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -684,7 +684,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -732,7 +732,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
 
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
@@ -935,7 +935,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $coreStoreConfig = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
         $this->_model = new \Magento\ImportExport\Model\Import\Entity\CustomerComposite(
             $this->_coreHelper,
             $this->_string,

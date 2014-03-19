@@ -52,8 +52,8 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
     {
         $blockClass = '';
         try {
-            /** @var $website \Magento\Core\Model\Website */
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            /** @var $website \Magento\Store\Model\Website */
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()->setWebsiteId(0);
 
             $templates = array();

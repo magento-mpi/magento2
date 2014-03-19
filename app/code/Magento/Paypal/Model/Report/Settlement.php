@@ -148,7 +148,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     protected $_tmpDirectory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -156,7 +156,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -165,7 +165,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -421,7 +421,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         $configs = array();
         $uniques = array();
         foreach ($this->_storeManager->getStores() as $store) {
-            /*@var $store \Magento\Core\Model\Store */
+            /*@var $store \Magento\Store\Model\Store */
             $active = (bool)$store->getConfig('paypal/fetch_reports/active');
             if (!$active && $automaticMode) {
                 continue;

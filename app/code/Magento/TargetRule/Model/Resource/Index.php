@@ -60,7 +60,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_visibility;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -90,7 +90,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\TargetRule\Model\Resource\Rule $rule
      * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Customer\Model\Session $session
@@ -104,7 +104,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\TargetRule\Model\Resource\Rule $rule,
         \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Customer\Model\Session $session,
@@ -549,14 +549,14 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Remove index data from index tables
      *
      * @param int|null $typeId
-     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @param \Magento\Store\Model\Store|int|array|null $store
      * @return $this
      */
     public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
 
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
 

@@ -11,7 +11,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrepareLayout()
     {
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')
+        $store = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
         $rewardAction = $this->getMockBuilder('Magento\Reward\Model\Action\AbstractAction')
@@ -28,7 +28,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup'))
             ->getMock();
-        $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
+        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->setMethods(array('getStore', 'getWebsiteId'))
             ->getMock();

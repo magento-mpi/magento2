@@ -70,7 +70,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Store list manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -86,7 +86,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Log\Model\Visitor $visitor
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -100,7 +100,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Log\Model\Visitor $visitor,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\App\Http\Context $httpContext,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -152,7 +152,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      *
      * @param   string $eventName
      * @param   \Magento\Customer\Model\Customer|int $customer
-     * @param   \Magento\Core\Model\Website|int $website
+     * @param   \Magento\Store\Model\Website|int $website
      * @return  $this
      */
     public function processEvent($eventName, $customer, $website)
@@ -172,7 +172,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * Validate all segments for specific customer/visitor on specific website
      *
      * @param   \Magento\Customer\Model\Customer $customer
-     * @param   \Magento\Core\Model\Website $website
+     * @param   \Magento\Store\Model\Website $website
      * @return  $this
      */
     public function processCustomer(\Magento\Customer\Model\Customer $customer, $website)
@@ -191,7 +191,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * Check if customer is related to segments and update customer-segment relations
      *
      * @param int|null|\Magento\Customer\Model\Customer $customer
-     * @param \Magento\Core\Model\Website $website
+     * @param \Magento\Store\Model\Website $website
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segments
      * @return $this
      */

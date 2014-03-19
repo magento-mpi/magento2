@@ -15,7 +15,7 @@ class Allmethods implements \Magento\Option\ArrayInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -25,11 +25,11 @@ class Allmethods implements \Magento\Option\ArrayInterface
     protected $_shippingConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Config $shippingConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

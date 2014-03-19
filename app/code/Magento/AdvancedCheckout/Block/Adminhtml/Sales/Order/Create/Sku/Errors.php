@@ -67,7 +67,7 @@ class Errors
     /**
      * Returns current store model
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

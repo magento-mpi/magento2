@@ -18,7 +18,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     protected $_pbridgeData;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -41,14 +41,14 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
 
     /**
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Payment\Model\Method\Factory $paymentFactory
      * @param string $paypalClassName
      */
     public function __construct(
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Payment\Model\Method\Factory $paymentFactory,
         $paypalClassName
@@ -172,7 +172,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
     /**
      * Store id setter, also set storeId to helper
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)

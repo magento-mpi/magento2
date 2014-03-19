@@ -363,7 +363,7 @@ abstract class AbstractReport extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $column
      * @param null|mixed $from
      * @param null|mixed $to
-     * @param null|int|string|\Magento\Core\Model\Store $store
+     * @param null|int|string|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getStoreTZOffsetQuery($table, $column, $from = null, $to = null, $store = null)

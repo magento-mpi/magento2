@@ -131,7 +131,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      */
     protected function _getDefaultStoreId()
     {
-        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
     }
 
     /**

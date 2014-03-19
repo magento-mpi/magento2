@@ -76,7 +76,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -88,7 +88,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -115,9 +115,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $supportedLanguages
@@ -126,9 +126,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         \Magento\App\Helper\Context $context,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Locale\ResolverInterface $localeResolver,
         array $supportedLanguages = array()

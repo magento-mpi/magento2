@@ -244,7 +244,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -259,7 +259,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_resource;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -287,12 +287,12 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
      * @param \Magento\App\Resource $resource
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Core\Model\StoreManagerInterface $_storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $_storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
      *
@@ -302,12 +302,12 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\ImportExport\Model\Resource\Import\Data $importData,
         \Magento\App\Resource $resource,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
-        \Magento\Core\Model\StoreManagerInterface $_storeManager,
+        \Magento\Store\Model\StoreManagerInterface $_storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Product\Option\CollectionFactory $optionColFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $colIteratorFactory,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Stdlib\DateTime $dateTime,
         array $data = array()
     ) {
@@ -426,7 +426,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         if (isset($data['stores'])) {
             $this->_storeCodeToId = $data['stores'];
         } else {
-            /** @var $store \Magento\Core\Model\Store */
+            /** @var $store \Magento\Store\Model\Store */
             foreach ($this->_storeManager->getStores(true) as $store) {
                 $this->_storeCodeToId[$store->getCode()] = $store->getId();
             }
@@ -771,7 +771,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $storeCode = $rowData[self::COLUMN_STORE];
             $storeId = $this->_storeCodeToId[$storeCode];
         } else {
-            $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+            $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         }
         if (isset($this->_productsSkuToId[$this->_rowProductSku])) {
             // save in existing data array
@@ -1117,20 +1117,20 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                 $typeValues[$prevOptionId][] = $specificTypeData['value'];
 
                 // ensure default title is set
-                if (!isset($typeTitles[$nextValueId][\Magento\Core\Model\Store::DEFAULT_STORE_ID])) {
-                    $typeTitles[$nextValueId][\Magento\Core\Model\Store::DEFAULT_STORE_ID]
+                if (!isset($typeTitles[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID])) {
+                    $typeTitles[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID]
                         = $specificTypeData['title'];
                 }
                 $typeTitles[$nextValueId][$this->_rowStoreId] = $specificTypeData['title'];;
 
                 if ($specificTypeData['price']) {
                     if ($this->_isPriceGlobal) {
-                        $typePrices[$nextValueId][\Magento\Core\Model\Store::DEFAULT_STORE_ID]
+                        $typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID]
                             = $specificTypeData['price'];
                     } else {
                         // ensure default price is set
-                        if (!isset($typePrices[$nextValueId][\Magento\Core\Model\Store::DEFAULT_STORE_ID])) {
-                            $typePrices[$nextValueId][\Magento\Core\Model\Store::DEFAULT_STORE_ID]
+                        if (!isset($typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID])) {
+                            $typePrices[$nextValueId][\Magento\Store\Model\Store::DEFAULT_STORE_ID]
                                 = $specificTypeData['price'];
                         }
                         $typePrices[$nextValueId][$this->_rowStoreId] = $specificTypeData['price'];
@@ -1152,7 +1152,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _collectOptionTitle(array $rowData, $prevOptionId, array &$titles)
     {
-        $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        $defaultStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         if (!empty($rowData[self::COLUMN_TITLE])) {
             if (!isset($titles[$prevOptionId][$defaultStoreId])) {
                 // ensure default title is set
@@ -1214,7 +1214,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             }
             $this->_rowStoreId = $this->_storeCodeToId[$rowData[self::COLUMN_STORE]];
         } else {
-            $this->_rowStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+            $this->_rowStoreId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         }
         // Init option type and set param which tell that row is main
         if (!empty($rowData[self::COLUMN_TYPE])) { // get custom option type if its specified
@@ -1329,7 +1329,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             && strlen($rowData[self::COLUMN_PREFIX . 'price']) > 0) {
             $priceData = array(
                 'option_id'  => $optionId,
-                'store_id'   => \Magento\Core\Model\Store::DEFAULT_STORE_ID,
+                'store_id'   => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
                 'price_type' => 'fixed'
             );
 

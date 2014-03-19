@@ -35,13 +35,13 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
                 'setModuleName', 'getActionName', 'setActionName', 'getParam'
             )
         );
-        $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_model = new \Magento\Core\App\Request\PathInfoProcessor($this->_storeManagerMock);
     }
 
     public function testProcessIfStoreExistsAndIsNotDirectAcccessToFrontName()
     {
-        $store = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->once())->method('getStores')->with(false, true)
             ->will($this->returnValue(array('storeCode' => $store)));
@@ -55,7 +55,7 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessIfStoreExistsAndDirectAcccessToFrontName()
     {
-        $store = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->once())->method('getStores')->with(false, true)
             ->will($this->returnValue(array('storeCode' => $store)));
@@ -70,7 +70,7 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
     public function testProcessIfStoreIsEmpty()
     {
         $path = '/0/node_one/';
-        $store = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->once())->method('getStores')->with(false, true)
             ->will($this->returnValue(array('0' => $store)));
@@ -84,7 +84,7 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessIfStoreCodeIsNotExist()
     {
-        $store = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock
             ->expects($this->once())->method('getStores')->with(false, true)
             ->will($this->returnValue(array('0' => $store)));

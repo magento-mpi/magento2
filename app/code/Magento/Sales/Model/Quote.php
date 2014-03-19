@@ -194,12 +194,12 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -288,8 +288,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -314,8 +314,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -383,7 +383,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Get quote store model object
      *
-     * @return  \Magento\Core\Model\Store
+     * @return  \Magento\Store\Model\Store
      */
     public function getStore()
     {
@@ -393,10 +393,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Declare quote store model
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return $this
      */
-    public function setStore(\Magento\Core\Model\Store $store)
+    public function setStore(\Magento\Store\Model\Store $store)
     {
         $this->setStoreId($store->getId());
         return $this;

@@ -54,7 +54,7 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
         $this->customerDataMock->expects($this->any())
             ->method('getMerchantVatNumber')->will($this->returnValue('merchantVatNumber'));
 
-        $this->storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $this->storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->quoteAddressMock = $this->getMock('Magento\Sales\Model\Quote\Address',
             array(

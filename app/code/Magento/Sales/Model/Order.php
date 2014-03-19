@@ -462,12 +462,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -568,8 +568,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
@@ -599,8 +599,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
@@ -749,7 +749,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Retrieve store model instance
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

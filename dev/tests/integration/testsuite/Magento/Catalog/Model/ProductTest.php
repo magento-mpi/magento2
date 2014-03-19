@@ -143,7 +143,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED,
                 $duplicate->getStatus()
             );
-            $this->assertEquals(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
+            $this->assertEquals(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
             $this->_undo($duplicate);
         } catch (\Exception $e) {
             $this->_undo($duplicate);
@@ -172,8 +172,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function _undo($duplicate)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
+            ->getStore()->setId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
         $duplicate->delete();
     }
 

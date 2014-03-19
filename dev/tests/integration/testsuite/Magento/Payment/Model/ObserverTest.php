@@ -66,8 +66,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Order\Status $status */
         $status = $this->_objectManager->get('Magento\Sales\Model\Order\Status')->load($statusCode);
 
-        /** @var $storeConfig \Magento\Core\Model\Store\Config */
-        $storeConfig = $this->_objectManager->get('Magento\Core\Model\Store\Config');
+        /** @var $storeConfig \Magento\Store\Model\Store\Config */
+        $storeConfig = $this->_objectManager->get('Magento\Store\Model\Store\Config');
         $defaultStatus = (string)$storeConfig->getConfig('payment/checkmo/order_status');
 
         /** @var \Magento\Core\Model\Resource\Config $config */
@@ -108,8 +108,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        /** @var \Magento\Core\Model\Store\Config $storeConfig */
-        $storeConfig = $this->_objectManager->get('Magento\Core\Model\Store\Config');
+        /** @var \Magento\Store\Model\Store\Config $storeConfig */
+        $storeConfig = $this->_objectManager->get('Magento\Store\Model\Store\Config');
         $unassignedStatus = $storeConfig->getConfig('payment/checkmo/order_status');
         $this->assertEquals('pending', $unassignedStatus);
     }
@@ -132,6 +132,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function _resetConfig()
     {
         $this->_objectManager->get('Magento\App\ReinitableConfigInterface')->reinit();
-        $this->_objectManager->create('Magento\Core\Model\StoreManagerInterface')->reinitStores();
+        $this->_objectManager->create('Magento\Store\Model\StoreManagerInterface')->reinitStores();
     }
 }

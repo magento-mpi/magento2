@@ -26,7 +26,7 @@ class Term extends Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('catalog/seo/search_terms')) {
+        if (!$this->_objectManager->get('Magento\Store\Model\Store\Config')->getConfig('catalog/seo/search_terms')) {
             $this->_redirect('noroute');
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }

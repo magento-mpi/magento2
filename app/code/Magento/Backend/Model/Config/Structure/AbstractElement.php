@@ -10,7 +10,7 @@
 
 namespace Magento\Backend\Model\Config\Structure;
 
-use Magento\Core\Model\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 abstract class AbstractElement implements ElementInterface
 {

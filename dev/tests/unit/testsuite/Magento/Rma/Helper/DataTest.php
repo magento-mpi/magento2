@@ -17,7 +17,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetReturnAddressData($useStoreAddress, $storeConfigData, $mockConfig, $expectedResult)
     {
-        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
         $storeConfigMock->expects($this->any())
             ->method('getConfigFlag')
             ->with(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $mockConfig['store_id'])

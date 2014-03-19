@@ -14,7 +14,7 @@ $permission = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\CatalogPermissions\Model\Permission');
 $permission->setWebsiteId(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId()
+            ->get('Magento\Store\Model\StoreManagerInterface')->getWebsite()->getId()
     )
     ->setCategoryId(6)
     ->setCustomerGroupId(1)

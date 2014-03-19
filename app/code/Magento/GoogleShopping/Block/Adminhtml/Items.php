@@ -84,7 +84,7 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Container
     /**
      * Get selecetd store
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

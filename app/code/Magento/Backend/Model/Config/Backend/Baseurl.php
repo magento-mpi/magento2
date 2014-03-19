@@ -75,16 +75,16 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     {
         $placeholders = array('{{unsecure_base_url}}');
         switch ($this->getPath()) {
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL:
+            case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL:
                 $this->_assertValuesOrUrl(array('{{base_url}}'), $value);
                 break;
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL:
+            case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_STATIC_URL:
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_CACHE_URL:
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_LIB_URL:
-            case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
+            case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_STATIC_URL:
+            case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_CACHE_URL:
+            case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LIB_URL:
+            case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
@@ -103,16 +103,16 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     {
         $placeholders = array('{{unsecure_base_url}}', '{{secure_base_url}}');
         switch ($this->getPath()) {
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL:
+            case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL:
                 $this->_assertValuesOrUrl(array('{{base_url}}', '{{unsecure_base_url}}'), $value);
                 break;
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_LINK_URL:
+            case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
                 break;
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_STATIC_URL:
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_CACHE_URL:
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_LIB_URL:
-            case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_MEDIA_URL:
+            case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_STATIC_URL:
+            case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_CACHE_URL:
+            case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LIB_URL:
+            case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_MEDIA_URL:
                 $this->_assertStartsWithValuesOrUrlOrEmpty($placeholders, $value);
                 break;
             default:
@@ -213,12 +213,12 @@ class Baseurl extends \Magento\Core\Model\Config\Value
     {
         if ($this->isValueChanged()) {
             switch ($this->getPath()) {
-                case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL:
-                case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
-                case \Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_LIB_URL:
-                case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_URL:
-                case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_MEDIA_URL:
-                case \Magento\Core\Model\Store::XML_PATH_SECURE_BASE_LIB_URL:
+                case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL:
+                case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_MEDIA_URL:
+                case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LIB_URL:
+                case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL:
+                case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_MEDIA_URL:
+                case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LIB_URL:
                     $this->_mergeService->cleanMergedJsCss();
                     break;
             }

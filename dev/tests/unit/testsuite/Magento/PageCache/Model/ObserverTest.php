@@ -72,7 +72,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_transport = new \Magento\Object([
             'output' => 'test output html'
         ]);
-        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
+        $this->_observerObject = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
     }
 
     /**

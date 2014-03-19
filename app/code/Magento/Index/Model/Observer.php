@@ -39,7 +39,7 @@ class Observer
         $store = $observer->getEvent()->getStore();
         $this->_indexer->processEntityAction(
             $store,
-            \Magento\Core\Model\Store::ENTITY,
+            \Magento\Store\Model\Store::ENTITY,
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }
@@ -55,7 +55,7 @@ class Observer
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
             $storeGroup,
-            \Magento\Core\Model\Store\Group::ENTITY,
+            \Magento\Store\Model\Store\Group::ENTITY,
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }
@@ -71,7 +71,7 @@ class Observer
         $website = $observer->getEvent()->getWebsite();
         $this->_indexer->processEntityAction(
             $website,
-            \Magento\Core\Model\Website::ENTITY,
+            \Magento\Store\Model\Website::ENTITY,
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }
@@ -87,7 +87,7 @@ class Observer
         $store = $observer->getEvent()->getStore();
         $this->_indexer->processEntityAction(
             $store,
-            \Magento\Core\Model\Store::ENTITY,
+            \Magento\Store\Model\Store::ENTITY,
             \Magento\Index\Model\Event::TYPE_DELETE
         );
     }
@@ -103,7 +103,7 @@ class Observer
         $storeGroup = $observer->getEvent()->getStoreGroup();
         $this->_indexer->processEntityAction(
             $storeGroup,
-            \Magento\Core\Model\Store\Group::ENTITY,
+            \Magento\Store\Model\Store\Group::ENTITY,
             \Magento\Index\Model\Event::TYPE_DELETE
         );
     }
@@ -119,7 +119,7 @@ class Observer
         $website = $observer->getEvent()->getWebsite();
         $this->_indexer->processEntityAction(
             $website,
-            \Magento\Core\Model\Website::ENTITY,
+            \Magento\Store\Model\Website::ENTITY,
             \Magento\Index\Model\Event::TYPE_DELETE
         );
     }

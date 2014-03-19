@@ -100,7 +100,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder
      * @param \Magento\Escaper $escaper
@@ -111,7 +111,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\Catalog\Model\Product\Option\UrlBuilder $urlBuilder,
         \Magento\Escaper $escaper,

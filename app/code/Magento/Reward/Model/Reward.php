@@ -90,7 +90,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -138,7 +138,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
@@ -154,7 +154,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Reward\Model\ActionFactory $actionFactory,
@@ -386,7 +386,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Getter for store (for emails etc)
      * Trying get store from customer if its not assigned
      *
-     * @return \Magento\Core\Model\Store|null
+     * @return \Magento\Store\Model\Store|null
      */
     public function getStore()
     {

@@ -80,7 +80,7 @@ class Area
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -97,7 +97,7 @@ class Area
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -113,9 +113,9 @@ class Area
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Area\DesignExceptions $designExceptions
      * @param string $areaCode
      */
@@ -126,9 +126,9 @@ class Area
         \Magento\App\ConfigInterface $config,
         \Magento\ObjectManager $objectManager,
         \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Area\DesignExceptions $designExceptions,
         $areaCode
     ) {

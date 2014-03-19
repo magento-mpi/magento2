@@ -182,7 +182,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
             'wizard'        => $this->_wizardMock,
             'session'       => $this->_sessionMock,
             'dbUpdater'     => $this->_getClearMock('Magento\Module\UpdaterInterface'),
-            'storeManager'  => $this->_getClearMock('Magento\Core\Model\StoreManagerInterface'),
+            'storeManager'  => $this->_getClearMock('Magento\Store\Model\StoreManagerInterface'),
             'appState'      => $this->_getClearMock('Magento\App\State'),
         ));
 

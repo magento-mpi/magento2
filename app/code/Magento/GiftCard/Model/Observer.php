@@ -23,7 +23,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -61,7 +61,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -80,7 +80,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
@@ -89,7 +89,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
@@ -99,7 +99,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
@@ -108,7 +108,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()

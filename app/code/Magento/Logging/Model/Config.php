@@ -39,17 +39,17 @@ class Config
     protected $_systemConfigValues = null;
 
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
     /**
      * @param \Magento\Logging\Model\Config\Data $dataStorage
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Logging\Model\Config\Data $dataStorage,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
         $this->_store = $storeManager->getStore();

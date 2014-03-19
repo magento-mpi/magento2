@@ -18,20 +18,20 @@ class Store
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;

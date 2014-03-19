@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 $defaultWebsiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId();
+    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getWebsiteId();
 
-/** @var $website \Magento\Core\Model\Website */
+/** @var $website \Magento\Store\Model\Website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Website');
+    ->create('Magento\Store\Model\Website');
 $website->setData(array(
     'code'             => 'base2',
     'name'             => 'Test Website',
@@ -21,7 +21,7 @@ $website->setData(array(
     'is_default'       => '0'
 ));
 $website->save();
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
     ->reinitStores();
 
 $additionalWebsiteId = $website->getId();

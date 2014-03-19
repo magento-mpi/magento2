@@ -35,7 +35,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     protected $_catalogProduct = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -58,7 +58,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
@@ -67,7 +67,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Registry $coreRegistry,
         \Magento\App\ViewInterface $view

@@ -22,10 +22,15 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
     protected $_coreData;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -34,8 +39,8 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -43,6 +48,7 @@ class MerchantCountry extends \Magento\Core\Model\Config\Value
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
+        $this->_storeManager = $storeManager;
     }
 
     /**

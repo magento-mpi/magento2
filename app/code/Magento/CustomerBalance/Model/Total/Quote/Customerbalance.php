@@ -21,7 +21,7 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_customerBalanceData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -31,12 +31,12 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData
     ) {

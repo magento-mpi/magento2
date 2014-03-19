@@ -28,7 +28,7 @@ class Groupprice
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
@@ -37,7 +37,7 @@ class Groupprice
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Product\Type $catalogProductType,

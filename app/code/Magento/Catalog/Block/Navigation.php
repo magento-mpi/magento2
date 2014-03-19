@@ -117,7 +117,7 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
             'cache_lifetime'    => false,
             'cache_tags'        => array(
                 Category::CACHE_TAG,
-                \Magento\Core\Model\Store\Group::CACHE_TAG
+                \Magento\Store\Model\Store\Group::CACHE_TAG
             ),
         ));
     }
@@ -498,6 +498,6 @@ class Navigation extends \Magento\View\Element\Template implements \Magento\View
      */
     public function getIdentities()
     {
-        return array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Core\Model\Store\Group::CACHE_TAG);
+        return array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Store\Group::CACHE_TAG);
     }
 }

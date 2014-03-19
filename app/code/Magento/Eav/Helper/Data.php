@@ -34,7 +34,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -51,13 +51,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

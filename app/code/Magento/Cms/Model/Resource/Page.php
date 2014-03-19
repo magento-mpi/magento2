@@ -18,7 +18,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store model
      *
-     * @var null|\Magento\Core\Model\Store
+     * @var null|\Magento\Store\Model\Store
      */
     protected $_store  = null;
 
@@ -30,7 +30,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,14 +49,14 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\App\Resource $resource
      * @param \Magento\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Filter\FilterManager $filter
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Stdlib\DateTime\DateTime $date,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Filter\FilterManager $filter
     ) {
@@ -228,7 +228,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $storeIds = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, (int)$object->getStoreId());
+            $storeIds = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, (int)$object->getStoreId());
             $select->join(
                 array('cms_page_store' => $this->getTable('cms_page_store')),
                 $this->getMainTable() . '.page_id = cms_page_store.page_id',
@@ -277,7 +277,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getIsUniquePageToStores(\Magento\Core\Model\AbstractModel $object)
     {
         if ($this->_storeManager->hasSingleStore() || !$object->hasStores()) {
-            $stores = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+            $stores = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
         } else {
             $stores = (array)$object->getData('stores');
         }
@@ -329,7 +329,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function checkIdentifier($identifier, $storeId)
     {
-        $stores = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $storeId);
+        $stores = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $storeId);
         $select = $this->_getLoadByIdentifierSelect($identifier, $stores, 1);
         $select->reset(\Zend_Db_Select::COLUMNS)
             ->columns('cp.page_id')
@@ -347,7 +347,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getCmsPageTitleByIdentifier($identifier)
     {
-        $stores = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        $stores = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
         if ($this->_store) {
             $stores[] = (int)$this->getStore()->getId();
         }
@@ -423,7 +423,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Set store model
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param \Magento\Store\Model\Store $store
      * @return $this
      */
     public function setStore($store)
@@ -435,7 +435,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve store model
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     public function getStore()
     {

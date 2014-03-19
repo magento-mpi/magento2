@@ -38,7 +38,7 @@ class RevisionTest extends \Magento\Backend\Utility\Controller
     public function testDropAction()
     {
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getAnyStoreView(); // fixture design_change
+            ->get('Magento\Store\Model\StoreManagerInterface')->getAnyStoreView(); // fixture design_change
         $this->getRequest()->setParam('preview_selected_store', $storeId);
 
         /** @var $page \Magento\Cms\Model\Page */

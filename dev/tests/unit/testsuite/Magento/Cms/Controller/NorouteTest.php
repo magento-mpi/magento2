@@ -36,11 +36,11 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
         $responseMock->expects($this->at(1))
             ->method('setHeader')->with('Status', '404 File not found')->will($this->returnValue($responseMock));
 
-        $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $storeConfigMock = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_cmsHelperMock = $this->getMock('Magento\Cms\Helper\Page', array(), array(), '', false);
         $valueMap = array(
-            array('Magento\Core\Model\Store\Config', $storeConfigMock),
+            array('Magento\Store\Model\Store\Config', $storeConfigMock),
             array('Magento\Cms\Helper\Page', $this->_cmsHelperMock),
         );
         $objectManagerMock->expects($this->any())

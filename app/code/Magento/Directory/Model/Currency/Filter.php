@@ -35,7 +35,7 @@ class Filter implements \Zend_Filter_Interface
     protected $_localeFormat;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -46,14 +46,14 @@ class Filter implements \Zend_Filter_Interface
 
     /**
      * @param \Magento\Locale\FormatInterface $localeFormat
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param string $code
      * @param int $rate
      */
     public function __construct(
         \Magento\Locale\FormatInterface $localeFormat,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         $code,
         $rate = 1

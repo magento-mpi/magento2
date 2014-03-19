@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,7 +46,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () {
             return false;
         };
-        $this->subjectMock = $this->getMock('Magento\Core\Model\Resource\Store', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store', array(), array(), '', false);
         $this->model = new StoreView(
             $this->indexerMock,
             $this->stateMock
@@ -58,7 +58,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->mockConfigFlatEnabled();
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('isObjectNew')
@@ -69,7 +69,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     public function testAroundSaveHasChanged()
     {
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('dataHasChangedFor')
@@ -82,7 +82,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->mockConfigFlatEnabledNeever();
         $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
         $storeMock->expects($this->once())
             ->method('dataHasChangedFor')

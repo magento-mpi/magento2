@@ -84,12 +84,12 @@ class Currencysymbol
     protected $_configFactory;
 
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -106,28 +106,28 @@ class Currencysymbol
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ReinitableConfigInterface $coreConfig
      * @param \Magento\Backend\Model\Config\Factory $configFactory
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\ReinitableConfigInterface $coreConfig,
         \Magento\Backend\Model\Config\Factory $configFactory,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_coreConfig = $coreConfig;
@@ -186,7 +186,7 @@ class Currencysymbol
             $this->_coreStoreConfig->getConfig(self::XML_PATH_ALLOWED_CURRENCIES, null)
         );
 
-        /* @var $storeModel \Magento\Core\Model\System\Store */
+        /* @var $storeModel \Magento\Store\Model\System\Store */
         $storeModel = $this->_systemStore;
         foreach ($storeModel->getWebsiteCollection() as $website) {
             $websiteShow = false;

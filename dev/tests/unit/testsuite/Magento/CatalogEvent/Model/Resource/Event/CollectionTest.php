@@ -88,12 +88,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
 
-        $store = $this->getMock('Magento\Core\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', array('getId', '__sleep', '__wakeup'), array(), '', false);
         $store->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(self::CURRENT_STORE_ID));
 
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('getStore'), array(), '', false);
         $storeManager->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));

@@ -44,7 +44,7 @@ class Items extends \Magento\Backend\App\Action
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect('adminhtml/*/', array(
-                'store' => $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
+                'store' => $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')
                     ->getAnyStoreView()->getId(),
                 '_current' => true)
             );
@@ -322,12 +322,12 @@ class Items extends \Magento\Backend\App\Action
     /**
      * Get store object, basing on request
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      * @throws \Magento\Core\Exception
      */
     public function _getStore()
     {
-        $store = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
+        $store = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore((int)$this->getRequest()->getParam('store', 0));
         if ((!$store) || 0 == $store->getId()) {
             throw new \Magento\Core\Exception(__('Unable to select a Store View'));

@@ -94,7 +94,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Store instance
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -165,7 +165,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $changesFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -188,7 +188,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
@@ -215,7 +215,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\TranslateInterface $translate,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,

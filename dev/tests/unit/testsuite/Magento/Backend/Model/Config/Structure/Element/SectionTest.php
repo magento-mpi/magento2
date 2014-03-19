@@ -38,7 +38,7 @@ class SectionTest extends \PHPUnit_Framework_TestCase
         $this->_iteratorMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Iterator\Field', array(), array(), '', false
         );
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
         $this->_authorizationMock = $this->getMock('Magento\AuthorizationInterface');
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Section(

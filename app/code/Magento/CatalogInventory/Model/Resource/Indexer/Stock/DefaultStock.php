@@ -39,7 +39,7 @@ class DefaultStock
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -48,12 +48,12 @@ class DefaultStock
      *
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Store\Model\Store\Config $coreStoreConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource, $eavConfig);

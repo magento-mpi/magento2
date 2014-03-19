@@ -66,7 +66,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\StoreFactory
+     * @var \Magento\Store\Model\StoreFactory
      */
     protected $_storeFactory;
 
@@ -76,7 +76,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_coreConfig;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -100,10 +100,10 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -123,10 +123,10 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -407,7 +407,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     /**
      * Get scope for the url instance
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Store\Model\Store
      */
     protected function _getScope()
     {

@@ -28,7 +28,7 @@ class Validator implements ValidatorInterface
     const XML_PATH_USE_USER_AGENT       = 'web/session/use_http_user_agent';
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_storeConfig;
 
@@ -43,12 +43,12 @@ class Validator implements ValidatorInterface
     protected $_skippedAgentList;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param array $skippedUserAgentList
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         array $skippedUserAgentList = array()
     ) {

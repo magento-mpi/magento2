@@ -122,7 +122,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
                 ->disableOriginalConstructor()
                 ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -156,7 +156,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
                 ->disableOriginalConstructor()
                 ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -202,7 +202,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
                 ->disableOriginalConstructor()
                 ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -236,7 +236,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
                 ->disableOriginalConstructor()
                 ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -266,7 +266,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
                 ->disableOriginalConstructor()
                 ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -304,7 +304,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
                 ->disableOriginalConstructor()
                 ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -347,7 +347,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 

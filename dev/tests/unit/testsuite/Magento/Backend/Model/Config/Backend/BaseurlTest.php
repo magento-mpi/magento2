@@ -47,7 +47,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             ->method('cleanMergedJsCss');
 
         $model->setValue('http://example.com/')
-            ->setPath(\Magento\Core\Model\Store::XML_PATH_UNSECURE_BASE_URL);
+            ->setPath(\Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL);
         $model->save();
     }
 }

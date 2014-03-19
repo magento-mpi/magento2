@@ -33,7 +33,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerAccountService = $this->_objectManager
             ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
+        $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
         $this->_context = $this->_objectManager
             ->get(
                 'Magento\Backend\Block\Template\Context',

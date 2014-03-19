@@ -55,7 +55,7 @@ class Context extends \Magento\View\Element\Context
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -71,7 +71,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
@@ -83,7 +83,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -98,7 +98,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\View\DesignInterface $design,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Store\Model\Store\Config $storeConfig,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
@@ -110,7 +110,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct(
@@ -195,7 +195,7 @@ class Context extends \Magento\View\Element\Context
     /**
      * Get store manager
      *
-     * @return \Magento\Core\Model\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     public function getStoreManager()
     {

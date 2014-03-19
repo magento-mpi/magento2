@@ -165,7 +165,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -211,7 +211,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
      * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param string $area
@@ -228,7 +228,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
         \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA

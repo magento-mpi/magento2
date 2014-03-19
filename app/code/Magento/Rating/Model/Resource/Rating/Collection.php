@@ -19,7 +19,7 @@ namespace Magento\Rating\Model\Resource\Rating;
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -39,7 +39,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF
      * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
@@ -49,7 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rating\Model\Resource\Rating\Option\CollectionFactory $ratingCollectionF,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null

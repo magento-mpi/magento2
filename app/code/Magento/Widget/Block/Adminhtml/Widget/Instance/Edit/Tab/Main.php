@@ -22,7 +22,7 @@ class Main
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_store;
 
@@ -35,7 +35,7 @@ class Main
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\System\Store $store
+     * @param \Magento\Store\Model\System\Store $store
      * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
@@ -43,7 +43,7 @@ class Main
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\System\Store $store,
+        \Magento\Store\Model\System\Store $store,
         \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {

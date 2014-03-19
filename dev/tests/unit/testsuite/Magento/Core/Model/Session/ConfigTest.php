@@ -19,12 +19,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $config;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_configMock;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
@@ -50,10 +50,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_configMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
-        $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManager', array('getStore'),
+        $this->_configMock = $this->getMock('Magento\Store\Model\Store\Config', array(), array(), '', false, false);
+        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array('getStore'),
             array(), '', false, false);
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array('isAdmin', '__wakeup'), array(),
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array('isAdmin', '__wakeup'), array(),
             '', false, false);
         $this->_storeManagerMock->expects($this->atLeastOnce())->method('getStore')
             ->will($this->returnValue($storeMock));

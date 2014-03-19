@@ -35,7 +35,7 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
     public function testGetStoreId()
     {
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
                 ->getStore()->getId(),
             $this->_model->getStoreId()
         );

@@ -41,7 +41,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->coreHelperMock = $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false);
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Core\Model\StoreManagerInterface', array(), array(), '', false
+            '\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false
 
         );
 
@@ -67,7 +67,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $instanceMock = $this->getMock(
             'Magento\GroupedProduct\Model\Product\Type\Grouped', array(), array(), '', false
         );
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->productMock->expects($this->any())
             ->method('getTypeInstance')
@@ -92,7 +92,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $instanceMock = $this->getMock(
             'Magento\GroupedProduct\Model\Product\Type\Grouped', array(), array(), '', false
         );
-        $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
 
         $this->productMock->expects($this->any())
             ->method('getTypeInstance')

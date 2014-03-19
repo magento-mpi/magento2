@@ -71,7 +71,7 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -107,7 +107,7 @@ abstract class AbstractPdf extends \Magento\Object
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
      * @param Config $pdfConfig
@@ -121,7 +121,7 @@ abstract class AbstractPdf extends \Magento\Object
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
         Config $pdfConfig,

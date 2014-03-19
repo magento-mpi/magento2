@@ -42,7 +42,7 @@ $order->setIncrementId('100000004')
     ->setCustomerEmail('customer@null.com')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
-    ->setStoreId($objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore('fixturestore')->getId())
+    ->setStoreId($objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId())
     ->addItem($orderItem)
     ->setPayment($payment);
 $order->save();

@@ -61,7 +61,7 @@ class Session extends \Magento\Core\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -91,7 +91,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Stdlib\Cookie $cookie
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -105,7 +105,7 @@ class Session extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Math\Random $mathRandom,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -157,7 +157,7 @@ class Session extends \Magento\Core\Model\AbstractModel
     /**
      * Get date-time before which persistent session is expired
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|\Magento\Store\Model\Store $store
      * @return string
      */
     public function getExpiredBefore($store = null)

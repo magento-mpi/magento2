@@ -23,7 +23,7 @@
                         <argument name="label" translate="true" xsi:type="string">Skip to content</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Core\Block\Switcher" name="store_language" as="store_language" template="switch/languages.phtml"/>
+                <block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="switch/languages.phtml"/>
             </container>
             <container name="header-wrapper" label="Page Header" as="header-wrapper" htmlTag="div" htmlClass="header content">
                 <block class="Magento\Theme\Block\Html\Header" name="logo">
@@ -80,7 +80,7 @@
         </container>
         <container name="footer-container" as="footer" label="Page Footer Container" htmlTag="footer" htmlClass="page footer">
             <container name="footer" as="footer" label="Page Footer" htmlTag="div" htmlClass="footer content">
-                <block class="Magento\Core\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
+                <block class="Magento\Store\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
                 <block class="Magento\View\Element\Html\Links" name="footer_links">
                     <arguments>
                         <argument name="css_class" xsi:type="string">footer links</argument>

@@ -42,7 +42,7 @@ class AbstractApi extends \Magento\Object
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -66,7 +66,7 @@ class AbstractApi extends \Magento\Object
      * @param Logger $logger
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param array $data
      */
@@ -74,7 +74,7 @@ class AbstractApi extends \Magento\Object
         Logger $logger,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Logger\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {

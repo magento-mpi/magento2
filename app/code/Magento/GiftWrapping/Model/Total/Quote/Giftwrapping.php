@@ -18,7 +18,7 @@ namespace Magento\GiftWrapping\Model\Total\Quote;
 class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -192,7 +192,7 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
      * Return wrapping model for wrapping ID
      *
      * @param  int $wrappingId
-     * @param  \Magento\Core\Model\Store $store
+     * @param  \Magento\Store\Model\Store $store
      * @return \Magento\GiftWrapping\Model\Wrapping
      */
     protected function _getWrapping($wrappingId, $store)

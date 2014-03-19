@@ -32,9 +32,9 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Translate\Inline');
         /* Called getConfig as workaround for setConfig bug */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
     }
 
@@ -45,7 +45,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(
             $this->_model->isAllowed(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore($this->_storeId)
+                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore($this->_storeId)
             )
         );
         $this->_model->disable();
@@ -54,7 +54,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(
             $this->_model->isAllowed(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore($this->_storeId)
+                    ->get('Magento\Store\Model\StoreManagerInterface')->getStore($this->_storeId)
             )
         );
     }

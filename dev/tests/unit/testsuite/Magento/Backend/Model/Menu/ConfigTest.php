@@ -86,9 +86,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
 
-        $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
-        $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
 
         $storeManagerMock->expects($this->atLeastOnce())->method('getStore')->will($this->returnValue($storeMock));
 

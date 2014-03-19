@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,7 +24,7 @@ class View extends AbstractPlugin
     /**
      * Invalidate indexer on store view save
      *
-     * @param \Magento\Core\Model\Resource\Store $subject
+     * @param \Magento\Store\Model\Resource\Store $subject
      * @param callable $proceed
      * @param \Magento\Core\Model\AbstractModel $store
      *
@@ -32,7 +32,7 @@ class View extends AbstractPlugin
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundSave(
-        \Magento\Core\Model\Resource\Store $subject,
+        \Magento\Store\Model\Resource\Store $subject,
         \Closure $proceed,
         \Magento\Core\Model\AbstractModel $store
     ) {

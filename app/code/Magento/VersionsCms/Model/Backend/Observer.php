@@ -408,7 +408,7 @@ class Observer
      */
     public function deleteWebsite(EventObserver $observer)
     {
-        /* @var $store \Magento\Core\Model\Website */
+        /* @var $store \Magento\Store\Model\Website */
         $website = $observer->getEvent()->getWebsite();
 
         $this->_hierarchyNodeFactory->create()

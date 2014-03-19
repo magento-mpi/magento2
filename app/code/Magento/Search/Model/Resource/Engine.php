@@ -89,14 +89,14 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -106,8 +106,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
     public function __construct(
@@ -116,8 +116,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
         $this->_searchCollectionFactory = $searchCollectionFactory;
@@ -281,7 +281,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
             $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array) $storeIds;

@@ -76,7 +76,7 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } elseif (!$collection->isLive()) {
             $collection->addFieldToFilter('store_id',
-                array('eq' => $this->_storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getId())
+                array('eq' => $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId())
             );
         }
 

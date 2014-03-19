@@ -46,7 +46,7 @@ class Config
     protected $_configReader;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -68,7 +68,7 @@ class Config
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
      */
     public function __construct(
@@ -79,7 +79,7 @@ class Config
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState
     ) {
         $this->_menuBuilder = $menuBuilder;

@@ -68,7 +68,7 @@ class Config extends \Magento\Eav\Model\Config
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Store\Model\Store\Config
      */
     protected $_coreStoreConfig;
 
@@ -82,7 +82,7 @@ class Config extends \Magento\Eav\Model\Config
     /**
      * Store manager
      *
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -121,12 +121,12 @@ class Config extends \Magento\Eav\Model\Config
      * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Store\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -136,12 +136,12 @@ class Config extends \Magento\Eav\Model\Config
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Store\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $groupCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

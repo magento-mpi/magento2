@@ -19,12 +19,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Resource\Store\Group\Collection|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\Resource\Store\Group\Collection|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeGroups;
 
@@ -50,39 +50,39 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $websiteOne = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $websiteOne = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $websiteOne->setId(11);
-        $websiteTwo = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $websiteTwo = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $websiteTwo->setId(12);
         // Website with no store groups assigned to it
-        $websiteIrrelevant = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $websiteIrrelevant = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $websiteIrrelevant->setId(13);
 
         $storeGroupOne = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
         );
         $storeGroupOne->setId(21);
         $storeGroupOne->setWebsiteId(11);
         $storeGroupOne->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteOne));
         $storeGroupTwo = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
+            'Magento\Store\Model\Store\Group', array('getWebsite', '__wakeup'), array(), '', false
         );
         $storeGroupTwo->setId(22);
         $storeGroupTwo->setWebsiteId(12);
         $storeGroupTwo->expects($this->any())->method('getWebsite')->will($this->returnValue($websiteTwo));
 
-        $storeOne = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $storeOne = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $storeOne->setId(31);
         $storeOne->setGroupId(21);
-        $storeTwo = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $storeTwo = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $storeTwo->setId(32);
         $storeTwo->setGroupId(21);
         // Store that belongs to unknown store group
-        $storeIrrelevant = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
+        $storeIrrelevant = $this->getMock('Magento\Store\Model\Website', array('__wakeup'), array(), '', false);
         $storeIrrelevant->setId(33);
         $storeIrrelevant->setGroupId(1);
 
-        $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_storeManager->expects($this->any())->method('getWebsites')->will($this->returnValue(array(
             11 => $websiteOne,
             12 => $websiteTwo,
@@ -95,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )));
 
         $this->_storeGroups = $this->getMock(
-            'Magento\Core\Model\Resource\Store\Group\Collection', array('load'), array(), '', false
+            'Magento\Store\Model\Resource\Store\Group\Collection', array('load'), array(), '', false
         );
         $this->_storeGroups->addItem($storeGroupOne);
         $this->_storeGroups->addItem($storeGroupTwo);
@@ -125,7 +125,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     array(1, 2, 3, 4,5)
                 )
             );
-        
+
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\AdminGws\Model\Observer', array(
             'backendAuthSession' => $this->_backendAuthSession,

@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
 
-use Magento\Core\Model\Website;
+use Magento\Store\Model\Website;
 
 /**
  * Customer Segments Detail grid container

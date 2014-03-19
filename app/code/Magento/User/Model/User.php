@@ -120,7 +120,7 @@ class User
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -136,7 +136,7 @@ class User
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -151,7 +151,7 @@ class User
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -210,7 +210,7 @@ class User
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
         $this->_transportBuilder =  $objectManager->get('Magento\Mail\Template\TransportBuilder');
-        $this->_storeManager =  $objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $this->_storeManager =  $objectManager->get('Magento\Store\Model\StoreManagerInterface');
     }
 
     /**

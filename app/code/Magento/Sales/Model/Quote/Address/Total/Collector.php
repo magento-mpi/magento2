@@ -29,7 +29,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Corresponding store object
      *
-     * @var \Magento\Core\Model\Store
+     * @var \Magento\Store\Model\Store
      */
     protected $_store;
 
@@ -55,7 +55,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var \Magento\Store\Model\Store\ConfigInterface
      */
     protected $_coreStoreConfig;
 
@@ -68,8 +68,8 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Logger $logger
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory
      * @param mixed $sourceData
      * @param mixed $store
@@ -78,8 +78,8 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Logger $logger,
         \Magento\Sales\Model\Config $salesConfig,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Quote\Address\TotalFactory $totalFactory,
         $sourceData = null,
         $store = null

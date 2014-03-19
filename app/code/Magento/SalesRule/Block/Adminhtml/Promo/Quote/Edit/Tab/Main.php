@@ -21,7 +21,7 @@ class Main
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Core\Model\System\Store
+     * @var \Magento\Store\Model\System\Store
      */
     protected $_systemStore;
 
@@ -41,7 +41,7 @@ class Main
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\SalesRule\Model\RuleFactory $salesRule
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup
-     * @param \Magento\Core\Model\System\Store $systemStore
+     * @param \Magento\Store\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class Main
         \Magento\Data\FormFactory $formFactory,
         \Magento\SalesRule\Model\RuleFactory $salesRule,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $customerGroup,
-        \Magento\Core\Model\System\Store $systemStore,
+        \Magento\Store\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_systemStore = $systemStore;

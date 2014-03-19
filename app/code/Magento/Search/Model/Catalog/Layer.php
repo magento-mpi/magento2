@@ -31,7 +31,7 @@ class Layer extends \Magento\Catalog\Model\Layer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -47,7 +47,7 @@ class Layer extends \Magento\Catalog\Model\Layer
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Customer\Model\Session $customerSession,

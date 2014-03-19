@@ -20,7 +20,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false );
         $mediaDirectory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false );
-        $storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
+        $storeConfig = $this->getMock('Magento\Store\Model\Store\Config', array('getConfig'), array(), '', false);
 
         $urlBuilder = $this->getMock('Magento\UrlInterface');
 

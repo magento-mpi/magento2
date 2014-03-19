@@ -12,9 +12,9 @@
 require __DIR__ . '/../../../Magento/Core/_files/store.php';
 
 $currentStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+    ->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
 $otherStore = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\Core\Model\StoreManagerInterface')->getStore('fixturestore')->getId();
+    ->get('Magento\Store\Model\StoreManagerInterface')->getStore('fixturestore')->getId();
 
 $subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Newsletter\Model\Subscriber');
