@@ -83,7 +83,7 @@ class Pool extends \Magento\Core\Model\Config\Value
         $len = 0;
         $codeLen = 0;
         if (isset($fields['code_length']['value'])) {
-            $codeLen = (int) $fields['code_length']['value'];
+            $codeLen = (int)$fields['code_length']['value'];
             $len += $codeLen;
         }
         if (isset($fields['code_suffix']['value'])) {
@@ -96,12 +96,14 @@ class Pool extends \Magento\Core\Model\Config\Value
             $v = (int)$fields['code_split']['value'];
             if ($v > 0 && $v < $codeLen) {
                 $sep = $this->_giftCardAccountPool->getCodeSeparator();
-                $len += (ceil($codeLen / $v) * strlen($sep)) - 1;
+                $len += ceil($codeLen / $v) * strlen($sep) - 1;
             }
         }
 
         if ($len > 255) {
-            throw new \Magento\Core\Exception(__('Maximum generated code length is 255. Please correct your settings.'));
+            throw new \Magento\Core\Exception(
+                __('Maximum generated code length is 255. Please correct your settings.')
+            );
         }
     }
 }

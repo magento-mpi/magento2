@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Helper;
 
 class Layout extends \Magento\App\Helper\AbstractHelper
@@ -49,8 +48,7 @@ class Layout extends \Magento\App\Helper\AbstractHelper
             return $this;
         }
 
-        $this->_layout->getUpdate()
-            ->addHandle($pageLayout->getLayoutHandle());
+        $this->_layout->getUpdate()->addHandle($pageLayout->getLayoutHandle());
 
         return $this;
     }
@@ -74,11 +72,9 @@ class Layout extends \Magento\App\Helper\AbstractHelper
             return $this;
         }
 
-        if ($this->_layout->getBlock('root') &&
-            !$this->_layout->getBlock('root')->getIsHandle()) {
-                // If not applied handle
-                $this->_layout->getBlock('root')
-                    ->setTemplate($pageLayout->getTemplate());
+        if ($this->_layout->getBlock('root') && !$this->_layout->getBlock('root')->getIsHandle()) {
+            // If not applied handle
+            $this->_layout->getBlock('root')->setTemplate($pageLayout->getTemplate());
         }
 
         return $this;
@@ -91,8 +87,7 @@ class Layout extends \Magento\App\Helper\AbstractHelper
      */
     public function getCurrentPageLayout()
     {
-        if ($this->_layout->getBlock('root') &&
-            $this->_layout->getBlock('root')->getLayoutCode()) {
+        if ($this->_layout->getBlock('root') && $this->_layout->getBlock('root')->getLayoutCode()) {
             return $this->_config->getPageLayout($this->_layout->getBlock('root')->getLayoutCode());
         }
 

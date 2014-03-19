@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Controller\Adminhtml\System;
 
 /**
@@ -39,7 +38,7 @@ class StoreTest extends \Magento\Backend\Utility\Controller
                 'code' => 'base',
                 'sort_order' => '',
                 'is_default' => '',
-                'website_id' => '',
+                'website_id' => ''
             ),
             'store_type' => 'website',
             'store_action' => 'add'

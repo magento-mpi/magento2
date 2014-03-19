@@ -16,7 +16,6 @@ namespace Magento\Sales\Model\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
 {
-
     /**
      * List of id attributes for merge
      *
@@ -26,7 +25,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
         '/config/section' => 'name',
         '/config/section/group' => 'name',
         '/config/section/group/item' => 'name',
-        '/config/order/available_product_type' => 'name',
+        '/config/order/available_product_type' => 'name'
     );
 
     /**

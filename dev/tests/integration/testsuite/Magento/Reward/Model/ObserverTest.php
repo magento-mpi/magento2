@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reward\Model;
 
 use Magento\Customer\Service\V1\Data\Customer;
@@ -29,8 +28,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $objectManager->get('Magento\Registry')
-            ->registry('_fixture/Magento_ImportExport_Customer');
+        $customer = $objectManager->get('Magento\Registry')->registry('_fixture/Magento_ImportExport_Customer');
 
         /** @var CustomerAccountServiceInterface $customerAccountService */
         $customerAccountService = $objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
@@ -38,10 +36,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_saveRewardPoints($customerAccountService->getCustomer($customer->getId()), $pointsDelta);
 
         /** @var $reward \Magento\Reward\Model\Reward */
-        $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Reward\Model\Reward');
-        $reward->setCustomer($customer)
-            ->loadByCustomer();
+        $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reward\Model\Reward');
+        $reward->setCustomer($customer)->loadByCustomer();
 
         $this->assertEquals($expectedBalance, $reward->getPointsBalance());
     }
@@ -49,14 +45,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function saveRewardPointsDataProvider()
     {
         return array(
-            'points delta is not set' => array(
-                '$pointsDelta' => '',
-                '$expectedBalance' => null
-            ),
-            'points delta is positive' => array(
-                '$pointsDelta' => 100,
-                '$expectedBalance' => 100
-            )
+            'points delta is not set' => array('$pointsDelta' => '', '$expectedBalance' => null),
+            'points delta is positive' => array('$pointsDelta' => 100, '$expectedBalance' => 100)
         );
     }
 
@@ -66,31 +56,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _saveRewardPoints(Customer $customer, $pointsDelta = '')
     {
-        $reward = array(
-            'points_delta' => $pointsDelta
-        );
+        $reward = array('points_delta' => $pointsDelta);
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setPost(
-            array('reward' => $reward)
-        );
+        $request->setPost(array('reward' => $reward));
 
-        $event = new \Magento\Event(
-            array(
-                'request'  => $request,
-                'customer' => $customer
-            )
-        );
+        $event = new \Magento\Event(array('request' => $request, 'customer' => $customer));
 
-        $eventObserver = new \Magento\Event\Observer(
-            array('event' => $event)
-        );
+        $eventObserver = new \Magento\Event\Observer(array('event' => $event));
 
-        $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Reward\Model\Observer');
+        $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Reward\Model\Observer'
+        );
         $rewardObserver->saveRewardPoints($eventObserver);
     }
 }

@@ -56,7 +56,7 @@ class Signature implements SignatureInterface
     {
         parse_str($uri->getQuery(), $queryStringData);
 
-        foreach(array_merge($queryStringData, $params) as $key => $value) {
+        foreach (array_merge($queryStringData, $params) as $key => $value) {
             $signatureData[rawurlencode($key)] = rawurlencode($value);
         }
 
@@ -66,18 +66,17 @@ class Signature implements SignatureInterface
         $baseUri = $uri->getScheme() . '://' . $uri->getRawAuthority();
 
         if ('/' == $uri->getPath()) {
-            $baseUri.= $uri->hasExplicitTrailingHostSlash() ? '/' : '';
+            $baseUri .= $uri->hasExplicitTrailingHostSlash() ? '/' : '';
         } else {
             $baseUri .= $uri->getPath();
         }
 
         $baseString = strtoupper($method) . '&';
-        $baseString.= rawurlencode($baseUri) . '&';
-        $baseString.= rawurlencode($this->buildSignatureDataString($signatureData));
+        $baseString .= rawurlencode($baseUri) . '&';
+        $baseString .= rawurlencode($this->buildSignatureDataString($signatureData));
 
         return base64_encode($this->hash($baseString));
     }
-
 
     /**
      * @param array $signatureData
@@ -87,7 +86,7 @@ class Signature implements SignatureInterface
     {
         $signatureString = '';
         $delimiter = '';
-        foreach($signatureData as $key => $value) {
+        foreach ($signatureData as $key => $value) {
             $signatureString .= $delimiter . $key . '=' . $value;
 
             $delimiter = '&';
@@ -116,12 +115,14 @@ class Signature implements SignatureInterface
      */
     protected function hash($data)
     {
-        switch(strtoupper($this->algorithm)) {
+        switch (strtoupper($this->algorithm)) {
             case 'HMAC-SHA1':
                 return hash_hmac('sha1', $data, $this->getSigningKey(), true);
 
             default:
-                throw new UnsupportedHashAlgorithmException('Unsupported hashing algorithm (' . $this->algorithm . ') used.');
+                throw new UnsupportedHashAlgorithmException(
+                    'Unsupported hashing algorithm (' . $this->algorithm . ') used.'
+                );
         }
     }
 }

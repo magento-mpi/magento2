@@ -8,8 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 /**
@@ -26,10 +24,14 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Config\ScopeInterface'
+        )->setCurrentScope(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        );
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        );
         $this->_block = $this->_layout->createBlock('Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion');
     }
 
@@ -37,9 +39,11 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block = null;
         $this->_layout = null;
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(null);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Config\ScopeInterface'
+        )->setCurrentScope(
+            null
+        );
     }
 
     public function testToHtml()
@@ -51,23 +55,41 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         // set first child - block
         $title = 'Block 1';
         $url = 'http://content.url.1/';
-        $this->_layout->addBlock('Magento\View\Element\Text', 'block1', $parentName)
-            ->setHeaderText($title)
-            ->setData('content_url', $url);
+        $this->_layout->addBlock(
+            'Magento\View\Element\Text',
+            'block1',
+            $parentName
+        )->setHeaderText(
+            $title
+        )->setData(
+            'content_url',
+            $url
+        );
 
         // set second child - container
         $containerName = 'container';
         $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
         $containerText = 'Block in container';
-        $this->_layout->addBlock('Magento\View\Element\Text', 'container_block', $containerName)
-            ->setText($containerText);
+        $this->_layout->addBlock(
+            'Magento\View\Element\Text',
+            'container_block',
+            $containerName
+        )->setText(
+            $containerText
+        );
 
         // set third child - block
         $titleOne = 'Block 2';
         $blockContent = 'Block 2 Text';
-        $this->_layout->addBlock('Magento\View\Element\Text', 'block2', $parentName)
-            ->setHeaderText($titleOne)
-            ->setText($blockContent);
+        $this->_layout->addBlock(
+            'Magento\View\Element\Text',
+            'block2',
+            $parentName
+        )->setHeaderText(
+            $titleOne
+        )->setText(
+            $blockContent
+        );
 
         $html = $this->_block->toHtml();
         $this->assertContains($title, $html);
@@ -82,11 +104,15 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initAcl()
     {
-        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         $user->setId(1)->setRole(true);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth\Session')
-            ->setUpdatedAt(time())->setUser($user);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\Auth\Session'
+        )->setUpdatedAt(
+            time()
+        )->setUser(
+            $user
+        );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\AuthorizationInterface',
             array('data' => array('policy' => new \Magento\Authorization\Policy\DefaultPolicy()))

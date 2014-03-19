@@ -305,7 +305,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('Magento_PageCache')
+            ->with($this->equalTo('Magento_PageCache'))
             ->will($this->returnValue(true));
         $this->cacheConfigMock
             ->expects($this->once())
@@ -330,7 +330,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->moduleManagerMock
             ->expects($this->once())
             ->method('isEnabled')
-            ->with('Magento_PageCache')
+            ->with($this->equalTo('Magento_PageCache'))
             ->will($this->returnValue(true));
         $this->cacheConfigMock
             ->expects($this->once())

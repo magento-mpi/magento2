@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Condition\Combine;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
@@ -27,10 +26,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CustomerSegment\Model\Segment\Condition\Combine\Root'
+        );
     }
-
 
     /**
      * @dataProvider limitByStoreWebsiteDataProvider
@@ -39,18 +38,27 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testLimitByStoreWebsite($website)
     {
         $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);
-        $select->expects($this->once())
-            ->method('join')
-            ->with(
-                $this->arrayHasKey('store'),
-                $this->equalTo('main.store_id=store.store_id'),
-                $this->equalTo(array())
-            )
-            ->will($this->returnSelf());
-        $select->expects($this->once())
-            ->method('where')
-            ->with($this->equalTo('store.website_id IN (?)'), $this->equalTo($website))
-            ->will($this->returnSelf());
+        $select->expects(
+            $this->once()
+        )->method(
+            'join'
+        )->with(
+            $this->arrayHasKey('store'),
+            $this->equalTo('main.store_id=store.store_id'),
+            $this->equalTo(array())
+        )->will(
+            $this->returnSelf()
+        );
+        $select->expects(
+            $this->once()
+        )->method(
+            'where'
+        )->with(
+            $this->equalTo('store.website_id IN (?)'),
+            $this->equalTo($website)
+        )->will(
+            $this->returnSelf()
+        );
 
         $testMethod = new \ReflectionMethod($this->_model, '_limitByStoreWebsite');
         $testMethod->setAccessible(true);
@@ -60,9 +68,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function limitByStoreWebsiteDataProvider()
     {
-        return array(
-            array(1),
-            array(new \Zend_Db_Expr(1)),
-        );
+        return array(array(1), array(new \Zend_Db_Expr(1)));
     }
 }

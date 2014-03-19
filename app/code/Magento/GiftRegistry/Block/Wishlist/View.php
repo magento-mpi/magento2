@@ -131,7 +131,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      */
     public function getEnabled()
     {
-        return  $this->_giftRegistryData->isEnabled();
+        return $this->_giftRegistryData->isEnabled();
     }
 
     /**

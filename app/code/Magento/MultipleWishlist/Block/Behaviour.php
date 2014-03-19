@@ -109,7 +109,7 @@ class Behaviour extends \Magento\View\Element\Template
     public function getWishlistShortList()
     {
         $wishlistData = array();
-        foreach($this->getWishlists() as $wishlist){
+        foreach ($this->getWishlists() as $wishlist) {
             $wishlistData[] = array('id' => $wishlist->getId(), 'name' => $wishlist->getName());
         }
         return $wishlistData;

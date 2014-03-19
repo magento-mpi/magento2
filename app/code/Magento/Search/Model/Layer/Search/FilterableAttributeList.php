@@ -60,4 +60,4 @@ class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Search\Filter
 
         return $collection;
     }
-} 
+}

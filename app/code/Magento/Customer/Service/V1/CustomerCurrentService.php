@@ -62,8 +62,8 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
     ) {
         $this->customerSession = $customerSession;
         $this->layout = $layout;
-        $this->customerBuilder  = $customerBuilder;
-        $this->customerAccountService  = $customerAccountService;
+        $this->customerBuilder = $customerBuilder;
+        $this->customerAccountService = $customerAccountService;
         $this->request = $request;
         $this->moduleManager = $moduleManager;
         $this->view = $view;
@@ -96,10 +96,9 @@ class CustomerCurrentService implements \Magento\Customer\Service\V1\CustomerCur
      */
     public function getCustomer()
     {
-        if ($this->moduleManager->isEnabled('Magento_PageCache')
-            && !$this->request->isAjax()
-            && $this->view->isLayoutLoaded()
-            && $this->layout->isCacheable()
+        if ($this->moduleManager->isEnabled(
+            'Magento_PageCache'
+        ) && !$this->request->isAjax() && $this->view->isLayoutLoaded() && $this->layout->isCacheable()
         ) {
             return $this->getDepersonalizedCustomer();
         } else {

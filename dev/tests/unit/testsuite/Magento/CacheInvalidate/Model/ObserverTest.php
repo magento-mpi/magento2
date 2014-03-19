@@ -38,8 +38,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', ['getUrl'], [], '', false);
         $this->_curlMock = $this->getMock(
             '\Magento\HTTP\Adapter\Curl',
-            ['setOptions', 'write', 'read', 'close'],
-            [],
+            array('setOptions', 'write', 'read', 'close'),
+            array(),
             '',
             false
         );
@@ -48,8 +48,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_helperMock,
             $this->_curlMock
         );
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
-        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
+        $this->_observerObject = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
     }
 
     /**
@@ -105,19 +105,28 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $url = 'http://mangento.index.php';
         $httpVersion = '1.1';
         $headers = array("X-Magento-Tags-Pattern: {$tags}");
-        $this->_helperMock->expects($this->any())
-            ->method('getUrl')
-            ->with($this->equalTo('*'), array())
-            ->will($this->returnValue($url));
-        $this->_curlMock->expects($this->once())
-            ->method('setOptions')
-            ->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
-        $this->_curlMock->expects($this->once())
-            ->method('write')
-            ->with($this->equalTo(''), $this->equalTo($url), $httpVersion, $this->equalTo($headers));
-        $this->_curlMock->expects($this->once())
-            ->method('read');
-        $this->_curlMock->expects($this->once())
-            ->method('close');
+        $this->_helperMock->expects(
+            $this->any()
+        )->method(
+            'getUrl'
+        )->with(
+            $this->equalTo('*'),
+            array()
+        )->will(
+            $this->returnValue($url)
+        );
+        $this->_curlMock->expects($this->once())->method('setOptions')->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
+        $this->_curlMock->expects(
+            $this->once()
+        )->method(
+            'write'
+        )->with(
+            $this->equalTo(''),
+            $this->equalTo($url),
+            $httpVersion,
+            $this->equalTo($headers)
+        );
+        $this->_curlMock->expects($this->once())->method('read');
+        $this->_curlMock->expects($this->once())->method('close');
     }
 }

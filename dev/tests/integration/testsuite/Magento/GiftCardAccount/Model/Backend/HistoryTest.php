@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Model\Backend;
 
 /**
@@ -27,16 +26,18 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Auth\Session')->setUser(new \Magento\Object(array(
-                'id' => 1,
-                'username' => 'Admin user'
-            )));
-        $this->_giftcardAccount = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\Auth\Session'
+        )->setUser(
+            new \Magento\Object(array('id' => 1, 'username' => 'Admin user'))
+        );
+        $this->_giftcardAccount = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftCardAccount\Model\Giftcardaccount'
+        );
         $this->_giftcardAccount->loadByCode('giftcardaccount_fixture');
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftCardAccount\Model\History');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftCardAccount\Model\History'
+        );
         $this->_model->setGiftcardaccount($this->_giftcardAccount);
     }
 
@@ -87,9 +88,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     public function recipientDataProvider()
     {
-        return array(
-            array(null),
-            array('recipient'),
-        );
+        return array(array(null), array('recipient'));
     }
 }

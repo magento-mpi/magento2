@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\HTTP\PhpEnvironment;
 
-use \Magento\App\RequestInterface;
+use Magento\App\RequestInterface;
 
 /**
  * Library for working with server ip address
@@ -27,9 +26,8 @@ class ServerAddress
     /**
      * @param RequestInterface $httpRequest
      */
-    public function __construct(
-        RequestInterface $httpRequest
-    ) {
+    public function __construct(RequestInterface $httpRequest)
+    {
         $this->request = $httpRequest;
     }
 

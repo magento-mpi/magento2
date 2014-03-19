@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Block\Express;
 
 class FormTest extends \PHPUnit_Framework_TestCase
@@ -39,7 +38,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $paypalConfigFactory = $this->getMock('Magento\Paypal\Model\ConfigFactory', ['create'], [], '', false);
         $paypalConfigFactory->expects($this->once())->method('create')->will($this->returnValue($this->_paypalConfig));
-        $mark = $this->getMock('Magento\View\Element\Template', [], [], '', false);
+        $mark = $this->getMock('Magento\View\Element\Template', array(), array(), '', false);
         $mark->expects($this->once())->method('setTemplate')->will($this->returnSelf());
         $mark->expects($this->any())->method('__call')->will($this->returnSelf());
         $layout = $this->getMockForAbstractClass('Magento\View\LayoutInterface');
@@ -53,19 +52,17 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $localeResolver = $this->getMock('Magento\Locale\ResolverInterface', array(), array(), '', false, false);
         $appMock = $this->getMock('\Magento\Core\Model\App', array('getLocaleResolver'), array(), '', false);
-        $appMock->expects($this->any())
-            ->method('getLocaleResolver')
-            ->will($this->returnValue($localeResolver));
+        $appMock->expects($this->any())->method('getLocaleResolver')->will($this->returnValue($localeResolver));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\Paypal\Block\Express\Form',
-            [
+            array(
                 'paypalData' => $this->_paypalData,
                 'paypalConfigFactory' => $paypalConfigFactory,
                 'currentCustomer' => $this->currentCustomer,
                 'layout' => $layout,
-                'app' => $appMock,
-            ]
+                'app' => $appMock
+            )
         );
     }
 
@@ -88,9 +85,9 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function getBillingAgreementCodeDataProvider()
     {
-        return [
-            [true, \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT],
-            [false, null]
-        ];
+        return array(
+            array(true, \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT),
+            array(false, null)
+        );
     }
 }

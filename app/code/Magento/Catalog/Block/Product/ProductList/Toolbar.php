@@ -33,49 +33,49 @@ class Toolbar extends \Magento\View\Element\Template
      *
      * @var array
      */
-    protected $_availableOrder      = array();
+    protected $_availableOrder = array();
 
     /**
      * List of available view types
      *
      * @var array
      */
-    protected $_availableMode       = array();
+    protected $_availableMode = array();
 
     /**
      * Is enable View switcher
      *
      * @var bool
      */
-    protected $_enableViewSwitcher  = true;
+    protected $_enableViewSwitcher = true;
 
     /**
      * Is Expanded
      *
      * @var bool
      */
-    protected $_isExpanded          = true;
+    protected $_isExpanded = true;
 
     /**
      * Default Order field
      *
      * @var string
      */
-    protected $_orderField          = null;
+    protected $_orderField = null;
 
     /**
      * Default direction
      *
      * @var string
      */
-    protected $_direction           = \Magento\Catalog\Helper\Product\ProductList::DEFAULT_SORT_DIRECTION;
+    protected $_direction = \Magento\Catalog\Helper\Product\ProductList::DEFAULT_SORT_DIRECTION;
 
     /**
      * Default View mode
      *
      * @var string
      */
-    protected $_viewMode            = null;
+    protected $_viewMode = null;
 
     /**
      * @var bool $_paramsMemorizeAllowed
@@ -353,6 +353,7 @@ class Toolbar extends \Magento\View\Element\Template
         $this->_availableOrder[$order] = $value;
         return $this;
     }
+
     /**
      * Remove order from available orders if exists
      *
@@ -375,7 +376,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function isOrderCurrent($order)
     {
-        return ($order == $this->getCurrentOrder());
+        return $order == $this->getCurrentOrder();
     }
 
     /**
@@ -387,10 +388,10 @@ class Toolbar extends \Magento\View\Element\Template
     public function getPagerUrl($params = array())
     {
         $urlParams = array();
-        $urlParams['_current']  = true;
-        $urlParams['_escape']   = true;
-        $urlParams['_use_rewrite']   = true;
-        $urlParams['_query']    = $params;
+        $urlParams['_current'] = true;
+        $urlParams['_escape'] = true;
+        $urlParams['_use_rewrite'] = true;
+        $urlParams['_query'] = $params;
         return $this->getUrl('*/*/*', $urlParams);
     }
 
@@ -402,7 +403,6 @@ class Toolbar extends \Magento\View\Element\Template
     {
         return $this->_catalogHelper->urlEncode($this->getPagerUrl($params));
     }
-
 
     /**
      * Retrieve current View mode
@@ -454,7 +454,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function setModes($modes)
     {
-        if(!isset($this->_availableMode)){
+        if (!isset($this->_availableMode)) {
             $this->_availableMode = $modes;
         }
         return $this;
@@ -597,7 +597,7 @@ class Toolbar extends \Magento\View\Element\Template
     public function getFirstNum()
     {
         $collection = $this->getCollection();
-        return $collection->getPageSize()*($collection->getCurPage()-1)+1;
+        return $collection->getPageSize() * ($collection->getCurPage() - 1) + 1;
     }
 
     /**
@@ -606,7 +606,7 @@ class Toolbar extends \Magento\View\Element\Template
     public function getLastNum()
     {
         $collection = $this->getCollection();
-        return $collection->getPageSize()*($collection->getCurPage()-1)+$collection->count();
+        return $collection->getPageSize() * ($collection->getCurPage() - 1) + $collection->count();
     }
 
     /**

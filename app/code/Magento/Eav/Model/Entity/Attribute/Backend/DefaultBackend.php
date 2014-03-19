@@ -18,5 +18,4 @@ namespace Magento\Eav\Model\Entity\Attribute\Backend;
  */
 class DefaultBackend extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
-
 }

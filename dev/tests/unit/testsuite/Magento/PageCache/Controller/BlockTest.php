@@ -51,23 +51,19 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->layoutMock = $this->getMockBuilder(
+            'Magento\Core\Model\Layout'
+        )->disableOriginalConstructor()->getMock();
 
-        $contextMock = $this->getMockBuilder('Magento\App\Action\Context')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $contextMock = $this->getMockBuilder('Magento\App\Action\Context')->disableOriginalConstructor()->getMock();
 
-        $this->requestMock = $this->getMockBuilder('Magento\App\Request\Http')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->responseMock = $this->getMockBuilder('Magento\App\Response\Http')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->viewMock = $this->getMockBuilder('Magento\App\View')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->requestMock = $this->getMockBuilder(
+            'Magento\App\Request\Http'
+        )->disableOriginalConstructor()->getMock();
+        $this->responseMock = $this->getMockBuilder(
+            'Magento\App\Response\Http'
+        )->disableOriginalConstructor()->getMock();
+        $this->viewMock = $this->getMockBuilder('Magento\App\View')->disableOriginalConstructor()->getMock();
 
         $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->requestMock));
         $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->responseMock));
@@ -126,32 +122,54 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $blockInstance2->expects($this->once())->method('toHtml')->will($this->returnValue($expectedData['block2']));
 
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
-        $this->requestMock->expects($this->at(1))
-            ->method('getParam')
-            ->with($this->equalTo('blocks'), $this->equalTo(''))
-            ->will($this->returnValue(json_encode($blocks)));
-        $this->requestMock->expects($this->at(2))
-            ->method('getParam')
-            ->with($this->equalTo('handles'), $this->equalTo(''))
-            ->will($this->returnValue(json_encode($handles)));
-        $this->viewMock->expects($this->once())
-            ->method('loadLayout')
-            ->with($this->equalTo($handles));
-        $this->viewMock->expects($this->any())
-            ->method('getLayout')
-            ->will($this->returnValue($this->layoutMock));
-        $this->layoutMock->expects($this->at(0))
-            ->method('getBlock')
-            ->with($this->equalTo($blocks[0]))
-            ->will($this->returnValue($blockInstance1));
-        $this->layoutMock->expects($this->at(1))
-            ->method('getBlock')
-            ->with($this->equalTo($blocks[1]))
-            ->will($this->returnValue($blockInstance2));
+        $this->requestMock->expects(
+            $this->at(1)
+        )->method(
+            'getParam'
+        )->with(
+            $this->equalTo('blocks'),
+            $this->equalTo('')
+        )->will(
+            $this->returnValue(json_encode($blocks))
+        );
+        $this->requestMock->expects(
+            $this->at(2)
+        )->method(
+            'getParam'
+        )->with(
+            $this->equalTo('handles'),
+            $this->equalTo('')
+        )->will(
+            $this->returnValue(json_encode($handles))
+        );
+        $this->viewMock->expects($this->once())->method('loadLayout')->with($this->equalTo($handles));
+        $this->viewMock->expects($this->any())->method('getLayout')->will($this->returnValue($this->layoutMock));
+        $this->layoutMock->expects(
+            $this->at(0)
+        )->method(
+            'getBlock'
+        )->with(
+            $this->equalTo($blocks[0])
+        )->will(
+            $this->returnValue($blockInstance1)
+        );
+        $this->layoutMock->expects(
+            $this->at(1)
+        )->method(
+            'getBlock'
+        )->with(
+            $this->equalTo($blocks[1])
+        )->will(
+            $this->returnValue($blockInstance2)
+        );
 
-        $this->responseMock->expects($this->once())
-            ->method('appendBody')
-            ->with($this->equalTo(json_encode($expectedData)));
+        $this->responseMock->expects(
+            $this->once()
+        )->method(
+            'appendBody'
+        )->with(
+            $this->equalTo(json_encode($expectedData))
+        );
 
         $this->controller->renderAction();
     }
@@ -164,12 +182,9 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     public function testEsiAction($blockClass, $shouldSetHeaders)
     {
         $block = 'block';
-        $handles = ['handle1', 'handle2'];
+        $handles = array('handle1', 'handle2');
         $html = 'some-html';
-        $mapData = array(
-            array('blocks', '', json_encode([$block])),
-            array('handles', '', json_encode($handles))
-        );
+        $mapData = array(array('blocks', '', json_encode(array($block))), array('handles', '', json_encode($handles)));
 
         $blockInstance1 = $this->getMock(
             $blockClass,
@@ -179,27 +194,24 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $blockInstance1->expects($this->once())
-            ->method('toHtml')
-            ->will($this->returnValue($html));
+        $blockInstance1->expects($this->once())->method('toHtml')->will($this->returnValue($html));
         $blockInstance1->setTtl(360);
 
-        $this->requestMock->expects($this->any())
-            ->method('getParam')
-            ->will($this->returnValueMap($mapData));
+        $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($mapData));
 
-        $this->viewMock->expects($this->once())
-            ->method('loadLayout')
-            ->with($this->equalTo($handles));
+        $this->viewMock->expects($this->once())->method('loadLayout')->with($this->equalTo($handles));
 
-        $this->viewMock->expects($this->once())
-            ->method('getLayout')
-            ->will($this->returnValue($this->layoutMock));
+        $this->viewMock->expects($this->once())->method('getLayout')->will($this->returnValue($this->layoutMock));
 
-        $this->layoutMock->expects($this->once())
-            ->method('getBlock')
-            ->with($this->equalTo($block))
-            ->will($this->returnValue($blockInstance1));
+        $this->layoutMock->expects(
+            $this->once()
+        )->method(
+            'getBlock'
+        )->with(
+            $this->equalTo($block)
+        )->will(
+            $this->returnValue($blockInstance1)
+        );
 
         if ($shouldSetHeaders) {
             $this->responseMock->expects($this->once())
@@ -233,12 +245,8 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             array('handles', '', $handles)
         );
 
-        $this->requestMock->expects($this->any())
-            ->method('getParam')
-            ->will($this->returnValueMap($mapData));
-        $this->viewMock->expects($this->never())
-            ->method('getLayout')
-            ->will($this->returnValue($this->layoutMock));
+        $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($mapData));
+        $this->viewMock->expects($this->never())->method('getLayout')->will($this->returnValue($this->layoutMock));
 
         $this->controller->esiAction();
     }

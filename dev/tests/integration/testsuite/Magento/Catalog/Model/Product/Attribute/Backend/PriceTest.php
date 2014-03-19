@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
@@ -25,11 +24,16 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Attribute\Backend\Price');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product\Attribute\Backend\Price'
+        );
         $this->_model->setAttribute(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Eav\Model\Config')
-                ->getAttribute('catalog_product', 'price')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Eav\Model\Config'
+            )->getAttribute(
+                'catalog_product',
+                'price'
+            )
         );
     }
 
@@ -66,8 +70,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testAfterSave()
     {
         /** @var $product \Magento\Catalog\Model\Product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->load(1);
         $product->setOrigData();
         $product->setPrice(9.99);
@@ -78,8 +83,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $product->getResource()->getAttributeRawValue(
                 $product->getId(),
                 $this->_model->getAttribute()->getId(),
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId()
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Core\Model\StoreManagerInterface'
+                )->getStore()->getId()
             )
         );
     }

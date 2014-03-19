@@ -18,18 +18,15 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_invokableList = array(
-        'sprintf'       => 'Magento\Filter\Sprintf',
-        'template'      => 'Magento\Filter\Template',
-        'arrayFilter'   => 'Magento\Filter\ArrayFilter',
+        'sprintf' => 'Magento\Filter\Sprintf',
+        'template' => 'Magento\Filter\Template',
+        'arrayFilter' => 'Magento\Filter\ArrayFilter'
     );
 
     /**
      * @var array
      */
-    protected $_sharedList = array(
-        'Magento\Filter\Template' => true,
-        'Magento\Filter\ArrayFilter' => false,
-    );
+    protected $_sharedList = array('Magento\Filter\Template' => true, 'Magento\Filter\ArrayFilter' => false);
 
     /**
      * @var \Magento\ObjectManager
@@ -38,12 +35,20 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_objectManager = $this->getMockForAbstractClass('\Magento\ObjectManager', array(), '', true, true,
-            true, array('create'));
+        $this->_objectManager = $this->getMockForAbstractClass(
+            '\Magento\ObjectManager',
+            array(),
+            '',
+            true,
+            true,
+            true,
+            array('create')
+        );
 
-        $this->_factory = $this->getMockForAbstractClass('Magento\Filter\AbstractFactory', array(
-            'objectManger' => $this->_objectManager
-        ));
+        $this->_factory = $this->getMockForAbstractClass(
+            'Magento\Filter\AbstractFactory',
+            array('objectManger' => $this->_objectManager)
+        );
         $property = new \ReflectionProperty('Magento\Filter\AbstractFactory', 'invokableClasses');
         $property->setAccessible(true);
         $property->setValue($this->_factory, $this->_invokableList);
@@ -68,10 +73,7 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function canCreateFilterDataProvider()
     {
-        return array(
-            array('arrayFilter', true),
-            array('notExist', false),
-        );
+        return array(array('arrayFilter', true), array('notExist', false));
     }
 
     /**
@@ -92,7 +94,7 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
         return array(
             'shared' => array('Magento\Filter\Template', true),
             'not shared' => array('Magento\Filter\ArrayFilter', false),
-            'default value' => array('Magento\Filter\Sprintf', true),
+            'default value' => array('Magento\Filter\Sprintf', true)
         );
     }
 
@@ -108,9 +110,16 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
 
         $filterMock = $this->getMock('FactoryInterface', array('filter'));
-        $this->_objectManager->expects($this->atLeastOnce())->method('create')
-            ->with($this->equalTo($this->_invokableList[$alias]), $this->equalTo($arguments))
-            ->will($this->returnValue($filterMock));
+        $this->_objectManager->expects(
+            $this->atLeastOnce()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo($this->_invokableList[$alias]),
+            $this->equalTo($arguments)
+        )->will(
+            $this->returnValue($filterMock)
+        );
 
         $this->assertEquals($filterMock, $this->_factory->createFilter($alias, $arguments));
         if ($isShared) {
@@ -131,7 +140,7 @@ class AbstractFactoryTest extends \PHPUnit_Framework_TestCase
             'not shared with args' => array('arrayFilter', array('123', '231'), false),
             'not shared without args' => array('arrayFilter', array(), true),
             'shared' => array('template', array(), true),
-            'default shared' => array('sprintf', array(), true),
+            'default shared' => array('sprintf', array(), true)
         );
     }
 }

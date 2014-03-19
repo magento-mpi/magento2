@@ -27,7 +27,7 @@ class PostData extends \Magento\App\Helper\AbstractHelper
         if (!isset($data[\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED])) {
             $data[\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl();
         }
-        return json_encode(['action' => $url, 'data' => $data]);
+        return json_encode(array('action' => $url, 'data' => $data));
     }
 
     /**

@@ -9,8 +9,7 @@
  */
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
-class Field
-    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
+class Field extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
      * List of allowed node names
@@ -36,7 +35,7 @@ class Field
         'depends',
         'more_url',
         'demo_url',
-        'hide_in_single_store_mode',
+        'hide_in_single_store_mode'
     );
 
     /**

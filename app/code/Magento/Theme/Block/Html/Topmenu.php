@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -47,10 +46,10 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
      */
     public function getHtml($outermostClass = '', $childrenWrapClass = '', $limit = 0)
     {
-        $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_before', array(
-            'menu' => $this->_menu,
-            'block' => $this
-        ));
+        $this->_eventManager->dispatch(
+            'page_block_html_topmenu_gethtml_before',
+            array('menu' => $this->_menu, 'block' => $this)
+        );
 
         $this->_menu->setOutermostClass($outermostClass);
         $this->_menu->setChildrenWrapClass($childrenWrapClass);
@@ -58,10 +57,10 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
         $html = $this->_getHtml($this->_menu, $childrenWrapClass, $limit);
 
         $transportObject = new \Magento\Object(array('html' => $html));
-        $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_after', array(
-            'menu' => $this->_menu,
-            'transportObject' => $transportObject,
-        ));
+        $this->_eventManager->dispatch(
+            'page_block_html_topmenu_gethtml_after',
+            array('menu' => $this->_menu, 'transportObject' => $transportObject)
+        );
 
         return $html;
     }
@@ -100,10 +99,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
             return;
         }
 
-        $result[] = array(
-            'total' => $total,
-            'max' => (int)ceil($total / ceil($total / $limit)),
-        );
+        $result[] = array('total' => $total, 'max' => (int)ceil($total / ceil($total / $limit)));
 
         $count = 0;
         $firstCol = true;
@@ -122,10 +118,7 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
                 $colbrake = false;
             }
 
-            $result[] = array(
-                'place' => $place,
-                'colbrake' => $colbrake,
-            );
+            $result[] = array('place' => $place, 'colbrake' => $colbrake);
 
             $firstCol = false;
         }
@@ -215,10 +208,14 @@ class Topmenu extends \Magento\View\Element\Template implements \Magento\View\Bl
             }
 
             $html .= '<li ' . $this->_getRenderedMenuItemAttributes($child) . '>';
-            $html .= '<a href="' . $child->getUrl() . '" ' . $outermostClassCode . '><span>'
-                . $this->escapeHtml($child->getName()) . '</span></a>'
-                . $this->_addSubMenu($child, $childLevel, $childrenWrapClass, $limit)
-                . '</li>';
+            $html .= '<a href="' . $child->getUrl() . '" ' . $outermostClassCode . '><span>' . $this->escapeHtml(
+                $child->getName()
+            ) . '</span></a>' . $this->_addSubMenu(
+                $child,
+                $childLevel,
+                $childrenWrapClass,
+                $limit
+            ) . '</li>';
             $itemPosition++;
             $counter++;
         }

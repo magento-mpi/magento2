@@ -17,8 +17,6 @@
  */
 namespace Magento\Wishlist\Block\Customer\Wishlist\Item\Column;
 
-class Comment
-    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
+class Comment extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
-
 }

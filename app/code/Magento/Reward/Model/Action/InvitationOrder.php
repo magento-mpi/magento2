@@ -35,10 +35,8 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
-    public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = array())
+    {
         $this->_rewardData = $rewardData;
         parent::__construct($data);
     }
@@ -62,10 +60,11 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
     public function canAddRewardPoints()
     {
         $frequency = $this->_rewardData->getPointsConfig(
-            'invitation_order_frequency', $this->getReward()->getWebsiteId()
+            'invitation_order_frequency',
+            $this->getReward()->getWebsiteId()
         );
         if ($frequency == '*') {
-            return !($this->isRewardLimitExceeded());
+            return !$this->isRewardLimitExceeded();
         } else {
             return parent::canAddRewardPoints();
         }
@@ -78,10 +77,7 @@ class InvitationOrder extends \Magento\Reward\Model\Action\AbstractAction
      */
     public function getRewardLimit()
     {
-        return $this->_rewardData->getPointsConfig(
-            'invitation_order_limit',
-            $this->getReward()->getWebsiteId()
-        );
+        return $this->_rewardData->getPointsConfig('invitation_order_limit', $this->getReward()->getWebsiteId());
     }
 
     /**

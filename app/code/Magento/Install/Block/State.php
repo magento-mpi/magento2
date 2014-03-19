@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Block;
 
 /**
@@ -26,7 +25,7 @@ class State extends \Magento\View\Element\Template
      * @var \Magento\Install\Model\Wizard
      */
     protected $_wizard;
-    
+
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Wizard $wizard
@@ -50,11 +49,7 @@ class State extends \Magento\View\Element\Template
     public function getDownloaderSteps()
     {
         if ($this->isDownloaderInstall()) {
-            $steps = array(
-                __('Welcome'),
-                __('Validation'),
-                __('Magento Connect Manager Deployment'),
-            );
+            $steps = array(__('Welcome'), __('Validation'), __('Magento Connect Manager Deployment'));
             return $steps;
         } else {
             return array();

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product;
 
 class CopyConstructorFactory
@@ -41,4 +40,4 @@ class CopyConstructorFactory
 
         return $this->objectManager->create($instance, $arguments);
     }
-} 
+}

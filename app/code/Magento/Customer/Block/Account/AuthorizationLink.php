@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account;
 
 /**
@@ -88,5 +87,4 @@ class AuthorizationLink extends \Magento\View\Element\Html\Link
     {
         return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
     }
-
 }

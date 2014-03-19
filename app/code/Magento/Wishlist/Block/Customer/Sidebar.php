@@ -38,10 +38,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
      */
     protected function _prepareCollection($collection)
     {
-        $collection->setCurPage(1)
-            ->setPageSize(3)
-            ->setInStockFilter(true)
-            ->setOrder('added_at');
+        $collection->setCurPage(1)->setPageSize(3)->setInStockFilter(true)->setOrder('added_at');
 
         return $this;
     }

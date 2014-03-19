@@ -99,7 +99,7 @@ class Index extends \Magento\App\Action\Action
             }
             $invPerSend = $this->_config->getMaxInvitationsPerSend();
             $attempts = 0;
-            $sent     = 0;
+            $sent = 0;
             $customerExists = 0;
             foreach ($data['email'] as $email) {
                 $attempts++;
@@ -110,16 +110,15 @@ class Index extends \Magento\App\Action\Action
                     continue;
                 }
                 try {
-                    $invitation = $this->invitationFactory->create()->setData(array(
-                        'email'    => $email,
-                        'customer' => $customer,
-                        'message'  => $message
-                    ))->save();
+                    $invitation = $this->invitationFactory->create()->setData(
+                        array('email' => $email, 'customer' => $customer, 'message' => $message)
+                    )->save();
                     if ($invitation->sendInvitationEmail()) {
                         $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
-                        throw new \Exception(''); // not \Magento\Core\Exception intentionally
+                        // not \Magento\Core\Exception intentionally
+                        throw new \Exception('');
                     }
                 } catch (\Magento\Core\Exception $e) {
                     if (\Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Model;
 
 class BannerTest extends \PHPUnit_Framework_TestCase

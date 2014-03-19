@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -66,10 +65,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $moduleManager = $this->objectManager->get('Magento\Module\Manager');
         if ($moduleManager->isEnabled('Magento_PageCache')) {
-            $customerDataBuilder = $this->objectManager
-                ->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
-            $customerData = $customerDataBuilder
-                ->setGroupId($this->_customerSession->getCustomerGroupId())->create();
+            $customerDataBuilder = $this->objectManager->create('Magento\Customer\Service\V1\Data\CustomerBuilder');
+            $customerData = $customerDataBuilder->setGroupId($this->_customerSession->getCustomerGroupId())->create();
             $this->assertEquals($customerData, $this->_block->getCustomer());
         } else {
             $this->assertNull($this->_block->getCustomer());
@@ -98,11 +95,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
             . "\nUnited States<br/>\nT: 3468676\n\n";
 
-        return [
-            '0' => [0, 'You have not set a default shipping address.'],
-            '1' => [1, $expected],
-            '5' => [5, 'You have not set a default shipping address.'],
-        ];
+        return array(
+            '0' => array(0, 'You have not set a default shipping address.'),
+            '1' => array(1, $expected),
+            '5' => array(5, 'You have not set a default shipping address.')
+        );
     }
 
     /**
@@ -168,7 +165,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $url = $this->_block->getPrimaryBillingAddressEditUrl();
         $this->assertEquals($expected, $url);
     }
-
 
     public function getPrimaryBillingAddressEditUrlDataProvider()
     {

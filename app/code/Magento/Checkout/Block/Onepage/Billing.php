@@ -90,10 +90,10 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('billing', array(
-            'label'     => __('Billing Information'),
-            'is_show'   => $this->isShow()
-        ));
+        $this->getCheckout()->setStepData(
+            'billing',
+            array('label' => __('Billing Information'), 'is_show' => $this->isShow())
+        );
 
         if ($this->isCustomerLoggedIn()) {
             $this->getCheckout()->setStepData('billing', 'allow', true);
@@ -106,8 +106,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function isUseBillingAddressForShipping()
     {
-        if (($this->getQuote()->getIsVirtual())
-            || !$this->getQuote()->getShippingAddress()->getSameAsBilling()) {
+        if ($this->getQuote()->getIsVirtual() || !$this->getQuote()->getShippingAddress()->getSameAsBilling()) {
             return false;
         }
         return true;
@@ -225,10 +224,12 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getTaxvatHtml()
     {
-        return $this->_getTaxvat()
-            ->setTaxvat($this->getQuote()->getCustomerTaxvat())
-            ->setFieldIdFormat('billing:%s')
-            ->setFieldNameFormat('billing[%s]')
-            ->toHtml();
+        return $this->_getTaxvat()->setTaxvat(
+            $this->getQuote()->getCustomerTaxvat()
+        )->setFieldIdFormat(
+            'billing:%s'
+        )->setFieldNameFormat(
+            'billing[%s]'
+        )->toHtml();
     }
 }

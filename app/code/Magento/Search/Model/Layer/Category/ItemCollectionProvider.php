@@ -42,4 +42,4 @@ class ItemCollectionProvider implements ItemCollectionProviderInterface
             ->setGeneralDefaultQuery();
         return $collection;
     }
-} 
+}

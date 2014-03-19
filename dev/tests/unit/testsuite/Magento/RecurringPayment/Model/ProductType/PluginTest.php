@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Model\ProductType;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
@@ -27,11 +26,17 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subject = $this->getMock('Magento\Catalog\Model\Product\Type\AbstractType', [], [], '', false);
+        $this->subject = $this->getMock(
+            'Magento\Catalog\Model\Product\Type\AbstractType',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            ['getIsRecurring', '__wakeup', '__sleep'],
-            [],
+            array('getIsRecurring', '__wakeup', '__sleep'),
+            array(),
             '',
             false
         );

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Wishlist\Helper;
 
 class DataTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -45,27 +44,21 @@ class DataTest extends \Magento\TestFramework\TestCase\AbstractController
         $product = $this->objectManager->get('Magento\Catalog\Model\Product');
         $product->setId(11);
         $json = $this->wishlistHelper->getAddParams($product);
-        $params = (array) json_decode($json);
-        $data = (array) $params['data'];
+        $params = (array)json_decode($json);
+        $data = (array)$params['data'];
         $this->assertEquals('11', $data['product']);
         $this->assertArrayHasKey('uenc', $data);
-        $this->assertStringEndsWith(
-            'wishlist/index/add/',
-            $params['action']
-        );
+        $this->assertStringEndsWith('wishlist/index/add/', $params['action']);
     }
 
     public function testGetMoveFromCartParams()
     {
         $json = $this->wishlistHelper->getMoveFromCartParams(11);
-        $params = (array) json_decode($json);
-        $data = (array) $params['data'];
+        $params = (array)json_decode($json);
+        $data = (array)$params['data'];
         $this->assertEquals('11', $data['item']);
         $this->assertArrayHasKey('uenc', $data);
-        $this->assertStringEndsWith(
-            'wishlist/index/fromcart/',
-            $params['action']
-        );
+        $this->assertStringEndsWith('wishlist/index/fromcart/', $params['action']);
     }
 
     public function testGetUpdateParams()
@@ -74,15 +67,11 @@ class DataTest extends \Magento\TestFramework\TestCase\AbstractController
         $product->setId(11);
         $product->setWishlistItemId(15);
         $json = $this->wishlistHelper->getUpdateParams($product);
-        $params = (array) json_decode($json);
-        $data = (array) $params['data'];
+        $params = (array)json_decode($json);
+        $data = (array)$params['data'];
         $this->assertEquals('11', $data['product']);
         $this->assertEquals('15', $data['id']);
         $this->assertArrayHasKey('uenc', $data);
-        $this->assertStringEndsWith(
-            'wishlist/index/updateItemOptions/',
-            $params['action']
-        );
+        $this->assertStringEndsWith('wishlist/index/updateItemOptions/', $params['action']);
     }
-
 }

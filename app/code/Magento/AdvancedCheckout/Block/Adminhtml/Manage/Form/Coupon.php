@@ -66,14 +66,15 @@ class Coupon extends \Magento\Backend\Block\Template
      */
     public function getApplyButtonHtml()
     {
-        return $this->getLayout()
-            ->createBlock('Magento\Backend\Block\Widget\Button')
-                ->setData(array(
-                    'id'        => 'apply_coupon',
-                    'label'     => __('Apply'),
-                    'onclick'   => "checkoutObj.applyCoupon($('coupon_code').value)",
-                ))
-            ->toHtml();
+        return $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
+                'id' => 'apply_coupon',
+                'label' => __('Apply'),
+                'onclick' => "checkoutObj.applyCoupon($('coupon_code').value)"
+            )
+        )->toHtml();
     }
 
     /**

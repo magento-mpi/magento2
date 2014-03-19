@@ -65,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $this->_init('Magento\Directory\Model\Region', 'Magento\Directory\Model\Resource\Region');
 
-        $this->_countryTable    = $this->getTable('directory_country');
+        $this->_countryTable = $this->getTable('directory_country');
         $this->_regionNameTable = $this->getTable('directory_country_region_name');
 
         $this->addOrder('name', \Magento\Data\Collection::SORT_ORDER_ASC);
@@ -86,7 +86,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $this->getSelect()->joinLeft(
             array('rname' => $this->_regionNameTable),
             'main_table.region_id = rname.region_id AND rname.locale = :region_locale',
-            array('name'));
+            array('name')
+        );
 
         return $this;
     }
@@ -117,12 +118,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addCountryCodeFilter($countryCode)
     {
-        $this->getSelect()
-            ->joinLeft(
-                array('country' => $this->_countryTable),
-                'main_table.country_id = country.country_id'
-            )
-            ->where('country.iso3_code = ?', $countryCode);
+        $this->getSelect()->joinLeft(
+            array('country' => $this->_countryTable),
+            'main_table.country_id = country.country_id'
+        )->where(
+            'country.iso3_code = ?',
+            $countryCode
+        );
 
         return $this;
     }
@@ -173,7 +175,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         if (!empty($region)) {
             $condition = is_array($region) ? array('in' => $region) : $region;
-            $this->addFieldToFilter(array('main_table.code', 'main_table.default_name'), array($condition, $condition));
+            $this->addFieldToFilter(
+                array('main_table.code', 'main_table.default_name'),
+                array($condition, $condition)
+            );
         }
         return $this;
     }
@@ -187,11 +192,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     {
         $options = $this->_toOptionArray('region_id', 'default_name', array('title' => 'default_name'));
         if (count($options) > 0) {
-            array_unshift($options, array(
-                'title '=> null,
-                'value' => '0',
-                'label' => __('--Please select--')
-            ));
+            array_unshift($options, array('title ' => null, 'value' => '0', 'label' => __('--Please select--')));
         }
         return $options;
     }

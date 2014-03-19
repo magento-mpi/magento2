@@ -73,21 +73,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->viewMock = $this->getMock('Magento\App\View', ['getLayout'], ['getPageLayoutHandles'], '', false);
         $layoutMock = $this->getMockForAbstractClass(
             'Magento\View\LayoutInterface',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            ['getUpdate']
+            array('getUpdate')
         );
         $this->updateLayoutMock = $this->getMockForAbstractClass(
             'Magento\View\Layout\ProcessorInterface',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            []
+            array()
         );
 
         $this->viewMock->expects($this->once())

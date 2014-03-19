@@ -87,7 +87,7 @@ class Login extends AbstractOnepage
     protected function _construct()
     {
         if (!$this->isCustomerLoggedIn()) {
-            $this->getCheckout()->setStepData('login', array('label'=>__('Checkout Method'), 'allow'=>true));
+            $this->getCheckout()->setStepData('login', array('label' => __('Checkout Method'), 'allow' => true));
         }
         parent::_construct();
     }
@@ -105,7 +105,7 @@ class Login extends AbstractOnepage
      */
     public function getPostAction()
     {
-        return $this->getUrl('customer/account/loginPost', array('_secure'=>true));
+        return $this->getUrl('customer/account/loginPost', array('_secure' => true));
     }
 
     /**

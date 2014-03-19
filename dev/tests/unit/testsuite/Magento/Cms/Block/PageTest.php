@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block;
 
 class PageTest extends \PHPUnit_Framework_TestCase

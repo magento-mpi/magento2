@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Export\Entity;
 
 class ProductTest extends \PHPUnit_Framework_TestCase

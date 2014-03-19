@@ -8,9 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Helper;
-
 
 class PostDataTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,15 +25,15 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
 
-        $contextMock = $this->getMock('Magento\App\Helper\Context', ['getUrlBuilder'], [], '', false);
+        $contextMock = $this->getMock('Magento\App\Helper\Context', array('getUrlBuilder'), array(), '', false);
         $urlBuilderMock = $this->getMockForAbstractClass(
             'Magento\UrlInterface',
-            [],
+            array(),
             '',
             true,
             true,
             true,
-            ['getCurrentUrl']
+            array('getCurrentUrl')
         );
 
         $contextMock->expects($this->once())
@@ -50,4 +48,4 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
         $actual = $model->getPostData($url, $product);
         $this->assertEquals($expected, $actual);
     }
-} 
+}

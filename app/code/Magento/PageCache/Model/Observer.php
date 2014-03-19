@@ -112,15 +112,14 @@ class Observer
      * @param \Magento\View\Element\AbstractBlock $block
      * @return string
      */
-    protected function _wrapEsi(
-        \Magento\View\Element\AbstractBlock $block
-    ) {
+    protected function _wrapEsi(\Magento\View\Element\AbstractBlock $block)
+    {
         $url = $block->getUrl(
             'page_cache/block/esi',
-            [
-                'blocks' => json_encode([$block->getNameInLayout()]),
+            array(
+                'blocks' => json_encode(array($block->getNameInLayout())),
                 'handles' => json_encode($this->_helper->getActualHandles())
-            ]
+            )
         );
         return sprintf('<esi:include src="%s" />', $url);
     }

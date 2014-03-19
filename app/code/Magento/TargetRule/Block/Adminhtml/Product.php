@@ -154,7 +154,7 @@ class Product extends \Magento\Backend\Block\Widget
      */
     public function isDefault($value)
     {
-        return ($this->_getValue($value) === null) ? true : false;
+        return $this->_getValue($value) === null ? true : false;
     }
 
     /**

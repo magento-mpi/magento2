@@ -16,7 +16,9 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 class CustomerMetadataServiceTest extends WebapiAbstract
 {
     const SERVICE_NAME = "customerCustomerMetadataServiceV1";
+
     const SERVICE_VERSION = "V1";
+
     const RESOURCE_PATH = "/V1/customerMetadata";
 
     public function setUp()
@@ -37,22 +39,19 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
 
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/$entityType/entity/$attributeCode/attribute",
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/{$entityType}/entity/{$attributeCode}/attribute",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
+            ),
+            'soap' => array(
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'customerCustomerMetadataServiceV1GetAttributeMetadata'
-            ]
-        ];
+            )
+        );
 
-        $requestData = [
-            "entityType" => $entityType,
-            "attributeCode" => $attributeCode
-        ];
+        $requestData = array("entityType" => $entityType, "attributeCode" => $attributeCode);
 
         $attributeMetadata = $this->decamelize($this->_webapiCall($serviceInfo, $requestData));
         $this->assertEquals($expectedMetadata, $attributeMetadata);
@@ -65,81 +64,81 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function getAttributeMetadataDataProvider()
     {
-        return [
-            Customer::FIRSTNAME => [
+        return array(
+            Customer::FIRSTNAME => array(
                 CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 Customer::FIRSTNAME,
-                [
+                array(
                     'attribute_code' => 'firstname',
                     'frontend_input' => 'text',
                     'input_filter' => null,
                     'store_label' => 'First Name',
-                    'validation_rules' => [
-                        'max_text_length' => ['name' => 'max_text_length', 'value' => 255],
-                        'min_text_length' => ['name' => 'min_text_length', 'value' => 1]
-                    ],
+                    'validation_rules' => array(
+                        'max_text_length' => array('name' => 'max_text_length', 'value' => 255),
+                        'min_text_length' => array('name' => 'min_text_length', 'value' => 1)
+                    ),
                     'visible' => '1',
                     'required' => '1',
                     'multiline_count' => '0',
                     'data_model' => null,
-                    'options' => [],
+                    'options' => array(),
                     'frontend_class' => ' required-entry',
                     'frontend_label' => 'First Name',
                     'note' => null,
                     'is_system' => '1',
                     'is_user_defined' => '0',
                     'sort_order' => '40'
-                ]
-            ],
-            Customer::GENDER => [
+                )
+            ),
+            Customer::GENDER => array(
                 CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
                 Customer::GENDER,
-                [
+                array(
                     'attribute_code' => 'gender',
                     'frontend_input' => 'select',
                     'input_filter' => null,
                     'store_label' => 'Gender',
-                    'validation_rules' => [],
+                    'validation_rules' => array(),
                     'visible' => '0',
                     'required' => '0',
                     'multiline_count' => '0',
                     'data_model' => null,
-                    'options' => [
-                        '' => ['label' => null, 'value' => null],
-                        'Male' => ['label' => 'Male', 'value' => '1'],
-                        'Female' => ['label' => 'Female', 'value' => '2']
-                    ],
+                    'options' => array(
+                        '' => array('label' => null, 'value' => null),
+                        'Male' => array('label' => 'Male', 'value' => '1'),
+                        'Female' => array('label' => 'Female', 'value' => '2')
+                    ),
                     'frontend_class' => '',
                     'frontend_label' => 'Gender',
                     'note' => null,
                     'is_system' => '0',
                     'is_user_defined' => '0',
                     'sort_order' => '110'
-                ]
-            ],
-            Address::KEY_POSTCODE => [
+                )
+            ),
+            Address::KEY_POSTCODE => array(
                 CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
                 Address::KEY_POSTCODE,
-                [
+                array(
                     'attribute_code' => 'postcode',
                     'frontend_input' => 'text',
                     'input_filter' => null,
                     'store_label' => 'Zip/Postal Code',
-                    'validation_rules' => [],
+                    'validation_rules' => array(),
                     'visible' => '1',
                     'required' => '1',
                     'multiline_count' => '0',
                     'data_model' => 'Magento\Customer\Model\Attribute\Data\Postcode',
-                    'options' => [],
+                    'options' => array(),
                     'frontend_class' => ' required-entry',
                     'frontend_label' => 'Zip/Postal Code',
                     'note' => null,
                     'is_system' => '1',
                     'is_user_defined' => '0',
                     'sort_order' => '110'
-                ]
-            ]
-        ];
+                )
+            )
+        );
     }
 
     /**
@@ -154,19 +153,19 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
 
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/customer/$attributeCode/attribute",
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/customer/{$attributeCode}/attribute",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
+            ),
+            'soap' => array(
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'customerCustomerMetadataServiceV1GetCustomerAttributeMetadata'
-            ]
-        ];
+            )
+        );
 
-        $requestData = ['attributeCode' => $attributeCode];
+        $requestData = array('attributeCode' => $attributeCode);
         $attributeMetadata = $this->decamelize($this->_webApiCall($serviceInfo, $requestData));
 
         $this->assertEquals($expectedMetadata, $attributeMetadata);
@@ -180,10 +179,10 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     public function getCustomerAttributeMetadataDataProvider()
     {
         $attributeMetadata = $this->getAttributeMetadataDataProvider();
-        return [
-            Customer::FIRSTNAME => [Customer::FIRSTNAME, $attributeMetadata[Customer::FIRSTNAME][2]],
-            Customer::GENDER => [Customer::GENDER, $attributeMetadata[Customer::GENDER][2]]
-        ];
+        return array(
+            Customer::FIRSTNAME => array(Customer::FIRSTNAME, $attributeMetadata[Customer::FIRSTNAME][2]),
+            Customer::GENDER => array(Customer::GENDER, $attributeMetadata[Customer::GENDER][2])
+        );
     }
 
     /**
@@ -193,22 +192,23 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
 
-        $serviceInfo = [
-            'rest' => [
+        $serviceInfo = array(
+            'rest' => array(
                 'resourcePath' => self::RESOURCE_PATH . "/customer",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
+            ),
+            'soap' => array(
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'customerCustomerMetadataServiceV1GetAllCustomerAttributeMetadata'
-            ]
-        ];
+            )
+        );
 
         $attributeMetadata = array_map(
             function ($array) {
                 return $this->decamelize($array);
-            }, $this->_webApiCall($serviceInfo)
+            },
+            $this->_webApiCall($serviceInfo)
         );
 
         $this->assertCount(23, $attributeMetadata);
@@ -229,19 +229,19 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     {
         $this->_markTestAsRestOnly();
 
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . "/address/$attributeCode/attribute",
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => self::RESOURCE_PATH . "/address/{$attributeCode}/attribute",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
+            ),
+            'soap' => array(
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'customerCustomerMetadataServiceV1GetAddressAttributeMetadata'
-            ]
-        ];
+            )
+        );
 
-        $requestData = ['attributeCode' => $attributeCode];
+        $requestData = array('attributeCode' => $attributeCode);
         $attributeMetadata = $this->decamelize($this->_webApiCall($serviceInfo, $requestData));
 
         $this->assertEquals($expectedMetadata, $attributeMetadata);
@@ -255,9 +255,9 @@ class CustomerMetadataServiceTest extends WebapiAbstract
     public function getAddressAttributeMetadataDataProvider()
     {
         $attributeMetadata = $this->getAttributeMetadataDataProvider();
-        return [
-            Address::KEY_POSTCODE => [Address::KEY_POSTCODE, $attributeMetadata[Address::KEY_POSTCODE][2]]
-        ];
+        return array(
+            Address::KEY_POSTCODE => array(Address::KEY_POSTCODE, $attributeMetadata[Address::KEY_POSTCODE][2])
+        );
     }
 
     /**
@@ -265,22 +265,23 @@ class CustomerMetadataServiceTest extends WebapiAbstract
      */
     public function testGetAllAddressAttributeMetadata()
     {
-        $serviceInfo = [
-            'rest' => [
+        $serviceInfo = array(
+            'rest' => array(
                 'resourcePath' => self::RESOURCE_PATH . "/address",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ],
-            'soap' => [
+            ),
+            'soap' => array(
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'customerCustomerMetadataServiceV1GetAllAddressAttributeMetadata'
-            ]
-        ];
+            )
+        );
 
         $attributeMetadata = array_map(
             function ($array) {
                 return $this->decamelize($array);
-            }, $this->_webApiCall($serviceInfo)
+            },
+            $this->_webApiCall($serviceInfo)
         );
 
         $this->assertCount(19, $attributeMetadata);

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource;
 
 class QuoteTest extends \PHPUnit_Framework_TestCase
@@ -17,8 +16,9 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Quote');
+        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Resource\Quote'
+        );
     }
 
     /**

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\FileResolution\Strategy;
 
 use Magento\App\Filesystem;
@@ -114,7 +113,11 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     public function getViewFile($area, ThemeInterface $themeModel, $locale, $file, $module = null)
     {
         $params = array(
-            'area' => $area, 'theme' => $themeModel, 'locale' => $locale, 'namespace' => null, 'module' => null
+            'area' => $area,
+            'theme' => $themeModel,
+            'locale' => $locale,
+            'namespace' => null,
+            'module' => null
         );
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module, 2);

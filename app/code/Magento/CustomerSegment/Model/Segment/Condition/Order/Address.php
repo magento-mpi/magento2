@@ -12,8 +12,7 @@ namespace Magento\CustomerSegment\Model\Segment\Condition\Order;
 /**
  * Order address condition
  */
-class Address
-    extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
+class Address extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var string
@@ -53,8 +52,7 @@ class Address
      */
     public function getNewChildSelectOptions()
     {
-        return $this->_conditionFactory->create('Order\Address\Combine')
-            ->getNewChildSelectOptions();
+        return $this->_conditionFactory->create('Order\Address\Combine')->getNewChildSelectOptions();
     }
 
     /**
@@ -64,9 +62,10 @@ class Address
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If Order Addresses match %1 of these Conditions:', $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If Order Addresses match %1 of these Conditions:',
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -91,22 +90,24 @@ class Address
         $resource = $this->getResource();
         $select = $resource->createSelect();
 
-        $mainAddressTable   = $this->getResource()->getTable('sales_flat_order_address');
-        $extraAddressTable  = $this->getResource()->getTable('magento_customer_sales_flat_order_address');
-        $orderTable         = $this->getResource()->getTable('sales_flat_order');
+        $mainAddressTable = $this->getResource()->getTable('sales_flat_order_address');
+        $extraAddressTable = $this->getResource()->getTable('magento_customer_sales_flat_order_address');
+        $orderTable = $this->getResource()->getTable('sales_flat_order');
 
-        $select->from(array('order_address' => $mainAddressTable), array(new \Zend_Db_Expr(1)))
-            ->join(
-                array('order_address_order' => $orderTable),
-                'order_address.parent_id = order_address_order.entity_id',
-                array()
-            )
-            ->joinLeft(
-                array('extra_order_address' => $extraAddressTable),
-                'order_address.entity_id = extra_order_address.entity_id',
-                array()
-            )
-            ->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'));
+        $select->from(
+            array('order_address' => $mainAddressTable),
+            array(new \Zend_Db_Expr(1))
+        )->join(
+            array('order_address_order' => $orderTable),
+            'order_address.parent_id = order_address_order.entity_id',
+            array()
+        )->joinLeft(
+            array('extra_order_address' => $extraAddressTable),
+            'order_address.entity_id = extra_order_address.entity_id',
+            array()
+        )->where(
+            $this->_createCustomerFilter($customer, 'order_address_order.customer_id')
+        );
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'order_address_order.store_id');
         return $select;
@@ -119,8 +120,6 @@ class Address
      */
     protected function _getSubfilterMap()
     {
-        return array(
-            'order_address_type' => 'order_address_type.value',
-        );
+        return array('order_address_type' => 'order_address_type.value');
     }
 }

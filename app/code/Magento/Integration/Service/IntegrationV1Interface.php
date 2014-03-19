@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Integration\Service;
 
-use \Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Integration Service Interface

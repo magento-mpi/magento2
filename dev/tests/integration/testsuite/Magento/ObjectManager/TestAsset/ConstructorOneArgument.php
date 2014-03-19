@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\TestAsset;
 
 class ConstructorOneArgument
@@ -27,9 +26,8 @@ class ConstructorOneArgument
      *
      * @param \Magento\ObjectManager\TestAsset\Basic $one
      */
-    public function __construct(
-        \Magento\ObjectManager\TestAsset\Basic $one
-    ) {
+    public function __construct(\Magento\ObjectManager\TestAsset\Basic $one)
+    {
         $this->_one = $one;
     }
 }

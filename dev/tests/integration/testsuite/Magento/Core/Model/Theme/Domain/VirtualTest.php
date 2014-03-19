@@ -8,10 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Theme\Domain;
 
-use \Magento\View\Design\ThemeInterface;
+use Magento\View\Design\ThemeInterface;
 
 class VirtualTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,29 +19,29 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
      */
     protected $_themes = array(
         'physical' => array(
-            'parent_id'     => null,
-            'theme_path'    => 'test/test',
+            'parent_id' => null,
+            'theme_path' => 'test/test',
             'theme_version' => '1.0.0.0',
-            'theme_title'   => 'Test physical theme',
-            'area'          => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'type'          => ThemeInterface::TYPE_PHYSICAL
+            'theme_title' => 'Test physical theme',
+            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'type' => ThemeInterface::TYPE_PHYSICAL
         ),
         'virtual' => array(
-            'parent_id'     => null,
-            'theme_path'    => '',
+            'parent_id' => null,
+            'theme_path' => '',
             'theme_version' => '1.0.0.0',
-            'theme_title'   => 'Test virtual theme',
-            'area'          => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'type'          => ThemeInterface::TYPE_VIRTUAL
+            'theme_title' => 'Test virtual theme',
+            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'type' => ThemeInterface::TYPE_VIRTUAL
         ),
         'staging' => array(
-            'parent_id'     => null,
-            'theme_path'    => '',
+            'parent_id' => null,
+            'theme_path' => '',
             'theme_version' => '1.0.0.0',
-            'theme_title'   => 'Test staging theme',
-            'area'          => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'type'          => ThemeInterface::TYPE_STAGING
-        ),
+            'theme_title' => 'Test staging theme',
+            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            'type' => ThemeInterface::TYPE_STAGING
+        )
     );
 
     /**
@@ -91,8 +90,9 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $this->_physicalThemeId,
-            $virtualTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
-                ->getPhysicalTheme()->getId()
+            $virtualTheme->getDomainModel(
+                \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+            )->getPhysicalTheme()->getId()
         );
     }
 

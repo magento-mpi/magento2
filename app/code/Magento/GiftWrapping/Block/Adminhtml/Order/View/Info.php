@@ -17,8 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class Info
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
+class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * @var \Magento\GiftWrapping\Model\WrappingFactory
@@ -58,12 +57,12 @@ class Info
         $order = $this->getOrder();
         if ($order && $order->getGwId()) {
             if ($this->getDisplayWrappingBothPrices()) {
-                 $data['price_excl_tax'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
-                 $data['price_incl_tax'] = $this->_preparePrices(
+                $data['price_excl_tax'] = $this->_preparePrices($order->getGwBasePrice(), $order->getGwPrice());
+                $data['price_incl_tax'] = $this->_preparePrices(
                     $order->getGwBasePrice() + $order->getGwBaseTaxAmount(),
                     $order->getGwPrice() + $order->getGwTaxAmount()
-                 );
-            } else if ($this->getDisplayWrappingPriceInclTax()) {
+                );
+            } elseif ($this->getDisplayWrappingPriceInclTax()) {
                 $data['price'] = $this->_preparePrices(
                     $order->getGwBasePrice() + $order->getGwBaseTaxAmount(),
                     $order->getGwPrice() + $order->getGwTaxAmount()
@@ -103,10 +102,7 @@ class Info
                     $order->getGwCardPrice() + $order->getGwCardTaxAmount()
                 );
             } else {
-                $data['price'] = $this->_preparePrices(
-                    $order->getGwCardBasePrice(),
-                    $order->getGwCardPrice()
-                );
+                $data['price'] = $this->_preparePrices($order->getGwCardBasePrice(), $order->getGwCardPrice());
             }
         }
         return new \Magento\Object($data);

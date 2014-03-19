@@ -9,8 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
-class Currency
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
+class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * @var array

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
@@ -68,22 +67,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_formKey,
             $this->_session
         );
-        $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
+        $this->_observerMock = $this->getMock('Magento\Event\Observer', array('getEvent'), array(), '', false);
         $this->_layoutMock = $this->getMock(
             'Magento\Core\Model\Layout',
-            ['isCacheable', 'getBlock', 'getUpdate', 'getHandles'],
-            [],
+            array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),
+            array(),
             '',
             false
         );
         $this->_blockMock = $this->getMockForAbstractClass(
             'Magento\View\Element\AbstractBlock',
-            [],
+            array(),
             '',
             false,
             true,
             true,
-            ['getTtl', 'isScopePrivate', 'getNameInLayout', 'getUrl']
+            array('getTtl', 'isScopePrivate', 'getNameInLayout', 'getUrl')
         );
         $this->_transport = new \Magento\Object([
             'output' => 'test output html'
@@ -239,8 +238,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getType')
             ->will($this->returnValue(\Magento\PageCache\Model\Config::BUILT_IN));
 
-        $this->_cacheMock->expects($this->once())
-            ->method('clean');
+        $this->_cacheMock->expects($this->once())->method('clean');
         $this->_model->flushAllCache($this->_observerMock);
     }
 

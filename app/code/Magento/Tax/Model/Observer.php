@@ -114,8 +114,8 @@ class Observer
             return;
         }
 
-        $getTaxesForItems   = $order->getQuote()->getTaxesForItems();
-        $taxes              = $order->getAppliedTaxes();
+        $getTaxesForItems = $order->getQuote()->getTaxesForItems();
+        $taxes = $order->getAppliedTaxes();
 
         $ratesIdQuoteItemId = array();
         if (!is_array($getTaxesForItems)) {
@@ -125,18 +125,18 @@ class Observer
             foreach ($taxesArray as $rates) {
                 if (count($rates['rates']) == 1) {
                     $ratesIdQuoteItemId[$rates['id']][] = array(
-                        'id'        => $quoteItemId,
-                        'percent'   => $rates['percent'],
-                        'code'      => $rates['rates'][0]['code']
+                        'id' => $quoteItemId,
+                        'percent' => $rates['percent'],
+                        'code' => $rates['rates'][0]['code']
                     );
                 } else {
-                    $percentDelta   = $rates['percent'];
-                    $percentSum     = 0;
+                    $percentDelta = $rates['percent'];
+                    $percentSum = 0;
                     foreach ($rates['rates'] as $rate) {
                         $ratesIdQuoteItemId[$rates['id']][] = array(
-                            'id'        => $quoteItemId,
-                            'percent'   => $rate['percent'],
-                            'code'      => $rate['code']
+                            'id' => $quoteItemId,
+                            'percent' => $rate['percent'],
+                            'code' => $rate['code']
                         );
                         $percentSum += $rate['percent'];
                     }
@@ -145,8 +145,7 @@ class Observer
                         $delta = $percentDelta - $percentSum;
                         foreach ($ratesIdQuoteItemId[$rates['id']] as &$rateTax) {
                             if ($rateTax['id'] == $quoteItemId) {
-                                $rateTax['percent'] = (($rateTax['percent'] / $percentSum) * $delta)
-                                        + $rateTax['percent'];
+                                $rateTax['percent'] = $rateTax['percent'] / $percentSum * $delta + $rateTax['percent'];
                             }
                         }
                     }
@@ -164,19 +163,19 @@ class Observer
                     }
                     $baseRealAmount = $row['base_amount'] / $row['percent'] * $tax['percent'];
                 }
-                $hidden = (isset($row['hidden']) ? $row['hidden'] : 0);
+                $hidden = isset($row['hidden']) ? $row['hidden'] : 0;
                 $data = array(
-                    'order_id'          => $order->getId(),
-                    'code'              => $tax['code'],
-                    'title'             => $tax['title'],
-                    'hidden'            => $hidden,
-                    'percent'           => $tax['percent'],
-                    'priority'          => $tax['priority'],
-                    'position'          => $tax['position'],
-                    'amount'            => $row['amount'],
-                    'base_amount'       => $row['base_amount'],
-                    'process'           => $row['process'],
-                    'base_real_amount'  => $baseRealAmount,
+                    'order_id' => $order->getId(),
+                    'code' => $tax['code'],
+                    'title' => $tax['title'],
+                    'hidden' => $hidden,
+                    'percent' => $tax['percent'],
+                    'priority' => $tax['priority'],
+                    'position' => $tax['position'],
+                    'amount' => $row['amount'],
+                    'base_amount' => $row['base_amount'],
+                    'process' => $row['process'],
+                    'base_real_amount' => $baseRealAmount
                 );
 
                 /** @var $orderTax \Magento\Tax\Model\Sales\Order\Tax */
@@ -189,9 +188,9 @@ class Observer
                             $item = $order->getItemByQuoteItemId($quoteItemId['id']);
                             if ($item) {
                                 $data = array(
-                                    'item_id'       => $item->getId(),
-                                    'tax_id'        => $result->getTaxId(),
-                                    'tax_percent'   => $quoteItemId['percent']
+                                    'item_id' => $item->getId(),
+                                    'tax_id' => $result->getTaxId(),
+                                    'tax_percent' => $quoteItemId['percent']
                                 );
                                 /** @var $taxItem \Magento\Tax\Model\Sales\Order\Tax\Item */
                                 $taxItem = $this->_taxItemFactory->create();
@@ -233,7 +232,6 @@ class Observer
                 }
                 $item->setTaxPercent($classToRate[$item->getTaxClassId()]);
             }
-
         }
         return $this;
     }

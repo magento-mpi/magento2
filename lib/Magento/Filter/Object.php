@@ -7,8 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\Filter;
 
 class Object extends \Zend_Filter
@@ -36,7 +34,7 @@ class Object extends \Zend_Filter
      * @param string $column
      * @return null|\Zend_Filter
      */
-    public function addFilter(\Zend_Filter_Interface $filter, $column='')
+    public function addFilter(\Zend_Filter_Interface $filter, $column = '')
     {
         if ('' === $column) {
             parent::addFilter($filter);

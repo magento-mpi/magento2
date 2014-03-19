@@ -9,8 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Creditmemo;
 
-class Controls
- extends \Magento\View\Element\Template
+class Controls extends \Magento\View\Element\Template
 {
     /**
      * Core registry

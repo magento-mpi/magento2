@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorization\RoleLocator;
 
 class DefaultRoleLocator implements \Magento\Authorization\RoleLocator

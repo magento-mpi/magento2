@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -46,13 +45,12 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
      */
     protected function _construct()
     {
-        $this->addData(array(
-            'cache_lifetime'=> false,
-            'cache_tags' => array(
-                \Magento\Core\Model\Store::CACHE_TAG,
-                \Magento\Cms\Model\Block::CACHE_TAG,
+        $this->addData(
+            array(
+                'cache_lifetime' => false,
+                'cache_tags' => array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
             )
-        ));
+        );
     }
 
     /**
@@ -93,5 +91,4 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     {
         return array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
-
 }

@@ -56,8 +56,8 @@ class ListBlock extends \Magento\View\Element\Template
      */
     protected function _prepareLayout()
     {
-        $head   = $this->getLayout()->getBlock('head');
-        $feeds  = $this->getRssMiscFeeds();
+        $head = $this->getLayout()->getBlock('head');
+        $feeds = $this->getRssMiscFeeds();
         if ($head && !empty($feeds)) {
             foreach ($feeds as $feed) {
                 $head->addRss($feed['label'], $feed['url']);
@@ -92,10 +92,7 @@ class ListBlock extends \Magento\View\Element\Template
             $param = array_merge($param, array('cid' => $this->getCurrentCustomerGroupId()));
         }
         $this->_rssFeeds[] = new \Magento\Object(
-            array(
-                'url'   => $this->_urlBuilder->getUrl($url, $param),
-                'label' => $label
-            )
+            array('url' => $this->_urlBuilder->getUrl($url, $param), 'label' => $label)
         );
         return $this;
     }
@@ -218,13 +215,20 @@ class ListBlock extends \Magento\View\Element\Template
 
             /* @var $collection \Magento\Catalog\Model\Resource\Category\Collection */
             $collection = $category->getCollection();
-            $collection->addIdFilter($nodeIds)
-                ->addAttributeToSelect('url_key')
-                ->addAttributeToSelect('name')
-                ->addAttributeToSelect('is_anchor')
-                ->addAttributeToFilter('is_active', 1)
-                ->addAttributeToSort('name')
-                ->load();
+            $collection->addIdFilter(
+                $nodeIds
+            )->addAttributeToSelect(
+                'url_key'
+            )->addAttributeToSelect(
+                'name'
+            )->addAttributeToSelect(
+                'is_anchor'
+            )->addAttributeToFilter(
+                'is_active',
+                1
+            )->addAttributeToSort(
+                'name'
+            )->load();
 
             foreach ($collection as $category) {
                 $this->addRssFeed('rss/catalog/category', $category->getName(), array('cid' => $category->getId()));

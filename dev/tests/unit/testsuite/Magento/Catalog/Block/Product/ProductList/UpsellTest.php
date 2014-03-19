@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
 
 class UpsellTest extends \PHPUnit_Framework_TestCase
@@ -30,14 +29,9 @@ class UpsellTest extends \PHPUnit_Framework_TestCase
     {
         $productTag = array('compare_item_1');
         $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $product->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue($productTag));
+        $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTag));
 
-        $itemsCollection = new \ReflectionProperty(
-            'Magento\Catalog\Block\Product\ProductList\Upsell',
-            '_items'
-        );
+        $itemsCollection = new \ReflectionProperty('Magento\Catalog\Block\Product\ProductList\Upsell', '_items');
         $itemsCollection->setAccessible(true);
         $itemsCollection->setValue($this->block, array($product));
 

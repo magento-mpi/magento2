@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache\Plugin;
 
 use Magento\Css\PreProcessor\Cache\CacheManager;

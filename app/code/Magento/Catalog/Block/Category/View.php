@@ -83,8 +83,9 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
                 $headBlock->setKeywords($keywords);
             }
             //@todo: move canonical link to separate block
-            if ($this->_categoryHelper->canUseCanonicalTag()
-                && !$headBlock->getChildBlock('magento-page-head-category-canonical-link')
+            if ($this->_categoryHelper->canUseCanonicalTag() && !$headBlock->getChildBlock(
+                'magento-page-head-category-canonical-link'
+            )
             ) {
                 $headBlock->addChild(
                     'magento-page-head-category-canonical-link',
@@ -124,7 +125,7 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
      */
     public function isTopCategory()
     {
-        return $this->getCurrentCategory()->getLevel()==2;
+        return $this->getCurrentCategory()->getLevel() == 2;
     }
 
     /**
@@ -132,9 +133,12 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
      */
     public function getRssLink()
     {
-        return $this->_urlBuilder->getUrl('rss/catalog/category', array(
-            'cid' => $this->getCurrentCategory()->getId(),
-            'store_id' => $this->_storeManager->getStore()->getId())
+        return $this->_urlBuilder->getUrl(
+            'rss/catalog/category',
+            array(
+                'cid' => $this->getCurrentCategory()->getId(),
+                'store_id' => $this->_storeManager->getStore()->getId()
+            )
         );
     }
 
@@ -165,9 +169,11 @@ class View extends \Magento\View\Element\Template implements \Magento\View\Block
     public function getCmsBlockHtml()
     {
         if (!$this->getData('cms_block_html')) {
-            $html = $this->getLayout()->createBlock('Magento\Cms\Block\Block')
-                ->setBlockId($this->getCurrentCategory()->getLandingPage())
-                ->toHtml();
+            $html = $this->getLayout()->createBlock(
+                'Magento\Cms\Block\Block'
+            )->setBlockId(
+                $this->getCurrentCategory()->getLandingPage()
+            )->toHtml();
             $this->setData('cms_block_html', $html);
         }
         return $this->getData('cms_block_html');

@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product;
 
 /**
@@ -14,6 +13,7 @@ namespace Magento\Catalog\Model\Indexer\Product;
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
     const DEFAULT_ROOT_CATEGORY = 2;
+
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
      */
@@ -27,13 +27,15 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var \Magento\Indexer\Model\IndexerInterface indexer */
-        $this->indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Indexer\Model\Indexer');
+        $this->indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Indexer\Model\Indexer'
+        );
         $this->indexer->load('catalog_product_category');
 
         /** @var \Magento\Catalog\Model\Resource\Product $productResource */
-        $this->productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\Resource\Product');
+        $this->productResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Model\Resource\Product'
+        );
     }
 
     public function testReindexAll()
@@ -92,7 +94,6 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             foreach ($products as $product) {
                 /** @var \Magento\Catalog\Model\Product $product */
                 $this->assertTrue((bool)$this->productResource->canBeShowInCategory($product, $categoryId));
-
             }
             $this->assertFalse((bool)$this->productResource->canBeShowInCategory($productFirst, $categoryId));
         }
@@ -127,11 +128,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             foreach ($products as $product) {
                 /** @var \Magento\Catalog\Model\Product $product */
                 $this->assertTrue((bool)$this->productResource->canBeShowInCategory($product, $categoryId));
-
             }
             $this->assertFalse((bool)$this->productResource->canBeShowInCategory($productThird, $categoryId));
         }
-
     }
 
     /**
@@ -141,8 +140,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected function getCategories($count)
     {
         /** @var \Magento\Catalog\Model\Category $category */
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
 
         $result = $category->getCollection()->getItems();
         $result = array_slice($result, 2);
@@ -157,8 +157,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     protected function getProducts($count)
     {
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
 
         $result = $product->getCollection()->getItems();
 
@@ -170,13 +171,15 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function clearIndex()
     {
-        $this->productResource->getWriteConnection()
-            ->delete($this->productResource->getTable('catalog_category_product_index'));
+        $this->productResource->getWriteConnection()->delete(
+            $this->productResource->getTable('catalog_category_product_index')
+        );
 
         $actualResult = $this->productResource->getReadConnection()->fetchOne(
-            $this->productResource->getReadConnection()->select()
-                ->from($this->productResource->getTable('catalog_category_product_index'), 'product_id')
-
+            $this->productResource->getReadConnection()->select()->from(
+                $this->productResource->getTable('catalog_category_product_index'),
+                'product_id'
+            )
         );
         $this->assertFalse($actualResult);
     }

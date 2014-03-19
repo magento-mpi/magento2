@@ -19,10 +19,8 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
      * @param \Magento\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix = 'core'
-    ) {
+    public function __construct(\Magento\App\Resource $resource, $modulePrefix = 'core')
+    {
         parent::__construct($resource, $modulePrefix);
     }
 
@@ -74,8 +72,8 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
     protected function _truncateAliasName($field, $reverse = false)
     {
         $string = $field;
-        if (!is_numeric($field) && (strpos($field, '.') !== false)) {
-            $size  = strpos($field, '.');
+        if (!is_numeric($field) && strpos($field, '.') !== false) {
+            $size = strpos($field, '.');
             if ($reverse) {
                 $string = substr($field, 0, $size);
             } else {
@@ -131,7 +129,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
         $columns = $select->getPart(\Zend_Db_Select::COLUMNS);
         foreach ($columns as $columnEntry) {
             $correlationName = (string)$columnEntry[1];
-            $column          = $columnEntry[2];
+            $column = $columnEntry[2];
             foreach ($selectHavings as $having) {
                 /**
                  * Looking for column expression in the having clause
@@ -169,7 +167,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
     protected function _assembleLimit($query, $limitCount, $limitOffset, $columnList = array())
     {
         if ($limitCount !== null) {
-              $limitCount = intval($limitCount);
+            $limitCount = intval($limitCount);
             if ($limitCount <= 0) {
                 //throw new \Exception("LIMIT argument count={$limitCount} is not valid");
             }
@@ -205,9 +203,9 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
             return $select->getPart(\Zend_Db_Select::COLUMNS);
         }
 
-        $columns          = $select->getPart(\Zend_Db_Select::COLUMNS);
-        $tables           = $select->getPart(\Zend_Db_Select::FROM);
-        $preparedColumns  = array();
+        $columns = $select->getPart(\Zend_Db_Select::COLUMNS);
+        $tables = $select->getPart(\Zend_Db_Select::FROM);
+        $preparedColumns = array();
 
         foreach ($columns as $columnEntry) {
             list($correlationName, $column, $alias) = $columnEntry;
@@ -253,7 +251,12 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
      * @return \Magento\DB\Select
      */
     public function addGroupConcatColumn(
-        $select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = ''
+        $select,
+        $fieldAlias,
+        $fields,
+        $groupConcatDelimiter = ',',
+        $fieldsDelimiter = '',
+        $additionalWhere = ''
     ) {
         if (is_array($fields)) {
             $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);
@@ -267,7 +270,9 @@ class Helper extends \Magento\Core\Model\Resource\Helper\AbstractHelper
         if ($groupConcatDelimiter) {
             $separator = sprintf(" SEPARATOR '%s'", $groupConcatDelimiter);
         }
-        $select->columns(array($fieldAlias => new \Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator))));
+        $select->columns(
+            array($fieldAlias => new \Zend_Db_Expr(sprintf('GROUP_CONCAT(%s%s)', $fieldExpr, $separator)))
+        );
         return $select;
     }
 

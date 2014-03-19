@@ -90,8 +90,11 @@ class Items extends \Magento\Backend\Block\Template
      */
     public function displayTotalsIncludeTax()
     {
-        $res = $this->_taxConfig->displayCartSubtotalInclTax($this->getStore())
-            || $this->_taxConfig->displayCartSubtotalBoth($this->getStore());
+        $res = $this->_taxConfig->displayCartSubtotalInclTax(
+            $this->getStore()
+        ) || $this->_taxConfig->displayCartSubtotalBoth(
+            $this->getStore()
+        );
 
         return $res;
     }
@@ -247,7 +250,6 @@ class Items extends \Magento\Backend\Block\Template
     public function getCustomerWishlists()
     {
         /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistCollection */
-        return $this->_wishlistFactory->create()->getCollection()
-            ->filterByCustomerId($this->getCustomerId());
+        return $this->_wishlistFactory->create()->getCollection()->filterByCustomerId($this->getCustomerId());
     }
 }

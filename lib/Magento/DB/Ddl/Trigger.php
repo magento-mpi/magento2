@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\DB\Ddl;
 
 class Trigger
@@ -14,15 +13,20 @@ class Trigger
      * Trigger times
      */
     const TIME_BEFORE = 'BEFORE';
-    const TIME_AFTER  = 'AFTER';
+
+    const TIME_AFTER = 'AFTER';
+
     /**#@-*/
 
     /**#@+
      * Trigger events
      */
     const EVENT_INSERT = 'INSERT';
+
     const EVENT_UPDATE = 'UPDATE';
+
     const EVENT_DELETE = 'DELETE';
+
     /**#@-*/
 
     /**
@@ -30,21 +34,14 @@ class Trigger
      *
      * @var array
      */
-    protected static $listOfTimes = array(
-        self::TIME_BEFORE,
-        self::TIME_AFTER,
-    );
+    protected static $listOfTimes = array(self::TIME_BEFORE, self::TIME_AFTER);
 
     /**
      * List of events available for trigger
      *
      * @var array
      */
-    protected static $listOfEvents = array(
-        self::EVENT_INSERT,
-        self::EVENT_UPDATE,
-        self::EVENT_DELETE,
-    );
+    protected static $listOfEvents = array(self::EVENT_INSERT, self::EVENT_UPDATE, self::EVENT_DELETE);
 
     /**
      * Name of trigger

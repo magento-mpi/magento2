@@ -80,7 +80,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($expiresResult > $between || $expiresResult < $between);
     }
 
-
     /**
      * Test for setting public headers without time to live parameter
      */
@@ -135,5 +134,4 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
         $this->assertEquals($expires, $this->_model->getHeader('Expires')['value']);
     }
-
 }

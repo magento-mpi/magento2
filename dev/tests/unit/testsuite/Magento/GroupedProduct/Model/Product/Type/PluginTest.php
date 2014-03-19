@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product\Type;
 
 class PluginTest extends \PHPUnit_Framework_TestCase
@@ -36,8 +35,9 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetOptionArray()
     {
         $this->moduleManagerMock->expects($this->any())->method('isOutputEnabled')->will($this->returnValue(false));
-        $this->assertEquals(array(),
+        $this->assertEquals(
+            array(),
             $this->object->afterGetOptionArray($this->subjectMock, array('grouped' => 'test'))
         );
     }
-} 
+}

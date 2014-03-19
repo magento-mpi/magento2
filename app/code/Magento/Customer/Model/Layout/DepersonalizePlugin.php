@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Layout;
 
 /**
@@ -80,13 +79,13 @@ class DepersonalizePlugin
         \Magento\Log\Model\Visitor $visitor,
         \Magento\PageCache\Model\Config $cacheConfig
     ) {
-        $this->session          = $session;
-        $this->customerSession  = $customerSession;
-        $this->customer         = $customerFactory->create();
-        $this->request          = $request;
-        $this->moduleManager    = $moduleManager;
-        $this->visitor          = $visitor;
-        $this->cacheConfig      = $cacheConfig;
+        $this->session = $session;
+        $this->customerSession = $customerSession;
+        $this->customer = $customerFactory->create();
+        $this->request = $request;
+        $this->moduleManager = $moduleManager;
+        $this->visitor = $visitor;
+        $this->cacheConfig = $cacheConfig;
     }
 
     /**
@@ -97,10 +96,9 @@ class DepersonalizePlugin
      */
     public function beforeGenerateXml(\Magento\View\LayoutInterface $subject)
     {
-        if ($this->moduleManager->isEnabled('Magento_PageCache')
-            && $this->cacheConfig->isEnabled()
-            && !$this->request->isAjax()
-            && $subject->isCacheable()
+        if ($this->moduleManager->isEnabled(
+                'Magento_PageCache'
+            ) && $this->cacheConfig->isEnabled() && !$this->request->isAjax() && $subject->isCacheable()
         ) {
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);

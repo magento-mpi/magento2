@@ -30,15 +30,18 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
-        $this->_clientMock = $this->getMock('Magento\Search\Model\Client\Solr',
-            array(), array(), '', false, false);
-        $this->_adapterMock = $this->getMock('Magento\Search\Model\Adapter\HttpStream',
-            array(), array(), '', false, false);
-
-
-        $this->_factoryObject = new \Magento\Search\Model\RegularFactory(
-            $this->_objectManager
+        $this->_clientMock = $this->getMock('Magento\Search\Model\Client\Solr', array(), array(), '', false, false);
+        $this->_adapterMock = $this->getMock(
+            'Magento\Search\Model\Adapter\HttpStream',
+            array(),
+            array(),
+            '',
+            false,
+            false
         );
+
+
+        $this->_factoryObject = new \Magento\Search\Model\RegularFactory($this->_objectManager);
     }
 
     /**
@@ -47,10 +50,15 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetClient()
     {
         $options = array('attr1' => 'value1', 'attr2' => 'value2');
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->with('Magento\Search\Model\Client\Solr')
-            ->will($this->returnValue($this->_clientMock));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\Search\Model\Client\Solr'
+        )->will(
+            $this->returnValue($this->_clientMock)
+        );
 
         $this->_factoryObject->createClient($options);
     }
@@ -60,10 +68,15 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateAdapter()
     {
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->with('Magento\Search\Model\Adapter\HttpStream')
-            ->will($this->returnValue($this->_adapterMock));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\Search\Model\Adapter\HttpStream'
+        )->will(
+            $this->returnValue($this->_adapterMock)
+        );
         $this->_factoryObject->createAdapter();
     }
 }

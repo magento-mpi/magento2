@@ -89,7 +89,8 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         if (empty($this->_rates)) {
             $this->getAddress()->collectShippingRates()->save();
-            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();        }
+            $this->_rates = $this->getAddress()->getGroupedAllShippingRates();
+        }
 
         return $this->_rates;
     }
@@ -111,7 +112,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/title')) {
             return $name;
         }
         return $carrierCode;

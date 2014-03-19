@@ -50,14 +50,7 @@ class Data extends \Magento\ImportExport\Helper\Data
     ) {
         $this->_customerBalanceData = $customerBalanceData;
         $this->_rewardData = $rewardData;
-        parent::__construct(
-            $context,
-            $coreStoreConfig,
-            $storeManager,
-            $appState,
-            $fileSize,
-            $dbCompatibleMode
-        );
+        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $fileSize, $dbCompatibleMode);
     }
 
     /**

@@ -142,7 +142,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getValue() == 1);
+        return $this->getValue() == 1;
     }
 
     /**
@@ -177,10 +177,10 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
         /**
          * Build base SQL
          */
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         /**
@@ -195,7 +195,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
                 } else {
                     $sqlOperator = $operator;
                 }
-                $conditions[] = "($isnull {$sqlOperator} 1)";
+                $conditions[] = "({$isnull} {$sqlOperator} 1)";
             }
         }
 
@@ -248,8 +248,14 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {
         $storeTable = $this->getResource()->getTable('core_store');
-        $select->join(array('store'=> $storeTable), $storeIdField.'=store.store_id', array())
-            ->where('store.website_id IN (?)', $website);
+        $select->join(
+            array('store' => $storeTable),
+            $storeIdField . '=store.store_id',
+            array()
+        )->where(
+            'store.website_id IN (?)',
+            $website
+        );
         return $this;
     }
 }

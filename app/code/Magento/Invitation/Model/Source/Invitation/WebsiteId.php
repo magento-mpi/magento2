@@ -17,7 +17,6 @@
 namespace Magento\Invitation\Model\Source\Invitation;
 
 class WebsiteId implements \Magento\Option\ArrayInterface
-
 {
     /**
      * Store
@@ -29,9 +28,8 @@ class WebsiteId implements \Magento\Option\ArrayInterface
     /**
      * @param \Magento\Core\Model\System\Store $store
      */
-    function __construct(
-            \Magento\Core\Model\System\Store $store
-    ) {
+    public function __construct(\Magento\Core\Model\System\Store $store)
+    {
         $this->_store = $store;
     }
 
@@ -42,6 +40,6 @@ class WebsiteId implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return  $this->_store->getWebsiteOptionHash();
+        return $this->_store->getWebsiteOptionHash();
     }
 }

@@ -139,16 +139,23 @@ class Form extends \Magento\View\Element\Template
             $queryParam = $this->_coreData->urlEncode(
                 $this->getUrl('*/*/*', array('_current' => true)) . '#review-form'
             );
-            $this->setLoginLink($this->getUrl(
+            $this->setLoginLink(
+                $this->getUrl(
                     'customer/account/login/',
                     array(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME => $queryParam)
                 )
             );
         }
 
-        $this->setTemplate('form.phtml')
-            ->assign('data', $data)
-            ->assign('messages', $this->messageManager->getMessages(true));
+        $this->setTemplate(
+            'form.phtml'
+        )->assign(
+            'data',
+            $data
+        )->assign(
+            'messages',
+            $this->messageManager->getMessages(true)
+        );
     }
 
     /**
@@ -180,14 +187,14 @@ class Form extends \Magento\View\Element\Template
      */
     public function getRatings()
     {
-        return $this->_ratingFactory->create()
-            ->getResourceCollection()
-            ->addEntityFilter('product')
-            ->setPositionOrder()
-            ->addRatingPerStoreName($this->_storeManager->getStore()->getId())
-            ->setStoreFilter($this->_storeManager->getStore()->getId())
-            ->setActiveFilter(true)
-            ->load()
-            ->addOptionToItems();
+        return $this->_ratingFactory->create()->getResourceCollection()->addEntityFilter(
+            'product'
+        )->setPositionOrder()->addRatingPerStoreName(
+            $this->_storeManager->getStore()->getId()
+        )->setStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->setActiveFilter(
+            true
+        )->load()->addOptionToItems();
     }
 }

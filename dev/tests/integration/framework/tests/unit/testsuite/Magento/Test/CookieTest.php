@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 class CookieTest extends \PHPUnit_Framework_TestCase

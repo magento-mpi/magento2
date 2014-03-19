@@ -16,8 +16,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Cart
-    extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
+class Cart extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar
 {
     /**
      * Storage action on selected item
@@ -105,10 +104,14 @@ class Cart
     protected function _prepareLayout()
     {
         $deleteAllConfirmString = __('Are you sure you want to delete all items from shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Clear Shopping Cart'),
-            'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')'
-        ));
+        $this->addChild(
+            'empty_customer_cart_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Clear Shopping Cart'),
+                'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')'
+            )
+        );
 
         return parent::_prepareLayout();
     }

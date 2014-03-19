@@ -14,9 +14,7 @@ namespace Magento\Reports\Block\Product\Widget;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Viewed
-    extends \Magento\Reports\Block\Product\Viewed
-    implements \Magento\Widget\Block\BlockInterface
+class Viewed extends \Magento\Reports\Block\Product\Viewed implements \Magento\Widget\Block\BlockInterface
 {
     /**
      * Internal constructor

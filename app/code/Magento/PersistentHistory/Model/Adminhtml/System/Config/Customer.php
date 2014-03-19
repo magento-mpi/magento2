@@ -31,8 +31,10 @@ class Customer extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         $groups = $this->getGroups();
-        if (isset($groups['options']['fields']['shopping_cart']['value'])
-            && $groups['options']['fields']['shopping_cart']['value'] ) {
+        if (isset(
+            $groups['options']['fields']['shopping_cart']['value']
+        ) && $groups['options']['fields']['shopping_cart']['value']
+        ) {
             $this->_dataSaveAllowed = false;
             return $this;
         }

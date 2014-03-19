@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model\Layout;
 
 class LayoutPluginTest extends \PHPUnit_Framework_TestCase
@@ -34,7 +33,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->layoutMock = $this->getMockForAbstractClass(
             'Magento\Core\Model\Layout',
-            [],
+            array(),
             '',
             false,
             true,
@@ -76,12 +75,10 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
                 ->method('setPublicHeaders')
                 ->with($maxAge);
         } else {
-            $this->responseMock->expects($this->never())
-                ->method('setPublicHeaders');
+            $this->responseMock->expects($this->never())->method('setPublicHeaders');
         }
         $output = $this->model->afterGenerateXml($this->layoutMock, $result);
         $this->assertSame($result, $output);
-
     }
 
     public function afterGenerateXmlDataProvider()
@@ -126,8 +123,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
                 ->method('setHeader')
                 ->with('X-Magento-Tags', $expectedTags);
         } else {
-            $this->responseMock->expects($this->never())
-                ->method('setHeader');
+            $this->responseMock->expects($this->never())->method('setHeader');
         }
         $output = $this->model->afterGetOutput($this->layoutMock, $html);
         $this->assertSame($output, $html);
@@ -141,14 +137,14 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
             'Non-cacheable layout' => [true, false, null, null, 0],
             'Cacheable layout with Varnish' => [true, true, $tags, \Magento\PageCache\Model\Config::VARNISH, 0],
             'Cacheable layout with Varnish, Full_cache state is false' =>
-                [false, true, $tags, \Magento\PageCache\Model\Config::VARNISH, 0],
+            [false, true, $tags, \Magento\PageCache\Model\Config::VARNISH, 0],
             'Cacheable layout with Varnish and esi' =>
-                [true, true, null, \Magento\PageCache\Model\Config::VARNISH, 100],
+            [true, true, null, \Magento\PageCache\Model\Config::VARNISH, 100],
             'Cacheable layout with Builtin' => [true, true, $tags, \Magento\PageCache\Model\Config::BUILT_IN, 0],
             'Cacheable layout with Builtin, Full_cache state is false' =>
-                [false, true, $tags, \Magento\PageCache\Model\Config::BUILT_IN, 0],
+            [false, true, $tags, \Magento\PageCache\Model\Config::BUILT_IN, 0],
             'Cacheable layout with Builtin and esi' =>
-                [true, false, $tags, \Magento\PageCache\Model\Config::BUILT_IN, 100]
+            [true, false, $tags, \Magento\PageCache\Model\Config::BUILT_IN, 100]
         ];
     }
-} 
+}

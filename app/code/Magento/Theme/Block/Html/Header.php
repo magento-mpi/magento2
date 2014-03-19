@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 use \Magento\Customer\Helper\Data;
@@ -66,7 +65,10 @@ class Header extends \Magento\View\Element\Template
      */
     public function isHomePage()
     {
-        return $this->getUrl('', array('_current' => true)) == $this->getUrl(
+        return $this->getUrl(
+            '',
+            array('_current' => true)
+        ) == $this->getUrl(
             '*/*/*',
             array('_current' => true, '_use_rewrite' => true)
         );

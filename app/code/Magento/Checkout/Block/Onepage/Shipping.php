@@ -83,10 +83,10 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      */
     protected function _construct()
     {
-        $this->getCheckout()->setStepData('shipping', array(
-            'label'     => __('Shipping Information'),
-            'is_show'   => $this->isShow()
-        ));
+        $this->getCheckout()->setStepData(
+            'shipping',
+            array('label' => __('Shipping Information'), 'is_show' => $this->isShow())
+        );
 
         parent::_construct();
     }

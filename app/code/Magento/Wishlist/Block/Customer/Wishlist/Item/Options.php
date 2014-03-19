@@ -29,10 +29,12 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
      *
      * @var array
      */
-    protected $_optionsCfg = array('default' => array(
-        'helper' => 'Magento\Catalog\Helper\Product\Configuration',
-        'template' => 'Magento_Wishlist::options_list.phtml'
-    ));
+    protected $_optionsCfg = array(
+        'default' => array(
+            'helper' => 'Magento\Catalog\Helper\Product\Configuration',
+            'template' => 'Magento_Wishlist::options_list.phtml'
+        )
+    );
 
     /**
      * @param \Magento\View\Element\Template\Context $context

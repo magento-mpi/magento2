@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Block\Customer;
 
 use Magento\Review\Model\Resource\Review\Product\Collection;
@@ -73,12 +72,10 @@ class Recent extends \Magento\View\Element\Template
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**

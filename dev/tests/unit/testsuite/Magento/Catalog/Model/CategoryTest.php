@@ -2,6 +2,9 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Catalog
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -85,10 +88,15 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $strIn = 'Some string';
         $resultString = 'some';
 
-        $this->filter->expects($this->once())
-            ->method('translitUrl')
-            ->with($strIn)
-            ->will($this->returnValue($resultString));
+        $this->filter->expects(
+            $this->once()
+        )->method(
+            'translitUrl'
+        )->with(
+            $strIn
+        )->will(
+            $this->returnValue($resultString)
+        );
 
         $this->assertEquals($resultString, $this->model->formatUrlKey($strIn));
     }

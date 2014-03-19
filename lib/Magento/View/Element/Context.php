@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\View\Element;
 
 /**
@@ -181,23 +180,23 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         array $data = array()
     ) {
-        $this->_request         = $request;
-        $this->_layout          = $layout;
-        $this->_eventManager    = $eventManager;
-        $this->_urlBuilder      = $urlBuilder;
-        $this->_translator      = $translator;
-        $this->_cache           = $cache;
-        $this->_design          = $design;
-        $this->_session         = $session;
-        $this->_sidResolver     = $sidResolver;
-        $this->_storeConfig     = $storeConfig;
-        $this->_viewUrl         = $viewUrl;
-        $this->_viewConfig      = $viewConfig;
-        $this->_cacheState      = $cacheState;
-        $this->_logger          = $logger;
-        $this->_escaper         = $escaper;
-        $this->_filterManager   = $filterManager;
-        $this->_localeDate      = $localeDate;
+        $this->_request = $request;
+        $this->_layout = $layout;
+        $this->_eventManager = $eventManager;
+        $this->_urlBuilder = $urlBuilder;
+        $this->_translator = $translator;
+        $this->_cache = $cache;
+        $this->_design = $design;
+        $this->_session = $session;
+        $this->_sidResolver = $sidResolver;
+        $this->_storeConfig = $storeConfig;
+        $this->_viewUrl = $viewUrl;
+        $this->_viewConfig = $viewConfig;
+        $this->_cacheState = $cacheState;
+        $this->_logger = $logger;
+        $this->_escaper = $escaper;
+        $this->_filterManager = $filterManager;
+        $this->_localeDate = $localeDate;
     }
 
     /**

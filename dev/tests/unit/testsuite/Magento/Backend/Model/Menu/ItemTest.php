@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
@@ -63,54 +62,64 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         'resource' => 'Magento_Backend::config',
         'dependsOnModule' => 'Magento_Backend',
         'dependsOnConfig' => 'system/config/isEnabled',
-        'tooltip' => 'Item tooltip',
+        'tooltip' => 'Item tooltip'
     );
 
     protected function setUp()
     {
         $this->_aclMock = $this->getMock('Magento\AuthorizationInterface');
         $this->_storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $this->_menuFactoryMock = $this
-            ->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(), '', false);
+        $this->_menuFactoryMock = $this->getMock(
+            'Magento\Backend\Model\MenuFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
         $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Backend\Model\Menu\Item\Validator');
-        $this->_validatorMock->expects($this->any())
-            ->method('validate');
+        $this->_validatorMock->expects($this->any())->method('validate');
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
-            'validator'     => $this->_validatorMock,
-            'authorization' => $this->_aclMock,
-            'storeConfig'   => $this->_storeConfigMock,
-            'menuFactory'   => $this->_menuFactoryMock,
-            'urlModel'      => $this->_urlModelMock,
-            'moduleList'    => $this->_moduleListMock,
-            'moduleManager' => $this->_moduleManager,
-            'data'          => $this->_params
-        ));
+        $this->_model = $helper->getObject(
+            'Magento\Backend\Model\Menu\Item',
+            array(
+                'validator' => $this->_validatorMock,
+                'authorization' => $this->_aclMock,
+                'storeConfig' => $this->_storeConfigMock,
+                'menuFactory' => $this->_menuFactoryMock,
+                'urlModel' => $this->_urlModelMock,
+                'moduleList' => $this->_moduleListMock,
+                'moduleManager' => $this->_moduleManager,
+                'data' => $this->_params
+            )
+        );
     }
 
     public function testGetUrlWithEmptyActionReturnsHashSign()
     {
         $this->_params['action'] = '';
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
-            'menuFactory' => $this->_menuFactoryMock,
-            'data'        => $this->_params
-        ));
+        $item = $helper->getObject(
+            'Magento\Backend\Model\Menu\Item',
+            array('menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params)
+        );
         $this->assertEquals('#', $item->getUrl());
     }
 
     public function testGetUrlWithValidActionReturnsUrl()
     {
-        $this->_urlModelMock->expects($this->once())
-            ->method('getUrl')
-            ->with(
-                $this->equalTo('/system/config')
-            )
-            ->will($this->returnValue('Url'));
+        $this->_urlModelMock->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            $this->equalTo('/system/config')
+        )->will(
+            $this->returnValue('Url')
+        );
         $this->assertEquals('Url', $this->_model->getUrl());
     }
 
@@ -123,10 +132,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_params['action'] = '';
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
-            'menuFactory' => $this->_menuFactoryMock,
-            'data'        => $this->_params
-        ));
+        $item = $helper->getObject(
+            'Magento\Backend\Model\Menu\Item',
+            array('menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params)
+        );
         $this->assertTrue($item->hasClickCallback());
     }
 
@@ -134,10 +143,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_params['action'] = '';
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $item = $helper->getObject('Magento\Backend\Model\Menu\Item', array(
-            'menuFactory' => $this->_menuFactoryMock,
-            'data'        => $this->_params
-        ));
+        $item = $helper->getObject(
+            'Magento\Backend\Model\Menu\Item',
+            array('menuFactory' => $this->_menuFactoryMock, 'data' => $this->_params)
+        );
         $this->assertEquals('return false;', $item->getClickCallback());
     }
 
@@ -148,70 +157,82 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDisabledReturnsTrueIfModuleOutputIsDisabled()
     {
-        $this->_moduleManager->expects($this->once())
-            ->method('isOutputEnabled')
-            ->will($this->returnValue(false));
+        $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(false));
         $this->assertTrue($this->_model->isDisabled());
     }
 
     public function testIsDisabledReturnsTrueIfModuleDependenciesFail()
     {
-        $this->_moduleManager->expects($this->once())
-            ->method('isOutputEnabled')
-            ->will($this->returnValue(true));
+        $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(true));
 
-        $this->_moduleListMock->expects($this->once())
-            ->method('getModule')
-            ->will($this->returnValue(array('name' => 'Magento_Backend')));
+        $this->_moduleListMock->expects(
+            $this->once()
+        )->method(
+            'getModule'
+        )->will(
+            $this->returnValue(array('name' => 'Magento_Backend'))
+        );
 
         $this->assertTrue($this->_model->isDisabled());
     }
 
     public function testIsDisabledReturnsTrueIfConfigDependenciesFail()
     {
-        $this->_moduleManager->expects($this->once())
-            ->method('isOutputEnabled')
-            ->will($this->returnValue(true));
+        $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(true));
 
-        $this->_moduleListMock->expects($this->once())
-            ->method('getModule')
-            ->will($this->returnValue(array('name' => 'Magento_Backend')));
+        $this->_moduleListMock->expects(
+            $this->once()
+        )->method(
+            'getModule'
+        )->will(
+            $this->returnValue(array('name' => 'Magento_Backend'))
+        );
 
         $this->assertTrue($this->_model->isDisabled());
     }
 
     public function testIsDisabledReturnsFalseIfNoDependenciesFail()
     {
-        $this->_moduleManager->expects($this->once())
-            ->method('isOutputEnabled')
-            ->will($this->returnValue(true));
+        $this->_moduleManager->expects($this->once())->method('isOutputEnabled')->will($this->returnValue(true));
 
-        $this->_moduleListMock->expects($this->once())
-            ->method('getModule')
-            ->will($this->returnValue(array('name' => 'Magento_Backend')));
+        $this->_moduleListMock->expects(
+            $this->once()
+        )->method(
+            'getModule'
+        )->will(
+            $this->returnValue(array('name' => 'Magento_Backend'))
+        );
 
-        $this->_storeConfigMock->expects($this->once())
-            ->method('getConfigFlag')
-            ->will($this->returnValue(true));
+        $this->_storeConfigMock->expects($this->once())->method('getConfigFlag')->will($this->returnValue(true));
 
         $this->assertFalse($this->_model->isDisabled());
     }
 
     public function testIsAllowedReturnsTrueIfResourceIsAvailable()
     {
-        $this->_aclMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('Magento_Backend::config')
-            ->will($this->returnValue(true));
+        $this->_aclMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'Magento_Backend::config'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertTrue($this->_model->isAllowed());
     }
 
     public function testIsAllowedReturnsFalseIfResourceIsNotAvailable()
     {
-        $this->_aclMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('Magento_Backend::config')
-            ->will($this->throwException(new \Magento\Exception()));
+        $this->_aclMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'Magento_Backend::config'
+        )->will(
+            $this->throwException(new \Magento\Exception())
+        );
         $this->assertFalse($this->_model->isAllowed());
     }
 
@@ -219,15 +240,12 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
 
-        $this->_menuFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($menuMock));
+        $this->_menuFactoryMock->expects($this->once())->method('create')->will($this->returnValue($menuMock));
 
         $this->_model->getChildren();
         $this->_model->getChildren();
     }
 }
-
 namespace Magento\Test\Module;
 
 class Config
@@ -238,6 +256,5 @@ class Config
      */
     public function is()
     {
-
     }
 }

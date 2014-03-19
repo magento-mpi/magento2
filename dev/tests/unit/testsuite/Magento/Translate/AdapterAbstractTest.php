@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Translate;
 
 class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
@@ -19,8 +18,7 @@ class AdapterAbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMockBuilder('Magento\Translate\AbstractAdapter')
-            ->getMockForAbstractClass();
+        $this->_model = $this->getMockBuilder('Magento\Translate\AbstractAdapter')->getMockForAbstractClass();
     }
 
     /**

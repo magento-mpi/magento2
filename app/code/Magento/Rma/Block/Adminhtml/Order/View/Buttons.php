@@ -54,11 +54,16 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
     {
         if ($this->_isCreateRmaButtonRequired()) {
             $parentBlock = $this->getParentBlock();
-            $buttonUrl = $this->_urlBuilder->getUrl('adminhtml/rma/new', array('order_id' => $parentBlock->getOrderId()));
-            $parentBlock->addButton('create_rma', array(
-                'label' => __('Create Returns'),
-                'onclick' => 'setLocation(\'' . $buttonUrl . '\')',
-            ), 0, $this->_getCreateRmaButtonSortOrder());
+            $buttonUrl = $this->_urlBuilder->getUrl(
+                'adminhtml/rma/new',
+                array('order_id' => $parentBlock->getOrderId())
+            );
+            $parentBlock->addButton(
+                'create_rma',
+                array('label' => __('Create Returns'), 'onclick' => 'setLocation(\'' . $buttonUrl . '\')'),
+                0,
+                $this->_getCreateRmaButtonSortOrder()
+            );
         }
         return $this;
     }
@@ -71,9 +76,12 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
     protected function _isCreateRmaButtonRequired()
     {
         $parentBlock = $this->getParentBlock();
-        return $parentBlock instanceof \Magento\Backend\Block\Template
-            && $parentBlock->getOrderId()
-            && $this->_rmaData->canCreateRma($parentBlock->getOrder(), true);
+        return $parentBlock instanceof \Magento\Backend\Block\Template &&
+            $parentBlock->getOrderId() &&
+            $this->_rmaData->canCreateRma(
+                $parentBlock->getOrder(),
+                true
+            );
     }
 
     /**

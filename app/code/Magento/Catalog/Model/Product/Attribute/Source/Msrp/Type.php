@@ -17,8 +17,7 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Source\Msrp;
 
-class Type
-    extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+class Type extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     /**
      * Display Product Price on gesture
@@ -28,7 +27,7 @@ class Type
     /**
      * Display Product Price in cart
      */
-    const TYPE_IN_CART    = '2';
+    const TYPE_IN_CART = '2';
 
     /**
      * Display Product Price before order confirmation
@@ -44,18 +43,9 @@ class Type
     {
         if (!$this->_options) {
             $this->_options = array(
-                array(
-                    'label' => __('In Cart'),
-                    'value' => self::TYPE_IN_CART
-                ),
-                array(
-                    'label' => __('Before Order Confirmation'),
-                    'value' => self::TYPE_BEFORE_ORDER_CONFIRM
-                ),
-                array(
-                    'label' => __('On Gesture'),
-                    'value' => self::TYPE_ON_GESTURE
-                ),
+                array('label' => __('In Cart'), 'value' => self::TYPE_IN_CART),
+                array('label' => __('Before Order Confirmation'), 'value' => self::TYPE_BEFORE_ORDER_CONFIRM),
+                array('label' => __('On Gesture'), 'value' => self::TYPE_ON_GESTURE)
             );
         }
         return $this->_options;

@@ -37,10 +37,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Resource\Pool\AbstractPool
     public function saveCode($code)
     {
         $field = $this->getIdFieldName();
-        $this->_getWriteAdapter()->insert(
-            $this->getMainTable(),
-            array($field => $code)
-        );
+        $this->_getWriteAdapter()->insert($this->getMainTable(), array($field => $code));
     }
 
     /**

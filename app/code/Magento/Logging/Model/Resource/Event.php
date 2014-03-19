@@ -80,17 +80,23 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function rotate($lifetime)
     {
-        $readAdapter  = $this->_getReadAdapter();
+        $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
 
         // get the latest log entry required to the moment
         $clearBefore = $this->dateTime->formatDate(time() - $lifetime);
 
-        $select = $readAdapter->select()
-            ->from($this->getMainTable(), 'log_id')
-            ->where('time < ?', $clearBefore)
-            ->order('log_id DESC')
-            ->limit(1);
+        $select = $readAdapter->select()->from(
+            $this->getMainTable(),
+            'log_id'
+        )->where(
+            'time < ?',
+            $clearBefore
+        )->order(
+            'log_id DESC'
+        )->limit(
+            1
+        );
         $latestLogEntry = $readAdapter->fetchOne($select);
         if ($latestLogEntry) {
             // make sure folder for dump file will exist
@@ -99,10 +105,14 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
             $archive->createNew();
 
             $expr = new \Zend_Db_Expr('INET_NTOA(' . $this->_getReadAdapter()->quoteIdentifier('ip') . ')');
-            $select = $readAdapter->select()
-                ->from($this->getMainTable())
-                ->where('log_id <= ?', $latestLogEntry)
-                ->columns($expr);
+            $select = $readAdapter->select()->from(
+                $this->getMainTable()
+            )->where(
+                'log_id <= ?',
+                $latestLogEntry
+            )->columns(
+                $expr
+            );
 
             $rows = $readAdapter->fetchAll($select);
 
@@ -128,9 +138,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getAllFieldValues($field, $order = true)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->distinct(true)
-            ->from($this->getMainTable(), $field);
+        $select = $adapter->select()->distinct(true)->from($this->getMainTable(), $field);
         if (!is_null($order)) {
             $select->order($field . ($order ? '' : ' DESC'));
         }
@@ -146,13 +154,13 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getUserNames()
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->distinct()
-            ->from(array('admins' => $this->getTable('admin_user')), 'username')
-            ->joinInner(
-                array('events' => $this->getTable('magento_logging_event')),
-                'admins.username = events.' . $adapter->quoteIdentifier('user'),
-                array()
+        $select = $adapter->select()->distinct()->from(
+            array('admins' => $this->getTable('admin_user')),
+            'username'
+        )->joinInner(
+            array('events' => $this->getTable('magento_logging_event')),
+            'admins.username = events.' . $adapter->quoteIdentifier('user'),
+            array()
         );
         return $adapter->fetchCol($select);
     }
@@ -166,9 +174,13 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getEventChangeIds($eventId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getTable('magento_logging_event_changes'), array('id'))
-            ->where('event_id = ?', $eventId);
+        $select = $adapter->select()->from(
+            $this->getTable('magento_logging_event_changes'),
+            array('id')
+        )->where(
+            'event_id = ?',
+            $eventId
+        );
         return $adapter->fetchCol($select);
     }
 }

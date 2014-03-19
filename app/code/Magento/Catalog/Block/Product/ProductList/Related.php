@@ -118,17 +118,14 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
         $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
 
-        $this->_itemCollection = $product->getRelatedProductCollection()
-            ->addAttributeToSelect('required_options')
-            ->setPositionOrder()
-            ->addStoreFilter();
+        $this->_itemCollection = $product->getRelatedProductCollection()->addAttributeToSelect(
+            'required_options'
+        )->setPositionOrder()->addStoreFilter();
 
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
-        $this->_itemCollection->setVisibility(
-            $this->_catalogProductVisibility->getVisibleInCatalogIds()
-        );
+        $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
         $this->_itemCollection->load();
 

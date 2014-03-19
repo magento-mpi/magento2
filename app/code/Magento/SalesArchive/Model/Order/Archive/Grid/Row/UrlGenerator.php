@@ -12,8 +12,7 @@ namespace Magento\SalesArchive\Model\Order\Archive\Grid\Row;
 /**
  * Sales Archive Grid row url generator
  */
-class UrlGenerator
-    extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
+class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
      * @var $_authorizationModel \Magento\AuthorizationInterface

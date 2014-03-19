@@ -29,7 +29,7 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
 
         $result2 = (new ItemBuilder())->setId(2)->setName('testItem2')->create();
 
-        return [$result1, $result2];
+        return array($result1, $result2);
     }
 
     /**
@@ -45,7 +45,7 @@ class SubsetRest implements \Magento\TestModule2\Service\V1\SubsetRestInterface
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated'.$item->getName())->create();
+        return (new ItemBuilder())->setId($item->getId())->setName('Updated' . $item->getName())->create();
     }
 
     /**

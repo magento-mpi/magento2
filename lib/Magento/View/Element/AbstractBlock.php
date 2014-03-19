@@ -166,23 +166,23 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function __construct(\Magento\View\Element\Context $context, array $data = array())
     {
-        $this->_request         = $context->getRequest();
-        $this->_layout          = $context->getLayout();
-        $this->_eventManager    = $context->getEventManager();
-        $this->_urlBuilder      = $context->getUrlBuilder();
-        $this->_translator      = $context->getTranslator();
-        $this->_cache           = $context->getCache();
-        $this->_design          = $context->getDesignPackage();
-        $this->_session         = $context->getSession();
-        $this->_sidResolver     = $context->getSidResolver();
-        $this->_storeConfig     = $context->getStoreConfig();
-        $this->_viewUrl         = $context->getViewUrl();
-        $this->_viewConfig      = $context->getViewConfig();
-        $this->_cacheState      = $context->getCacheState();
-        $this->_logger          = $context->getLogger();
-        $this->_escaper         = $context->getEscaper();
-        $this->filterManager    = $context->getFilterManager();
-        $this->_localeDate      = $context->getLocaleDate();
+        $this->_request = $context->getRequest();
+        $this->_layout = $context->getLayout();
+        $this->_eventManager = $context->getEventManager();
+        $this->_urlBuilder = $context->getUrlBuilder();
+        $this->_translator = $context->getTranslator();
+        $this->_cache = $context->getCache();
+        $this->_design = $context->getDesignPackage();
+        $this->_session = $context->getSession();
+        $this->_sidResolver = $context->getSidResolver();
+        $this->_storeConfig = $context->getStoreConfig();
+        $this->_viewUrl = $context->getViewUrl();
+        $this->_viewConfig = $context->getViewConfig();
+        $this->_cacheState = $context->getCacheState();
+        $this->_logger = $context->getLogger();
+        $this->_escaper = $context->getEscaper();
+        $this->filterManager = $context->getFilterManager();
+        $this->_localeDate = $context->getLocaleDate();
         parent::__construct($data);
         $this->_construct();
     }
@@ -347,7 +347,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function addChild($alias, $block, $data = array())
     {
-        $block = $this->getLayout()->createBlock($block, $this->getNameInLayout() . '.' . $alias,
+        $block = $this->getLayout()->createBlock(
+            $block,
+            $this->getNameInLayout() . '.' . $alias,
             array('data' => $data)
         );
         $this->setChild($alias, $block);
@@ -393,10 +395,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     {
         $child = $this->getChildBlock($alias);
         if ($child) {
-            $args     = func_get_args();
-            $alias    = array_shift($args);
+            $args = func_get_args();
+            $alias = array_shift($args);
             $callback = array_shift($args);
-            $result   = (string)array_shift($args);
+            $result = (string)array_shift($args);
             if (!is_array($params)) {
                 $params = $args;
             }
@@ -703,7 +705,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
-            $params = array_merge(['_secure' => $this->getRequest()->isSecure()], $params);
+            $params = array_merge(array('_secure' => $this->getRequest()->isSecure()), $params);
             return $this->_viewUrl->getViewFileUrl($file, $params);
         } catch (\Magento\Exception $e) {
             $this->_logger->logException($e);
@@ -732,7 +734,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @return  string
      */
     public function formatDate(
-        $date = null, $format =  \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showTime = false
+        $date = null,
+        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $showTime = false
     ) {
         return $this->_localeDate->formatDate($date, $format, $showTime);
     }
@@ -746,7 +750,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @return  string
      */
     public function formatTime(
-        $time = null, $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT, $showDate = false
+        $time = null,
+        $format = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+        $showDate = false
     ) {
         return $this->_localeDate->formatTime($time, $format, $showDate);
     }
@@ -798,10 +804,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function stripTags($data, $allowableTags = null, $allowHtmlEntities = false)
     {
-        return $this->filterManager->stripTags($data, array(
-            'allowableTags' => $allowableTags,
-            'escape'        => $allowHtmlEntities
-        ));
+        return $this->filterManager->stripTags(
+            $data,
+            array('allowableTags' => $allowableTags, 'escape' => $allowHtmlEntities)
+        );
     }
 
     /**
@@ -860,9 +866,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function getCacheKeyInfo()
     {
-        return array(
-            $this->getNameInLayout()
-        );
+        return array($this->getNameInLayout());
     }
 
     /**
@@ -881,7 +885,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
          */
         $key = $this->getCacheKeyInfo();
         //ksort($key);  // ignore order
-        $key = array_values($key);  // ignore array keys
+        $key = array_values($key);
+        // ignore array keys
         $key = implode('|', $key);
         $key = sha1($key);
         return $key;

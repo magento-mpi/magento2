@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Model\Layout;
 
 use \Magento\CustomerSegment\Helper\Data;

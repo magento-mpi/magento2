@@ -49,7 +49,8 @@ class Design
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeDispatch(
-        \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision $subject, \Magento\App\RequestInterface $request
+        \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision $subject,
+        \Magento\App\RequestInterface $request
     ) {
         if ($this->_request->getActionName() == 'drop') {
             $this->_appState->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));

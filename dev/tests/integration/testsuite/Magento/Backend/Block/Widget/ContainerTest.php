@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget;
 
 /**
@@ -16,13 +15,18 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testPseudoConstruct()
     {
         /** @var $block \Magento\Backend\Block\Widget\Container */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Backend\Block\Widget\Container', '',
-                array('data' => array(
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Backend\Block\Widget\Container',
+            '',
+            array(
+                'data' => array(
                     \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'one',
-                    \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',
-                ))
-            );
+                    \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two'
+                )
+            )
+        );
         $this->assertStringEndsWith('one', $block->getHeaderCssClass());
         $this->assertContains('two', $block->getHeaderText());
     }
@@ -50,7 +54,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             $this->assertNotContains($newTitle, $html);
         }
 
-        $block = $this->_buildBlock($originalTitles); // Layout caches html, thus recreate block for further testing
+        $block = $this->_buildBlock($originalTitles);
+        // Layout caches html, thus recreate block for further testing
         foreach ($newTitles as $id => $newTitle) {
             $block->updateButton($id, 'title', $newTitle);
         }

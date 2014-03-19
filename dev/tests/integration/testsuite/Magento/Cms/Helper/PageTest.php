@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Helper;
 
 /**
@@ -32,19 +31,23 @@ class PageTest extends \PHPUnit_Framework_TestCase
             'request' => $objectManager->get('Magento\TestFramework\Request'),
             'response' => $objectManager->get('Magento\TestFramework\Response')
         );
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Action\Context', $arguments);
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\App\Action\Context',
+            $arguments
+        );
         $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Cms\Model\Page');
-        $page->load('page_design_blank', 'identifier'); // fixture
+        $page->load('page_design_blank', 'identifier');
+        // fixture
         /** @var $pageHelper \Magento\Cms\Helper\Page */
         $pageHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Cms\Helper\Page');
         $result = $pageHelper->renderPage(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Action\Action', array('context' => $context)),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\App\Action\Action',
+                array('context' => $context)
+            ),
             $page->getId()
         );
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface');
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface');
         $this->assertEquals('magento_blank', $design->getDesignTheme()->getThemePath());
         $this->assertTrue($result);
     }

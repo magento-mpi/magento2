@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Config;
 
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
@@ -28,11 +27,19 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMockBuilder('Magento\Module\Dir\Reader')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_moduleReaderMock->expects($this->once())
-            ->method('getModuleDir')->with('etc', 'Magento_Sales')->will($this->returnValue('schema_dir'));
+        $this->_moduleReaderMock = $this->getMockBuilder(
+            'Magento\Module\Dir\Reader'
+        )->disableOriginalConstructor()->getMock();
+        $this->_moduleReaderMock->expects(
+            $this->once()
+        )->method(
+            'getModuleDir'
+        )->with(
+            'etc',
+            'Magento_Sales'
+        )->will(
+            $this->returnValue('schema_dir')
+        );
         $this->_locator = new \Magento\Sales\Model\Config\SchemaLocator($this->_moduleReaderMock);
     }
 

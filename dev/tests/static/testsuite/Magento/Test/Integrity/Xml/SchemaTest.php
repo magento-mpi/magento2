@@ -27,11 +27,14 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
 
         $schemaLocations = [];
         preg_match('/xsi:noNamespaceSchemaLocation=\s*"([^"]+)"/s', $xmlFile, $schemaLocations);
-        $this->assertEquals(2, count($schemaLocations),
+        $this->assertEquals(
+            2,
+            count($schemaLocations),
             'The XML file at ' . $filename . ' does not have a schema properly defined.  It should
 have a xsi:noNamespaceSchemaLocation attribute defined with a relative path.  E.g.
 xsi:noNamespaceSchemaLocation="../../../lib/Magento/Framework/etc/something.xsd"
-            ');
+            '
+        );
 
         $schemaFile = dirname($filename).'/'.$schemaLocations[1];
 
@@ -53,9 +56,12 @@ xsi:noNamespaceSchemaLocation="../../../lib/Magento/Framework/etc/something.xsd"
     public function getXmlFiles()
     {
         $codeXml = $this->_getFiles(BP . '/app/code/Magento', '*.xml');
-        $codeXml = array_filter($codeXml, function ($item) {
-            return strpos($item, "Dhl/etc/countries.xml") == FALSE;
-        });
+        $codeXml = array_filter(
+            $codeXml,
+            function ($item) {
+                return strpos($item, "Dhl/etc/countries.xml") == false;
+            }
+        );
         $designXml = $this->_getFiles(BP . '/app/design', '*.xml');
         $libXml = $this->_getFiles(BP . '/lib/Magento', '*.xml');
         return $this->_dataSet(array_merge($codeXml, $designXml, $libXml));

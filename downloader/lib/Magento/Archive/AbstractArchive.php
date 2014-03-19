@@ -30,7 +30,7 @@ class AbstractArchive
     protected function _writeFile($destination, $data)
     {
         $destination = trim($destination);
-        if(false === file_put_contents($destination, $data)) {
+        if (false === file_put_contents($destination, $data)) {
             throw new \Magento\Exception("Can't write to file: " . $destination);
         }
         return true;
@@ -62,7 +62,7 @@ class AbstractArchive
      * @param bool $withExtension
      * @return mixed|string
      */
-    public function getFilename($source, $withExtension=false)
+    public function getFilename($source, $withExtension = false)
     {
         $file = str_replace(dirname($source) . '/', '', $source);
         if (!$withExtension) {

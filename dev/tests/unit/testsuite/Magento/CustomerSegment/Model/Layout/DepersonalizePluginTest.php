@@ -15,7 +15,7 @@ namespace Magento\CustomerSegment\Model\Layout;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
+class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var DepersonalizePlugin

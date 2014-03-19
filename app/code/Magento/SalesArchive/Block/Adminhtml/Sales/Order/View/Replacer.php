@@ -12,8 +12,7 @@ namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\View;
 /**
  * Sales archive order view replacer for archive
  */
-class Replacer
-    extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
+class Replacer extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
      * @var \Magento\SalesArchive\Model\Config
@@ -44,15 +43,21 @@ class Replacer
     protected function _prepareLayout()
     {
         if ($this->getOrder()->getIsArchived()) {
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
+            $this->getLayout()->getBlock(
+                'sales_order_tabs'
+            )->addTab(
                 'magento_order_shipments',
                 'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Shipments'
             );
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
+            $this->getLayout()->getBlock(
+                'sales_order_tabs'
+            )->addTab(
                 'magento_order_invoices',
                 'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Invoices'
             );
-            $this->getLayout()->getBlock('sales_order_tabs')->addTab(
+            $this->getLayout()->getBlock(
+                'sales_order_tabs'
+            )->addTab(
                 'magento_order_creditmemos',
                 'Magento\SalesArchive\Block\Adminhtml\Sales\Order\View\Tab\Creditmemos'
             );
@@ -62,11 +67,16 @@ class Replacer
                 array('order_id' => $this->getOrder()->getId())
             );
             if ($this->_authorization->isAllowed('Magento_SalesArchive::remove')) {
-                $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                    'label' => __('Move to Order Managment'),
-                    'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
-                    'class' => 'cancel'
-                ));
+                $this->getLayout()->getBlock(
+                    'sales_order_edit'
+                )->addButton(
+                    'restore',
+                    array(
+                        'label' => __('Move to Order Managment'),
+                        'onclick' => 'setLocation(\'' . $restoreUrl . '\')',
+                        'class' => 'cancel'
+                    )
+                );
             }
         } elseif ($this->getOrder()->getIsMoveable() !== false) {
             $isActive = $this->_configModel->isArchiveActive();
@@ -76,10 +86,12 @@ class Replacer
                     array('order_id' => $this->getOrder()->getId())
                 );
                 if ($this->_authorization->isAllowed('Magento_SalesArchive::add')) {
-                    $this->getLayout()->getBlock('sales_order_edit')->addButton('restore', array(
-                        'label' => __('Move to Archive'),
-                        'onclick' => 'setLocation(\'' . $archiveUrl . '\')',
-                    ));
+                    $this->getLayout()->getBlock(
+                        'sales_order_edit'
+                    )->addButton(
+                        'restore',
+                        array('label' => __('Move to Archive'), 'onclick' => 'setLocation(\'' . $archiveUrl . '\')')
+                    );
                 }
             }
         }

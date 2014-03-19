@@ -48,37 +48,54 @@ class View extends \Magento\Backend\Block\Widget\Container
         $invitation = $this->getInvitation();
         $this->_headerText = __('View Invitation for %1 (ID: %2)', $invitation->getEmail(), $invitation->getId());
         $this->getLayout()->getBlock('page-title')->setPageTitle($this->_headerText);
-        $this->_addButton('back', array(
-            'label' => __('Back'),
-            'onclick' => "setLocation('{$this->getUrl('invitations/*/')}')",
-            'class' => 'back',
-        ), -1);
+        $this->_addButton(
+            'back',
+            array(
+                'label' => __('Back'),
+                'onclick' => "setLocation('{$this->getUrl('invitations/*/')}')",
+                'class' => 'back'
+            ),
+            -1
+        );
         if ($invitation->canBeCanceled()) {
-            $massCancelUrl = $this->getUrl('invitations/*/massCancel', array('_query' => array('invitations' => array($invitation->getId()))));
-            $this->_addButton('cancel', array(
-                'label' => __('Discard Invitation'),
-                'onclick' => 'deleteConfirm(\''. $this->escapeJsQuote(
-                            __('Are you sure you want to discard this invitation?')
-                        ) . '\', \'' . $massCancelUrl . '\' )',
-                'class' => 'cancel'
-            ), -1);
+            $massCancelUrl = $this->getUrl(
+                'invitations/*/massCancel',
+                array('_query' => array('invitations' => array($invitation->getId())))
+            );
+            $this->_addButton(
+                'cancel',
+                array(
+                    'label' => __('Discard Invitation'),
+                    'onclick' => 'deleteConfirm(\'' . $this->escapeJsQuote(
+                        __('Are you sure you want to discard this invitation?')
+                    ) . '\', \'' . $massCancelUrl . '\' )',
+                    'class' => 'cancel'
+                ),
+                -1
+            );
         }
         if ($invitation->canMessageBeUpdated()) {
-            $this->_addButton('save_message_button', array(
-                'label'   => __('Save Invitation'),
-                'data_attribute'  => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'save', 'target' => '#invitation-elements'),
-                    ),
-                )
-            ), -1);
+            $this->_addButton(
+                'save_message_button',
+                array(
+                    'label' => __('Save Invitation'),
+                    'data_attribute' => array(
+                        'mage-init' => array('button' => array('event' => 'save', 'target' => '#invitation-elements'))
+                    )
+                ),
+                -1
+            );
         }
         if ($invitation->canBeSent()) {
-            $massResendUrl = $this->getUrl('invitations/*/massResend', array('_query' => http_build_query(array('invitations' => array($invitation->getId())))));
-            $this->_addButton('resend', array(
-                'label' => __('Send Invitation'),
-                'onclick' => "setLocation('{$massResendUrl}')",
-            ), -1);
+            $massResendUrl = $this->getUrl(
+                'invitations/*/massResend',
+                array('_query' => http_build_query(array('invitations' => array($invitation->getId()))))
+            );
+            $this->_addButton(
+                'resend',
+                array('label' => __('Send Invitation'), 'onclick' => "setLocation('{$massResendUrl}')"),
+                -1
+            );
         }
 
         parent::_prepareLayout();
@@ -101,6 +118,6 @@ class View extends \Magento\Backend\Block\Widget\Container
      */
     public function getSaveMessageUrl()
     {
-        return $this->getUrl('invitations/*/saveInvitation', array('id'=>$this->getInvitation()->getId()));
+        return $this->getUrl('invitations/*/saveInvitation', array('id' => $this->getInvitation()->getId()));
     }
 }

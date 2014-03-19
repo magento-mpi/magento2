@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 /**
@@ -32,7 +31,7 @@ class Xml extends AbstractAdapter
             } else {
                 $nodesDelimiter = strpos($attributes, ' ') === false ? ',' : ' ';
                 foreach (explode($nodesDelimiter, $attributes) as $value) {
-                    $phrase = (string)$element->$value;
+                    $phrase = (string)$element->{$value};
                     if ($phrase) {
                         $this->_addPhrase($phrase);
                     }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Helper;
 
 /**
@@ -25,9 +24,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     const CONTEXT_STORE = 'core_store';
 
-    const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
-    const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
-    const XML_PATH_CONNECTION_TYPE              = 'global/resources/default_setup/connection/type';
+    const XML_PATH_DEFAULT_COUNTRY = 'general/country/default';
+
+    const XML_PATH_DEV_ALLOW_IPS = 'dev/restrict/allow_ips';
+
+    const XML_PATH_CONNECTION_TYPE = 'global/resources/default_setup/connection/type';
 
     const XML_PATH_SINGLE_STORE_MODE_ENABLED = 'general/single_store_mode/enabled';
 
@@ -121,13 +122,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function currencyByStore($value, $store = null, $format = true, $includeContainer = true)
     {
         try {
-            if (!($store instanceof \Magento\Core\Model\Store)) {
+            if (!$store instanceof \Magento\Core\Model\Store) {
                 $store = $this->_storeManager->getStore($store);
             }
 
             $value = $store->convertPrice($value, $format, $includeContainer);
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e) {
             $value = $e->getMessage();
         }
 
@@ -158,7 +158,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->_storeManager->getStore()->formatPrice($price, $includeContainer);
     }
 
-
     /**
      * @param null $storeId
      * @return bool
@@ -171,8 +170,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $remoteAddr = $this->_remoteAddress->getRemoteAddress();
         if (!empty($allowedIps) && !empty($remoteAddr)) {
             $allowedIps = preg_split('#\s*,\s*#', $allowedIps, null, PREG_SPLIT_NO_EMPTY);
-            if (array_search($remoteAddr, $allowedIps) === false
-                && array_search($this->_httpHeader->getHttpHost(), $allowedIps) === false) {
+            if (array_search(
+                $remoteAddr,
+                $allowedIps
+            ) === false && array_search(
+                $this->_httpHeader->getHttpHost(),
+                $allowedIps
+            ) === false
+            ) {
                 $allow = false;
             }
         }
@@ -257,6 +262,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSingleStoreModeEnabled()
     {
-        return (bool) $this->_coreStoreConfig->getConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
+        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
     }
 }

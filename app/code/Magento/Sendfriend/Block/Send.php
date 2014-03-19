@@ -188,10 +188,7 @@ class Send extends \Magento\View\Element\Template
      */
     public function getSendUrl()
     {
-        return $this->getUrl('*/*/sendmail', array(
-            'id'     => $this->getProductId(),
-            'cat_id' => $this->getCategoryId()
-        ));
+        return $this->getUrl('*/*/sendmail', array('id' => $this->getProductId(), 'cat_id' => $this->getCategoryId()));
     }
 
     /**

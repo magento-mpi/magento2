@@ -106,6 +106,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     {
         return $this->_storeConfig->getConfig($path);
     }
+
     /**
      * Retrieve current customer address DATA collection.
      *
@@ -116,7 +117,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         if ($this->getCustomerId()) {
             return $this->_addressService->getAddresses($this->getCustomerId());
         }
-        return [];
+        return array();
     }
 
     /**
@@ -130,9 +131,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $emptyAddressForm = $this->_customerFormFactory->create(
             'customer_address',
             'adminhtml_customer_address',
-            [\Magento\Customer\Service\V1\Data\Address::KEY_COUNTRY_ID => $defaultCountryId]
+            array(\Magento\Customer\Service\V1\Data\Address::KEY_COUNTRY_ID => $defaultCountryId)
         );
-        $data = [0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON)];
+        $data = array(0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON));
         foreach ($this->getAddressCollection() as $addressData) {
             $addressForm = $this->_customerFormFactory->create(
                 'customer_address',
@@ -155,14 +156,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     protected function _prepareForm()
     {
-        $fieldset = $this->_form->addFieldset('main', array(
-                'no_container' => true
-            ));
+        $fieldset = $this->_form->addFieldset('main', array('no_container' => true));
 
-        $addressForm = $this->_customerFormFactory->create(
-            'customer_address',
-            'adminhtml_customer_address'
-        );
+        $addressForm = $this->_customerFormFactory->create('customer_address', 'adminhtml_customer_address');
         $attributes = $addressForm->getAttributes();
         $this->_addAttributesToForm($attributes, $fieldset);
 
@@ -171,11 +167,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $prefixOptions = $this->_customerHelper->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
-                $prefixField = $fieldset->addField($prefixElement->getId(),
-                    'select',
-                    $prefixElement->getData(),
-                    '^'
-                );
+                $prefixField = $fieldset->addField($prefixElement->getId(), 'select', $prefixElement->getData(), '^');
                 $prefixField->setValues($prefixOptions);
                 if ($this->getAddressId()) {
                     $prefixField->addElementValues($this->getAddress()->getPrefix());
@@ -188,7 +180,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             $suffixOptions = $this->_customerHelper->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
-                $suffixField = $fieldset->addField($suffixElement->getId(),
+                $suffixField = $fieldset->addField(
+                    $suffixElement->getId(),
                     'select',
                     $suffixElement->getData(),
                     $this->_form->getElement('lastname')->getId()
@@ -218,18 +211,18 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             }
         }
         if (is_null($this->_form->getElement('country_id')->getValue())) {
-            $this->_form->getElement('country_id')->setValue(
-                $this->_coreData->getDefaultCountry($this->getStore())
-            );
+            $this->_form->getElement('country_id')->setValue($this->_coreData->getDefaultCountry($this->getStore()));
         }
 
         // Set custom renderer for VAT field if needed
         $vatIdElement = $this->_form->getElement('vat_id');
         if ($vatIdElement && $this->getDisplayVatValidationButton() !== false) {
             $vatIdElement->setRenderer(
-                $this->getLayout()
-                    ->createBlock('Magento\Customer\Block\Adminhtml\Sales\Order\Address\Form\Renderer\Vat')
-                    ->setJsVariablePrefix($this->getJsVariablePrefix())
+                $this->getLayout()->createBlock(
+                    'Magento\Customer\Block\Adminhtml\Sales\Order\Address\Form\Renderer\Vat'
+                )->setJsVariablePrefix(
+                    $this->getJsVariablePrefix()
+                )
             );
         }
 
@@ -271,9 +264,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
         $result = '';
         if ($formatTypeRenderer) {
-            $result = $formatTypeRenderer->renderArray(
-                AddressConverter::toFlatArray($addressData)
-            );
+            $result = $formatTypeRenderer->renderArray(AddressConverter::toFlatArray($addressData));
         }
         return $this->escapeHtml($result);
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset\MergeStrategy;
 
 /**
@@ -55,8 +54,14 @@ class Checksum implements \Magento\View\Asset\MergeStrategyInterface
         foreach ($publicFiles as $file) {
             $filesMTimeData .= $directory->stat($directory->getRelativePath($file))['mtime'];
         }
-        if (!($directory->isExist($destinationFile) && $directory->isExist($mergedMTimeFile)
-            && (strcmp($filesMTimeData, $directory->readFile($mergedMTimeFile)) == 0))
+        if (!($directory->isExist(
+            $destinationFile
+        ) && $directory->isExist(
+            $mergedMTimeFile
+        ) && strcmp(
+            $filesMTimeData,
+            $directory->readFile($mergedMTimeFile)
+        ) == 0)
         ) {
             $this->strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
             $directory->writeFile($mergedMTimeFile, $filesMTimeData);

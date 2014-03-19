@@ -30,7 +30,6 @@ class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
         $this->_checkoutSession = $checkoutSession;
     }
 
-
     /**
      * Dispatch shortcuts container event
      *

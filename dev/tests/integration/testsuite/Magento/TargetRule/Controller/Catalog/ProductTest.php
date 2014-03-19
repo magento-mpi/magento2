@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Controller\Catalog;
 
 class ProductTest extends \Magento\TestFramework\TestCase\AbstractController

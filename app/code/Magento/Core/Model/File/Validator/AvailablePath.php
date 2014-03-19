@@ -35,9 +35,11 @@ namespace Magento\Core\Model\File\Validator;
 
 class AvailablePath extends \Zend_Validate_Abstract
 {
-    const PROTECTED_PATH     = 'protectedPath';
+    const PROTECTED_PATH = 'protectedPath';
+
     const NOT_AVAILABLE_PATH = 'notAvailablePath';
-    const PROTECTED_LFI      = 'protectedLfi';
+
+    const PROTECTED_LFI = 'protectedLfi';
 
     /**
      * The path
@@ -84,12 +86,9 @@ class AvailablePath extends \Zend_Validate_Abstract
     {
         if (!$this->_messageTemplates) {
             $this->_messageTemplates = array(
-                self::PROTECTED_PATH =>
-                    __('Path "%value%" is protected and cannot be used.'),
-                self::NOT_AVAILABLE_PATH =>
-                    __('Path "%value%" is not available and cannot be used.'),
-                self::PROTECTED_LFI =>
-                    __('Path "%value%" may not include parent directory traversal ("../", "..\\").'),
+                self::PROTECTED_PATH => __('Path "%value%" is protected and cannot be used.'),
+                self::NOT_AVAILABLE_PATH => __('Path "%value%" is not available and cannot be used.'),
+                self::PROTECTED_LFI => __('Path "%value%" may not include parent directory traversal ("../", "..\\").')
             );
         }
         return $this;
@@ -189,7 +188,6 @@ class AvailablePath extends \Zend_Validate_Abstract
         return $this->_availablePaths;
     }
 
-
     /**
      * Returns true if and only if $value meets the validation requirements
      *
@@ -261,19 +259,19 @@ class AvailablePath extends \Zend_Validate_Abstract
             }
 
             //file mask
-            if (false !== (strpos($options['file_mask'], '*'))) {
+            if (false !== strpos($options['file_mask'], '*')) {
                 if (!isset($this->_pathsData[$path]['regFilename'])) {
                     //make regular
                     $reg = $options['file_mask'];
                     $reg = str_replace('.', '\.', $reg);
                     $reg = str_replace('*', '.*?', $reg);
-                    $reg = "/^($reg)$/";
+                    $reg = "/^({$reg})\$/";
                 } else {
                     $reg = $this->_pathsData[$path]['regFilename'];
                 }
                 $resultFile = preg_match($reg, $valuePathInfo['basename']);
             } else {
-                $resultFile = ($options['file_mask'] == $valuePathInfo['basename']);
+                $resultFile = $options['file_mask'] == $valuePathInfo['basename'];
             }
 
             //directory mask
@@ -287,7 +285,7 @@ class AvailablePath extends \Zend_Validate_Abstract
                 $reg = str_replace('/', '[\\/]', $reg);
                 $reg = str_replace('?', '([^\\/]+)', $reg);
                 $reg = str_replace('||', '(.*[\\/])?', $reg);
-                $reg = "/^$reg$/";
+                $reg = "/^{$reg}\$/";
             } else {
                 $reg = $this->_pathsData[$path]['regDir'];
             }

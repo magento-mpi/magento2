@@ -40,13 +40,16 @@ use Magento\UrlInterface;
 class Event extends AbstractModel implements \Magento\Object\IdentityInterface
 {
     const DISPLAY_CATEGORY_PAGE = 1;
-    const DISPLAY_PRODUCT_PAGE  = 2;
 
-    const STATUS_UPCOMING       = 'upcoming';
-    const STATUS_OPEN           = 'open';
-    const STATUS_CLOSED         = 'closed';
+    const DISPLAY_PRODUCT_PAGE = 2;
 
-    const CACHE_TAG             = 'catalog_event';
+    const STATUS_UPCOMING = 'upcoming';
+
+    const STATUS_OPEN = 'open';
+
+    const STATUS_CLOSED = 'closed';
+
+    const CACHE_TAG = 'catalog_event';
 
     const IMAGE_PATH = 'enterprise/catalogevent';
 
@@ -227,8 +230,9 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . '/'
-            . self::IMAGE_PATH . '/' . $this->getImage();
+            return $this->_storeManager->getStore()->getBaseUrl(
+                UrlInterface::URL_TYPE_MEDIA
+            ) . '/' . self::IMAGE_PATH . '/' . $this->getImage();
         }
 
         return false;
@@ -272,7 +276,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function canDisplay($state)
     {
-        return ((int) $this->getDisplayState() & $state) == $state;
+        return ((int)$this->getDisplayState() & $state) == $state;
     }
 
     /**
@@ -303,8 +307,10 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function applyStatusByDates()
     {
         if ($this->getDateStart() && $this->getDateEnd()) {
-            $timeStart = $this->dateTime->toTimestamp($this->getDateStart()); // Date already in gmt, no conversion
-            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd()); // Date already in gmt, no conversion
+            $timeStart = $this->dateTime->toTimestamp($this->getDateStart());
+            // Date already in gmt, no conversion
+            $timeEnd = $this->dateTime->toTimestamp($this->getDateEnd());
+            // Date already in gmt, no conversion
             $timeNow = gmdate('U');
             if ($timeStart <= $timeNow && $timeEnd >= $timeNow) {
                 $this->setStatus(self::STATUS_OPEN);
@@ -338,10 +344,11 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     {
         parent::_beforeSave();
         $dateChanged = false;
-        $fieldTitles = array('date_start' => __('Start Date') , 'date_end' => __('End Date'));
-        foreach (array('date_start' , 'date_end') as $dateType) {
+        $fieldTitles = array('date_start' => __('Start Date'), 'date_end' => __('End Date'));
+        foreach (array('date_start', 'date_end') as $dateType) {
             $date = $this->getData($dateType);
-            if (empty($date)) { // Date fields is required.
+            if (empty($date)) {
+                // Date fields is required.
                 throw new Exception(__('%1 is required.', $fieldTitles[$dateType]));
             }
             if ($date != $this->getOrigData($dateType)) {
@@ -364,12 +371,11 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
     public function validate()
     {
         $dateStartUnixTime = strtotime($this->getData('date_start'));
-        $dateEndUnixTime   = strtotime($this->getData('date_end'));
+        $dateEndUnixTime = strtotime($this->getData('date_end'));
         $dateIsOk = $dateEndUnixTime > $dateStartUnixTime;
         if ($dateIsOk) {
             return true;
-        }
-        else {
+        } else {
             return array(__('Please make sure the end date follows the start date.'));
         }
     }
@@ -392,7 +398,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function setIsDeleteable($value)
     {
-        $this->_isDeleteable = (boolean) $value;
+        $this->_isDeleteable = (bool)$value;
         return $this;
     }
 
@@ -414,7 +420,7 @@ class Event extends AbstractModel implements \Magento\Object\IdentityInterface
      */
     public function setIsReadonly($value)
     {
-        $this->_isReadonly = (boolean) $value;
+        $this->_isReadonly = (bool)$value;
         return $this;
     }
 

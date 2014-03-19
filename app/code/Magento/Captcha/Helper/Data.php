@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Captcha\Helper;
 
 /**
@@ -23,7 +22,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Always show captcha
      */
-    const MODE_ALWAYS     = 'always';
+    const MODE_ALWAYS = 'always';
 
     /**
      * Show captcha only after certain number of unsuccessful attempts
@@ -99,8 +98,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $captchaType = ucfirst($this->getConfig('type'));
             if (!$captchaType) {
                 $captchaType = self::DEFAULT_CAPTCHA_TYPE;
-            }
-            else if ($captchaType == 'Default') {
+            } elseif ($captchaType == 'Default') {
                 $captchaType = $captchaType . 'Model';
             }
 
@@ -171,7 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         return $this->_storeManager->getWebsite($website)->getCode();
     }
-    
+
     /**
      * Get captcha image base URL
      *
@@ -180,7 +178,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getImgUrl($website = null)
     {
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\App\Filesystem::MEDIA_DIR) . 'captcha'
-            . '/' . $this->_getWebsiteCode($website) . '/';
+        return $this->_storeManager->getStore()->getBaseUrl(
+            \Magento\App\Filesystem::MEDIA_DIR
+        ) . 'captcha' . '/' . $this->_getWebsiteCode(
+            $website
+        ) . '/';
     }
 }

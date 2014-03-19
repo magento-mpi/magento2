@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\System\Config;
@@ -50,6 +49,7 @@ class ConfigurableProduct extends Product
      * Provide data to product from new attribute
      *
      * @param ProductAttribute $attribute
+     * @return void
      */
     public function provideNewAttributeData(ProductAttribute $attribute)
     {
@@ -190,6 +190,8 @@ class ConfigurableProduct extends Product
 
     /**
      * Init Data
+     *
+     * @return void
      */
     protected function _initData()
     {
@@ -371,8 +373,9 @@ class ConfigurableProduct extends Product
             foreach ($attributes as $attribute) {
                 $optionCount = 0;
                 while (isset($attribute[$optionCount])) {
-                    if ($attribute[$optionCount]['option_label']['value'] == $optionName)
+                    if ($attribute[$optionCount]['option_label']['value'] == $optionName) {
                         $price += $attribute[$optionCount]['pricing_value']['value'];
+                    }
                     ++$optionCount;
                 }
             }

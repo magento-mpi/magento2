@@ -7,8 +7,8 @@
  */
 namespace Magento\Logging\Model;
 
-use \Magento\Core\Model\AbstractModel;
-use \Magento\Logging\Model\Event\Changes;
+use Magento\Core\Model\AbstractModel;
+use Magento\Logging\Model\Event\Changes;
 
 class Processor
 {
@@ -192,7 +192,7 @@ class Processor
         $this->_lastAction = $fullActionName;
 
         $this->_eventConfig = $this->_config->getEventByFullActionName($fullActionName);
-        $this->_skipNextAction = (!$this->_config->isEventGroupLogged($this->_eventConfig['group_name']));
+        $this->_skipNextAction = !$this->_config->isEventGroupLogged($this->_eventConfig['group_name']);
         if ($this->_skipNextAction) {
             return $this;
         }
@@ -259,8 +259,9 @@ class Processor
         /**
          * Exact models in exactly action node
          */
-        $expectedModels = isset($this->_eventConfig['expected_models'])
-            ? $this->_eventConfig['expected_models'] : false;
+        $expectedModels = isset(
+            $this->_eventConfig['expected_models']
+        ) ? $this->_eventConfig['expected_models'] : false;
 
         if (!$expectedModels || empty($expectedModels)) {
             if (empty($groupExpectedModels)) {
@@ -268,9 +269,11 @@ class Processor
             }
             $usedModels = $groupExpectedModels;
         } else {
-            if (isset($expectedModels['@'])
-                && isset($expectedModels['@']['extends'])
-                && $expectedModels['@']['extends'] == 'merge'
+            if (isset(
+                $expectedModels['@']
+            ) && isset(
+                $expectedModels['@']['extends']
+            ) && $expectedModels['@']['extends'] == 'merge'
             ) {
                 $groupExpectedModels = array_replace_recursive($groupExpectedModels, $expectedModels);
                 $usedModels = $groupExpectedModels;
@@ -303,13 +306,13 @@ class Processor
              */
             $additionalData = array_diff($additionalData, $skipData);
 
-            if (!($model instanceof $className)) {
+            if (!$model instanceof $className) {
                 return false;
             }
 
             $callback = sprintf('model%sAfter', ucfirst($action));
             $this->collectAdditionalData($model, $additionalData);
-            $changes = $this->_modelsHandler->$callback($model, $this);
+            $changes = $this->_modelsHandler->{$callback}($model, $this);
 
             /* $changes will not be an object in case of view action */
             if (!is_object($changes)) {
@@ -360,7 +363,6 @@ class Processor
             }
             $loggingEvent->save();
             $this->_saveEventChanges($loggingEvent);
-
         } catch (\Exception $e) {
             $this->_logger->logException($e);
             return false;
@@ -376,22 +378,24 @@ class Processor
     private function _initLoggingEvent()
     {
         $username = null;
-        $userId   = null;
+        $userId = null;
         if ($this->_authSession->isLoggedIn()) {
             $userId = $this->_authSession->getUser()->getId();
             $username = $this->_authSession->getUser()->getUsername();
         }
         $errors = $this->messageManager->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
-        $loggingEvent = $this->_eventFactory->create()->setData(array(
-            'ip'            => $this->_remoteAddress->getRemoteAddress(),
-            'x_forwarded_ip'=> $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
-            'user'          => $username,
-            'user_id'       => $userId,
-            'is_success'    => empty($errors),
-            'fullaction'    => $this->_initAction,
-            'error_message' => implode("\n", array_map(create_function('$a', 'return $a->toString();'), $errors)),
-        ));
+        $loggingEvent = $this->_eventFactory->create()->setData(
+            array(
+                'ip' => $this->_remoteAddress->getRemoteAddress(),
+                'x_forwarded_ip' => $this->_request->getServer('HTTP_X_FORWARDED_FOR'),
+                'user' => $username,
+                'user_id' => $userId,
+                'is_success' => empty($errors),
+                'fullaction' => $this->_initAction,
+                'error_message' => implode("\n", array_map(create_function('$a', 'return $a->toString();'), $errors))
+            )
+        );
         return $loggingEvent;
     }
 
@@ -416,7 +420,8 @@ class Processor
             }
             if (!$handler || !$callback || !method_exists($handler, $callback)) {
                 $this->_logger->logException(
-                    new \Magento\Core\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback)));
+                    new \Magento\Core\Exception(sprintf("Unknown callback function: %s::%s", $handler, $callback))
+                );
             }
         }
 
@@ -424,7 +429,7 @@ class Processor
             return false;
         }
 
-        if (!$handler->$callback($this->_eventConfig, $loggingEvent, $this)) {
+        if (!$handler->{$callback}($this->_eventConfig, $loggingEvent, $this)) {
             return false;
         }
         return $this;
@@ -492,8 +497,8 @@ class Processor
     {
         $ids = array();
         foreach ($this->_collectedIds as $className => $classIds) {
-            $uniqueIds  = array_unique($classIds);
-            $ids        = array_merge($ids, $uniqueIds);
+            $uniqueIds = array_unique($classIds);
+            $ids = array_merge($ids, $uniqueIds);
             $this->_collectedIds[$className] = $uniqueIds;
         }
         return $ids;

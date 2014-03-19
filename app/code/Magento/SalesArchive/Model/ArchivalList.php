@@ -17,9 +17,12 @@ class ArchivalList
     /**
      * Archival entity names
      */
-    const ORDER      = 'order';
-    const INVOICE    = 'invoice';
-    const SHIPMENT   = 'shipment';
+    const ORDER = 'order';
+
+    const INVOICE = 'invoice';
+
+    const SHIPMENT = 'shipment';
+
     const CREDITMEMO = 'creditmemo';
 
     /**
@@ -36,7 +39,7 @@ class ArchivalList
             'model' => 'Magento\Sales\Model\Order\Invoice',
             'resource_model' => 'Magento\Sales\Model\Resource\Order\Invoice'
         ),
-        self::SHIPMENT  => array(
+        self::SHIPMENT => array(
             'model' => 'Magento\Sales\Model\Order\Shipment',
             'resource_model' => 'Magento\Sales\Model\Resource\Order\Shipment'
         ),
@@ -72,9 +75,7 @@ class ArchivalList
         $className = $this->_getClassByEntity($entity);
 
         if ($className === false) {
-            throw new \LogicException(
-                $entity . ' entity isn\'t allowed'
-            );
+            throw new \LogicException($entity . ' entity isn\'t allowed');
         }
         $model = $this->_objectManager->get($className, $arguments);
         return $model;

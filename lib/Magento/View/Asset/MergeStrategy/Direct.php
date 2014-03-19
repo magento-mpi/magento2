@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset\MergeStrategy;
 
 /**
@@ -17,7 +16,9 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
      * Delimiters for merging files of various content type
      */
     const MERGE_DELIMITER_JS = ';';
-    const MERGE_DELIMITER_EMPTY  = '';
+
+    const MERGE_DELIMITER_EMPTY = '';
+
     /**#@-*/
 
     /**
@@ -40,10 +41,8 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      */
-    public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\View\Url\CssResolver $cssUrlResolver
-    ) {
+    public function __construct(\Magento\App\Filesystem $filesystem, \Magento\View\Url\CssResolver $cssUrlResolver)
+    {
         $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::PUB_DIR);
         $this->_cssUrlResolver = $cssUrlResolver;
     }
@@ -69,7 +68,7 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
     protected function composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
-        $isCss = ($contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS) ? true : false;
+        $isCss = $contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS ? true : false;
         $delimiter = $this->_getFilesContentDelimiter($contentType);
 
         foreach ($publicFiles as $file) {

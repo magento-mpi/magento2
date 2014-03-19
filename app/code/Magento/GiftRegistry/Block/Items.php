@@ -107,9 +107,9 @@ class Items extends \Magento\Checkout\Block\Cart
             if (!$this->getEntity()) {
                 return array();
             }
-            $collection = $this->itemFactory->create()->getCollection()
-                ->addRegistryFilter($this->getEntity()->getId())
-                ->addWebsiteFilter();
+            $collection = $this->itemFactory->create()->getCollection()->addRegistryFilter(
+                $this->getEntity()->getId()
+            )->addWebsiteFilter();
 
             $quoteItemsCollection = array();
             $quote = $this->quoteFactory->create()->setItemCount(true);
@@ -122,19 +122,27 @@ class Items extends \Magento\Checkout\Block\Cart
                 }
                 // Create a new qoute item and import data from gift registry item to it
                 $quoteItem = clone $emptyQuoteItem;
-                $quoteItem->addData($item->getData())
-                    ->setQuote($quote)
-                    ->setProduct($product)
-                    ->setRemainingQty($remainingQty)
-                    ->setOptions($item->getOptions());
+                $quoteItem->addData(
+                    $item->getData()
+                )->setQuote(
+                    $quote
+                )->setProduct(
+                    $product
+                )->setRemainingQty(
+                    $remainingQty
+                )->setOptions(
+                    $item->getOptions()
+                );
 
                 $product->setCustomOptions($item->getOptionsByCode());
                 if ($this->_catalogHelper->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
-                        $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
-                            $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
-                        ))
+                        $this->_storeManager->getStore()->formatPrice(
+                            $this->_storeManager->getStore()->convertPrice(
+                                $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
+                            )
+                        )
                     );
                     $product->setAddToCartUrl($this->_cartHelper->getAddUrl($product));
                 } else {

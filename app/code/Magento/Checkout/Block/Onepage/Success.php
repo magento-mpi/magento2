@@ -108,14 +108,16 @@ class Success extends \Magento\View\Element\Template
             if ($order->getId()) {
                 $isVisible = !in_array($order->getState(), $this->_orderConfig->getInvisibleOnFrontStates());
                 $canView = $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH) && $isVisible;
-                $this->addData(array(
-                    'is_order_visible' => $isVisible,
-                    'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
-                    'print_url' => $this->getUrl('sales/order/print', array('order_id'=> $orderId)),
-                    'can_print_order' => $isVisible,
-                    'can_view_order'  => $canView,
-                    'order_id'  => $order->getIncrementId(),
-                ));
+                $this->addData(
+                    array(
+                        'is_order_visible' => $isVisible,
+                        'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
+                        'print_url' => $this->getUrl('sales/order/print', array('order_id'=> $orderId)),
+                        'can_print_order' => $isVisible,
+                        'can_view_order'  => $canView,
+                        'order_id'  => $order->getIncrementId(),
+                    )
+                );
             }
         }
     }

@@ -120,21 +120,23 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 $category->setIsAnchor(true);
                 $newUrl = $category->getUrl();
                 $title = $category->getName();
-                $rssModel->_addHeader(array(
-                    'title'       => $title,
-                    'description' => $title,
-                    'link'        => $newUrl,
-                    'charset'     => 'UTF-8',
-                ));
+                $rssModel->_addHeader(
+                    array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8')
+                );
 
                 $_collection = $category->getCollection();
-                $_collection->addAttributeToSelect('url_key')
-                    ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('is_anchor')
-                    ->addAttributeToFilter('is_active', 1)
-                    ->addIdFilter($category->getChildren())
-                    ->load()
-                ;
+                $_collection->addAttributeToSelect(
+                    'url_key'
+                )->addAttributeToSelect(
+                    'name'
+                )->addAttributeToSelect(
+                    'is_anchor'
+                )->addAttributeToFilter(
+                    'is_active',
+                    1
+                )->addIdFilter(
+                    $category->getChildren()
+                )->load();
                 /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
                 $productCollection = $this->_collectionFactory->create();
 
@@ -146,13 +148,16 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 /*
                 only load latest 50 products
                 */
-                $_productCollection = $currentCategory
-                    ->getProductCollection()
-                    ->addAttributeToSort('updated_at', 'desc')
-                    ->setVisibility($this->_visibility->getVisibleInCatalogIds())
-                    ->setCurPage(1)
-                    ->setPageSize(50)
-                ;
+                $_productCollection = $currentCategory->getProductCollection()->addAttributeToSort(
+                    'updated_at',
+                    'desc'
+                )->setVisibility(
+                    $this->_visibility->getVisibleInCatalogIds()
+                )->setCurPage(
+                    1
+                )->setPageSize(
+                    50
+                );
 
                 if ($_productCollection->getSize() > 0) {
                     $args = array('rssObj' => $rssModel);
@@ -185,23 +190,32 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
             return;
         }
 
-        $description = '<table><tr>'
-                     . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->_imageHelper->init($product, 'thumbnail')->resize(75, 75)
-                     . '" border="0" align="left" height="75" width="75"></a></td>'
-                     . '<td  style="text-decoration:none;">' . $product->getDescription();
+        $description = '<table><tr>' .
+            '<td><a href="' .
+            $product->getProductUrl() .
+            '"><img src="' .
+            $this->_imageHelper->init(
+                $product,
+                'thumbnail'
+            )->resize(
+                75,
+                75
+            ) .
+            '" border="0" align="left" height="75" width="75"></a></td>' .
+            '<td  style="text-decoration:none;">' .
+            $product->getDescription();
 
         if ($product->getAllowedPriceInRss()) {
-            $description.= $this->getPriceHtml($product, true);
+            $description .= $this->getPriceHtml($product, true);
         }
 
         $description .= '</td></tr></table>';
         /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
         $data = array(
-            'title'       => $product->getName(),
-            'link'        => $product->getProductUrl(),
-            'description' => $description,
+            'title' => $product->getName(),
+            'link' => $product->getProductUrl(),
+            'description' => $description
         );
 
         $rssObj->_addEntry($data);

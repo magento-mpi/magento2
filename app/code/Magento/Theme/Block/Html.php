@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block;
+
 use Magento\View\Element\Template;
 
 /**
@@ -45,7 +45,6 @@ class Html extends \Magento\View\Element\Template
         $this->_localeResolver = $localeResolver;
     }
 
-
     /**
      * Add block data
      * @return void
@@ -55,9 +54,9 @@ class Html extends \Magento\View\Element\Template
         parent::_construct();
 
         $this->_urls = array(
-            'base'      => $this->_storeManager->getStore()->getBaseUrl('web'),
-            'baseSecure'=> $this->_storeManager->getStore()->getBaseUrl('web', true),
-            'current'   => $this->_request->getRequestUri()
+            'base' => $this->_storeManager->getStore()->getBaseUrl('web'),
+            'baseSecure' => $this->_storeManager->getStore()->getBaseUrl('web', true),
+            'current' => $this->_request->getRequestUri()
         );
 
         $this->addBodyClass($this->_request->getFullActionName('-'));

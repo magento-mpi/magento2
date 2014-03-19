@@ -66,10 +66,7 @@ class View extends \Magento\View\Element\Template
         if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -142,5 +139,4 @@ class View extends \Magento\View\Element\Template
     {
         return $this->getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
     }
-
 }

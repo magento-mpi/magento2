@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
 
 use Magento\Catalog\Model\Resource\Product\Collection;
@@ -133,15 +132,11 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     {
         $product = $this->_coreRegistry->registry('product');
         /* @var $product \Magento\Catalog\Model\Product */
-        $this->_itemCollection = $product->getUpSellProductCollection()
-            ->setPositionOrder()
-            ->addStoreFilter();
+        $this->_itemCollection = $product->getUpSellProductCollection()->setPositionOrder()->addStoreFilter();
         if ($this->_catalogData->isModuleEnabled('Magento_Checkout')) {
             $this->_addProductAttributesAndPrices($this->_itemCollection);
         }
-        $this->_itemCollection->setVisibility(
-            $this->_catalogProductVisibility->getVisibleInCatalogIds()
-        );
+        $this->_itemCollection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
 
         $this->_itemCollection->load();
 
@@ -194,7 +189,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
      */
     public function getRowCount()
     {
-        return ceil(count($this->getItemCollection()->getItems())/$this->getColumnCount());
+        return ceil(count($this->getItemCollection()->getItems()) / $this->getColumnCount());
     }
 
     /**

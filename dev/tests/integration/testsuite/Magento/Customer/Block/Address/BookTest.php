@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -26,12 +25,12 @@ class BookTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject $blockMock */
-        $blockMock = $this->getMockBuilder('\Magento\View\Element\BlockInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('setTitle', 'toHtml'))
-            ->getMock();
-        $blockMock->expects($this->any())
-            ->method('setTitle');
+        $blockMock = $this->getMockBuilder(
+            '\Magento\View\Element\BlockInterface'
+        )->disableOriginalConstructor()->setMethods(
+            array('setTitle', 'toHtml')
+        )->getMock();
+        $blockMock->expects($this->any())->method('setTitle');
 
         $this->currentCustomer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Service\V1\CustomerCurrentService');
@@ -70,11 +69,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function hasPrimaryAddressDataProvider()
     {
-        return [
-            '0' => [0, false],
-            '1' => [1, true],
-            '5' => [5, false],
-        ];
+        return array('0' => array(0, false), '1' => array(1, true), '5' => array(5, false));
     }
 
     /**
@@ -107,10 +102,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function getAdditionalAddressesDataProvider()
     {
-        return [
-            '0' => [0, false],
-            '5' => [5, false],
-        ];
+        return array('0' => array(0, false), '5' => array(5, false));
     }
 
     /**
@@ -119,11 +111,13 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressHtml()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
-                  . "\nUnited States<br/>\nT: 3468676\n\n";
-        $address = Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface')
-            ->getAddress(1);
+        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
+            "\nUnited States<br/>\nT: 3468676\n\n";
+        $address = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
+        )->getAddress(
+            1
+        );
         $html = $this->_block->getAddressHtml($address);
         $this->assertEquals($expected, $html);
     }
@@ -139,8 +133,9 @@ class BookTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = Bootstrap::getObjectManager()
-        ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $customerAccountService = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
         $customer = $customerAccountService->getCustomer(1);
 
         $this->currentCustomer->setCustomerId(1);
@@ -167,11 +162,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function getDefaultBillingDataProvider()
     {
-        return [
-            '0' => [0, null],
-            '1' => [1, 1],
-            '5' => [5, null],
-        ];
+        return array('0' => array(0, null), '1' => array(1, 1), '5' => array(5, null));
     }
 
     /**
@@ -190,11 +181,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function getDefaultShippingDataProvider()
     {
-        return [
-            '0' => [0, null],
-            '1' => [1, 1],
-            '5' => [5, null],
-        ];
+        return array('0' => array(0, null), '1' => array(1, 1), '5' => array(5, null));
     }
 
     /**
@@ -203,10 +190,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressById()
     {
-        $this->assertInstanceOf(
-            '\Magento\Customer\Service\V1\Data\Address',
-            $this->_block->getAddressById(1)
-        );
+        $this->assertInstanceOf('\Magento\Customer\Service\V1\Data\Address', $this->_block->getAddressById(1));
         $this->assertNull($this->_block->getAddressById(5));
     }
 }

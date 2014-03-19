@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter\Template\Tokenizer;
 
 /**
@@ -38,7 +37,7 @@ abstract class AbstractTokenizer
      */
     public function next()
     {
-        if($this->_currentIndex + 1 >= strlen($this->_string)) {
+        if ($this->_currentIndex + 1 >= strlen($this->_string)) {
             return false;
         }
 
@@ -55,7 +54,7 @@ abstract class AbstractTokenizer
      */
     public function prev()
     {
-        if($this->_currentIndex - 1 < 0) {
+        if ($this->_currentIndex - 1 < 0) {
             return false;
         }
 
@@ -70,9 +69,8 @@ abstract class AbstractTokenizer
      */
     public function char()
     {
-        return $this->_string{$this->_currentIndex};
+        return $this->_string[$this->_currentIndex];
     }
-
 
     /**
      * Set string for tokenize
@@ -101,7 +99,8 @@ abstract class AbstractTokenizer
      *
      * @return boolean
      */
-    public function isWhiteSpace() {
+    public function isWhiteSpace()
+    {
         return trim($this->char()) != $this->char();
     }
 
@@ -111,5 +110,4 @@ abstract class AbstractTokenizer
      * @return array
      */
     abstract public function tokenize();
-
 }

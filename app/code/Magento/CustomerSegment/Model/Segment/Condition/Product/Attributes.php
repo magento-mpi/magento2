@@ -14,8 +14,7 @@ use Zend_Db_Expr;
 /**
  * Product attribute value condition
  */
-class Attributes
-    extends \Magento\Rule\Model\Condition\Product\AbstractProduct
+class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
     /**
      * Used for rule property field
@@ -53,7 +52,14 @@ class Attributes
     ) {
         $this->_resourceSegment = $resourceSegment;
         parent::__construct(
-            $context, $backendData, $config, $product, $productResource, $attrSetCollection, $localeFormat, $data
+            $context,
+            $backendData,
+            $config,
+            $product,
+            $productResource,
+            $attrSetCollection,
+            $localeFormat,
+            $data
         );
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Attributes');
         $this->setValue(null);
@@ -108,13 +114,10 @@ class Attributes
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
 
-        return array(
-            'value' => $conditions,
-            'label' => __('Product Attributes')
-        );
+        return array('value' => $conditions, 'label' => __('Product Attributes'));
     }
 
     /**
@@ -172,34 +175,47 @@ class Attributes
 
         $resource = $this->getResource();
         $select = $resource->createSelect();
-        $select->from(array('main'=>$table), array('entity_id'));
+        $select->from(array('main' => $table), array('entity_id'));
 
         if ($attribute->getAttributeCode() == 'category_ids') {
             $condition = $resource->createConditionSql(
-                'cat.category_id', $this->getOperatorForValidate(), $this->getValueParsed()
+                'cat.category_id',
+                $this->getOperatorForValidate(),
+                $this->getValueParsed()
             );
             $categorySelect = $resource->createSelect();
-            $categorySelect->from(array('cat'=>$resource->getTable('catalog_category_product')), 'product_id')
-                ->where($condition);
-            $condition = 'main.entity_id IN ('.$categorySelect.')';
+            $categorySelect->from(
+                array('cat' => $resource->getTable('catalog_category_product')),
+                'product_id'
+            )->where(
+                $condition
+            );
+            $condition = 'main.entity_id IN (' . $categorySelect . ')';
         } elseif ($attribute->isStatic()) {
             $condition = $this->getResource()->createConditionSql(
-                "main.{$attribute->getAttributeCode()}", $this->getOperator(), $this->getValue()
+                "main.{$attribute->getAttributeCode()}",
+                $this->getOperator(),
+                $this->getValue()
             );
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
             $select->join(
-                array('store'=> $this->getResource()->getTable('core_store')),
+                array('store' => $this->getResource()->getTable('core_store')),
                 'main.store_id=store.store_id',
-                array())
-                ->where('store.website_id IN(?)', array(0, $website));
+                array()
+            )->where(
+                'store.website_id IN(?)',
+                array(0, $website)
+            );
             $condition = $this->getResource()->createConditionSql(
-                'main.value', $this->getOperator(), $this->getValue()
+                'main.value',
+                $this->getOperator(),
+                $this->getValue()
             );
         }
         $select->where($condition);
-        $select->where('main.entity_id = '.$fieldName);
-        $inOperator = ($requireValid ? 'EXISTS' : 'NOT EXISTS');
+        $select->where('main.entity_id = ' . $fieldName);
+        $inOperator = $requireValid ? 'EXISTS' : 'NOT EXISTS';
         if ($this->getCombineProductCondition()) {
             // when used as a child of History or List condition - "EXISTS" always set to "EXISTS"
             $inOperator = 'EXISTS';

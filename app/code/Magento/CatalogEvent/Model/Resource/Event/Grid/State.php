@@ -29,7 +29,7 @@ class State implements \Magento\Option\ArrayInterface
         return array(
             0 => __('Lister Block'),
             \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE  => __('Product Page'),
+            \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
         );
     }
 }

@@ -19,9 +19,8 @@ class QuoteItem
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
+    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -50,7 +49,7 @@ class QuoteItem
             'giftcard_sender_email',
             'giftcard_recipient_name',
             'giftcard_recipient_email',
-            'giftcard_message',
+            'giftcard_message'
         );
         $productOptions = $orderItem->getProductOptions();
         foreach ($keys as $key) {

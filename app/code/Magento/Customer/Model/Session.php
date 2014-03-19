@@ -196,7 +196,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function getCustomerData()
     {
-        if (!($this->_customer instanceof CustomerData) && $this->getCustomerId()) {
+        if (!$this->_customer instanceof CustomerData && $this->getCustomerId()) {
             $this->_customer = $this->_customerAccountService->getCustomer($this->getCustomerId());
         }
 
@@ -227,7 +227,6 @@ class Session extends \Magento\Session\SessionManager
         return $this;
     }
 
-
     /**
      * Set customer model and the customer id in session
      *
@@ -244,7 +243,7 @@ class Session extends \Magento\Session\SessionManager
             \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
         );
         $this->setCustomerId($customerModel->getId());
-        if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
+        if (!$customerModel->isConfirmationRequired() && $customerModel->getConfirmation()) {
             $customerModel->setConfirmation(null)->save();
         }
 
@@ -413,10 +412,10 @@ class Session extends \Magento\Session\SessionManager
     {
         $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
         $this->setCustomerData($customer);
-        
+
         $customerModel = $this->_converter->createCustomerModel($customer);
         $this->setCustomer($customerModel);
-        
+
         $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
         return $this;
     }
@@ -471,9 +470,11 @@ class Session extends \Magento\Session\SessionManager
         } else {
             $arguments = $this->_customerData->getLoginUrlParams();
             if ($this->_session->getCookieShouldBeReceived() && $this->_createUrl()->getUseSession()) {
-                $arguments += array('_query' => array(
-                    $this->sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
-                ));
+                $arguments += array(
+                    '_query' => array(
+                        $this->sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
+                    )
+                );
             }
             $action->getResponse()->setRedirect(
                 $this->_createUrl()->getUrl(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN, $arguments)

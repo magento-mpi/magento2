@@ -100,10 +100,11 @@ class AbstractView extends \Magento\View\Element\Template
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore($this->getStoreId());
-            $this->_designCollection = $this->_wrappingCollectionFactory->create()
-                ->addStoreAttributesToResult($store->getId())
-                ->applyStatusFilter()
-                ->applyWebsiteFilter($store->getWebsiteId());
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()->addStoreAttributesToResult(
+                $store->getId()
+            )->applyStatusFilter()->applyWebsiteFilter(
+                $store->getWebsiteId()
+            );
         }
         return $this->_designCollection;
     }

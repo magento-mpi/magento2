@@ -98,11 +98,7 @@ class Observer
         $cards = $this->_giftCAHelper->getCards($order);
         if (is_array($cards)) {
             foreach ($cards as &$card) {
-                $this->_giftCAFactory->create()
-                    ->load($card['i'])
-                    ->charge($card['ba'])
-                    ->setOrder($order)
-                    ->save();
+                $this->_giftCAFactory->create()->load($card['i'])->charge($card['ba'])->setOrder($order)->save();
                 $card['authorized'] = $card['ba'];
             }
 
@@ -124,11 +120,13 @@ class Observer
         $id = $observer->getEvent()->getGiftcardaccountCode();
         $amount = $observer->getEvent()->getAmount();
 
-        $this->_giftCAFactory->create()
-            ->loadByCode($id)
-            ->charge($amount)
-            ->setOrder($observer->getEvent()->getOrder())
-            ->save();
+        $this->_giftCAFactory->create()->loadByCode(
+            $id
+        )->charge(
+            $amount
+        )->setOrder(
+            $observer->getEvent()->getOrder()
+        )->save();
 
         return $this;
     }
@@ -164,14 +162,19 @@ class Observer
         $code = $observer->getEvent()->getCode();
         $order = $data->getOrder() ?: ($data->getOrderItem()->getOrder() ?: null);
 
-        $model = $this->_giftCAFactory->create()
-            ->setStatus(\Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED)
-            ->setWebsiteId($data->getWebsiteId())
-            ->setBalance($data->getAmount())
-            ->setLifetime($data->getLifetime())
-            ->setIsRedeemable($data->getIsRedeemable())
-            ->setOrder($order)
-            ->save();
+        $model = $this->_giftCAFactory->create()->setStatus(
+            \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED
+        )->setWebsiteId(
+            $data->getWebsiteId()
+        )->setBalance(
+            $data->getAmount()
+        )->setLifetime(
+            $data->getLifetime()
+        )->setIsRedeemable(
+            $data->getIsRedeemable()
+        )->setOrder(
+            $order
+        )->save();
 
         $code->setCode($model->getCode());
 
@@ -190,14 +193,11 @@ class Observer
         $gca = $observer->getEvent()->getGiftcardaccount();
 
         if ($gca->hasHistoryAction()) {
-            $this->_giftCAHistory
-                ->setGiftcardaccount($gca)
-                ->save();
+            $this->_giftCAHistory->setGiftcardaccount($gca)->save();
         }
 
         return $this;
     }
-
 
     /**
      * Process post data and set usage of GC into order creation model
@@ -213,18 +213,11 @@ class Observer
         if (isset($request['giftcard_add'])) {
             $code = $request['giftcard_add'];
             try {
-                $this->_giftCAFactory->create()
-                    ->loadByCode($code)
-                    ->addToCart(true, $quote);
+                $this->_giftCAFactory->create()->loadByCode($code)->addToCart(true, $quote);
             } catch (\Magento\Core\Exception $e) {
-                $this->messageManager->addError(
-                    $e->getMessage()
-                );
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException(
-                    $e,
-                    __('We cannot apply this gift card.')
-                );
+                $this->messageManager->addException($e, __('We cannot apply this gift card.'));
             }
         }
 
@@ -232,18 +225,11 @@ class Observer
             $code = $request['giftcard_remove'];
 
             try {
-                $this->_giftCAFactory->create()
-                    ->loadByCode($code)
-                    ->removeFromCart(false, $quote);
+                $this->_giftCAFactory->create()->loadByCode($code)->removeFromCart(false, $quote);
             } catch (\Magento\Core\Exception $e) {
-                $this->messageManager->addError(
-                    $e->getMessage()
-                );
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException(
-                    $e,
-                    __('We cannot remove this gift card.')
-                );
+                $this->messageManager->addException($e, __('We cannot remove this gift card.'));
             }
         }
         return $this;
@@ -266,12 +252,10 @@ class Observer
         $cards = $this->_giftCAHelper->getCards($quote);
         $website = $this->_storeManager->getStore($quote->getStoreId())->getWebsite();
         foreach ($cards as $one) {
-            $this->_giftCAFactory->create()
-                ->loadByCode($one['c'])
-                ->isValid(true, true, $website);
+            $this->_giftCAFactory->create()->loadByCode($one['c'])->isValid(true, true, $website);
         }
 
-        if ((float)$quote->getBaseGiftCardsAmountUsed()) {
+        if ((double)$quote->getBaseGiftCardsAmountUsed()) {
             $quote->setGiftCardAccountApplied(true);
             $input = $observer->getEvent()->getInput();
             if (!$input->getMethod()) {
@@ -298,11 +282,11 @@ class Observer
             return;
         }
         // disable all payment methods and enable only Zero Subtotal Checkout
-        if ($quote->getBaseGrandTotal() == 0 && (float)$quote->getGiftCardsAmountUsed()) {
+        if ($quote->getBaseGrandTotal() == 0 && (double)$quote->getGiftCardsAmountUsed()) {
             $paymentMethod = $observer->getEvent()->getMethodInstance()->getCode();
             $result = $observer->getEvent()->getResult();
             // allow customer to place order if grand total is zero
-            $result->isAvailable = ($paymentMethod === 'free') && empty($result->isDeniedInConfig);
+            $result->isAvailable = $paymentMethod === 'free' && empty($result->isDeniedInConfig);
         }
     }
 
@@ -317,7 +301,6 @@ class Observer
         $quote = $observer->getEvent()->getQuote();
         $quote->setGiftCardsTotalCollected(false);
     }
-
 
     /**
      * Set the source gift card accounts into new quote
@@ -348,7 +331,7 @@ class Observer
         $order = $creditmemo->getOrder();
 
         if ($creditmemo->getBaseGiftCardsAmount()) {
-            if ($creditmemo->getRefundGiftCards()){
+            if ($creditmemo->getRefundGiftCards()) {
                 $baseAmount = $creditmemo->getBaseGiftCardsAmount();
                 $amount = $creditmemo->getGiftCardsAmount();
 
@@ -362,8 +345,7 @@ class Observer
             $order->setGiftCardsRefunded($order->getGiftCardsRefunded() + $creditmemo->getGiftCardsAmount());
 
             // we need to update flag after credit memo was refunded and order's properties changed
-            if ($order->getGiftCardsInvoiced() > 0 &&
-                $order->getGiftCardsInvoiced() == $order->getGiftCardsRefunded()
+            if ($order->getGiftCardsInvoiced() > 0 && $order->getGiftCardsInvoiced() == $order->getGiftCardsRefunded()
             ) {
                 $order->setForcedCanCreditmemo(false);
             }
@@ -408,8 +390,7 @@ class Observer
             return $this;
         }
 
-        if ($order->isCanceled() ||
-            $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED ) {
+        if ($order->isCanceled() || $order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
             return $this;
         }
 
@@ -433,7 +414,7 @@ class Observer
         $salesEntity = $cart->getSalesModel();
         $value = abs($salesEntity->getDataUsingMethod('base_gift_cards_amount'));
         if ($value > 0.0001) {
-            $cart->addDiscount((float)$value);
+            $cart->addDiscount((double)$value);
         }
     }
 
@@ -450,9 +431,7 @@ class Observer
         $giftCard = $this->_giftCAFactory->create()->load($id);
 
         if ($giftCard) {
-            $giftCard->revert($amount)
-                ->unsOrder()
-                ->save();
+            $giftCard->revert($amount)->unsOrder()->save();
         }
 
         return $this;
@@ -530,13 +509,17 @@ class Observer
             }
 
             if ($balance > 0) {
-                $this->_customerBalance
-                    ->setCustomerId($order->getCustomerId())
-                    ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
-                    ->setAmountDelta($balance)
-                    ->setHistoryAction(\Magento\CustomerBalance\Model\Balance\History::ACTION_REVERTED)
-                    ->setOrder($order)
-                    ->save();
+                $this->_customerBalance->setCustomerId(
+                    $order->getCustomerId()
+                )->setWebsiteId(
+                    $this->_storeManager->getStore($order->getStoreId())->getWebsiteId()
+                )->setAmountDelta(
+                    $balance
+                )->setHistoryAction(
+                    \Magento\CustomerBalance\Model\Balance\History::ACTION_REVERTED
+                )->setOrder(
+                    $order
+                )->save();
             }
         }
 

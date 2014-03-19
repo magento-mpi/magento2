@@ -18,4 +18,4 @@ interface AvailabilityFlagInterface
      * @return bool
      */
     public function isEnabled($layer, array $filters = array());
-} 
+}

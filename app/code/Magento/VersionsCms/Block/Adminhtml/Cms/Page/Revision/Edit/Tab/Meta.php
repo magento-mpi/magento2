@@ -16,8 +16,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Meta
-    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
+class Meta extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
 {
     /**
      * Cms data
