@@ -351,9 +351,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             $this->setCustomerId($customerData->getId());
             $this->setSubscriberConfirmCode($this->randomSequence());
             if ($this->getStatus() == self::STATUS_NOT_ACTIVE) {
-                $this->setStatus(
-                    $customerData->getIsSubscribed() ? self::STATUS_SUBSCRIBED : self::STATUS_UNSUBSCRIBED
-                );
+                $this->setStatus(self::STATUS_UNSUBSCRIBED);
             }
             $this->save();
         }
