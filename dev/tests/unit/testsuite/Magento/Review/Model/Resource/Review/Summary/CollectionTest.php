@@ -118,7 +118,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $objectMock = $this->getMock('Magento\Object', array('addData'), array());
         $objectMock->expects($this->once())
-            ->method('setData')
+            ->method('addData')
             ->with($data);
         $this->entityFactoryMock->expects($this->once())
             ->method('create')
