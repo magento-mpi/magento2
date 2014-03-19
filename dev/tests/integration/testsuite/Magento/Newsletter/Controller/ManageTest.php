@@ -14,33 +14,28 @@ namespace Magento\Newsletter\Controller;
 class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
-     * @var \Magento\Newsletter\Model\Template
-     */
-    protected $_model;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
-    protected $_customerSession;
+    protected $customerSession;
     /**
      * @var \Magento\Core\Model\Session
      */
-    protected $_coreSession;
+    protected $coreSession;
 
     protected function setUp()
     {
         parent::setUp();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_customerSession = $objectManager->get('Magento\Customer\Model\Session');
-        $this->_customerSession->setCustomerId(1);
-        $this->_coreSession = $objectManager->get('Magento\Core\Model\Session');
-        $this->_coreSession->setData('_form_key', 'formKey');
+        $this->customerSession = $objectManager->get('Magento\Customer\Model\Session');
+        $this->customerSession->setCustomerId(1);
+        $this->coreSession = $objectManager->get('Magento\Core\Model\Session');
+        $this->coreSession->setData('_form_key', 'formKey');
     }
 
     protected function tearDown()
     {
-        $this->_customerSession->setCustomerId(null);
-        $this->_coreSession->unsData('_form_key');
+        $this->customerSession->setCustomerId(null);
+        $this->coreSession->unsData('_form_key');
     }
 
     /**
@@ -56,12 +51,12 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/account/'));
 
         /**
-         * Check that errors was generated and set to session
+         * Check that errors
          */
         $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
 
         /**
-         * Check that success message is set
+         * Check that success message
          */
         $this->assertSessionMessages(
             $this->equalTo(array('We saved the subscription.')),
@@ -82,12 +77,12 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/account/'));
 
         /**
-         * Check that errors was generated and set to session
+         * Check that errors
          */
         $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
 
         /**
-         * Check that success message is set
+         * Check that success message
          */
         $this->assertSessionMessages(
             $this->equalTo(array('We removed the subscription.')),

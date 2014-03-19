@@ -126,19 +126,20 @@ class Manage extends \Magento\App\Action\Action
         }
 
         $customerId = $this->_customerSession->getCustomerId();
-        if (!is_null($customerId)) {
+        if (is_null($customerId)) {
+            $this->messageManager->addError(__('Something went wrong while saving your subscription.'));
+        } else {
             try {
-                $customerDetails = $this->_customerAccountService->getCustomerDetails($customerId);
-                $this->_customerBuilder->populate($customerDetails->getCustomer());
+                $customer = $this->_customerAccountService->getCustomer($customerId);
                 $storeId = $this->_storeManager->getStore()->getId();
-                $newCustomerDetails = $this->_customerDetailsBuilder->populate($customerDetails)
-                    ->setCustomer($this->_customerBuilder->setStoreId($storeId)->create())
+                $customerDetails = $this->_customerDetailsBuilder->setAddresses(null)
+                    ->setCustomer($this->_customerBuilder->populate($customer)->setStoreId($storeId)->create())
                     ->create();
-                $this->_customerAccountService->updateCustomer($newCustomerDetails);
+                $this->_customerAccountService->updateCustomer($customerDetails);
 
                 if ((boolean)$this->getRequest()->getParam('is_subscribed', false)) {
                     $this->_subscriberFactory->create()->subscribeCustomerById($customerId);
-                    $this->messageManager->addSuccess(__('We saved the subscription.'));
+                    $this->messageManager->addSuccess( __('We saved the subscription.'));
                 } else {
                     $this->_subscriberFactory->create()->unsubscribeCustomerById($customerId);
                     $this->messageManager->addSuccess(__('We removed the subscription.'));
@@ -146,8 +147,6 @@ class Manage extends \Magento\App\Action\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Something went wrong while saving your subscription.'));
             }
-        } else {
-            $this->messageManager->addError(__('Something went wrong while saving your subscription.'));
         }
         $this->_redirect('customer/account/');
     }
