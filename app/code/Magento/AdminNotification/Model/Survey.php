@@ -28,12 +28,12 @@ class Survey
     protected $_flagCode  = 'admin_notification_survey';
 
     /**
-     * @var \Magento\Model\Flag
+     * @var \Magento\Flag
      */
     protected $_flagModel = null;
 
     /**
-     * @var \Magento\Model\FlagFactory
+     * @var \Magento\FlagFactory
      */
     protected $_flagFactory;
 
@@ -43,11 +43,11 @@ class Survey
     protected $_request;
 
     /**
-     * @param \Magento\Model\FlagFactory $flagFactory
+     * @param \Magento\FlagFactory $flagFactory
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
-        \Magento\Model\FlagFactory $flagFactory,
+        \Magento\FlagFactory $flagFactory,
         \Magento\App\RequestInterface $request
     ) {
         $this->_request = $request;
@@ -87,7 +87,7 @@ class Survey
     /**
      * Return core flag model
      *
-     * @return \Magento\Model\Flag
+     * @return \Magento\Flag
      */
     protected function _getFlagModel()
     {

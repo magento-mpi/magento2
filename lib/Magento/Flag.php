@@ -5,23 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Model;
-
-use Magento\Model\AbstractModel;
+namespace Magento;
 
 /**
  * Flag model
  *
- * @method \\Magento\Model\Resource\Flag _getResource()
- * @method \\Magento\Model\Resource\Flag getResource()
+ * @method \Magento\Flag\Resource _getResource()
+ * @method \Magento\Flag\Resource getResource()
  * @method string getFlagCode()
- * @method \Magento\Model\Flag setFlagCode(string $value)
+ * @method \Magento\Flag setFlagCode(string $value)
  * @method int getState()
- * @method \Magento\Model\Flag setState(int $value)
+ * @method \Magento\Flag setState(int $value)
  * @method string getLastUpdate()
- * @method \Magento\Model\Flag setLastUpdate(string $value)
+ * @method \Magento\Flag setLastUpdate(string $value)
  */
-class Flag extends AbstractModel
+class Flag extends \Magento\Model\AbstractModel
 {
     /**
      * Flag code
@@ -41,7 +39,7 @@ class Flag extends AbstractModel
         if ($this->hasData('flag_code')) {
             $this->_flagCode = $this->getData('flag_code');
         }
-        $this->_init('\Magento\Model\Resource\Flag');
+        $this->_init('Magento\Flag\Resource');
     }
 
     /**

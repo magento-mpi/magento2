@@ -10,7 +10,7 @@
 
 namespace Magento\Logging\Model;
 
-class Flag extends \Magento\Model\Flag
+class Flag extends \Magento\Flag
 {
     /** @var string */
     protected $_flagCode = 'log_rotation';

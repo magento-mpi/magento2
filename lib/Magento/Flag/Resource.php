@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Model\Resource;
+namespace Magento\Flag;
 
 /**
  * Flag Resource model
  */
-class Flag extends \Magento\Model\Resource\Db\AbstractDb
+class Resource extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
