@@ -8,8 +8,12 @@
 namespace Magento\Newsletter\Controller;
 
 use Magento\Message\MessageInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
 
+/**
+ * Test Subscriber
+ */
 class SubscriberTest extends AbstractController
 {
     public function testNewAction()
@@ -22,6 +26,9 @@ class SubscriberTest extends AbstractController
         $this->assertRedirect($this->anything());
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testNewActionUnusedEmail()
     {
         $this->getRequest()->setMethod('POST');
@@ -79,7 +86,7 @@ class SubscriberTest extends AbstractController
     protected function login($customerId)
     {
         /** @var \Magento\Customer\Model\Session $session */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $session = Bootstrap::getObjectManager()
             ->get('Magento\Customer\Model\Session');
         $session->loginById($customerId);
     }
