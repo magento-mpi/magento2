@@ -104,9 +104,9 @@ class CustomerMetadataServiceTest extends WebapiAbstract
                     'multiline_count' => '0',
                     'data_model' => null,
                     'options' => [
-                        '' => ['label' => null, 'value' => null],
-                        'Male' => ['label' => 'Male', 'value' => '1'],
-                        'Female' => ['label' => 'Female', 'value' => '2']
+                        ['label' => null, 'value' => null],
+                        ['label' => 'Male', 'value' => '1'],
+                        ['label' => 'Female', 'value' => '2']
                     ],
                     'frontend_class' => '',
                     'frontend_label' => 'Gender',
