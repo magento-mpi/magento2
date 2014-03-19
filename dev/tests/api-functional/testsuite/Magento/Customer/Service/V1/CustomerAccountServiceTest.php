@@ -193,7 +193,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             $requestData['customerId'] = $customerData['id'];
             $customerResponseData = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
         } else {
-            $customerResponseData = $this->_webApiCall($serviceInfo);
+            $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
         }
         $this->assertEquals($customerData[Customer::ID], $customerResponseData[Customer::ID]);
         // Confirmation key is removed after confirmation
@@ -238,10 +238,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $requestData['customerId'] = $customerData['id'];
-            $this->_webApiCall($serviceInfo, $requestData);
-        } else {
-            $this->_webApiCall($serviceInfo);
         }
+        $this->_webApiCall($serviceInfo, $requestData);
 
         $serviceInfo = [
             'rest' => [
@@ -714,7 +712,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
         $searchResults = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(1, $searchResults['totalCount']);
+        $this->assertEquals(1, $searchResults['total_count']);
         $this->assertEquals($customerData[Customer::ID], $searchResults['items'][0]['customer'][Customer::ID]);
     }
 
