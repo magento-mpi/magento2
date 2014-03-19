@@ -52,8 +52,10 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
             throw new \Magento\Core\Exception('Invalid token to except');
         }
         $adapter = $this->_getWriteAdapter();
-        $where   = $adapter->quoteInto(
-            'authorized = 1 AND consumer_id = ?', $exceptToken->getConsumerId(), \Zend_Db::INT_TYPE
+        $where = $adapter->quoteInto(
+            'authorized = 1 AND consumer_id = ?',
+            $exceptToken->getConsumerId(),
+            \Zend_Db::INT_TYPE
         );
         $where .= $adapter->quoteInto(' AND entity_id <> ?', $exceptToken->getId(), \Zend_Db::INT_TYPE);
 
@@ -100,9 +102,15 @@ class Token extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function selectTokenByType($consumerId, $type)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('consumer_id = ?', $consumerId)->where('type = ?', $type);
+        $select = $adapter->select()->from(
+            $this->getMainTable()
+        )->where(
+            'consumer_id = ?',
+            $consumerId
+        )->where(
+            'type = ?',
+            $type
+        );
         return $adapter->fetchRow($select);
     }
 }

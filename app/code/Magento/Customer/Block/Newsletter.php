@@ -39,7 +39,12 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
         array $data = array()
     ) {
         parent::__construct(
-            $context, $customerSession, $subscriberFactory, $customerAccountService, $addressService, $data
+            $context,
+            $customerSession,
+            $subscriberFactory,
+            $customerAccountService,
+            $addressService,
+            $data
         );
         $this->_isScopePrivate = true;
     }

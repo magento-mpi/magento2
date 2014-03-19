@@ -9,8 +9,7 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit;
 
-class Tabs
-    extends \Magento\Backend\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize form
@@ -32,21 +31,26 @@ class Tabs
      */
     protected function _beforeToHtml()
     {
-        $this->addTab('general_section', array(
-            'label'   => __('General Information'),
-            'content' => $this->getLayout()->createBlock(
-                'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General'
-            )->toHtml()
-        ));
+        $this->addTab(
+            'general_section',
+            array(
+                'label' => __('General Information'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General'
+                )->toHtml()
+            )
+        );
 
-        $this->addTab('registry_attributes', array(
-            'label'   => __('Attributes'),
-            'content' => $this->getLayout()->createBlock(
-                'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\Registry'
-            )->toHtml()
-        ));
+        $this->addTab(
+            'registry_attributes',
+            array(
+                'label' => __('Attributes'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\Registry'
+                )->toHtml()
+            )
+        );
 
         return parent::_beforeToHtml();
     }
-
 }

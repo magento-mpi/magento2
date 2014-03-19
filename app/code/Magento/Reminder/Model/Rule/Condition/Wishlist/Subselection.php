@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
 use Magento\DB\Select;
@@ -15,8 +14,7 @@ use Magento\DB\Select;
 /**
  * Wishlist subselection condition
  */
-class Subselection
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Subcombine Factory
@@ -70,10 +68,7 @@ class Subselection
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '==' => __('found'),
-            '!=' => __('not found')
-        ));
+        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
         return $this;
     }
 
@@ -84,9 +79,11 @@ class Subselection
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('If an item is %1 in the wish list with %2 of these conditions match:', $this->getOperatorElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'If an item is %1 in the wish list with %2 of these conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -104,11 +101,7 @@ class Subselection
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('list' => $wishlistTable),
-            'item.wishlist_id = list.wishlist_id',
-            array()
-        );
+        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
@@ -124,7 +117,7 @@ class Subselection
      */
     protected function _getRequiredValidation()
     {
-        return ($this->getOperator() == '==');
+        return $this->getOperator() == '==';
     }
 
     /**

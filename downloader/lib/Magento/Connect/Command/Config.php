@@ -24,6 +24,7 @@ class Config extends \Magento\Connect\Command
      * Parameters constants
      */
     const PARAM_KEY = 0;
+
     const PARAM_VAL = 1;
 
     /**
@@ -42,21 +43,21 @@ class Config extends \Magento\Connect\Command
 
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($config,  $ftpObj) = $packager->getRemoteConfig($ftp);
+            if ($ftp) {
+                list($config, $ftpObj) = $packager->getRemoteConfig($ftp);
             } else {
                 $config = $this->config();
             }
-            foreach( $config as $k=>$v ) {
+            foreach ($config as $k => $v) {
                 $values[$k] = $v;
             }
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
-            $data = array($command  => array('data'=>$values));
+            $data = array($command => array('data' => $values));
             $this->ui()->output($data);
         } catch (\Exception $e) {
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
             return $this->doError($command, $e->getMessage());
@@ -75,7 +76,7 @@ class Config extends \Magento\Connect\Command
         $this->cleanupParams($params);
 
         try {
-            if(count($params) < 2) {
+            if (count($params) < 2) {
                 throw new \Exception("Parameters count should be >= 2");
             }
             $key = strtolower($params[self::PARAM_KEY]);
@@ -83,30 +84,30 @@ class Config extends \Magento\Connect\Command
             $packager = $this->getPackager();
 
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if(!$ftp) {
+            if (!$ftp) {
                 $config = $this->config();
-                $ftp=$config->remote_config;
+                $ftp = $config->remote_config;
             }
-            if($ftp) {
+            if ($ftp) {
                 list($cache, $config, $ftpObj) = $packager->getRemoteConf($ftp);
             }
 
-            if(!$config->hasKey($key)) {
-                throw new \Exception ("No such config variable: {$key}!");
+            if (!$config->hasKey($key)) {
+                throw new \Exception("No such config variable: {$key}!");
             }
-            if(!$config->validate($key, $val)) {
+            if (!$config->validate($key, $val)) {
                 $possible = $this->config()->possible($key);
                 $type = $this->config()->type($key);
-                $errString = "Invalid value specified for $key!";
+                $errString = "Invalid value specified for {$key}!";
                 throw new \Exception($errString);
             }
-            if($ftp) {
+            if ($ftp) {
                 $packager->writeToRemoteConfig($config, $ftpObj);
             }
-            $this->config()->$key = $val;
+            $this->config()->{$key} = $val;
             $this->ui()->output('Success');
         } catch (\Exception $e) {
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
             return $this->doError($command, $e->getMessage());
@@ -125,26 +126,26 @@ class Config extends \Magento\Connect\Command
         $this->cleanupParams($params);
 
         try {
-            if(count($params) < 1) {
+            if (count($params) < 1) {
                 throw new \Exception("Parameters count should be >= 1");
             }
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($config,  $ftpObj) = $packager->getRemoteConfig($ftp);
+            if ($ftp) {
+                list($config, $ftpObj) = $packager->getRemoteConfig($ftp);
             } else {
                 $config = $this->config();
             }
             $key = strtolower($params[self::PARAM_KEY]);
-            if(!$config->hasKey($key)) {
+            if (!$config->hasKey($key)) {
                 throw new \Exception("No such config variable '{$key}'!");
             }
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
-            $this->ui()->output($config->$key);
+            $this->ui()->output($config->{$key});
         } catch (\Exception $e) {
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
             return $this->doError($command, $e->getMessage());
@@ -162,38 +163,38 @@ class Config extends \Magento\Connect\Command
     {
         try {
             $this->cleanupParams($params);
-            if(count($params) < 1) {
-                throw new \Exception( "Parameters count should be >= 1");
+            if (count($params) < 1) {
+                throw new \Exception("Parameters count should be >= 1");
             }
             $packager = $this->getPackager();
             $ftp = empty($options['ftp']) ? false : $options['ftp'];
-            if($ftp) {
-                list($config,  $ftpObj) = $packager->getRemoteConfig($ftp);
+            if ($ftp) {
+                list($config, $ftpObj) = $packager->getRemoteConfig($ftp);
             } else {
                 $config = $this->config();
             }
 
             $key = strtolower($params[self::PARAM_KEY]);
-            if(!$this->config()->hasKey($key)) {
+            if (!$this->config()->hasKey($key)) {
                 throw new \Exception("No such config variable '{$key}'!");
             }
 
             $possible = $config->possible($key);
             $type = $config->type($key);
             $doc = $config->doc($key);
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
             $data = array();
             $data[$command]['data'] = array(
-            'name' => array('Variable name', $key),
-            'type' => array('Value type', $type),
-            'possible' => array('Possible values', $possible),
-            'doc' => $doc,
+                'name' => array('Variable name', $key),
+                'type' => array('Value type', $type),
+                'possible' => array('Possible values', $possible),
+                'doc' => $doc
             );
             $this->ui()->output($data);
         } catch (\Exception $e) {
-            if($ftp) {
+            if ($ftp) {
                 @unlink($config->getFilename());
             }
             return $this->doError($command, $e->getMessage());

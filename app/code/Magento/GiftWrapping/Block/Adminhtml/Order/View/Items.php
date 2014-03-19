@@ -17,8 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class Items
-    extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
+class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractView
 {
     /**
      * Prepare and return order items info
@@ -30,12 +29,12 @@ class Items
         $data = array();
         foreach ($this->getOrder()->getAllItems() as $item) {
             if ($this->getDisplayWrappingBothPrices()) {
-                 $temp['price_excl_tax'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());
-                 $temp['price_incl_tax'] = $this->_preparePrices(
+                $temp['price_excl_tax'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());
+                $temp['price_incl_tax'] = $this->_preparePrices(
                     $item->getGwBasePrice() + $item->getGwBaseTaxAmount(),
                     $item->getGwPrice() + $item->getGwTaxAmount()
-                 );
-            } else if ($this->getDisplayWrappingPriceInclTax()) {
+                );
+            } elseif ($this->getDisplayWrappingPriceInclTax()) {
                 $temp['price'] = $this->_preparePrices(
                     $item->getGwBasePrice() + $item->getGwBaseTaxAmount(),
                     $item->getGwPrice() + $item->getGwTaxAmount()

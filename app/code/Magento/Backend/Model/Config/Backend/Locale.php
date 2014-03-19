@@ -80,7 +80,7 @@ class Locale extends \Magento\Core\Model\Config\Value
         $collection = $this->_configsFactory->create();
         $collection->addPathFilter('currency/options');
 
-        $values     = explode(',', $this->getValue());
+        $values = explode(',', $this->getValue());
         $exceptions = array();
 
         foreach ($collection as $data) {

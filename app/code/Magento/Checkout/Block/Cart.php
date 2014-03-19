@@ -67,16 +67,16 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         $products = array();
         /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
-            $product    = $item->getProduct();
-            $option     = $item->getOptionByCode('product_type');
+            $product = $item->getProduct();
+            $option = $item->getOptionByCode('product_type');
             if ($option) {
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != $this->_storeManager->getStore()->getId()
-                && !$item->getRedirectUrl()
-                && !$product->isVisibleInSiteVisibility())
-            {
+            if ($item->getStoreId() != $this->_storeManager->getStore()->getId() &&
+                !$item->getRedirectUrl() &&
+                !$product->isVisibleInSiteVisibility()
+            ) {
                 $products[$product->getId()] = $item->getStoreId();
             }
         }
@@ -84,8 +84,8 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         if ($products) {
             $products = $this->_catalogUrlBuilder->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
-                $product    = $item->getProduct();
-                $option     = $item->getOptionByCode('product_type');
+                $product = $item->getProduct();
+                $option = $item->getOptionByCode('product_type');
                 if ($option) {
                     $product = $option->getProduct();
                 }
@@ -121,8 +121,9 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     {
         $isActive = $this->_getData('is_wishlist_active');
         if ($isActive === null) {
-            $isActive = $this->_storeConfig->getConfig('wishlist/general/active')
-                && $this->_customerSession->isLoggedIn();
+            $isActive = $this->_storeConfig->getConfig(
+                'wishlist/general/active'
+            ) && $this->_customerSession->isLoggedIn();
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;
@@ -133,7 +134,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('checkout/onepage', array('_secure'=>true));
+        return $this->getUrl('checkout/onepage', array('_secure' => true));
     }
 
     /**

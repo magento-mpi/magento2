@@ -52,4 +52,3 @@ class Start extends \Magento\View\Element\Template
         return '';
     }
 }
-

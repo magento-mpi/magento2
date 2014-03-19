@@ -18,5 +18,4 @@ namespace Magento\Sales\Model\Resource\Report;
  */
 abstract class AbstractReport extends \Magento\Reports\Model\Resource\Report\AbstractReport
 {
-
 }

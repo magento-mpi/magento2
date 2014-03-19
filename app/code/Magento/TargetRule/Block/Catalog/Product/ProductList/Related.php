@@ -17,8 +17,7 @@
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
-class Related
-    extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
+class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\AbstractProductList
 {
     /**
      * Default MAP renderer type
@@ -98,7 +97,6 @@ class Related
             $priceBlockTypes
         );
     }
-
 
     /**
      * Retrieve Catalog Product List Type identifier

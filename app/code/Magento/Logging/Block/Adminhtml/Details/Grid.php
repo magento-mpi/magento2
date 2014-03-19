@@ -66,8 +66,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         $event = $this->_coreRegistry->registry('current_event');
-        $collection = $this->collectionFactory->create()
-            ->addFieldToFilter('event_id', $event->getId());
+        $collection = $this->collectionFactory->create()->addFieldToFilter('event_id', $event->getId());
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -79,27 +78,36 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('source_name', array(
-            'header'    => __('Source Data'),
-            'sortable'  => false,
-            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
-            'index'     => 'source_name',
-            'width'     => 1
-        ));
+        $this->addColumn(
+            'source_name',
+            array(
+                'header' => __('Source Data'),
+                'sortable' => false,
+                'renderer' => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
+                'index' => 'source_name',
+                'width' => 1
+            )
+        );
 
-        $this->addColumn('original_data', array(
-            'header'    => __('Value Before Change'),
-            'sortable'  => false,
-            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
-            'index'     => 'original_data'
-        ));
+        $this->addColumn(
+            'original_data',
+            array(
+                'header' => __('Value Before Change'),
+                'sortable' => false,
+                'renderer' => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
+                'index' => 'original_data'
+            )
+        );
 
-        $this->addColumn('result_data', array(
-            'header'    => __('Value After Change'),
-            'sortable'  => false,
-            'renderer'  => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
-            'index'     => 'result_data'
-        ));
+        $this->addColumn(
+            'result_data',
+            array(
+                'header' => __('Value After Change'),
+                'sortable' => false,
+                'renderer' => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
+                'index' => 'result_data'
+            )
+        );
 
         return parent::_prepareColumns();
     }

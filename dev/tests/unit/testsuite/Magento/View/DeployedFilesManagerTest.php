@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
@@ -22,7 +21,11 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
     public function testBuildDeployedFilePath($area, $themePath, $file, $module, $expected)
     {
         $actual = \Magento\View\DeployedFilesManager::buildDeployedFilePath(
-            $area, $themePath, $file, $module, $expected
+            $area,
+            $themePath,
+            $file,
+            $module,
+            $expected
         );
         $this->assertEquals($expected, $actual);
     }
@@ -34,7 +37,7 @@ class DeployedFilesManagerTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'no module' => array('a', 't', 'f', null, 'a/t/f'),
-            'with module' => array('a', 't', 'f', 'm', 'a/t/m/f'),
+            'with module' => array('a', 't', 'f', 'm', 'a/t/m/f')
         );
     }
 }

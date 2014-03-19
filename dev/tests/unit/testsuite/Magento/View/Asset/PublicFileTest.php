@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 class PublicFileTest extends \PHPUnit_Framework_TestCase
@@ -32,12 +31,15 @@ class PublicFileTest extends \PHPUnit_Framework_TestCase
     public function testGetUrl()
     {
         $url = 'http://127.0.0.1/magento/test/style.css';
-        $this->_viewUrl
-            ->expects($this->once())
-            ->method('getPublicFileUrl')
-            ->with('test/style.css')
-            ->will($this->returnValue($url))
-        ;
+        $this->_viewUrl->expects(
+            $this->once()
+        )->method(
+            'getPublicFileUrl'
+        )->with(
+            'test/style.css'
+        )->will(
+            $this->returnValue($url)
+        );
         $this->assertEquals($url, $this->_object->getUrl());
     }
 

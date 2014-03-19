@@ -116,17 +116,16 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         $this->_categoryId = $filter;
         $this->_coreRegistry->register('current_category_filter', $this->getCategory(), true);
 
-        $this->_appliedCategory = $this->_categoryFactory->create()
-            ->setStoreId($this->_storeManager->getStore()->getId())
-            ->load($filter);
+        $this->_appliedCategory = $this->_categoryFactory->create()->setStoreId(
+            $this->_storeManager->getStore()->getId()
+        )->load(
+            $filter
+        );
 
         if ($this->_isValidCategory($this->_appliedCategory)) {
-            $this->getLayer()->getProductCollection()
-                ->addCategoryFilter($this->_appliedCategory);
+            $this->getLayer()->getProductCollection()->addCategoryFilter($this->_appliedCategory);
 
-            $this->getLayer()->getState()->addFilter(
-                $this->_createItem($this->_appliedCategory->getName(), $filter)
-            );
+            $this->getLayer()->getState()->addFilter($this->_createItem($this->_appliedCategory->getName(), $filter));
         }
 
         return $this;
@@ -162,8 +161,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
     {
         if (!is_null($this->_categoryId)) {
             /** @var \Magento\Catalog\Model\Category $category */
-            $category = $this->_categoryFactory->create()
-                ->load($this->_categoryId);
+            $category = $this->_categoryFactory->create()->load($this->_categoryId);
             if ($category->getId()) {
                 return $category;
             }
@@ -178,11 +176,10 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getItemsData()
     {
-        $category   = $this->getCategory();
+        $category = $this->getCategory();
         $categories = $category->getChildrenCategories();
 
-        $this->getLayer()->getProductCollection()
-            ->addCountToCategories($categories);
+        $this->getLayer()->getProductCollection()->addCountToCategories($categories);
 
         $data = array();
         foreach ($categories as $category) {
@@ -190,7 +187,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                 $data[] = array(
                     'label' => $this->_escaper->escapeHtml($category->getName()),
                     'value' => $category->getId(),
-                    'count' => $category->getProductCount(),
+                    'count' => $category->getProductCount()
                 );
             }
         }

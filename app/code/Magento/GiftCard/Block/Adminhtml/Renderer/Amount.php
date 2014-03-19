@@ -11,9 +11,7 @@ namespace Magento\GiftCard\Block\Adminhtml\Renderer;
 
 use Magento\Data\Form\Element\AbstractElement;
 
-class Amount
- extends \Magento\Backend\Block\Widget
- implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Amount extends \Magento\Backend\Block\Widget implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * @var AbstractElement
@@ -78,13 +76,17 @@ class Amount
     public function render(AbstractElement $element)
     {
         $this->setElement($element);
-        $isAddButtonDisabled = ($element->getData('readonly_disabled') === true) ? true : false;
-        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label'     => __('Add Amount'),
-            'onclick'   => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
-            'class'     => 'action-add',
-            'disabled'  => $isAddButtonDisabled
-        ));
+        $isAddButtonDisabled = $element->getData('readonly_disabled') === true ? true : false;
+        $this->addChild(
+            'add_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add Amount'),
+                'onclick' => "giftcardAmountsControl.addItem('" . $this->getElement()->getHtmlId() . "')",
+                'class' => 'action-add',
+                'disabled' => $isAddButtonDisabled
+            )
+        );
 
         return $this->toHtml();
     }
@@ -133,8 +135,8 @@ class Amount
         }
         $websites = array();
         $websites[0] = array(
-            'name'      => __('All Websites'),
-            'currency'  => $this->_directoryHelper->getBaseCurrencyCode()
+            'name' => __('All Websites'),
+            'currency' => $this->_directoryHelper->getBaseCurrencyCode()
         );
 
         if (!$this->_storeManager->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
@@ -142,8 +144,8 @@ class Amount
             if ($storeId) {
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(
-                    'name'      => $website->getName(),
-                    'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                    'name' => $website->getName(),
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
                 );
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
@@ -151,8 +153,8 @@ class Amount
                         continue;
                     }
                     $websites[$website->getId()] = array(
-                        'name'      => $website->getName(),
-                        'currency'  => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                        'name' => $website->getName(),
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
                     );
                 }
             }
@@ -191,8 +193,8 @@ class Amount
      */
     protected function _sortValues($a, $b)
     {
-        if ($a['website_id']!=$b['website_id']) {
-            return $a['website_id']<$b['website_id'] ? -1 : 1;
+        if ($a['website_id'] != $b['website_id']) {
+            return $a['website_id'] < $b['website_id'] ? -1 : 1;
         }
         return 0;
     }

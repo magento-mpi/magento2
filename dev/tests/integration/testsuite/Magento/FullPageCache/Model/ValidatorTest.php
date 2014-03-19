@@ -25,11 +25,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\FullPageCache\Model\Validator', array(
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\FullPageCache\Model\Validator',
+            array(
                 'changeDependencies' => array('Test_Change_Dependency'),
-                'deleteDependencies' => array('Test_Delete_Dependency'),
-            ));
+                'deleteDependencies' => array('Test_Delete_Dependency')
+            )
+        );
     }
 
     /**
@@ -45,25 +47,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         return array(
             'change_class_for_caching' => array(
-                '$type'          => 'change',
-                '$object'        => $changeDependency,
-                '$isInvalidated' => true,
+                '$type' => 'change',
+                '$object' => $changeDependency,
+                '$isInvalidated' => true
             ),
             'change_class_not_for_caching' => array(
-                '$type'          => 'change',
-                '$object'        => new \stdClass(),
-                '$isInvalidated' => false,
+                '$type' => 'change',
+                '$object' => new \stdClass(),
+                '$isInvalidated' => false
             ),
             'delete_class_for_caching' => array(
-                '$type'          => 'delete',
-                '$object'        => $deleteDependency,
-                '$isInvalidated' => true,
+                '$type' => 'delete',
+                '$object' => $deleteDependency,
+                '$isInvalidated' => true
             ),
             'delete_class_not_for_caching' => array(
-                '$type'          => 'delete',
-                '$object'        => new \stdClass(),
-                '$isInvalidated' => false,
-            ),
+                '$type' => 'delete',
+                '$object' => new \stdClass(),
+                '$isInvalidated' => false
+            )
         );
     }
 
@@ -82,13 +84,15 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $cacheType = 'full_page';
         /** @var \Magento\App\Cache\StateInterface $cacheState */
-        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Cache\StateInterface');
+        $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Cache\StateInterface'
+        );
         $cacheState->setEnabled($cacheType, true);
 
         /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Cache\TypeListInterface');
+        $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Cache\TypeListInterface'
+        );
 
         // manual unset cache type
         $cacheTypeList->cleanType($cacheType);
@@ -97,11 +101,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         // invoke get data dependencies method
         switch ($type) {
             case 'change':
-                $this->_model->checkDataChange($object); // invokes _getDataChangeDependencies
+                $this->_model->checkDataChange($object);
+                // invokes _getDataChangeDependencies
                 break;
 
             case 'delete':
-                $this->_model->checkDataDelete($object); // invokes _getDataDeleteDependencies
+                $this->_model->checkDataDelete($object);
+                // invokes _getDataDeleteDependencies
                 break;
 
             default:

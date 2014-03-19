@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
-
 use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\View\Url as ViewUrl;
@@ -18,7 +16,6 @@ use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
 use Magento\Core\Model\App;
 use Magento\App\State as AppState;
-
 use Magento\Session\SessionManager;
 use Magento\App\CacheInterface as Cache;
 use Magento\App\Cache\StateInterface as CacheState;
@@ -187,21 +184,21 @@ class Context
         App $app,
         AppState $appState
     ) {
-        $this->request         = $request;
-        $this->eventManager    = $eventManager;
-        $this->urlBuilder      = $urlBuilder;
-        $this->translator      = $translator;
-        $this->cache           = $cache;
-        $this->design          = $design;
-        $this->session         = $session;
-        $this->storeConfig     = $storeConfig;
+        $this->request = $request;
+        $this->eventManager = $eventManager;
+        $this->urlBuilder = $urlBuilder;
+        $this->translator = $translator;
+        $this->cache = $cache;
+        $this->design = $design;
+        $this->session = $session;
+        $this->storeConfig = $storeConfig;
         $this->frontController = $frontController;
-        $this->viewUrl         = $viewUrl;
-        $this->viewConfig      = $viewConfig;
-        $this->cacheState      = $cacheState;
-        $this->logger          = $logger;
-        $this->app             = $app;
-        $this->appState        = $appState;
+        $this->viewUrl = $viewUrl;
+        $this->viewConfig = $viewConfig;
+        $this->cacheState = $cacheState;
+        $this->logger = $logger;
+        $this->app = $app;
+        $this->appState = $appState;
     }
 
     /**

@@ -34,11 +34,14 @@ class Plugin
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsEnabled(
-        \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject, \Closure $proceed, $layer, $filters
+        \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject,
+        \Closure $proceed,
+        $layer,
+        $filters
     ) {
         if ($this->helper->isThirdPartSearchEngine() && $this->helper->isActiveEngine()) {
             return $subject->isEnabled($layer, $filters);
         }
         return $proceed($layer, $filters);
     }
-} 
+}

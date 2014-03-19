@@ -13,7 +13,6 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
-class ImageUploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Uploader
+class ImageUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Uploader
 {
 }

@@ -5,9 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
-
 
 class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,10 +39,20 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->customerCurrentServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerCurrentService',
-            array(), array(), '', false);
-        $this->customerAddressServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerAddressService',
-            array(), array(), '', false);
+        $this->customerCurrentServiceMock = $this->getMock(
+            'Magento\Customer\Service\V1\CustomerCurrentService',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->customerAddressServiceMock = $this->getMock(
+            'Magento\Customer\Service\V1\CustomerAddressService',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->customerAddressCurrentService = new \Magento\Customer\Service\V1\CustomerAddressCurrentService(
             $this->customerCurrentServiceMock,
@@ -57,14 +65,24 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomerAddresses()
     {
-        $this->customerCurrentServiceMock->expects($this->once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($this->customerCurrentId));
-        $this->customerAddressServiceMock->expects($this->once())
-            ->method('getAddresses')
-            ->will($this->returnValue(array($this->customerAddressDataMock)));
-        $this->assertEquals(array($this->customerAddressDataMock),
-            $this->customerAddressCurrentService->getCustomerAddresses());
+        $this->customerCurrentServiceMock->expects(
+            $this->once()
+        )->method(
+            'getCustomerId'
+        )->will(
+            $this->returnValue($this->customerCurrentId)
+        );
+        $this->customerAddressServiceMock->expects(
+            $this->once()
+        )->method(
+            'getAddresses'
+        )->will(
+            $this->returnValue(array($this->customerAddressDataMock))
+        );
+        $this->assertEquals(
+            array($this->customerAddressDataMock),
+            $this->customerAddressCurrentService->getCustomerAddresses()
+        );
     }
 
     /**
@@ -72,14 +90,24 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultBillingAddress()
     {
-        $this->customerCurrentServiceMock->expects($this->once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($this->customerCurrentId));
-        $this->customerAddressServiceMock->expects($this->once())
-            ->method('getDefaultBillingAddress')
-            ->will($this->returnValue($this->customerAddressDataMock));
-        $this->assertEquals($this->customerAddressDataMock,
-            $this->customerAddressCurrentService->getDefaultBillingAddress());
+        $this->customerCurrentServiceMock->expects(
+            $this->once()
+        )->method(
+            'getCustomerId'
+        )->will(
+            $this->returnValue($this->customerCurrentId)
+        );
+        $this->customerAddressServiceMock->expects(
+            $this->once()
+        )->method(
+            'getDefaultBillingAddress'
+        )->will(
+            $this->returnValue($this->customerAddressDataMock)
+        );
+        $this->assertEquals(
+            $this->customerAddressDataMock,
+            $this->customerAddressCurrentService->getDefaultBillingAddress()
+        );
     }
 
     /**
@@ -87,13 +115,23 @@ class CustomerAddressCurrentServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultShippingAddress()
     {
-        $this->customerCurrentServiceMock->expects($this->once())
-            ->method('getCustomerId')
-            ->will($this->returnValue($this->customerCurrentId));
-        $this->customerAddressServiceMock->expects($this->once())
-            ->method('getDefaultShippingAddress')
-            ->will($this->returnValue($this->customerAddressDataMock));
-        $this->assertEquals($this->customerAddressDataMock,
-            $this->customerAddressCurrentService->getDefaultShippingAddress());
+        $this->customerCurrentServiceMock->expects(
+            $this->once()
+        )->method(
+            'getCustomerId'
+        )->will(
+            $this->returnValue($this->customerCurrentId)
+        );
+        $this->customerAddressServiceMock->expects(
+            $this->once()
+        )->method(
+            'getDefaultShippingAddress'
+        )->will(
+            $this->returnValue($this->customerAddressDataMock)
+        );
+        $this->assertEquals(
+            $this->customerAddressDataMock,
+            $this->customerAddressCurrentService->getDefaultShippingAddress()
+        );
     }
 }

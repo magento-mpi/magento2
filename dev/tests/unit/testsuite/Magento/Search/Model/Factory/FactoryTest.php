@@ -37,14 +37,28 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_objectManager = $this->getMockBuilder('Magento\ObjectManager')->getMock();
-        $this->_solrStateMock = $this->getMock('Magento\Search\Model\Solr\State',
-            array(), array(), '', false, false);
-        $this->_solrFactoryMock = $this->getMock('Magento\Search\Model\SolrFactory',
-            array(), array(), '', false, false);
-        $this->_regularFactoryMock = $this->getMock('Magento\Search\Model\RegularFactory',
-            array(), array(), '', false, false);
+        $this->_solrStateMock = $this->getMock('Magento\Search\Model\Solr\State', array(), array(), '', false, false);
+        $this->_solrFactoryMock = $this->getMock(
+            'Magento\Search\Model\SolrFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_regularFactoryMock = $this->getMock(
+            'Magento\Search\Model\RegularFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
 
-        $this->_factoryObject = new \Magento\Search\Model\Factory\Factory($this->_objectManager, $this->_solrStateMock);
+        $this->_factoryObject = new \Magento\Search\Model\Factory\Factory(
+            $this->_objectManager,
+            $this->_solrStateMock
+        );
     }
 
     /**
@@ -52,13 +66,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFactorySolr()
     {
-        $this->_solrStateMock->expects($this->once())
-            ->method('isActive')
-            ->will($this->returnValue(true));
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with('Magento\Search\Model\SolrFactory')
-            ->will($this->returnValue($this->_solrFactoryMock));
+        $this->_solrStateMock->expects($this->once())->method('isActive')->will($this->returnValue(true));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'Magento\Search\Model\SolrFactory'
+        )->will(
+            $this->returnValue($this->_solrFactoryMock)
+        );
         $this->_factoryObject->getFactory();
     }
 
@@ -67,15 +84,17 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFactoryRegular()
     {
-        $this->_solrStateMock->expects($this->once())
-            ->method('isActive')
-            ->will($this->returnValue(false));
+        $this->_solrStateMock->expects($this->once())->method('isActive')->will($this->returnValue(false));
 
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with('Magento\Search\Model\RegularFactory')
-            ->will($this->returnValue($this->_regularFactoryMock));
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'Magento\Search\Model\RegularFactory'
+        )->will(
+            $this->returnValue($this->_regularFactoryMock)
+        );
         $this->_factoryObject->getFactory();
     }
 }
-

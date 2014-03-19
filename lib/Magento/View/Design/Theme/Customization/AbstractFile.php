@@ -5,15 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Customization;
 
 /**
  * Theme file service abstract class
  */
-abstract class AbstractFile
-    implements \Magento\View\Design\Theme\Customization\FileInterface,
-               \Magento\View\Design\Theme\Customization\FileAssetInterface
+abstract class AbstractFile implements
+    \Magento\View\Design\Theme\Customization\FileInterface,
+    \Magento\View\Design\Theme\Customization\FileAssetInterface
 {
     /**
      * Customization path

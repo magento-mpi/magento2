@@ -7,7 +7,6 @@
  */
 namespace Magento\Module\Output;
 
-
 interface ConfigInterface
 {
     /**

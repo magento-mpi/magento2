@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin\Product;
 
-use \Magento\CatalogPermissions\Model\Indexer\Plugin\AbstractProduct;
+use Magento\CatalogPermissions\Model\Indexer\Plugin\AbstractProduct;
 
 class Action extends AbstractProduct
 {
@@ -25,7 +24,11 @@ class Action extends AbstractProduct
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundUpdateAttributes(
-        \Magento\Catalog\Model\Product\Action $subject, \Closure $closure, $productIds, $attrData, $storeId
+        \Magento\Catalog\Model\Product\Action $subject,
+        \Closure $closure,
+        $productIds,
+        $attrData,
+        $storeId
     ) {
         $action = $closure($productIds, $attrData, $storeId);
         $this->reindex($productIds);
@@ -45,7 +48,11 @@ class Action extends AbstractProduct
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundUpdateWebsites(
-        \Magento\Catalog\Model\Product\Action $subject, \Closure $closure, $productIds, $websiteIds, $type
+        \Magento\Catalog\Model\Product\Action $subject,
+        \Closure $closure,
+        $productIds,
+        $websiteIds,
+        $type
     ) {
         $closure($productIds, $websiteIds, $type);
         $this->reindex($productIds);

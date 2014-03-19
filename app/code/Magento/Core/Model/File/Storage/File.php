@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage;
 
 /**
@@ -72,10 +71,10 @@ class File
         \Magento\Core\Helper\File\Media $mediaHelper,
         \Magento\Core\Model\Resource\File\Storage\File $fileUtility
     ) {
-        $this->_fileUtility     = $fileUtility;
-        $this->_storageHelper   = $storageHelper;
-        $this->_logger          = $logger;
-        $this->_mediaHelper     = $mediaHelper;
+        $this->_fileUtility = $fileUtility;
+        $this->_storageHelper = $storageHelper;
+        $this->_logger = $logger;
+        $this->_mediaHelper = $mediaHelper;
     }
 
     /**
@@ -143,8 +142,8 @@ class File
             return false;
         }
 
-        $offset = ((int) $offset >= 0) ? (int) $offset : 0;
-        $count  = ((int) $count >= 1) ? (int) $count : 1;
+        $offset = (int)$offset >= 0 ? (int)$offset : 0;
+        $count = (int)$count >= 1 ? (int)$count : 1;
 
         if (empty($this->_data)) {
             $this->_data = $this->getStorageData();
@@ -224,7 +223,7 @@ class File
 
         foreach ($data as $part) {
             try {
-                $this->$callback($part);
+                $this->{$callback}($part);
             } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 $this->_logger->logException($e);
@@ -277,16 +276,18 @@ class File
      */
     public function saveFile($file, $overwrite = true)
     {
-        if (isset($file['filename']) && !empty($file['filename'])
-            && isset($file['content']) && !empty($file['content'])
+        if (isset(
+            $file['filename']
+        ) && !empty($file['filename']) && isset(
+            $file['content']
+        ) && !empty($file['content'])
         ) {
             try {
-                $filename = (isset($file['directory']) && !empty($file['directory']))
-                    ? $file['directory'] . '/' . $file['filename']
-                    : $file['filename'];
+                $filename = isset(
+                    $file['directory']
+                ) && !empty($file['directory']) ? $file['directory'] . '/' . $file['filename'] : $file['filename'];
 
-                return $this->_fileUtility
-                    ->saveFile($filename, $file['content'], $overwrite);
+                return $this->_fileUtility->saveFile($filename, $file['content'], $overwrite);
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
                 throw new \Magento\Core\Exception(

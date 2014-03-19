@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule1\Service\V2;
 
 use Magento\TestModule1\Service\V2\Entity\ItemBuilder;
@@ -30,7 +29,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
 
         $result2 = (new ItemBuilder())->setId(2)->setName('testProduct2')->setPrice('2')->create();
 
-        return [$result1, $result2];
+        return array($result1, $result2);
     }
 
     /**
@@ -46,7 +45,13 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated'.$item->getName())->setPrice('5')->create();
+        return (new ItemBuilder())->setId(
+            $item->getId()
+        )->setName(
+            'Updated' . $item->getName()
+        )->setPrice(
+            '5'
+        )->create();
     }
 
     /**

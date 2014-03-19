@@ -50,14 +50,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         array $data = array()
     ) {
         $this->_pbridgeSession = $pbridgeSession;
-        parent::__construct(
-            $context,
-            $customerSession,
-            $pbridgeSession,
-            $regionFactory,
-            $pbridgeData,
-            $data
-        );
+        parent::__construct($context, $customerSession, $pbridgeSession, $regionFactory, $pbridgeData, $data);
     }
 
     /**

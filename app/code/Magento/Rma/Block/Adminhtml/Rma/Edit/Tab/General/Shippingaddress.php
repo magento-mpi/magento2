@@ -17,8 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
-class Shippingaddress
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+class Shippingaddress extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Get order shipping address

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Routing;
 
 use Magento\Webapi\Model\Soap\Fault;
@@ -52,31 +51,20 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
     public function testWebapiException()
     {
         $serviceInfo = array(
-            'soap' => array(
-                'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1WebapiException'
-            )
+            'soap' => array('service' => 'testModule3ErrorV1', 'operation' => 'testModule3ErrorV1WebapiException')
         );
         try {
             $this->_webApiCall($serviceInfo);
             $this->fail("SoapFault was not raised as expected.");
         } catch (\SoapFault $e) {
-            $this->_checkSoapFault(
-                $e,
-                'Service not found',
-                'env:Sender',
-                5555
-            );
+            $this->_checkSoapFault($e, 'Service not found', 'env:Sender', 5555);
         }
     }
 
     public function testUnknownException()
     {
         $serviceInfo = array(
-            'soap' => array(
-                'service' => 'testModule3ErrorV1',
-                'operation' => 'testModule3ErrorV1OtherException'
-            )
+            'soap' => array('service' => 'testModule3ErrorV1', 'operation' => 'testModule3ErrorV1OtherException')
         );
         try {
             $this->_webApiCall($serviceInfo);
@@ -84,12 +72,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         } catch (\SoapFault $e) {
             /** In developer mode message is masked, so checks should be different in two modes */
             if (strpos($e->getMessage(), 'Internal Error') === false) {
-                $this->_checkSoapFault(
-                    $e,
-                    'Non service exception',
-                    'env:Receiver',
-                    5678
-                );
+                $this->_checkSoapFault($e, 'Non service exception', 'env:Receiver', 5678);
             } else {
                 $this->_checkSoapFault(
                     $e,
@@ -121,7 +104,9 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
         $errorDetailsNode = Fault::NODE_DETAIL_WRAPPER;
-        $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
+        $errorDetails = isset(
+            $soapFault->detail->{$errorDetailsNode}
+        ) ? $soapFault->detail->{$errorDetailsNode} : null;
         if (!is_null($expectedErrorCode) || !empty($expectedErrorParams) || $isTraceExpected) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
@@ -129,14 +114,13 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             /** Check error trace */
             $traceNode = Fault::NODE_DETAIL_TRACE;
-            $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-                ->getMode();
+            $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->getMode();
             if ($mode != \Magento\App\State::MODE_DEVELOPER) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
                 if ($isTraceExpected) {
-                    $this->assertTrue(isset($errorDetails->$traceNode), "Exception trace was expected.");
+                    $this->assertTrue(isset($errorDetails->{$traceNode}), "Exception trace was expected.");
                 } else {
-                    $this->assertFalse(isset($errorDetails->$traceNode), "Exception trace was not expected.");
+                    $this->assertFalse(isset($errorDetails->{$traceNode}), "Exception trace was not expected.");
                 }
             }
 
@@ -148,7 +132,6 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
                     "Error code in fault details is invalid."
                 );
             }
-
         } else {
             $this->assertNull($errorDetails, "Details are not expected.");
         }
@@ -172,23 +155,19 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             $paramKey = Fault::NODE_DETAIL_PARAMETER_KEY;
             $paramValue = Fault::NODE_DETAIL_PARAMETER_VALUE;
             $actualParams = array();
-            if (isset($errorDetails->$paramsNode->$paramNode)) {
-                if (is_array($errorDetails->$paramsNode->$paramNode)) {
-                    foreach ($errorDetails->$paramsNode->$paramNode as $param) {
-                        $actualParams[$param->$paramKey] = $param->$paramValue;
+            if (isset($errorDetails->{$paramsNode}->{$paramNode})) {
+                if (is_array($errorDetails->{$paramsNode}->{$paramNode})) {
+                    foreach ($errorDetails->{$paramsNode}->{$paramNode} as $param) {
+                        $actualParams[$param->{$paramKey}] = $param->{$paramValue};
                     }
                 } else {
-                    $param = $errorDetails->$paramsNode->$paramNode;
-                    $actualParams[$param->$paramKey] = $param->$paramValue;
+                    $param = $errorDetails->{$paramsNode}->{$paramNode};
+                    $actualParams[$param->{$paramKey}] = $param->{$paramValue};
                 }
             }
-            $this->assertEquals(
-                $expectedErrorParams,
-                $actualParams,
-                "Parameters in fault details are invalid."
-            );
+            $this->assertEquals($expectedErrorParams, $actualParams, "Parameters in fault details are invalid.");
         } else {
-            $this->assertFalse(isset($errorDetails->$paramsNode), "Parameters are not expected in fault details.");
+            $this->assertFalse(isset($errorDetails->{$paramsNode}), "Parameters are not expected in fault details.");
         }
     }
 }

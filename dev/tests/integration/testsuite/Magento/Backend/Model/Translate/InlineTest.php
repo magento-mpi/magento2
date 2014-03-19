@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Translate;
 
 /**
@@ -25,8 +24,9 @@ class InlineTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_translateInline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate\InlineInterface');
+        $this->_translateInline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Translate\InlineInterface'
+        );
     }
 
     /**
@@ -37,8 +37,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     {
         $body = '<html><body>some body</body></html>';
         /** @var \Magento\Backend\Model\UrlInterface $url */
-        $url = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\UrlInterface');
+        $url = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\UrlInterface');
         $url->getUrl(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE . '/ajax/translate');
         $this->_translateInline->processResponseBody($body, true);
         $this->assertContains(

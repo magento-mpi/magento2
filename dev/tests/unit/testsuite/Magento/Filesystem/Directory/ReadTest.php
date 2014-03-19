@@ -11,7 +11,6 @@ namespace Magento\Filesystem\Directory;
 
 class ReadTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * \Magento\Filesystem\Driver
      *
@@ -41,7 +40,6 @@ class ReadTest extends \PHPUnit_Framework_TestCase
         $this->read = new \Magento\Filesystem\Directory\Read(array(), $this->fileFactory, $this->driver);
     }
 
-
     /**
      * Tear down
      */
@@ -54,17 +52,13 @@ class ReadTest extends \PHPUnit_Framework_TestCase
 
     public function testIsExist()
     {
-        $this->driver->expects($this->once())
-            ->method('isExists')
-            ->will($this->returnValue(true));
+        $this->driver->expects($this->once())->method('isExists')->will($this->returnValue(true));
         $this->assertTrue($this->read->isExist('correct-path'));
     }
 
     public function testStat()
     {
-        $this->driver->expects($this->once())
-            ->method('stat')
-            ->will($this->returnValue(array('some-stat-data')));
+        $this->driver->expects($this->once())->method('stat')->will($this->returnValue(array('some-stat-data')));
         $this->assertEquals(array('some-stat-data'), $this->read->stat('correct-path'));
     }
 }

@@ -13,9 +13,10 @@ namespace Magento\PubSub;
 
 interface SubscriptionInterface extends \Magento\Outbound\EndpointInterface
 {
-
     const STATUS_INACTIVE = 0;
+
     const STATUS_ACTIVE = 1;
+
     const STATUS_REVOKED = 2;
 
     /**
@@ -33,7 +34,6 @@ interface SubscriptionInterface extends \Magento\Outbound\EndpointInterface
      */
     public function hasTopic($topic);
 
-
     /**
      * Get the status of this endpoint
      *
@@ -48,14 +48,12 @@ interface SubscriptionInterface extends \Magento\Outbound\EndpointInterface
      */
     public function deactivate();
 
-
     /**
      * Mark this subscription status to activated
      *
      * @return \Magento\PubSub\SubscriptionInterface The activated subscription
      */
     public function activate();
-
 
     /**
      * Mark this subscription status to revoked

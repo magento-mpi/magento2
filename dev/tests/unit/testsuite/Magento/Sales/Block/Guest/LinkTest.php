@@ -20,21 +20,17 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $context = $objectManagerHelper->getObject('Magento\View\Element\Template\Context');
-        $session = $this->getMockBuilder('Magento\Customer\Model\Session')
-            ->disableOriginalConstructor()
-            ->setMethods(array('isLoggedIn'))
-            ->getMock();
-        $session->expects($this->once())
-            ->method('isLoggedIn')
-            ->will($this->returnValue(true));
+        $session = $this->getMockBuilder(
+            'Magento\Customer\Model\Session'
+        )->disableOriginalConstructor()->setMethods(
+            array('isLoggedIn')
+        )->getMock();
+        $session->expects($this->once())->method('isLoggedIn')->will($this->returnValue(true));
 
         /** @var \Magento\Sales\Block\Guest\Link $link */
         $link = $objectManagerHelper->getObject(
             'Magento\Sales\Block\Guest\Link',
-            array(
-                'context' => $context,
-                'customerSession' => $session,
-            )
+            array('context' => $context, 'customerSession' => $session)
         );
 
         $this->assertEquals('', $link->toHtml());

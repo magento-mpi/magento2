@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Processor;
 
 class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
@@ -23,10 +22,10 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      * @var array
      */
     protected $_paramsMap = array(
-        'display_mode'  => 'mode',
-        'limit_page'    => 'limit',
-        'sort_order'    => 'order',
-        'sort_direction'=> 'dir',
+        'display_mode' => 'mode',
+        'limit_page' => 'limit',
+        'sort_order' => 'order',
+        'sort_direction' => 'dir'
     );
 
     /**
@@ -143,8 +142,10 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
             $params = $this->_getSessionParams();
             $queryParams = $request->getQuery();
             $queryParams = array_merge($queryParams, $params);
-            $maxDepth = $this->_coreStoreConfig->getConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH);
-            $res = count($queryParams)<=$maxDepth;
+            $maxDepth = $this->_coreStoreConfig->getConfig(
+                \Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH
+            );
+            $res = count($queryParams) <= $maxDepth;
         }
         return $res;
     }
@@ -156,7 +157,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     protected function _getSessionParams()
     {
         $params = array();
-        $data   = $this->_catalogSession->getData();
+        $data = $this->_catalogSession->getData();
         foreach ($this->_paramsMap as $sessionParam => $queryParam) {
             if (isset($data[$sessionParam])) {
                 $params[$queryParam] = $data[$sessionParam];

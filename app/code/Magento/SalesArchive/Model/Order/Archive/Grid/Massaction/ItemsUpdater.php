@@ -7,9 +7,8 @@
  */
 namespace Magento\SalesArchive\Model\Order\Archive\Grid\Massaction;
 
-class ItemsUpdater
-    extends \Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater
-    implements \Magento\View\Layout\Argument\UpdaterInterface
+class ItemsUpdater extends \Magento\SalesArchive\Model\Order\Grid\Massaction\ItemsUpdater implements
+    \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Remove massaction items in case they disallowed for user

@@ -22,10 +22,12 @@ class Link extends \Magento\View\Element\Html\Link
      * @var \Magento\Invitation\Helper\Data
      */
     protected $_invitationConfiguration;
+
     /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
+
     /**
      * @var \Magento\Invitation\Helper\Data
      */
@@ -67,9 +69,7 @@ class Link extends \Magento\View\Element\Html\Link
      */
     protected function _toHtml()
     {
-        if ($this->_invitationConfiguration->isEnabledOnFront()
-            && $this->_customerSession->isLoggedIn()
-        ) {
+        if ($this->_invitationConfiguration->isEnabledOnFront() && $this->_customerSession->isLoggedIn()) {
             return parent::_toHtml();
         }
         return '';

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Model;
 
 /**
@@ -76,10 +75,11 @@ class Observer
         if ($this->_wishlistData->isMultipleEnabled()) {
             /** @var \Magento\Wishlist\Model\Resource\Item\Collection $collection */
             $collection = $this->_itemCollectionFactory->create();
-            $collection->addCustomerIdFilter($this->_customerSession->getCustomerId())
-                ->setVisibilityFilter()
-                ->addStoreFilter($this->_storeManager->getWebsite()->getStoreIds())
-                ->setVisibilityFilter();
+            $collection->addCustomerIdFilter(
+                $this->_customerSession->getCustomerId()
+            )->setVisibilityFilter()->addStoreFilter(
+                $this->_storeManager->getWebsite()->getStoreIds()
+            )->setVisibilityFilter();
             $this->_wishlistData->setWishlistItemCollection($collection);
         }
     }

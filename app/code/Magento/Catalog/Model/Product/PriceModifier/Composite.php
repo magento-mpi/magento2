@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\PriceModifier;
 
 use Magento\Catalog\Model\Product\PriceModifierInterface;

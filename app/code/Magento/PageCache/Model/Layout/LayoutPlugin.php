@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\PageCache\Model\Layout;
+
 use Magento\TestFramework\Inspection\Exception;
 
 /**

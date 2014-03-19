@@ -14,10 +14,7 @@ $groupName = 'Autosettings';
 $entityTypeId = $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 
-$attributesOrder = array(
-    'gift_wrapping_available' => 70,
-    'gift_wrapping_price' => 80,
-);
+$attributesOrder = array('gift_wrapping_available' => 70, 'gift_wrapping_price' => 80);
 
 foreach ($attributesOrder as $key => $value) {
     $attribute = $this->getAttribute($entityTypeId, $key);

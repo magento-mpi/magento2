@@ -22,11 +22,14 @@ class PaymentAction implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
-                'label' => __('Authorization')),
-            array('value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
-                'label' => __('Sale')),
+            array(
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
+                'label' => __('Authorization')
+            ),
+            array(
+                'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
+                'label' => __('Sale')
+            )
         );
     }
 }
-

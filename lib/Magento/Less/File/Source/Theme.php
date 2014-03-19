@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;
@@ -33,10 +32,8 @@ class Theme implements SourceInterface
      * @param Filesystem $filesystem
      * @param Factory $fileFactory
      */
-    public function __construct(
-        Filesystem $filesystem,
-        Factory $fileFactory
-    ) {
+    public function __construct(Filesystem $filesystem, Factory $fileFactory)
+    {
         $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->fileFactory = $fileFactory;
     }

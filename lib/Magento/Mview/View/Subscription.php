@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Mview\View;
 
 class Subscription implements SubscriptionInterface
@@ -99,22 +98,22 @@ class Subscription implements SubscriptionInterface
             );
 
             /** @var \Magento\DB\Ddl\Trigger $trigger */
-            $trigger = $this->triggerFactory->create()
-                ->setName($triggerName)
-                ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
-                ->setEvent($event)
-                ->setTable($this->resource->getTableName($this->getTableName()));
-
-            $trigger->addStatement(
-                $this->buildStatement($event, $this->getView()->getChangelog())
+            $trigger = $this->triggerFactory->create()->setName(
+                $triggerName
+            )->setTime(
+                \Magento\DB\Ddl\Trigger::TIME_AFTER
+            )->setEvent(
+                $event
+            )->setTable(
+                $this->resource->getTableName($this->getTableName())
             );
+
+            $trigger->addStatement($this->buildStatement($event, $this->getView()->getChangelog()));
 
             // Add statements for linked views
             foreach ($this->getLinkedViews() as $view) {
                 /** @var \Magento\Mview\ViewInterface $view */
-                $trigger->addStatement(
-                    $this->buildStatement($event, $view->getChangelog())
-                );
+                $trigger->addStatement($this->buildStatement($event, $view->getChangelog()));
             }
 
             $this->write->dropTrigger($trigger->getName());
@@ -139,18 +138,20 @@ class Subscription implements SubscriptionInterface
             );
 
             /** @var \Magento\DB\Ddl\Trigger $trigger */
-            $trigger = $this->triggerFactory->create()
-                ->setName($triggerName)
-                ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
-                ->setEvent($event)
-                ->setTable($this->resource->getTableName($this->getTableName()));
+            $trigger = $this->triggerFactory->create()->setName(
+                $triggerName
+            )->setTime(
+                \Magento\DB\Ddl\Trigger::TIME_AFTER
+            )->setEvent(
+                $event
+            )->setTable(
+                $this->resource->getTableName($this->getTableName())
+            );
 
             // Add statements for linked views
             foreach ($this->getLinkedViews() as $view) {
                 /** @var \Magento\Mview\ViewInterface $view */
-                $trigger->addStatement(
-                    $this->buildStatement($event, $view->getChangelog())
-                );
+                $trigger->addStatement($this->buildStatement($event, $view->getChangelog()));
             }
 
             $this->write->dropTrigger($trigger->getName());
@@ -172,8 +173,7 @@ class Subscription implements SubscriptionInterface
     protected function getLinkedViews()
     {
         if (!$this->linkedViews) {
-            $viewList = $this->viewCollection
-                ->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
+            $viewList = $this->viewCollection->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
 
             foreach ($viewList as $view) {
                 /** @var \Magento\Mview\ViewInterface $view */
@@ -205,14 +205,16 @@ class Subscription implements SubscriptionInterface
         switch ($event) {
             case \Magento\DB\Ddl\Trigger::EVENT_INSERT:
             case \Magento\DB\Ddl\Trigger::EVENT_UPDATE:
-                return sprintf("INSERT IGNORE INTO %s (%s) VALUES (NEW.%s);",
+                return sprintf(
+                    "INSERT IGNORE INTO %s (%s) VALUES (NEW.%s);",
                     $this->write->quoteIdentifier($this->resource->getTableName($changelog->getName())),
                     $this->write->quoteIdentifier($changelog->getColumnName()),
                     $this->write->quoteIdentifier($this->getColumnName())
                 );
 
             case \Magento\DB\Ddl\Trigger::EVENT_DELETE:
-                return sprintf("INSERT IGNORE INTO %s (%s) VALUES (OLD.%s);",
+                return sprintf(
+                    "INSERT IGNORE INTO %s (%s) VALUES (OLD.%s);",
                     $this->write->quoteIdentifier($this->resource->getTableName($changelog->getName())),
                     $this->write->quoteIdentifier($changelog->getColumnName()),
                     $this->write->quoteIdentifier($this->getColumnName())
@@ -236,9 +238,7 @@ class Subscription implements SubscriptionInterface
      */
     protected function getTriggerName($tableName, $time, $event)
     {
-        return self::TRIGGER_NAME_QUALIFIER . '_' . $tableName
-            . '_' . $time
-            . '_' . $event;
+        return self::TRIGGER_NAME_QUALIFIER . '_' . $tableName . '_' . $time . '_' . $event;
     }
 
     /**

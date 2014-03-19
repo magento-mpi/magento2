@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\FileList;
 
 use Magento\View\Layout\File\FileList\CollateInterface;

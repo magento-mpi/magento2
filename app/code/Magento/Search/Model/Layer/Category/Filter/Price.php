@@ -163,8 +163,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                         $lastSeparator = $separatorLabelValues[0];
                     }
                     $label = $this->_renderRangeLabel($separatorLabelValues[0], $separatorLabelValues[1]);
-                    $value = (empty($separatorLabelValues[0]) ? '' : $separatorLabelValues[0])
-                        . '-' . $separatorLabelValues[1];
+                    $value = (empty($separatorLabelValues[0]) ? '' : $separatorLabelValues[0]) .
+                        '-' .
+                        $separatorLabelValues[1];
                 }
 
                 if ($isAuto) {
@@ -178,8 +179,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     $rangeKey = $separator[2] / $range;
 
                     $rangeKey = round($rangeKey, 2);
-                    $separator[1] = ($rangeKey == 1) ? '' : (($rangeKey - 1) * $range);
-                    $separator[2] = ($key == null) ? '' : ($rangeKey * $range);
+                    $separator[1] = $rangeKey == 1 ? '' : ($rangeKey - 1) * $range;
+                    $separator[2] = $key == null ? '' : $rangeKey * $range;
                     // checking max number of intervals
                     if ($i > 1 && $i > $maxIntervalsNumber) {
                         --$i;
@@ -193,15 +194,18 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                 }
 
                 $data[$i - 1] = array(
-                    'label' => is_null($label) ? $this->_renderRangeLabel(
-                            empty($separator[1]) ? 0 : ($separator[1] * $this->getCurrencyRate()),
-                            empty($separator[2]) ? $separator[2] : $separator[2]  * $this->getCurrencyRate()
-                        ) : $label,
-                    'value' => (is_null($value) ? ($separator[1] . '-' . $separator[2]) : $value)
-                        . $this->_getAdditionalRequestData(),
+                    'label' => is_null(
+                        $label
+                    ) ? $this->_renderRangeLabel(
+                        empty($separator[1]) ? 0 : $separator[1] * $this->getCurrencyRate(),
+                        empty($separator[2]) ? $separator[2] : $separator[2] * $this->getCurrencyRate()
+                    ) : $label,
+                    'value' => (is_null(
+                        $value
+                    ) ? $separator[1] . '-' . $separator[2] : $value) . $this->_getAdditionalRequestData(),
                     'count' => $count,
-                    'from'  => $separator[1],
-                    'to'    => $separator[2],
+                    'from' => $separator[1],
+                    'to' => $separator[2]
                 );
             }
 
@@ -212,8 +216,11 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     $upperIntervalLimit = $appliedInterval[1];
                 }
                 if (is_null($value)) {
-                    $data[$i - 1]['value'] = $lastSeparator . '-' . $upperIntervalLimit
-                        . $this->_getAdditionalRequestData();
+                    $data[$i -
+                        1]['value'] = $lastSeparator .
+                        '-' .
+                        $upperIntervalLimit .
+                        $this->_getAdditionalRequestData();
                 }
                 if (is_null($label)) {
                     $data[$i - 1]['label'] = $this->_renderRangeLabel(
@@ -267,9 +274,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     {
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
         $intervalParams = $this->getInterval();
-        $intervalParams = $intervalParams ? ($intervalParams[0] . '-' . $intervalParams[1]) : '';
-        $uniquePart = strtoupper(md5(serialize($searchParams) . '_'
-            . $this->getCurrencyRate() . '_' . $intervalParams));
+        $intervalParams = $intervalParams ? $intervalParams[0] . '-' . $intervalParams[1] : '';
+        $uniquePart = strtoupper(
+            md5(serialize($searchParams) . '_' . $this->getCurrencyRate() . '_' . $intervalParams)
+        );
         $cacheKey = 'PRICE_SEPARATORS_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = $this->_cache->load($cacheKey);
@@ -278,11 +286,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $statistics = $statistics[$this->_getFilterField()];
 
             $appliedInterval = $this->getInterval();
-            if (
-                $appliedInterval
-                && ($statistics['count'] <= $this->getIntervalDivisionLimit()
-                || $appliedInterval[0] == $appliedInterval[1]
-                || $appliedInterval[1] === '0')
+            if ($appliedInterval && ($statistics['count'] <= $this->getIntervalDivisionLimit() ||
+                $appliedInterval[0] == $appliedInterval[1] ||
+                $appliedInterval[1] === '0')
             ) {
                 $this->_priceAlgorithm->setPricesModel($this)->setStatistics(0, 0, 0, 0);
                 $this->_divisible = false;
@@ -290,7 +296,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                 if ($appliedInterval) {
                     $this->_priceAlgorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
                 }
-                $this->_priceAlgorithm->setPricesModel($this)->setStatistics(
+                $this->_priceAlgorithm->setPricesModel(
+                    $this
+                )->setStatistics(
                     round($statistics['min'] * $this->getCurrencyRate(), 2),
                     round($statistics['max'] * $this->getCurrencyRate(), 2),
                     $statistics['stddev'] * $this->getCurrencyRate(),
@@ -328,7 +336,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param bool $decrease
      * @return float
      */
-    protected function _prepareFacetedValue($value, $decrease = true) {
+    protected function _prepareFacetedValue($value, $decrease = true)
+    {
         // rounding issue
         if ($this->getCurrencyRate() > 1) {
             if ($decrease) {
@@ -364,7 +373,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         if ($to === '') {
             $to = '*';
         } else {
-            if ($to == $from || ($to == 0 && $from == '*')) {
+            if ($to == $from || $to == 0 && $from == '*') {
                 $to = $this->_prepareFacetedValue($to, false);
             } else {
                 $to = $this->_prepareFacetedValue($to);
@@ -407,11 +416,11 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         }
 
         $this->_facets = array();
-        $range    = $this->getPriceRange();
+        $range = $this->getPriceRange();
         $maxPrice = $this->getMaxPriceInt();
         if ($maxPrice >= 0) {
             $priceFacets = array();
-            $facetCount  = ceil($maxPrice / $range);
+            $facetCount = ceil($maxPrice / $range);
 
             for ($i = 0; $i < $facetCount + 1; $i++) {
                 $separator = array($i * $range, ($i + 1) * $range);
@@ -441,12 +450,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $to -= \Magento\Catalog\Model\Resource\Layer\Filter\Price::MIN_POSSIBLE_PRICE / 10;
         }
 
-        $value = array(
-            $this->_getFilterField() => array(
-                'from' => ($range * ($index - 1)),
-                'to'   => $to
-            )
-        );
+        $value = array($this->_getFilterField() => array('from' => $range * ($index - 1), 'to' => $to));
 
         $this->getLayer()->getProductCollection()->addFqFilter($value);
 
@@ -461,9 +465,9 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     protected function _applyPriceRange()
     {
         list($from, $to) = $this->getInterval();
-        $this->getLayer()->getProductCollection()->addFqFilter(array(
-            $this->_getFilterField() => $this->_prepareFacetRange($from, $to)
-        ));
+        $this->getLayer()->getProductCollection()->addFqFilter(
+            array($this->_getFilterField() => $this->_prepareFacetRange($from, $to))
+        );
 
         return $this;
     }
@@ -516,7 +520,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return $result;
         }
         foreach ($result as &$v) {
-            $v = round((float)$v * $this->getCurrencyRate(), 2);
+            $v = round((double)$v * $this->getCurrencyRate(), 2);
         }
         return $result;
     }
@@ -581,7 +585,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return $result;
         }
         foreach ($result as &$v) {
-            $v = round((float)$v * $this->getCurrencyRate(), 2);
+            $v = round((double)$v * $this->getCurrencyRate(), 2);
         }
         return $result;
     }

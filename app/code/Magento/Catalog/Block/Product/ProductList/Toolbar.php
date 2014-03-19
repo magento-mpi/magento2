@@ -30,103 +30,101 @@ class Toolbar extends \Magento\View\Element\Template
      *
      * @var string
      */
-    protected $_pageVarName     = 'p';
+    protected $_pageVarName = 'p';
 
     /**
      * GET parameter order variable
      *
      * @var string
      */
-    protected $_orderVarName        = 'order';
+    protected $_orderVarName = 'order';
 
     /**
      * GET parameter direction variable
      *
      * @var string
      */
-    protected $_directionVarName    = 'dir';
+    protected $_directionVarName = 'dir';
 
     /**
      * GET parameter mode variable
      *
      * @var string
      */
-    protected $_modeVarName         = 'mode';
+    protected $_modeVarName = 'mode';
 
     /**
      * GET parameter limit variable
      *
      * @var string
      */
-    protected $_limitVarName        = 'limit';
+    protected $_limitVarName = 'limit';
 
     /**
      * List of available order fields
      *
      * @var array
      */
-    protected $_availableOrder      = array();
+    protected $_availableOrder = array();
 
     /**
      * List of available view types
      *
      * @var array
      */
-    protected $_availableMode       = array();
+    protected $_availableMode = array();
 
     /**
      * Is enable View switcher
      *
      * @var bool
      */
-    protected $_enableViewSwitcher  = true;
+    protected $_enableViewSwitcher = true;
 
     /**
      * Is Expanded
      *
      * @var bool
      */
-    protected $_isExpanded          = true;
+    protected $_isExpanded = true;
 
     /**
      * Default Order field
      *
      * @var string
      */
-    protected $_orderField          = null;
+    protected $_orderField = null;
 
     /**
      * Default direction
      *
      * @var string
      */
-    protected $_direction           = 'asc';
+    protected $_direction = 'asc';
 
     /**
      * Default View mode
      *
      * @var string
      */
-    protected $_viewMode            = null;
+    protected $_viewMode = null;
 
     /**
      * Default limits per page
      *
      * @var array
      */
-    protected $_defaultAvailableLimit  = array(10=>10,20=>20,50=>50);
+    protected $_defaultAvailableLimit = array(10 => 10, 20 => 20, 50 => 50);
 
     /**
      * @var bool $_paramsMemorizeAllowed
      */
     protected $_paramsMemorizeAllowed = true;
 
-
     /**
      * @var string
      */
     protected $_template = 'product/list/toolbar.phtml';
-
 
     /**
      * Catalog config
@@ -178,7 +176,7 @@ class Toolbar extends \Magento\View\Element\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = $this->_storeConfig->getConfig(
+        $this->_orderField = $this->_storeConfig->getConfig(
             \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
         );
 
@@ -194,14 +192,13 @@ class Toolbar extends \Magento\View\Element\Template
                 break;
 
             case 'grid-list':
-                $this->_availableMode = array('grid' => __('Grid'), 'list' =>  __('List'));
+                $this->_availableMode = array('grid' => __('Grid'), 'list' => __('List'));
                 break;
 
             case 'list-grid':
                 $this->_availableMode = array('list' => __('List'), 'grid' => __('Grid'));
                 break;
         }
-
     }
 
     /**
@@ -320,7 +317,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function getCurrentPage()
     {
-        if ($page = (int) $this->getRequest()->getParam($this->getPageVarName())) {
+        if ($page = (int)$this->getRequest()->getParam($this->getPageVarName())) {
             return $page;
         }
         return 1;
@@ -457,6 +454,7 @@ class Toolbar extends \Magento\View\Element\Template
         $this->_availableOrder[$order] = $value;
         return $this;
     }
+
     /**
      * Remove order from available orders if exists
      *
@@ -479,7 +477,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function isOrderCurrent($order)
     {
-        return ($order == $this->getCurrentOrder());
+        return $order == $this->getCurrentOrder();
     }
 
     /**
@@ -494,11 +492,13 @@ class Toolbar extends \Magento\View\Element\Template
         if (is_null($order)) {
             $order = $this->getCurrentOrder() ? $this->getCurrentOrder() : $this->_availableOrder[0];
         }
-        return $this->getPagerUrl(array(
-            $this->getOrderVarName()=>$order,
-            $this->getDirectionVarName()=>$direction,
-            $this->getPageVarName() => null
-        ));
+        return $this->getPagerUrl(
+            array(
+                $this->getOrderVarName() => $order,
+                $this->getDirectionVarName() => $direction,
+                $this->getPageVarName() => null
+            )
+        );
     }
 
     /**
@@ -507,13 +507,13 @@ class Toolbar extends \Magento\View\Element\Template
      * @param array $params Query parameters
      * @return string
      */
-    public function getPagerUrl($params=array())
+    public function getPagerUrl($params = array())
     {
         $urlParams = array();
-        $urlParams['_current']  = true;
-        $urlParams['_escape']   = true;
-        $urlParams['_use_rewrite']   = true;
-        $urlParams['_query']    = $params;
+        $urlParams['_current'] = true;
+        $urlParams['_escape'] = true;
+        $urlParams['_use_rewrite'] = true;
+        $urlParams['_query'] = $params;
         return $this->getUrl('*/*/*', $urlParams);
     }
 
@@ -577,7 +577,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function setModes($modes)
     {
-        if(!isset($this->_availableMode)){
+        if (!isset($this->_availableMode)) {
             $this->_availableMode = $modes;
         }
         return $this;
@@ -591,7 +591,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function getModeUrl($mode)
     {
-        return $this->getPagerUrl( array($this->getModeVarName()=>$mode, $this->getPageVarName() => null) );
+        return $this->getPagerUrl(array($this->getModeVarName() => $mode, $this->getPageVarName() => null));
     }
 
     /**
@@ -670,8 +670,7 @@ class Toolbar extends \Magento\View\Element\Template
                 return $default;
             }
             return $this->_storeConfig->getConfig('catalog/frontend/list_per_page');
-        }
-        elseif ($this->getCurrentMode() == 'grid') {
+        } elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
@@ -708,7 +707,7 @@ class Toolbar extends \Magento\View\Element\Template
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
         if ($this->_storeConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
-            return ($perPageValues + array('all'=>__('All')));
+            return $perPageValues + array('all' => __('All'));
         } else {
             return $perPageValues;
         }
@@ -759,10 +758,7 @@ class Toolbar extends \Magento\View\Element\Template
      */
     public function getLimitUrl($limit)
     {
-        return $this->getPagerUrl(array(
-            $this->getLimitVarName() => $limit,
-            $this->getPageVarName() => null
-        ));
+        return $this->getPagerUrl(array($this->getLimitVarName() => $limit, $this->getPageVarName() => null));
     }
 
     /**
@@ -780,7 +776,7 @@ class Toolbar extends \Magento\View\Element\Template
     public function getFirstNum()
     {
         $collection = $this->getCollection();
-        return $collection->getPageSize()*($collection->getCurPage()-1)+1;
+        return $collection->getPageSize() * ($collection->getCurPage() - 1) + 1;
     }
 
     /**
@@ -789,7 +785,7 @@ class Toolbar extends \Magento\View\Element\Template
     public function getLastNum()
     {
         $collection = $this->getCollection();
-        return $collection->getPageSize()*($collection->getCurPage()-1)+$collection->count();
+        return $collection->getPageSize() * ($collection->getCurPage() - 1) + $collection->count();
     }
 
     /**
@@ -830,15 +826,25 @@ class Toolbar extends \Magento\View\Element\Template
             /* @var $pagerBlock \Magento\Theme\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
 
-            $pagerBlock->setUseContainer(false)
-                ->setShowPerPage(false)
-                ->setShowAmounts(false)
-                ->setLimitVarName($this->getLimitVarName())
-                ->setPageVarName($this->getPageVarName())
-                ->setLimit($this->getLimit())
-                ->setFrameLength($this->_storeConfig->getConfig('design/pagination/pagination_frame'))
-                ->setJump($this->_storeConfig->getConfig('design/pagination/pagination_frame_skip'))
-                ->setCollection($this->getCollection());
+            $pagerBlock->setUseContainer(
+                false
+            )->setShowPerPage(
+                false
+            )->setShowAmounts(
+                false
+            )->setLimitVarName(
+                $this->getLimitVarName()
+            )->setPageVarName(
+                $this->getPageVarName()
+            )->setLimit(
+                $this->getLimit()
+            )->setFrameLength(
+                $this->_storeConfig->getConfig('design/pagination/pagination_frame')
+            )->setJump(
+                $this->_storeConfig->getConfig('design/pagination/pagination_frame_skip')
+            )->setCollection(
+                $this->getCollection()
+            );
 
             return $pagerBlock->toHtml();
         }

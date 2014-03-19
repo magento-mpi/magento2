@@ -18,7 +18,6 @@ namespace Magento\User\Block\User\Edit;
  */
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
-
     /**
      * Class constructor
      *
@@ -37,21 +36,27 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _beforeToHtml()
     {
-        $this->addTab('main_section', array(
-            'label'     => __('User Info'),
-            'title'     => __('User Info'),
-            'content'   => $this->getLayout()
-                ->createBlock('Magento\User\Block\User\Edit\Tab\Main')->toHtml(),
-            'active'    => true
-        ));
+        $this->addTab(
+            'main_section',
+            array(
+                'label' => __('User Info'),
+                'title' => __('User Info'),
+                'content' => $this->getLayout()->createBlock('Magento\User\Block\User\Edit\Tab\Main')->toHtml(),
+                'active' => true
+            )
+        );
 
-        $this->addTab('roles_section', array(
-            'label'     => __('User Role'),
-            'title'     => __('User Role'),
-            'content'   => $this->getLayout()
-                ->createBlock('Magento\User\Block\User\Edit\Tab\Roles', 'user.roles.grid')->toHtml(),
-        ));
+        $this->addTab(
+            'roles_section',
+            array(
+                'label' => __('User Role'),
+                'title' => __('User Role'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\User\Block\User\Edit\Tab\Roles',
+                    'user.roles.grid'
+                )->toHtml()
+            )
+        );
         return parent::_beforeToHtml();
     }
-
 }

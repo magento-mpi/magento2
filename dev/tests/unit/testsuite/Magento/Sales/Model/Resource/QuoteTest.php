@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Resource;
 
 class QuoteTest extends \PHPUnit_Framework_TestCase
@@ -48,15 +47,19 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->_adapterMock->expects($this->any())->method('select')->will($this->returnValue($this->_selectMock));
 
         $this->_resourceMock = $this->getMock('\Magento\App\Resource', array(), array(), '', false);
-        $this->_resourceMock->expects($this->any())
-            ->method('getConnection')
-            ->will($this->returnValue($this->_adapterMock));
+        $this->_resourceMock->expects(
+            $this->any()
+        )->method(
+            'getConnection'
+        )->will(
+            $this->returnValue($this->_adapterMock)
+        );
 
         $this->_configMock = $this->getMock('\Magento\Eav\Model\Config', array(), array(), '', false);
 
         $this->_model = new \Magento\Sales\Model\Resource\Quote(
             $this->_resourceMock,
-            new \Magento\Stdlib\DateTime,
+            new \Magento\Stdlib\DateTime(),
             $this->_configMock
         );
     }
@@ -77,10 +80,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function isOrderIncrementIdUsedDataProvider()
     {
-        return array(
-            array(100000001),
-            array('10000000001'),
-            array('M10000000001'),
-        );
+        return array(array(100000001), array('10000000001'), array('M10000000001'));
     }
 }

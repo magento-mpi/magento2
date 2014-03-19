@@ -33,18 +33,26 @@ class Config
      * Cache types
      */
     const BUILT_IN = 0;
+
     const VARNISH = 1;
+
     /**#@-*/
 
     /**#@+
      * XML path to Varnish settings
      */
     const XML_PAGECACHE_TTL = 'system/full_page_cache/ttl';
+
     const XML_PAGECACHE_TYPE = 'system/full_page_cache/caching_application';
+
     const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/full_page_cache/varnish/access_list';
+
     const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/full_page_cache/varnish/backend_port';
+
     const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/full_page_cache/varnish/backend_host';
+
     const XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX = 'design/theme/ua_regexp';
+
     /**#@-*/
 
     /**
@@ -99,9 +107,7 @@ class Config
      */
     public function getVclFile()
     {
-        $data = $this->_modulesDirectory->readFile(
-            $this->_config->getValue(self::VARNISH_CONFIGURATION_PATH)
-        );
+        $data = $this->_modulesDirectory->readFile($this->_config->getValue(self::VARNISH_CONFIGURATION_PATH));
         return strtr($data, $this->_getReplacements());
     }
 
@@ -156,9 +162,7 @@ class Config
     protected function _getDesignExceptions()
     {
         $result = '';
-        $tpl = "%s (req.http.user-agent ~ \"%s\") {\n"
-             . "        hash_data(\"%s\");\n"
-             . "    }";
+        $tpl = "%s (req.http.user-agent ~ \"%s\") {\n" . "        hash_data(\"%s\");\n" . "    }";
 
         $expressions = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX);
         if ($expressions) {
@@ -170,7 +174,7 @@ class Config
                     } else {
                         $pattern = $matches[1];
                     }
-                    $if = ($i == 0) ? 'if' : ' elsif';
+                    $if = $i == 0 ? 'if' : ' elsif';
                     $result .= sprintf($tpl, $if, $pattern, $rule['value']);
                 }
             }

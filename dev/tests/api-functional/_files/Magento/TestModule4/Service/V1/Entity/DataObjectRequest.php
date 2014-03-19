@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule4\Service\V1\Entity;
 
 class DataObjectRequest extends \Magento\Service\Data\AbstractObject
@@ -25,5 +24,4 @@ class DataObjectRequest extends \Magento\Service\Data\AbstractObject
     {
         return $this->_get('entity_id');
     }
-
 }

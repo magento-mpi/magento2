@@ -20,7 +20,6 @@ namespace Magento\Paypal\Block\Payflow\Link;
 
 class Review extends \Magento\Paypal\Block\Express\Review
 {
-
     /**
      * Retrieve payment method and assign additional template values
      *

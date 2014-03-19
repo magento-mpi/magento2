@@ -40,9 +40,7 @@ class Cart extends \Magento\Payment\Model\Cart
                 $subtotal -= $this->getDiscount();
             }
 
-            return array(
-                self::AMOUNT_SUBTOTAL => $subtotal
-            );
+            return array(self::AMOUNT_SUBTOTAL => $subtotal);
         }
 
         return $this->_amounts;
@@ -137,14 +135,17 @@ class Cart extends \Magento\Payment\Model\Cart
 
             // aggregate item price if item qty * price does not match row total
             $itemBaseRowTotal = $item->getOriginalItem()->getBaseRowTotal();
-            if (($amount * $qty) != $itemBaseRowTotal) {
-                $amount = (float)$itemBaseRowTotal;
+            if ($amount * $qty != $itemBaseRowTotal) {
+                $amount = (double)$itemBaseRowTotal;
                 $subAggregatedLabel = ' x' . $qty;
                 $qty = 1;
             }
 
-            $this->_salesModelItems[] = $this->_createItemFromData($item->getName() . $subAggregatedLabel, $qty,
-                $amount);
+            $this->_salesModelItems[] = $this->_createItemFromData(
+                $item->getName() . $subAggregatedLabel,
+                $qty,
+                $amount
+            );
         }
 
         $this->addSubtotal($this->_salesModel->getBaseSubtotal());
@@ -175,10 +176,11 @@ class Cart extends \Magento\Payment\Model\Cart
      * @param \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface $salesEntity
      * @return void
      */
-    protected function _applyHiddenTaxWorkaround(\Magento\Payment\Model\Cart\SalesModel\SalesModelInterface $salesEntity)
-    {
+    protected function _applyHiddenTaxWorkaround(
+        \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface $salesEntity
+    ) {
         $dataContainer = $salesEntity->getTaxContainer();
-        $this->addTax((float)$dataContainer->getBaseHiddenTaxAmount());
-        $this->addTax((float)$dataContainer->getBaseShippingHiddenTaxAmnt());
+        $this->addTax((double)$dataContainer->getBaseHiddenTaxAmount());
+        $this->addTax((double)$dataContainer->getBaseShippingHiddenTaxAmnt());
     }
 }

@@ -24,7 +24,7 @@ class Column extends AbstractContainer implements MapperInterface
         } else {
             $attributesToSelect = array();
         }
-        $onlySpecified = (bool)$this->getVar('_only_specified')===true;
+        $onlySpecified = (bool)$this->getVar('_only_specified') === true;
         $mappedData = array();
         foreach ($data as $i => $row) {
             $newRow = array();

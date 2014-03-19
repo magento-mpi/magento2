@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Container\Header;
 
 /**
@@ -20,8 +19,12 @@ class Compare extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _getCacheId()
     {
-        $identifier = $this->_placeholder->getAttribute('cache_id')
-            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, '');
+        $identifier = $this->_placeholder->getAttribute(
+            'cache_id'
+        ) . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST,
+            ''
+        );
         return 'CONTAINER_HEADER_COMPARE' . '_' . md5($identifier);
     }
 

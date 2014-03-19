@@ -9,7 +9,6 @@
  */
 namespace Magento\Backend\App\Action\Plugin;
 
-
 class MassactionKey
 {
     /**
@@ -35,4 +34,4 @@ class MassactionKey
         }
         return $proceed($request);
     }
-} 
+}

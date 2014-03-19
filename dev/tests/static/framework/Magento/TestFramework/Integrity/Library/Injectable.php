@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Integrity\Library;
 
 use Zend\Code\Reflection\ClassReflection;

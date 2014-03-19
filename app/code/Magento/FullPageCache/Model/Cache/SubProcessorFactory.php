@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Cache;
 
 class SubProcessorFactory
@@ -37,7 +36,7 @@ class SubProcessorFactory
     {
         $processor = $this->_objectManager->create($className, $arguments);
 
-        if (false === ($processor instanceof \Magento\FullPageCache\Model\Cache\SubProcessorInterface)) {
+        if (false === $processor instanceof \Magento\FullPageCache\Model\Cache\SubProcessorInterface) {
             throw new \LogicException(
                 $className . ' doesn\'t implements \Magento\FullPageCache\Model\Cache\SubProcessorInterface'
             );
@@ -45,5 +44,4 @@ class SubProcessorFactory
 
         return $processor;
     }
-
 }

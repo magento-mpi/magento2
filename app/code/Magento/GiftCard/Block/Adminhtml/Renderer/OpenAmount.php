@@ -60,10 +60,20 @@ class OpenAmount extends \Magento\Data\Form\Element\Select
      */
     public function getElementHtml()
     {
-        $this->_element->setId($this->getHtmlId())->setName($this->getData('name'))
-            ->setChecked($this->getValue())->setValue(\Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED);
-        $hiddenField = '<input type="hidden" name="' . $this->getName()
-            . '" value="' . \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED . '"/>';
+        $this->_element->setId(
+            $this->getHtmlId()
+        )->setName(
+            $this->getData('name')
+        )->setChecked(
+            $this->getValue()
+        )->setValue(
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED
+        );
+        $hiddenField = '<input type="hidden" name="' .
+            $this->getName() .
+            '" value="' .
+            \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_DISABLED .
+            '"/>';
         return $hiddenField . $this->_element->getElementHtml();
     }
 }

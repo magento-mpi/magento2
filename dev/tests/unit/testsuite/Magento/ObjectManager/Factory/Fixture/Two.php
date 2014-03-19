@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\ObjectManager\Factory\Fixture;
 
 /**
@@ -48,4 +47,4 @@ class Two
     {
         return $this->baz;
     }
-} 
+}

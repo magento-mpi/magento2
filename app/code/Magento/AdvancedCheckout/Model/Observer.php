@@ -85,10 +85,13 @@ class Observer
         if (is_null($storeId)) {
             $storeId = $observer->getRequestModel()->getParam('store_id');
         }
-        return $this->_cart
-            ->setSession($observer->getSession())
-            ->setContext(Cart::CONTEXT_ADMIN_ORDER)
-            ->setCurrentStore((int)$storeId);
+        return $this->_cart->setSession(
+            $observer->getSession()
+        )->setContext(
+            Cart::CONTEXT_ADMIN_ORDER
+        )->setCurrentStore(
+            (int)$storeId
+        );
     }
 
     /**
@@ -123,7 +126,10 @@ class Observer
             return;
         }
 
-        $addBySkuItems = $request->getPost(\Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE, array());
+        $addBySkuItems = $request->getPost(
+            \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE,
+            array()
+        );
         $items = $request->getPost('item', array());
         if (!$addBySkuItems) {
             return;
@@ -149,9 +155,9 @@ class Observer
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_checkoutData;
-        $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
-            ? $helper->processSkuFileUploading()
-            : array();
+        $rows = $helper->isSkuFileUploaded(
+            $observer->getRequestModel()
+        ) ? $helper->processSkuFileUploading() : array();
         if (empty($rows)) {
             return;
         }
@@ -174,13 +180,17 @@ class Observer
     {
         $address = $this->_addressFactory->create();
         $address->setData($realAddress->getData());
-        $address
-            ->setId(null)
-            ->unsEntityId()
-            ->unsetData('cached_items_nominal')
-            ->unsetData('cached_items_nonnominal')
-            ->unsetData('cached_items_all')
-            ->setQuote($quote);
+        $address->setId(
+            null
+        )->unsEntityId()->unsetData(
+            'cached_items_nominal'
+        )->unsetData(
+            'cached_items_nonnominal'
+        )->unsetData(
+            'cached_items_all'
+        )->setQuote(
+            $quote
+        );
         return $address;
     }
 
@@ -207,7 +217,7 @@ class Observer
 
         foreach ($this->_checkoutData->getFailedItems(false) as $item) {
             /** @var $item \Magento\Sales\Model\Quote\Item */
-            if ((float)$item->getQty() <= 0) {
+            if ((double)$item->getQty() <= 0) {
                 $item->setSkuRequestedQty($item->getQty());
                 $item->setData('qty', 1);
             }

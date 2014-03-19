@@ -171,9 +171,13 @@ class Design implements \Magento\View\DesignInterface
         $store = isset($params['store']) ? $params['store'] : null;
 
         if ($this->_isThemePerStoveView($area)) {
-            $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)$this->_storeConfig->getConfig(self::XML_PATH_THEME_ID, $store);
+            $theme = $this->_storeManager->isSingleStoreMode() ? $this->_config->getValue(
+                self::XML_PATH_THEME_ID,
+                'default'
+            ) : (string)$this->_storeConfig->getConfig(
+                self::XML_PATH_THEME_ID,
+                $store
+            );
         }
 
         if (!$theme && isset($this->_themes[$area])) {
@@ -224,9 +228,9 @@ class Design implements \Magento\View\DesignInterface
     public function getDesignParams()
     {
         $params = array(
-            'area'       => $this->getArea(),
+            'area' => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
-            'locale'     => $this->_locale->getLocaleCode()
+            'locale' => $this->_locale->getLocaleCode()
         );
 
         return $params;

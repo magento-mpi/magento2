@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\Router;
 
 class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
@@ -42,13 +41,11 @@ class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
             $noRoute = array();
         }
 
-        $moduleName     = isset($noRoute[0]) ? $noRoute[0] : 'core';
+        $moduleName = isset($noRoute[0]) ? $noRoute[0] : 'core';
         $controllerName = isset($noRoute[1]) ? $noRoute[1] : 'index';
-        $actionName     = isset($noRoute[2]) ? $noRoute[2] : 'index';
+        $actionName = isset($noRoute[2]) ? $noRoute[2] : 'index';
 
-        $request->setModuleName($moduleName)
-            ->setControllerName($controllerName)
-            ->setActionName($actionName);
+        $request->setModuleName($moduleName)->setControllerName($controllerName)->setActionName($actionName);
 
         return true;
     }

@@ -24,6 +24,7 @@ class Inline implements \Magento\Translate\InlineInterface
      * @var \Magento\TranslateInterface
      */
     protected $_translator;
+
     /**
      * Indicator to hold state of whether inline translation is allowed
      *
@@ -41,7 +42,7 @@ class Inline implements \Magento\Translate\InlineInterface
      *
      * @var bool
      */
-    protected $_isScriptInserted    = false;
+    protected $_isScriptInserted = false;
 
     /**
      * @var \Magento\UrlInterface

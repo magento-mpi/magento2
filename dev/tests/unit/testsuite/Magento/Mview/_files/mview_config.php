@@ -13,19 +13,13 @@ return array(
         . '<!--comment--></subscriptions></view></config>',
     'expected' => array(
         'view_one' => array(
-            'view_id'       => 'view_one',
-            'action_class'  => 'Ogogo\Class\One',
+            'view_id' => 'view_one',
+            'action_class' => 'Ogogo\Class\One',
             'group' => 'some_view_group',
             'subscriptions' => array(
-                'some_entity' => array(
-                    'name'   => 'some_entity',
-                    'column' => 'entity_id',
-                ),
-                'some_product_relation' => array(
-                    'name'   => 'some_product_relation',
-                    'column' => 'product_id',
-                ),
-            ),
-        ),
-    ),
+                'some_entity' => array('name' => 'some_entity', 'column' => 'entity_id'),
+                'some_product_relation' => array('name' => 'some_product_relation', 'column' => 'product_id')
+            )
+        )
+    )
 );

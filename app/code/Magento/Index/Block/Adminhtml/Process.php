@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Block\Adminhtml;
 
 class Process extends \Magento\Backend\Block\Widget\Grid\Container

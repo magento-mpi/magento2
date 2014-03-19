@@ -77,11 +77,11 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
      */
     public function canDisplay()
     {
-        return $this->_catalogEventData->isEnabled()
-            && $this->getProduct()
-            && $this->getEvent()
-            && $this->getEvent()->canDisplayProductPage()
-            && !$this->getProduct()->getEventNoTicker();
+        return $this->_catalogEventData->isEnabled() &&
+            $this->getProduct() &&
+            $this->getEvent() &&
+            $this->getEvent()->canDisplayProductPage() &&
+            !$this->getProduct()->getEventNoTicker();
     }
 
     /**

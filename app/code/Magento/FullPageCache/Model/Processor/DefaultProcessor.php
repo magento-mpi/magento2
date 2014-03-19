@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\FullPageCache\Model\Processor;
 
 class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcessorInterface
@@ -89,7 +88,6 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
         return true;
     }
 
-
     /**
      * Replace block content to placeholder replacer
      *
@@ -111,8 +109,11 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
         try {
             foreach ($placeholders as $definition) {
                 $this->_placeholder = $this->_placeholderFactory->create($definition);
-                $content = preg_replace_callback($this->_placeholder->getPattern(),
-                    array($this, '_getPlaceholderReplacer'), $content);
+                $content = preg_replace_callback(
+                    $this->_placeholder->getPattern(),
+                    array($this, '_getPlaceholderReplacer'),
+                    $content
+                );
             }
             $this->_placeholder = null;
         } catch (\Exception $e) {
@@ -146,7 +147,7 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
          * In developer mode blocks will be rendered separately
          * This should simplify debugging _renderBlock()
          */
-        if ($container && ($this->_appState->getMode() != \Magento\App\State::MODE_DEVELOPER)) {
+        if ($container && $this->_appState->getMode() != \Magento\App\State::MODE_DEVELOPER) {
             $container = $this->_containerFactory->create($container, array('placeholder' => $this->_placeholder));
             $container->setProcessor($this->_fpcProcessor);
             $blockContent = $matches[1];
@@ -154,7 +155,6 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
         }
         return $this->_placeholder->getReplacer();
     }
-
 
     /**
      * Return cache page id with application. Depends on GET super global array.

@@ -5,12 +5,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento;
 
 interface CurrencyInterface
 {
-
     /**
      * Returns a localized currency string
      *
@@ -113,6 +111,7 @@ interface CurrencyInterface
      * @return void
      */
     public static function removeCache();
+
     /**
      * Clears all set cache data
      *
@@ -138,6 +137,7 @@ interface CurrencyInterface
      * @return string
      */
     public function getLocale();
+
     /**
      * Returns the value
      *

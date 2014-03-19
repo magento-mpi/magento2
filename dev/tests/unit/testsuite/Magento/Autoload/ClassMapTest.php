@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Autoload;
 
 class ClassMapTest extends \PHPUnit_Framework_TestCase

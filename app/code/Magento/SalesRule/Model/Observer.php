@@ -129,11 +129,9 @@ class Observer
                     $ruleCustomer->loadByCustomerRule($customerId, $ruleId);
 
                     if ($ruleCustomer->getId()) {
-                        $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed()+1);
+                        $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed() + 1);
                     } else {
-                        $ruleCustomer->setCustomerId($customerId)
-                            ->setRuleId($ruleId)
-                            ->setTimesUsed(1);
+                        $ruleCustomer->setCustomerId($customerId)->setRuleId($ruleId)->setTimesUsed(1);
                     }
                     $ruleCustomer->save();
                 }
@@ -192,11 +190,13 @@ class Observer
         }
 
         if ($disabledRulesCount) {
-            $this->messageManager->addWarning(__(
-                '%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.',
-                $disabledRulesCount,
-                $attributeCode
-            ));
+            $this->messageManager->addWarning(
+                __(
+                    '%1 Shopping Cart Price Rules based on "%2" attribute have been disabled.',
+                    $disabledRulesCount,
+                    $attributeCode
+                )
+            );
         }
 
         return $this;
@@ -287,4 +287,3 @@ class Observer
         return $this;
     }
 }
-

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Convert;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +16,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Convert\Xml;
+        $this->_model = new \Magento\Convert\Xml();
     }
 
     public function testXmlToAssoc()

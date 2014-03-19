@@ -105,8 +105,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getCacheKey()
     {
-        $key = $this->getLayer()->getStateKey()
-            . '_ATTR_' . $this->getAttributeModel()->getAttributeCode();
+        $key = $this->getLayer()->getStateKey() . '_ATTR_' . $this->getAttributeModel()->getAttributeCode();
         return $key;
     }
 
@@ -119,8 +118,8 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _renderItemLabel($range, $value)
     {
-        $from   = $this->_storeManager->getStore()->formatPrice(($value - 1) * $range, false);
-        $to     = $this->_storeManager->getStore()->formatPrice($value * $range, false);
+        $from = $this->_storeManager->getStore()->formatPrice(($value - 1) * $range, false);
+        $to = $this->_storeManager->getStore()->formatPrice($value * $range, false);
         return __('%1 - %2', $from, $to);
     }
 
@@ -168,11 +167,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
             $maxValue = $this->getMaxValue();
             $index = 1;
             do {
-                $range = pow(10, (strlen(floor($maxValue)) - $index));
+                $range = pow(10, strlen(floor($maxValue)) - $index);
                 $items = $this->getRangeItemCounts($range);
                 $index++;
-            }
-            while ($range > self::MIN_RANGE_POWER && count($items) < 2);
+            } while ($range > self::MIN_RANGE_POWER && count($items) < 2);
             $this->setData('range', $range);
         }
 
@@ -203,15 +201,15 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _getItemsData()
     {
-        $data       = array();
-        $range      = $this->getRange();
-        $dbRanges   = $this->getRangeItemCounts($range);
+        $data = array();
+        $range = $this->getRange();
+        $dbRanges = $this->getRangeItemCounts($range);
 
         foreach ($dbRanges as $index => $count) {
             $data[] = array(
                 'label' => $this->_renderItemLabel($range, $index),
                 'value' => $index . ',' . $range,
-                'count' => $count,
+                'count' => $count
             );
         }
 

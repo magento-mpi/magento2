@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 
 use Magento\TestFramework\Helper\ObjectManager;

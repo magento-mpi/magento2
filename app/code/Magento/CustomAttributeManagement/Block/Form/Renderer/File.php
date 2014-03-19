@@ -31,11 +31,8 @@ class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      * @param Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        array $data = array()
-    ) {
+    public function __construct(Template\Context $context, \Magento\Core\Helper\Data $coreData, array $data = array())
+    {
         $this->_coreData = $coreData;
         parent::__construct($context, $data);
     }

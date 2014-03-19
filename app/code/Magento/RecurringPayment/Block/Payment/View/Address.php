@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -50,8 +49,6 @@ class Address extends \Magento\RecurringPayment\Block\Payment\View
         }
         $this->setIsAddress(true);
         $address = $this->_addressFactory->create(array('data' => $this->_recurringPayment->getData($key)));
-        $this->_addInfo(array(
-            'value' => preg_replace('/\\n{2,}/', "\n", $address->format('text')),
-        ));
+        $this->_addInfo(array('value' => preg_replace('/\\n{2,}/', "\n", $address->format('text'))));
     }
 }

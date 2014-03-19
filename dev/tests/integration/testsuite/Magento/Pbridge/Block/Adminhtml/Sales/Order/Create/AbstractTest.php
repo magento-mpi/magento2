@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
 /**
@@ -17,8 +16,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\View\LayoutInterface'
+            )->createBlock(
+                'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate'
+            )
         );
     }
 }

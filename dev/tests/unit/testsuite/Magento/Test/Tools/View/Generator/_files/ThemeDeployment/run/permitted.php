@@ -8,8 +8,4 @@
  * @license     {license_link}
  */
 
-return array(
-    'css',
-    'js',
-    'png',
-);
+return array('css', 'js', 'png');

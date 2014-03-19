@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Utility;
 
 class LayoutTest extends \PHPUnit_Framework_TestCase
@@ -17,11 +16,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::APP_DIR => array('path' => BP . '/dev/tests/integration'),
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
+            array(
+                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\App\Filesystem::APP_DIR => array('path' => BP . '/dev/tests/integration')
+                )
             )
-        ));
+        );
         $this->_utility = new \Magento\Core\Utility\Layout($this);
     }
 
@@ -68,11 +69,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'single fixture file' => array(
-                __DIR__ . '/_files/layout/handle_two.xml', __DIR__ . '/_files/layout_merged/single_handle.xml'
+                __DIR__ . '/_files/layout/handle_two.xml',
+                __DIR__ . '/_files/layout_merged/single_handle.xml'
             ),
             'multiple fixture files' => array(
-                glob(__DIR__ . '/_files/layout/*.xml'), __DIR__ . '/_files/layout_merged/multiple_handles.xml'
-            ),
+                glob(__DIR__ . '/_files/layout/*.xml'),
+                __DIR__ . '/_files/layout_merged/multiple_handles.xml'
+            )
         );
     }
 }

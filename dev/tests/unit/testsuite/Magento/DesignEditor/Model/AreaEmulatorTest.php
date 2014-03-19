@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model;
 
 class AreaEmulatorTest extends \PHPUnit_Framework_TestCase

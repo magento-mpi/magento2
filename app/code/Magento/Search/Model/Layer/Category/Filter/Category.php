@@ -65,7 +65,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     protected function _getItemsData()
     {
         /** @var $category \Magento\Catalog\Model\Categeory */
-        $category   = $this->getCategory();
+        $category = $this->getCategory();
         $categories = $category->getChildrenCategories();
 
         $productCollection = $this->getLayer()->getProductCollection();
@@ -84,7 +84,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
                 $data[] = array(
                     'label' => $this->_escaper->escapeHtml($category->getName()),
                     'value' => $categoryId,
-                    'count' => $category->getProductCount(),
+                    'count' => $category->getProductCount()
                 );
             }
         }
@@ -103,9 +103,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         $childrenCategories = $category->getChildrenCategories();
 
         $useFlat = (bool)$this->_coreStoreConfig->getConfig('catalog/frontend/flat_catalog_category');
-        $categories = ($useFlat)
-            ? array_keys($childrenCategories)
-            : array_keys($childrenCategories->toArray());
+        $categories = $useFlat ? array_keys($childrenCategories) : array_keys($childrenCategories->toArray());
 
         $this->getLayer()->getProductCollection()->setFacetCondition('category_ids', $categories);
 

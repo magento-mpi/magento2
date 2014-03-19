@@ -55,7 +55,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     {
         $data = array();
         foreach ($row as $value) {
-            $data[] =  $value.'_TRUE_';
+            $data[] = $value . '_TRUE_';
         }
         return $data;
     }
@@ -106,7 +106,10 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
             $convert->setDataHeader($this->_testHeader);
             $convert->setDataFooter($this->_testFooter);
         } else {
-            $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData), array($this, 'callbackMethod'));
+            $convert = new \Magento\Convert\Excel(
+                new \ArrayIterator($this->_testData),
+                array($this, 'callbackMethod')
+            );
         }
 
         $convert->write($stream);
@@ -125,7 +128,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     public function testWrite()
     {
         $file = $this->_writeFile();
-        $isEqual = (file_get_contents($file) == file_get_contents($this->_getSampleOutputFile()));
+        $isEqual = file_get_contents($file) == file_get_contents($this->_getSampleOutputFile());
         $this->assertTrue($isEqual, 'Failed asserting that data from files is the same.');
     }
 

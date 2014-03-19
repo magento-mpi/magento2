@@ -13,8 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column;
 
-class Management
-    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
+class Management extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Render block

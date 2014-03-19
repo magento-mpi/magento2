@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Fedex\Model\Source;
 
 class Generic implements \Magento\Option\ArrayInterface

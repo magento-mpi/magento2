@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu\Builder\Command;
 
 class RemoveTest extends \PHPUnit_Framework_TestCase
@@ -18,9 +17,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    protected $_params = array(
-        'id' => 'item'
-    );
+    protected $_params = array('id' => 'item');
 
     protected function setUp()
     {

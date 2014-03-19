@@ -15,6 +15,7 @@ use Magento\Service\Data\AbstractObject;
 class SearchCriteria extends AbstractObject
 {
     const SORT_ASC = 1;
+
     const SORT_DESC = -1;
 
     /**

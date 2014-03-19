@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order\Pdf\Total;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -34,12 +33,23 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($class, $arguments, $expectedClassName)
     {
-        $createdModel = $this->getMock('Magento\Sales\Model\Order\Pdf\Total\DefaultTotal', array(), array(),
-            (string) $class, false);
-        $this->_objectManager->expects($this->once())
-            ->method('create')
-            ->with($expectedClassName, $arguments)
-            ->will($this->returnValue($createdModel));
+        $createdModel = $this->getMock(
+            'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal',
+            array(),
+            array(),
+            (string)$class,
+            false
+        );
+        $this->_objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $expectedClassName,
+            $arguments
+        )->will(
+            $this->returnValue($createdModel)
+        );
 
         $actual = $this->_factory->create($class, $arguments);
         $this->assertSame($createdModel, $actual);
@@ -52,13 +62,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'default model' => array(
-                null, array('param1', 'param2'),
-                'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal',
+                null,
+                array('param1', 'param2'),
+                'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal'
             ),
-            'custom model' => array(
-                'custom_class', array('param1', 'param2'),
-                'custom_class',
-            ),
+            'custom model' => array('custom_class', array('param1', 'param2'), 'custom_class')
         );
     }
 

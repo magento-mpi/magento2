@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GoogleShopping\Model;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase

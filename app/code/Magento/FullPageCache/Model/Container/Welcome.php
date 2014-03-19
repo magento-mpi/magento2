@@ -22,9 +22,13 @@ class Welcome extends \Magento\FullPageCache\Model\Container\Customer
      */
     protected function _getIdentifier()
     {
-        $cacheId = $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER, '')
-            . '_'
-            . $this->_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN, '');
+        $cacheId = $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER,
+            ''
+        ) . '_' . $this->_getCookieValue(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER_LOGGED_IN,
+            ''
+        );
         return $cacheId;
     }
 

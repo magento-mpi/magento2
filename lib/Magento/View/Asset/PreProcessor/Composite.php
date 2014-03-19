@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset\PreProcessor;
 
-use \Magento\View\Asset\PreProcessorFactory;
+use Magento\View\Asset\PreProcessorFactory;
 
 /**
  * View asset pre-processor composite
@@ -42,10 +41,8 @@ class Composite implements PreProcessorInterface
      * @param PreProcessorFactory $preProcessorFactory
      * @param array $preProcessorsConfig
      */
-    public function __construct(
-        PreProcessorFactory $preProcessorFactory,
-        array $preProcessorsConfig = array()
-    ) {
+    public function __construct(PreProcessorFactory $preProcessorFactory, array $preProcessorsConfig = array())
+    {
         $this->preProcessorFactory = $preProcessorFactory;
         $this->preProcessorsConfig = $preProcessorsConfig;
     }
@@ -78,8 +75,9 @@ class Composite implements PreProcessorInterface
             $this->assetTypePreProcessors[$assetType] = array();
             foreach ($this->preProcessorsConfig as $preProcessorDetails) {
                 if ($assetType === $preProcessorDetails['asset_type']) {
-                    $this->assetTypePreProcessors[$assetType][] = $this->preProcessorFactory
-                        ->create($preProcessorDetails['class']);
+                    $this->assetTypePreProcessors[$assetType][] = $this->preProcessorFactory->create(
+                        $preProcessorDetails['class']
+                    );
                 }
             }
         }

@@ -16,8 +16,7 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address;
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Attribute
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Attribute extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Define controller, block and labels

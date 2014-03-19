@@ -130,7 +130,7 @@ class Observer
     public function catalogCheckIsUsingStaticUrlsAllowed(\Magento\Event\Observer $observer)
     {
         $storeId = $observer->getEvent()->getData('store_id');
-        $result  = $observer->getEvent()->getData('result');
+        $result = $observer->getEvent()->getData('result');
         $result->isAllowed = $this->_catalogData->setStoreId($storeId)->isUsingStaticUrlsAllowed();
     }
 
@@ -144,11 +144,7 @@ class Observer
     {
         $block = $observer->getEvent()->getBlock();
         $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG);
-        $this->_addCategoriesToMenu(
-            $this->_catalogCategory->getStoreCategories(),
-            $observer->getMenu(),
-            $block
-        );
+        $this->_addCategoriesToMenu($this->_catalogCategory->getStoreCategories(), $observer->getMenu(), $block);
     }
 
     /**

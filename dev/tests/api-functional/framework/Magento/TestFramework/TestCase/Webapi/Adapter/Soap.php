@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
@@ -52,18 +51,22 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     public function call($serviceInfo, $arguments = array())
     {
         $soapOperation = $this->_getSoapOperation($serviceInfo);
-        $soapResponse = $this->_getSoapClient($serviceInfo)->$soapOperation($arguments);
+        $soapResponse = $this->_getSoapClient($serviceInfo)->{$soapOperation}($arguments);
 
         // TODO: Check if code below is necessary (when some tests are implemented)
-        $result = (is_array($soapResponse) || is_object($soapResponse))
-            ? $this->_normalizeResponse($soapResponse)
-            : $soapResponse;
+        $result = is_array(
+            $soapResponse
+        ) || is_object(
+            $soapResponse
+        ) ? $this->_normalizeResponse(
+            $soapResponse
+        ) : $soapResponse;
 
         /** Remove result wrappers */
         $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
-        $result = isset($result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME])
-            ? $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME]
-            : $result;
+        $result = isset(
+            $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME]
+        ) ? $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME] : $result;
         return $result;
     }
 
@@ -94,11 +97,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     public function instantiateSoapClient($wsdlUrl)
     {
         $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
-        $opts = array(
-            'http'=>array(
-                'header'=>"Authorization: Bearer " . $accessCredentials['key']
-            )
-        );
+        $opts = array('http' => array('header' => "Authorization: Bearer " . $accessCredentials['key']));
         $context = stream_context_create($opts);
         $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
@@ -170,8 +169,12 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
                 since version will be part of the service name
             */
             return '';
-        } else if (isset($serviceInfo['serviceInterface'])) {
-            preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
+        } elseif (isset($serviceInfo['serviceInterface'])) {
+            preg_match(
+                \Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN,
+                $serviceInfo['serviceInterface'],
+                $matches
+            );
             if (isset($matches[3])) {
                 $version = $matches[3];
             } else {
@@ -246,19 +249,25 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     protected function _soapResultToArray($soapResult)
     {
         if (is_object($soapResult) && null !== ($_data = get_object_vars($soapResult))) {
-            array_walk($_data, function ($value, $key) use (&$_data) {
-                if (is_object($value) || is_array($value)) {
-                    $_data[$key] = $this->_soapResultToArray($value);
+            array_walk(
+                $_data,
+                function ($value, $key) use (&$_data) {
+                    if (is_object($value) || is_array($value)) {
+                        $_data[$key] = $this->_soapResultToArray($value);
+                    }
                 }
-            });
+            );
             return $_data;
         } else if (is_array($soapResult)) {
             $_data = array();
-            array_walk($soapResult, function ($value, $key) use (&$_data) {
-                if (is_object($value) || is_array($value)) {
-                    $_data[$key] = $this->_soapResultToArray($value);
+            array_walk(
+                $soapResult,
+                function ($value, $key) use (&$_data) {
+                    if (is_object($value) || is_array($value)) {
+                        $_data[$key] = $this->_soapResultToArray($value);
+                    }
                 }
-            });
+            );
             return $_data;
         }
         return array();

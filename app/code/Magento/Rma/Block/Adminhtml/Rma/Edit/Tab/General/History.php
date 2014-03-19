@@ -12,8 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 /**
  * Comments History Block at RMA page
  */
-class History
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+class History extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Rma config model
@@ -55,13 +54,12 @@ class History
      */
     protected function _prepareLayout()
     {
-        $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label'   => __('Submit Comment'),
-                'class'   => 'save',
-                'onclick' => $onclick
-            ));
+        $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '" . $this->getSubmitUrl() . "')";
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Submit Comment'), 'class' => 'save', 'onclick' => $onclick)
+        );
         $this->setChild('submit_button', $button);
 
         return parent::_prepareLayout();
@@ -96,7 +94,7 @@ class History
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('adminhtml/*/addComment', array('id'=>$this->getRmaData('entity_id')));
+        return $this->getUrl('adminhtml/*/addComment', array('id' => $this->getRmaData('entity_id')));
     }
 
     /**

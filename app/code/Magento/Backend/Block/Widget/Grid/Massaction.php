@@ -20,5 +20,4 @@ namespace Magento\Backend\Block\Widget\Grid;
 
 class Massaction extends \Magento\Backend\Block\Widget\Grid\Massaction\AbstractMassaction
 {
-
 }

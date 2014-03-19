@@ -11,9 +11,8 @@ namespace Magento\LayeredNavigation\Block\Navigation;
 
 use Magento\View\Element\Template;
 
-class FilterRenderer
-    extends \Magento\View\Element\Template
-    implements \Magento\LayeredNavigation\Block\Navigation\FilterRendererInterface
+class FilterRenderer extends \Magento\View\Element\Template implements
+    \Magento\LayeredNavigation\Block\Navigation\FilterRendererInterface
 {
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\AbstractFilter $filter

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -33,10 +32,8 @@ class LayoutFactory
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        $instanceName = 'Magento\View\LayoutInterface'
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\View\LayoutInterface')
+    {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }

@@ -29,28 +29,26 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expectedResult
      * @dataProvider proxyMethodDataProvider
      */
-    public function testProxyMethod($method, $params, $cacheBackend, $cacheFrontend, $expectedProfileId,
-        $expectedProfilerTags, $expectedResult
+    public function testProxyMethod(
+        $method,
+        $params,
+        $cacheBackend,
+        $cacheFrontend,
+        $expectedProfileId,
+        $expectedProfilerTags,
+        $expectedResult
     ) {
         // Cache frontend setup
         $frontendMock = $this->getMock('Magento\Cache\FrontendInterface');
 
-        $frontendMock->expects($this->any())
-            ->method('getBackend')
-            ->will($this->returnValue($cacheBackend));
+        $frontendMock->expects($this->any())->method('getBackend')->will($this->returnValue($cacheBackend));
 
-        $frontendMock->expects($this->any())
-            ->method('getLowLevelFrontend')
-            ->will($this->returnValue($cacheFrontend));
+        $frontendMock->expects($this->any())->method('getLowLevelFrontend')->will($this->returnValue($cacheFrontend));
 
         // Profiler setup
         $driver = $this->getMock('Magento\Profiler\DriverInterface');
-        $driver->expects($this->once())
-            ->method('start')
-            ->with($expectedProfileId, $expectedProfilerTags);
-        $driver->expects($this->once())
-            ->method('stop')
-            ->with($expectedProfileId);
+        $driver->expects($this->once())->method('start')->with($expectedProfileId, $expectedProfilerTags);
+        $driver->expects($this->once())->method('stop')->with($expectedProfileId);
         \Magento\Profiler::add($driver);
 
         // Test
@@ -65,7 +63,7 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
      */
     public static function proxyMethodDataProvider()
     {
-        $backend = new \Zend_Cache_Backend_BlackHole;;
+        $backend = new \Zend_Cache_Backend_BlackHole();
         $adaptee = \PHPUnit_Framework_MockObject_Generator::getMock('Zend_Cache_Core', array(), array(), '', false);
         $lowLevelFrontend = new \Magento\Cache\Frontend\Adapter\Zend($adaptee);
 
@@ -77,10 +75,10 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
                 $lowLevelFrontend,
                 'cache_test',
                 array(
-                    'group'         => 'cache',
-                    'operation'     => 'cache:test',
+                    'group' => 'cache',
+                    'operation' => 'cache:test',
                     'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
-                    'backend_type'  => 'BlackHole',
+                    'backend_type' => 'BlackHole'
                 ),
                 111
             ),
@@ -91,10 +89,10 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
                 $lowLevelFrontend,
                 'cache_load',
                 array(
-                    'group'         => 'cache',
-                    'operation'     => 'cache:load',
+                    'group' => 'cache',
+                    'operation' => 'cache:load',
                     'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
-                    'backend_type'  => 'BlackHole',
+                    'backend_type' => 'BlackHole'
                 ),
                 '111'
             ),
@@ -105,10 +103,10 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
                 $lowLevelFrontend,
                 'cache_save',
                 array(
-                    'group'         => 'cache',
-                    'operation'     => 'cache:save',
+                    'group' => 'cache',
+                    'operation' => 'cache:save',
                     'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
-                    'backend_type'  => 'BlackHole',
+                    'backend_type' => 'BlackHole'
                 ),
                 true
             ),
@@ -119,10 +117,10 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
                 $lowLevelFrontend,
                 'cache_remove',
                 array(
-                    'group'         => 'cache',
-                    'operation'     => 'cache:remove',
+                    'group' => 'cache',
+                    'operation' => 'cache:remove',
                     'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
-                    'backend_type'  => 'BlackHole',
+                    'backend_type' => 'BlackHole'
                 ),
                 true
             ),
@@ -133,13 +131,13 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
                 $lowLevelFrontend,
                 'cache_clean',
                 array(
-                    'group'         => 'cache',
-                    'operation'     => 'cache:clean',
+                    'group' => 'cache',
+                    'operation' => 'cache:clean',
                     'frontend_type' => 'Magento\Cache\Frontend\Adapter\Zend',
-                    'backend_type'  => 'BlackHole',
+                    'backend_type' => 'BlackHole'
                 ),
                 true
-            ),
+            )
         );
     }
 }

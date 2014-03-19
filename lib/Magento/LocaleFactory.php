@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento;
 
 class LocaleFactory
@@ -24,10 +23,8 @@ class LocaleFactory
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        $instanceName = 'Magento\LocaleInterface'
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\LocaleInterface')
+    {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }

@@ -29,7 +29,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $cacheLifeTimeNode = $placeholderConfig->attributes->getNamedItem('cacheLifeTime');
             $config = array(
                 'code' => $placeholderCode,
-                'cache_lifetime' => $cacheLifeTimeNode ? (int)$cacheLifeTimeNode->nodeValue : 0,
+                'cache_lifetime' => $cacheLifeTimeNode ? (int)$cacheLifeTimeNode->nodeValue : 0
             );
             $blockInstanceName = '';
             /** @var $placeholderData \DOMNode */

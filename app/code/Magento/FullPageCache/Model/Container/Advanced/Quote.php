@@ -13,8 +13,7 @@
  */
 namespace Magento\FullPageCache\Model\Container\Advanced;
 
-abstract class Quote
-    extends \Magento\FullPageCache\Model\Container\Advanced\AbstractAdvanced
+abstract class Quote extends \Magento\FullPageCache\Model\Container\Advanced\AbstractAdvanced
 {
     /**
      * Cache tag prefix
@@ -28,8 +27,14 @@ abstract class Quote
      */
     public static function getCacheId()
     {
-        return static::CACHE_TAG_PREFIX . md5(self::_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CART, '')
-            . self::_getCookieValue(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER,  '')
+        return static::CACHE_TAG_PREFIX . md5(
+            self::_getCookieValue(
+                \Magento\FullPageCache\Model\Cookie::COOKIE_CART,
+                ''
+            ) . self::_getCookieValue(
+                \Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER,
+                ''
+            )
         );
     }
 

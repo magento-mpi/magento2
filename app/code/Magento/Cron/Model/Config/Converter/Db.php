@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Converter;
 
 /**
@@ -67,6 +66,7 @@ class Db implements \Magento\Config\ConverterInterface
             $result[$jobName]['config_path'] = $jobConfig['schedule']['config_path'];
         }
     }
+
     /**
      * Fetch parameter 'cron_expr' from 'schedule' container, reassign it
      *

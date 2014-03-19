@@ -15,5 +15,4 @@ namespace Magento\SalesArchive\Helper;
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-
 }

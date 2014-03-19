@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content;
 
 /**
@@ -52,9 +51,7 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
      */
     protected function _prepareLayout()
     {
-        $this->getConfig()->setUrl(
-            $this->getUrl('adminhtml/*/upload', $this->_storageHelper->getRequestParams())
-        );
+        $this->getConfig()->setUrl($this->getUrl('adminhtml/*/upload', $this->_storageHelper->getRequestParams()));
         return parent::_prepareLayout();
     }
 

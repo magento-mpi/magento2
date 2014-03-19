@@ -133,14 +133,14 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
                         $data[] = array(
                             'label' => $option['label'],
                             'value' => $option['value'],
-                            'count' => $optionsCount[$option['value']],
+                            'count' => $optionsCount[$option['value']]
                         );
                     }
                 } else {
                     $data[] = array(
                         'label' => $option['label'],
                         'value' => $option['value'],
-                        'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0,
+                        'count' => isset($optionsCount[$option['value']]) ? $optionsCount[$option['value']] : 0
                     );
                 }
             }

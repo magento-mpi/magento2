@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -17,7 +16,9 @@ class GroupedCollection extends Collection
      * Special properties, enforced to be grouped by
      */
     const PROPERTY_CONTENT_TYPE = 'content_type';
-    const PROPERTY_CAN_MERGE    = 'can_merge';
+
+    const PROPERTY_CAN_MERGE = 'can_merge';
+
     /**#@-*/
 
     /**

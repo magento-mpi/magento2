@@ -219,10 +219,12 @@ class Theme extends AbstractModel implements ThemeInterface
      */
     public function hasChildThemes()
     {
-        return (bool)$this->getCollection()
-            ->addTypeFilter(self::TYPE_VIRTUAL)
-            ->addFieldToFilter('parent_id', array('eq' => $this->getId()))
-            ->getSize();
+        return (bool)$this->getCollection()->addTypeFilter(
+            self::TYPE_VIRTUAL
+        )->addFieldToFilter(
+            'parent_id',
+            array('eq' => $this->getId())
+        )->getSize();
     }
 
     /**
@@ -287,9 +289,7 @@ class Theme extends AbstractModel implements ThemeInterface
      */
     public function getFullPath()
     {
-        return $this->getThemePath()
-            ? $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath()
-            : null;
+        return $this->getThemePath() ? $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath() : null;
     }
 
     /**
@@ -310,12 +310,14 @@ class Theme extends AbstractModel implements ThemeInterface
     public function getDomainModel($type = null)
     {
         if ($type !== null && $type != $this->getType()) {
-            throw new \InvalidArgumentException(sprintf(
-                'Invalid domain model "%s" requested for theme "%s" of type "%s"',
-                $type,
-                $this->getId(),
-                $this->getType()
-            ));
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Invalid domain model "%s" requested for theme "%s" of type "%s"',
+                    $type,
+                    $this->getId(),
+                    $this->getType()
+                )
+            );
         }
 
         return $this->_domainFactory->create($this);

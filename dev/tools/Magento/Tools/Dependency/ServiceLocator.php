@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\Dependency;
 
 use Magento\File\Csv;
@@ -91,7 +90,7 @@ class ServiceLocator
             self::$circularDependenciesReportBuilder = new CircularReport\Builder(
                 self::getXmlConfigParser(),
                 new CircularReport\Writer(self::getCsvWriter()),
-                new CircularTool([], null)
+                new CircularTool(array(), null)
             );
         }
         return self::$circularDependenciesReportBuilder;

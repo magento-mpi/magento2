@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
@@ -43,21 +42,22 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, 1);
         $this->backendSession = $this->objectManager->get('Magento\Backend\Model\Session');
 
-        $this->context = $this->objectManager
-            ->get(
-                'Magento\Backend\Block\Template\Context',
-                ['backendSession' => $this->backendSession]
-            );
+        $this->context = $this->objectManager->get(
+            'Magento\Backend\Block\Template\Context',
+            array('backendSession' => $this->backendSession)
+        );
 
-        $this->accountBlock = $this->objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock(
-                'Magento\Customer\Block\Adminhtml\Edit\Tab\Account',
-                '',
-                ['context' => $this->context]
-            );
+        $this->accountBlock = $this->objectManager->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Customer\Block\Adminhtml\Edit\Tab\Account',
+            '',
+            array('context' => $this->context)
+        );
 
-        $this->customerAccountService = $this->objectManager
-            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->customerAccountService = $this->objectManager->get(
+            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        );
     }
 
     public function tearDown()
@@ -71,7 +71,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $this->backendSession->setCustomerData(
-            ['customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray()]
+            array('customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray())
         );
 
         $result = $this->accountBlock->initForm()->toHtml();
@@ -98,7 +98,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function testNeedsConfirmation()
     {
         $this->backendSession->setCustomerData(
-            ['customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray()]
+            array('customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray())
         );
 
         $result = $this->accountBlock->initForm()->toHtml();
@@ -114,11 +114,13 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function testPrefix()
     {
         $this->backendSession->setCustomerData(
-            [
+            array(
                 'customer_id' => 1,
                 'account' => array_merge(
-                    $this->customerAccountService->getCustomer(1)->__toArray(), ['prefix' => 'Mr']),
-            ]
+                    $this->customerAccountService->getCustomer(1)->__toArray(),
+                    array('prefix' => 'Mr')
+                )
+            )
         );
         $result = $this->accountBlock->initForm()->toHtml();
 
@@ -132,10 +134,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     public function testNotReadOnly()
     {
         $this->backendSession->setCustomerData(
-            [
-                'customer_id' => 1,
-                'account' => $this->customerAccountService->getCustomer(1)->__toArray(),
-            ]
+            array('customer_id' => 1, 'account' => $this->customerAccountService->getCustomer(1)->__toArray())
         );
 
         $this->accountBlock->initForm()->toHtml();
@@ -145,7 +144,6 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_null($element->getReadonly()) || !$element->getReadonly());
     }
 
-
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -153,10 +151,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     {
         $customerBuilder = $this->objectManager->get('\Magento\Customer\Service\V1\Data\CustomerBuilder');
         $this->backendSession->setCustomerData(
-            [
-                'customer_id' => 0,
-                'account' => $customerBuilder->create()->__toArray(),
-            ]
+            array('customer_id' => 0, 'account' => $customerBuilder->create()->__toArray())
         );
         $result = $this->accountBlock->initForm()->toHtml();
 

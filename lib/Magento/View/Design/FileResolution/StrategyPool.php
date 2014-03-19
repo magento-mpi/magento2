@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\FileResolution;
 
 use Magento\Exception;
@@ -62,18 +61,18 @@ class StrategyPool
         'production_mode' => array(
             'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
             'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
-            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
+            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback'
         ),
         'caching_map' => array(
             'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
             'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
-            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',
+            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy'
         ),
         'full_check' => array(
             'file' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
             'locale' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
-            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback',
-        ),
+            'view' => 'Magento\View\Design\FileResolution\Strategy\Fallback'
+        )
     );
 
     /**
@@ -83,11 +82,8 @@ class StrategyPool
      * @param State $appState
      * @param Filesystem $filesystem
      */
-    public function __construct(
-        ObjectManager $objectManager,
-        State $appState,
-        Filesystem $filesystem
-    ) {
+    public function __construct(ObjectManager $objectManager, State $appState, Filesystem $filesystem)
+    {
         $this->objectManager = $objectManager;
         $this->appState = $appState;
         $this->filesystem = $filesystem;
@@ -155,7 +151,7 @@ class StrategyPool
         $mode = $this->appState->getMode();
         if ($mode == State::MODE_PRODUCTION) {
             $strategyClasses = $this->strategies['production_mode'];
-        } elseif (($mode == State::MODE_DEVELOPER) || $skipProxy) {
+        } elseif ($mode == State::MODE_DEVELOPER || $skipProxy) {
             $strategyClasses = $this->strategies['full_check'];
         } elseif ($mode == State::MODE_DEFAULT) {
             $strategyClasses = $this->strategies['caching_map'];
@@ -176,10 +172,7 @@ class StrategyPool
         switch ($className) {
             case 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy':
                 $mapDir = $this->filesystem->getPath(Filesystem::VAR_DIR) . '/' . self::FALLBACK_MAP_DIR;
-                $arguments = array(
-                    'mapDir' => $mapDir,
-                    'baseDir' => $this->filesystem->getPath(Filesystem::ROOT_DIR),
-                );
+                $arguments = array('mapDir' => $mapDir, 'baseDir' => $this->filesystem->getPath(Filesystem::ROOT_DIR));
                 break;
             default:
                 $arguments = array();

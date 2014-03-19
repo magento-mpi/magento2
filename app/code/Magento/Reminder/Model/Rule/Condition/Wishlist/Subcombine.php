@@ -12,8 +12,7 @@ namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 /**
  * Rule conditions items subselection container
  */
-class Subcombine
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Subcombine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Wishlist Storeview Factory
@@ -57,7 +56,8 @@ class Subcombine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(
-            parent::getNewChildSelectOptions(), array(
+            parent::getNewChildSelectOptions(),
+            array(
                 $this->_getRecursiveChildSelectOption(),
                 $this->_storeviewFactory->create()->getNewChildSelectOptions(),
                 $this->_attrFactory->create()->getNewChildSelectOptions()

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Form\Element;
 
 class MultiselectTest extends \PHPUnit_Framework_TestCase

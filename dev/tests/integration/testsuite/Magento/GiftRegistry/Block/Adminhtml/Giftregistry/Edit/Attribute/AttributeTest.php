@@ -8,11 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
-class AttributeTest
-    extends \PHPUnit_Framework_TestCase
+class AttributeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\View\LayoutInterface */
     protected $_layout = null;
@@ -23,10 +21,12 @@ class AttributeTest
     protected function setUp()
     {
         parent::setUp();
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
-        $this->_block = $this->_layout
-            ->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        );
+        $this->_block = $this->_layout->createBlock(
+            'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute'
+        );
     }
 
     public function testGetAddButtonId()

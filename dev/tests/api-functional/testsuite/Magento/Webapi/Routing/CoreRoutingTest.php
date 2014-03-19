@@ -81,12 +81,9 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
         $this->_markTestAsSoapOnly();
         $serviceInfo = array(
             'serviceInterface' => 'Magento\TestModule3\Service\V1\ErrorInterface',
-            'method' => 'serviceException',
+            'method' => 'serviceException'
         );
-        $this->setExpectedException(
-            'SoapFault',
-            'Generic service exception'
-        );
+        $this->setExpectedException('SoapFault', 'Generic service exception');
         $this->_webApiCall($serviceInfo);
     }
 }

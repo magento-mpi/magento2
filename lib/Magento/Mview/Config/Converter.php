@@ -75,10 +75,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     }
                     $name = $this->getAttributeValue($subscription, 'name');
                     $column = $this->getAttributeValue($subscription, 'entity_column');
-                    $data['subscriptions'][$name] = array(
-                        'name' => $name,
-                        'column' => $column,
-                    );
+                    $data['subscriptions'][$name] = array('name' => $name, 'column' => $column);
                 }
                 break;
         }
