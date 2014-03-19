@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ReviewRenderer;
 
 use Magento\Catalog\Block\Product\ReviewRendererInterface;
@@ -29,5 +28,4 @@ class DefaultProvider implements ReviewRendererInterface
     ) {
         return '';
     }
-
-} 
+}

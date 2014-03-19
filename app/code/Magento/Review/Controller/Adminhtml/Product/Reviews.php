@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Review\Controller\Adminhtml\Product;
 
 class Reviews extends \Magento\Backend\App\Action
@@ -41,4 +40,4 @@ class Reviews extends \Magento\Backend\App\Action
             ->setUseAjax(true);
         $this->_view->renderLayout();
     }
-} 
+}

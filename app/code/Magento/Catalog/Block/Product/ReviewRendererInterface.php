@@ -26,4 +26,4 @@ interface ReviewRendererInterface
         $templateType = self::DEFAULT_REVIEW,
         $displayIfNoReviews = false
     );
-} 
+}
