@@ -45,7 +45,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
-        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
+        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', ['_toArray'], [], '', false);
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
@@ -65,6 +65,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())
             ->method('getRequestedServices')
             ->will($this->returnValue($requestedServices));
+        $this->_helperMock->expects($this->once())
+            ->method('_toArray')
+            ->will($this->returnValue(['field' => 1]));
         $operationName = 'soapOperation';
         $className = 'Magento\Object';
         $methodName = 'testMethod';
