@@ -162,7 +162,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         $this->_mathRandom = $context->getMathRandom();
         $this->_priceBlockTypes = $priceBlockTypes;
         $this->reviewRenderer = $context->getReviewRenderer();
-        parent::__construct($context->getTemplateContext(), $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -155,10 +155,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -177,8 +175,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Logger $logger,
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
-        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        array $data = array()
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_request = $request;
         $this->_layout = $layout;

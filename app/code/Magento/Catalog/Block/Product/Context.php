@@ -5,12 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
-use Magento\ObjectManager\ContextInterface;
-
-class Context implements ContextInterface
+class Context extends \Magento\View\Element\Template\Context
 {
     /**
      * @var \Magento\Catalog\Helper\Image
@@ -63,17 +60,33 @@ class Context implements ContextInterface
     protected $mathRandom;
 
     /**
-     * @var \Magento\View\Element\Template\Context
-     */
-    protected $templateContext;
-
-    /**
      * @var ReviewRendererInterface
      */
     protected $reviewRenderer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\ConfigInterface $viewConfig
+     * @param \Magento\App\Cache\StateInterface $cacheState
+     * @param \Magento\Logger $logger
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\View\TemplateEnginePool $enginePool
+     * @param \Magento\App\State $appState
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
@@ -85,9 +98,32 @@ class Context implements ContextInterface
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param ReviewRendererInterface $reviewRenderer
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
+        \Magento\App\RequestInterface $request,
+        \Magento\View\LayoutInterface $layout,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\UrlInterface $urlBuilder,
+        \Magento\TranslateInterface $translator,
+        \Magento\App\CacheInterface $cache,
+        \Magento\View\DesignInterface $design,
+        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\View\Url $viewUrl,
+        \Magento\View\ConfigInterface $viewConfig,
+        \Magento\App\Cache\StateInterface $cacheState,
+        \Magento\Logger $logger,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\View\TemplateEnginePool $enginePool,
+        \Magento\App\State $appState,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
@@ -111,7 +147,30 @@ class Context implements ContextInterface
         $this->catalogHelper = $catalogHelper;
         $this->mathRandom = $mathRandom;
         $this->reviewRenderer = $reviewRenderer;
-        $this->templateContext = $context;
+        parent::__construct(
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $sidResolver,
+            $storeConfig,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $logger,
+            $escaper,
+            $filterManager,
+            $localeDate,
+            $filesystem,
+            $viewFileSystem,
+            $enginePool,
+            $appState,
+            $storeManager
+        );
     }
 
     /**
@@ -192,14 +251,6 @@ class Context implements ContextInterface
     public function getWishlistHelper()
     {
         return $this->wishlistHelper;
-    }
-
-    /**
-     * @return \Magento\View\Element\Template\Context
-     */
-    public function getTemplateContext()
-    {
-        return $this->templateContext;
     }
 
     /**
