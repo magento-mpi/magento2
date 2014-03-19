@@ -194,7 +194,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->with('/1/key')
             ->will($this->returnValue($field));
 
-        $website = $this->getMock('Magento\Core\Model\Website', [], [], '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', [], [], '', false);
         $this->_storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
         $this->_storeManager->expects($this->any())->method('getWebsites')->will($this->returnValue([$website]));
         $this->_storeManager->expects($this->any())->method('isSingleStoreMode')->will($this->returnValue(true));
