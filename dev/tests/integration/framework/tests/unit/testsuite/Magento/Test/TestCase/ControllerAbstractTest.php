@@ -18,18 +18,12 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
 {
     protected $_bootstrap;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Message\Manager */
+    private $messageManager;
+
     protected function setUp()
     {
-        // emulate session messages
-        $messagesCollection = new \Magento\Message\Collection();
-        $messagesCollection
-            ->addMessage(new \Magento\Message\Warning('some_warning'))
-            ->addMessage(new \Magento\Message\Error('error_one'))
-            ->addMessage(new \Magento\Message\Error('error_two'))
-            ->addMessage(new \Magento\Message\Notice('some_notice'))
-        ;
-        $messageManager = $this->getMock('\Magento\Message\Manager', array(), array(), '', false);
-        $messageManager->expects($this->any())->method('getMessages')->will($this->returnValue($messagesCollection));
+        $this->messageManager = $this->getMock('\Magento\Message\Manager', array(), array(), '', false);
         $request = new \Magento\TestFramework\Request(
             $this->getMock('\Magento\App\Route\ConfigInterface', array(), array(), '', false),
             $this->getMock('Magento\App\Request\PathInfoProcessorInterface', array(), array(), '', false)
@@ -47,7 +41,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             ->will($this->returnValueMap(array(
                 array('Magento\App\RequestInterface', $request),
                 array('Magento\App\ResponseInterface', $response),
-                array('Magento\Message\Manager', $messageManager),
+                array('Magento\Message\Manager', $this->messageManager),
             )));
     }
 
@@ -129,6 +123,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
      */
     public function testAssertSessionMessagesSuccess(array $expectedMessages, $messageTypeFilter)
     {
+        $this->addSessionMessages();
         /** @var \PHPUnit_Framework_MockObject_MockObject|\PHPUnit_Framework_Constraint $constraint */
         $constraint = $this->getMock('PHPUnit_Framework_Constraint', array('toString', 'matches'));
         $constraint
@@ -150,12 +145,47 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             'message error type filtering'    => array(
                 array('error_one', 'error_two'),
                 \Magento\Message\MessageInterface::TYPE_ERROR
-            )
+            ),
+            'message success type filtering'    => array(
+                array('success!'),
+                \Magento\Message\MessageInterface::TYPE_SUCCESS
+            ),
         );
     }
 
-    public function testAssertSessionMessagesFailure()
+    public function testAssertSessionMessagesAll()
     {
+        $this->addSessionMessages();
+
+        $this->assertSessionMessages($this->equalTo([
+            'some_warning',
+            'error_one',
+            'error_two',
+            'some_notice',
+            'success!',
+        ]));
+    }
+
+    public function testAssertSessionMessagesEmpty()
+    {
+        $messagesCollection =  new \Magento\Message\Collection();
+        $this->messageManager->expects($this->any())->method('getMessages')
+            ->will($this->returnValue($messagesCollection));
+
         $this->assertSessionMessages($this->isEmpty());
+    }
+
+    private function addSessionMessages()
+    {
+        // emulate session messages
+        $messagesCollection = new \Magento\Message\Collection();
+        $messagesCollection
+            ->addMessage(new \Magento\Message\Warning('some_warning'))
+            ->addMessage(new \Magento\Message\Error('error_one'))
+            ->addMessage(new \Magento\Message\Error('error_two'))
+            ->addMessage(new \Magento\Message\Notice('some_notice'))
+            ->addMessage(new \Magento\Message\Success('success!'))
+        ;
+        $this->messageManager->expects($this->any())->method('getMessages')->will($this->returnValue($messagesCollection));
     }
 }
