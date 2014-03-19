@@ -355,7 +355,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     {
         switch ($modelClass) {
             case 'Magento\CustomerBalance\Model\Balance':
-                $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomerId',
+                $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                     'getAmount', 'setAmountDelta', 'setComment', 'save', '__wakeup'
                 ), $constructArguments, '', false
                 );
@@ -366,7 +366,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     ->method('setWebsiteId')
                     ->will($this->returnSelf());
                 $instance->expects($this->any())
-                    ->method('loadByCustomerId')
+                    ->method('loadByCustomer')
                     ->will($this->returnSelf());
                 $instance->expects($this->any())
                     ->method('getAmount')
@@ -382,7 +382,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     ->will($this->returnSelf());
                 break;
             case 'Magento\Reward\Model\Reward':
-                $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomerId',
+                $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
                     'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints', '__wakeup'
                 ), $constructArguments, '', false
                 );
@@ -393,7 +393,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     ->method('setWebsiteId')
                     ->will($this->returnSelf());
                 $instance->expects($this->any())
-                    ->method('loadByCustomerId')
+                    ->method('loadByCustomer')
                     ->will($this->returnSelf());
                 $instance->expects($this->any())
                     ->method('getPointsBalance')
