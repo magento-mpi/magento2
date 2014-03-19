@@ -12,10 +12,10 @@
     $.widget('mage.productListToolbarForm', {
 
         options: {
-            modeLink: '[data-role="mode-switcher"]',
-            directionLink: '[data-role="direction-switcher"]',
-            orderSelect: '[data-role="sorter"]',
-            limitSelect: '[data-role="limiter"]',
+            modeControl: '[data-role="mode-switcher"]',
+            directionControl: '[data-role="direction-switcher"]',
+            orderControl: '[data-role="sorter"]',
+            limitControl: '[data-role="limiter"]',
             modeCookie: 'product_list_mode',
             directionCookie: 'product_list_dir',
             orderCookie: 'product_list_order',
@@ -24,26 +24,18 @@
         },
 
         _create: function() {
-            $(this.options.modeLink).on(
-                'click',
-                {cookieName: this.options.modeCookie},
-                $.proxy(this._processLink, this)
-            );
-            $(this.options.directionLink).on(
-                'click',
-                {cookieName: this.options.directionCookie},
-                $.proxy(this._processLink, this)
-            );
-            $(this.options.orderSelect).on(
-                'change',
-                {cookieName: this.options.orderCookie},
-                $.proxy(this._processSelect, this)
-            );
-            $(this.options.limitSelect).on(
-                'change',
-                {cookieName: this.options.limitCookie},
-                $.proxy(this._processSelect, this)
-            );
+            this._bind($(this.options.modeControl), this.options.modeCookie);
+            this._bind($(this.options.directionControl), this.options.directionCookie);
+            this._bind($(this.options.orderControl), this.options.orderCookie);
+            this._bind($(this.options.limitControl), this.options.limitCookie);
+        },
+
+        _bind: function(element, cookieValue) {
+            if (element.is("select")) {
+                element.on('change', {cookieName: cookieValue}, $.proxy(this._processSelect, this));
+            } else {
+                element.on('click', {cookieName: cookieValue}, $.proxy(this._processLink, this));
+            }
         },
 
         _processLink: function(event) {
