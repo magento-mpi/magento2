@@ -14,6 +14,16 @@ namespace Magento\Core\Helper;
  */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
+    /**
+     * Currency cache context
+     */
+    const CONTEXT_CURRENCY = 'current_currency';
+
+    /**
+     * Store cache context
+     */
+    const CONTEXT_STORE = 'core_store';
+
     const XML_PATH_DEFAULT_COUNTRY = 'general/country/default';
 
     const XML_PATH_DEV_ALLOW_IPS = 'dev/restrict/allow_ips';

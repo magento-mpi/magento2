@@ -1203,4 +1203,25 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
     }
+
+    /**
+     * Return array of specific to type product entities
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return array
+     */
+    public function getIdentities(\Magento\Catalog\Model\Product $product)
+    {
+        $identities = parent::getIdentities($product);
+        /** @var \Magento\Bundle\Model\Option $option */
+        foreach ($this->getOptions($product) as $option) {
+            if ($option->getSelections()) {
+                /** @var \Magento\Catalog\Model\Product $selection */
+                foreach ($option->getSelections() as $selection) {
+                    $identities = array_merge($identities, $selection->getIdentities());
+                }
+            }
+        }
+        return $identities;
+    }
 }

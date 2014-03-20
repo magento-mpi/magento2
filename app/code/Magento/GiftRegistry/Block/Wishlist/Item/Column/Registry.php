@@ -33,7 +33,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
@@ -53,7 +53,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array(),
@@ -72,7 +72,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes

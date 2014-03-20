@@ -882,6 +882,11 @@ class Store extends AbstractModel implements
             } else {
                 $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, $path);
             }
+            $this->_httpContext->setValue(
+                \Magento\Core\Helper\Data::CONTEXT_CURRENCY,
+                $code,
+                $this->_storeManager->getWebsite()->getDefaultStore()->getDefaultCurrency()->getCode()
+            );
         }
         return $this;
     }
@@ -969,24 +974,9 @@ class Store extends AbstractModel implements
                 $currency = $baseCurrency;
                 $this->setCurrentCurrencyCode($baseCurrency->getCode());
             }
-
-            $this->setCurrentCurrency($currency);
         }
-
-        return $currency;
-    }
-
-    /**
-     * Set current currency
-     *
-     * @param \Magento\Directory\Model\Currency $currency
-     * @return $this
-     */
-    public function setCurrentCurrency($currency)
-    {
-        $this->_httpContext->setValue('current_currency', $currency->getCurrencyCode());
         $this->setData('current_currency', $currency);
-        return $this;
+        return $currency;
     }
 
     /**

@@ -99,6 +99,7 @@ class Messages extends Template
         $this->messageFactory = $messageFactory;
         $this->collectionFactory = $collectionFactory;
         $this->messageManager = $messageManager;
+        $this->_isScopePrivate = true;
         parent::__construct($context, $data);
     }
 

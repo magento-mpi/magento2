@@ -74,11 +74,6 @@ class Banner extends \Magento\View\Element\Template implements
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Customer\Model\Session
-     */
-    protected $_customerSession;
-
-    /**
      * @var \Magento\Cms\Model\Template\FilterProvider
      */
     protected $_filterProvider;
@@ -102,10 +97,15 @@ class Banner extends \Magento\View\Element\Template implements
     protected $_renderedParams = array();
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param array $data
      */
@@ -113,18 +113,18 @@ class Banner extends \Magento\View\Element\Template implements
         \Magento\View\Element\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_bannerResource = $resource;
         $this->_checkoutSession = $checkoutSession;
-        $this->_customerSession = $customerSession;
         $this->_filterProvider = $filterProvider;
         $this->_currentStoreId = $this->_storeManager->getStore()->getId();
         $this->_currentWebsiteId = $this->_storeManager->getWebsite()->getId();
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -223,7 +223,7 @@ class Banner extends \Magento\View\Element\Template implements
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     $this->_currentWebsiteId,
-                    $this->_customerSession->getCustomerGroupId()
+                    $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP)
                 );
                 $bannersContent = $this->_getBannersContent($bannerIds);
                 break;

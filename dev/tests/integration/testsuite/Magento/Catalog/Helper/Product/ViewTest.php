@@ -34,10 +34,12 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-        $objectManager->get('Magento\View\DesignInterface')->setDefaultDesignTheme();
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Catalog\Helper\Product\View'
-        );
+        $objectManager->get('Magento\App\Http\Context')
+            ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+        $objectManager->get('Magento\View\DesignInterface')
+            ->setDefaultDesignTheme();
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Catalog\Helper\Product\View');
         $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setRouteName('catalog')->setControllerName('product')->setActionName('view');
         $arguments = array(

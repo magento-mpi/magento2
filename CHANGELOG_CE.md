@@ -3,9 +3,6 @@
   * Content invalidation
   * Added Edge side includes(ESI) supporting
   * Added Built-in caching application
-* Themes update:
-  * LESS styles library added in pub/lib/css/
-  * New Blank theme set as default
 * GitHub requests:
   * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml

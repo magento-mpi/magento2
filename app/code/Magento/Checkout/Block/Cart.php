@@ -18,6 +18,11 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_catalogUrlBuilder;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @var \Magento\Checkout\Helper\Cart
      */
     protected $_cartHelper;
@@ -29,6 +34,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -38,12 +44,14 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_cartHelper = $cartHelper;
         $this->_catalogUrlBuilder = $catalogUrlBuilder;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -123,7 +131,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         if ($isActive === null) {
             $isActive = $this->_storeConfig->getConfig(
                 'wishlist/general/active'
-            ) && $this->_customerSession->isLoggedIn();
+            ) && $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
             $this->setIsWishlistActive($isActive);
         }
         return $isActive;

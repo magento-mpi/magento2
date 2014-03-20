@@ -97,8 +97,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $data = (array)$params['data'];
         $this->assertEquals('1', $data['product']);
         $this->assertArrayHasKey('uenc', $data);
-        $this->assertArrayHasKey('form_key', $data);
-        $this->assertStringEndsWith('wishlist/index/add/', $params['action']);
+        $this->assertStringEndsWith(
+            'wishlist/index/add/',
+            $params['action']
+        );
     }
 
     public function testGetAddToCompareUrl()

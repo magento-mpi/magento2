@@ -175,8 +175,16 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomerData(CustomerData $customer)
     {
         $this->_customer = $customer;
-        $this->_httpContext->setValue('customer_group', $customer->getGroupId());
-        $this->setCustomerId($customer->getId());
+        if ($customer === null) {
+            $this->setCustomerId(null);
+        } else {
+            $this->_httpContext->setValue(
+                \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                $customer->getGroupId(),
+                \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+            );
+            $this->setCustomerId($customer->getId());
+        }
         return $this;
     }
 
@@ -229,7 +237,11 @@ class Session extends \Magento\Session\SessionManager
     public function setCustomer(Customer $customerModel)
     {
         $this->_customerModel = $customerModel;
-        $this->_httpContext->setValue('customer_group', $customerModel->getGroupId());
+        $this->_httpContext->setValue(
+            \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+            $customerModel->getGroupId(),
+            \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
+        );
         $this->setCustomerId($customerModel->getId());
         if (!$customerModel->isConfirmationRequired() && $customerModel->getConfirmation()) {
             $customerModel->setConfirmation(null)->save();
@@ -398,6 +410,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function setCustomerDataAsLoggedIn($customer)
     {
+        $this->_httpContext->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
         $this->setCustomerData($customer);
 
         $customerModel = $this->_converter->createCustomerModel($customer);
@@ -435,6 +448,7 @@ class Session extends \Magento\Session\SessionManager
             $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()));
             $this->_logout();
         }
+        $this->_httpContext->unsValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH);
         return $this;
     }
 
