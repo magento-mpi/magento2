@@ -38,7 +38,7 @@ class Resolver extends \Magento\Locale\Resolver
      * @param \Magento\Locale\ScopeConfigInterface $scopeConfig
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\LocaleFactory $localeFactory
-     * @param $defaultLocalePath
+     * @param string $defaultLocalePath
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Backend\Model\Session $session
      * @param Manager $localeManager

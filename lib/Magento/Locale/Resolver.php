@@ -56,7 +56,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
      * @param ScopeConfigInterface $scopeConfig
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\LocaleFactory $localeFactory
-     * @param $defaultLocalePath
+     * @param string $defaultLocalePath
      * @param null $locale
      */
     public function __construct(
