@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backend\Model\Router;
+namespace Magento\Backend\App\Router;
 
 class NoRouteHandlerTest extends \PHPUnit_Framework_TestCase
 {

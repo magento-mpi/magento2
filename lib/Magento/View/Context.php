@@ -156,7 +156,7 @@ class Context
      * @param CacheState $cacheState
      * @param Logger $logger
      * @param AppState $appState
-     * @param Layout $layout
+     * @param LayoutInterface $layout
      *
      * @todo reduce parameter number
      *
@@ -177,7 +177,7 @@ class Context
         CacheState $cacheState,
         Logger $logger,
         AppState $appState,
-        Layout $layout
+        LayoutInterface $layout
     ) {
         $this->request         = $request;
         $this->eventManager    = $eventManager;
