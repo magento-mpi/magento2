@@ -18,14 +18,14 @@ class Store implements \Magento\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Store\Model\Resource\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_storesFactory;
 
     /**
-     * @param \Magento\Store\Model\Resource\CollectionFactory $storesFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storesFactory
      */
-    public function __construct(\Magento\Store\Model\Resource\CollectionFactory $storesFactory)
+    public function __construct(\Magento\Store\Model\Resource\Store\CollectionFactory $storesFactory)
     {
         $this->_storesFactory = $storesFactory;
     }

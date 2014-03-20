@@ -65,7 +65,7 @@ class Collection extends \Magento\Data\Collection\Db
     protected $_orderResource;
 
     /**
-     * @var \Magento\Store\Model\Resource\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollectionFactory;
 
@@ -81,7 +81,7 @@ class Collection extends \Magento\Data\Collection\Db
      * @param FetchStrategyInterface $fetchStrategy
      * @param ManagerInterface $eventManager
      * @param Order $resource
-     * @param \Magento\Store\Model\Resource\CollectionFactory $storeCollectionFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -90,7 +90,7 @@ class Collection extends \Magento\Data\Collection\Db
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
         Order $resource,
-        \Magento\Store\Model\Resource\CollectionFactory $storeCollectionFactory,
+        \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;

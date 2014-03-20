@@ -123,7 +123,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
     /**
      * Store collection factory
      *
-     * @var \Magento\Store\Model\Resource\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollectionFactory;
 
@@ -176,7 +176,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory
-     * @param \Magento\Store\Model\Resource\CollectionFactory $storeCollectionFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -197,7 +197,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Core\Model\Url\RewriteFactory $urlRewriteFactory,
-        \Magento\Store\Model\Resource\CollectionFactory $storeCollectionFactory,
+        \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,

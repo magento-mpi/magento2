@@ -19,7 +19,7 @@ namespace Magento\Eav\Model\Entity\Attribute\Source;
 class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
-     * @var \Magento\Store\Model\Resource\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_storeCollectionFactory;
 
@@ -27,13 +27,13 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
-     * @param \Magento\Store\Model\Resource\CollectionFactory $storeCollectionFactory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
-        \Magento\Store\Model\Resource\CollectionFactory $storeCollectionFactory
+        \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
     ) {
         parent::__construct($coreData, $attrOptionCollectionFactory, $attrOptionFactory);
         $this->_storeCollectionFactory = $storeCollectionFactory;
