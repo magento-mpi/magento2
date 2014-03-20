@@ -111,7 +111,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $this->_initialConfigMock->expects($this->once())
             ->method('getData')
-            ->with("sotres|{$storeCode}")
+            ->with("stores|{$storeCode}")
             ->will($this->returnValue(array(
                 'config' => array('key1' => 'store_value1', 'key2' => 'store_value2'),
             )));

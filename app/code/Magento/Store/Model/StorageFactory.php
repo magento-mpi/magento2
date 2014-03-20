@@ -140,8 +140,7 @@ class StorageFactory
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
                 $store = $storage->getStore(true);
-                if ($store->getConfig('dev/log/active')) {
-
+                if ($store->getConfig('dev/log/active') || $this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
                     $this->_log->unsetLoggers();
                     $this->_log->addStreamLog(
                         \Magento\Logger::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $this->_writerModel);

@@ -20,7 +20,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     protected $_scopePool;
 
     /**
-     * @var \Magento\App\Config\Scope\Converter
+     * @var \Magento\Core\Model\Config\Scope\Converter
      */
     protected $_converter;
 
@@ -42,7 +42,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     /**
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\ScopePool $scopePool
-     * @param \Magento\App\Config\Scope\Converter $converter
+     * @param \Magento\Core\Model\Config\Scope\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\State $appState
@@ -50,7 +50,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     public function __construct(
         \Magento\App\Config\Initial $initialConfig,
         \Magento\App\Config\ScopePool $scopePool,
-        \Magento\App\Config\Scope\Converter $converter,
+        \Magento\Core\Model\Config\Scope\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\App\State $appState
@@ -75,7 +75,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
             $store = $this->_storeFactory->create();
             $store->load($code);
             $websiteConfig = $this->_scopePool->getScope('website', $store->getWebsite()->getCode())->getSource();
-            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("sotres|{$code}"));
+            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
 
             $collection = $this->_collectionFactory->create(array('scope' => 'stores', 'scopeId' => $store->getId()));
             $dbStoreConfig = array();
