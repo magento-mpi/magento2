@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract model context
+ * Remove protector
  *
  * {license_notice}
  *

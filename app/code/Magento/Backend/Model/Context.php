@@ -16,14 +16,14 @@ class Context extends \Magento\Model\Context
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      * @param \Magento\App\CacheInterface $cacheManager
      * @param \Magento\App\State $appState
-     * @param \Magento\Backend\Model\RemoveProtector $removeProtector
+     * @param \Magento\Model\RemoveProtector\Disabled $removeProtector
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventDispatcher,
         \Magento\App\CacheInterface $cacheManager,
         \Magento\App\State $appState,
-        \Magento\Backend\Model\RemoveProtector $removeProtector
+        \Magento\Model\RemoveProtector\Disabled $removeProtector
     ) {
         parent::__construct($logger, $eventDispatcher, $cacheManager, $appState, $removeProtector);
     }
