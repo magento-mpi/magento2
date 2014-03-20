@@ -210,7 +210,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param \Magento\Data\Structure $structure
      * @param \Magento\View\Layout\Argument\Parser $argumentParser
      * @param \Magento\Data\Argument\InterpreterInterface $argumentInterpreter
-     * @param \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure
+     * @param Layout\ScheduledStructureFactory $structureFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -227,7 +227,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Data\Structure $structure,
         \Magento\View\Layout\Argument\Parser $argumentParser,
         \Magento\Data\Argument\InterpreterInterface $argumentInterpreter,
-        \Magento\Core\Model\Layout\ScheduledStructure $scheduledStructure,
+        \Magento\Core\Model\Layout\ScheduledStructureFactory $structureFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
         \Magento\Message\ManagerInterface $messageManager,
@@ -245,8 +245,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->argumentInterpreter = $argumentInterpreter;
         $this->_elementClass = 'Magento\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new \Magento\Object();
-        $this->_scheduledStructure = $scheduledStructure;
+        $this->_renderingOutput = new \Magento\Object;
+        $this->_scheduledStructure = $structureFactory->create();
         $this->_processorFactory = $processorFactory;
         $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
