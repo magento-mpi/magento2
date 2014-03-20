@@ -688,6 +688,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     {
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $customerModel->delete();
+
+        return true;
     }
 
     /**

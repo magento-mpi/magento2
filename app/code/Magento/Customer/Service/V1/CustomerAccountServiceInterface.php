@@ -232,7 +232,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @throws \Magento\Customer\Exception If something goes wrong during delete
      * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
-     * @return void
+     * @return bool True if the customer was deleted
      */
     public function deleteCustomer($customerId);
 

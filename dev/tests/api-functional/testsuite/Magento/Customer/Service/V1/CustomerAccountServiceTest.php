@@ -500,10 +500,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+            $response = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
         } else {
-            $this->_webApiCall($serviceInfo);
+            $response = $this->_webApiCall($serviceInfo);
         }
+
+        $this->assertTrue($response);
+
         //Verify if the customer is deleted
         $this->setExpectedException(
             'Magento\Exception\NoSuchEntityException',
@@ -526,15 +529,23 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'DeleteCustomer'
             ]
         ];
+
+        $expectedMessage = 'No such entity with customerId = ' . $invalidId;
+
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
                 $this->_webApiCall($serviceInfo, ['customerId' => $invalidId]);
             } else {
                 $this->_webApiCall($serviceInfo);
             }
+            $this->fail("Expected exception");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+            );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
         }
     }
@@ -646,7 +657,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
         $requestData = ['customerDetails' => $customerDetailsAsArray];
-        $expectedMessage = "No such entity with customerId = -1";
+        $expectedMessage = 'No such entity with customerId = -1';
 
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -657,7 +668,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
-            $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);
+            $this->assertEquals($expectedMessage, $errorObj['message']);
             $this->assertEquals(HTTPExceptionCodes::HTTP_BAD_REQUEST, $errorObj['http_code']);
         }
     }
