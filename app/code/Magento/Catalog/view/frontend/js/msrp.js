@@ -15,11 +15,11 @@
         },
 
         _create: function() {
-            $(document).on('click', this.options.cartButtonId, $.proxy(function() {
+            $(this.options.cartButtonId).on('click', $.proxy(function() {
                 this._addToCartSubmit();
             }, this));
 
-            $(document).on('click', this.options.popupId, $.proxy(function(e) {
+            $(this.options.popupId).on('click', $.proxy(function(e) {
                 if (this.options.submitUrl) {
                     location.href = this.options.submitUrl;
                 } else {
@@ -44,7 +44,7 @@
                 }
             }, this));
 
-            $(document).on('click', this.options.helpLinkId, $.proxy(function(e) {
+            $(this.options.helpLinkId).on('click', $.proxy(function(e) {
                 $('#map-popup-heading').text(this.options.productName);
                 var width = $('#map-popup').width();
                 var offsetX = e.pageX - (width / 2) + "px";
@@ -55,7 +55,7 @@
                 return false;
             }, this));
 
-            $(document).on('click', $.proxy(function() {
+            $(this.options.closeButtonId).on('click', $.proxy(function() {
                 $('#map-popup').removeClass('active').hide();
                 return false;
             }, this));
