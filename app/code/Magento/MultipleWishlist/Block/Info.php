@@ -49,7 +49,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
         $this->_customerSession = $customerSession;
         parent::__construct(
             $context,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes
