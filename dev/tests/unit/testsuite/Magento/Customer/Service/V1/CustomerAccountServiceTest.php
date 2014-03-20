@@ -1630,6 +1630,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $objectManager->getObject('\Magento\Customer\Service\V1\Data\CustomerBuilder'),
             $this->_customerDetailsBuilder,
             new Data\SearchResultsBuilder,
+            new Data\CustomerValidationResultsBuilder(),
             $this->_customerAddressServiceMock,
             $this->_customerMetadataService,
             $this->_urlMock,
