@@ -59,7 +59,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -71,7 +71,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -88,7 +88,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         $this->_rssFactory = $rssFactory;
         parent::__construct(
             $context,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes
@@ -130,9 +130,9 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $this->_customer = $this->_customerFactory->create();
 
             $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
-            $data = explode(',', $params);
-            $cId = abs(intval($data[0]));
-            if ($cId && $cId == $this->_customerSession->getCustomerId()) {
+            $data   = explode(',', $params);
+            $cId    = abs(intval($data[0]));
+            if ($cId && ($cId == $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH))) {
                 $this->_customer->load($cId);
             }
         }

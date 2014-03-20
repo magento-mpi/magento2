@@ -156,6 +156,6 @@ class Page extends \Magento\View\Element\AbstractBlock implements \Magento\View\
      */
     public function getIdentities()
     {
-        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPageId());
+        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPage()->getId());
     }
 }

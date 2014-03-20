@@ -30,11 +30,9 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     protected $_productsCount;
 
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * Catalog product visibility
@@ -54,7 +52,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
      * @param Context $context
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      * @param array $priceBlockTypes
      */
@@ -62,13 +60,13 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct(
             $context,
             $data,
@@ -116,12 +114,12 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct implemen
     public function getCacheKeyInfo()
     {
         return array(
-            'CATALOG_PRODUCT_NEW',
-            $this->_storeManager->getStore()->getId(),
-            $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->getCustomerGroupId(),
-            'template' => $this->getTemplate(),
-            $this->getProductsCount()
+           'CATALOG_PRODUCT_NEW',
+           $this->_storeManager->getStore()->getId(),
+           $this->_design->getDesignTheme()->getId(),
+           $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP),
+           'template' => $this->getTemplate(),
+           $this->getProductsCount()
         );
     }
 

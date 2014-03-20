@@ -5,22 +5,19 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Customer
+ * @package     Magento_CustomerSegment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CustomerSegment\Model\Layout;
 
+use \Magento\CustomerSegment\Helper\Data;
+
 /**
  * Class DepersonalizePlugin
  */
-class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePlugin
+class DepersonalizePlugin
 {
-    /**
-     * @var \Magento\View\LayoutInterface
-     */
-    protected $layout;
-
     /**
      * @var \Magento\Customer\Model\Session
      */
@@ -32,46 +29,78 @@ class DepersonalizePlugin extends \Magento\Customer\Model\Layout\DepersonalizePl
     protected $request;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @var array
      */
     protected $customerSegmentIds;
 
     /**
-     * @param \Magento\View\LayoutInterface $layout
+     * @var \Magento\Module\Manager
+     */
+    protected $moduleManager;
+
+    /**
+     * @var \Magento\PageCache\Model\Config
+     */
+    protected $cacheConfig;
+
+    /**
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\PageCache\Model\Config $cacheConfig
      */
     public function __construct(
-        \Magento\View\LayoutInterface $layout,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\App\RequestInterface $request
+        \Magento\App\RequestInterface $request,
+        \Magento\Module\Manager $moduleManager,
+        \Magento\App\Http\Context $httpContext,
+        \Magento\PageCache\Model\Config $cacheConfig
     ) {
-        $this->layout = $layout;
         $this->customerSession = $customerSession;
         $this->request = $request;
+        $this->moduleManager = $moduleManager;
+        $this->httpContext = $httpContext;
+        $this->cacheConfig = $cacheConfig;
     }
 
     /**
      * Before layout generate
      *
-     * @param \Magento\Core\Model\Layout $subject
+     * @param \Magento\View\LayoutInterface $subject
      * @return void
      */
-    public function beforeGenerateXml(\Magento\Core\Model\Layout $subject)
+    public function beforeGenerateXml(\Magento\View\LayoutInterface $subject)
     {
-        $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && $this->cacheConfig->isEnabled()
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
+            $this->customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+        }
     }
 
     /**
      * After layout generate
      *
-     * @param \Magento\Core\Model\Layout $subject
-     * @param mixed $result
-     * @return mixed
+     * @param \Magento\View\LayoutInterface $subject
+     * @param \Magento\View\LayoutInterface $result
+     * @return \Magento\View\LayoutInterface
      */
-    public function afterGenerateXml(\Magento\Core\Model\Layout $subject, $result)
+    public function afterGenerateXml(\Magento\View\LayoutInterface $subject, $result)
     {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+        if ($this->moduleManager->isEnabled('Magento_PageCache')
+            && $this->cacheConfig->isEnabled()
+            && !$this->request->isAjax()
+            && $subject->isCacheable()
+        ) {
+            $this->httpContext->setValue(Data::CONTEXT_SEGMENT, $this->customerSegmentIds, array());
             $this->customerSession->setCustomerSegmentIds($this->customerSegmentIds);
         }
         return $result;

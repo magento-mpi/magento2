@@ -35,9 +35,9 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected $_wishlist;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -46,19 +46,19 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      * @param array $priceBlockTypes
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_productFactory = $productFactory;
         parent::__construct(
             $context,

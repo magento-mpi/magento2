@@ -23,7 +23,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
@@ -31,7 +31,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array(),
@@ -40,7 +40,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
             $context,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes

@@ -58,10 +58,16 @@ class Inline extends \Magento\View\Element\Template
     protected $_imageHelper;
 
     /**
+     * @var \Magento\App\Http\Context
+     */
+    protected $httpContext;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftMessage\Helper\Message $giftMessageMessage
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
@@ -69,6 +75,7 @@ class Inline extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftMessage\Helper\Message $giftMessageMessage,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -76,6 +83,7 @@ class Inline extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -150,7 +158,7 @@ class Inline extends \Magento\View\Element\Template
      */
     public function getDefaultFrom()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->_customerSession->getCustomer()->getName();
         } else {
             return $this->getEntity()->getBillingAddress()->getName();

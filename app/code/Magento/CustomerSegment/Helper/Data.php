@@ -10,6 +10,11 @@ namespace Magento\CustomerSegment\Helper;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
+     * Cache context
+     */
+    const CONTEXT_SEGMENT = 'customer_segment';
+
+    /**
      * XPath where customer segment's on/off status is stored
      */
     const XML_PATH_CUSTOMER_SEGMENT_ENABLER = 'customer/magento_customersegment/is_enabled';

@@ -345,4 +345,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\App\Cache\Type\FrontendPool">
+        <arguments>
+            <argument name="typeFrontendMap" xsi:type="array">
+                <item name="full_page" xsi:type="string">page_cache</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

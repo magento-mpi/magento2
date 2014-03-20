@@ -48,7 +48,8 @@ class Currencysymbol
     protected $_cacheTypes = array(
         \Magento\App\Cache\Type\Config::TYPE_IDENTIFIER,
         \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER,
-        \Magento\App\Cache\Type\Layout::TYPE_IDENTIFIER
+        \Magento\App\Cache\Type\Layout::TYPE_IDENTIFIER,
+        \Magento\PageCache\Model\Cache\Type::TYPE_IDENTIFIER,
     );
 
     /**

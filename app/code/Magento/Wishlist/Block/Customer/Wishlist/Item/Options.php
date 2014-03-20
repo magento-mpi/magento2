@@ -38,7 +38,7 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param array $data
@@ -46,7 +46,7 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         array $data = array(),
@@ -55,7 +55,7 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
         $this->_helperPool = $helperPool;
         parent::__construct(
             $context,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes

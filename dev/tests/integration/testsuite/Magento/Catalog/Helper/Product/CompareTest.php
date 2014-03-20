@@ -55,8 +55,10 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $data = (array)$params['data'];
         $this->assertEquals('10', $data['product']);
         $this->assertArrayHasKey('uenc', $data);
-        $this->assertArrayHasKey('form_key', $data);
-        $this->assertStringEndsWith('wishlist/index/add/', $params['action']);
+        $this->assertStringEndsWith(
+            'wishlist/index/add/',
+            $params['action']
+        );
     }
 
     public function testGetAddToCartUrl()
@@ -72,7 +74,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     public function testGetClearListUrl()
     {
-        $this->assertContains('/catalog/product_compare/clear/', $this->_helper->getClearListUrl());
+        $this->assertContains('\/catalog\/product_compare\/clear\/', $this->_helper->getPostDataClearList());
     }
 
     /**

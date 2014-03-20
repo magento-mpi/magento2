@@ -242,7 +242,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         $i = 0;
         foreach ($this->_items as $id => $item) {
             ++$i;
-            if ($i > $this->getPositionLimit()) {
+            if ($i > $this->_targetRuleData->getMaxProductsListResult()) {
                 unset($this->_items[$id]);
             }
         }

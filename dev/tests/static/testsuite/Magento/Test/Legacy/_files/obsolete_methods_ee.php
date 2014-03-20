@@ -223,5 +223,6 @@ return array(
     array('reindexPermissions', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('reindexAfterProductAssignedWebsite', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
     array('saveProductPermissionIndex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
-    array('reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer')
+    array('reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
+    array('getCacheIdTags', 'Magento\CatalogEvent\Model\Event')
 );

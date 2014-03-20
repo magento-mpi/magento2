@@ -17,12 +17,15 @@
         <arguments>
             <argument name="area" xsi:type="string">frontend</argument>
         </arguments>
+        <plugin name="core-session-depersonalize"
+                type="Magento\Core\Model\Layout\DepersonalizePlugin" sortOrder="1"/>
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="requestPreprocessor" type="Magento\Core\App\FrontController\Plugin\RequestPreprocessor" sortOrder="50"/>
         <plugin name="urlRewrite" type="Magento\Core\App\FrontController\Plugin\UrlRewrite" sortOrder="60"/>
     </type>
     <type name="Magento\App\Action\Action">
+        <plugin name="core-app-action-dispatchController-context-plugin" type="Magento\Core\Model\App\Action\ContextPlugin" sortOrder="10"/>
         <plugin name="lastUrl" type="Magento\Core\App\Action\Plugin\LastUrl" sortOrder="70"/>
     </type>
     <type name="Magento\App\RouterList" shared="true">

@@ -22,9 +22,9 @@ class ListBlock extends \Magento\View\Element\Template
     protected $_rssFeeds = array();
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Catalog\Model\CategoryFactory
@@ -33,17 +33,17 @@ class ListBlock extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         $this->_categoryFactory = $categoryFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -124,7 +124,7 @@ class ListBlock extends \Magento\View\Element\Template
      */
     public function getCurrentCustomerGroupId()
     {
-        return $this->_customerSession->getCustomerGroupId();
+        return $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_GROUP);
     }
 
     /**

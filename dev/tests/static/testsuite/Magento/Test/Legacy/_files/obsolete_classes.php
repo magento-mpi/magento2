@@ -2087,6 +2087,7 @@ return array(
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
     array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache'),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Reviews',
         'Magento\Review\Block\Adminhtml\Product\Edit\Tab\Reviews'

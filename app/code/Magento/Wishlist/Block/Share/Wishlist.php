@@ -34,7 +34,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
@@ -42,7 +42,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         array $data = array(),
@@ -51,7 +51,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         $this->_customerFactory = $customerFactory;
         parent::__construct(
             $context,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes

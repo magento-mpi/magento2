@@ -96,17 +96,19 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     $area,
                     \Magento\Core\Model\App\Area::PART_CONFIG
                 );
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Config\ScopeInterface'
-                )->setCurrentScope(
-                    $area
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Config\ScopeInterface')
+                    ->setCurrentScope($area);
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+                    ->setAreaCode($area);
+                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\App\Http\Context');
+                $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+                $context->setValue(
+                    \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
+                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
                 );
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\App\State'
-                )->setAreaCode(
-                    $area
-                );
-
                 $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();
                 if ($template) {

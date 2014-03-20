@@ -59,11 +59,9 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_mapRenderer = 'msrp_noform';
 
     /**
-     * Customer session
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * Log visitor
@@ -92,12 +90,18 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_coreData;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param Product\Visibility $catalogProductVisibility
      * @param \Magento\Log\Model\Visitor $logVisitor
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      * @param array $priceBlockTypes
      */
@@ -107,7 +111,8 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Log\Model\Visitor $logVisitor,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -115,7 +120,8 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_logVisitor = $logVisitor;
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
+        $this->currentCustomer = $currentCustomer;
         parent::__construct(
             $context,
             $data,
@@ -167,8 +173,8 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $this->_items = $this->_itemCollectionFactory->create();
             $this->_items->useProductItem(true)->setStoreId($this->_storeManager->getStore()->getId());
 
-            if ($this->_customerSession->isLoggedIn()) {
-                $this->_items->setCustomerId($this->_customerSession->getCustomerId());
+            if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
+                $this->_items->setCustomerId($this->currentCustomer->getCustomerId());
             } elseif ($this->_customerId) {
                 $this->_items->setCustomerId($this->_customerId);
             } else {

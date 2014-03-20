@@ -29,13 +29,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
-        $this->_block = $this->objectManager->get(
-            'Magento\View\LayoutInterface'
-        )->createBlock(
-            'Magento\Customer\Block\Account\Dashboard\Address',
-            '',
-            array('customerSession' => $this->_customerSession)
-        );
+        $this->_block = $this->objectManager->get('Magento\View\LayoutInterface')
+            ->createBlock(
+                'Magento\Customer\Block\Account\Dashboard\Address',
+                '',
+                array('customerSession' => $this->_customerSession)
+            );
+        $this->objectManager->get('Magento\App\ViewInterface')->setIsLayoutLoaded(true);
     }
 
     protected function tearDown()
@@ -48,15 +48,17 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCustomer()
     {
+        $objectManager = Bootstrap::getObjectManager();
+        $layout = $objectManager->get('Magento\View\LayoutInterface');
+        $layout->setIsCacheable(false);
         /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
-        );
+        $customerAccountService = $objectManager
+            ->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $customer = $customerAccountService->getCustomer(1);
-
         $this->_customerSession->setCustomerId(1);
         $object = $this->_block->getCustomer();
         $this->assertEquals($customer, $object);
+        $layout->setIsCacheable(true);
     }
 
     public function testGetCustomerMissingCustomer()
@@ -90,8 +92,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryShippingAddressHtmlDataProvider()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
-            "\nUnited States<br/>\nT: 3468676\n\n";
+        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
+            . "\nUnited States<br/>\nT: 3468676\n\n";
 
         return array(
             '0' => array(0, 'You have not set a default shipping address.'),
@@ -117,13 +119,13 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryBillingAddressHtmlDataProvider()
     {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>" .
-            "\nUnited States<br/>\nT: 3468676\n\n";
-        return array(
-            '0' => array(0, 'You have not set a default billing address.'),
-            '1' => array(1, $expected),
-            '5' => array(5, 'You have not set a default billing address.')
-        );
+        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
+            . "\nUnited States<br/>\nT: 3468676\n\n";
+        return [
+            '0' => [0, 'You have not set a default billing address.'],
+            '1' => [1, $expected],
+            '5' => [5, 'You have not set a default billing address.'],
+        ];
     }
 
     /**
@@ -143,11 +145,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryShippingAddressEditUrlDataProvider()
     {
-        return array(
-            '0' => array(0, ''),
-            '1' => array(1, 'http://localhost/index.php/customer/address/edit/id/1/'),
-            '5' => array(5, 'http://localhost/index.php/customer/address/edit/')
-        );
+        return [
+            '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/'],
+        ];
     }
 
     /**
@@ -167,10 +168,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function getPrimaryBillingAddressEditUrlDataProvider()
     {
-        return array(
-            '0' => array(0, ''),
-            '1' => array(1, 'http://localhost/index.php/customer/address/edit/id/1/'),
-            '5' => array(5, 'http://localhost/index.php/customer/address/edit/')
-        );
+        return [
+            '0' => [0, 'http://localhost/index.php/customer/address/edit/'],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/'],
+        ];
     }
 }

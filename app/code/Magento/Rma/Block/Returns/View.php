@@ -76,11 +76,9 @@ class View extends \Magento\Rma\Block\Form
     protected $_itemFormFactory;
 
     /**
-     * Customer session model
-     *
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
@@ -88,10 +86,15 @@ class View extends \Magento\Rma\Block\Form
     protected $_customerAccountService;
 
     /**
-     * @var \Magent\Service\Customer\V1\Data\Customer
+     * @var \Magento\Customer\Service\V1\Data\Customer
      */
     protected $customerData;
 
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+    
     /**
      * Eav configuration model
      *
@@ -107,14 +110,15 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
-     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param Item\FormFactory $itemFormFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Helper\View $customerView
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Registry $registry
      * @param array $data
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -126,9 +130,10 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Helper\View $customerView,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Registry $registry,
         array $data = array()
@@ -138,11 +143,12 @@ class View extends \Magento\Rma\Block\Form
         $this->_historiesFactory = $historiesFactory;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         $this->_customerAccountService = $customerAccountService;
         $this->_customerView = $customerView;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
@@ -344,7 +350,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getBackUrl()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->getUrl('rma/returns/history');
         } else {
             return $this->getUrl('rma/guest/returns');
@@ -378,7 +384,7 @@ class View extends \Magento\Rma\Block\Form
      */
     public function getCustomerName()
     {
-        if ($this->_customerSession->isLoggedIn()) {
+        if ($this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH)) {
             return $this->_customerView->getCustomerName($this->getCustomerData());
         } else {
             $billingAddress = $this->_coreRegistry->registry('current_order')->getBillingAddress();
@@ -412,7 +418,7 @@ class View extends \Magento\Rma\Block\Form
     public function getCustomerData()
     {
         if (empty($this->customerData)) {
-            $customerId = $this->_customerSession->getCustomerId();
+            $customerId = $this->currentCustomer->getCustomerId();
             $this->customerData = $this->_customerAccountService->getCustomer($customerId);
         }
         return $this->customerData;
