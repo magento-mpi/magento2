@@ -20,22 +20,22 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @var \Magento\Reports\Model\Resource\HelperFactory
+     * @var \Magento\Reports\Model\Resource\Helper
      */
-    protected $_helperFactory;
+    protected $_resourceHelper;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Reports\Model\Resource\HelperFactory $helperFactory
+     * @param \Magento\Reports\Model\Resource\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Reports\Model\Resource\HelperFactory $helperFactory,
+        \Magento\Reports\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
-        $this->_helperFactory = $helperFactory;
+        $this->_resourceHelper = $resourceHelper;
         $this->dateTime = $dateTime;
     }
 
@@ -143,8 +143,7 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
 
         $matchFields = array('product_id', 'store_id');
 
-        $this->_helperFactory->create()->mergeVisitorProductIndex($this->getMainTable(), $data, $matchFields);
-
+        $this->_resourceHelper->mergeVisitorProductIndex($this->getMainTable(), $data, $matchFields);
 
         $this->unserializeFields($object);
         $this->_afterSave($object);
@@ -217,7 +216,7 @@ abstract class AbstractIndex extends \Magento\Model\Resource\Db\AbstractDb
 
         $matchFields = array('product_id', 'store_id');
         foreach ($data as $row) {
-            $this->_helperFactory->create()->mergeVisitorProductIndex($this->getMainTable(), $row, $matchFields);
+            $this->_resourceHelper->mergeVisitorProductIndex($this->getMainTable(), $row, $matchFields);
         }
         return $this;
     }

@@ -24,9 +24,9 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_configShare;
 
     /**
-     * @var \Magento\DB\HelperPool
+     * @var \Magento\CustomerSegment\Model\Resource\Helper
      */
-    protected $_resourceHelperPool;
+    protected $_resourceHelper;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -35,18 +35,18 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\DB\HelperPool $resourceHelperPool
+     * @param \Magento\CustomerSegment\Model\Resource\Helper $resourceHelper
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\DB\HelperPool $resourceHelperPool,
+        \Magento\CustomerSegment\Model\Resource\Helper $resourceHelper,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
-        $this->_resourceHelperPool = $resourceHelperPool;
+        $this->_resourceHelper = $resourceHelper;
         $this->_configShare = $configShare;
         $this->dateTime = $dateTime;
     }
@@ -294,7 +294,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function getSqlOperator($operator)
     {
-        return $this->_resourceHelperPool->get('Magento_CustomerSegment')->getSqlOperator($operator);
+        return $this->_resourceHelper->getSqlOperator($operator);
     }
 
     /**

@@ -29,13 +29,18 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected $storeManager;
 
     /**
+     * @var \Magento\GiftRegistry\Model\Resource\Helper
+     */
+    protected $resourceHelper;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory
+     * @param \Magento\GiftRegistry\Model\Resource\Helper $resourceHelper
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
@@ -46,14 +51,14 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory,
+        \Magento\GiftRegistry\Model\Resource\Helper $resourceHelper,
         $connection = null,
         \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->attributeConfig = $attributeConfig;
         $this->storeManager = $storeManager;
-        $this->helperFactory = $helperFactory;
+        $this->resourceHelper = $resourceHelper;
     }
 
     /**
@@ -160,9 +165,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             'entity_id'
         );
 
-        /** @var \Magento\DB\Helper $helper */
-        $helper = $this->helperFactory->create();
-        $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
+        $this->resourceHelper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 
         $this->getSelect()->joinLeft(
             array('person' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
