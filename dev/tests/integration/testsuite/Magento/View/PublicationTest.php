@@ -627,7 +627,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             )
-        ));
+        );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
             ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
             ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
