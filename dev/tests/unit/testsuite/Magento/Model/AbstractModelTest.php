@@ -6,27 +6,27 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento\Model;
 
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $model;
 
     /**
-     * @var \Magento\Core\Model\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextMock;
 
     /**
-     * @var \Magento\Core\Model\Registry|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $registryMock;
 
     /**
-     * @var \Magento\Core\Model\Resource\Db\AbstractDb|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\Resource\Db\AbstractDb|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $resourceMock;
 
@@ -40,18 +40,25 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     protected $adapterMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $removeProtectorMock;
+
     protected function setUp()
     {
 
+        $this->removeProtectorMock = $this->getMock('Magento\Model\RemoveProtectorInterface');
         $this->contextMock = new \Magento\Model\Context(
             $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\App\CacheInterface', array(), array(), '', false),
-            $this->getMock('Magento\App\State', array(), array(), '', false)
+            $this->getMock('Magento\App\State', array(), array(), '', false),
+            $this->removeProtectorMock
         );
         $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->resourceMock = $this->getMock(
-            'Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Model\Resource\Db\AbstractDb',
             array(
                 '_construct',
                 '_getReadAdapter',
@@ -68,7 +75,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
         );
         $this->resourceCollectionMock = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
         $this->model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\AbstractModel',
+            'Magento\Model\AbstractModel',
             array($this->contextMock, $this->registryMock, $this->resourceMock, $this->resourceCollectionMock)
         );
         $this->adapterMock = $this->getMock('Magento\DB\Adapter\AdapterInterface', array(), array(), '', false);
@@ -82,6 +89,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
+        $this->removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
         $this->adapterMock->expects($this->once())
             ->method('beginTransaction');
         $this->resourceMock->expects($this->once())
@@ -97,6 +105,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteRaiseException()
     {
+        $this->removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
         $this->adapterMock->expects($this->once())
             ->method('beginTransaction');
         $this->resourceMock->expects($this->once())
@@ -108,5 +117,14 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
             ->method('rollBack');
         $this->model->delete();
     }
+
+    /**
+     * @expectedException \Magento\Model\Exception
+     * @expectedExceptionMessage Delete operation is forbidden for current area
+     */
+    public function testDeleteOnModelThatCanNotBeRemoved()
+    {
+        $this->removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(false));
+        $this->model->delete();
+    }
 }
- 
