@@ -5,11 +5,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
-require_once __DIR__ . '/../../../../../../../../tools/PHP-Parser/lib/bootstrap.php';
 
+require_once __DIR__ . '/../../../../../../../../tools/PHP-Parser/lib/bootstrap.php';
 use Magento\Tools\Formatter\PrettyPrinter\Printer;
 
 /**

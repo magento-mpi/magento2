@@ -28,10 +28,8 @@ class File
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Logger $log
      */
-    public function __construct(
-        \Magento\App\Filesystem $filesystem,
-        \Magento\Logger $log
-    ) {
+    public function __construct(\Magento\App\Filesystem $filesystem, \Magento\Logger $log)
+    {
         $this->_logger = $log;
         $this->_filesystem = $filesystem;
     }
@@ -44,8 +42,8 @@ class File
      */
     public function getStorageData($dir = '/')
     {
-        $files          = array();
-        $directories    = array();
+        $files = array();
+        $directories = array();
         $directoryInstance = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         if ($directoryInstance->isDirectory($dir)) {
             foreach ($directoryInstance->readRecursively($dir) as $path) {
@@ -56,7 +54,7 @@ class File
                 if ($directoryInstance->isDirectory($path)) {
                     $directories[] = array(
                         'name' => $itemName,
-                        'path' => (dirname($path) == '.') ? '/' : dirname($path)
+                        'path' => dirname($path) == '.' ? '/' : dirname($path)
                     );
                 } else {
                     $files[] = $path;
@@ -98,9 +96,7 @@ class File
             return false;
         }
 
-        $path = (strlen($dir['path']))
-            ? $dir['path'] . '/' . $dir['name']
-            : $dir['name'];
+        $path = strlen($dir['path']) ? $dir['path'] . '/' . $dir['name'] : $dir['name'];
 
         try {
             $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR)->create($path);
@@ -127,7 +123,7 @@ class File
     {
         try {
             $directoryInstance = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
-            if (!$directoryInstance->isFile($filePath) || ($overwrite && $directoryInstance->delete($filePath))) {
+            if (!$directoryInstance->isFile($filePath) || $overwrite && $directoryInstance->delete($filePath)) {
                 $directoryInstance->writeFile($filePath, $content);
                 return true;
             }

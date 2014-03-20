@@ -35,7 +35,10 @@ class ProductAction
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeUpdateWebsites(
-        \Magento\Catalog\Model\Product\Action $subject, $productIds, $websiteIds, $type
+        \Magento\Catalog\Model\Product\Action $subject,
+        $productIds,
+        $websiteIds,
+        $type
     ) {
         if (!$this->_role->getIsAll()) {
             if (in_array($type, array('remove', 'add'))) {

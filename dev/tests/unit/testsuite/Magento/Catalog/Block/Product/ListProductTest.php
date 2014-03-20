@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product;
 
 class ListProductTest extends \PHPUnit_Framework_TestCase
@@ -20,13 +19,19 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $registryMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $layerMock;
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->block = $objectManager->getObject(
             'Magento\Catalog\Block\Product\ListProduct',
-            array('registry' => $this->registryMock)
+            array('registry' => $this->registryMock, 'catalogLayer' => $this->layerMock)
         );
     }
 
@@ -47,14 +52,9 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $product->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue(array($productTag)));
+        $product->expects($this->once())->method('getIdentities')->will($this->returnValue(array($productTag)));
 
-        $itemsCollection = new \ReflectionProperty(
-            'Magento\Catalog\Block\Product\ListProduct',
-            '_productCollection'
-        );
+        $itemsCollection = new \ReflectionProperty('Magento\Catalog\Block\Product\ListProduct', '_productCollection');
         $itemsCollection->setAccessible(true);
         $itemsCollection->setValue($this->block, array($product));
 
@@ -62,14 +62,10 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
         $currentCategory->expects($this->once())
             ->method('getIdentities')
             ->will($this->returnValue(array($categoryTag)));
-        $layer = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
-        $layer->expects($this->once())
+
+        $this->layerMock->expects($this->once())
             ->method('getCurrentCategory')
             ->will($this->returnValue($currentCategory));
-        $this->registryMock->expects($this->once())
-            ->method('registry')
-            ->with('current_layer')
-            ->will($this->returnValue($layer));
 
         $this->assertEquals(
             array($categoryTag, $productTag),

@@ -21,7 +21,7 @@ class Grid extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @var bool
      */
-    protected $_isPkAutoIncrement    = false;
+    protected $_isPkAutoIncrement = false;
 
     /**
      * Internal constructor

@@ -45,6 +45,7 @@ class Head extends \Magento\View\Element\AbstractBlock
         $this->_cmsHierarchy = $cmsHierarchy;
         parent::__construct($context, $data);
     }
+
     /**
      * Prepare Global Layout
      *
@@ -72,9 +73,11 @@ class Head extends \Magento\View\Element\AbstractBlock
                             'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
-                                'properties' => array('attributes' => array(
-                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
-                                ))
+                                'properties' => array(
+                                    'attributes' => array(
+                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_CHAPTER
+                                    )
+                                )
                             )
                         );
                     }
@@ -88,9 +91,11 @@ class Head extends \Magento\View\Element\AbstractBlock
                             'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
-                                'properties' => array('attributes' => array(
-                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
-                                ))
+                                'properties' => array(
+                                    'attributes' => array(
+                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_SECTION
+                                    )
+                                )
                             )
                         );
                     }
@@ -106,9 +111,11 @@ class Head extends \Magento\View\Element\AbstractBlock
                             'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
-                                'properties' => array('attributes' => array(
-                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
-                                ))
+                                'properties' => array(
+                                    'attributes' => array(
+                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_NEXT
+                                    )
+                                )
                             )
                         );
                     }
@@ -122,9 +129,11 @@ class Head extends \Magento\View\Element\AbstractBlock
                             'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
-                                'properties' => array('attributes' => array(
-                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
-                                ))
+                                'properties' => array(
+                                    'attributes' => array(
+                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_PREVIOUS
+                                    )
+                                )
                             )
                         );
                     }
@@ -140,9 +149,11 @@ class Head extends \Magento\View\Element\AbstractBlock
                             'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
-                                'properties' => array('attributes' => array(
-                                    'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
-                                ))
+                                'properties' => array(
+                                    'attributes' => array(
+                                        'rel' => \Magento\VersionsCms\Model\Hierarchy\Node::META_NODE_TYPE_FIRST
+                                    )
+                                )
                             )
                         );
                     }

@@ -35,7 +35,7 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadByProduct($model)
     {
-        if (!($model->getProduct() instanceof \Magento\Object)) {
+        if (!$model->getProduct() instanceof \Magento\Object) {
             return $this;
         }
 
@@ -47,9 +47,15 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
         $select = $read->select();
 
         if ($productId !== null) {
-            $select->from($this->getMainTable())
-                ->where("product_id = ?", $productId)
-                ->where('store_id = ?', (int)$storeId);
+            $select->from(
+                $this->getMainTable()
+            )->where(
+                "product_id = ?",
+                $productId
+            )->where(
+                'store_id = ?',
+                (int)$storeId
+            );
 
             $data = $read->fetchRow($select);
             $data = is_array($data) ? $data : array();

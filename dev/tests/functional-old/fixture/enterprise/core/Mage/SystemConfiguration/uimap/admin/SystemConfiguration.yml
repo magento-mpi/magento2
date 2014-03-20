@@ -580,7 +580,6 @@ system_configuration:
                                         magento_customercustomattributes: //select[@id='Magento_CustomerCustomAttributes']
                                         magento_customersegment: //select[@id='Magento_CustomerSegment']
                                         magento_enterprise: //select[@id='Magento_Enterprise']
-                                        magento_fullpagecache: //select[@id='Magento_FullPageCache']
                                         magento_giftcard: //select[@id='Magento_GiftCard']
                                         magento_giftcardaccount: //select[@id='Magento_GiftCardAccount']
                                         magento_giftregistry: //select[@id='Magento_GiftRegistry']

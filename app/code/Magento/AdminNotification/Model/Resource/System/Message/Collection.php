@@ -7,8 +7,7 @@
  */
 namespace Magento\AdminNotification\Model\Resource\System\Message;
 
-class Collection
-    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * System message list
@@ -54,7 +53,8 @@ class Collection
     protected function _construct()
     {
         $this->_init(
-            'Magento\AdminNotification\Model\System\Message', 'Magento\AdminNotification\Model\Resource\System\Message'
+            'Magento\AdminNotification\Model\System\Message',
+            'Magento\AdminNotification\Model\Resource\System\Message'
         );
     }
 
@@ -66,8 +66,7 @@ class Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addOrder('severity', self::SORT_ORDER_ASC)
-            ->addOrder('created_at');
+        $this->addOrder('severity', self::SORT_ORDER_ASC)->addOrder('created_at');
     }
 
     /**

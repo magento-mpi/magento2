@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\TemplateEngine\Decorator;
 
 class DebugHintsTest extends \PHPUnit_Framework_TestCase
@@ -18,12 +17,17 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     {
         $subject = $this->getMock('Magento\View\TemplateEngineInterface');
         $block = $this->getMock('Magento\View\Element\BlockInterface', array(), array(), 'TestBlock', false);
-        $subject
-            ->expects($this->once())
-            ->method('render')
-            ->with($this->identicalTo($block), 'template.phtml', array('var' => 'val'))
-            ->will($this->returnValue('<div id="fixture"/>'))
-        ;
+        $subject->expects(
+            $this->once()
+        )->method(
+            'render'
+        )->with(
+            $this->identicalTo($block),
+            'template.phtml',
+            array('var' => 'val')
+        )->will(
+            $this->returnValue('<div id="fixture"/>')
+        );
         $model = new DebugHints($subject, $showBlockHints);
         $actualResult = $model->render($block, 'template.phtml', array('var' => 'val'));
         $this->assertSelectEquals('div > div[title="template.phtml"]', 'template.phtml', 1, $actualResult);
@@ -33,9 +37,6 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
 
     public function renderDataProvider()
     {
-        return array(
-            'block hints disabled'  => array(false),
-            'block hints enabled'   => array(true),
-        );
+        return array('block hints disabled' => array(false), 'block hints enabled' => array(true));
     }
 }

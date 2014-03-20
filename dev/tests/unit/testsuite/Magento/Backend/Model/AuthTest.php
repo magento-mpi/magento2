@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Model;
+
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -61,10 +62,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
             ->with('username', 'password')
             ->will($this->throwException($exceptionMock));
         $this->_credentialStorage->expects($this->never())->method('getId');
-        $this->_eventManagerMock
-            ->expects($this->once())
-            ->method('dispatch')
-        ->with('backend_auth_user_login_failed');
+        $this->_eventManagerMock->expects($this->once())->method('dispatch')->with('backend_auth_user_login_failed');
         $this->_model->login('username', 'password');
     }
 }

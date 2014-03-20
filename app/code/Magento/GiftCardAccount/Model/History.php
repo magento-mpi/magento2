@@ -31,12 +31,17 @@ namespace Magento\GiftCardAccount\Model;
  */
 class History extends \Magento\Model\AbstractModel
 {
-    const ACTION_CREATED  = 0;
-    const ACTION_USED     = 1;
-    const ACTION_SENT     = 2;
+    const ACTION_CREATED = 0;
+
+    const ACTION_USED = 1;
+
+    const ACTION_SENT = 2;
+
     const ACTION_REDEEMED = 3;
-    const ACTION_EXPIRED  = 4;
-    const ACTION_UPDATED  = 5;
+
+    const ACTION_EXPIRED = 4;
+
+    const ACTION_UPDATED = 5;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -77,12 +82,12 @@ class History extends \Magento\Model\AbstractModel
     public function getActionNamesArray()
     {
         return array(
-            self::ACTION_CREATED  => __('Created'),
-            self::ACTION_UPDATED  => __('Updated'),
-            self::ACTION_SENT     => __('Sent'),
-            self::ACTION_USED     => __('Used'),
+            self::ACTION_CREATED => __('Created'),
+            self::ACTION_UPDATED => __('Updated'),
+            self::ACTION_SENT => __('Sent'),
+            self::ACTION_USED => __('Used'),
             self::ACTION_REDEEMED => __('Redeemed'),
-            self::ACTION_EXPIRED  => __('Expired'),
+            self::ACTION_EXPIRED => __('Expired')
         );
     }
 
@@ -113,7 +118,6 @@ class History extends \Magento\Model\AbstractModel
 
         return '';
     }
-
 
     /**
      * Get info about sent mail context

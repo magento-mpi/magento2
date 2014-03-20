@@ -7,8 +7,7 @@
  */
 namespace Magento\Model\Resource\Type\Db\Pdo;
 
-class Mysql extends \Magento\Model\Resource\Type\Db
-    implements \Magento\App\Resource\ConnectionAdapterInterface
+class Mysql extends \Magento\Model\Resource\Type\Db implements \Magento\App\Resource\ConnectionAdapterInterface
 {
     /**
      * Filesystem class
@@ -120,12 +119,7 @@ class Mysql extends \Magento\Model\Resource\Type\Db
     protected function _getDbAdapterInstance()
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className(
-            $this->_filesystem,
-            $this->string,
-            $this->dateTime,
-            $this->_connectionConfig
-        );
+        $adapter = new $className($this->_filesystem, $this->string, $this->dateTime, $this->_connectionConfig);
         return $adapter;
     }
 

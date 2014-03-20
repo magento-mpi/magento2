@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\ObjectManager\Factory\Fixture;
 
 /**
@@ -31,4 +30,4 @@ class Polymorphous
     {
         return isset($this->args[$key]) ? $this->args[$key] : null;
     }
-} 
+}

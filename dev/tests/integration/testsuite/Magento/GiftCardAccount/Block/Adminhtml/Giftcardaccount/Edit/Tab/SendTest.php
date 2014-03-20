@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
 /**
@@ -23,16 +22,16 @@ class SendTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftCardAccount\Model\Giftcardaccount'
+        );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_giftcardaccount', $model);
 
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
 
-        $this->_block = $layout
-            ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send');
+        $this->_block = $layout->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send');
     }
 
     protected function tearDown()

@@ -18,9 +18,8 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attribute\Edit\Tab;
 
-class Options
-    extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Options extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Return Tab label

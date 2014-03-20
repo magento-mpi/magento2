@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Model\Attribute;
 
 use Magento\Catalog\Model\Attribute\LockValidatorInterface;
@@ -37,17 +36,24 @@ class LockValidator implements LockValidatorInterface
     public function validate(\Magento\Model\AbstractModel $object, $attributeSet = null)
     {
         $adapter = $this->resource->getConnection('read');
-        $attrTable    = $this->resource->getTableName('catalog_product_super_attribute');
+        $attrTable = $this->resource->getTableName('catalog_product_super_attribute');
         $productTable = $this->resource->getTableName('catalog_product_entity');
 
         $bind = array('attribute_id' => $object->getAttributeId());
         $select = clone $adapter->select();
-        $select->reset()
-            ->from(array('main_table' => $attrTable), array('psa_count' => 'COUNT(product_super_attribute_id)'))
-            ->join(array('entity' => $productTable), 'main_table.product_id = entity.entity_id')
-            ->where('main_table.attribute_id = :attribute_id')
-            ->group('main_table.attribute_id')
-            ->limit(1);
+        $select->reset()->from(
+            array('main_table' => $attrTable),
+            array('psa_count' => 'COUNT(product_super_attribute_id)')
+        )->join(
+            array('entity' => $productTable),
+            'main_table.product_id = entity.entity_id'
+        )->where(
+            'main_table.attribute_id = :attribute_id'
+        )->group(
+            'main_table.attribute_id'
+        )->limit(
+            1
+        );
 
         if ($attributeSet !== null) {
             $bind['attribute_set_id'] = $attributeSet;
@@ -55,9 +61,7 @@ class LockValidator implements LockValidatorInterface
         }
 
         if ($adapter->fetchOne($select, $bind)) {
-            throw new \Magento\Model\Exception(
-                __('This attribute is used in configurable products.')
-            );
+            throw new \Magento\Model\Exception(__('This attribute is used in configurable products.'));
         }
     }
-} 
+}

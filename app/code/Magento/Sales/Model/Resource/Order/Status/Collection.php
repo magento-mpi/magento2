@@ -88,7 +88,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function orderByLabel($dir = 'ASC')
     {
-        $this->getSelect()->order('main_table.label '.$dir);
+        $this->getSelect()->order('main_table.label ' . $dir);
         return $this;
     }
 }

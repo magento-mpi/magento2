@@ -69,9 +69,9 @@ class Role extends DataFixture
      */
     public function setScopeItems(array $items)
     {
-        if(array_key_exists('gws_store_groups', $this->_data['fields'])) {
+        if (array_key_exists('gws_store_groups', $this->_data['fields'])) {
             $scope = 'gws_store_groups';
-        } elseif(array_key_exists('gws_websites', $this->_data['fields'])) {
+        } elseif (array_key_exists('gws_websites', $this->_data['fields'])) {
             $scope = 'gws_websites';
         } else {
             throw new \InvalidArgumentException('Current data set doesn\'t work with stores and websites');
@@ -88,7 +88,7 @@ class Role extends DataFixture
     protected function convertData(array $data)
     {
         $result = array();
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $result['fields'][$key]['value'] = $value;
         }
         return $result;

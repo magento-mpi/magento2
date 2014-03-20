@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 class DesignLoaderTest extends \PHPUnit_Framework_TestCase

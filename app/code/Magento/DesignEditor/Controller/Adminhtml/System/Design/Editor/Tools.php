@@ -41,8 +41,10 @@ class Tools extends \Magento\Backend\App\Action
         /** @var $cssService \Magento\Theme\Model\Theme\Customization\File\CustomCss */
         $cssService = $this->_objectManager->get('Magento\Theme\Model\Theme\Customization\File\CustomCss');
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
-        $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',
-            array('fileService' => $cssService));
+        $singleFile = $this->_objectManager->create(
+            'Magento\Theme\Model\Theme\SingleFile',
+            array('fileService' => $cssService)
+        );
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
         try {
@@ -78,16 +80,18 @@ class Tools extends \Magento\Backend\App\Action
         /** @var $cssService \Magento\Theme\Model\Theme\Customization\File\CustomCss */
         $cssService = $this->_objectManager->get('Magento\Theme\Model\Theme\Customization\File\CustomCss');
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
-        $singleFile = $this->_objectManager->create('Magento\Theme\Model\Theme\SingleFile',
-            array('fileService' => $cssService));
+        $singleFile = $this->_objectManager->create(
+            'Magento\Theme\Model\Theme\SingleFile',
+            array('fileService' => $cssService)
+        );
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $customCss = $singleFile->update($editableTheme, $customCssContent);
             $response = array(
-                'success'  => true,
+                'success' => true,
                 'filename' => $customCss->getFileName(),
-                'message'  => __('You updated the %1 file.', $customCss->getFileName())
+                'message' => __('You updated the %1 file.', $customCss->getFileName())
             );
         } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
@@ -181,7 +185,8 @@ class Tools extends \Magento\Backend\App\Action
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $editableTheme->getCustomization()->reorder(
-                \Magento\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles
+                \Magento\View\Design\Theme\Customization\File\Js::TYPE,
+                $reorderJsFiles
             );
             $result = array('success' => true);
         } catch (CoreException $e) {
@@ -226,7 +231,6 @@ class Tools extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
-
     }
 
     /**
@@ -237,8 +241,9 @@ class Tools extends \Magento\Backend\App\Action
     public function uploadQuickStyleImageAction()
     {
         /** @var $uploaderModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader */
-        $uploaderModel = $this->_objectManager
-            ->get('Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader');
+        $uploaderModel = $this->_objectManager->get(
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader'
+        );
         try {
             /** @var $configFactory \Magento\DesignEditor\Model\Editor\Tools\Controls\Factory */
             $configFactory = $this->_objectManager->create('Magento\DesignEditor\Model\Editor\Tools\Controls\Factory');
@@ -260,8 +265,10 @@ class Tools extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $errorMessage = __('Something went wrong uploading the image.' .
-                ' Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = __(
+                'Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).'
+            );
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
@@ -279,8 +286,9 @@ class Tools extends \Magento\Backend\App\Action
         $elementName = $this->getRequest()->getParam('element', false);
 
         /** @var $uploaderModel \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader */
-        $uploaderModel = $this->_objectManager
-            ->get('Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader');
+        $uploaderModel = $this->_objectManager->get(
+            'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\ImageUploader'
+        );
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
@@ -301,8 +309,10 @@ class Tools extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $errorMessage = __('Something went wrong uploading the image.' .
-                ' Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = __(
+                'Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).'
+            );
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
@@ -323,9 +333,7 @@ class Tools extends \Magento\Backend\App\Action
             /** @var $theme \Magento\View\Design\ThemeInterface */
             $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
-                throw new CoreException(
-                    __('The file can\'t be found or edited.')
-                );
+                throw new CoreException(__('The file can\'t be found or edited.'));
             }
 
             /** @var $customizationConfig \Magento\Theme\Model\Config\Customization */
@@ -333,11 +341,12 @@ class Tools extends \Magento\Backend\App\Action
             $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new CoreException(__('This theme is not assigned to a store view #%1.',
-                    $theme->getId()));
+                throw new CoreException(__('This theme is not assigned to a store view #%1.', $theme->getId()));
             }
             /** @var $storeLogo \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\LogoUploader */
-            $storeLogo = $this->_objectManager->get('Magento\DesignEditor\Model\Editor\Tools\QuickStyles\LogoUploader');
+            $storeLogo = $this->_objectManager->get(
+                'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\LogoUploader'
+            );
             $storeLogo->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')->save();
 
             $this->_reinitSystemConfiguration();
@@ -347,8 +356,10 @@ class Tools extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $errorMessage = __('Something went wrong uploading the image.' .
-                ' Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = __(
+                'Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).'
+            );
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
@@ -369,9 +380,7 @@ class Tools extends \Magento\Backend\App\Action
             /** @var $theme \Magento\View\Design\ThemeInterface */
             $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
-                throw new CoreException(
-                    __('The file can\'t be found or edited.')
-                );
+                throw new CoreException(__('The file can\'t be found or edited.'));
             }
 
             /** @var $customizationConfig \Magento\Theme\Model\Config\Customization */
@@ -379,13 +388,20 @@ class Tools extends \Magento\Backend\App\Action
             $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new CoreException(__('This theme is not assigned to a store view #%1.',
-                    $theme->getId()));
+                throw new CoreException(__('This theme is not assigned to a store view #%1.', $theme->getId()));
             }
 
-            $this->_objectManager->get('Magento\Backend\Model\Config\Backend\Store')
-                ->setScope('stores')->setScopeId($store->getId())->setPath('design/header/logo_src')
-                ->setValue('')->save();
+            $this->_objectManager->get(
+                'Magento\Backend\Model\Config\Backend\Store'
+            )->setScope(
+                'stores'
+            )->setScopeId(
+                $store->getId()
+            )->setPath(
+                'design/header/logo_src'
+            )->setValue(
+                ''
+            )->save();
 
             $this->_reinitSystemConfiguration();
             $response = array('error' => false, 'content' => array());
@@ -393,8 +409,10 @@ class Tools extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $errorMessage = __('Something went wrong uploading the image.' .
-                ' Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = __(
+                'Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).'
+            );
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
@@ -425,8 +443,10 @@ class Tools extends \Magento\Backend\App\Action
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $errorMessage = __('Something went wrong uploading the image.' .
-                ' Please check the file format and try again (JPEG, GIF, or PNG).');
+            $errorMessage = __(
+                'Something went wrong uploading the image.' .
+                ' Please check the file format and try again (JPEG, GIF, or PNG).'
+            );
             $response = array('error' => true, 'message' => $errorMessage);
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }

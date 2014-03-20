@@ -14,8 +14,10 @@ namespace Magento\GiftRegistry\Model\Attribute;
  */
 class Processor extends \Magento\Model\AbstractModel
 {
-    const XML_PROTOTYPE_NODE  = 'prototype';
-    const XML_REGISTRY_NODE   = 'registry';
+    const XML_PROTOTYPE_NODE = 'prototype';
+
+    const XML_REGISTRY_NODE = 'registry';
+
     const XML_REGISTRANT_NODE = 'registrant';
 
     /**
@@ -125,7 +127,7 @@ class Processor extends \Magento\Model\AbstractModel
      */
     public function addDateOptions($attribute, $itemXml)
     {
-        $dateFormat = (isset($attribute['date_format'])) ? $attribute['date_format'] : '';
+        $dateFormat = isset($attribute['date_format']) ? $attribute['date_format'] : '';
         $itemXml->addChild('date_format', $dateFormat);
     }
 
@@ -138,7 +140,7 @@ class Processor extends \Magento\Model\AbstractModel
      */
     public function addCountryOptions($attribute, $itemXml)
     {
-        $regionCountry = (isset($attribute['show_region'])) ? $attribute['show_region'] : '';
+        $regionCountry = isset($attribute['show_region']) ? $attribute['show_region'] : '';
         $itemXml->addChild('show_region', $regionCountry);
     }
 

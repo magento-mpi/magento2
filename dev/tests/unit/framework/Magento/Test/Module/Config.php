@@ -18,6 +18,5 @@ class Config
      */
     public function is()
     {
-
     }
 }

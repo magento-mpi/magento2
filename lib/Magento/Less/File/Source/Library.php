@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;
@@ -45,11 +44,8 @@ class Library implements SourceInterface
      * @param Filesystem $filesystem
      * @param Factory $fileFactory
      */
-    public function __construct(
-        FileListFactory $fileListFactory,
-        Filesystem $filesystem,
-        Factory $fileFactory
-    ) {
+    public function __construct(FileListFactory $fileListFactory, Filesystem $filesystem, Factory $fileFactory)
+    {
         $this->fileListFactory = $fileListFactory;
         $this->libraryDirectory = $filesystem->getDirectoryRead(Filesystem::PUB_LIB_DIR);
         $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);

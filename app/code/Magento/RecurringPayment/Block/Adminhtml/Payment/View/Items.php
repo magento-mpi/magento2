@@ -61,4 +61,3 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         return $store->formatPrice($value);
     }
 }
-

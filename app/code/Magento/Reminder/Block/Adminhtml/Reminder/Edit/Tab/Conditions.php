@@ -14,8 +14,7 @@ use Magento\Backend\Block\Widget\Form;
 /**
  * Reminder rules edit form conditions
  */
-class Conditions
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Fieldset block
@@ -63,18 +62,30 @@ class Conditions
         $form = $this->_formFactory->create();
         $model = $this->_coreRegistry->registry('current_reminder_rule');
 
-        $renderer = $this->_fieldsetBlock
-            ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset'));
-        $fieldset = $form->addFieldset('rule_conditions_fieldset', array(
-            'legend'  => __('Conditions'),
-            'comment' => __('You need to set at least one condition for this rule to work.'),
-        ))->setRenderer($renderer);
+        $renderer = $this->_fieldsetBlock->setTemplate(
+            'Magento_CatalogRule::promo/fieldset.phtml'
+        )->setNewChildUrl(
+            $this->getUrl('adminhtml/reminder/newConditionHtml/form/rule_conditions_fieldset')
+        );
+        $fieldset = $form->addFieldset(
+            'rule_conditions_fieldset',
+            array(
+                'legend' => __('Conditions'),
+                'comment' => __('You need to set at least one condition for this rule to work.')
+            )
+        )->setRenderer(
+            $renderer
+        );
 
-        $fieldset->addField('conditions', 'text', array(
-            'name' => 'conditions',
-            'required' => true,
-        ))->setRule($model)->setRenderer($this->_conditionsBlock);
+        $fieldset->addField(
+            'conditions',
+            'text',
+            array('name' => 'conditions', 'required' => true)
+        )->setRule(
+            $model
+        )->setRenderer(
+            $this->_conditionsBlock
+        );
 
         $form->setValues($model->getData());
         $this->setForm($form);

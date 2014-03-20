@@ -57,14 +57,15 @@ class JsonTest extends \PHPUnit_Framework_TestCase
         $expectedDecodedJson = array(
             'key1' => 'test1',
             'key2' => 'test2',
-            'array' => array(
-                'test01' => 'some1',
-                'test02' => 'some2',
-            )
+            'array' => array('test01' => 'some1', 'test02' => 'some2')
         );
-        $this->_helperMock->expects($this->once())
-            ->method('jsonDecode')
-            ->will($this->returnValue($expectedDecodedJson));
+        $this->_helperMock->expects(
+            $this->once()
+        )->method(
+            'jsonDecode'
+        )->will(
+            $this->returnValue($expectedDecodedJson)
+        );
         /** Initialize SUT. */
         $this->assertEquals(
             $expectedDecodedJson,
@@ -90,16 +91,22 @@ class JsonTest extends \PHPUnit_Framework_TestCase
         } catch (\Magento\Webapi\Exception $e) {
             $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals('Decoding error.', $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
+                $e->getHttpCode(),
+                'HTTP code is invalid'
+            );
         }
     }
 
     public function testDeserializeInvalidEncodedBodyExceptionDeveloperModeOn()
     {
         /** Prepare mocks for SUT constructor. */
-        $this->_helperMock->expects($this->once())
-            ->method('jsonDecode')
-            ->will(
+        $this->_helperMock->expects(
+            $this->once()
+        )->method(
+            'jsonDecode'
+        )->will(
             $this->throwException(
                 new \Zend_Json_Exception('Decoding error:' . PHP_EOL . 'Decoding failed: Syntax error')
             )
@@ -115,7 +122,11 @@ class JsonTest extends \PHPUnit_Framework_TestCase
         } catch (\Magento\Webapi\Exception $e) {
             $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertContains('Decoding error:', $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
+                $e->getHttpCode(),
+                'HTTP code is invalid'
+            );
         }
     }
 }

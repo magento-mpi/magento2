@@ -26,7 +26,7 @@ class Iterator extends \Magento\Object
      * @param \Magento\DB\Adapter\AdapterInterface $adapter
      * @return \Magento\Model\Resource\Iterator
      */
-    public function walk($query, array $callbacks, array $args=array(), $adapter = null)
+    public function walk($query, array $callbacks, array $args = array(), $adapter = null)
     {
         $stmt = $this->_getStatement($query, $adapter);
         $args['idx'] = 0;

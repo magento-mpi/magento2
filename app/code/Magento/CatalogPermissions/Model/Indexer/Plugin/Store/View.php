@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin\Store;
 
 class View extends AbstractPlugin

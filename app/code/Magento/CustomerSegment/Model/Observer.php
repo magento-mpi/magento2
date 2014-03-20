@@ -84,10 +84,14 @@ class Observer
             return;
         }
         $additional = $observer->getEvent()->getAdditional();
-        $additional->setConditions(array(array(
-            'label' => __('Customer Segment'),
-            'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
-        )));
+        $additional->setConditions(
+            array(
+                array(
+                    'label' => __('Customer Segment'),
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
+                )
+            )
+        );
     }
 
     /**
@@ -98,10 +102,10 @@ class Observer
      */
     public function processCustomerEvent(\Magento\Event\Observer $observer)
     {
-        $customer  = $observer->getEvent()->getCustomer();
-        $dataObject= $observer->getEvent()->getDataObject();
+        $customer = $observer->getEvent()->getCustomer();
+        $dataObject = $observer->getEvent()->getDataObject();
 
-        $customerId= false;
+        $customerId = false;
         if ($customer) {
             $customerId = $customer->getId();
         }
@@ -129,8 +133,11 @@ class Observer
             $customer = $this->_customerSession->getCustomer();
         }
 
-        $this->_customer->processEvent($observer->getEvent()->getName(), $customer,
-            $this->_storeManager->getStore()->getWebsite());
+        $this->_customer->processEvent(
+            $observer->getEvent()->getName(),
+            $customer,
+            $this->_storeManager->getStore()->getWebsite()
+        );
     }
 
     /**
@@ -158,14 +165,18 @@ class Observer
      */
     public function enterpiseCustomerAttributeEditPrepareForm(\Magento\Event\Observer $observer)
     {
-        $form       = $observer->getEvent()->getForm();
-        $fieldset   = $form->getElement('base_fieldset');
-        $fieldset->addField('is_used_for_customer_segment', 'select', array(
-            'name'      => 'is_used_for_customer_segment',
-            'label'     => __('Use in Customer Segment'),
-            'title'     => __('Use in Customer Segment'),
-            'values'    => $this->_configSourceYesno->toOptionArray(),
-        ));
+        $form = $observer->getEvent()->getForm();
+        $fieldset = $form->getElement('base_fieldset');
+        $fieldset->addField(
+            'is_used_for_customer_segment',
+            'select',
+            array(
+                'name' => 'is_used_for_customer_segment',
+                'label' => __('Use in Customer Segment'),
+                'title' => __('Use in Customer Segment'),
+                'values' => $this->_configSourceYesno->toOptionArray()
+            )
+        );
     }
 
     /**

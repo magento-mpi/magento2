@@ -41,7 +41,7 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('magento_giftregistry_type', 'type_id');
-        $this->_infoTable  = $this->getTable('magento_giftregistry_type_info');
+        $this->_infoTable = $this->getTable('magento_giftregistry_type_info');
         $this->_labelTable = $this->getTable('magento_giftregistry_label');
     }
 
@@ -55,30 +55,27 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
 
-        $scopeCheckExpr = $adapter->getCheckSql(
-            'store_id = 0',
-            $adapter->quote('default'),
-            $adapter->quote('store')
-        );
-        $storeIds       = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
+        $scopeCheckExpr = $adapter->getCheckSql('store_id = 0', $adapter->quote('default'), $adapter->quote('store'));
+        $storeIds = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }
-        $select = $adapter->select()
-            ->from($this->_infoTable, array(
-                'scope' => $scopeCheckExpr,
-                'label',
-                'is_listed',
-                'sort_order'
-            ))
-            ->where('type_id = ?', (int)$object->getId())
-            ->where('store_id IN (?)', $storeIds);
+        $select = $adapter->select()->from(
+            $this->_infoTable,
+            array('scope' => $scopeCheckExpr, 'label', 'is_listed', 'sort_order')
+        )->where(
+            'type_id = ?',
+            (int)$object->getId()
+        )->where(
+            'store_id IN (?)',
+            $storeIds
+        );
 
         $data = $adapter->fetchAssoc($select);
 
         if (isset($data['store']) && is_array($data['store'])) {
             foreach ($data['store'] as $key => $value) {
-                $object->setData($key, ($value !== null) ? $value : $data['default'][$key]);
+                $object->setData($key, $value !== null ? $value : $data['default'][$key]);
                 $object->setData($key . '_store', $value);
             }
         } elseif (isset($data['default']) && is_array($data['default'])) {
@@ -98,18 +95,21 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function saveTypeStoreData($type)
     {
-        $this->_getWriteAdapter()->delete($this->_infoTable, array(
-            'type_id = ?'  => (int)$type->getId(),
-            'store_id = ?' => (int)$type->getStoreId()
-        ));
+        $this->_getWriteAdapter()->delete(
+            $this->_infoTable,
+            array('type_id = ?' => (int)$type->getId(), 'store_id = ?' => (int)$type->getStoreId())
+        );
 
-        $this->_getWriteAdapter()->insert($this->_infoTable, array(
-            'type_id'   => (int)$type->getId(),
-            'store_id'  => (int)$type->getStoreId(),
-            'label'     => $type->getLabel(),
-            'is_listed' => (int)$type->getIsListed(),
-            'sort_order'=> (int)$type->getSortOrder()
-        ));
+        $this->_getWriteAdapter()->insert(
+            $this->_infoTable,
+            array(
+                'type_id' => (int)$type->getId(),
+                'store_id' => (int)$type->getStoreId(),
+                'label' => $type->getLabel(),
+                'is_listed' => (int)$type->getIsListed(),
+                'sort_order' => (int)$type->getSortOrder()
+            )
+        );
 
         return $this;
     }
@@ -126,19 +126,22 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
         if (isset($data['use_default'])) {
-            $adapter->delete($this->_labelTable, array(
-                'type_id = ?'        => (int)$type->getId(),
-                'attribute_code = ?' => $data['code'],
-                'store_id = ?'       => (int)$type->getStoreId(),
-                'option_code = ?'    => $optionCode
-            ));
+            $adapter->delete(
+                $this->_labelTable,
+                array(
+                    'type_id = ?' => (int)$type->getId(),
+                    'attribute_code = ?' => $data['code'],
+                    'store_id = ?' => (int)$type->getStoreId(),
+                    'option_code = ?' => $optionCode
+                )
+            );
         } else {
             $values = array(
-                'type_id'        => (int)$type->getId(),
+                'type_id' => (int)$type->getId(),
                 'attribute_code' => $data['code'],
-                'store_id'       => (int)$type->getStoreId(),
-                'option_code'    => $optionCode,
-                'label'          => $data['label']
+                'store_id' => (int)$type->getStoreId(),
+                'option_code' => $optionCode,
+                'label' => $data['label']
             );
             $adapter->insertOnDuplicate($this->_labelTable, $values, array('label'));
         }
@@ -154,14 +157,15 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function getAttributesStoreData($type)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_labelTable, array('attribute_code', 'option_code', 'label'))
-            ->where('type_id = :type_id')
-            ->where('store_id = :store_id');
-        $bind = array(
-            ':type_id'  => (int)$type->getId(),
-            ':store_id' => (int)$type->getStoreId()
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->_labelTable,
+            array('attribute_code', 'option_code', 'label')
+        )->where(
+            'type_id = :type_id'
+        )->where(
+            'store_id = :store_id'
         );
+        $bind = array(':type_id' => (int)$type->getId(), ':store_id' => (int)$type->getStoreId());
         return $this->_getReadAdapter()->fetchAll($select, $bind);
     }
 
@@ -175,10 +179,7 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function deleteAttributeStoreData($typeId, $attributeCode, $optionCode = null)
     {
-        $where = array(
-            'type_id = ?'        => (int)$typeId,
-            'attribute_code = ?' => $attributeCode
-        );
+        $where = array('type_id = ?' => (int)$typeId, 'attribute_code = ?' => $attributeCode);
 
         if ($optionCode !== null) {
             $where['option_code = ?'] = $optionCode;
@@ -199,9 +200,8 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     public function deleteAttributeValues($typeId, $attributeCode, $personValue = false)
     {
         $entityTable = $this->getTable('magento_giftregistry_entity');
-        $select      = $this->_getReadAdapter()->select();
-        $select->from(array('e' => $entityTable), array('entity_id'))
-            ->where('type_id = ?', (int)$typeId);
+        $select = $this->_getReadAdapter()->select();
+        $select->from(array('e' => $entityTable), array('entity_id'))->where('type_id = ?', (int)$typeId);
 
         if ($personValue) {
             $table = $this->getTable('magento_giftregistry_person');
@@ -209,7 +209,8 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
             $table = $this->getTable('magento_giftregistry_data');
         }
 
-        $this->_getWriteAdapter()->update($table,
+        $this->_getWriteAdapter()->update(
+            $table,
             array($attributeCode => new \Zend_Db_Expr('NULL')),
             array('entity_id IN (?)' => $select)
         );

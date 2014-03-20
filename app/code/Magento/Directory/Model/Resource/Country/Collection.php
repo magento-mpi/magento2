@@ -79,6 +79,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $this->_countryFactory = $countryFactory;
         $this->_arrayUtils = $arrayUtils;
     }
+
     /**
      * Foreground countries
      *
@@ -208,10 +209,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         }
         $options = array();
         foreach ($sort as $label => $value) {
-            $options[] = array(
-               'value' => $value,
-               'label' => $label
-            );
+            $options[] = array('value' => $value, 'label' => $label);
         }
 
         if (count($options) > 0 && $emptyLabel !== false) {

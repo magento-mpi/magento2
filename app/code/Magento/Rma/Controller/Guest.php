@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Controller;
 
 class Guest extends \Magento\App\Action\Action
@@ -23,10 +22,8 @@ class Guest extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -38,10 +35,15 @@ class Guest extends \Magento\App\Action\Action
      */
     public function returnsAction()
     {
-        if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled()
-            || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
-                $this->_request, $this->_response
-            )) {
+        if (!$this->_objectManager->get(
+            'Magento\Rma\Helper\Data'
+        )->isEnabled() || !$this->_objectManager->get(
+            'Magento\Sales\Helper\Guest'
+        )->loadValidOrder(
+            $this->_request,
+            $this->_response
+        )
+        ) {
             $this->_forward('noroute');
             return;
         }
@@ -59,7 +61,7 @@ class Guest extends \Magento\App\Action\Action
     protected function _canViewRma($rma)
     {
         $currentOrder = $this->_coreRegistry->registry('current_order');
-        if ($rma->getOrderId() && ($rma->getOrderId() === $currentOrder->getId())) {
+        if ($rma->getOrderId() && $rma->getOrderId() === $currentOrder->getId()) {
             return true;
         }
         return false;
@@ -79,9 +81,11 @@ class Guest extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
-        $this->_view->getLayout()
-            ->getBlock('head')
-            ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
+        $this->_view->getLayout()->getBlock(
+            'head'
+        )->setTitle(
+            __('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId())
+        );
         $this->_view->renderLayout();
     }
 
@@ -93,15 +97,20 @@ class Guest extends \Magento\App\Action\Action
      */
     protected function _loadValidRma($entityId = null)
     {
-        if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled() ||
-            !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
-                $this->_request, $this->_response
-            )) {
+        if (!$this->_objectManager->get(
+            'Magento\Rma\Helper\Data'
+        )->isEnabled() || !$this->_objectManager->get(
+            'Magento\Sales\Helper\Guest'
+        )->loadValidOrder(
+            $this->_request,
+            $this->_response
+        )
+        ) {
             return;
         }
 
         if (null === $entityId) {
-            $entityId = (int) $this->getRequest()->getParam('entity_id');
+            $entityId = (int)$this->getRequest()->getParam('entity_id');
         }
 
         if (!$entityId) {
@@ -127,13 +136,17 @@ class Guest extends \Magento\App\Action\Action
      */
     public function createAction()
     {
-        if (!$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
-            $this->_request, $this->_response
-        )) {
+        if (!$this->_objectManager->get(
+            'Magento\Sales\Helper\Guest'
+        )->loadValidOrder(
+            $this->_request,
+            $this->_response
+        )
+        ) {
             return;
         }
-        $order      = $this->_coreRegistry->registry('current_order');
-        $orderId    = $order->getId();
+        $order = $this->_coreRegistry->registry('current_order');
+        $orderId = $order->getId();
         if (!$this->_loadOrderItems($orderId)) {
             return;
         }
@@ -141,26 +154,26 @@ class Guest extends \Magento\App\Action\Action
         $post = $this->getRequest()->getPost();
         /** @var \Magento\Stdlib\DateTime\DateTime $coreDate */
         $coreDate = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime');
-        if (($post) && !empty($post['items'])) {
+        if ($post && !empty($post['items'])) {
             try {
                 /** @var $urlModel \Magento\UrlInterface */
                 $urlModel = $this->_objectManager->get('Magento\UrlInterface');
                 /** @var $rmaModel \Magento\Rma\Model\Rma */
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                 $rmaData = array(
-                    'status'                => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
-                    'date_requested'        => $coreDate->gmtDate(),
-                    'order_id'              => $order->getId(),
-                    'order_increment_id'    => $order->getIncrementId(),
-                    'store_id'              => $order->getStoreId(),
-                    'customer_id'           => $order->getCustomerId(),
-                    'order_date'            => $order->getCreatedAt(),
-                    'customer_name'         => $order->getCustomerName(),
+                    'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
+                    'date_requested' => $coreDate->gmtDate(),
+                    'order_id' => $order->getId(),
+                    'order_increment_id' => $order->getIncrementId(),
+                    'store_id' => $order->getStoreId(),
+                    'customer_id' => $order->getCustomerId(),
+                    'order_date' => $order->getCreatedAt(),
+                    'customer_name' => $order->getCustomerName(),
                     'customer_custom_email' => $post['customer_custom_email']
                 );
                 $result = $rmaModel->setData($rmaData)->saveRma($post);
                 if (!$result) {
-                    $url = $urlModel->getUrl('*/*/create', array('order_id'  => $orderId));
+                    $url = $urlModel->getUrl('*/*/create', array('order_id' => $orderId));
                     $this->getResponse()->setRedirect($this->_redirect->error($url));
                     return;
                 }
@@ -168,16 +181,19 @@ class Guest extends \Magento\App\Action\Action
                 if (isset($post['rma_comment']) && !empty($post['rma_comment'])) {
                     /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
                     $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-                    $statusHistory->setRmaEntityId($rmaModel->getId())
-                        ->setComment($post['rma_comment'])
-                        ->setIsVisibleOnFront(true)
-                        ->setStatus($rmaModel->getStatus())
-                        ->setCreatedAt($coreDate->gmtDate())
-                        ->save();
+                    $statusHistory->setRmaEntityId(
+                        $rmaModel->getId()
+                    )->setComment(
+                        $post['rma_comment']
+                    )->setIsVisibleOnFront(
+                        true
+                    )->setStatus(
+                        $rmaModel->getStatus()
+                    )->setCreatedAt(
+                        $coreDate->gmtDate()
+                    )->save();
                 }
-                $this->messageManager->addSuccess(
-                    __('You submitted Return #%1.', $rmaModel->getIncrementId())
-                );
+                $this->messageManager->addSuccess(__('You submitted Return #%1.', $rmaModel->getIncrementId()));
                 $url = $urlModel->getUrl('*/*/returns');
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
@@ -225,35 +241,33 @@ class Guest extends \Magento\App\Action\Action
     {
         if ($this->_loadValidRma()) {
             try {
-                $response   = false;
-                $comment    = $this->getRequest()->getPost('comment');
-                $comment    = trim(strip_tags($comment));
+                $response = false;
+                $comment = $this->getRequest()->getPost('comment');
+                $comment = trim(strip_tags($comment));
 
                 if (!empty($comment)) {
                     /** @var $statusHistory \Magento\Rma\Model\Rma\Status\History */
                     $statusHistory = $this->_objectManager->create('Magento\Rma\Model\Rma\Status\History');
-                    $result = $statusHistory
-                        ->setRmaEntityId($this->_coreRegistry->registry('current_rma')->getEntityId())
-                        ->setComment($comment)
-                        ->setIsVisibleOnFront(true)
-                        ->setStatus($this->_coreRegistry->registry('current_rma')->getStatus())
-                        ->setCreatedAt($this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate())
-                        ->save();
+                    $result = $statusHistory->setRmaEntityId(
+                        $this->_coreRegistry->registry('current_rma')->getEntityId()
+                    )->setComment(
+                        $comment
+                    )->setIsVisibleOnFront(
+                        true
+                    )->setStatus(
+                        $this->_coreRegistry->registry('current_rma')->getStatus()
+                    )->setCreatedAt(
+                        $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->gmtDate()
+                    )->save();
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
                     throw new \Magento\Model\Exception(__('Please enter a valid message.'));
                 }
             } catch (\Magento\Model\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $e->getMessage(),
-                );
+                $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => __('We cannot add a message.')
-                );
+                $response = array('error' => true, 'message' => __('We cannot add a message.'));
             }
             if (is_array($response)) {
                 $this->messageManager->addError($response['message']);
@@ -279,12 +293,15 @@ class Guest extends \Magento\App\Action\Action
                     throw new \Magento\Model\Exception(__('Shipping Labels are not allowed.'));
                 }
 
-                $response   = false;
-                $number    = $this->getRequest()->getPost('number');
-                $number    = trim(strip_tags($number));
-                $carrier   = $this->getRequest()->getPost('carrier');
-                $carriers  = $this->_objectManager->get('Magento\Rma\Helper\Data')
-                    ->getShippingCarriers($rma->getStoreId());
+                $response = false;
+                $number = $this->getRequest()->getPost('number');
+                $number = trim(strip_tags($number));
+                $carrier = $this->getRequest()->getPost('carrier');
+                $carriers = $this->_objectManager->get(
+                    'Magento\Rma\Helper\Data'
+                )->getShippingCarriers(
+                    $rma->getStoreId()
+                );
 
                 if (!isset($carriers[$carrier])) {
                     throw new \Magento\Model\Exception(__('Please select a valid carrier.'));
@@ -295,28 +312,22 @@ class Guest extends \Magento\App\Action\Action
                 }
                 /** @var $rmaShipping \Magento\Rma\Model\Shipping */
                 $rmaShipping = $this->_objectManager->create('Magento\Rma\Model\Shipping');
-                $rmaShipping->setRmaEntityId($rma->getEntityId())
-                    ->setTrackNumber($number)
-                    ->setCarrierCode($carrier)
-                    ->setCarrierTitle($carriers[$carrier])
-                    ->save();
-
+                $rmaShipping->setRmaEntityId(
+                    $rma->getEntityId()
+                )->setTrackNumber(
+                    $number
+                )->setCarrierCode(
+                    $carrier
+                )->setCarrierTitle(
+                    $carriers[$carrier]
+                )->save();
             } catch (\Magento\Model\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $e->getMessage(),
-                );
+                $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => __('We cannot add a label.')
-                );
+                $response = array('error' => true, 'message' => __('We cannot add a label.'));
             }
         } else {
-            $response = array(
-                'error'     => true,
-                'message'   => __('The wrong RMA was selected.')
-            );
+            $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
@@ -343,46 +354,32 @@ class Guest extends \Magento\App\Action\Action
                     throw new \Magento\Model\Exception(__('Shipping Labels are not allowed.'));
                 }
 
-                $response   = false;
-                $number    = intval($this->getRequest()->getPost('number'));
+                $response = false;
+                $number = intval($this->getRequest()->getPost('number'));
 
                 if (empty($number)) {
                     throw new \Magento\Model\Exception(__('Please enter a valid tracking number.'));
                 }
                 /** @var $trackingNumber \Magento\Rma\Model\Shipping */
-                $trackingNumber = $this->_objectManager->create('Magento\Rma\Model\Shipping')
-                    ->load($number);
+                $trackingNumber = $this->_objectManager->create('Magento\Rma\Model\Shipping')->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
                     throw new \Magento\Model\Exception(__('The wrong RMA was selected.'));
                 }
                 $trackingNumber->delete();
-
             } catch (\Magento\Model\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => $e->getMessage(),
-                );
+                $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => __('We cannot delete the label.')
-                );
+                $response = array('error' => true, 'message' => __('We cannot delete the label.'));
             }
         } else {
-            $response = array(
-                'error'     => true,
-                'message'   => __('The wrong RMA was selected.')
-            );
+            $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
         }
         if (is_array($response)) {
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
         $this->_view->addPageLayoutHandles();
-        $this->_view->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false)->renderLayout();
         return;
     }
-
-
 }

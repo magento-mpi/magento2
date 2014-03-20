@@ -23,7 +23,7 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
      * Payment code
      * @var string
      */
-    protected $_code  = 'psigate_basic';
+    protected $_code = 'psigate_basic';
 
     /**
      * List of allowed currency codes
@@ -34,27 +34,27 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = true;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial = false;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = true;
+    protected $_canRefund = true;
 
     /**
      * @var bool
@@ -64,22 +64,22 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canVoid                 = true;
+    protected $_canVoid = true;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
      */
-    protected $_canSaveCc               = false;
+    protected $_canSaveCc = false;
 
     /**
      * PSi Gate method being executed via Payment Bridge
@@ -94,6 +94,7 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
         $payment->addData((array)$response);
         return $this;
     }
+
     /**
      * Capturing method being executed via Payment Bridge
      *

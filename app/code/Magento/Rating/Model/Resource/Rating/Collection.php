@@ -84,19 +84,24 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         $adapter = $this->getConnection();
 
-        $this->getSelect()
-            ->join($this->getTable('rating_entity'),
-                'main_table.entity_id=' . $this->getTable('rating_entity') . '.entity_id',
-                array('entity_code'));
+        $this->getSelect()->join(
+            $this->getTable('rating_entity'),
+            'main_table.entity_id=' . $this->getTable('rating_entity') . '.entity_id',
+            array('entity_code')
+        );
 
         if (is_numeric($entity)) {
-            $this->addFilter('entity',
+            $this->addFilter(
+                'entity',
                 $adapter->quoteInto($this->getTable('rating_entity') . '.entity_id=?', $entity),
-                'string');
+                'string'
+            );
         } elseif (is_string($entity)) {
-            $this->addFilter('entity',
+            $this->addFilter(
+                'entity',
                 $adapter->quoteInto($this->getTable('rating_entity') . '.entity_code=?', $entity),
-                'string');
+                'string'
+            );
         }
         return $this;
     }
@@ -107,7 +112,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @param   string $dir
      * @return  $this
      */
-    public function setPositionOrder($dir='ASC')
+    public function setPositionOrder($dir = 'ASC')
     {
         $this->setOrder('main_table.position', $dir);
         return $this;
@@ -132,21 +137,18 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             return $this;
         }
         if (!$this->_isStoreJoined) {
-            $this->getSelect()
-                ->distinct(true)
-                ->join(
-                    array('store'=>$this->getTable('rating_store')),
-                    'main_table.rating_id = store.rating_id',
-                    array())
-        //        ->group('main_table.rating_id')
-                ;
+            $this->getSelect()->distinct(
+                true
+            )->join(
+                array('store' => $this->getTable('rating_store')),
+                'main_table.rating_id = store.rating_id',
+                array()
+            );
+            //        ->group('main_table.rating_id')
             $this->_isStoreJoined = true;
         }
-        $inCondition = $adapter->prepareSqlCondition('store.store_id', array(
-            'in' => $storeId
-        ));
-        $this->getSelect()
-            ->where($inCondition);
+        $inCondition = $adapter->prepareSqlCondition('store.store_id', array('in' => $storeId));
+        $this->getSelect()->where($inCondition);
         $this->setPositionOrder();
         return $this;
     }
@@ -162,10 +164,9 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
         if (!empty($arrRatingId)) {
             /** @var \Magento\Rating\Model\Resource\Rating\Option\Collection $collection */
-            $collection = $this->_ratingCollectionF->create()
-                ->addRatingFilter($arrRatingId)
-                ->setPositionOrder()
-                ->load();
+            $collection = $this->_ratingCollectionF->create()->addRatingFilter(
+                $arrRatingId
+            )->setPositionOrder()->load();
 
             foreach ($this as $rating) {
                 $rating->setOptions($collection->getItemsByColumnValue('rating_id', $rating->getId()));
@@ -191,39 +192,36 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
         $adapter = $this->getConnection();
 
-        $inCond = $adapter->prepareSqlCondition('rating_option_vote.rating_id', array(
-            'in' => $arrRatingId
-        ));
+        $inCond = $adapter->prepareSqlCondition('rating_option_vote.rating_id', array('in' => $arrRatingId));
         $sumCond = new \Zend_Db_Expr("SUM(rating_option_vote.{$adapter->quoteIdentifier('percent')})");
         $countCond = new \Zend_Db_Expr('COUNT(*)');
-        $select = $adapter->select()
-            ->from(array('rating_option_vote'  => $this->getTable('rating_option_vote')),
-                array(
-                    'rating_id' => 'rating_option_vote.rating_id',
-                    'sum'         => $sumCond,
-                    'count'       => $countCond
-                ))
-            ->join(
-                array('review_store' => $this->getTable('review_store')),
-                'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = :store_id',
-                array());
+        $select = $adapter->select()->from(
+            array('rating_option_vote' => $this->getTable('rating_option_vote')),
+            array('rating_id' => 'rating_option_vote.rating_id', 'sum' => $sumCond, 'count' => $countCond)
+        )->join(
+            array('review_store' => $this->getTable('review_store')),
+            'rating_option_vote.review_id=review_store.review_id AND review_store.store_id = :store_id',
+            array()
+        );
         if (!$this->_storeManager->isSingleStoreMode()) {
             $select->join(
                 array('rst' => $this->getTable('rating_store')),
                 'rst.rating_id = rating_option_vote.rating_id AND rst.store_id = :rst_store_id',
-                array());
+                array()
+            );
         }
-        $select->join(array('review' => $this->getTable('review')),
-                'review_store.review_id=review.review_id AND review.status_id=1',
-                array())
-            ->where($inCond)
-            ->where('rating_option_vote.entity_pk_value=:pk_value')
-            ->group('rating_option_vote.rating_id');
-        $bind = array(
-            ':store_id' => (int)$storeId,
-
-            ':pk_value'     => $entityPkValue
+        $select->join(
+            array('review' => $this->getTable('review')),
+            'review_store.review_id=review.review_id AND review.status_id=1',
+            array()
+        )->where(
+            $inCond
+        )->where(
+            'rating_option_vote.entity_pk_value=:pk_value'
+        )->group(
+            'rating_option_vote.rating_id'
         );
+        $bind = array(':store_id' => (int)$storeId, ':pk_value' => $entityPkValue);
         if (!$this->_storeManager->isSingleStoreMode()) {
             $bind[':rst_store_id'] = (int)$storeId;
         }
@@ -232,8 +230,8 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
         foreach ($data as $item) {
             $rating = $this->getItemById($item['rating_id']);
-            if ($rating && $item['count']>0) {
-                $rating->setSummary($item['sum']/$item['count']);
+            if ($rating && $item['count'] > 0) {
+                $rating->setSummary($item['sum'] / $item['count']);
             }
         }
         return $this;
@@ -249,13 +247,13 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         $adapter = $this->getConnection();
         $ratingCodeCond = $adapter->getIfNullSql('title.value', 'main_table.rating_code');
-        $this->getSelect()
-            ->joinLeft(array('title' => $this->getTable('rating_title')),
-                $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?', (int) $storeId),
-                array('rating_code' => $ratingCodeCond));
+        $this->getSelect()->joinLeft(
+            array('title' => $this->getTable('rating_title')),
+            $adapter->quoteInto('main_table.rating_id=title.rating_id AND title.store_id = ?', (int)$storeId),
+            array('rating_code' => $ratingCodeCond)
+        );
         return $this;
     }
-
 
     /**
      * Add stores data to collection
@@ -312,14 +310,9 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         }
         $adapter = $this->getConnection();
 
-        $inCondition = $adapter->prepareSqlCondition('rating_id', array(
-            'in' => $ratingIds
-        ));
+        $inCondition = $adapter->prepareSqlCondition('rating_id', array('in' => $ratingIds));
 
-        $this->_select = $adapter
-            ->select()
-            ->from($this->getTable('rating_store'))
-            ->where($inCondition);
+        $this->_select = $adapter->select()->from($this->getTable('rating_store'))->where($inCondition);
 
         $data = $adapter->fetchAll($this->_select);
         if (is_array($data) && count($data) > 0) {

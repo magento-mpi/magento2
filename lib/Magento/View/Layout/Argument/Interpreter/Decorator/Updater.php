@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument\Interpreter\Decorator;
 
 use Magento\ObjectManager;
@@ -66,10 +65,13 @@ class Updater implements InterpreterInterface
     {
         /** @var \Magento\View\Layout\Argument\UpdaterInterface $updaterInstance */
         $updaterInstance = $this->objectManager->get($updaterClass);
-        if (!($updaterInstance instanceof \Magento\View\Layout\Argument\UpdaterInterface)) {
-            throw new \UnexpectedValueException(sprintf(
-                'Instance of layout argument updater is expected, got %s instead.', get_class($updaterInstance)
-            ));
+        if (!$updaterInstance instanceof \Magento\View\Layout\Argument\UpdaterInterface) {
+            throw new \UnexpectedValueException(
+                sprintf(
+                    'Instance of layout argument updater is expected, got %s instead.',
+                    get_class($updaterInstance)
+                )
+            );
         }
         return $updaterInstance->update($value);
     }

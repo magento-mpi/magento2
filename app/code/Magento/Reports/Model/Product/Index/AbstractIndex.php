@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reports\Model\Product\Index;
 
 /**
@@ -206,10 +205,11 @@ abstract class AbstractIndex extends \Magento\Model\AbstractModel
      */
     public function calculate()
     {
-        $collection = $this->getCollection()
-            ->setCustomerId($this->getCustomerId())
-            ->addIndexFilter()
-            ->setVisibility($this->_productVisibility->getVisibleInSiteIds());
+        $collection = $this->getCollection()->setCustomerId(
+            $this->getCustomerId()
+        )->addIndexFilter()->setVisibility(
+            $this->_productVisibility->getVisibleInSiteIds()
+        );
 
         $count = $collection->getSize();
         $this->_getSession()->setData($this->_countCacheKey, $count);

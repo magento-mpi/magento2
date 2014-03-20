@@ -26,16 +26,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testDispatchScheduled()
     {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Cron\Model\Resource\Schedule\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Cron\Model\Resource\Schedule\Collection'
+        );
         $collection->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_PENDING);
         $this->assertGreaterThan(0, $collection->count(), 'Cron has failed to schedule tasks for itself for future.');
     }
 
     public function testDispatchNoFailed()
     {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Cron\Model\Resource\Schedule\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Cron\Model\Resource\Schedule\Collection'
+        );
         $collection->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_ERROR);
         foreach ($collection as $item) {
             $this->fail($item->getMessages());

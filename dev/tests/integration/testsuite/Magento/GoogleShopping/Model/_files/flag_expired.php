@@ -11,7 +11,7 @@
  */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
- /** @var $flag \Magento\GoogleShopping\Model\Flag */
+/** @var $flag \Magento\GoogleShopping\Model\Flag */
 $flag = $objectManager->create('Magento\GoogleShopping\Model\Flag');
 $flag->lock();
 

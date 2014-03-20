@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Paypal\Controller;
 
 /**
@@ -21,17 +20,17 @@ class PayflowadvancedTest extends \Magento\TestFramework\TestCase\AbstractContro
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED);
 
-        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Quote')
-            ->setStoreId($order->getStoreId())
-            ->save();
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Sales\Model\Quote'
+        )->setStoreId(
+            $order->getStoreId()
+        )->save();
 
         $order->setQuoteId($quote->getId());
         $order->save();
 
         $session = $this->_objectManager->create('Magento\Checkout\Model\Session');
-        $session->setLastRealOrderId($order->getRealOrderId())
-            ->setLastQuoteId($order->getQuoteId());
+        $session->setLastRealOrderId($order->getRealOrderId())->setLastQuoteId($order->getQuoteId());
     }
 
     public function testCancelPaymentActionIsContentGenerated()
@@ -41,14 +40,8 @@ class PayflowadvancedTest extends \Magento\TestFramework\TestCase\AbstractContro
             "parent.jQuery('#checkoutSteps').trigger('gotoSection', 'payment');",
             $this->getResponse()->getBody()
         );
-        $this->assertContains(
-            "parent.jQuery('#checkout-review-submit').show();",
-            $this->getResponse()->getBody()
-        );
-        $this->assertContains(
-            "parent.jQuery('#iframe-warning').hide();",
-            $this->getResponse()->getBody()
-        );
+        $this->assertContains("parent.jQuery('#checkout-review-submit').show();", $this->getResponse()->getBody());
+        $this->assertContains("parent.jQuery('#iframe-warning').hide();", $this->getResponse()->getBody());
     }
 
     public function testReturnurlActionIsContentGenerated()
@@ -58,14 +51,8 @@ class PayflowadvancedTest extends \Magento\TestFramework\TestCase\AbstractContro
             "parent.jQuery('#checkoutSteps').trigger('gotoSection', 'payment');",
             $this->getResponse()->getBody()
         );
-        $this->assertContains(
-            "parent.jQuery('#checkout-review-submit').show();",
-            $this->getResponse()->getBody()
-        );
-        $this->assertContains(
-            "parent.jQuery('#iframe-warning').hide();",
-            $this->getResponse()->getBody()
-        );
+        $this->assertContains("parent.jQuery('#checkout-review-submit').show();", $this->getResponse()->getBody());
+        $this->assertContains("parent.jQuery('#iframe-warning').hide();", $this->getResponse()->getBody());
     }
 
     public function testFormActionIsContentGenerated()
@@ -89,12 +76,9 @@ class PayflowadvancedTest extends \Magento\TestFramework\TestCase\AbstractContro
 
         $quote = $this->_objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test02', 'reserved_order_id');
-        $order->load('100000001', 'increment_id')
-            ->setQuoteId($quote->getId())
-            ->save();
+        $order->load('100000001', 'increment_id')->setQuoteId($quote->getId())->save();
         $session->setQuoteId($quote->getId());
-        $session->setPaypalStandardQuoteId($quote->getId())
-            ->setLastRealOrderId('100000001');
+        $session->setPaypalStandardQuoteId($quote->getId())->setLastRealOrderId('100000001');
         $this->dispatch('paypal/payflow/cancelpayment');
 
         $order->load('100000001', 'increment_id');

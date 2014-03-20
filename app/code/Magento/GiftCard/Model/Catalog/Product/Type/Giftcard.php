@@ -216,9 +216,11 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = $this->_coreStoreConfig->getConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
+            $messageAllowed = $this->_coreStoreConfig->getConfigFlag(
+                \Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE
+            );
         } else {
-            $messageAllowed = (int) $product->getAllowMessage();
+            $messageAllowed = (int)$product->getAllowMessage();
         }
 
         if ($messageAllowed) {
@@ -249,9 +251,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         $amount = null;
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0 && $isStrictProcessMode) {
-                throw new \Magento\Model\Exception(
-                    __('Please specify a gift card amount.')
-                );
+                throw new \Magento\Model\Exception(__('Please specify a gift card amount.'));
             }
             $amount = $this->_getAmountWithinConstraints($product, $customAmount, $isStrictProcessMode);
         } elseif (is_numeric($selectedAmount)) {
@@ -331,9 +331,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
 
         if ($emptyFields > 1 && $isStrictProcessMode) {
-            throw new \Magento\Model\Exception(
-                __('Please specify all the required information.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify all the required information.'));
         }
     }
 
@@ -383,15 +381,11 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
                 return $customAmount;
             } elseif ($customAmount > $maxAmount && $isStrict) {
                 $messageAmount = $this->_coreData->currency($maxAmount, true, false);
-                throw new \Magento\Model\Exception(
-                    __('Gift Card max amount is %1', $messageAmount)
-                );
+                throw new \Magento\Model\Exception(__('Gift Card max amount is %1', $messageAmount));
             }
         } elseif ($customAmount < $minAmount && $isStrict) {
             $messageAmount = $this->_coreData->currency($minAmount, true, false);
-            throw new \Magento\Model\Exception(
-                __('Gift Card min amount is %1', $messageAmount)
-            );
+            throw new \Magento\Model\Exception(__('Gift Card min amount is %1', $messageAmount));
         }
     }
 
@@ -407,31 +401,21 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected function _checkGiftcardFields($buyRequest, $isPhysical, $amount)
     {
         if (is_null($amount)) {
-            throw new \Magento\Model\Exception(
-                __('Please specify a gift card amount.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify a gift card amount.'));
         }
         if (!$buyRequest->getGiftcardRecipientName()) {
-            throw new \Magento\Model\Exception(
-                __('Please specify a recipient name.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify a recipient name.'));
         }
         if (!$buyRequest->getGiftcardSenderName()) {
-            throw new \Magento\Model\Exception(
-                __('Please specify a sender name.')
-            );
+            throw new \Magento\Model\Exception(__('Please specify a sender name.'));
         }
 
         if (!$isPhysical) {
             if (!$buyRequest->getGiftcardRecipientEmail()) {
-                throw new \Magento\Model\Exception(
-                    __('Please specify a recipient email.')
-                );
+                throw new \Magento\Model\Exception(__('Please specify a recipient email.'));
             }
             if (!$buyRequest->getGiftcardSenderEmail()) {
-                throw new \Magento\Model\Exception(
-                    __('Please specify a sender email.')
-                );
+                throw new \Magento\Model\Exception(__('Please specify a sender email.'));
             }
         }
     }
@@ -473,7 +457,6 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         return $this;
     }
 
-
     /**
      * Sets flag that product has required options, because gift card always
      * has some required options, at least - recipient name
@@ -499,13 +482,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function processBuyRequest($product, $buyRequest)
     {
         $options = array(
-            'giftcard_amount'         => $buyRequest->getGiftcardAmount(),
-            'custom_giftcard_amount'  => $buyRequest->getCustomGiftcardAmount(),
-            'giftcard_sender_name'    => $buyRequest->getGiftcardSenderName(),
-            'giftcard_sender_email'    => $buyRequest->getGiftcardSenderEmail(),
+            'giftcard_amount' => $buyRequest->getGiftcardAmount(),
+            'custom_giftcard_amount' => $buyRequest->getCustomGiftcardAmount(),
+            'giftcard_sender_name' => $buyRequest->getGiftcardSenderName(),
+            'giftcard_sender_email' => $buyRequest->getGiftcardSenderEmail(),
             'giftcard_recipient_name' => $buyRequest->getGiftcardRecipientName(),
             'giftcard_recipient_email' => $buyRequest->getGiftcardRecipientEmail(),
-            'giftcard_message'        => $buyRequest->getGiftcardMessage()
+            'giftcard_message' => $buyRequest->getGiftcardMessage()
         );
 
         return $options;

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
@@ -134,7 +133,8 @@ class PaypalCreditCardTest extends Functional
      * @param CheckoutOnepage $checkoutOnePage
      * @return Cc
      */
-    public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage) {
+    public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage)
+    {
         return $checkoutOnePage->getPayflowAdvancedCcBlock();
     }
 
@@ -144,7 +144,8 @@ class PaypalCreditCardTest extends Functional
      * @param CheckoutOnepage $checkoutOnePage
      * @return Cc
      */
-    public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage) {
+    public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage)
+    {
         return $checkoutOnePage->getPayflowLinkCcBlock();
     }
 }

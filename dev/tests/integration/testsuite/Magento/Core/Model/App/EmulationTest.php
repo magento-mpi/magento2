@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\App;
 
 class EmulationTest extends \PHPUnit_Framework_TestCase

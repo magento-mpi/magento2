@@ -17,8 +17,8 @@ $cmsPages = array(
         'content' => '<div class="page-title"><h1>We\'re Offline...</h1></div>
 <p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>',
         'is_active' => '1',
-        'stores'        => array(0),
-        'sort_order'    => 0
+        'stores' => array(0),
+        'sort_order' => 0
     ),
     array(
         'title' => 'Welcome to our Exclusive Online Store',
@@ -33,9 +33,9 @@ $cmsPages = array(
 </div>
 </div>',
         'is_active' => '1',
-        'stores'        => array(0),
-        'sort_order'    => 0
-    ),
+        'stores' => array(0),
+        'sort_order' => 0
+    )
 );
 
 /**

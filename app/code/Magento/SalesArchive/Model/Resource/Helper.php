@@ -22,10 +22,8 @@ class Helper extends \Magento\DB\Helper
      * @param \Magento\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix = 'SalesArchive'
-    ) {
+    public function __construct(\Magento\App\Resource $resource, $modulePrefix = 'SalesArchive')
+    {
         parent::__construct($resource, $modulePrefix);
     }
 
@@ -59,7 +57,9 @@ class Helper extends \Magento\DB\Helper
         $adapter = $this->_getWriteAdapter();
         $description = $adapter->describeTable($table);
         foreach ($description as $columnDescription) {
-            $columns[$columnDescription['COLUMN_NAME']] = $adapter->getColumnDefinitionFromDescribe($columnDescription);
+            $columns[$columnDescription['COLUMN_NAME']] = $adapter->getColumnDefinitionFromDescribe(
+                $columnDescription
+            );
         }
 
         if (!isset($columns[$column])) {

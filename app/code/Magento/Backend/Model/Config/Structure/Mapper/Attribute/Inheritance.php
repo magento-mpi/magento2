@@ -13,8 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Structure\Mapper\Attribute;
 
-class Inheritance
-    implements \Magento\Backend\Model\Config\Structure\MapperInterface
+class Inheritance implements \Magento\Backend\Model\Config\Structure\MapperInterface
 {
     /**
      * Apply map

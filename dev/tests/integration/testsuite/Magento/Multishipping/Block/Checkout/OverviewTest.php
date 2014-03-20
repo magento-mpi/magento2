@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Block\Checkout;
 
 /**
@@ -35,15 +34,17 @@ class OverviewTest extends \PHPUnit_Framework_TestCase
                         'row_renderer_template' => 'Magento_Multishipping::checkout/overview/item.phtml'
                     ),
                 )
-            );
+            )
+        );
 
         $this->_block->addChild('renderer.list', '\Magento\View\Element\RendererList');
-        $this->_block->getChildBlock('renderer.list')
-            ->addChild(
-                'default',
-                '\Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'cart/item/default.phtml')
-            );
+        $this->_block->getChildBlock(
+            'renderer.list'
+        )->addChild(
+            'default',
+            '\Magento\Checkout\Block\Cart\Item\Renderer',
+            array('template' => 'cart/item/default.phtml')
+        );
     }
 
     public function testGetRowItemHtml()

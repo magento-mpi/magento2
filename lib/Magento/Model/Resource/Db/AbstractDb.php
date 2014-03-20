@@ -31,7 +31,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_connections          = array();
+    protected $_connections = array();
 
     /**
      * Resource model name that contains entities (names of tables)
@@ -45,7 +45,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_tables               = array();
+    protected $_tables = array();
 
     /**
      * Main table name
@@ -66,14 +66,14 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      *
      * @var bool
      */
-    protected $_isPkAutoIncrement    = true;
+    protected $_isPkAutoIncrement = true;
 
     /**
      * Use is object new method for save of object
      *
      * @var bool
      */
-    protected $_useIsObjectNew       = false;
+    protected $_useIsObjectNew = false;
 
     /**
      * Fields of main table
@@ -97,7 +97,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_uniqueFields         = null;
+    protected $_uniqueFields = null;
 
     /**
      * Serializable fields declaration
@@ -111,7 +111,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_serializableFields   = array();
+    protected $_serializableFields = array();
 
     /**
      * Class constructor
@@ -246,10 +246,10 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
     public function getTable($tableName)
     {
         if (is_array($tableName)) {
-            $cacheName    = join('@', $tableName);
+            $cacheName = join('@', $tableName);
             list($tableName, $entitySuffix) = $tableName;
         } else {
-            $cacheName    = $tableName;
+            $cacheName = $tableName;
             $entitySuffix = null;
         }
 
@@ -358,10 +358,8 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        $field  = $this->_getReadAdapter()->quoteIdentifier(sprintf('%s.%s', $this->getMainTable(), $field));
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where($field . '=?', $value);
+        $field = $this->_getReadAdapter()->quoteIdentifier(sprintf('%s.%s', $this->getMainTable(), $field));
+        $select = $this->_getReadAdapter()->select()->from($this->getMainTable())->where($field . '=?', $value);
         return $select;
     }
 
@@ -381,7 +379,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
         $this->_beforeSave($object);
         $this->_checkUnique($object);
         if (!is_null($object->getId()) && (!$this->_useIsObjectNew || !$object->isObjectNew())) {
-            $condition = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $object->getId());
+            $condition = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId());
             /**
              * Not auto increment primary key support
              */
@@ -390,9 +388,12 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
                 unset($data[$this->getIdFieldName()]);
                 $this->_getWriteAdapter()->update($this->getMainTable(), $data, $condition);
             } else {
-                $select = $this->_getWriteAdapter()->select()
-                    ->from($this->getMainTable(), array($this->getIdFieldName()))
-                    ->where($condition);
+                $select = $this->_getWriteAdapter()->select()->from(
+                    $this->getMainTable(),
+                    array($this->getIdFieldName())
+                )->where(
+                    $condition
+                );
                 if ($this->_getWriteAdapter()->fetchOne($select) !== false) {
                     $data = $this->_prepareDataForSave($object);
                     unset($data[$this->getIdFieldName()]);
@@ -451,7 +452,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
         if (is_null($this->_uniqueFields)) {
             $this->_initUniqueFields();
         }
-        if (is_array($this->_uniqueFields) ) {
+        if (is_array($this->_uniqueFields)) {
             $this->_uniqueFields[] = $field;
         }
         return $this;
@@ -565,16 +566,11 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
         $fields = $this->getUniqueFields();
         if (!empty($fields)) {
             if (!is_array($fields)) {
-                $this->_uniqueFields = array(
-                    array(
-                        'field' => $fields,
-                        'title' => $fields
-                ));
+                $this->_uniqueFields = array(array('field' => $fields, 'title' => $fields));
             }
 
             $data = new \Magento\Object($this->_prepareDataForSave($object));
-            $select = $this->_getWriteAdapter()->select()
-                ->from($this->getMainTable());
+            $select = $this->_getWriteAdapter()->select()->from($this->getMainTable());
 
             foreach ($fields as $unique) {
                 $select->reset(\Zend_Db_Select::WHERE);
@@ -599,7 +595,7 @@ abstract class AbstractDb extends \Magento\Model\Resource\AbstractResource
         }
 
         if (!empty($existent)) {
-            if (count($existent) == 1 ) {
+            if (count($existent) == 1) {
                 $error = __('%1 already exists.', $existent[0]);
             } else {
                 $error = __('%1 already exist.', implode(', ', $existent));

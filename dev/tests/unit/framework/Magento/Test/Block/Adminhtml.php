@@ -30,7 +30,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     protected $_sidResolver;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
-    protected  $_translatorMock;
+    protected $_translatorMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
@@ -51,7 +51,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     protected $_controllerMock;
 
     /** @var  \Magento\Backend\Block\Template\Context */
-    protected  $_context;
+    protected $_context;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
@@ -107,10 +107,13 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
 
         $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
-        $this->_translatorMock
-            ->expects($this->any())
-            ->method('translate')
-            ->will($this->returnCallback(array($this, 'translateCallback')));
+        $this->_translatorMock->expects(
+            $this->any()
+        )->method(
+            'translate'
+        )->will(
+            $this->returnCallback(array($this, 'translateCallback'))
+        );
 
         $this->_context = new \Magento\Backend\Block\Template\Context(
             $this->_requestMock,
@@ -150,9 +153,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
      */
     protected function _makeMock($className)
     {
-        return $this->getMockBuilder($className)
-            ->disableOriginalConstructor()
-            ->getMock();
+        return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -174,9 +175,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $expects = isset($expects) ? $expects : $this->any();
         $return = isset($return) ? $this->returnValue($return) : $this->returnSelf();
 
-        return $object->expects($expects)
-            ->method($stubName)
-            ->will($return);
+        return $object->expects($expects)->method($stubName)->will($return);
     }
 
     /**

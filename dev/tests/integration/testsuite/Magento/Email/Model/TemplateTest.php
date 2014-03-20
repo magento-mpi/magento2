@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Email\Model;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
@@ -26,12 +25,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_mail = $this->getMock(
-            'Zend_Mail', array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'), array('utf-8')
+            'Zend_Mail',
+            array('send', 'addTo', 'addBcc', 'setReturnPath', 'setReplyTo'),
+            array('utf-8')
         );
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $this->getMockBuilder('Magento\Email\Model\Template')
-            ->setMethods(array('_getMail'))
-            ->setConstructorArgs(array(
+        $this->_model = $this->getMockBuilder(
+            'Magento\Email\Model\Template'
+        )->setMethods(
+            array('_getMail')
+        )->setConstructorArgs(
+            array(
                 $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Registry'),
@@ -43,9 +47,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 $objectManager->create('Magento\Core\Model\Store\Config'),
                 $objectManager->create('Magento\App\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Email\Model\Template\Config'),
-            ))
-            ->getMock();
+                $objectManager->get('Magento\Email\Model\Template\Config')
+            )
+        )->getMock();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $this->_model->expects($this->any())->method('_getMail')->will($this->returnCallback(array($this, 'getMail')));
         $this->_model->setSenderName('sender')->setSenderEmail('sender@example.com')->setTemplateSubject('Subject');
@@ -66,13 +70,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $filter = $this->_model->getTemplateFilter();
         $this->assertSame($filter, $this->_model->getTemplateFilter());
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-                ->getStore()->getId(),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Core\Model\StoreManagerInterface'
+            )->getStore()->getId(),
             $filter->getStoreId()
         );
 
-        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Email\Model\Template\Filter');
+        $filter = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Email\Model\Template\Filter'
+        );
         $this->_model->setTemplateFilter($filter);
         $this->assertSame($filter, $this->_model->getTemplateFilter());
     }
@@ -99,11 +105,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $expectedViewUrl = 'static/frontend/magento_plushe/en_US/Magento_Theme/favicon.ico';
         $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
-        $this->_model->setDesignConfig(array(
-            'area' => 'frontend',
-            'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
-        ));
+        $this->_model->setDesignConfig(
+            array(
+                'area' => 'frontend',
+                'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Core\Model\StoreManagerInterface'
+                )->getStore(
+                    'fixturestore'
+                )->getId()
+            )
+        );
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplate());
     }
 
@@ -113,14 +124,18 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setNotDefaultThemeForFixtureStore()
     {
-        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\ThemeInterface');
+        $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\View\Design\ThemeInterface'
+        );
         $theme->load('magento_plushe', 'theme_path');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore('fixturestore')->setConfig(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $theme->getId()
-            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore(
+            'fixturestore'
+        )->setConfig(
+            \Magento\View\DesignInterface::XML_PATH_THEME_ID,
+            $theme->getId()
+        );
     }
 
     /**
@@ -150,11 +165,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $expectedViewUrl = 'static/frontend/magento_plushe/en_US/Magento_Theme/favicon.ico';
         $this->_model->setTemplateSubject('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
-        $this->_model->setDesignConfig(array(
-            'area' => 'frontend',
-            'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\StoreManagerInterface')->getStore('fixturestore')->getId()
-        ));
+        $this->_model->setDesignConfig(
+            array(
+                'area' => 'frontend',
+                'store' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                    'Magento\Core\Model\StoreManagerInterface'
+                )->getStore(
+                    'fixturestore'
+                )->getId()
+            )
+        );
         $this->assertStringEndsWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
     }
 

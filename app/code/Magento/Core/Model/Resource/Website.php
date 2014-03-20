@@ -35,10 +35,7 @@ class Website extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => 'code',
-            'title' => __('Website with the same code')
-        ));
+        $this->_uniqueFields = array(array('field' => 'code', 'title' => __('Website with the same code')));
         return $this;
     }
 
@@ -52,7 +49,11 @@ class Website extends \Magento\Model\Resource\Db\AbstractDb
     protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!preg_match('/^[a-z]+[a-z0-9_]*$/', $object->getCode())) {
-            throw new \Magento\Model\Exception(__('Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'));
+            throw new \Magento\Model\Exception(
+                __(
+                    'Website code may only contain letters (a-z), numbers (0-9) or underscore(_), the first character must be a letter'
+                )
+            );
         }
 
         return parent::_beforeSave($object);
@@ -83,14 +84,13 @@ class Website extends \Magento\Model\Resource\Db\AbstractDb
     protected function _afterDelete(\Magento\Model\AbstractModel $model)
     {
         $where = array(
-            'scope = ?'    => \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES,
+            'scope = ?' => \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES,
             'scope_id = ?' => $model->getWebsiteId()
         );
 
         $this->_getWriteAdapter()->delete($this->getTable('core_config_data'), $where);
 
         return $this;
-
     }
 
     /**
@@ -102,18 +102,20 @@ class Website extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function getDefaultStoresSelect($includeDefault = false)
     {
-        $ifNull  = $this->_getReadAdapter()
-            ->getCheckSql('store_group_table.default_store_id IS NULL', '0', 'store_group_table.default_store_id');
-        $select = $this->_getReadAdapter()->select()
-            ->from(
-                array('website_table' => $this->getTable('core_website')),
-                array('website_id'))
-            ->joinLeft(
-                array('store_group_table' => $this->getTable('core_store_group')),
-                'website_table.website_id=store_group_table.website_id'
-                    . ' AND website_table.default_group_id = store_group_table.group_id',
-                array('store_id' => $ifNull)
-            );
+        $ifNull = $this->_getReadAdapter()->getCheckSql(
+            'store_group_table.default_store_id IS NULL',
+            '0',
+            'store_group_table.default_store_id'
+        );
+        $select = $this->_getReadAdapter()->select()->from(
+            array('website_table' => $this->getTable('core_website')),
+            array('website_id')
+        )->joinLeft(
+            array('store_group_table' => $this->getTable('core_store_group')),
+            'website_table.website_id=store_group_table.website_id' .
+            ' AND website_table.default_group_id = store_group_table.group_id',
+            array('store_id' => $ifNull)
+        );
         if (!$includeDefault) {
             $select->where('website_table.website_id <> ?', 0);
         }

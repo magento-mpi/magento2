@@ -77,9 +77,7 @@ class Wishlist extends AbstractAccordion
         $this->setDefaultSort('added_at');
         $this->setData('open', true);
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Wish List (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Wish List (%1)', $this->getItemsCount()));
         }
     }
 
@@ -111,12 +109,11 @@ class Wishlist extends AbstractAccordion
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $collection = $this->_createItemsCollection()
-                ->addCustomerIdFilter($this->_getCustomer()->getId())
-                ->addStoreFilter($this->_getStore()->getWebsite()->getStoreIds())
-                ->setVisibilityFilter()
-                ->setSalableFilter()
-                ->resetSortOrder();
+            $collection = $this->_createItemsCollection()->addCustomerIdFilter(
+                $this->_getCustomer()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getWebsite()->getStoreIds()
+            )->setVisibilityFilter()->setSalableFilter()->resetSortOrder();
 
             foreach ($collection as $item) {
                 $product = $item->getProduct();
@@ -129,7 +126,6 @@ class Wishlist extends AbstractAccordion
                         $item->setPrice($product->getPrice());
                     }
                 }
-
             }
             $this->setData('items_collection', $collection);
         }
@@ -143,7 +139,7 @@ class Wishlist extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewWishlist', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewWishlist', array('_current' => true));
     }
 
     /**
@@ -155,9 +151,11 @@ class Wishlist extends AbstractAccordion
     protected function _addControlColumns()
     {
         parent::_addControlColumns();
-        $this->getColumn('qty')->addData(array(
-            'renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty'
-        ));
+        $this->getColumn(
+            'qty'
+        )->addData(
+            array('renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty')
+        );
 
         return $this;
     }

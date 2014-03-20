@@ -43,9 +43,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context, $registry, $resource, $resourceCollection, $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_localeDate = $localeDate;
         $this->dateTime = $dateTime;
     }
@@ -78,12 +76,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
      */
     public function getCreatedAtDate()
     {
-        return $this->_localeDate->date(
-            $this->dateTime->toTimestamp($this->getCreatedAt()),
-            null,
-            null,
-            true
-        );
+        return $this->_localeDate->date($this->dateTime->toTimestamp($this->getCreatedAt()), null, null, true);
     }
 
     /**

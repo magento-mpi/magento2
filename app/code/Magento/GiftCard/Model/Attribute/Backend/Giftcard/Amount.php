@@ -9,8 +9,7 @@
  */
 namespace Magento\GiftCard\Model\Attribute\Backend\Giftcard;
 
-class Amount
-    extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
+class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 {
     /**
      * Giftcard amount backend resource model
@@ -80,9 +79,7 @@ class Amount
             $key1 = implode('-', array($row['website_id'], $row['price']));
 
             if (!empty($dup[$key1])) {
-                throw new \Magento\Model\Exception(
-                    __('Duplicate amount found.')
-                );
+                throw new \Magento\Model\Exception(__('Duplicate amount found.'));
             }
             $dup[$key1] = 1;
         }
@@ -99,19 +96,19 @@ class Amount
     {
         $data = $this->_amountResource->loadProductData($object, $this->getAttribute());
 
-        foreach ($data as $i=>$row) {
+        foreach ($data as $i => $row) {
             if ($data[$i]['website_id'] == 0) {
-                $rate = $this->_storeManager->getStore()->getBaseCurrency()
-                    ->getRate($this->_directoryHelper->getBaseCurrencyCode());
+                $rate = $this->_storeManager->getStore()->getBaseCurrency()->getRate(
+                    $this->_directoryHelper->getBaseCurrencyCode()
+                );
                 if ($rate) {
-                    $data[$i]['website_value'] = $data[$i]['value']/$rate;
+                    $data[$i]['website_value'] = $data[$i]['value'] / $rate;
                 } else {
                     unset($data[$i]);
                 }
             } else {
                 $data[$i]['website_value'] = $data[$i]['value'];
             }
-
         }
         $object->setData($this->getAttribute()->getName(), $data);
         return $this;
@@ -140,15 +137,13 @@ class Amount
 
         foreach ($rows as $row) {
             // Handle the case when model is saved whithout data received from user
-            if (((!isset($row['price']) || empty($row['price'])) && !isset($row['value']))
-                || !empty($row['delete'])
-            ) {
+            if ((!isset($row['price']) || empty($row['price'])) && !isset($row['value']) || !empty($row['delete'])) {
                 continue;
             }
 
             $data = array();
-            $data['website_id']   = $row['website_id'];
-            $data['value']        = (isset($row['price'])) ? $row['price'] : $row['value'];
+            $data['website_id'] = $row['website_id'];
+            $data['value'] = isset($row['price']) ? $row['price'] : $row['value'];
             $data['attribute_id'] = $this->getAttribute()->getId();
 
             $this->_amountResource->insertProductData($object, $data);
@@ -161,7 +156,7 @@ class Amount
      * Delete amounts data
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return $This
+     * @return $this
      */
     public function afterDelete($object)
     {
@@ -174,10 +169,10 @@ class Amount
      *
      * @return string
      */
-/*
-    public function getTable()
-    {
-        return $this->_amountResource->getMainTable();
-    }
-*/
+    /*
+        public function getTable()
+        {
+            return $this->_amountResource->getMainTable();
+        }
+    */
 }

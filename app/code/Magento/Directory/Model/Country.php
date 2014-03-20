@@ -27,7 +27,7 @@ class Country extends \Magento\Model\AbstractModel
     /**
      * @var array
      */
-    static public $_format = array();
+    public static $_format = array();
 
     /**
      * @var \Magento\Locale\ListsInterface
@@ -64,9 +64,7 @@ class Country extends \Magento\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context, $registry, $resource, $resourceCollection, $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_localeLists = $localeLists;
         $this->_formatFactory = $formatFactory;
         $this->_regionCollectionFactory = $regionCollectionFactory;
@@ -169,8 +167,9 @@ T: {{telephone}}";
     public function getFormats()
     {
         if (!isset(self::$_format[$this->getId()]) && $this->getId()) {
-            self::$_format[$this->getId()] = $this->_formatFactory->create()
-                ->getCollection()->setCountryFilter($this)->load();
+            self::$_format[$this->getId()] = $this->_formatFactory->create()->getCollection()->setCountryFilter(
+                $this
+            )->load();
         }
 
         if (isset(self::$_format[$this->getId()])) {
@@ -208,5 +207,4 @@ T: {{telephone}}";
         }
         return $this->getData('name');
     }
-
 }

@@ -39,11 +39,20 @@ class Balance extends \Magento\Model\Resource\Db\AbstractDb
     public function loadByCustomerAndWebsiteIds($object, $customerId, $websiteId)
     {
         $read = $this->getReadConnection();
-        if ($data = $read->fetchRow($read->select()
-            ->from($this->getMainTable())
-            ->where('customer_id = ?', $customerId)
-            ->where('website_id = ?', $websiteId)
-            ->limit(1))) {
+        if ($data = $read->fetchRow(
+            $read->select()->from(
+                $this->getMainTable()
+            )->where(
+                'customer_id = ?',
+                $customerId
+            )->where(
+                'website_id = ?',
+                $websiteId
+            )->limit(
+                1
+            )
+        )
+        ) {
             $object->addData($data);
         }
     }
@@ -59,7 +68,8 @@ class Balance extends \Magento\Model\Resource\Db\AbstractDb
     {
         $bind = array('base_currency_code' => $currencyCode);
         $this->_getWriteAdapter()->update(
-            $this->getMainTable(), $bind,
+            $this->getMainTable(),
+            $bind,
             array('website_id=?' => $websiteId, 'base_currency_code IS NULL')
         );
         return $this;
@@ -75,9 +85,7 @@ class Balance extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
 
-        $adapter->delete(
-            $this->getMainTable(), array('customer_id = ?' => $customerId, 'website_id IS NULL')
-        );
+        $adapter->delete($this->getMainTable(), array('customer_id = ?' => $customerId, 'website_id IS NULL'));
         return $this;
     }
 
@@ -90,9 +98,16 @@ class Balance extends \Magento\Model\Resource\Db\AbstractDb
     public function getOrphanBalancesCount($customerId)
     {
         $adapter = $this->_getReadAdapter();
-        return $adapter->fetchOne($adapter->select()
-            ->from($this->getMainTable(), 'count(*)')
-            ->where('customer_id = :customer_id')
-            ->where('website_id IS NULL'), array('customer_id' => $customerId));
+        return $adapter->fetchOne(
+            $adapter->select()->from(
+                $this->getMainTable(),
+                'count(*)'
+            )->where(
+                'customer_id = :customer_id'
+            )->where(
+                'website_id IS NULL'
+            ),
+            array('customer_id' => $customerId)
+        );
     }
 }

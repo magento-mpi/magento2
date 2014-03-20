@@ -11,9 +11,7 @@
  */
 namespace Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab;
 
-class Info
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Info extends \Magento\Backend\Block\Widget implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Label getter

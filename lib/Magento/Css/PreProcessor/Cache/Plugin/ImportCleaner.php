@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache\Plugin;
 
 use Magento\App\Filesystem;
@@ -24,9 +23,8 @@ class ImportCleaner
     /**
      * @param Storage $importStorage
      */
-    public function __construct(
-        Storage $importStorage
-    ) {
+    public function __construct(Storage $importStorage)
+    {
         $this->importStorage = $importStorage;
     }
 

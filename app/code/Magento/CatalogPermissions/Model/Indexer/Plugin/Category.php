@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use \Magento\CatalogPermissions\Model\Permission;
-use \Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row as PermissionsRow;
+use Magento\CatalogPermissions\Model\Permission;
+use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row as PermissionsRow;
 
 class Category
 {
@@ -93,12 +93,15 @@ class Category
      * @return \Magento\Catalog\Model\Category
      */
     public function aroundMove(
-        \Magento\Catalog\Model\Category $subject, \Closure $closure, $parentId, $afterCategoryId
+        \Magento\Catalog\Model\Category $subject,
+        \Closure $closure,
+        $parentId,
+        $afterCategoryId
     ) {
         $oldParentId = $subject->getParentId();
         $closure($parentId, $afterCategoryId);
         if ($this->appConfig->isEnabled() && !$this->getIndexer()->isScheduled()) {
-            $this->getIndexer()->reindexList([$subject->getId(), $oldParentId]);
+            $this->getIndexer()->reindexList(array($subject->getId(), $oldParentId));
         }
 
         return $subject;
@@ -137,10 +140,7 @@ class Category
                 $data['customer_group_id'] = null;
             }
 
-            $permission->addData($data)
-                ->preparePermission()
-                ->setCategoryId($category->getId())
-                ->save();
+            $permission->addData($data)->preparePermission()->setCategoryId($category->getId())->save();
         }
     }
 }

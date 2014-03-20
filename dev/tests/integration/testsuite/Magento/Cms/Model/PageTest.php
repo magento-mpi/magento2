@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model;
 
 class PageTest extends \PHPUnit_Framework_TestCase
@@ -35,18 +34,15 @@ class PageTest extends \PHPUnit_Framework_TestCase
     public function generateIdentifierFromTitleDataProvider()
     {
         return array(
+            array('data' => array('title' => 'Test title'), 'expectedIdentifier' => 'test-title'),
             array(
-                'data' => ['title' => 'Test title'],
-                'expectedIdentifier' => 'test-title'
-            ),
-            array(
-                'data' => ['title' => 'Кирилический заголовок'],
+                'data' => array('title' => 'Кирилический заголовок'),
                 'expectedIdentifier' => 'kirilicheskij-zagolovok'
             ),
             array(
-                'data' => ['title' => 'Test title', 'identifier' => 'custom-identifier'],
+                'data' => array('title' => 'Test title', 'identifier' => 'custom-identifier'),
                 'expectedIdentifier' => 'custom-identifier'
-            ),
+            )
         );
     }
 }

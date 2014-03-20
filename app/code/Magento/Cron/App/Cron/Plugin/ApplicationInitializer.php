@@ -27,10 +27,8 @@ class ApplicationInitializer
      * @param State $appState
      * @param \Magento\Session\SidResolverInterface $sidResolver
      */
-    public function __construct(
-        State $appState,
-        \Magento\Session\SidResolverInterface $sidResolver
-    ) {
+    public function __construct(State $appState, \Magento\Session\SidResolverInterface $sidResolver)
+    {
         $this->_appState = $appState;
         $this->_sidResolver = $sidResolver;
     }
@@ -52,4 +50,3 @@ class ApplicationInitializer
         }
     }
 }
-

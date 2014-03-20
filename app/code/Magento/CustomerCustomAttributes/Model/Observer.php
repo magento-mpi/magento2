@@ -15,11 +15,14 @@ namespace Magento\CustomerCustomAttributes\Model;
 class Observer
 {
     const CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX = 1;
-    const CONVERT_ALGORITM_SOURCE_WITHOUT_PREFIX     = 2;
-    const CONVERT_ALGORITM_TARGET_WITHOUT_PREFIX     = 3;
 
-    const CONVERT_TYPE_CUSTOMER             = 'customer';
-    const CONVERT_TYPE_CUSTOMER_ADDRESS     = 'customer_address';
+    const CONVERT_ALGORITM_SOURCE_WITHOUT_PREFIX = 2;
+
+    const CONVERT_ALGORITM_TARGET_WITHOUT_PREFIX = 3;
+
+    const CONVERT_TYPE_CUSTOMER = 'customer';
+
+    const CONVERT_TYPE_CUSTOMER_ADDRESS = 'customer_address';
 
     /**
      * @var \Magento\CustomerCustomAttributes\Helper\Data
@@ -237,9 +240,11 @@ class Observer
              * Check for maximum attribute_code length
              */
             $attributeCodeMaxLength = \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH - 9;
-            $validate = \Zend_Validate::is($attribute->getAttributeCode(), 'StringLength', array(
-                'max' => $attributeCodeMaxLength
-            ));
+            $validate = \Zend_Validate::is(
+                $attribute->getAttributeCode(),
+                'StringLength',
+                array('max' => $attributeCodeMaxLength)
+            );
             if (!$validate) {
                 throw new \Magento\Eav\Exception(
                     __('Maximum length of attribute code must be less than %1 symbols', $attributeCodeMaxLength)
@@ -338,11 +343,7 @@ class Observer
      */
     public function coreCopyFieldsetSalesConvertQuoteToOrder(\Magento\Event\Observer $observer)
     {
-        $this->_copyFieldset(
-            $observer,
-            self::CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX,
-            self::CONVERT_TYPE_CUSTOMER
-        );
+        $this->_copyFieldset($observer, self::CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX, self::CONVERT_TYPE_CUSTOMER);
 
         return $this;
     }
@@ -372,11 +373,7 @@ class Observer
      */
     public function coreCopyFieldsetSalesCopyOrderToEdit(\Magento\Event\Observer $observer)
     {
-        $this->_copyFieldset(
-            $observer,
-            self::CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX,
-            self::CONVERT_TYPE_CUSTOMER
-        );
+        $this->_copyFieldset($observer, self::CONVERT_ALGORITM_SOURCE_TARGET_WITH_PREFIX, self::CONVERT_TYPE_CUSTOMER);
 
         return $this;
     }
@@ -423,11 +420,7 @@ class Observer
      */
     public function coreCopyFieldsetCustomerAccountToQuote(\Magento\Event\Observer $observer)
     {
-        $this->_copyFieldset(
-            $observer,
-            self::CONVERT_ALGORITM_SOURCE_WITHOUT_PREFIX,
-            self::CONVERT_TYPE_CUSTOMER
-        );
+        $this->_copyFieldset($observer, self::CONVERT_ALGORITM_SOURCE_WITHOUT_PREFIX, self::CONVERT_TYPE_CUSTOMER);
 
         return $this;
     }
@@ -474,11 +467,7 @@ class Observer
      */
     public function coreCopyFieldsetCheckoutOnepageQuoteToCustomer(\Magento\Event\Observer $observer)
     {
-        $this->_copyFieldset(
-            $observer,
-            self::CONVERT_ALGORITM_TARGET_WITHOUT_PREFIX,
-            self::CONVERT_TYPE_CUSTOMER
-        );
+        $this->_copyFieldset($observer, self::CONVERT_ALGORITM_TARGET_WITHOUT_PREFIX, self::CONVERT_TYPE_CUSTOMER);
 
         return $this;
     }
@@ -496,13 +485,15 @@ class Observer
         $source = $observer->getEvent()->getSource();
         $target = $observer->getEvent()->getTarget();
 
-        if ($source instanceof \Magento\Model\AbstractModel && $target instanceof \Magento\Model\AbstractModel) {
+        if ($source instanceof \Magento\Model\AbstractModel &&
+            $target instanceof \Magento\Model\AbstractModel
+        ) {
             if ($convertType == self::CONVERT_TYPE_CUSTOMER) {
                 $attributes = $this->_customerData->getCustomerUserDefinedAttributeCodes();
-                $prefix     = 'customer_';
-            } else if ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
+                $prefix = 'customer_';
+            } elseif ($convertType == self::CONVERT_TYPE_CUSTOMER_ADDRESS) {
                 $attributes = $this->_customerData->getCustomerAddressUserDefinedAttributeCodes();
-                $prefix     = '';
+                $prefix = '';
             } else {
                 return $this;
             }

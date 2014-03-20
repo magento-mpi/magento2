@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Rule\Condition;
 
 use Magento\DB\Select;
@@ -101,11 +100,9 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption(array(
-            '==' => __('for'),
-            '>'  => __('for greater than'),
-            '>=' => __('for or greater than')
-        ));
+        $this->setOperatorOption(
+            array('==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than'))
+        );
         return $this;
     }
 
@@ -126,10 +123,12 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -156,11 +155,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('list' => $wishlistTable),
-            'item.wishlist_id = list.wishlist_id',
-            array()
-        );
+        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
@@ -184,10 +179,10 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function getConditionsSql($customer, $website)
     {
-        $select     = $this->_prepareConditionsSql($customer, $website);
-        $required   = $this->_getRequiredValidation();
-        $aggregator = ($this->getAggregator() == 'all') ? ' AND ' : ' OR ';
-        $operator   = $required ? '=' : '<>';
+        $select = $this->_prepareConditionsSql($customer, $website);
+        $required = $this->_getRequiredValidation();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator = $required ? '=' : '<>';
         $conditions = array();
 
         foreach ($this->getConditions() as $condition) {

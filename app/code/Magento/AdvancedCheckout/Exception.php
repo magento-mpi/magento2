@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout;
 
 class Exception extends \Magento\Model\Exception
 {
-
 }

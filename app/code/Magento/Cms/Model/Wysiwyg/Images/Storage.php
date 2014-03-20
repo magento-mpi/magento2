@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Wysiwyg\Images;
 
 use Magento\Cms\Helper\Wysiwyg\Images;
@@ -20,7 +19,9 @@ use Magento\Cms\Helper\Wysiwyg\Images;
 class Storage extends \Magento\Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
+
     const THUMBS_DIRECTORY_NAME = '.thumbs';
+
     const THUMB_PLACEHOLDER_PATH_SUFFIX = 'Magento_Cms::images/placeholder_thumbnail.jpg';
 
     /**
@@ -213,22 +214,33 @@ class Storage extends \Magento\Object
         // "include" section takes precedence and can revoke directory exclusion
         if ($this->_dirs['include']) {
             foreach ($this->_dirs['include'] as $dir) {
-                unset($conditions['regexp'][(string) $dir], $conditions['plain'][$dir]);
+                unset($conditions['regexp'][(string)$dir], $conditions['plain'][$dir]);
             }
         }
 
-        $regExp = $conditions['reg_exp'] ? ('~' . implode('|', array_keys($conditions['reg_exp'])) . '~i') : null;
-        $collection = $this->getCollection($path)
-            ->setCollectDirs(true)
-            ->setCollectFiles(false)
-            ->setCollectRecursively(false);
+        $regExp = $conditions['reg_exp'] ? '~' . implode('|', array_keys($conditions['reg_exp'])) . '~i' : null;
+        $collection = $this->getCollection(
+            $path
+        )->setCollectDirs(
+            true
+        )->setCollectFiles(
+            false
+        )->setCollectRecursively(
+            false
+        );
         $storageRootLength = strlen($this->_cmsWysiwygImages->getStorageRoot());
 
         foreach ($collection as $key => $value) {
             $rootChildParts = explode('/', substr($value->getFilename(), $storageRootLength));
 
-            if (array_key_exists($rootChildParts[0], $conditions['plain'])
-                || ($regExp && preg_match($regExp, $value->getFilename()))) {
+            if (array_key_exists(
+                $rootChildParts[0],
+                $conditions['plain']
+            ) || $regExp && preg_match(
+                $regExp,
+                $value->getFilename()
+            )
+            ) {
                 $collection->removeItemByKey($key);
             }
         }
@@ -255,15 +267,22 @@ class Storage extends \Magento\Object
             }
         }
 
-        $collection = $this->getCollection($path)
-            ->setCollectDirs(false)
-            ->setCollectFiles(true)
-            ->setCollectRecursively(false)
-            ->setOrder('mtime', \Magento\Data\Collection::SORT_ORDER_ASC);
+        $collection = $this->getCollection(
+            $path
+        )->setCollectDirs(
+            false
+        )->setCollectFiles(
+            true
+        )->setCollectRecursively(
+            false
+        )->setOrder(
+            'mtime',
+            \Magento\Data\Collection::SORT_ORDER_ASC
+        );
 
         // Add files extension filter
         if ($allowed = $this->getAllowedExtensions($type)) {
-            $collection->setFilesFilter('/\.(' . implode('|', $allowed). ')$/i');
+            $collection->setFilesFilter('/\.(' . implode('|', $allowed) . ')$/i');
         }
 
         // prepare items
@@ -349,10 +368,10 @@ class Storage extends \Magento\Object
             }
 
             $result = array(
-                'name'          => $name,
-                'short_name'    => $this->_cmsWysiwygImages->getShortFilename($name),
-                'path'          => $newPath,
-                'id'            => $this->_cmsWysiwygImages->convertPathToId($newPath)
+                'name' => $name,
+                'short_name' => $this->_cmsWysiwygImages->getShortFilename($name),
+                'path' => $newPath,
+                'id' => $this->_cmsWysiwygImages->convertPathToId($newPath)
             );
             return $result;
         } catch (\Magento\Filesystem\FilesystemException $e) {
@@ -421,7 +440,6 @@ class Storage extends \Magento\Object
         return $this;
     }
 
-
     /**
      * Upload and resize new file
      *
@@ -450,11 +468,11 @@ class Storage extends \Magento\Object
         $this->resizeFile($targetPath . '/' . $uploader->getUploadedFileName(), true);
 
         $result['cookie'] = array(
-            'name'     => $this->getSession()->getName(),
-            'value'    => $this->getSession()->getSessionId(),
+            'name' => $this->getSession()->getName(),
+            'value' => $this->getSession()->getSessionId(),
             'lifetime' => $this->getSession()->getCookieLifetime(),
-            'path'     => $this->getSession()->getCookiePath(),
-            'domain'   => $this->getSession()->getCookieDomain()
+            'path' => $this->getSession()->getCookiePath(),
+            'domain' => $this->getSession()->getCookieDomain()
         );
 
         return $result;
@@ -495,10 +513,14 @@ class Storage extends \Magento\Object
 
         if (strpos($filePath, $mediaRootDir) === 0) {
             $thumbSuffix = self::THUMBS_DIRECTORY_NAME . substr($filePath, strlen($mediaRootDir));
-            if (!$checkFile
-                || $this->_directory->isExist($this->_directory->getRelativePath($mediaRootDir . '/' . $thumbSuffix))
+            if (!$checkFile || $this->_directory->isExist(
+                $this->_directory->getRelativePath($mediaRootDir . '/' . $thumbSuffix)
+            )
             ) {
-                $thumbSuffix = substr($mediaRootDir, strlen($this->_directory->getAbsolutePath())) . '/' . $thumbSuffix;
+                $thumbSuffix = substr(
+                    $mediaRootDir,
+                    strlen($this->_directory->getAbsolutePath())
+                ) . '/' . $thumbSuffix;
                 $randomIndex = '?rand=' . time();
                 return str_replace('\\', '/', $this->_cmsWysiwygImages->getBaseUrl() . $thumbSuffix) . $randomIndex;
             }

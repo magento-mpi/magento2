@@ -25,10 +25,11 @@ class Widget extends \Magento\Backend\App\Action
     public function chooserAction()
     {
         $this->getResponse()->setBody(
-            $this->_getTreeBlock()
-                ->setScope($this->getRequest()->getParam('scope'))
-                ->setScopeId((int)$this->getRequest()->getParam('scope_id'))
-                ->getTreeHtml()
+            $this->_getTreeBlock()->setScope(
+                $this->getRequest()->getParam('scope')
+            )->setScopeId(
+                (int)$this->getRequest()->getParam('scope_id')
+            )->getTreeHtml()
         );
     }
 
@@ -39,10 +40,10 @@ class Widget extends \Magento\Backend\App\Action
      */
     protected function _getTreeBlock()
     {
-        return $this->_view->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
-            'data' => array(
-                'id' => $this->getRequest()->getParam('uniq_id')
-            )
-        ));
+        return $this->_view->getLayout()->createBlock(
+            'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser',
+            '',
+            array('data' => array('id' => $this->getRequest()->getParam('uniq_id')))
+        );
     }
 }

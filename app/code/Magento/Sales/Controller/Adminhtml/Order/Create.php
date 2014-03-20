@@ -24,10 +24,8 @@ class Create extends \Magento\Backend\App\Action
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product $productHelper
      */
-    public function __construct(
-        Action\Context $context,
-        \Magento\Catalog\Helper\Product $productHelper
-    ) {
+    public function __construct(Action\Context $context, \Magento\Catalog\Helper\Product $productHelper)
+    {
         parent::__construct($context);
         $productHelper->setSkipSaleableCheck(true);
     }
@@ -83,21 +81,21 @@ class Create extends \Magento\Backend\App\Action
          * Identify customer
          */
         if ($customerId = $this->getRequest()->getParam('customer_id')) {
-            $this->_getSession()->setCustomerId((int) $customerId);
+            $this->_getSession()->setCustomerId((int)$customerId);
         }
 
         /**
          * Identify store
          */
         if ($storeId = $this->getRequest()->getParam('store_id')) {
-            $this->_getSession()->setStoreId((int) $storeId);
+            $this->_getSession()->setStoreId((int)$storeId);
         }
 
         /**
          * Identify currency
          */
         if ($currencyId = $this->getRequest()->getParam('currency_id')) {
-            $this->_getSession()->setCurrencyId((string) $currencyId);
+            $this->_getSession()->setCurrencyId((string)$currencyId);
             $this->_getOrderCreateModel()->setRecollect(true);
         }
         return $this;
@@ -123,8 +121,8 @@ class Create extends \Magento\Backend\App\Action
     {
         $eventData = array(
             'order_create_model' => $this->_getOrderCreateModel(),
-            'request_model'      => $this->getRequest(),
-            'session'            => $this->_getSession(),
+            'request_model' => $this->getRequest(),
+            'session' => $this->_getSession()
         );
 
         $this->_eventManager->dispatch('adminhtml_sales_order_create_process_data_before', $eventData);
@@ -152,9 +150,9 @@ class Create extends \Magento\Backend\App\Action
         if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()) {
             $syncFlag = $this->getRequest()->getPost('shipping_as_billing');
             $shippingMethod = $this->_getOrderCreateModel()->getShippingAddress()->getShippingMethod();
-            if (is_null($syncFlag)
-                && $this->_getOrderCreateModel()->getShippingAddress()->getSameAsBilling()
-                && empty($shippingMethod)
+            if (is_null(
+                $syncFlag
+            ) && $this->_getOrderCreateModel()->getShippingAddress()->getSameAsBilling() && empty($shippingMethod)
             ) {
                 $this->_getOrderCreateModel()->setShippingAsBilling(1);
             } else {
@@ -165,16 +163,17 @@ class Create extends \Magento\Backend\App\Action
         /**
          * Change shipping address flag
          */
-        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()
-            && $this->getRequest()->getPost('reset_shipping')) {
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual() && $this->getRequest()->getPost('reset_shipping')
+        ) {
             $this->_getOrderCreateModel()->resetShippingMethod(true);
         }
 
         /**
          * Collecting shipping rates
          */
-        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual()
-            && $this->getRequest()->getPost('collect_shipping_rates')
+        if (!$this->_getOrderCreateModel()->getQuote()->isVirtual() && $this->getRequest()->getPost(
+            'collect_shipping_rates'
+        )
         ) {
             $this->_getOrderCreateModel()->collectShippingRates();
         }
@@ -190,15 +189,15 @@ class Create extends \Magento\Backend\App\Action
         /**
          * Adding product to quote from shopping cart, wishlist etc.
          */
-        if ($productId = (int) $this->getRequest()->getPost('add_product')) {
+        if ($productId = (int)$this->getRequest()->getPost('add_product')) {
             $this->_getOrderCreateModel()->addProduct($productId, $this->getRequest()->getPost());
         }
 
         /**
          * Adding products to quote from special grid
          */
-        if ($this->getRequest()->has('item')
-            && !$this->getRequest()->getPost('update_items') && !($action == 'save')) {
+        if ($this->getRequest()->has('item') && !$this->getRequest()->getPost('update_items') && !($action == 'save')
+        ) {
             $items = $this->getRequest()->getPost('item');
             $items = $this->_processFiles($items);
             $this->_getOrderCreateModel()->addProducts($items);
@@ -216,8 +215,8 @@ class Create extends \Magento\Backend\App\Action
         /**
          * Remove quote item
          */
-        $removeItemId = (int) $this->getRequest()->getPost('remove_item');
-        $removeFrom = (string) $this->getRequest()->getPost('from');
+        $removeItemId = (int)$this->getRequest()->getPost('remove_item');
+        $removeFrom = (string)$this->getRequest()->getPost('from');
         if ($removeItemId && $removeFrom) {
             $this->_getOrderCreateModel()->removeItem($removeItemId, $removeFrom);
         }
@@ -225,9 +224,9 @@ class Create extends \Magento\Backend\App\Action
         /**
          * Move quote item
          */
-        $moveItemId = (int) $this->getRequest()->getPost('move_item');
-        $moveTo = (string) $this->getRequest()->getPost('to');
-        $moveQty = (int) $this->getRequest()->getPost('qty');
+        $moveItemId = (int)$this->getRequest()->getPost('move_item');
+        $moveTo = (string)$this->getRequest()->getPost('to');
+        $moveQty = (int)$this->getRequest()->getPost('qty');
         if ($moveItemId && $moveTo) {
             $this->_getOrderCreateModel()->moveQuoteItem($moveItemId, $moveTo, $moveQty);
         }
@@ -238,13 +237,12 @@ class Create extends \Magento\Backend\App\Action
 
         $eventData = array(
             'order_create_model' => $this->_getOrderCreateModel(),
-            'request'            => $this->getRequest()->getPost(),
+            'request' => $this->getRequest()->getPost()
         );
 
         $this->_eventManager->dispatch('adminhtml_sales_order_create_process_data', $eventData);
 
-        $this->_getOrderCreateModel()
-            ->saveQuote();
+        $this->_getOrderCreateModel()->saveQuote();
 
         if ($paymentData = $this->getRequest()->getPost('payment')) {
             $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
@@ -255,18 +253,16 @@ class Create extends \Magento\Backend\App\Action
          */
         $giftmessages = $this->getRequest()->getPost('giftmessage');
         if ($giftmessages) {
-            $this->_getGiftmessageSaveModel()->setGiftmessages($giftmessages)
-                ->saveAllInQuote();
+            $this->_getGiftmessageSaveModel()->setGiftmessages($giftmessages)->saveAllInQuote();
         }
 
         /**
          * Importing gift message allow items from specific product grid
          */
         if ($data = $this->getRequest()->getPost('add_products')) {
-            $this->_getGiftmessageSaveModel()
-                ->importAllowQuoteItemsFromProducts(
-                    $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($data)
-                );
+            $this->_getGiftmessageSaveModel()->importAllowQuoteItemsFromProducts(
+                $this->_objectManager->get('Magento\Core\Helper\Data')->jsonDecode($data)
+            );
         }
 
         /**
@@ -285,8 +281,11 @@ class Create extends \Magento\Backend\App\Action
         if (!empty($couponCode)) {
             if ($this->_getQuote()->getCouponCode() !== $couponCode) {
                 $this->messageManager->addError(
-                    __('"%1" coupon code is not valid.', $this->_objectManager->get('Magento\Escaper')
-                            ->escapeHtml($couponCode)));
+                    __(
+                        '"%1" coupon code is not valid.',
+                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                    )
+                );
             } else {
                 $this->messageManager->addSuccess(__('The coupon code has been accepted.'));
             }
@@ -375,8 +374,7 @@ class Create extends \Magento\Backend\App\Action
     {
         $request = $this->getRequest();
         try {
-            $this->_initSession()
-                ->_processData();
+            $this->_initSession()->_processData();
         } catch (\Magento\Model\Exception $e) {
             $this->_reloadQuote();
             $this->messageManager->addError($e->getMessage());
@@ -386,7 +384,7 @@ class Create extends \Magento\Backend\App\Action
         }
 
 
-        $asJson= $request->getParam('json');
+        $asJson = $request->getParam('json');
         $block = $request->getParam('block');
 
         $update = $this->_view->getLayout()->getUpdate();
@@ -427,8 +425,7 @@ class Create extends \Magento\Backend\App\Action
     {
         $errorMessage = null;
         try {
-            $this->_initSession()
-                ->_processData();
+            $this->_initSession()->_processData();
         } catch (\Exception $e) {
             $this->_reloadQuote();
             $errorMessage = $e->getMessage();
@@ -468,14 +465,11 @@ class Create extends \Magento\Backend\App\Action
     {
         if ($orderId = $this->_getSession()->getReordered()) {
             $this->_getSession()->clearStorage();
-            $this->_redirect('sales/order/view', array(
-                'order_id'=>$orderId
-            ));
+            $this->_redirect('sales/order/view', array('order_id' => $orderId));
         } else {
             $this->_getSession()->clearStorage();
             $this->_redirect('sales/*');
         }
-
     }
 
     /**
@@ -489,21 +483,22 @@ class Create extends \Magento\Backend\App\Action
             $this->_processActionData('save');
             $paymentData = $this->getRequest()->getPost('payment');
             if ($paymentData) {
-                $paymentData['checks'] = [
+                $paymentData['checks'] = array(
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_INTERNAL,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
-                ];
+                );
                 $this->_getOrderCreateModel()->setPaymentData($paymentData);
                 $this->_getOrderCreateModel()->getQuote()->getPayment()->addData($paymentData);
             }
 
-            $order = $this->_getOrderCreateModel()
-                ->setIsValidate(true)
-                ->importPostData($this->getRequest()->getPost('order'))
-                ->createOrder();
+            $order = $this->_getOrderCreateModel()->setIsValidate(
+                true
+            )->importPostData(
+                $this->getRequest()->getPost('order')
+            )->createOrder();
 
             $this->_getSession()->clearStorage();
             $this->messageManager->addSuccess(__('You created the order.'));
@@ -578,7 +573,7 @@ class Create extends \Magento\Backend\App\Action
     public function configureProductToAddAction()
     {
         // Prepare data
-        $productId  = (int) $this->getRequest()->getParam('id');
+        $productId = (int)$this->getRequest()->getParam('id');
 
         $configureResult = new \Magento\Object();
         $configureResult->setOk(true);
@@ -588,8 +583,11 @@ class Create extends \Magento\Backend\App\Action
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         // Render page
-        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($configureResult);
+        $this->_objectManager->get(
+            'Magento\Catalog\Helper\Product\Composite'
+        )->renderConfigureResult(
+            $configureResult
+        );
     }
 
     /**
@@ -602,7 +600,7 @@ class Create extends \Magento\Backend\App\Action
         // Prepare data
         $configureResult = new \Magento\Object();
         try {
-            $quoteItemId = (int) $this->getRequest()->getParam('id');
+            $quoteItemId = (int)$this->getRequest()->getParam('id');
             if (!$quoteItemId) {
                 throw new \Magento\Model\Exception(__('Quote item id is not received.'));
             }
@@ -613,8 +611,11 @@ class Create extends \Magento\Backend\App\Action
             }
 
             $configureResult->setOk(true);
-            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->getCollection()
-                    ->addItemFilter(array($quoteItemId));
+            $optionCollection = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote\Item\Option'
+            )->getCollection()->addItemFilter(
+                array($quoteItemId)
+            );
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
@@ -622,17 +623,18 @@ class Create extends \Magento\Backend\App\Action
             $configureResult->setProductId($quoteItem->getProductId());
             $sessionQuote = $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
-
         } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
         }
 
         // Render page
-        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($configureResult);
+        $this->_objectManager->get(
+            'Magento\Catalog\Helper\Product\Composite'
+        )->renderConfigureResult(
+            $configureResult
+        );
     }
-
 
     /**
      * Show item update result from loadBlockAction

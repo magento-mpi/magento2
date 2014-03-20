@@ -80,7 +80,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         if (!$this->getLoadDefault()) {
             $this->setWithoutDefaultFilter();
         }
-        $this->addOrder('main_table.name',  self::SORT_ORDER_ASC);
+        $this->addOrder('main_table.name', self::SORT_ORDER_ASC);
         return parent::_beforeLoad();
     }
 

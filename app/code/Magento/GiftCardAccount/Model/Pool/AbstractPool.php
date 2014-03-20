@@ -12,6 +12,7 @@ namespace Magento\GiftCardAccount\Model\Pool;
 abstract class AbstractPool extends \Magento\Model\AbstractModel
 {
     const STATUS_FREE = 0;
+
     const STATUS_USED = 1;
 
     /**
@@ -38,9 +39,7 @@ abstract class AbstractPool extends \Magento\Model\AbstractModel
     public function shift()
     {
         $notInArray = $this->getExcludedIds();
-        $collection = $this->getCollection()
-            ->addFieldToFilter('status', self::STATUS_FREE)
-            ->setPageSize(1);
+        $collection = $this->getCollection()->addFieldToFilter('status', self::STATUS_FREE)->setPageSize(1);
         if (is_array($notInArray) && !empty($notInArray)) {
             $collection->addFieldToFilter('code', array('nin' => $notInArray));
         }
@@ -63,21 +62,16 @@ abstract class AbstractPool extends \Magento\Model\AbstractModel
     {
         if (is_null($this->_pool_percent_used)) {
             $this->_pool_size = $this->getCollection()->getSize();
-            $this->_pool_free_size = $this->getCollection()
-                ->addFieldToFilter('status', self::STATUS_FREE)
-                ->getSize();
+            $this->_pool_free_size = $this->getCollection()->addFieldToFilter('status', self::STATUS_FREE)->getSize();
             if (!$this->_pool_size) {
                 $this->_pool_percent_used = 100;
             } else {
-                $this->_pool_percent_used = 100-round($this->_pool_free_size/($this->_pool_size/100), 2);
+                $this->_pool_percent_used = 100 - round($this->_pool_free_size / ($this->_pool_size / 100), 2);
             }
         }
 
         $result = new \Magento\Object();
-        $result
-            ->setTotal($this->_pool_size)
-            ->setFree($this->_pool_free_size)
-            ->setPercent($this->_pool_percent_used);
+        $result->setTotal($this->_pool_size)->setFree($this->_pool_free_size)->setPercent($this->_pool_percent_used);
         return $result;
     }
 

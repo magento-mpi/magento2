@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Model\Config\Backend\Storage\Media;
 
 class Database extends \Magento\Core\Model\Config\Value

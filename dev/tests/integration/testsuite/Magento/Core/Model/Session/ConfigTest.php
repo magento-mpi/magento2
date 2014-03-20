@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Session;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
@@ -36,10 +35,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         if ($sessionManager->isSessionExists()) {
             $sessionManager->destroy();
         }
-        $this->_model = $this->_objectManager->create('Magento\Core\Model\Session\Config', array(
-            'saveMethod' => 'files',
-            'cacheLimiter' => $this->_cacheLimiter
-        ));
+        $this->_model = $this->_objectManager->create(
+            'Magento\Core\Model\Session\Config',
+            array('saveMethod' => 'files', 'cacheLimiter' => $this->_cacheLimiter)
+        );
     }
 
     protected function tearDown()
@@ -53,8 +52,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testDefaultConfiguration()
     {
         $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath('session'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Filesystem'
+            )->getPath(
+                'session'
+            ),
             $this->_model->getSavePath()
         );
         $this->assertEquals(

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Resource\Block;
 
 /**
@@ -89,9 +88,10 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
                 array('store_table' => $this->getTable('cms_block_store')),
                 'main_table.block_id = store_table.block_id',
                 array()
-            )->group('main_table.block_id');
+            )->group(
+                'main_table.block_id'
+            );
         }
         return parent::_renderFiltersBefore();
     }
-
 }

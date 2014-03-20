@@ -9,8 +9,7 @@
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\System\Config;
 
-class Generate
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Generate extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * @var string

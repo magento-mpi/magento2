@@ -28,4 +28,3 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $this->_init('Magento\Sales\Model\Quote', 'Magento\Sales\Model\Resource\Quote');
     }
 }
-

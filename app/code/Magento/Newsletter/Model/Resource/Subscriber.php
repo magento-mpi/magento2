@@ -44,7 +44,7 @@ class Subscriber extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @var string
      */
-    protected $_messagesScope          = 'newsletter/session';
+    protected $_messagesScope = 'newsletter/session';
 
     /**
      * Date
@@ -108,11 +108,9 @@ class Subscriber extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadByEmail($subscriberEmail)
     {
-        $select = $this->_read->select()
-            ->from($this->getMainTable())
-            ->where('subscriber_email=:subscriber_email');
+        $select = $this->_read->select()->from($this->getMainTable())->where('subscriber_email=:subscriber_email');
 
-        $result = $this->_read->fetchRow($select, array('subscriber_email'=>$subscriberEmail));
+        $result = $this->_read->fetchRow($select, array('subscriber_email' => $subscriberEmail));
 
         if (!$result) {
             return array();
@@ -129,21 +127,17 @@ class Subscriber extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
     {
-        $select = $this->_read->select()
-            ->from($this->getMainTable())
-            ->where('customer_id=:customer_id');
+        $select = $this->_read->select()->from($this->getMainTable())->where('customer_id=:customer_id');
 
-        $result = $this->_read->fetchRow($select, array('customer_id'=>$customer->getId()));
+        $result = $this->_read->fetchRow($select, array('customer_id' => $customer->getId()));
 
         if ($result) {
             return $result;
         }
 
-        $select = $this->_read->select()
-            ->from($this->getMainTable())
-            ->where('subscriber_email=:subscriber_email');
+        $select = $this->_read->select()->from($this->getMainTable())->where('subscriber_email=:subscriber_email');
 
-        $result = $this->_read->fetchRow($select, array('subscriber_email'=>$customer->getEmail()));
+        $result = $this->_read->fetchRow($select, array('subscriber_email' => $customer->getEmail()));
 
         if ($result) {
             return $result;
@@ -175,13 +169,13 @@ class Subscriber extends \Magento\Model\Resource\Db\AbstractDb
         $this->_write->beginTransaction();
         try {
             $data['letter_sent_at'] = $this->_date->gmtDate();
-            $this->_write->update($this->_subscriberLinkTable, $data, array(
-                'subscriber_id = ?' => $subscriber->getId(),
-                'queue_id = ?' => $queue->getId()
-            ));
+            $this->_write->update(
+                $this->_subscriberLinkTable,
+                $data,
+                array('subscriber_id = ?' => $subscriber->getId(), 'queue_id = ?' => $queue->getId())
+            );
             $this->_write->commit();
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->_write->rollBack();
             throw new \Magento\Model\Exception(__('We cannot mark as received subscriber.'));
         }

@@ -42,7 +42,7 @@ class Adapter
         }
         $adapter = new $adapterClass($options, $directory);
 
-        if (! $adapter instanceof AbstractSource) {
+        if (!$adapter instanceof AbstractSource) {
             throw new \Magento\Model\Exception(
                 __('Adapter must be an instance of \Magento\ImportExport\Model\Import\AbstractSource')
             );

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super;
 
 use Mtf\Client\Element;
@@ -69,7 +68,7 @@ class Config extends Tab
     /**
      * Get attribute block
      *
-     * @param $attributeName
+     * @param string $attributeName
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Attribute
      */
     protected function getAttributeBlock($attributeName)
@@ -95,6 +94,8 @@ class Config extends Tab
 
     /**
      * Press 'Generate Variations' button
+     *
+     * @return void
      */
     public function generateVariations()
     {
@@ -135,7 +136,8 @@ class Config extends Tab
     /**
      * Fill variations matrix
      *
-     * @param $fields
+     * @param array $fields
+     * @return void
      */
     public function fillVariationsMatrix($fields)
     {
@@ -146,8 +148,10 @@ class Config extends Tab
      * Fill attribute options
      *
      * @param array $attributes
+     * @return void
      */
-    public function fillAttributeOptions(array $attributes) {
+    public function fillAttributeOptions(array $attributes)
+    {
         foreach ($attributes as $attribute) {
             $this->getAttributeBlock($attribute['label']['value'])->fillAttributeOptions($attribute);
         }
@@ -157,6 +161,7 @@ class Config extends Tab
      * Select attribute for variations
      *
      * @param string $attributeName
+     * @return void
      */
     private function selectAttribute($attributeName)
     {

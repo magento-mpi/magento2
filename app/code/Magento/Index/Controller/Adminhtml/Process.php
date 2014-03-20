@@ -100,9 +100,7 @@ class Process extends \Magento\Backend\App\Action
             $this->_view->loadLayout();
             $this->_view->renderLayout();
         } else {
-            $this->messageManager->addError(
-                __('Cannot initialize the indexer process.')
-            );
+            $this->messageManager->addError(__('Cannot initialize the indexer process.'));
             $this->_redirect('adminhtml/*/list');
         }
     }
@@ -123,21 +121,15 @@ class Process extends \Magento\Backend\App\Action
             }
             try {
                 $process->save();
-                $this->messageManager->addSuccess(
-                    __('The index has been saved.')
-                );
+                $this->messageManager->addSuccess(__('The index has been saved.'));
             } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                     __('There was a problem with saving process.')
-                );
+                $this->messageManager->addException($e, __('There was a problem with saving process.'));
             }
             $this->_redirect('adminhtml/*/list');
         } else {
-            $this->messageManager->addError(
-                __('Cannot initialize the indexer process.')
-            );
+            $this->messageManager->addError(__('Cannot initialize the indexer process.'));
             $this->_redirect('adminhtml/*/list');
         }
     }
@@ -157,20 +149,14 @@ class Process extends \Magento\Backend\App\Action
 
                 $process->reindexEverything();
                 \Magento\Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
-                $this->messageManager->addSuccess(
-                    __('%1 index was rebuilt.', $process->getIndexer()->getName())
-                );
+                $this->messageManager->addSuccess(__('%1 index was rebuilt.', $process->getIndexer()->getName()));
             } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                     __('There was a problem with reindexing process.')
-                );
+                $this->messageManager->addException($e, __('There was a problem with reindexing process.'));
             }
         } else {
-            $this->messageManager->addError(
-                __('Cannot initialize the indexer process.')
-            );
+            $this->messageManager->addError(__('Cannot initialize the indexer process.'));
         }
 
         $this->_redirect('adminhtml/*/list');
@@ -183,7 +169,6 @@ class Process extends \Magento\Backend\App\Action
      */
     public function reindexEventsAction()
     {
-
     }
 
     /**
@@ -193,7 +178,6 @@ class Process extends \Magento\Backend\App\Action
      */
     public function reindexAllAction()
     {
-
     }
 
     /**
@@ -217,9 +201,7 @@ class Process extends \Magento\Backend\App\Action
                         $counter++;
                     }
                 }
-                $this->messageManager->addSuccess(
-                    __('Total of %1 index(es) have reindexed data.', $counter)
-                );
+                $this->messageManager->addSuccess(__('Total of %1 index(es) have reindexed data.', $counter));
             } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -252,9 +234,7 @@ class Process extends \Magento\Backend\App\Action
                         $counter++;
                     }
                 }
-                $this->messageManager->addSuccess(
-                    __('Total of %1 index(es) have changed index mode.', $counter)
-                );
+                $this->messageManager->addSuccess(__('Total of %1 index(es) have changed index mode.', $counter));
             } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {

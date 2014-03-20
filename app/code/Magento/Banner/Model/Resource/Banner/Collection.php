@@ -42,7 +42,8 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         if ($this->getFlag('add_stores_column')) {
             $this->_addStoresVisibility();
         }
-        $this->walk('getTypes'); // fetch banner types from comma-separated
+        $this->walk('getTypes');
+        // fetch banner types from comma-separated
         return $this;
     }
 
@@ -69,9 +70,13 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $bannersStores = array();
         if (sizeof($bannerIds) > 0) {
             $adapter = $this->getConnection();
-            $select = $adapter->select()
-                ->from($this->getTable('magento_banner_content'), array('store_id', 'banner_id'))
-                ->where('banner_id IN(?)', $bannerIds);
+            $select = $adapter->select()->from(
+                $this->getTable('magento_banner_content'),
+                array('store_id', 'banner_id')
+            )->where(
+                'banner_id IN(?)',
+                $bannerIds
+            );
             $bannersRaw = $adapter->fetchAll($select);
 
             foreach ($bannersRaw as $banner) {
@@ -111,9 +116,12 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
                 array('store_table' => $this->getTable('magento_banner_content')),
                 'main_table.banner_id = store_table.banner_id',
                 array()
-            )
-            ->where('store_table.store_id IN (?)', $storeIds)
-            ->group('main_table.banner_id');
+            )->where(
+                'store_table.store_id IN (?)',
+                $storeIds
+            )->group(
+                'main_table.banner_id'
+            );
 
             $this->setFlag('store_filter', true);
         }
@@ -129,7 +137,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function addBannerIdsFilter($bannerIds, $exclude = false)
     {
-        $this->addFieldToFilter('main_table.banner_id', array(($exclude ? 'nin' : 'in') => $bannerIds));
+        $this->addFieldToFilter('main_table.banner_id', array($exclude ? 'nin' : 'in' => $bannerIds));
         return $this;
     }
 }

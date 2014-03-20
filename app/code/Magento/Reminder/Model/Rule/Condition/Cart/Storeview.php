@@ -14,8 +14,7 @@ use Magento\DB\Select;
 /**
  * Cart items store view subselection condition
  */
-class Storeview
-    extends \Magento\Reminder\Model\Condition\AbstractCondition
+class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
      * Store
@@ -49,8 +48,7 @@ class Storeview
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(),
-            'label' => __('Store View'));
+        return array('value' => $this->getType(), 'label' => __('Store View'));
     }
 
     /**
@@ -60,9 +58,11 @@ class Storeview
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('The item was added to shopping cart %1, store view %2.', $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'The item was added to shopping cart %1, store view %2.',
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -104,10 +104,7 @@ class Storeview
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '==' => __('from'),
-            '!=' => __('not from')
-        ));
+        $this->setOperatorOption(array('==' => __('from'), '!=' => __('not from')));
         return $this;
     }
 
@@ -127,11 +124,7 @@ class Storeview
         $select = $this->getResource()->createSelect();
         $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
 
-        $select->joinInner(
-            array('quote' => $quoteTable),
-            'item.quote_id = quote.entity_id',
-            array()
-        );
+        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

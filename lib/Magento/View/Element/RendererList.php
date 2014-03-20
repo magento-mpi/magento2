@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 class RendererList extends AbstractBlock
@@ -46,4 +45,4 @@ class RendererList extends AbstractBlock
         }
         return $renderer;
     }
-} 
+}

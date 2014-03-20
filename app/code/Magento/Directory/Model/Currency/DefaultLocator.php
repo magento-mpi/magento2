@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Model\Currency;
 
 class DefaultLocator
@@ -54,7 +53,7 @@ class DefaultLocator
             $currencyCode = $this->_storeManager->getWebsite($website)->getBaseCurrencyCode();
         } else if ($request->getParam('group')) {
             $group = $request->getParam('group');
-            $currencyCode =  $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
+            $currencyCode = $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
         } else {
             $currencyCode = $this->_configuration->getValue(
                 \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default'

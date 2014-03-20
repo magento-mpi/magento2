@@ -139,9 +139,7 @@ class Observer extends \Magento\Model\AbstractModel
         $elem = $form->getElement(self::ATTRIBUTE_CODE);
 
         if ($elem) {
-            $elem->setRenderer(
-                $this->_layout->createBlock('Magento\GiftCard\Block\Adminhtml\Renderer\Amount')
-            );
+            $elem->setRenderer($this->_layout->createBlock('Magento\GiftCard\Block\Adminhtml\Renderer\Amount'));
         }
     }
 
@@ -185,12 +183,14 @@ class Observer extends \Magento\Model\AbstractModel
 
                 switch ($requiredStatus) {
                     case \Magento\Sales\Model\Order\Item::STATUS_INVOICED:
-                        $paidInvoiceItems = isset($options['giftcard_paid_invoice_items'])
-                            ? $options['giftcard_paid_invoice_items']
-                            : array();
+                        $paidInvoiceItems = isset(
+                            $options['giftcard_paid_invoice_items']
+                        ) ? $options['giftcard_paid_invoice_items'] : array();
                         // find invoice for this order item
-                        $invoiceItemCollection = $this->_itemsFactory->create()
-                            ->addFieldToFilter('order_item_id', $item->getId());
+                        $invoiceItemCollection = $this->_itemsFactory->create()->addFieldToFilter(
+                            'order_item_id',
+                            $item->getId()
+                        );
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
                             $invoiceId = $invoiceItem->getParentId();
@@ -201,8 +201,10 @@ class Observer extends \Magento\Model\AbstractModel
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
-                            if ($invoice->getState() == \Magento\Sales\Model\Order\Invoice::STATE_PAID &&
-                                !in_array($invoiceItem->getId(), $paidInvoiceItems)
+                            if ($invoice->getState() == \Magento\Sales\Model\Order\Invoice::STATE_PAID && !in_array(
+                                $invoiceItem->getId(),
+                                $paidInvoiceItems
+                            )
                             ) {
                                 $qty += $invoiceItem->getQty();
                                 $paidInvoiceItems[] = $invoiceItem->getId();
@@ -236,20 +238,27 @@ class Observer extends \Magento\Model\AbstractModel
                     $websiteId = $this->_storeManager->getStore($order->getStoreId())->getWebsiteId();
 
                     $data = new \Magento\Object();
-                    $data->setWebsiteId($websiteId)
-                        ->setAmount($amount)
-                        ->setLifetime($lifetime)
-                        ->setIsRedeemable($isRedeemable)
-                        ->setOrderItem($item);
+                    $data->setWebsiteId(
+                        $websiteId
+                    )->setAmount(
+                        $amount
+                    )->setLifetime(
+                        $lifetime
+                    )->setIsRedeemable(
+                        $isRedeemable
+                    )->setOrderItem(
+                        $item
+                    );
 
                     $codes = isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : array();
                     $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new \Magento\Object();
-                            $this->_eventManager->dispatch('magento_giftcardaccount_create', array(
-                                'request' => $data, 'code' => $code
-                            ));
+                            $this->_eventManager->dispatch(
+                                'magento_giftcardaccount_create',
+                                array('request' => $data, 'code' => $code)
+                            );
                             $codes[] = $code->getCode();
                             $goodCodes++;
                         } catch (\Magento\Model\Exception $e) {
@@ -262,47 +271,54 @@ class Observer extends \Magento\Model\AbstractModel
                         $senderName = $item->getProductOptionByCode('giftcard_sender_name');
                         $senderEmail = $item->getProductOptionByCode('giftcard_sender_email');
                         if ($senderEmail) {
-                            $sender = "$sender <$senderEmail>";
+                            $sender = "{$sender} <{$senderEmail}>";
                         }
 
-                        $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()
-                            ->setCodes($codes)
-                            ->setIsRedeemable($isRedeemable)
-                            ->setStore($this->_storeManager->getStore($order->getStoreId()));
+                        $codeList = $this->_giftCardData->getEmailGeneratedItemsBlock()->setCodes(
+                            $codes
+                        )->setIsRedeemable(
+                            $isRedeemable
+                        )->setStore(
+                            $this->_storeManager->getStore($order->getStoreId())
+                        );
                         $balance = $this->_localeCurrency->getCurrency(
                             $this->_storeManager->getStore($order->getStoreId())->getBaseCurrencyCode()
-                        )->toCurrency($amount);
-
-                        $templateData = array(
-                            'name'                   => $item->getProductOptionByCode('giftcard_recipient_name'),
-                            'email'                  => $item->getProductOptionByCode('giftcard_recipient_email'),
-                            'sender_name_with_email' => $sender,
-                            'sender_name'            => $senderName,
-                            'gift_message'           => $item->getProductOptionByCode('giftcard_message'),
-                            'giftcards'              => $codeList->toHtml(),
-                            'balance'                => $balance,
-                            'is_multiple_codes'      => 1 < $goodCodes,
-                            'store'                  => $order->getStore(),
-                            'store_name'             => $order->getStore()->getName(),
-                            'is_redeemable'          => $isRedeemable,
+                        )->toCurrency(
+                            $amount
                         );
 
-                        $transport = $this->_transportBuilder
-                            ->setTemplateIdentifier($item->getProductOptionByCode('giftcard_email_template'))
-                            ->setTemplateOptions(array(
+                        $templateData = array(
+                            'name' => $item->getProductOptionByCode('giftcard_recipient_name'),
+                            'email' => $item->getProductOptionByCode('giftcard_recipient_email'),
+                            'sender_name_with_email' => $sender,
+                            'sender_name' => $senderName,
+                            'gift_message' => $item->getProductOptionByCode('giftcard_message'),
+                            'giftcards' => $codeList->toHtml(),
+                            'balance' => $balance,
+                            'is_multiple_codes' => 1 < $goodCodes,
+                            'store' => $order->getStore(),
+                            'store_name' => $order->getStore()->getName(),
+                            'is_redeemable' => $isRedeemable
+                        );
+
+                        $transport = $this->_transportBuilder->setTemplateIdentifier(
+                            $item->getProductOptionByCode('giftcard_email_template')
+                        )->setTemplateOptions(
+                            array(
                                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                                'store' => $item->getOrder()->getStoreId(),
-                            ))
-                            ->setTemplateVars($templateData)
-                            ->setFrom($this->_coreStoreConfig->getConfig(
+                                'store' => $item->getOrder()->getStoreId()
+                            )
+                        )->setTemplateVars(
+                            $templateData
+                        )->setFrom(
+                            $this->_coreStoreConfig->getConfig(
                                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
-                            ))
-                            ->addTo(
-                                $item->getProductOptionByCode('giftcard_recipient_email'),
-                                $item->getProductOptionByCode('giftcard_recipient_name')
                             )
-                            ->getTransport();
+                        )->addTo(
+                            $item->getProductOptionByCode('giftcard_recipient_email'),
+                            $item->getProductOptionByCode('giftcard_recipient_name')
+                        )->getTransport();
 
                         $transport->sendMessage();
                         $options['email_sent'] = 1;
@@ -313,7 +329,10 @@ class Observer extends \Magento\Model\AbstractModel
                 }
                 if ($hasFailedCodes) {
                     $url = $this->_urlModel->getUrl('adminhtml/giftcardaccount');
-                    $message = __('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.', $url);
+                    $message = __(
+                        'Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.',
+                        $url
+                    );
 
                     $this->messageManager->addError($message);
                 }

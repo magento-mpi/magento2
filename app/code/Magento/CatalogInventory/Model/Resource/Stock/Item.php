@@ -31,10 +31,8 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\Core\Model\Store\Config $coreStoreConfig)
+    {
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($resource);
     }
@@ -58,8 +56,7 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadByProductId(\Magento\CatalogInventory\Model\Stock\Item $item, $productId)
     {
-        $select = $this->_getLoadSelect('product_id', $productId, $item)
-            ->where('stock_id = :stock_id');
+        $select = $this->_getLoadSelect('product_id', $productId, $item)->where('stock_id = :stock_id');
         $data = $this->_getReadAdapter()->fetchRow($select, array(':stock_id' => $item->getStockId()));
         if ($data) {
             $item->setData($data);
@@ -78,11 +75,15 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _getLoadSelect($field, $value, $object)
     {
-        $select = parent::_getLoadSelect($field, $value, $object)
-            ->join(array('p' => $this->getTable('catalog_product_entity')),
-                'product_id=p.entity_id',
-                array('type_id')
-            );
+        $select = parent::_getLoadSelect(
+            $field,
+            $value,
+            $object
+        )->join(
+            array('p' => $this->getTable('catalog_product_entity')),
+            'product_id=p.entity_id',
+            array('type_id')
+        );
         return $select;
     }
 
@@ -97,14 +98,17 @@ class Item extends \Magento\Model\Resource\Db\AbstractDb
     {
         if ($columns === null) {
             $adapter = $this->_getReadAdapter();
-            $isManageStock = (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
-            $stockExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 1', $isManageStock, 'cisi.manage_stock');
+            $isManageStock = (int)$this->_coreStoreConfig->getConfig(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK
+            );
+            $stockExpr = $adapter->getCheckSql(
+                'cisi.use_config_manage_stock = 1',
+                $isManageStock,
+                'cisi.manage_stock'
+            );
             $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
 
-            $columns = array(
-                'is_saleable' => new \Zend_Db_Expr($stockExpr),
-                'inventory_in_stock' => 'is_in_stock'
-            );
+            $columns = array('is_saleable' => new \Zend_Db_Expr($stockExpr), 'inventory_in_stock' => 'is_in_stock');
         }
 
         $productCollection->joinTable(

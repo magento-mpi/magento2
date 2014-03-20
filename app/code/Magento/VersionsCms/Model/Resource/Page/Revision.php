@@ -55,9 +55,9 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
     {
         $this->_init('magento_versionscms_page_revision', 'revision_id');
 
-        $this->_pageTable         = $this->getTable('cms_page');
-        $this->_versionTable      = $this->getTable('magento_versionscms_page_version');
-        $this->_pageTableAlias    = 'page_table';
+        $this->_pageTable = $this->getTable('cms_page');
+        $this->_versionTable = $this->getTable('magento_versionscms_page_version');
+        $this->_pageTableAlias = 'page_table';
         $this->_versionTableAlias = 'version_table';
     }
 
@@ -123,8 +123,7 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
     public function isRevisionPublished(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
-        $select->from($this->_pageTable, 'published_revision_id')
-            ->where('page_id = ?', (int)$object->getPageId());
+        $select->from($this->_pageTable, 'published_revision_id')->where('page_id = ?', (int)$object->getPageId());
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
@@ -140,16 +139,26 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
     protected function _aggregateVersionData($versionId)
     {
         $adapter = $this->_getReadAdapter();
-        $selectCount = $adapter->select()
-            ->from($this->getMainTable(), array('version_id', 'revisions_count' => 'COUNT(1)'))
-            ->where('version_id = ?', (int)$versionId)
-            ->group('version_id');
+        $selectCount = $adapter->select()->from(
+            $this->getMainTable(),
+            array('version_id', 'revisions_count' => 'COUNT(1)')
+        )->where(
+            'version_id = ?',
+            (int)$versionId
+        )->group(
+            'version_id'
+        );
 
         $sql = new \Zend_Db_Expr(sprintf('(%s)', $selectCount));
         $select = clone $selectCount;
-        $select->reset()
-            ->join(array('r' => $sql), 'p.version_id = r.version_id', array('revisions_count'))
-            ->where('r.version_id = ?', (int)$versionId);
+        $select->reset()->join(
+            array('r' => $sql),
+            'p.version_id = r.version_id',
+            array('revisions_count')
+        )->where(
+            'r.version_id = ?',
+            (int)$versionId
+        );
 
         $adapter = $this->_getWriteAdapter();
         $query = $adapter->updateFromSelect($select, array('p' => $this->_versionTable));
@@ -167,7 +176,7 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function publish(\Magento\VersionsCms\Model\Page\Revision $object, $targetId)
     {
-        $data      = $this->_prepareDataForTable($object, $this->_pageTable);
+        $data = $this->_prepareDataForTable($object, $this->_pageTable);
         $condition = array('page_id = ?' => $targetId);
         $this->_getWriteAdapter()->update($this->_pageTable, $data, $condition);
 
@@ -197,8 +206,11 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
 
             // prepare join conditions for version table
             $joinConditions = array($this->_getPermissionCondition($accessLevel, $userId));
-            $joinConditions[] = sprintf('%s.version_id = %s.version_id',
-                $this->_versionTableAlias, $this->getMainTable());
+            $joinConditions[] = sprintf(
+                '%s.version_id = %s.version_id',
+                $this->_versionTableAlias,
+                $this->getMainTable()
+            );
             // joining version table
             $this->_joinVersionData($select, 'joinInner', implode(' AND ', $joinConditions));
 
@@ -243,8 +255,7 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
             // getting main load select
             $select = $this->_getLoadSelect($this->getIdFieldName(), false, $object);
             // reseting all columns and where as we don't have need them
-            $select->reset(\Zend_Db_Select::COLUMNS)
-                   ->reset(\Zend_Db_Select::WHERE);
+            $select->reset(\Zend_Db_Select::COLUMNS)->reset(\Zend_Db_Select::WHERE);
 
             // adding where conditions with restriction filter
             $whereConditions = array($this->_getPermissionCondition($accessLevel, $userId));
@@ -290,7 +301,10 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
         $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.user_id = ? ', $userId);
 
         if (is_array($accessLevel) && !empty($accessLevel)) {
-            $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level IN (?)', $accessLevel);
+            $permissionCondition[] = $read->quoteInto(
+                $this->_versionTableAlias . '.access_level IN (?)',
+                $accessLevel
+            );
         } elseif ($accessLevel) {
             $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level = ?', $accessLevel);
         } else {
@@ -310,9 +324,11 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _joinVersionData($select, $joinType, $joinConditions)
     {
-        $select->$joinType(array($this->_versionTableAlias => $this->_versionTable),
+        $select->{$joinType}(
+            array($this->_versionTableAlias => $this->_versionTable),
             $joinConditions,
-            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
+            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id')
+        );
 
         return $select;
     }
@@ -327,8 +343,7 @@ class Revision extends \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _joinPageData($select, $joinType, $joinConditions)
     {
-        $select->$joinType(array($this->_pageTableAlias => $this->_pageTable),
-            $joinConditions, array('title'));
+        $select->{$joinType}(array($this->_pageTableAlias => $this->_pageTable), $joinConditions, array('title'));
 
         return $select;
     }

@@ -12,8 +12,7 @@ namespace Magento\Reminder\Model\Rule\Condition\Cart;
 /**
  * Rule conditions cart items subselection container
  */
-class Subcombine
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Subcombine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * Cart Storeview Factory
@@ -67,7 +66,8 @@ class Subcombine
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(
-            parent::getNewChildSelectOptions(), array(
+            parent::getNewChildSelectOptions(),
+            array(
                 $this->_getRecursiveChildSelectOption(),
                 $this->_storeviewFactory->create()->getNewChildSelectOptions(),
                 $this->_skuFactory->create()->getNewChildSelectOptions(),

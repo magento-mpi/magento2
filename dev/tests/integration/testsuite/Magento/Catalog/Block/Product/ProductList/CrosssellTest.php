@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
 
 /**
@@ -29,18 +28,24 @@ class CrosssellTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('product', $product);
         /** @var $block \Magento\Catalog\Block\Product\ProductList\Crosssell */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Catalog\Block\Product\ProductList\Crosssell');
-        $block->setLayout(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\View\LayoutInterface'));
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Catalog\Block\Product\ProductList\Crosssell'
+        );
+        $block->setLayout(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+        );
         $block->setTemplate('Magento_Catalog::product/list/items.phtml');
         $block->setType('crosssell');
         $block->setItemCount(1);
 
         $html = $block->toHtml();
         $this->assertNotEmpty($html);
-        $this->assertContains('Simple Cross Sell', $html); /* name */
-        $this->assertContains('product\/1\/', $html);  /* part of url */
+        $this->assertContains('Simple Cross Sell', $html);
+        /* name */
+        $this->assertContains('product\/1\/', $html);
+        /* part of url */
         $this->assertInstanceOf('Magento\Catalog\Model\Resource\Product\Link\Product\Collection', $block->getItems());
     }
 }

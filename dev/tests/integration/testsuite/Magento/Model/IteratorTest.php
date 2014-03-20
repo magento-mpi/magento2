@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Model\Resource;
 
 class IteratorTest extends \PHPUnit_Framework_TestCase

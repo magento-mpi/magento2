@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Layer\Filter;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
@@ -25,9 +24,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_factory = $objectManagerHelper->getObject('Magento\Catalog\Model\Layer\Filter\Factory', array(
-            'objectManager' => $this->_objectManagerMock,
-        ));
+        $this->_factory = $objectManagerHelper->getObject(
+            'Magento\Catalog\Model\Layer\Filter\Factory',
+            array('objectManager' => $this->_objectManagerMock)
+        );
     }
 
     public function testCreate()
@@ -35,8 +35,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $className = 'Magento\Catalog\Model\Layer\Filter\AbstractFilter';
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, array())
-            ->will($this->returnValue($filterMock));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $className,
+            array()
+        )->will(
+            $this->returnValue($filterMock)
+        );
 
         $this->assertEquals($filterMock, $this->_factory->create($className));
     }
@@ -47,8 +55,16 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $arguments = array('foo', 'bar');
 
         $filterMock = $this->getMock($className, array(), array(), '', false);
-        $this->_objectManagerMock->expects($this->once())->method('create')->with($className, $arguments)
-            ->will($this->returnValue($filterMock));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $className,
+            $arguments
+        )->will(
+            $this->returnValue($filterMock)
+        );
 
         $this->assertEquals($filterMock, $this->_factory->create($className, $arguments));
     }

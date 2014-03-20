@@ -19,7 +19,6 @@ namespace Magento\Core\Model\Config;
 
 class Element extends \Magento\Simplexml\Element
 {
-
     /**
      * Enter description here...
      *
@@ -29,7 +28,7 @@ class Element extends \Magento\Simplexml\Element
      */
     public function is($var, $value = true)
     {
-        $flag = $this->$var;
+        $flag = $this->{$var};
 
         if ($value === true) {
             $flag = strtolower((string)$flag);
@@ -40,7 +39,7 @@ class Element extends \Magento\Simplexml\Element
             }
         }
 
-        return !empty($flag) && (0 === strcasecmp($value, (string)$flag));
+        return !empty($flag) && 0 === strcasecmp($value, (string)$flag);
     }
 
     /**
@@ -59,5 +58,4 @@ class Element extends \Magento\Simplexml\Element
         }
         return $model;
     }
-
 }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Model\Installer\Db;
 
 class Mysql4Test extends \PHPUnit_Framework_TestCase
@@ -27,17 +26,23 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
         $connectionMock->expects($this->once())->method('fetchPairs')->will($this->returnValue($supportedEngines));
 
         $adapterFactory = $this->getMock(
-            'Magento\Model\Resource\Type\Db\Pdo\MysqlFactory', array('create'), array(), '', false
+            'Magento\Model\Resource\Type\Db\Pdo\MysqlFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
         $adapterMock = $this->getMock(
-            'Magento\Model\Resource\Type\Db\Pdo\Mysql', array('getConnection'), array(), '', false
+            'Magento\Model\Resource\Type\Db\Pdo\Mysql',
+            array('getConnection'),
+            array(),
+            '',
+            false
         );
         $adapterMock->expects($this->once())->method('getConnection')->will($this->returnValue($connectionMock));
         $adapterFactory->expects($this->once())->method('create')->will($this->returnValue($adapterMock));
 
-        $localConfig = $this->getMockBuilder('\Magento\App\Arguments')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $localConfig = $this->getMockBuilder('\Magento\App\Arguments')->disableOriginalConstructor()->getMock();
 
         $installer = new \Magento\Install\Model\Installer\Db\Mysql4($adapterFactory, $localConfig);
         $this->assertEquals($expectedResult, $installer->supportEngine());
@@ -50,8 +55,8 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
     public function possibleEngines()
     {
         return array(
-            array(array('InnoDB' => 'DEFAULT'),  true),
-            array(array('InnoDB' => 'YES'),      true),
+            array(array('InnoDB' => 'DEFAULT'), true),
+            array(array('InnoDB' => 'YES'), true),
             array(array('wrongEngine' => '123'), false)
         );
     }
@@ -66,13 +71,14 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
     public function testGetRequiredExtensions($config, $dbExtensions, $expectedResult)
     {
         $adapterFactory = $this->getMock(
-            'Magento\Model\Resource\Type\Db\Pdo\MysqlFactory', array('create'), array(), '', false
+            'Magento\Model\Resource\Type\Db\Pdo\MysqlFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
-        $localConfig =
-            $this->getMockBuilder('\Magento\App\Arguments')->disableOriginalConstructor()->getMock();
-        $installer = new \Magento\Install\Model\Installer\Db\Mysql4(
-            $adapterFactory, $localConfig, $dbExtensions
-        );
+        $localConfig = $this->getMockBuilder('\Magento\App\Arguments')->disableOriginalConstructor()->getMock();
+        $installer = new \Magento\Install\Model\Installer\Db\Mysql4($adapterFactory, $localConfig, $dbExtensions);
         $installer->setConfig($config);
         $this->assertEquals($expectedResult, $installer->getRequiredExtensions());
     }
@@ -85,11 +91,7 @@ class Mysql4Test extends \PHPUnit_Framework_TestCase
     public function getRequiredExtensionsDataProvider()
     {
         return array(
-            'wrong model' => array(
-                array('db_model' => 'mysql66'),
-                array('mysql' => array('pdo_test1')),
-                array()
-            ),
+            'wrong model' => array(array('db_model' => 'mysql66'), array('mysql' => array('pdo_test1')), array()),
             'full extensions' => array(
                 array('db_model' => 'mysql'),
                 array('mysql' => array('pdo' => 'pdo_ext1', 'pdo_ext2', 'pdo2' => 'pdo_ext3')),

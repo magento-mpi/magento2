@@ -8,6 +8,7 @@
 namespace Magento\Integration\Model;
 
 use Magento\Integration\Model\Cache\Type;
+
 /**
  * Integration Config Model.
  *
@@ -38,10 +39,8 @@ class Config
      * @param Cache\Type $configCacheType
      * @param Config\Reader $configReader
      */
-    public function __construct(
-        Cache\Type $configCacheType,
-        Config\Reader $configReader
-    ) {
+    public function __construct(Cache\Type $configCacheType, Config\Reader $configReader)
+    {
         $this->_configCacheType = $configCacheType;
         $this->_configReader = $configReader;
     }

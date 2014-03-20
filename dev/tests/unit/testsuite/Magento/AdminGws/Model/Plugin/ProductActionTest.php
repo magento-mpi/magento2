@@ -33,13 +33,9 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
 
     public function testBeforeUpdateWebsitesDoesNotCheckWebsiteAccessWhenRoleIsNotRestricted()
     {
-        $this->roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(true));
-        $this->roleMock->expects($this->never())
-            ->method('getIsWebsiteLevel');
-        $this->roleMock->expects($this->never())
-            ->method('hasWebsiteAccess');
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(true));
+        $this->roleMock->expects($this->never())->method('getIsWebsiteLevel');
+        $this->roleMock->expects($this->never())->method('hasWebsiteAccess');
         $this->model->beforeUpdateWebsites($this->subjectMock, array(), array(), 'type');
     }
 
@@ -56,17 +52,25 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
         $hasWebsiteAccess,
         $actionType
     ) {
-        $this->roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(false));
-        $this->roleMock->expects($this->any())
-            ->method('getIsWebsiteLevel')
-            ->will($this->returnValue($isWebsiteLevelRole));
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
+        $this->roleMock->expects(
+            $this->any()
+        )->method(
+            'getIsWebsiteLevel'
+        )->will(
+            $this->returnValue($isWebsiteLevelRole)
+        );
         $websiteIds = array(1);
-        $this->roleMock->expects($this->any())
-            ->method('hasWebsiteAccess')
-            ->with($websiteIds, true)
-            ->will($this->returnValue($hasWebsiteAccess));
+        $this->roleMock->expects(
+            $this->any()
+        )->method(
+            'hasWebsiteAccess'
+        )->with(
+            $websiteIds,
+            true
+        )->will(
+            $this->returnValue($hasWebsiteAccess)
+        );
         $this->model->beforeUpdateWebsites($this->subjectMock, array(), $websiteIds, $actionType);
     }
 
@@ -78,23 +82,25 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
             array(false, false, 'remove'),
             array(true, false, 'add'),
             array(false, true, 'add'),
-            array(false, false, 'add'),
+            array(false, false, 'add')
         );
     }
 
     public function testBeforeUpdateWebsitesDoesNotThrowExceptionWhenUserHasAccessToGivenWebsites()
     {
-        $this->roleMock->expects($this->once())
-            ->method('getIsAll')
-            ->will($this->returnValue(false));
-        $this->roleMock->expects($this->once())
-            ->method('getIsWebsiteLevel')
-            ->will($this->returnValue(true));
+        $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
+        $this->roleMock->expects($this->once())->method('getIsWebsiteLevel')->will($this->returnValue(true));
         $websiteIds = array(1);
-        $this->roleMock->expects($this->once())
-            ->method('hasWebsiteAccess')
-            ->with($websiteIds, true)
-            ->will($this->returnValue(true));
+        $this->roleMock->expects(
+            $this->once()
+        )->method(
+            'hasWebsiteAccess'
+        )->with(
+            $websiteIds,
+            true
+        )->will(
+            $this->returnValue(true)
+        );
         $this->model->beforeUpdateWebsites($this->subjectMock, array(), $websiteIds, 'add');
     }
 }

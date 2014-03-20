@@ -9,8 +9,7 @@
  */
 namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Grid;
 
-class UrlGenerator
-    extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
+class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
 {
     /**
      * @var \Magento\Registry
@@ -41,7 +40,7 @@ class UrlGenerator
     {
         $params = array();
         foreach ($this->_extraParamsTemplate as $paramKey => $paramValueMethod) {
-            $params[$paramKey] = $this->_registryManager->registry('current_customer_segment')->$paramValueMethod();
+            $params[$paramKey] = $this->_registryManager->registry('current_customer_segment')->{$paramValueMethod}();
         }
         return array_merge($this->_params, $params);
     }

@@ -23,15 +23,23 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
      *
      * @var $_tables array
      */
-    protected $_tables   = array(
-        \Magento\SalesArchive\Model\ArchivalList::ORDER
-            => array('sales_flat_order_grid', 'magento_sales_order_grid_archive'),
-        \Magento\SalesArchive\Model\ArchivalList::INVOICE
-            => array('sales_flat_invoice_grid', 'magento_sales_invoice_grid_archive'),
-        \Magento\SalesArchive\Model\ArchivalList::SHIPMENT
-            => array('sales_flat_shipment_grid', 'magento_sales_shipment_grid_archive'),
-        \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO
-            => array('sales_flat_creditmemo_grid', 'magento_sales_creditmemo_grid_archive')
+    protected $_tables = array(
+        \Magento\SalesArchive\Model\ArchivalList::ORDER => array(
+            'sales_flat_order_grid',
+            'magento_sales_order_grid_archive'
+        ),
+        \Magento\SalesArchive\Model\ArchivalList::INVOICE => array(
+            'sales_flat_invoice_grid',
+            'magento_sales_invoice_grid_archive'
+        ),
+        \Magento\SalesArchive\Model\ArchivalList::SHIPMENT => array(
+            'sales_flat_shipment_grid',
+            'magento_sales_shipment_grid_archive'
+        ),
+        \Magento\SalesArchive\Model\ArchivalList::CREDITMEMO => array(
+            'sales_flat_creditmemo_grid',
+            'magento_sales_creditmemo_grid_archive'
+        )
     );
 
     /**
@@ -137,9 +145,13 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
             $ids = array($ids);
         }
 
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getArchiveEntityTable($archiveEntity), 'entity_id')
-            ->where('entity_id IN(?)', $ids);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getArchiveEntityTable($archiveEntity),
+            'entity_id'
+        )->where(
+            'entity_id IN(?)',
+            $ids
+        );
 
         return $this->_getReadAdapter()->fetchCol($select);
     }
@@ -154,7 +166,7 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
     public function getOrderIdsForArchive($orderIds = array(), $useAge = false)
     {
         $statuses = $this->_salesArchiveConfig->getArchiveOrderStatuses();
-        $archiveAge = ($useAge ? $this->_salesArchiveConfig->getArchiveAge() : 0);
+        $archiveAge = $useAge ? $this->_salesArchiveConfig->getArchiveAge() : 0;
 
         if (empty($statuses)) {
             return array();
@@ -178,13 +190,13 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $table = $this->getArchiveEntitySourceTable(\Magento\SalesArchive\Model\ArchivalList::ORDER);
-        $select = $adapter->select()
-            ->from($table, 'entity_id')
-            ->where('status IN(?)', $statuses);
+        $select = $adapter->select()->from($table, 'entity_id')->where('status IN(?)', $statuses);
 
-        if ($archiveAge) { // Check archive age
-            $archivePeriodExpr = $adapter->getDateSubSql($adapter->quote($this->dateTime->formatDate(true)),
-                (int) $archiveAge,
+        if ($archiveAge) {
+            // Check archive age
+            $archivePeriodExpr = $adapter->getDateSubSql(
+                $adapter->quote($this->dateTime->formatDate(true)),
+                (int)$archiveAge,
                 \Magento\DB\Adapter\AdapterInterface::INTERVAL_DAY
             );
             $select->where($archivePeriodExpr . ' >= updated_at');
@@ -233,9 +245,7 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
         );
 
         $fieldCondition = $adapter->quoteIdentifier($conditionField) . ' IN(?)';
-        $select = $adapter->select()
-            ->from($sourceTable, $insertFields)
-            ->where($fieldCondition, $conditionValue);
+        $select = $adapter->select()->from($sourceTable, $insertFields)->where($fieldCondition, $conditionValue);
 
         $adapter->query($select->insertFromSelect($targetTable, $insertFields, true));
         return $this;
@@ -304,8 +314,7 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
             );
         }
 
-        $select = $adapter->select()
-            ->from($sourceTable, $selectFields);
+        $select = $adapter->select()->from($sourceTable, $selectFields);
 
         if (!empty($conditionField)) {
             $select->where($adapter->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue);
@@ -313,13 +322,11 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
 
         $adapter->query($select->insertFromSelect($targetTable, $insertFields, true));
         if ($conditionValue instanceof \Zend_Db_Expr) {
-            $select->reset()
-                ->from($targetTable, $sourceResource->getIdFieldName()); // Remove order grid records from archive
+            $select->reset()->from($targetTable, $sourceResource->getIdFieldName());
+            // Remove order grid records from archive
             $condition = $adapter->quoteInto($sourceResource->getIdFieldName() . ' IN(?)', new \Zend_Db_Expr($select));
         } elseif (!empty($conditionField)) {
-            $condition = $adapter->quoteInto(
-                $adapter->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue
-            );
+            $condition = $adapter->quoteInto($adapter->quoteIdentifier($conditionField) . ' IN(?)', $conditionValue);
         } else {
             $condition = '';
         }
@@ -344,9 +351,9 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
         /* @var $resource \Magento\Sales\Model\Resource\AbstractResource */
         $resource = $this->_archivalList->getResource($archiveEntity);
 
-        $gridColumns = array_keys($this->_getWriteAdapter()->describeTable(
-            $this->getArchiveEntityTable($archiveEntity)
-        ));
+        $gridColumns = array_keys(
+            $this->_getWriteAdapter()->describeTable($this->getArchiveEntityTable($archiveEntity))
+        );
 
         $columnsToSelect = array();
 
@@ -375,14 +382,18 @@ class Archive extends \Magento\Model\Resource\Db\AbstractDb
         /** @var $resource \Magento\Sales\Model\Resource\AbstractResource */
         $resource = $this->_archivalList->getResource($archiveEntity);
 
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('main_table' => $resource->getMainTable()), 'entity_id')
-            ->joinInner( // Filter by archived order
-                array('order_archive' => $this->getArchiveEntityTable('order')),
-                'main_table.order_id = order_archive.entity_id',
-                array()
-            )
-            ->where('main_table.entity_id IN(?)', $ids);
+        $select = $this->_getReadAdapter()->select()->from(
+            array('main_table' => $resource->getMainTable()),
+            'entity_id'
+        )->joinInner(
+            // Filter by archived order
+            array('order_archive' => $this->getArchiveEntityTable('order')),
+            'main_table.order_id = order_archive.entity_id',
+            array()
+        )->where(
+            'main_table.entity_id IN(?)',
+            $ids
+        );
 
         return $this->_getReadAdapter()->fetchCol($select);
     }

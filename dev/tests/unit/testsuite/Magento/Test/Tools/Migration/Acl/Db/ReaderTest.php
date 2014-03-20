@@ -7,12 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Tools\Migration\Acl\Db;
 
-require_once realpath(__DIR__ . '/../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/Acl/Db/Reader.php';
 
+require_once realpath(__DIR__ . '/../../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Reader.php';
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -49,10 +47,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchAll()
     {
-        $expected = array(
-            'all' => 10,
-            'catalog' => 100,
-        );
+        $expected = array('all' => 10, 'catalog' => 100);
         $selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);
         $this->_adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
         $selectMock->expects($this->once())->method('from')->will($this->returnSelf());
@@ -63,4 +58,3 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 }
-

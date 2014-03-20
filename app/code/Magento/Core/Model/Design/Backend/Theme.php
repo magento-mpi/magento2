@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Design\Backend;
 
 class Theme extends \Magento\Core\Model\Config\Value

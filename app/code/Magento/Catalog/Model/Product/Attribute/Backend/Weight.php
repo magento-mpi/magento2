@@ -20,7 +20,6 @@ namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 class Weight extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
-
     /**
      * Validate
      *
@@ -33,9 +32,7 @@ class Weight extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $attrCode = $this->getAttribute()->getAttributeCode();
         $value = $object->getData($attrCode);
         if (!empty($value) && !\Zend_Validate::is($value, 'Between', array('min' => 0, 'max' => 99999999.9999))) {
-            throw new \Magento\Model\Exception(
-                __('Please enter a number 0 or greater in this field.')
-            );
+            throw new \Magento\Model\Exception(__('Please enter a number 0 or greater in this field.'));
         }
         return true;
     }

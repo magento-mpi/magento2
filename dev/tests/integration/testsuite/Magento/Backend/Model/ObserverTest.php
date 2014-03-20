@@ -8,8 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Model;
 
 /**
@@ -25,16 +23,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Observer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Backend\Model\Observer'
+        );
     }
 
     public function testActionPreDispatchAdminNotLogged()
     {
         $this->markTestSkipped('Skipped because of authentication process moved into base controller.');
 
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\RequestInterface');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\RequestInterface');
         $this->assertEmpty($request->getRouteName());
         $this->assertEmpty($request->getControllerName());
         $this->assertEmpty($request->getActionName());
@@ -61,8 +59,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertTrue($code >= 300 && $code < 400);
 
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Auth\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\Auth\Session'
+        );
         $this->assertTrue($session->isLoggedIn());
     }
 
@@ -81,8 +80,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $code = $response->getHttpResponseCode();
         $this->assertFalse($code >= 300 && $code < 400);
 
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Auth\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\Auth\Session'
+        );
         $this->assertTrue($session->isLoggedIn());
     }
 
@@ -93,8 +93,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _buildObserver()
     {
-        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\RequestInterface');
+        $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\RequestInterface');
         $request->setPost(
             'login',
             array(

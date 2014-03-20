@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\Source\Decorator;
 
 use Magento\View\Layout\File\SourceInterface;
@@ -45,10 +44,8 @@ class ModuleDependency implements SourceInterface
      * @param SourceInterface $subject
      * @param ModuleListInterface $listInterface
      */
-    public function __construct(
-        SourceInterface $subject,
-        ModuleListInterface $listInterface
-    ) {
+    public function __construct(SourceInterface $subject, ModuleListInterface $listInterface)
+    {
         $this->subject = $subject;
         $this->moduleList = $listInterface;
     }
@@ -84,7 +81,7 @@ class ModuleDependency implements SourceInterface
         if ($moduleOnePriority == $moduleTwoPriority) {
             return strcmp($fileOne->getModule(), $fileTwo->getModule());
         }
-        return ($moduleOnePriority < $moduleTwoPriority ? -1 : 1);
+        return $moduleOnePriority < $moduleTwoPriority ? -1 : 1;
     }
 
     /**

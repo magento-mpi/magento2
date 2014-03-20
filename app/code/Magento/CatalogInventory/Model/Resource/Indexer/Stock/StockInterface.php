@@ -41,7 +41,6 @@ interface StockInterface
      */
     public function setTypeId($typeId);
 
-
     /**
      * Retrieve Product Type Id for indexer
      *

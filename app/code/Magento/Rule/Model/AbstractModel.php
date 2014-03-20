@@ -310,7 +310,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
                 foreach ($value as $id => $data) {
                     $path = explode('--', $id);
                     $node =& $arr;
-                    for ($i = 0, $l = sizeof($path); $i < $l; $i++) {
+                    for ($i = 0,$l = sizeof($path); $i < $l; $i++) {
                         if (!isset($node[$key][$path[$i]])) {
                             $node[$key][$path[$i]] = array();
                         }
@@ -358,7 +358,7 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
      */
     public function validateData(\Magento\Object $object)
     {
-        $result   = array();
+        $result = array();
         $fromDate = $toDate = null;
 
         if ($object->hasFromDate() && $object->hasToDate()) {
@@ -448,9 +448,6 @@ abstract class AbstractModel extends \Magento\Model\AbstractModel
         }
         return $this->_getData('website_ids');
     }
-
-
-
 
     /**
      * @param string $format

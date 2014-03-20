@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Attribute;
 
 interface LockValidatorInterface
@@ -22,4 +21,4 @@ interface LockValidatorInterface
      * @return void
      */
     public function validate(\Magento\Model\AbstractModel $object, $attributeSet = null);
-} 
+}

@@ -203,8 +203,8 @@ class Item extends \Magento\Model\AbstractModel implements \Magento\Object\Ident
     {
         $data = array();
         $data['customer_id'] = $this->getCustomerId();
-        $data['visitor_id']  = $this->getVisitorId();
-        $data['product_id']  = $this->getProductId();
+        $data['visitor_id'] = $this->getVisitorId();
+        $data['product_id'] = $this->getProductId();
 
         return $data;
     }

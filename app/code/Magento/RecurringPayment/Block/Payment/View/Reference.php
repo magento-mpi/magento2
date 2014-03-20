@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -45,10 +44,12 @@ class Reference extends \Magento\RecurringPayment\Block\Payment\View
 
         $this->_shouldRenderInfo = true;
         foreach (array('method_code', 'reference_id', 'schedule_description', 'state') as $key) {
-            $this->_addInfo(array(
-                'label' => $this->_fields->getFieldLabel($key),
-                'value' => $this->_recurringPayment->renderData($key),
-            ));
+            $this->_addInfo(
+                array(
+                    'label' => $this->_fields->getFieldLabel($key),
+                    'value' => $this->_recurringPayment->renderData($key)
+                )
+            );
         }
     }
 }

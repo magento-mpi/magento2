@@ -23,7 +23,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      *
      * @var bool
      */
-    protected $_isTableJoined                       = false;
+    protected $_isTableJoined = false;
 
     /**
      * Collection initialization
@@ -44,23 +44,27 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function addStoreData($storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID)
     {
         $infoTable = $this->getTable('magento_giftregistry_type_info');
-        $adapter   = $this->getConnection();
+        $adapter = $this->getConnection();
 
         $select = $adapter->select();
-        $select->from(array('m' => $this->getMainTable()))
-            ->joinInner(
-                array('d' => $infoTable),
-                $adapter->quoteInto('m.type_id = d.type_id AND d.store_id = ?',
-                    \Magento\Core\Model\Store::DEFAULT_STORE_ID),
-                array())
-            ->joinLeft(
-                array('s' => $infoTable),
-                $adapter->quoteInto('s.type_id = m.type_id AND s.store_id = ?', (int)$storeId),
-                array(
-                    'label'     => $adapter->getCheckSql('s.label IS NULL', 'd.label', 's.label'),
-                    'is_listed' => $adapter->getCheckSql('s.is_listed IS NULL', 'd.is_listed', 's.is_listed'),
-                    'sort_order'=> $adapter->getCheckSql('s.sort_order IS NULL', 'd.sort_order', 's.sort_order')
-            ));
+        $select->from(
+            array('m' => $this->getMainTable())
+        )->joinInner(
+            array('d' => $infoTable),
+            $adapter->quoteInto(
+                'm.type_id = d.type_id AND d.store_id = ?',
+                \Magento\Core\Model\Store::DEFAULT_STORE_ID
+            ),
+            array()
+        )->joinLeft(
+            array('s' => $infoTable),
+            $adapter->quoteInto('s.type_id = m.type_id AND s.store_id = ?', (int)$storeId),
+            array(
+                'label' => $adapter->getCheckSql('s.label IS NULL', 'd.label', 's.label'),
+                'is_listed' => $adapter->getCheckSql('s.is_listed IS NULL', 'd.is_listed', 's.is_listed'),
+                'sort_order' => $adapter->getCheckSql('s.sort_order IS NULL', 'd.sort_order', 's.sort_order')
+            )
+        );
 
         $this->getSelect()->reset()->from(array('main_table' => $select));
 
@@ -105,10 +109,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         $result = $this->_toOptionArray('type_id', 'label');
         if ($withEmpty) {
-            $result = array_merge(array(array(
-                'value' => '',
-                'label' => __('-- All --')
-            )), $result);
+            $result = array_merge(array(array('value' => '', 'label' => __('-- All --'))), $result);
         }
         return $result;
     }

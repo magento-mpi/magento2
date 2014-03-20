@@ -110,14 +110,17 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _addQtyItemsData()
     {
-        $select = $this->getConnection()->select()
-            ->from(array('item' => $this->getTable('magento_giftregistry_item')), array(
+        $select = $this->getConnection()->select()->from(
+            array('item' => $this->getTable('magento_giftregistry_item')),
+            array(
                 'entity_id',
-                'qty'           => new \Zend_Db_Expr('SUM(item.qty)'),
+                'qty' => new \Zend_Db_Expr('SUM(item.qty)'),
                 'qty_fulfilled' => new \Zend_Db_Expr('SUM(item.qty_fulfilled)'),
                 'qty_remaining' => new \Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
-            ))
-            ->group('entity_id');
+            )
+        )->group(
+            'entity_id'
+        );
 
         $this->getSelect()->joinLeft(
             array('items' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
@@ -150,9 +153,12 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     protected function _addRegistrantData()
     {
-        $select = $this->getConnection()->select()
-            ->from($this->getTable('magento_giftregistry_person'), array('entity_id'))
-            ->group('entity_id');
+        $select = $this->getConnection()->select()->from(
+            $this->getTable('magento_giftregistry_person'),
+            array('entity_id')
+        )->group(
+            'entity_id'
+        );
 
         /** @var \Magento\DB\Helper $helper */
         $helper = $this->helperFactory->create();
@@ -176,11 +182,20 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function applySearchFilters($params)
     {
         $adapter = $this->getConnection();
-        $select  = $adapter->select();
-        $select->from(array('m' => $this->getMainTable()), array('*'))
-            ->where('m.is_public = ?', 1)
-            ->where('m.is_active = ?', 1)
-            ->where('m.website_id = ?', (int)$this->storeManager->getStore()->getWebsiteId());
+        $select = $adapter->select();
+        $select->from(
+            array('m' => $this->getMainTable()),
+            array('*')
+        )->where(
+            'm.is_public = ?',
+            1
+        )->where(
+            'm.is_active = ?',
+            1
+        )->where(
+            'm.website_id = ?',
+            (int)$this->storeManager->getStore()->getWebsiteId()
+        );
 
         /*
          * Join registry type store label
@@ -193,7 +208,10 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $typeExpr = $adapter->getCheckSql('i2.label IS NULL', 'i1.label', 'i2.label');
         $select->joinLeft(
             array('i2' => $this->getTable('magento_giftregistry_type_info')),
-            $adapter->quoteInto('i2.type_id = m.type_id AND i2.store_id = ?', (int)$this->storeManager->getStore()->getId()),
+            $adapter->quoteInto(
+                'i2.type_id = m.type_id AND i2.store_id = ?',
+                (int)$this->storeManager->getStore()->getId()
+            ),
             array('type' => $typeExpr)
         );
 
@@ -255,7 +273,8 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
         $select->group('m.entity_id');
         $this->getSelect()->reset()->from(
-            array('main_table' => new \Zend_Db_Expr(sprintf('(%s)', $select))), array('*')
+            array('main_table' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
+            array('*')
         );
 
         return $this;

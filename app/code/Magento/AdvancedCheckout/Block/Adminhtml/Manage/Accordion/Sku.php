@@ -40,8 +40,9 @@ class Sku extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku
     public function getAdditionalJavascript()
     {
         // Origin of configure popup HTML
-        $js = $this->getJsOrderObject() . ".addSourceGrid({htmlId: \"{$this->getId()}\", "
-            . "listType: \"{$this->getListType()}\"});";
+        $js = $this->getJsOrderObject() .
+            ".addSourceGrid({htmlId: \"{$this->getId()}\", " .
+            "listType: \"{$this->getListType()}\"});";
         $js .= $this->getJsOrderObject() . ".addNoCleanSource('{$this->getId()}');";
         $js .= 'addBySku.observeAddToCart();';
         return $js;

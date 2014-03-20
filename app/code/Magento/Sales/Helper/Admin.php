@@ -49,7 +49,7 @@ class Admin extends \Magento\App\Helper\AbstractHelper
     {
         return $this->displayPrices(
             $dataObject,
-            $dataObject->getData('base_'.$code),
+            $dataObject->getData('base_' . $code),
             $dataObject->getData($code),
             $strong,
             $separator
@@ -77,18 +77,18 @@ class Admin extends \Magento\App\Helper\AbstractHelper
 
         if ($order && $order->isCurrencyDifferent()) {
             $res = '<strong>';
-            $res.= $order->formatBasePrice($basePrice);
-            $res.= '</strong>'.$separator;
-            $res.= '['.$order->formatPrice($price).']';
+            $res .= $order->formatBasePrice($basePrice);
+            $res .= '</strong>' . $separator;
+            $res .= '[' . $order->formatPrice($price) . ']';
         } elseif ($order) {
             $res = $order->formatPrice($price);
             if ($strong) {
-                $res = '<strong>'.$res.'</strong>';
+                $res = '<strong>' . $res . '</strong>';
             }
         } else {
             $res = $this->_storeManager->getStore()->formatPrice($price);
             if ($strong) {
-                $res = '<strong>'.$res.'</strong>';
+                $res = '<strong>' . $res . '</strong>';
             }
         }
         return $res;
@@ -103,7 +103,7 @@ class Admin extends \Magento\App\Helper\AbstractHelper
     public function applySalableProductTypesFilter($collection)
     {
         $productTypes = $this->_salesConfig->getAvailableProductTypes();
-        foreach($collection->getItems() as $key => $item) {
+        foreach ($collection->getItems() as $key => $item) {
             if ($item instanceof \Magento\Catalog\Model\Product) {
                 $type = $item->getTypeId();
             } else if ($item instanceof \Magento\Sales\Model\Order\Item) {

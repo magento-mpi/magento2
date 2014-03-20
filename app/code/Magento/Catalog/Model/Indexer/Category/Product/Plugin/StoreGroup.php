@@ -17,9 +17,8 @@ class StoreGroup
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
-    public function __construct(
-        \Magento\Indexer\Model\IndexerInterface $indexer
-    ) {
+    public function __construct(\Magento\Indexer\Model\IndexerInterface $indexer)
+    {
         $this->indexer = $indexer;
     }
 
@@ -64,7 +63,10 @@ class StoreGroup
      */
     protected function validate(\Magento\Model\AbstractModel $group)
     {
-        return ($group->dataHasChangedFor('website_id') || $group->dataHasChangedFor('root_category_id'))
-            && !$group->isObjectNew();
+        return ($group->dataHasChangedFor(
+            'website_id'
+        ) || $group->dataHasChangedFor(
+            'root_category_id'
+        )) && !$group->isObjectNew();
     }
 }

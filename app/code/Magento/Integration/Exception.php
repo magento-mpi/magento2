@@ -11,5 +11,4 @@ namespace Magento\Integration;
 
 class Exception extends \Magento\Model\Exception
 {
-
 }

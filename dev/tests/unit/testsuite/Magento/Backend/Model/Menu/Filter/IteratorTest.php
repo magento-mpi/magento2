@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Menu\Filter;
 
 class IteratorTest extends \PHPUnit_Framework_TestCase
@@ -48,9 +47,10 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
         $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         $this->_menuModel = new \Magento\Backend\Model\Menu($loggerMock);
-        $this->_filterIteratorModel = new \Magento\Backend\Model\Menu\Filter\Iterator($this->_menuModel->getIterator());
+        $this->_filterIteratorModel = new \Magento\Backend\Model\Menu\Filter\Iterator(
+            $this->_menuModel->getIterator()
+        );
     }
-
 
     public function testLoopWithAllItemsDisabledDoesntIterate()
     {

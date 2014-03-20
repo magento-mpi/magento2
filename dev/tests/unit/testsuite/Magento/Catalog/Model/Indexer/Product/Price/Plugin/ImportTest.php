@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
 class ImportTest extends \PHPUnit_Framework_TestCase
@@ -33,7 +32,11 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_indexerMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer',
+            array('getId', 'invalidate'),
+            array(),
+            '',
+            false
         );
         $this->_indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
 
@@ -45,8 +48,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterImportSource()
     {
-        $this->_indexerMock->expects($this->once())
-            ->method('invalidate');
+        $this->_indexerMock->expects($this->once())->method('invalidate');
 
         $importMock = $this->getMock('Magento\ImportExport\Model\Import', array(), array(), '', false);
         $this->assertEquals('return_value', $this->_model->afterImportSource($importMock, 'return_value'));

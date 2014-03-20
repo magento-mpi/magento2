@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -41,7 +40,6 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\AuthorizationInterface $authorization
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -63,13 +61,27 @@ class Context extends \Magento\View\Element\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\AuthorizationInterface $authorization,
-        array $data = array()
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_authorization = $authorization;
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $sidResolver,
-            $storeConfig, $viewUrl, $viewConfig, $cacheState, $logger, $escaper, $filterManager, $localeDate, $data
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $sidResolver,
+            $storeConfig,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $logger,
+            $escaper,
+            $filterManager,
+            $localeDate
         );
     }
 

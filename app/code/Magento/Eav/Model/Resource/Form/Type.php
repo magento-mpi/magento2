@@ -29,10 +29,9 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('eav_form_type', 'type_id');
-        $this->addUniqueField(array(
-            'field' => array('code', 'theme', 'store_id'),
-            'title' => __('Form Type with the same code')
-        ));
+        $this->addUniqueField(
+            array('field' => array('code', 'theme', 'store_id'), 'title' => __('Form Type with the same code'))
+        );
     }
 
     /**
@@ -64,10 +63,13 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
             return array();
         }
         $adapter = $this->_getReadAdapter();
-        $bind    = array(':type_id' => $objectId);
-        $select  = $adapter->select()
-            ->from($this->getTable('eav_form_type_entity'), 'entity_type_id')
-            ->where('type_id = :type_id');
+        $bind = array(':type_id' => $objectId);
+        $select = $adapter->select()->from(
+            $this->getTable('eav_form_type_entity'),
+            'entity_type_id'
+        )->where(
+            'type_id = :type_id'
+        );
 
         return $adapter->fetchCol($select, $bind);
     }
@@ -89,7 +91,7 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
             $insert = array_diff($new, $old);
             $delete = array_diff($old, $new);
 
-            $adapter  = $this->_getWriteAdapter();
+            $adapter = $this->_getWriteAdapter();
 
             if (!empty($insert)) {
                 $data = array();
@@ -97,10 +99,7 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
                     if (empty($entityId)) {
                         continue;
                     }
-                    $data[] = array(
-                        'entity_type_id' => (int)$entityId,
-                        'type_id'        => $object->getId()
-                    );
+                    $data[] = array('entity_type_id' => (int)$entityId, 'type_id' => $object->getId());
                 }
                 if ($data) {
                     $adapter->insertMultiple($this->getTable('eav_form_type_entity'), $data);
@@ -108,10 +107,7 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
             }
 
             if (!empty($delete)) {
-                $where = array(
-                    'entity_type_id IN (?)' => $delete,
-                    'type_id = ?'           => $object->getId()
-                );
+                $where = array('entity_type_id IN (?)' => $delete, 'type_id = ?' => $object->getId());
                 $adapter->delete($this->getTable('eav_form_type_entity'), $where);
             }
         }
@@ -133,10 +129,12 @@ class Type extends \Magento\Model\Resource\Db\AbstractDb
         if (!$attribute) {
             return array();
         }
-        $bind   = array(':attribute_id' => $attribute);
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('eav_form_element'))
-            ->where('attribute_id = :attribute_id');
+        $bind = array(':attribute_id' => $attribute);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('eav_form_element')
+        )->where(
+            'attribute_id = :attribute_id'
+        );
 
         return $this->_getReadAdapter()->fetchAll($select, $bind);
     }

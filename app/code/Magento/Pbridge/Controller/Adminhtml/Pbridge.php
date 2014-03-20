@@ -56,11 +56,15 @@ class Pbridge extends \Magento\Backend\App\Action
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
+            $methodInstance = $this->_objectManager->get(
+                'Magento\Payment\Helper\Data'
+            )->getMethodInstance(
+                $methodCode
+            );
             if ($methodInstance) {
                 $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
-                if($this->getRequest()->getParam('data')) {
+                if ($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));
                 }
                 if ($block) {
@@ -80,7 +84,11 @@ class Pbridge extends \Magento\Backend\App\Action
     public function resultAction()
     {
         if ($this->getRequest()->getParam('store')) {
-            $this->_objectManager->get('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
+            $this->_objectManager->get(
+                'Magento\Pbridge\Helper\Data'
+            )->setStoreId(
+                $this->getRequest()->getParam('store')
+            );
         }
         $this->_initActionLayout();
         $this->_view->renderLayout();

@@ -25,8 +25,11 @@ class Code extends \Magento\Model\AbstractModel
      * Entity types
      */
     const ENTITY_TYPE_PRODUCT = 'product';
+
     const ENTITY_TYPE_CATEGORY = 'category';
+
     const ENTITY_TYPE_PAGE = 'cms';
+
     /**#@-*/
 
     /**

@@ -18,8 +18,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class Ogone
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Ogone extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Payment code

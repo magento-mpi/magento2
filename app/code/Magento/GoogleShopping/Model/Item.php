@@ -144,8 +144,7 @@ class Item extends \Magento\Model\AbstractModel
     public function insertItem(CatalogModelProduct $product)
     {
         $this->setProduct($product);
-        $this->getServiceItem()
-            ->insert($this);
+        $this->getServiceItem()->insert($this);
         $this->setTypeId($this->getType()->getTypeId());
 
         return $this;
@@ -159,8 +158,7 @@ class Item extends \Magento\Model\AbstractModel
     public function updateItem()
     {
         if ($this->getId()) {
-            $this->getServiceItem()
-                ->update($this);
+            $this->getServiceItem()->update($this);
         }
         return $this;
     }

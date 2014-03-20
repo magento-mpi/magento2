@@ -45,7 +45,8 @@ class QueueHandler
      * @param JobFactoryInterface $jobFactory
      * @param CollectionInterface $subscriptionSet
      */
-    public function __construct(QueueReaderInterface $eventQueue,
+    public function __construct(
+        QueueReaderInterface $eventQueue,
         JobQueueWriterInterface $jobQueue,
         JobFactoryInterface $jobFactory,
         CollectionInterface $subscriptionSet

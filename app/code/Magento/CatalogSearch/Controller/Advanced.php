@@ -24,7 +24,6 @@ use Magento\UrlFactory;
 
 class Advanced extends \Magento\App\Action\Action
 {
-
     /**
      * Url factory
      *
@@ -86,9 +85,11 @@ class Advanced extends \Magento\App\Action\Action
             $this->_catalogSearchAdvanced->addFilters($this->getRequest()->getQuery());
         } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $defaultUrl = $this->_urlFactory->create()
-                ->setQueryParams($this->getRequest()->getQuery())
-                ->getUrl('*/*/');
+            $defaultUrl = $this->_urlFactory->create()->setQueryParams(
+                $this->getRequest()->getQuery()
+            )->getUrl(
+                '*/*/'
+            );
             $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
         }
         $this->_view->renderLayout();

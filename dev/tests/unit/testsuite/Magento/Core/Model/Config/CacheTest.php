@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Config;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
@@ -30,8 +29,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_cacheMock = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false, false);
-        $this->_baseFactoryMock = $this->getMock('Magento\Core\Model\Config\BaseFactory',
-            array(), array(), '', false, false);
+        $this->_baseFactoryMock = $this->getMock(
+            'Magento\Core\Model\Config\BaseFactory',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
         $this->_model = new \Magento\Core\Model\Config\Cache($this->_cacheMock, $this->_baseFactoryMock);
     }
 
@@ -43,7 +48,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         unset($this->_baseFactoryMock);
         unset($this->_model);
     }
-
 
     public function testCacheLifetime()
     {
@@ -59,14 +63,23 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadWithConfig()
     {
-        $this->_cacheMock->expects($this->once())
-            ->method('load')
-            ->will($this->returnValue(array('sourceData' => 'test_config')));
+        $this->_cacheMock->expects(
+            $this->once()
+        )->method(
+            'load'
+        )->will(
+            $this->returnValue(array('sourceData' => 'test_config'))
+        );
 
-        $this->_baseFactoryMock->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo(array('sourceData' => 'test_config')))
-            ->will($this->returnValue('some_instance'));
+        $this->_baseFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo(array('sourceData' => 'test_config'))
+        )->will(
+            $this->returnValue('some_instance')
+        );
 
         $this->assertEquals('some_instance', $this->_model->load());
     }
@@ -84,8 +97,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testClean()
     {
-        $this->_cacheMock->expects($this->once())
-            ->method('clean');
+        $this->_cacheMock->expects($this->once())->method('clean');
         $this->_model->clean();
     }
 }

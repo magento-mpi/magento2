@@ -42,14 +42,13 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->join(
-                array('banner' => $this->getTable('magento_banner')),
-                'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-                array()
-            )
-            ->group('main_table.banner_id')
-        ;
+        $this->getSelect()->join(
+            array('banner' => $this->getTable('magento_banner')),
+            'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
+            array()
+        )->group(
+            'main_table.banner_id'
+        );
         return $this;
     }
 
@@ -62,15 +61,17 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)
     {
-        $this->getSelect()
-            ->join(
-                array('rule_group_website' => $this->getTable('catalogrule_group_website')),
-                'rule_group_website.rule_id = main_table.rule_id',
-                array()
-            )
-            ->where('rule_group_website.customer_group_id = ?', $customerGroupId)
-            ->where('rule_group_website.website_id = ?', $websiteId)
-        ;
+        $this->getSelect()->join(
+            array('rule_group_website' => $this->getTable('catalogrule_group_website')),
+            'rule_group_website.rule_id = main_table.rule_id',
+            array()
+        )->where(
+            'rule_group_website.customer_group_id = ?',
+            $customerGroupId
+        )->where(
+            'rule_group_website.website_id = ?',
+            $websiteId
+        );
         return $this;
     }
 }

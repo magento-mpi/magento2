@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Order;
 
 class OrderTest extends \PHPUnit_Framework_TestCase
@@ -26,9 +25,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $order->setCustomerEmail('customer@example.com');
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Payment\Helper\Data')
-            ->getInfoBlock($payment);
+        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Payment\Helper\Data'
+        )->getInfoBlock(
+            $payment
+        );
         $paymentInfoBlock->setArea('invalid-area');
         $payment->setBlockMock($paymentInfoBlock);
 

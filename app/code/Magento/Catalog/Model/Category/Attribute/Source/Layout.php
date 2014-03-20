@@ -30,9 +30,8 @@ class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      *
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageSourceLayout
      */
-    public function __construct(
-        \Magento\Theme\Model\Layout\Source\Layout $pageSourceLayout
-    ) {
+    public function __construct(\Magento\Theme\Model\Layout\Source\Layout $pageSourceLayout)
+    {
         $this->_pageSourceLayout = $pageSourceLayout;
     }
 
@@ -43,7 +42,7 @@ class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         if (!$this->_options) {
             $this->_options = $this->_pageSourceLayout->toOptionArray();
-            array_unshift($this->_options, array('value'=>'', 'label'=>__('No layout updates')));
+            array_unshift($this->_options, array('value' => '', 'label' => __('No layout updates')));
         }
         return $this->_options;
     }

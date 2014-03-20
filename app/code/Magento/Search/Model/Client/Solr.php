@@ -48,16 +48,11 @@ class Solr extends \Apache_Solr_Service
      */
     public function __construct($options = array())
     {
-        $_optionsNames = array(
-            'hostname',
-            'login',
-            'password',
-            'port',
-            'path'
-        );
+        $_optionsNames = array('hostname', 'login', 'password', 'port', 'path');
         if (!sizeof(array_intersect($_optionsNames, array_keys($options)))) {
             throw new \Magento\Model\Exception(
-                __('We were unable to perform the search because a search engine misconfiguration.'));
+                __('We were unable to perform the search because a search engine misconfiguration.')
+            );
         }
 
         $this->setUserLogin($options['login']);
@@ -80,7 +75,6 @@ class Solr extends \Apache_Solr_Service
     {
         parent::_initUrls();
         $this->_suggestionsUrl = $this->_constructUrl(self::SUGGESTIONS_SERVLET);
-
     }
 
     /**
@@ -115,8 +109,7 @@ class Solr extends \Apache_Solr_Service
 
         $rawPost = '<delete fromPending="' . $pendingValue . '" fromCommitted="' . $committedValue . '">';
 
-        foreach ($rawQueries as $query)
-        {
+        foreach ($rawQueries as $query) {
             //escape special xml characters
             $query = htmlspecialchars($query, ENT_NOQUOTES);
 
@@ -150,14 +143,13 @@ class Solr extends \Apache_Solr_Service
      * @param bool|float $timeout Read timeout in seconds
      * @return \Apache_Solr_Response
      */
-    protected function _sendRawGet($url, $timeout = FALSE)
+    protected function _sendRawGet($url, $timeout = false)
     {
         $this->_setAuthHeader($this->_getContext);
-        \Magento\Profiler::start('solr_send_raw_get', array(
-            'group' => 'solr',
-            'operation' => 'solr:_sendRawGet',
-            'host' => $this->getHost()
-        ));
+        \Magento\Profiler::start(
+            'solr_send_raw_get',
+            array('group' => 'solr', 'operation' => 'solr:_sendRawGet', 'host' => $this->getHost())
+        );
         $response = parent::_sendRawGet($url, $timeout);
         \Magento\Profiler::stop('solr_send_raw_get');
         return $response;
@@ -172,14 +164,13 @@ class Solr extends \Apache_Solr_Service
      * @param string $contentType
      * @return \Apache_Solr_Response
      */
-    protected function _sendRawPost($url, $rawPost, $timeout = FALSE, $contentType = 'text/xml; charset=UTF-8')
+    protected function _sendRawPost($url, $rawPost, $timeout = false, $contentType = 'text/xml; charset=UTF-8')
     {
         $this->_setAuthHeader($this->_postContext);
-        \Magento\Profiler::start('solr_send_raw_post', array(
-            'group' => 'solr',
-            'operation' => 'solr:_sendRawPost',
-            'host' => $this->getHost()
-        ));
+        \Magento\Profiler::start(
+            'solr_send_raw_post',
+            array('group' => 'solr', 'operation' => 'solr:_sendRawPost', 'host' => $this->getHost())
+        );
         $response = parent::_sendRawPost($url, $rawPost, $timeout, $contentType);
         \Magento\Profiler::stop('solr_send_raw_post');
         return $response;
@@ -193,8 +184,12 @@ class Solr extends \Apache_Solr_Service
      */
     protected function _setAuthHeader($context)
     {
-        stream_context_set_option($context, 'http', 'header',
-            'Authorization: Basic ' . base64_encode($this->getUserLogin() . ':' . $this->getPassword()));
+        stream_context_set_option(
+            $context,
+            'http',
+            'header',
+            'Authorization: Basic ' . base64_encode($this->getUserLogin() . ':' . $this->getPassword())
+        );
     }
 
     /**

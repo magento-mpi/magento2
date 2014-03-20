@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
@@ -39,10 +38,8 @@ class Factory
     public function create($model, array $data = array())
     {
         $modelInstance = $this->_objectManager->create($model, $data);
-        if (false == ($modelInstance instanceof \Magento\Model\AbstractModel)) {
-            throw new \InvalidArgumentException(
-                $model . ' is not instance of \Magento\Model\AbstractModel'
-            );
+        if (false == $modelInstance instanceof \Magento\Model\AbstractModel) {
+            throw new \InvalidArgumentException($model . ' is not instance of \Magento\Model\AbstractModel');
         }
         return $modelInstance;
     }

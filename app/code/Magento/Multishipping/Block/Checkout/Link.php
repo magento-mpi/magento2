@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Block\Checkout;
 
 /**
@@ -40,7 +39,7 @@ class Link extends \Magento\View\Element\Template
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('multishipping/checkout', array('_secure'=>true));
+        return $this->getUrl('multishipping/checkout', array('_secure' => true));
     }
 
     /**

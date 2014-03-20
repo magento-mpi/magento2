@@ -23,7 +23,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      *
      * @var bool
      */
-    protected $_allowFixedOnly   = false;
+    protected $_allowFixedOnly = false;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -46,7 +46,6 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_carrierFactory = $carrierFactory;
     }
-
 
     /**
      * Resource initialization

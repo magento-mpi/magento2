@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
@@ -60,8 +59,7 @@ class Login extends Form
     {
         if ($fixture->isRegisteredCustomer()) {
             $this->loginCustomer($fixture);
-        }
-        else if ($fixture->getCustomer()) {
+        } elseif ($fixture->getCustomer()) {
             $this->registerCustomer();
         } else {
             $this->guestCheckout();

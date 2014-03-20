@@ -31,10 +31,13 @@ class BannerSegmentLink extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadBannerSegments($bannerId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'segment_id')
-            ->where('banner_id = ?', $bannerId)
-        ;
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'segment_id'
+        )->where(
+            'banner_id = ?',
+            $bannerId
+        );
         return $this->_getReadAdapter()->fetchCol($select);
     }
 

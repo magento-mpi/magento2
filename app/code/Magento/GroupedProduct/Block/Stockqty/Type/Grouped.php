@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Stockqty\Type;
 
-class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite
-    implements \Magento\View\Block\IdentityInterface
+class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite implements
+    \Magento\View\Block\IdentityInterface
 {
     /**
      * Retrieve child products

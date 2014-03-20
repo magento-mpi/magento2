@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -21,21 +20,21 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     protected $_copyright;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\App\Http\Context
      */
-    protected $_customerSession;
+    protected $httpContext;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->httpContext = $httpContext;
         parent::__construct($context, $data);
     }
 
@@ -46,13 +45,12 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
      */
     protected function _construct()
     {
-        $this->addData(array(
-            'cache_lifetime'=> false,
-            'cache_tags' => array(
-                \Magento\Core\Model\Store::CACHE_TAG,
-                \Magento\Cms\Model\Block::CACHE_TAG,
+        $this->addData(
+            array(
+                'cache_lifetime' => false,
+                'cache_tags' => array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
             )
-        ));
+        );
     }
 
     /**
@@ -67,7 +65,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
             $this->_storeManager->getStore()->getId(),
             (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->isLoggedIn(),
+            $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH),
         );
     }
 
@@ -93,5 +91,4 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     {
         return array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
-
 }

@@ -83,4 +83,3 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         return parent::_afterLoad();
     }
 }
-

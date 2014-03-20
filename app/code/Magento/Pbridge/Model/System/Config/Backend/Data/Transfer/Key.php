@@ -31,9 +31,11 @@ class Key extends \Magento\Core\Model\Config\Value
          * @see \Magento\Pci\Model\Encryption::_getCrypt
          * @throws \Magento\Model\Exception
          */
-        if (strlen($this->getValue()) > 32) { // strlen() intentionally, to count bytes rather than characters
+        if (strlen($this->getValue()) > 32) {
+            // strlen() intentionally, to count bytes rather than characters
             throw new \Magento\Model\Exception(
-                __('Maximum data transfer key length is 32. Please correct your settings.'));
+                __('Maximum data transfer key length is 32. Please correct your settings.')
+            );
         }
 
         return $this;

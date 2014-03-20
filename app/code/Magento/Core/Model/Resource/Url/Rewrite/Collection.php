@@ -88,9 +88,13 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function filterAllByProductId($productId)
     {
-        $this->getSelect()
-            ->where('id_path = ?', "product/{$productId}")
-            ->orWhere('id_path LIKE ?', "product/{$productId}/%");
+        $this->getSelect()->where(
+            'id_path = ?',
+            "product/{$productId}"
+        )->orWhere(
+            'id_path LIKE ?',
+            "product/{$productId}/%"
+        );
 
         return $this;
     }
@@ -102,8 +106,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function filterAllByCategory()
     {
-        $this->getSelect()
-            ->where('id_path LIKE ?', "category/%");
+        $this->getSelect()->where('id_path LIKE ?', "category/%");
         return $this;
     }
 }

@@ -331,7 +331,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $addressModel = $this->_addressFactory->create();
         $addressModel->setData($this->getReturnAddressData($storeId));
         $addressModel->setCountryId($addressModel->getData('countryId'));
-        $addressModel->setStreet($addressModel->getData('street1')."\n".$addressModel->getData('street2'));
+        $addressModel->setStreet($addressModel->getData('street1') . "\n" . $addressModel->getData('street2'));
         return $addressModel;
     }
 
@@ -349,44 +349,56 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         if ($this->_storeConfig->getConfigFlag(Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
             $data = array(
-                'city' => $this->_storeConfig
-                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, $store),
-                'countryId' => $this->_storeConfig
-                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $store),
-                'postcode' => $this->_storeConfig
-                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, $store),
-                'region_id' => $this->_storeConfig
-                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, $store),
-                'street2' => $this->_storeConfig
-                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2, $store),
-                'street1' => $this->_storeConfig
-                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1, $store),
+                'city' => $this->_storeConfig->getConfig(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
+                    $store
+                ),
+                'countryId' => $this->_storeConfig->getConfig(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+                    $store
+                ),
+                'postcode' => $this->_storeConfig->getConfig(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+                    $store
+                ),
+                'region_id' => $this->_storeConfig->getConfig(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
+                    $store
+                ),
+                'street2' => $this->_storeConfig->getConfig(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
+                    $store
+                ),
+                'street1' => $this->_storeConfig->getConfig(
+                    \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
+                    $store
+                )
             );
         } else {
             $data = array(
-                'city' => $this->_storeConfig
-                    ->getConfig(Shipping::XML_PATH_CITY, $store),
-                'countryId' => $this->_storeConfig
-                    ->getConfig(Shipping::XML_PATH_COUNTRY_ID, $store),
-                'postcode' => $this->_storeConfig
-                    ->getConfig(Shipping::XML_PATH_ZIP, $store),
-                'region_id' => $this->_storeConfig
-                    ->getConfig(Shipping::XML_PATH_REGION_ID, $store),
-                'street2' => $this->_storeConfig
-                    ->getConfig(Shipping::XML_PATH_ADDRESS2, $store),
-                'street1' => $this->_storeConfig
-                    ->getConfig(Shipping::XML_PATH_ADDRESS1, $store),
+                'city' => $this->_storeConfig->getConfig(Shipping::XML_PATH_CITY, $store),
+                'countryId' => $this->_storeConfig->getConfig(Shipping::XML_PATH_COUNTRY_ID, $store),
+                'postcode' => $this->_storeConfig->getConfig(Shipping::XML_PATH_ZIP, $store),
+                'region_id' => $this->_storeConfig->getConfig(Shipping::XML_PATH_REGION_ID, $store),
+                'street2' => $this->_storeConfig->getConfig(Shipping::XML_PATH_ADDRESS2, $store),
+                'street1' => $this->_storeConfig->getConfig(Shipping::XML_PATH_ADDRESS1, $store)
             );
         }
 
-        $data['country'] = (!empty($data['countryId']))
-            ? $this->_countryFactory->create()->loadByCode($data['countryId'])->getName()
-            : '';
+        $data['country'] = !empty($data['countryId']) ? $this->_countryFactory->create()->loadByCode(
+            $data['countryId']
+        )->getName() : '';
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
-        $data['company'] = $this->_storeConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME, $store);
-        $data['telephone']  = $this->_storeConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_STORE_PHONE, $store);
+        $data['company'] = $this->_storeConfig->getConfig(
+            \Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME,
+            $store
+        );
+        $data['telephone'] = $this->_storeConfig->getConfig(
+            \Magento\Core\Model\Store::XML_PATH_STORE_STORE_PHONE,
+            $store
+        );
 
         return $data;
     }
@@ -440,8 +452,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $allowedCarriers = $this->getShippingCarriers($store);
         foreach (array_keys($allowedCarriers) as $carrier) {
-            if (!$this->carrierHelper->getCarrierConfigValue($carrier , 'active_rma', $store)) {
-                unset ($allowedCarriers[$carrier]);
+            if (!$this->carrierHelper->getCarrierConfigValue($carrier, 'active_rma', $store)) {
+                unset($allowedCarriers[$carrier]);
             }
         }
         return $allowedCarriers;
@@ -456,8 +468,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCarrier($code, $storeId = null)
     {
-        $data           = explode('_', $code, 2);
-        $carrierCode    = $data[0];
+        $data = explode('_', $code, 2);
+        $carrierCode = $data[0];
 
         if (!$this->carrierHelper->getCarrierConfigValue($carrierCode, 'active_rma', $storeId)) {
             return false;
@@ -474,15 +486,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPackagePopupUrlByRmaModel($model, $action = 'package')
     {
-        $key    = 'rma_id';
+        $key = 'rma_id';
         $method = 'getId';
         $param = array(
-             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
+            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
         );
 
-         $storeId = is_object($model) ? $model->getStoreId() : null;
-         $storeModel = $this->_storeManager->getStore($storeId);
-         return $storeModel->getUrl('rma/tracking/' . $action, $param);
+        $storeId = is_object($model) ? $model->getStoreId() : null;
+        $storeModel = $this->_storeManager->getStore($storeId);
+        return $storeModel->getUrl('rma/tracking/' . $action, $param);
     }
 
     /**
@@ -510,13 +522,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-         $param = array(
-             'hash' => $this->_coreData->urlEncode("{$key}:{$model->$method()}:{$model->getProtectCode()}")
-         );
+        $param = array(
+            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+        );
 
-         $storeId = is_object($model) ? $model->getStoreId() : null;
-         $storeModel = $this->_storeManager->getStore($storeId);
-         return $storeModel->getUrl('rma/tracking/popup', $param);
+        $storeId = is_object($model) ? $model->getStoreId() : null;
+        $storeModel = $this->_storeManager->getStore($storeId);
+        return $storeModel->getUrl('rma/tracking/popup', $param);
     }
 
     /**
@@ -553,8 +565,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 return true;
             case \Magento\Rma\Model\Product\Source::ATTRIBUTE_ENABLE_RMA_NO:
                 return false;
-            default: //Use config and NULL
-                return $this->_storeConfig->getConfig(\Magento\Rma\Model\Product\Source::XML_PATH_PRODUCTS_ALLOWED, $storeId);
+            default:
+                //Use config and NULL
+                return $this->_storeConfig->getConfig(
+                    \Magento\Rma\Model\Product\Source::XML_PATH_PRODUCTS_ALLOWED,
+                    $storeId
+                );
         }
     }
 
@@ -567,9 +583,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getFormatedDate($date)
     {
         $storeDate = $this->_localeDate->scopeDate(
-            $this->_storeManager->getStore(), $this->dateTime->toTimestamp($date), true
+            $this->_storeManager->getStore(),
+            $this->dateTime->toTimestamp($date),
+            true
         );
-        return $this->_localeDate->formatDate($storeDate, \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
+        return $this->_localeDate->formatDate(
+            $storeDate,
+            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
+        );
     }
 
     /**
@@ -580,7 +601,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAdminProductName($item)
     {
-        $name   = $item->getName();
+        $name = $item->getName();
         $result = array();
         if ($options = $item->getProductOptions()) {
             if (isset($options['options'])) {
@@ -596,9 +617,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (!empty($result)) {
                 $implode = array();
                 foreach ($result as $val) {
-                    $implode[] =  isset($val['print_value']) ? $val['print_value'] : $val['value'];
+                    $implode[] = isset($val['print_value']) ? $val['print_value'] : $val['value'];
                 }
-                return $name.' ('.implode(', ', $implode).')';
+                return $name . ' (' . implode(', ', $implode) . ')';
             }
         }
         return $name;
@@ -625,7 +646,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function parseQuantity($quantity, $item)
     {
         if (is_null($quantity)) {
-             $quantity = $item->getOrigData('qty_requested');
+            $quantity = $item->getOrigData('qty_requested');
         }
         if ($item->getIsQtyDecimal()) {
             return sprintf("%01.4f", $quantity);
@@ -644,18 +665,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $qty = $item->getQtyRequested();
 
-        if ($item->getQtyApproved()
-            && ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED)
-        ) {
+        if ($item->getQtyApproved() && $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED) {
             $qty = $item->getQtyApproved();
-        } elseif ($item->getQtyReturned()
-            && ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED
-                || $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED
-            )
+        } elseif ($item->getQtyReturned() &&
+            ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED ||
+            $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED)
         ) {
             $qty = $item->getQtyReturned();
-        } elseif ($item->getQtyAuthorized()
-            && ($item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED)
+        } elseif ($item->getQtyAuthorized() &&
+            $item->getStatus() == \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED
         ) {
             $qty = $item->getQtyAuthorized();
         }

@@ -23,21 +23,21 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      *
      * @var string
      */
-    protected $_eventPrefix    = 'catalog_category_collection';
+    protected $_eventPrefix = 'catalog_category_collection';
 
     /**
      * Event object name
      *
      * @var string
      */
-    protected $_eventObject    = 'category_collection';
+    protected $_eventObject = 'category_collection';
 
     /**
      * Store id of application
      *
      * @var integer
      */
-    protected $_storeId        = null;
+    protected $_storeId = null;
 
     /**
      * Store manager
@@ -211,8 +211,10 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function addIsActiveFilter()
     {
         $this->addFieldToFilter('is_active', 1);
-        $this->_eventManager->dispatch($this->_eventPrefix . '_add_is_active_filter',
-                            array($this->_eventObject => $this));
+        $this->_eventManager->dispatch(
+            $this->_eventPrefix . '_add_is_active_filter',
+            array($this->_eventObject => $this)
+        );
         return $this;
     }
 
@@ -317,10 +319,16 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $storeId = $this->_storeManager->getStore()->getId();
         $this->getSelect()->joinLeft(
             array('url_rewrite' => $this->getTable('core_url_rewrite')),
-            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 '
-            . 'AND url_rewrite.product_id IS NULL'
-            . ' AND ' . $this->getConnection()->quoteInto('url_rewrite.store_id=?', $storeId)
-            . ' AND ' . $this->getConnection()->quoteInto('url_rewrite.id_path LIKE ?', 'category/%'),
+            'url_rewrite.category_id=main_table.entity_id AND url_rewrite.is_system=1 ' .
+            'AND url_rewrite.product_id IS NULL' .
+            ' AND ' .
+            $this->getConnection()->quoteInto(
+                'url_rewrite.store_id=?',
+                $storeId
+            ) . ' AND ' . $this->getConnection()->quoteInto(
+                'url_rewrite.id_path LIKE ?',
+                'category/%'
+            ),
             array('request_path')
         );
         return $this;
@@ -339,9 +347,9 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         $orWhere = false;
         foreach ($paths as $path) {
             if ($orWhere) {
-                $select->orWhere('main_table.path LIKE ?', "$path%");
+                $select->orWhere('main_table.path LIKE ?', "{$path}%");
             } else {
-                $select->where('main_table.path LIKE ?', "$path%");
+                $select->where('main_table.path LIKE ?', "{$path}%");
                 $orWhere = true;
             }
         }
@@ -377,8 +385,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function setPage($pageNum, $pageSize)
     {
-        $this->setCurPage($pageNum)
-            ->setPageSize($pageSize);
+        $this->setCurPage($pageNum)->setPageSize($pageSize);
         return $this;
     }
 }

@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Model\Uploader;
 
 class Service
@@ -97,9 +96,9 @@ class Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new \Magento\Model\Exception(__(
-                'The CSS file must be less than %1M.', $this->getCssUploadMaxSizeInMb()
-            ));
+            throw new \Magento\Model\Exception(
+                __('The CSS file must be less than %1M.', $this->getCssUploadMaxSizeInMb())
+            );
         }
 
         $file = $fileUploader->validateFile();
@@ -123,9 +122,9 @@ class Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new \Magento\Model\Exception(__(
-                'The JS file must be less than %1M.', $this->getJsUploadMaxSizeInMb()
-            ));
+            throw new \Magento\Model\Exception(
+                __('The JS file must be less than %1M.', $this->getJsUploadMaxSizeInMb())
+            );
         }
 
         $file = $fileUploader->validateFile();

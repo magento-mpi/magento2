@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\AdminGws\Model;
+
 /**
  * Collections limiter model
  */
@@ -17,7 +18,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
-    
+
     /**
      * @var \Magento\Backend\Model\Auth\Session
      */
@@ -80,8 +81,9 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitStoreGroups($collection)
     {
-        $collection->addFieldToFilter('group_id',
-            array('in'=>array_merge($this->_role->getStoreGroupIds(), array(0)))
+        $collection->addFieldToFilter(
+            'group_id',
+            array('in' => array_merge($this->_role->getStoreGroupIds(), array(0)))
         );
     }
 
@@ -117,7 +119,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $relevantWebsiteIds = $this->_role->getRelevantWebsiteIds();
         $websiteIds = array();
-        $filters    = $collection->getLimitationFilters();
+        $filters = $collection->getLimitationFilters();
 
         if (isset($filters['website_ids'])) {
             $websiteIds = (array)$filters['website_ids'];
@@ -235,7 +237,6 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
-
     /**
      * Limit Catalog events collection
      *
@@ -310,12 +311,11 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitAdminPermissionRoles($collection)
     {
-        $limited = $this->_collectionsFactory->create()
-            ->getRolesOutsideLimitedScope(
-                $this->_role->getIsAll(),
-                $this->_role->getWebsiteIds(),
-                $this->_role->getStoreGroupIds()
-            );
+        $limited = $this->_collectionsFactory->create()->getRolesOutsideLimitedScope(
+            $this->_role->getIsAll(),
+            $this->_role->getWebsiteIds(),
+            $this->_role->getStoreGroupIds()
+        );
 
         $collection->addFieldToFilter('role_id', array('nin' => $limited));
     }
@@ -328,12 +328,11 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function limitAdminPermissionUsers($collection)
     {
-        $limited = $this->_collectionsFactory->create()
-            ->getUsersOutsideLimitedScope(
-                $this->_role->getIsAll(),
-                $this->_role->getWebsiteIds(),
-                $this->_role->getStoreGroupIds()
-            );
+        $limited = $this->_collectionsFactory->create()->getUsersOutsideLimitedScope(
+            $this->_role->getIsAll(),
+            $this->_role->getWebsiteIds(),
+            $this->_role->getStoreGroupIds()
+        );
         $collection->addFieldToFilter('user_id', array('nin' => $limited));
     }
 

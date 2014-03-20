@@ -6,11 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Reader;
 
-require_once(__DIR__ . '/_files/ClassesForArgumentsReader.php');
 
+require_once __DIR__ . '/_files/ClassesForArgumentsReader.php';
 class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -196,7 +195,7 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
                 'type' => null,
                 'isOptional' => true,
                 'default' => null
-                )
+            )
         );
         $class = new \ReflectionClass('ClassExtendsDefaultPhpType');
         $actualResult = $this->_model->getConstructorArguments($class, false, true);
@@ -207,22 +206,16 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
     public function testGetParentCallWithRightArgumentsOrder()
     {
         $class = new \ReflectionClass('ThirdClassForParentCall');
-        $actualResult = $this->_model->getParentCall($class,
+        $actualResult = $this->_model->getParentCall(
+            $class,
             array(
                 'stdClassObject' => array('type' => '\stdClass'),
-                'secondClass'    => array('type' => '\ClassExtendsDefaultPhpType')
-                ));
-        $expectedResult = array(
-            array(
-                'name' => 'stdClassObject',
-                'position' => 0,
-                'type' => '\stdClass'
-            ),
-            array(
-                'name' => 'secondClass',
-                'position' => 1,
-                'type' => '\ClassExtendsDefaultPhpType'
+                'secondClass' => array('type' => '\ClassExtendsDefaultPhpType')
             )
+        );
+        $expectedResult = array(
+            array('name' => 'stdClassObject', 'position' => 0, 'type' => '\stdClass'),
+            array('name' => 'secondClass', 'position' => 1, 'type' => '\ClassExtendsDefaultPhpType')
         );
         $this->assertEquals($expectedResult, $actualResult);
     }
@@ -230,22 +223,16 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
     public function testGetParentCallWithWrongArgumentsOrder()
     {
         $class = new \ReflectionClass('WrongArgumentsOrder');
-        $actualResult = $this->_model->getParentCall($class,
+        $actualResult = $this->_model->getParentCall(
+            $class,
             array(
                 'stdClassObject' => array('type' => '\stdClass'),
-                'secondClass'    => array('type' => '\ClassExtendsDefaultPhpType')
-            ));
+                'secondClass' => array('type' => '\ClassExtendsDefaultPhpType')
+            )
+        );
         $expectedResult = array(
-            array(
-                'name' => 'secondClass',
-                'position' => 0,
-                'type' => '\ClassExtendsDefaultPhpType'
-            ),
-            array(
-                'name' => 'stdClassObject',
-                'position' => 1,
-                'type' => '\stdClass'
-            ),
+            array('name' => 'secondClass', 'position' => 0, 'type' => '\ClassExtendsDefaultPhpType'),
+            array('name' => 'stdClassObject', 'position' => 1, 'type' => '\stdClass')
         );
         $this->assertEquals($expectedResult, $actualResult);
     }
@@ -253,22 +240,16 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
     public function testGetParentCallWithSeparateLineFormat()
     {
         $class = new \ReflectionClass('ThirdClassForParentCall');
-        $actualResult = $this->_model->getParentCall($class,
+        $actualResult = $this->_model->getParentCall(
+            $class,
             array(
                 'stdClassObject' => array('type' => '\stdClass'),
-                'secondClass'    => array('type' => '\ClassExtendsDefaultPhpType')
-            ));
-        $expectedResult = array(
-            array(
-                'name' => 'stdClassObject',
-                'position' => 0,
-                'type' => '\stdClass'
-            ),
-            array(
-                'name' => 'secondClass',
-                'position' => 1,
-                'type' => '\ClassExtendsDefaultPhpType'
+                'secondClass' => array('type' => '\ClassExtendsDefaultPhpType')
             )
+        );
+        $expectedResult = array(
+            array('name' => 'stdClassObject', 'position' => 0, 'type' => '\stdClass'),
+            array('name' => 'secondClass', 'position' => 1, 'type' => '\ClassExtendsDefaultPhpType')
         );
         $this->assertEquals($expectedResult, $actualResult);
     }
@@ -293,17 +274,14 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
             array(null, null, true),
             array(null, 'array', true),
             array('\ClassWithAllArgumentTypes', '\ClassWithoutOwnConstruct', true),
-            array('\ClassWithoutOwnConstruct', '\ClassWithAllArgumentTypes', false),
+            array('\ClassWithoutOwnConstruct', '\ClassWithAllArgumentTypes', false)
         );
     }
 
     public function testGetAnnotations()
     {
         $class = new \ReflectionClass('\ClassWithSuppressWarnings');
-        $expected = array(
-            'SuppressWarnings' => 'Magento.TypeDuplication',
-        );
+        $expected = array('SuppressWarnings' => 'Magento.TypeDuplication');
         $this->assertEquals($expected, $this->_model->getAnnotations($class));
     }
 }
-

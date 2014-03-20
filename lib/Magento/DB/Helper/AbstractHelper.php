@@ -43,10 +43,8 @@ abstract class AbstractHelper
      * @param \Magento\App\Resource $resource
      * @param string $modulePrefix
      */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        $modulePrefix
-    ) {
+    public function __construct(\Magento\App\Resource $resource, $modulePrefix)
+    {
         $this->_resource = $resource;
         $this->_modulePrefix = (string)$modulePrefix;
     }
@@ -189,14 +187,14 @@ abstract class AbstractHelper
     public function convertOldColumnDefinition($column)
     {
         // Match type and size - e.g. varchar(100) or decimal(12,4) or int
-        $matches    = array();
+        $matches = array();
         $definition = trim($column['type']);
         if (!preg_match('/([^(]*)(\\((.*)\\))?/', $definition, $matches)) {
             throw new \Magento\Model\Exception(__("Wrong old style column type definition: {$definition}."));
         }
 
         $length = null;
-        $proposedLength = (isset($matches[3]) && strlen($matches[3])) ? $matches[3] : null;
+        $proposedLength = isset($matches[3]) && strlen($matches[3]) ? $matches[3] : null;
         switch (strtolower($matches[1])) {
             case 'bool':
                 $length = null;
@@ -287,11 +285,11 @@ abstract class AbstractHelper
         }
 
         $result = array(
-            'type'     => $type,
-            'length'   => $length,
+            'type' => $type,
+            'length' => $length,
             'unsigned' => $column['unsigned'],
             'nullable' => $column['is_null'],
-            'default'  => $column['default'],
+            'default' => $column['default'],
             'identity' => stripos($column['extra'], 'auto_increment') !== false
         );
 

@@ -27,7 +27,6 @@ namespace Magento\Directory\Model\Country;
  */
 class Format extends \Magento\Model\AbstractModel
 {
-
     /**
      * @return void
      */
@@ -35,5 +34,4 @@ class Format extends \Magento\Model\AbstractModel
     {
         $this->_init('Magento\Directory\Model\Resource\Country\Format');
     }
-
 }

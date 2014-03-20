@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 class RemoteTest extends \PHPUnit_Framework_TestCase

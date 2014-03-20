@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview;
 
 class ActionFactory
@@ -33,7 +32,7 @@ class ActionFactory
     public function get($className)
     {
         $action = $this->objectManager->get($className);
-        if (!($action instanceof ActionInterface)) {
+        if (!$action instanceof ActionInterface) {
             throw new \InvalidArgumentException($className . ' doesn\'t implement \Magento\Mview\ActionInterface');
         }
 

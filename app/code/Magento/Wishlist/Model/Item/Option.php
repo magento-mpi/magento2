@@ -13,8 +13,8 @@ namespace Magento\Wishlist\Model\Item;
 use Magento\Catalog\Model\Product;
 use Magento\Wishlist\Model\Item;
 
-class Option extends \Magento\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
+class Option extends \Magento\Model\AbstractModel implements 
+    \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
     /**
      * @var Item
@@ -127,7 +127,7 @@ class Option extends \Magento\Model\AbstractModel
     public function __clone()
     {
         $this->setId(null);
-        $this->_item    = null;
+        $this->_item = null;
         return $this;
     }
 }

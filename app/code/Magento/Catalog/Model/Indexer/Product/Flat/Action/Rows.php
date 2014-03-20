@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
+
 /**
  * Class Rows reindex action for mass actions
  *

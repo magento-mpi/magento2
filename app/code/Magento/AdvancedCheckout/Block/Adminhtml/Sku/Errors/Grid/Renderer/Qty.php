@@ -17,8 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Renderer;
 
-class Qty
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Qty extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders qty column
@@ -28,9 +27,9 @@ class Qty
      */
     public function render(\Magento\Object $row)
     {
-        $isDisabled = ($row->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU)
-            || $row->getIsConfigureDisabled()
-            || $row->getIsQtyDisabled();
+        $isDisabled = $row->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU ||
+            $row->getIsConfigureDisabled() ||
+            $row->getIsQtyDisabled();
 
         $html = '<input type="text" ';
         $html .= 'name="' . $this->getColumn()->getId() . '" ';

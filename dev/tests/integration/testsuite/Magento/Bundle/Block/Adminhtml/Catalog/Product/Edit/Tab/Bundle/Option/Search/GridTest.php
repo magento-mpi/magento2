@@ -8,11 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
-class GridTest
-    extends \PHPUnit_Framework_TestCase
+class GridTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
@@ -28,7 +26,8 @@ class GridTest
         );
         $block = $layout->createBlock(
             'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
-            'block');
+            'block'
+        );
         $block->setId('temp_id');
 
         $html = $block->toHtml();

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Export\Entity\Eav;
 
 class CustomerTest extends \PHPUnit_Framework_TestCase
@@ -17,6 +16,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      * Test attribute code
      */
     const ATTRIBUTE_CODE = 'code1';
+
     /**#@-*/
 
     /**
@@ -24,43 +24,28 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(
-        \Magento\Core\Model\Store::DEFAULT_STORE_ID => 'admin',
-        1 => 'website1',
-    );
+    protected $_websites = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID => 'admin', 1 => 'website1');
 
     /**
      * Stores array (store id => code)
      *
      * @var array
      */
-    protected $_stores = array(
-        0 => 'admin',
-        1 => 'store1',
-    );
+    protected $_stores = array(0 => 'admin', 1 => 'store1');
 
     /**
      * Attributes array
      *
      * @var array
      */
-    protected $_attributes = array(
-        array(
-            'attribute_id'   => 1,
-            'attribute_code' => self::ATTRIBUTE_CODE,
-        )
-    );
+    protected $_attributes = array(array('attribute_id' => 1, 'attribute_code' => self::ATTRIBUTE_CODE));
 
     /**
      * Customer data
      *
      * @var array
      */
-    protected $_customerData = array(
-        'website_id'         => 1,
-        'store_id'           => 1,
-        self::ATTRIBUTE_CODE => 1,
-    );
+    protected $_customerData = array('website_id' => 1, 'store_id' => 1, self::ATTRIBUTE_CODE => 1);
 
     /**
      * Customer export model
@@ -73,20 +58,32 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
-        $storeManager->expects($this->any())
-            ->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
+        $storeManager->expects(
+            $this->any()
+        )->method(
+            'getWebsites'
+        )->will(
+            $this->returnCallback(array($this, 'getWebsites'))
+        );
 
-        $storeManager->expects($this->any())
-            ->method('getStores')
-            ->will($this->returnCallback(array($this, 'getStores')));
+        $storeManager->expects(
+            $this->any()
+        )->method(
+            'getStores'
+        )->will(
+            $this->returnCallback(array($this, 'getStores'))
+        );
 
         $this->_model = new \Magento\ImportExport\Model\Export\Entity\Eav\Customer(
             $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
             $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock(
-                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory', array(), array(), '', false
+                'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
+                array(),
+                array(),
+                '',
+                false
             ),
             $this->getMock('Magento\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
@@ -119,19 +116,25 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
             );
             $arguments['data'] = $attributeData;
-            $attribute = $this->getMockForAbstractClass('Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-                $arguments, '', true, true, true, array('_construct')
+            $attribute = $this->getMockForAbstractClass(
+                'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
+                $arguments,
+                '',
+                true,
+                true,
+                true,
+                array('_construct')
             );
             $attributeCollection->addItem($attribute);
         }
 
         $data = array(
-            'translator'                   => $translator,
-            'attribute_collection'         => $attributeCollection,
-            'page_size'                    => 1,
+            'translator' => $translator,
+            'attribute_collection' => $attributeCollection,
+            'page_size' => 1,
             'collection_by_pages_iterator' => 'not_used',
-            'entity_type_id'               => 1,
-            'customer_collection'          => 'not_used'
+            'entity_type_id' => 1,
+            'customer_collection' => 'not_used'
         );
 
         return $data;
@@ -153,10 +156,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             if (!$withDefault && $id == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
-            $websiteData = array(
-                'id'   => $id,
-                'code' => $code,
-            );
+            $websiteData = array('id' => $id, 'code' => $code);
             $websites[$id] = new \Magento\Object($websiteData);
         }
 
@@ -179,10 +179,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             if (!$withDefault && $id == 0) {
                 continue;
             }
-            $storeData = array(
-                'id'   => $id,
-                'code' => $code,
-            );
+            $storeData = array('id' => $id, 'code' => $code);
             $stores[$id] = new \Magento\Object($storeData);
         }
 
@@ -197,13 +194,23 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testExportItem()
     {
         /** @var $writer \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
-        $writer = $this->getMockForAbstractClass('Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
-            array(), '', false, false, true, array('writeRow')
+        $writer = $this->getMockForAbstractClass(
+            'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('writeRow')
         );
 
-        $writer->expects($this->once())
-            ->method('writeRow')
-            ->will($this->returnCallback(array($this, 'validateWriteRow')));
+        $writer->expects(
+            $this->once()
+        )->method(
+            'writeRow'
+        )->will(
+            $this->returnCallback(array($this, 'validateWriteRow'))
+        );
 
         $this->_model->setWriter($writer);
 

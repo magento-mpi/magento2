@@ -96,8 +96,10 @@ class Reports extends \Magento\Backend\App\Action
         $this->_initAction();
         $this->_title->add(__('View Transaction'));
         $this->_addContent(
-            $this->_view->getLayout()
-                ->createBlock('Magento\Paypal\Block\Adminhtml\Settlement\Details', 'settlementDetails')
+            $this->_view->getLayout()->createBlock(
+                'Magento\Paypal\Block\Adminhtml\Settlement\Details',
+                'settlementDetails'
+            )
         );
         $this->_view->renderLayout();
     }
@@ -123,8 +125,12 @@ class Reports extends \Magento\Backend\App\Action
                         \Magento\Paypal\Model\Report\Settlement::createConnection($config)
                     );
                     $this->messageManager->addSuccess(
-                        __("We fetched %1 report rows from '%2@%3'.", $fetched,
-                            $config['username'], $config['hostname'])
+                        __(
+                            "We fetched %1 report rows from '%2@%3'.",
+                            $fetched,
+                            $config['username'],
+                            $config['hostname']
+                        )
                     );
                 } catch (\Exception $e) {
                     $this->messageManager->addError(
@@ -150,10 +156,18 @@ class Reports extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('PayPal Settlement Reports'));
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Paypal::report_salesroot_paypal_settlement_reports')
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('PayPal Settlement Reports'), __('PayPal Settlement Reports'));
+        $this->_setActiveMenu(
+            'Magento_Paypal::report_salesroot_paypal_settlement_reports'
+        )->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        )->_addBreadcrumb(
+            __('Sales'),
+            __('Sales')
+        )->_addBreadcrumb(
+            __('PayPal Settlement Reports'),
+            __('PayPal Settlement Reports')
+        );
         return $this;
     }
 

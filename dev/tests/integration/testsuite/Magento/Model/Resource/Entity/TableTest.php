@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Model\Resource\Entity;
 
 class TableTest extends \PHPUnit_Framework_TestCase
@@ -22,8 +21,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         // @codingStandardsIgnoreStart
         $config = new \Magento\Simplexml\Config();
-        $config->table      = 'test_table';
-        $config->test_key   = 'test';
+        $config->table = 'test_table';
+        $config->test_key = 'test';
         // @codingStandardsIgnoreEnd
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

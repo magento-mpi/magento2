@@ -7,11 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Tax;
 
 class Exception extends \Magento\Model\Exception
 {
-    
 }

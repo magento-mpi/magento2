@@ -77,13 +77,7 @@ class Item extends \Magento\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_orderItemFactory = $orderItemFactory;
     }
 
@@ -159,7 +153,7 @@ class Item extends \Magento\Model\AbstractModel
     public function setQty($qty)
     {
         if ($this->getOrderItem()->getIsQtyDecimal()) {
-            $qty = (float)$qty;
+            $qty = (double)$qty;
         } else {
             $qty = (int)$qty;
         }
@@ -170,9 +164,7 @@ class Item extends \Magento\Model\AbstractModel
         if ($qty <= $this->getOrderItem()->getQtyToShip() || $this->getOrderItem()->isDummy(true)) {
             $this->setData('qty', $qty);
         } else {
-            throw new \Magento\Model\Exception(
-                __('We found an invalid qty to ship for item "%1".', $this->getName())
-            );
+            throw new \Magento\Model\Exception(__('We found an invalid qty to ship for item "%1".', $this->getName()));
         }
         return $this;
     }
@@ -184,9 +176,7 @@ class Item extends \Magento\Model\AbstractModel
      */
     public function register()
     {
-        $this->getOrderItem()->setQtyShipped(
-            $this->getOrderItem()->getQtyShipped() + $this->getQty()
-        );
+        $this->getOrderItem()->setQtyShipped($this->getOrderItem()->getQtyShipped() + $this->getQty());
         return $this;
     }
 

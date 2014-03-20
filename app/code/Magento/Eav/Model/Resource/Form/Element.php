@@ -26,10 +26,9 @@ class Element extends \Magento\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('eav_form_element', 'element_id');
-        $this->addUniqueField(array(
-            'field' => array('type_id', 'attribute_id'),
-            'title' => __('Form Element with the same attribute')
-        ));
+        $this->addUniqueField(
+            array('field' => array('type_id', 'attribute_id'), 'title' => __('Form Element with the same attribute'))
+        );
     }
 
     /**

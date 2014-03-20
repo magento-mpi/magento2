@@ -32,8 +32,9 @@ namespace Magento\Log\Model\Visitor;
  */
 class Online extends \Magento\Model\AbstractModel
 {
-    const XML_PATH_ONLINE_INTERVAL      = 'customer/online_customers/online_minutes_interval';
-    const XML_PATH_UPDATE_FREQUENCY     = 'log/visitor/online_update_frequency';
+    const XML_PATH_ONLINE_INTERVAL = 'customer/online_customers/online_minutes_interval';
+
+    const XML_PATH_UPDATE_FREQUENCY = 'log/visitor/online_update_frequency';
 
     /**
      * Core store config

@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter;
 
 class Email implements \Zend_Filter_Interface

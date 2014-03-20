@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
-
 use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\View\Url as ViewUrl;
@@ -179,14 +177,14 @@ class Context
         AppState $appState,
         Layout $layout
     ) {
-        $this->request         = $request;
-        $this->eventManager    = $eventManager;
-        $this->urlBuilder      = $urlBuilder;
-        $this->translator      = $translator;
-        $this->cache           = $cache;
-        $this->design          = $design;
-        $this->session         = $session;
-        $this->storeConfig     = $storeConfig;
+        $this->request = $request;
+        $this->eventManager = $eventManager;
+        $this->urlBuilder = $urlBuilder;
+        $this->translator = $translator;
+        $this->cache = $cache;
+        $this->design = $design;
+        $this->session = $session;
+        $this->storeConfig = $storeConfig;
         $this->frontController = $frontController;
         $this->viewUrl         = $viewUrl;
         $this->viewConfig      = $viewConfig;

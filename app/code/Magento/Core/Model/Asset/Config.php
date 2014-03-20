@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Asset;
 
 /**
@@ -18,12 +17,12 @@ class Config implements \Magento\View\Asset\ConfigInterface
     /**
      * XML path for CSS files merge configuration
      */
-    const XML_PATH_MERGE_CSS_FILES  = 'dev/css/merge_css_files';
+    const XML_PATH_MERGE_CSS_FILES = 'dev/css/merge_css_files';
 
     /**
      * XML path for JavaScript files merge configuration
      */
-    const XML_PATH_MERGE_JS_FILES   = 'dev/js/merge_files';
+    const XML_PATH_MERGE_JS_FILES = 'dev/js/merge_files';
 
     /**
      * XML path for asset minification configuration

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\Config\Argument;
 
 class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
@@ -51,13 +50,17 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateLookup($isShared, $expectedMethod)
     {
-        $value = new \StdClass;
+        $value = new \StdClass();
         $factory = new ObjectFactory($this->config, $this->objectManager);
-        $this->objectManager->expects($this->once())
-            ->method($expectedMethod)
-            ->with('type')
-            ->will($this->returnValue($value))
-        ;
+        $this->objectManager->expects(
+            $this->once()
+        )->method(
+            $expectedMethod
+        )->with(
+            'type'
+        )->will(
+            $this->returnValue($value)
+        );
         $this->config->expects($this->once())->method('isShared')->with('type')->will($this->returnValue($isShared));
         $this->assertSame($value, $factory->create('type'));
     }
@@ -69,10 +72,7 @@ class ObjectFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function createDataProvider()
     {
-        return array(
-            array(true, 'get'),
-            array(false, 'create'),
-        );
+        return array(array(true, 'get'), array(false, 'create'));
     }
 
     /**

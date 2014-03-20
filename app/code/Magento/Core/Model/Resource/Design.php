@@ -66,9 +66,16 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
             $object->setDateTo(null);
         }
 
-        if (!is_null($object->getDateFrom())
-            && !is_null($object->getDateTo())
-            && $this->dateTime->toTimestamp($object->getDateFrom()) > $this->dateTime->toTimestamp($object->getDateTo())) {
+        if (!is_null(
+            $object->getDateFrom()
+        ) && !is_null(
+            $object->getDateTo()
+        ) && $this->dateTime->toTimestamp(
+            $object->getDateFrom()
+        ) > $this->dateTime->toTimestamp(
+            $object->getDateTo()
+        )
+        ) {
             throw new \Magento\Model\Exception(__('Start date cannot be greater than end date.'));
         }
 
@@ -81,7 +88,9 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
 
         if ($check) {
             throw new \Magento\Model\Exception(
-                __('Your design change for the specified store intersects with another one, please specify another date range.')
+                __(
+                    'Your design change for the specified store intersects with another one, please specify another date range.'
+                )
             );
         }
 
@@ -95,7 +104,6 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
         parent::_beforeSave($object);
     }
 
-
     /**
      * Check intersections
      *
@@ -108,10 +116,13 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
     protected function _checkIntersection($storeId, $dateFrom, $dateTo, $currentId)
     {
         $adapter = $this->_getReadAdapter();
-        $select = $adapter->select()
-            ->from(array('main_table'=>$this->getTable('design_change')))
-            ->where('main_table.store_id = :store_id')
-            ->where('main_table.design_change_id <> :current_id');
+        $select = $adapter->select()->from(
+            array('main_table' => $this->getTable('design_change'))
+        )->where(
+            'main_table.store_id = :store_id'
+        )->where(
+            'main_table.design_change_id <> :current_id'
+        );
 
         $dateConditions = array('date_to IS NULL AND date_from IS NULL');
 
@@ -152,10 +163,7 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
             $select->where($condition);
         }
 
-        $bind = array(
-            'store_id'   => (int)$storeId,
-            'current_id' => (int)$currentId,
-        );
+        $bind = array('store_id' => (int)$storeId, 'current_id' => (int)$currentId);
 
         if (!is_null($dateTo)) {
             $bind['date_to'] = $dateTo;
@@ -177,16 +185,17 @@ class Design extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadChange($storeId, $date)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('main_table' => $this->getTable('design_change')))
-            ->where('store_id = :store_id')
-            ->where('date_from <= :required_date or date_from IS NULL')
-            ->where('date_to >= :required_date or date_to IS NULL');
-
-        $bind = array(
-            'store_id'      => (int)$storeId,
-            'required_date' => $date
+        $select = $this->_getReadAdapter()->select()->from(
+            array('main_table' => $this->getTable('design_change'))
+        )->where(
+            'store_id = :store_id'
+        )->where(
+            'date_from <= :required_date or date_from IS NULL'
+        )->where(
+            'date_to >= :required_date or date_to IS NULL'
         );
+
+        $bind = array('store_id' => (int)$storeId, 'required_date' => $date);
 
         return $this->_getReadAdapter()->fetchRow($select, $bind);
     }

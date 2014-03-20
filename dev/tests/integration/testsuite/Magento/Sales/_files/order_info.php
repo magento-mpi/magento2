@@ -14,24 +14,28 @@
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
-$product->setTypeId('virtual')
-    ->setId(1)
-    ->setAttributeSetId(4)
-    ->setName('Simple Product')
-    ->setSku('simple')
-    ->setPrice(10)
-    ->setStockData(array(
-        'use_config_manage_stock' => 1,
-        'qty' => 100,
-        'is_qty_decimal' => 0,
-        'is_in_stock' => 100,
-    ))
-    ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-    ->save();
+$product->setTypeId(
+    'virtual'
+)->setId(
+    1
+)->setAttributeSetId(
+    4
+)->setName(
+    'Simple Product'
+)->setSku(
+    'simple'
+)->setPrice(
+    10
+)->setStockData(
+    array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 100)
+)->setVisibility(
+    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
+)->setStatus(
+    \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+)->save();
 $product->load(1);
 
-$addressData = include(__DIR__ . '/address_data.php');
+$addressData = include __DIR__ . '/address_data.php';
 
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Quote\Address',
@@ -40,21 +44,27 @@ $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
-$shippingAddress->setId(null)
-    ->setAddressType('shipping');
+$shippingAddress->setId(null)->setAddressType('shipping');
 $shippingAddress->setShippingMethod('flatrate_flatrate');
 
 /** @var $quote \Magento\Sales\Model\Quote */
 $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
-$quote->setCustomerIsGuest(true)
-    ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    )
-    ->setReservedOrderId('test01')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->addProduct($product, 10);
+$quote->setCustomerIsGuest(
+    true
+)->setStoreId(
+    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        'Magento\Core\Model\StoreManagerInterface'
+    )->getStore()->getId()
+)->setReservedOrderId(
+    'test01'
+)->setBillingAddress(
+    $billingAddress
+)->setShippingAddress(
+    $shippingAddress
+)->addProduct(
+    $product,
+    10
+);
 $quote->getPayment()->setMethod('checkmo');
 $quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
 $quote->save();
@@ -81,16 +91,23 @@ $orderItems = $order->getAllItems();
 $item = $orderItems[0];
 
 /** @var $invoice \Magento\Sales\Model\Order\Invoice */
-$invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Service\Order', array('order' => $order))
-    ->prepareInvoice(array($item->getId() => 10));
+$invoice = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Sales\Model\Service\Order',
+    array('order' => $order)
+)->prepareInvoice(
+    array($item->getId() => 10)
+);
 
 $invoice->register();
 $invoice->save();
 
-$creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Service\Order', array('order' => $order))
-    ->prepareInvoiceCreditmemo($invoice, array('qtys' => array($item->getId() => 5)));
+$creditmemo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Sales\Model\Service\Order',
+    array('order' => $order)
+)->prepareInvoiceCreditmemo(
+    $invoice,
+    array('qtys' => array($item->getId() => 5))
+);
 
 foreach ($creditmemo->getAllItems() as $creditmemoItem) {
     //Workaround to return items to stock

@@ -40,8 +40,14 @@ class Balance extends \Magento\Core\Model\Config\Value
             $message = __('"Cap Reward Points Balance" should be either a positive number or left empty.');
             throw new Exception($message);
         }
-        if ($this->getFieldsetDataValue('max_points_balance') &&
-            ($this->getFieldsetDataValue('min_points_balance') > $this->getFieldsetDataValue('max_points_balance'))) {
+        if ($this->getFieldsetDataValue(
+            'max_points_balance'
+        ) && $this->getFieldsetDataValue(
+            'min_points_balance'
+        ) > $this->getFieldsetDataValue(
+            'max_points_balance'
+        )
+        ) {
             $message = __('"Minimum Reward Points Balance" should be less or equal to "Cap Reward Points Balance".');
             throw new Exception($message);
         }

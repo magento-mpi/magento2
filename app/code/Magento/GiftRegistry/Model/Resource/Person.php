@@ -61,8 +61,8 @@ class Person extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function deleteOrphan($entityId, $personLeft = array())
     {
-        $adapter     = $this->_getWriteAdapter();
-        $condition   = array();
+        $adapter = $this->_getWriteAdapter();
+        $condition = array();
         $conditionIn = array();
 
         $condition[] = $adapter->quoteInto('entity_id = ?', (int)$entityId);

@@ -12,7 +12,6 @@
 /**
  * Test for \Magento\Index\Model\Lock\Storage
  */
-
 namespace Magento\Sales\Block\Adminhtml\Report\Filter\Form;
 
 /**

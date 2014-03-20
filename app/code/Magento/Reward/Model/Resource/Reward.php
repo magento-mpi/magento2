@@ -38,14 +38,14 @@ class Reward extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function loadByCustomerId(ModelReward $reward, $customerId, $websiteId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('customer_id = :customer_id')
-            ->where('website_id = :website_id');
-        $bind = array(
-            ':customer_id' => $customerId,
-            ':website_id'  => $websiteId
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'customer_id = :customer_id'
+        )->where(
+            'website_id = :website_id'
         );
+        $bind = array(':customer_id' => $customerId, ':website_id' => $websiteId);
         if ($data = $this->_getReadAdapter()->fetchRow($select, $bind)) {
             $reward->addData($data);
         }
@@ -66,8 +66,7 @@ class Reward extends \Magento\Model\Resource\Db\AbstractDb
             return $this;
         }
         $where = array($this->getIdFieldName() . '=?' => $object->getId());
-        $this->_getWriteAdapter()
-            ->update($this->getMainTable(), $data, $where);
+        $this->_getWriteAdapter()->update($this->getMainTable(), $data, $where);
         return $this;
     }
 
@@ -83,11 +82,11 @@ class Reward extends \Magento\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
         if ($websiteId) {
-            $adapter->update($this->getMainTable(),
-                array(
-                    'website_id' => null,
-                    'website_currency_code' => $baseCurrencyCode
-                ), array('website_id = ?' => $websiteId));
+            $adapter->update(
+                $this->getMainTable(),
+                array('website_id' => null, 'website_currency_code' => $baseCurrencyCode),
+                array('website_id = ?' => $websiteId)
+            );
         }
         return $this;
     }
@@ -101,11 +100,9 @@ class Reward extends \Magento\Model\Resource\Db\AbstractDb
     public function deleteOrphanPointsByCustomer($customerId)
     {
         if ($customerId) {
-            $this->_getWriteAdapter()->delete($this->getMainTable(),
-                array(
-                    'customer_id = ?' => $customerId,
-                    new \Zend_Db_Expr('website_id IS NULL')
-                )
+            $this->_getWriteAdapter()->delete(
+                $this->getMainTable(),
+                array('customer_id = ?' => $customerId, new \Zend_Db_Expr('website_id IS NULL'))
             );
         }
         return $this;
@@ -122,10 +119,7 @@ class Reward extends \Magento\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getWriteAdapter()->insertOnDuplicate(
             $this->getTable('magento_reward_salesrule'),
-            array(
-                'rule_id' => $ruleId,
-                'points_delta' => $pointsDelta
-            ),
+            array('rule_id' => $ruleId, 'points_delta' => $pointsDelta),
             array('points_delta')
         );
     }
@@ -139,9 +133,12 @@ class Reward extends \Magento\Model\Resource\Db\AbstractDb
     public function getRewardSalesrule($rule)
     {
         $data = array();
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('magento_reward_salesrule'))
-            ->where('rule_id IN (?)', $rule);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable('magento_reward_salesrule')
+        )->where(
+            'rule_id IN (?)',
+            $rule
+        );
         if (is_array($rule)) {
             $data = $this->_getReadAdapter()->fetchAll($select);
         } else {

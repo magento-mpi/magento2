@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Order;
 
 /**
@@ -71,9 +70,12 @@ class Link extends \Magento\Sales\Block\Order\Link
         if ($this->_rmaHelper->isEnabled()) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
             $collection = $this->_collectionFactory->create();
-            $returns = $collection->addFieldToSelect('*')
-                ->addFieldToFilter('order_id', $this->_registry->registry('current_order')->getId())
-                ->count();
+            $returns = $collection->addFieldToSelect(
+                '*'
+            )->addFieldToFilter(
+                'order_id',
+                $this->_registry->registry('current_order')->getId()
+            )->count();
 
             return $returns > 0;
         } else {

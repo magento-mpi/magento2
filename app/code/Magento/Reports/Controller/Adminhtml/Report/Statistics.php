@@ -38,8 +38,10 @@ class Statistics extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Stdlib\DateTime\Filter\Date $dateFilter
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Stdlib\DateTime\Filter\Date $dateFilter)
-    {
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Stdlib\DateTime\Filter\Date $dateFilter
+    ) {
         $this->_dateFilter = $dateFilter;
         parent::__construct($context);
     }
@@ -69,10 +71,16 @@ class Statistics extends \Magento\Backend\App\Action
             $blocks = array($blocks);
         }
 
-        $requestData = $this->_objectManager->get('Magento\Backend\Helper\Data')
-            ->prepareFilterString($this->getRequest()->getParam('filter'));
-        $inputFilter = new \Zend_Filter_Input(array('from' => $this->_dateFilter, 'to' => $this->_dateFilter),
-            array(), $requestData);
+        $requestData = $this->_objectManager->get(
+            'Magento\Backend\Helper\Data'
+        )->prepareFilterString(
+            $this->getRequest()->getParam('filter')
+        );
+        $inputFilter = new \Zend_Filter_Input(
+            array('from' => $this->_dateFilter, 'to' => $this->_dateFilter),
+            array(),
+            $requestData
+        );
         $requestData = $inputFilter->getUnescaped();
         $requestData['store_ids'] = $this->getRequest()->getParam('store_ids');
         $params = new \Magento\Object();
@@ -106,21 +114,21 @@ class Statistics extends \Magento\Backend\App\Action
             throw new \Exception(__('No report code is specified.'));
         }
 
-        if(!is_array($codes) && strpos($codes, ',') === false) {
+        if (!is_array($codes) && strpos($codes, ',') === false) {
             $codes = array($codes);
         } elseif (!is_array($codes)) {
             $codes = explode(',', $codes);
         }
 
         $aliases = array(
-            'sales'       => 'Magento\Sales\Model\Resource\Report\Order',
-            'tax'         => 'Magento\Tax\Model\Resource\Report\Tax',
-            'shipping'    => 'Magento\Sales\Model\Resource\Report\Shipping',
-            'invoiced'    => 'Magento\Sales\Model\Resource\Report\Invoiced',
-            'refunded'    => 'Magento\Sales\Model\Resource\Report\Refunded',
-            'coupons'     => 'Magento\SalesRule\Model\Resource\Report\Rule',
+            'sales' => 'Magento\Sales\Model\Resource\Report\Order',
+            'tax' => 'Magento\Tax\Model\Resource\Report\Tax',
+            'shipping' => 'Magento\Sales\Model\Resource\Report\Shipping',
+            'invoiced' => 'Magento\Sales\Model\Resource\Report\Invoiced',
+            'refunded' => 'Magento\Sales\Model\Resource\Report\Refunded',
+            'coupons' => 'Magento\SalesRule\Model\Resource\Report\Rule',
             'bestsellers' => 'Magento\Sales\Model\Resource\Report\Bestsellers',
-            'viewed'      => 'Magento\Reports\Model\Resource\Report\Product\Viewed',
+            'viewed' => 'Magento\Reports\Model\Resource\Report\Product\Viewed'
         );
         $out = array();
         foreach ($codes as $code) {
@@ -179,7 +187,7 @@ class Statistics extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
-        if($this->_getSession()->isFirstPageAfterLogin()) {
+        if ($this->_getSession()->isFirstPageAfterLogin()) {
             $this->_redirect('adminhtml/*');
         } else {
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
@@ -195,9 +203,12 @@ class Statistics extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Refresh Statistics'));
 
-        $this->_initAction()
-            ->_setActiveMenu('Magento_Reports::report_statistics_refresh')
-            ->_addBreadcrumb(__('Refresh Statistics'), __('Refresh Statistics'));
+        $this->_initAction()->_setActiveMenu(
+            'Magento_Reports::report_statistics_refresh'
+        )->_addBreadcrumb(
+            __('Refresh Statistics'),
+            __('Refresh Statistics')
+        );
         $this->_view->renderLayout();
     }
 

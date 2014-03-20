@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Model\Resource\Problem;
 
 /**
@@ -22,14 +21,14 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      *
      * @var bool
      */
-    protected $_subscribersInfoJoinedFlag  = false;
+    protected $_subscribersInfoJoinedFlag = false;
 
     /**
      * True when grouped
      *
      * @var bool
      */
-    protected $_problemGrouped             = false;
+    protected $_problemGrouped = false;
 
     /**
      * Customer collection factory
@@ -77,9 +76,10 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function addSubscriberInfo()
     {
-        $this->getSelect()->joinLeft(array('subscriber'=>$this->getTable('newsletter_subscriber')),
+        $this->getSelect()->joinLeft(
+            array('subscriber' => $this->getTable('newsletter_subscriber')),
             'main_table.subscriber_id = subscriber.subscriber_id',
-            array('subscriber_email','customer_id','subscriber_status')
+            array('subscriber_email', 'customer_id', 'subscriber_status')
         );
         $this->addFilterToMap('subscriber_id', 'main_table.subscriber_id');
         $this->_subscribersInfoJoinedFlag = true;
@@ -94,12 +94,14 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function addQueueInfo()
     {
-        $this->getSelect()->joinLeft(array('queue'=>$this->getTable('newsletter_queue')),
+        $this->getSelect()->joinLeft(
+            array('queue' => $this->getTable('newsletter_queue')),
             'main_table.queue_id = queue.queue_id',
             array('queue_start_at', 'queue_finish_at')
-        )
-        ->joinLeft(array('template'=>$this->getTable('newsletter_template')), 'queue.template_id = template.template_id',
-            array('template_subject','template_code','template_sender_name','template_sender_email')
+        )->joinLeft(
+            array('template' => $this->getTable('newsletter_template')),
+            'queue.template_id = template.template_id',
+            array('template_subject', 'template_code', 'template_sender_name', 'template_sender_email')
         );
         return $this;
     }
@@ -125,17 +127,20 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
 
         /** @var \Magento\Customer\Model\Resource\Customer\Collection $customers */
         $customers = $this->_customerCollectionFactory->create();
-        $customers->addNameToSelect()
-            ->addAttributeToFilter('entity_id', array("in"=>$customersIds));
+        $customers->addNameToSelect()->addAttributeToFilter('entity_id', array("in" => $customersIds));
 
         $customers->load();
 
         foreach ($customers->getItems() as $customer) {
             $problems = $this->getItemsByColumnValue('customer_id', $customer->getId());
             foreach ($problems as $problem) {
-                $problem->setCustomerName($customer->getName())
-                    ->setCustomerFirstName($customer->getFirstName())
-                    ->setCustomerLastName($customer->getLastName());
+                $problem->setCustomerName(
+                    $customer->getName()
+                )->setCustomerFirstName(
+                    $customer->getFirstName()
+                )->setCustomerLastName(
+                    $customer->getLastName()
+                );
             }
         }
     }

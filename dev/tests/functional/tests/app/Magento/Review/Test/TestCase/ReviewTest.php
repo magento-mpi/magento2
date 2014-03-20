@@ -40,7 +40,7 @@ class ReviewTest extends Functional
         //Pages & Blocks
         $homePage = Factory::getPageFactory()->getCmsIndexIndex();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $backendReviewPage = Factory::getPageFactory()->getCatalogProductReview();
+        $backendReviewPage = Factory::getPageFactory()->getReviewProduct();
         $reviewsSummaryBlock = $productPage->getReviewSummaryBlock();
         $reviewsBlock = $productPage->getCustomerReviewBlock();
         $reviewForm = $productPage->getReviewFormBlock();

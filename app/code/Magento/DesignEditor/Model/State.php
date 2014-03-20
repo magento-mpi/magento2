@@ -27,8 +27,10 @@ class State
     /**#@+
      * Session keys
      */
-    const CURRENT_URL_SESSION_KEY    = 'vde_current_url';
-    const CURRENT_MODE_SESSION_KEY   = 'vde_current_mode';
+    const CURRENT_URL_SESSION_KEY = 'vde_current_url';
+
+    const CURRENT_MODE_SESSION_KEY = 'vde_current_mode';
+
     /**#@-*/
 
     /**
@@ -97,15 +99,15 @@ class State
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_backendSession  = $backendSession;
-        $this->_areaEmulator    = $areaEmulator;
+        $this->_backendSession = $backendSession;
+        $this->_areaEmulator = $areaEmulator;
         $this->_urlModelFactory = $urlModelFactory;
-        $this->_cacheState      = $cacheState;
-        $this->_dataHelper      = $dataHelper;
-        $this->_objectManager   = $objectManager;
-        $this->_configuration   = $configuration;
-        $this->_themeContext    = $themeContext;
-        $this->_storeManager    = $storeManager;
+        $this->_cacheState = $cacheState;
+        $this->_dataHelper = $dataHelper;
+        $this->_objectManager = $objectManager;
+        $this->_configuration = $configuration;
+        $this->_themeContext = $themeContext;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -137,8 +139,7 @@ class State
      */
     public function reset()
     {
-        $this->_backendSession->unsetData(self::CURRENT_URL_SESSION_KEY)
-            ->unsetData(self::CURRENT_MODE_SESSION_KEY);
+        $this->_backendSession->unsetData(self::CURRENT_URL_SESSION_KEY)->unsetData(self::CURRENT_MODE_SESSION_KEY);
         $this->_themeContext->reset();
         return $this;
     }
@@ -185,14 +186,8 @@ class State
     {
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
-            $this->_storeManager->getStore()->setConfig(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $themeId
-            );
-            $this->_configuration->setValue(
-                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $themeId
-            );
+            $this->_storeManager->getStore()->setConfig(\Magento\View\DesignInterface::XML_PATH_THEME_ID, $themeId);
+            $this->_configuration->setValue(\Magento\View\DesignInterface::XML_PATH_THEME_ID, $themeId);
         }
     }
 

@@ -42,13 +42,17 @@ class Review extends \Magento\Model\AbstractModel
     /**
      * Review entity codes
      */
-    const ENTITY_PRODUCT_CODE   = 'product';
-    const ENTITY_CUSTOMER_CODE  = 'customer';
-    const ENTITY_CATEGORY_CODE  = 'category';
+    const ENTITY_PRODUCT_CODE = 'product';
 
-    const STATUS_APPROVED       = 1;
-    const STATUS_PENDING        = 2;
-    const STATUS_NOT_APPROVED   = 3;
+    const ENTITY_CUSTOMER_CODE = 'customer';
+
+    const ENTITY_CATEGORY_CODE = 'category';
+
+    const STATUS_APPROVED = 1;
+
+    const STATUS_PENDING = 2;
+
+    const STATUS_NOT_APPROVED = 3;
 
     /**
      * Review product collection factory
@@ -175,7 +179,7 @@ class Review extends \Magento\Model\AbstractModel
      * @param int $storeId
      * @return int
      */
-    public function getTotalReviews($entityPkValue, $approvedOnly=false, $storeId=0)
+    public function getTotalReviews($entityPkValue, $approvedOnly = false, $storeId = 0)
     {
         return $this->getResource()->getTotalReviews($entityPkValue, $approvedOnly, $storeId);
     }
@@ -198,11 +202,9 @@ class Review extends \Magento\Model\AbstractModel
      * @param int $storeId
      * @return void
      */
-    public function getEntitySummary($product, $storeId=0)
+    public function getEntitySummary($product, $storeId = 0)
     {
-        $summaryData = $this->_summaryModFactory->create()
-            ->setStoreId($storeId)
-            ->load($product->getId());
+        $summaryData = $this->_summaryModFactory->create()->setStoreId($storeId)->load($product->getId());
         $summary = new \Magento\Object();
         $summary->setData($summaryData->getData());
         $product->setRatingSummary($summary);
@@ -283,12 +285,13 @@ class Review extends \Magento\Model\AbstractModel
             return $this;
         }
 
-        $summaryData = $this->_summaryFactory->create()
-            ->addEntityFilter($entityIds)
-            ->addStoreFilter($this->_storeManager->getStore()->getId())
-            ->load();
+        $summaryData = $this->_summaryFactory->create()->addEntityFilter(
+            $entityIds
+        )->addStoreFilter(
+            $this->_storeManager->getStore()->getId()
+        )->load();
 
-        foreach ($collection->getItems() as $_item ) {
+        foreach ($collection->getItems() as $_item) {
             foreach ($summaryData as $_summary) {
                 if ($_summary->getEntityPkValue() == $_item->getEntityId()) {
                     $_item->setRatingSummary($_summary);

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 /**
@@ -69,7 +68,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     public function testLoginSuccessful()
     {
         $this->_model->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
         $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $this->_model->getUser());
         $this->assertGreaterThan(time() - 10, $this->_model->getAuthStorage()->getUpdatedAt());
     }
@@ -81,7 +82,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestIncomplete('MAGETWO-17021');
         $this->_model->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
         $this->assertNotEmpty($this->_model->getAuthStorage()->getData());
         $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('\Magento\Stdlib\Cookie');
         $cookie->set($this->_model->getAuthStorage()->getName(), 'session_id');
@@ -97,7 +100,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     public function testIsLoggedIn()
     {
         $this->_model->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->getAuthStorage()->setUpdatedAt(time() - 101);
@@ -111,7 +116,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     public function testIsLoggedInWithIgnoredLifetime()
     {
         $this->_model->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
         $this->assertTrue($this->_model->isLoggedIn());
 
         $this->_model->getAuthStorage()->setUpdatedAt(time() - 101);
@@ -121,7 +128,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     public function testGetUser()
     {
         $this->_model->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
+            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        );
 
         $this->assertNotNull($this->_model->getUser());
         $this->assertGreaterThan(0, $this->_model->getUser()->getId());

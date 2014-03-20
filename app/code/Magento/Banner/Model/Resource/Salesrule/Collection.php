@@ -42,14 +42,13 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()
-            ->join(
-                array('banner' => $this->getTable('magento_banner')),
-                'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-                array()
-            )
-            ->group('main_table.banner_id')
-        ;
+        $this->getSelect()->join(
+            array('banner' => $this->getTable('magento_banner')),
+            'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
+            array()
+        )->group(
+            'main_table.banner_id'
+        );
         return $this;
     }
 

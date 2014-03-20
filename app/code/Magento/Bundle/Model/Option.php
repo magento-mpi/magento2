@@ -125,8 +125,7 @@ class Option extends \Magento\Model\AbstractModel
      */
     public function getSearchableData($productId, $storeId)
     {
-        return $this->_getResource()
-            ->getSearchableData($productId, $storeId);
+        return $this->_getResource()->getSearchableData($productId, $storeId);
     }
 
     /**
@@ -140,7 +139,8 @@ class Option extends \Magento\Model\AbstractModel
         $selections = $this->getSelections();
         $i = count($selections);
 
-        while ($i-- && $selections[$i]->getSelectionId() != $selectionId);
+        while ($i-- && $selections[$i]->getSelectionId() != $selectionId) {
+        }
 
         return $i == -1 ? false : $selections[$i];
     }

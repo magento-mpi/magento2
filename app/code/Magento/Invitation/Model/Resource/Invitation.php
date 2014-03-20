@@ -26,10 +26,9 @@ class Invitation extends \Magento\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('magento_invitation', 'invitation_id');
-        $this->addUniqueField(array(
-            'field' => array('customer_id', 'email'),
-            'title' => __('Invitation for same email address')
-        ));
+        $this->addUniqueField(
+            array('field' => array('customer_id', 'email'), 'title' => __('Invitation for same email address'))
+        );
     }
 
     /**
@@ -41,10 +40,7 @@ class Invitation extends \Magento\Model\Resource\Db\AbstractDb
      */
     public function trackReferral($inviterId, $referralId)
     {
-        $data = array(
-                'inviter_id'  => (int)$inviterId,
-                'referral_id' => (int)$referralId
-            );
+        $data = array('inviter_id' => (int)$inviterId, 'referral_id' => (int)$referralId);
         $this->_getWriteAdapter()->insertOnDuplicate(
             $this->getTable('magento_invitation_track'),
             $data,

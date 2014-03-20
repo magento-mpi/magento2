@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-use \Magento\App\ResponseInterface;
+use Magento\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Logging extends \Magento\Backend\App\Action
@@ -99,8 +99,7 @@ class Logging extends \Magento\Backend\App\Action
     {
         $eventId = $this->getRequest()->getParam('event_id');
         /** @var \Magento\Logging\Model\Event $model */
-        $model = $this->_eventFactory->create()
-            ->load($eventId);
+        $model = $this->_eventFactory->create()->load($eventId);
         if (!$model->getId()) {
             $this->_redirect('adminhtml/*/');
             return;
@@ -182,9 +181,7 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function downloadAction()
     {
-        $archive = $this->_archiveFactory->create()->loadByBaseName(
-            $this->getRequest()->getParam('basename')
-        );
+        $archive = $this->_archiveFactory->create()->loadByBaseName($this->getRequest()->getParam('basename'));
         if ($archive->getFilename()) {
             return $this->_fileFactory->create(
                 $archive->getBaseName(),

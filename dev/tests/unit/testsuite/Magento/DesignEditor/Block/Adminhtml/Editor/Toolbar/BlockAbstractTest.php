@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
 
 class BlockAbstractTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +22,10 @@ class BlockAbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_block = $this->getMockForAbstractClass(
-            'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock', array(), '', false
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock',
+            array(),
+            '',
+            false
         );
     }
 

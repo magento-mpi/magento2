@@ -30,7 +30,6 @@ abstract class Template extends \Magento\Model\AbstractModel implements \Magento
      */
     protected $_designConfig;
 
-
     /**
      * Configuration of emulated design package.
      *
@@ -146,10 +145,7 @@ abstract class Template extends \Magento\Model\AbstractModel implements \Magento
             if ($this->_store === null) {
                 $this->_store = $this->_storeManager->getStore()->getId();
             }
-            $this->_designConfig = new \Magento\Object(array(
-                'area' => $this->_area,
-                'store' => $this->_store
-            ));
+            $this->_designConfig = new \Magento\Object(array('area' => $this->_area, 'store' => $this->_store));
         }
         return $this->_designConfig;
     }
@@ -178,7 +174,7 @@ abstract class Template extends \Magento\Model\AbstractModel implements \Magento
      * @param string $area
      * @return void
      */
-    public function emulateDesign($storeId, $area=self::DEFAULT_DESIGN_AREA)
+    public function emulateDesign($storeId, $area = self::DEFAULT_DESIGN_AREA)
     {
         if ($storeId) {
             // save current design settings

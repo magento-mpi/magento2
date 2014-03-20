@@ -25,8 +25,8 @@ class Entity
 
     public function __construct(\Magento\Model\AbstractModel $model, array $updateData)
     {
-        $this->_model       = $model;
-        $this->_updateData  = $updateData;
+        $this->_model = $model;
+        $this->_updateData = $updateData;
     }
 
     public function testCrud()
@@ -78,7 +78,9 @@ class Entity
         $model->load($this->_model->getId());
         foreach ($this->_updateData as $key => $value) {
             \PHPUnit_Framework_Assert::assertEquals(
-                $value, $model->getDataUsingMethod($key), 'CRUD Update "'.$key.'" error'
+                $value,
+                $model->getDataUsingMethod($key),
+                'CRUD Update "' . $key . '" error'
             );
         }
     }

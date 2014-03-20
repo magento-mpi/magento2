@@ -103,7 +103,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
             'isSingleStoreAllowed' => $this->_isSingleStoreAllowed,
             'currentStore' => $this->_currentStore,
             'scopeCode' => $this->_scopeCode,
-            'scopeType' => $this->_scopeType,
+            'scopeType' => $this->_scopeType
         );
         return $this->_factory->get($arguments);
     }

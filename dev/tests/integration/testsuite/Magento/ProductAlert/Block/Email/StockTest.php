@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ProductAlert\Block\Email;
 
 class StockTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,11 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\ProductAlert\Block\Email\Stock');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\ProductAlert\Block\Email\Stock'
+        );
     }
 
     /**
@@ -36,7 +38,7 @@ class StockTest extends \PHPUnit_Framework_TestCase
 
         $size = $this->_block->getThumbnailSize();
         $this->assertGreaterThan(1, $size);
-        $this->assertContains('/'.$size, $this->_block->getThumbnailUrl($product));
+        $this->assertContains('/' . $size, $this->_block->getThumbnailUrl($product));
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getThumbnailUrl($product));
     }
 }

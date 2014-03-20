@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element\Group;
 
-class Proxy
-    extends \Magento\Backend\Model\Config\Structure\Element\Group
+class Proxy extends \Magento\Backend\Model\Config\Structure\Element\Group
 {
     /**
      * Object manager
@@ -140,7 +138,6 @@ class Proxy
         return $this->_getSubject()->getClass();
     }
 
-
     /**
      * Check whether element has visible child elements
      *
@@ -244,4 +241,3 @@ class Proxy
         return $this->_getSubject()->getDependencies($storeCode);
     }
 }
-

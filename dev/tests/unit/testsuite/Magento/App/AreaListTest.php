@@ -42,8 +42,15 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         );
 
         $resolverMock = $this->getMock('\Magento\App\Area\FrontNameResolverInterface');
-        $this->_resolverFactory->expects($this->any())->method('create')
-            ->with('testValue')->will($this->returnValue($resolverMock));
+        $this->_resolverFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->with(
+            'testValue'
+        )->will(
+            $this->returnValue($resolverMock)
+        );
 
         $actual = $this->_model->getCodeByFrontName('testFrontName');
         $this->assertEquals($expected, $actual);

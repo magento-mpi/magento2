@@ -26,8 +26,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_associatedEntitiesMap = array(
         'product' => array(
             'associations_table' => 'magento_targetrule_product',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'product_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'product_id'
         )
     );
 
@@ -45,7 +45,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $this->_indexer = $indexer;
         parent::__construct($resource);
     }
-
 
     /**
      * Initialize main table and table id field
@@ -65,10 +64,15 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function getCustomerSegmentIds(\Magento\Model\AbstractModel $object)
     {
-        $ids = $this->getReadConnection()->select()
-            ->from($this->getTable('magento_targetrule_customersegment'), 'segment_id')
-            ->where('rule_id = ?', $object->getId())
-            ->query()->fetchAll(\Zend_Db::FETCH_COLUMN);
+        $ids = $this->getReadConnection()->select()->from(
+            $this->getTable('magento_targetrule_customersegment'),
+            'segment_id'
+        )->where(
+            'rule_id = ?',
+            $object->getId()
+        )->query()->fetchAll(
+            \Zend_Db::FETCH_COLUMN
+        );
         return empty($ids) ? array() : $ids;
     }
 
@@ -87,7 +91,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $adapter = $this->_getWriteAdapter();
         foreach ($segmentIds as $segmentId) {
             if (!empty($segmentId)) {
-                $adapter->insertOnDuplicate($this->getTable('magento_targetrule_customersegment'),
+                $adapter->insertOnDuplicate(
+                    $this->getTable('magento_targetrule_customersegment'),
                     array('rule_id' => $ruleId, 'segment_id' => $segmentId),
                     array()
                 );
@@ -98,8 +103,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             $segmentIds = array(0);
         }
 
-        $adapter->delete($this->getTable('magento_targetrule_customersegment'),
-            array('rule_id = ?' => $ruleId, 'segment_id NOT IN (?)' => $segmentIds));
+        $adapter->delete(
+            $this->getTable('magento_targetrule_customersegment'),
+            array('rule_id = ?' => $ruleId, 'segment_id NOT IN (?)' => $segmentIds)
+        );
         return $this;
     }
 
@@ -130,9 +137,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $this->unbindRuleFromEntity($object->getId(), array(), 'product');
         $this->bindRuleToEntity($object->getId(), $object->getMatchingProductIds(), 'product');
 
-        $typeId = (!$object->isObjectNew() && $object->getOrigData('apply_to') != $object->getData('apply_to'))
-            ? null
-            : $object->getData('apply_to');
+        $typeId = !$object->isObjectNew() && $object->getOrigData(
+            'apply_to'
+        ) != $object->getData(
+            'apply_to'
+        ) ? null : $object->getData(
+            'apply_to'
+        );
 
         $this->_indexer->processEntityAction(
             new \Magento\Object(array('type_id' => $typeId)),

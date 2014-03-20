@@ -33,10 +33,13 @@ class Event extends \Magento\Model\AbstractModel
     /**
      * Predefined event types
      */
-    const TYPE_SAVE        = 'save';
-    const TYPE_DELETE      = 'delete';
+    const TYPE_SAVE = 'save';
+
+    const TYPE_DELETE = 'delete';
+
     const TYPE_MASS_ACTION = 'mass_action';
-    const TYPE_REINDEX     = 'reindex';
+
+    const TYPE_REINDEX = 'reindex';
 
     /**
      * Array of related processes ids
@@ -222,7 +225,7 @@ class Event extends \Magento\Model\AbstractModel
 
         if (!empty($data['new_data'])) {
             $previousNewData = unserialize($data['new_data']);
-            $currentNewData  = $this->getNewData(false);
+            $currentNewData = $this->getNewData(false);
             $currentNewData = $this->_mergeNewDataRecursive($previousNewData, $currentNewData);
             $this->setNewData(serialize($currentNewData));
         }

@@ -21,9 +21,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_baseDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Cms\Helper\Wysiwyg\Images')
-                ->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
+        self::$_baseDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Cms\Helper\Wysiwyg\Images'
+        )->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
         if (!file_exists(self::$_baseDir)) {
             mkdir(self::$_baseDir, 0777);
         }
@@ -32,8 +32,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Filesystem\Driver\File')->deleteDirectory(self::$_baseDir);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Filesystem\Driver\File'
+        )->deleteDirectory(
+            self::$_baseDir
+        );
     }
 
     /**

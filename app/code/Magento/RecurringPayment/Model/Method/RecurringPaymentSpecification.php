@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\RecurringPayment\Model\Method;
 
 use Magento\Payment\Model\Method\Specification\AbstractSpecification;
@@ -25,7 +24,8 @@ class RecurringPaymentSpecification extends AbstractSpecification
      */
     public function isSatisfiedBy($paymentMethod)
     {
-        return isset($this->methodsInfo[$paymentMethod][self::CONFIG_KEY])
-            && $this->methodsInfo[$paymentMethod][self::CONFIG_KEY];
+        return isset(
+            $this->methodsInfo[$paymentMethod][self::CONFIG_KEY]
+        ) && $this->methodsInfo[$paymentMethod][self::CONFIG_KEY];
     }
 }

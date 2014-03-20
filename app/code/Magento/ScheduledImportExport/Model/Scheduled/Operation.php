@@ -188,21 +188,24 @@ class Operation extends \Magento\Model\AbstractModel
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
             $storeId
         );
-        $receiverName  = $this->_coreStoreConfig->getConfig(
+        $receiverName = $this->_coreStoreConfig->getConfig(
             self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
             $storeId
         );
 
         // Set all required params and send emails
-        $this->_transportBuilder
-            ->setTemplateIdentifier($this->getEmailTemplate())
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $storeId
-            ))
-            ->setTemplateVars($vars)
-            ->setFrom($this->getEmailSender())
-            ->addTo($receiverEmail, $receiverName);
+        $this->_transportBuilder->setTemplateIdentifier(
+            $this->getEmailTemplate()
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+        )->setTemplateVars(
+            $vars
+        )->setFrom(
+            $this->getEmailSender()
+        )->addTo(
+            $receiverEmail,
+            $receiverName
+        );
         if ($copyTo && $copyMethod == 'bcc') {
             // Add bcc to customer email
             foreach ($copyTo as $email) {
@@ -210,23 +213,23 @@ class Operation extends \Magento\Model\AbstractModel
             }
         }
         /** @var \Magento\Mail\TransportInterface $transport */
-        $transport =  $this->_transportBuilder->getTransport();
+        $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $this->_transportBuilder
-                    ->setTemplateIdentifier($this->getEmailTemplate())
-                    ->setTemplateOptions(array(
-                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                        'store' => $storeId
-                    ))
-                    ->setTemplateVars($vars)
-                    ->setFrom($this->getEmailSender())
-                    ->addTo($email)
-                    ->getTransport()
-                    ->sendMessage();
+                $this->_transportBuilder->setTemplateIdentifier(
+                    $this->getEmailTemplate()
+                )->setTemplateOptions(
+                    array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                )->setTemplateVars(
+                    $vars
+                )->setFrom(
+                    $this->getEmailSender()
+                )->addTo(
+                    $email
+                )->getTransport()->sendMessage();
             }
         }
 
@@ -315,26 +318,32 @@ class Operation extends \Magento\Model\AbstractModel
         $cronExprArray = array(
             intval($time[1]),
             intval($time[0]),
-            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY) ? '1' : '*',
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY ? '1' : '*',
             '*',
-            ($frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY) ? '1' : '*'
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*'
         );
 
         $cronExprString = join(' ', $cronExprArray);
-        $exprPath  = $this->getExprConfigPath();
+        $exprPath = $this->getExprConfigPath();
         $modelPath = $this->getModelConfigPath();
         try {
-            $this->_configValueFactory->create()
-                ->load($exprPath, 'path')
-                ->setValue($cronExprString)
-                ->setPath($exprPath)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                $exprPath,
+                'path'
+            )->setValue(
+                $cronExprString
+            )->setPath(
+                $exprPath
+            )->save();
 
-            $this->_configValueFactory->create()
-                ->load($modelPath, 'path')
-                ->setValue(self::CRON_MODEL)
-                ->setPath($modelPath)
-                ->save();
+            $this->_configValueFactory->create()->load(
+                $modelPath,
+                'path'
+            )->setValue(
+                self::CRON_MODEL
+            )->setPath(
+                $modelPath
+            )->save();
         } catch (\Exception $e) {
             throw new \Magento\Model\Exception(__('We were unable to save the cron expression.'));
             $this->_logger->logException($e);
@@ -351,12 +360,8 @@ class Operation extends \Magento\Model\AbstractModel
     protected function _dropCronTask()
     {
         try {
-            $this->_configValueFactory->create()
-                ->load($this->getExprConfigPath(), 'path')
-                ->delete();
-            $this->_configValueFactory->create()
-                ->load($this->getModelConfigPath(), 'path')
-                ->delete();
+            $this->_configValueFactory->create()->load($this->getExprConfigPath(), 'path')->delete();
+            $this->_configValueFactory->create()->load($this->getModelConfigPath(), 'path')->delete();
         } catch (\Exception $e) {
             throw new \Magento\Model\Exception(__('Unable to delete the cron task.'));
             $this->_logger->logException($e);
@@ -435,16 +440,16 @@ class Operation extends \Magento\Model\AbstractModel
         }
 
         if (!$result || isset($e) && is_object($e)) {
-            $operation->addLogComment(
-                __('Something went wrong and the operation failed.')
+            $operation->addLogComment(__('Something went wrong and the operation failed.'));
+            $this->sendEmailNotification(
+                array(
+                    'operationName' => $this->getName(),
+                    'trace' => nl2br($operation->getFormatedLogTrace()),
+                    'entity' => $this->getEntityType(),
+                    'dateAndTime' => $runDate,
+                    'fileName' => $filePath
+                )
             );
-            $this->sendEmailNotification(array(
-                'operationName'  => $this->getName(),
-                'trace'          => nl2br($operation->getFormatedLogTrace()),
-                'entity'         => $this->getEntityType(),
-                'dateAndTime'    => $runDate,
-                'fileName'       => $filePath
-            ));
         }
 
         $this->setIsSuccess($result);
@@ -460,8 +465,9 @@ class Operation extends \Magento\Model\AbstractModel
      * @throws \Magento\Model\Exception
      * @return string full file path
      */
-    public function getFileSource(\Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation)
-    {
+    public function getFileSource(
+        \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
+    ) {
         $fileInfo = $this->getFileInfo();
         if (empty($fileInfo['file_name'])) {
             throw new \Magento\Model\Exception(__("We couldn't read the file source because the file name is empty."));
@@ -470,7 +476,7 @@ class Operation extends \Magento\Model\AbstractModel
         $operation->addLogComment(__('Reading import file'));
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
-        $filePath  = $fileInfo['file_name'];
+        $filePath = $fileInfo['file_name'];
 
         $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
         $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
@@ -509,11 +515,14 @@ class Operation extends \Magento\Model\AbstractModel
             $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            throw new \Magento\Model\Exception(__(
+            throw new \Magento\Model\Exception(
+                __(
                     'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
-                    $fileName, $fileInfo['file_path'],
+                    $fileName,
+                    $fileInfo['file_path'],
                     $fileInfo['server_type']
-                ));
+                )
+            );
         }
         $operation->addLogComment(__('Save file content'));
 
@@ -531,8 +540,7 @@ class Operation extends \Magento\Model\AbstractModel
     {
         /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation */
         $operation = $this->_schedOperFactory->create(
-            'Magento\ScheduledImportExport\Model\\'
-                . $this->string->upperCaseWords($this->getOperationType())
+            'Magento\ScheduledImportExport\Model\\' . $this->string->upperCaseWords($this->getOperationType())
         );
 
         $operation->initialize($this);
@@ -598,11 +606,7 @@ class Operation extends \Magento\Model\AbstractModel
         $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 
-        $fileName = join('_', array(
-            $this->_getRunTime(),
-            $this->getOperationType(),
-            $this->getEntityType()
-        ));
+        $fileName = join('_', array($this->_getRunTime(), $this->getOperationType(), $this->getEntityType()));
 
         $fileInfo = $this->getFileInfo();
         if (isset($fileInfo['file_format'])) {

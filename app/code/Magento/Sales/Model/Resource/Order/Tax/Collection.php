@@ -37,9 +37,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     public function loadByOrder($order)
     {
         $orderId = $order->getId();
-        $this->getSelect()
-            ->where('main_table.order_id = ?', $orderId)
-            ->order('process');
+        $this->getSelect()->where('main_table.order_id = ?', $orderId)->order('process');
         return $this->load();
     }
 }

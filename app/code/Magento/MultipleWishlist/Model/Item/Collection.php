@@ -100,10 +100,9 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addCustomerIdFilter($this->_coreRegistry->registry('current_customer')->getId())
-            ->resetSortOrder()
-            ->addDaysInWishlist()
-            ->addStoreData();
+        $this->addCustomerIdFilter(
+            $this->_coreRegistry->registry('current_customer')->getId()
+        )->resetSortOrder()->addDaysInWishlist()->addStoreData();
         return $this;
     }
 }

@@ -81,17 +81,17 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
         if (empty($ruleIds) || empty($entityIds)) {
             return $this;
         }
-        $adapter    = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
         if (!is_array($ruleIds)) {
-            $ruleIds = array((int) $ruleIds);
+            $ruleIds = array((int)$ruleIds);
         }
         if (!is_array($entityIds)) {
-            $entityIds = array((int) $entityIds);
+            $entityIds = array((int)$entityIds);
         }
 
-        $data  = array();
+        $data = array();
         $count = 0;
 
         $adapter->beginTransaction();
@@ -104,7 +104,7 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
                         $entityInfo['rule_id_field'] => $ruleId
                     );
                     $count++;
-                    if (($count % 1000) == 0) {
+                    if ($count % 1000 == 0) {
                         $adapter->insertOnDuplicate(
                             $this->getTable($entityInfo['associations_table']),
                             $data,
@@ -122,9 +122,15 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
                 );
             }
 
-            $adapter->delete($this->getTable($entityInfo['associations_table']),
-                $adapter->quoteInto($entityInfo['rule_id_field']   . ' IN (?) AND ', $ruleIds) .
-                $adapter->quoteInto($entityInfo['entity_id_field'] . ' NOT IN (?)', $entityIds)
+            $adapter->delete(
+                $this->getTable($entityInfo['associations_table']),
+                $adapter->quoteInto(
+                    $entityInfo['rule_id_field'] . ' IN (?) AND ',
+                    $ruleIds
+                ) . $adapter->quoteInto(
+                    $entityInfo['entity_id_field'] . ' NOT IN (?)',
+                    $entityIds
+                )
             );
         } catch (\Exception $e) {
             $adapter->rollback();
@@ -147,13 +153,13 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
     public function unbindRuleFromEntity($ruleIds, $entityIds, $entityType)
     {
         $writeAdapter = $this->_getWriteAdapter();
-        $entityInfo   = $this->_getAssociatedEntityInfo($entityType);
+        $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
         if (!is_array($entityIds)) {
-            $entityIds = array((int) $entityIds);
+            $entityIds = array((int)$entityIds);
         }
         if (!is_array($ruleIds)) {
-            $ruleIds = array((int) $ruleIds);
+            $ruleIds = array((int)$ruleIds);
         }
 
         $where = array();
@@ -180,9 +186,13 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
     {
         $entityInfo = $this->_getAssociatedEntityInfo($entityType);
 
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable($entityInfo['associations_table']), array($entityInfo['entity_id_field']))
-            ->where($entityInfo['rule_id_field'] . ' = ?', $ruleId);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getTable($entityInfo['associations_table']),
+            array($entityInfo['entity_id_field'])
+        )->where(
+            $entityInfo['rule_id_field'] . ' = ?',
+            $ruleId
+        );
 
         return $this->_getReadAdapter()->fetchCol($select);
     }
@@ -224,7 +234,8 @@ abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
         }
 
         throw new \Magento\Model\Exception(
-            __('There is no information about associated entity type "%1".', $entityType), 0
+            __('There is no information about associated entity type "%1".', $entityType),
+            0
         );
     }
 }

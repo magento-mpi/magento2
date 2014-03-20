@@ -11,7 +11,6 @@ namespace Magento\TargetRule\Block\Adminhtml\Targetrule\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form
 {
-
     /**
      * Adminhtml data
      *
@@ -56,12 +55,14 @@ class Form extends \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
-        $form = $this->_formFactory->create(array(
-            'data'=> array(
-                'id' => 'edit_form',
-                'action' => $this->_backendData->getUrl('adminhtml/*/save'),
-                'method' => 'post',
-            ))
+        $form = $this->_formFactory->create(
+            array(
+                'data' => array(
+                    'id' => 'edit_form',
+                    'action' => $this->_backendData->getUrl('adminhtml/*/save'),
+                    'method' => 'post'
+                )
+            )
         );
         $form->setUseContainer(true);
         $this->setForm($form);

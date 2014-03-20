@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Resource\Page;
 
 /**
@@ -21,7 +20,6 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      * @var bool
      */
     protected $_previewFlag;
-
 
     /**
      * Store manager
@@ -61,7 +59,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         $this->_init('Magento\Cms\Model\Page', 'Magento\Cms\Model\Resource\Page');
         $this->_map['fields']['page_id'] = 'main_table.page_id';
-        $this->_map['fields']['store']   = 'store_table.store_id';
+        $this->_map['fields']['store'] = 'store_table.store_id';
     }
 
     /**
@@ -115,9 +113,12 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             $items = $this->getColumnValues('page_id');
             $connection = $this->getConnection();
             if (count($items)) {
-                $select = $connection->select()
-                        ->from(array('cps'=>$this->getTable('cms_page_store')))
-                        ->where('cps.page_id IN (?)', $items);
+                $select = $connection->select()->from(
+                    array('cps' => $this->getTable('cms_page_store'))
+                )->where(
+                    'cps.page_id IN (?)',
+                    $items
+                );
 
                 if ($result = $connection->fetchPairs($select)) {
                     foreach ($this as $item) {
@@ -181,11 +182,12 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
                 array('store_table' => $this->getTable('cms_page_store')),
                 'main_table.page_id = store_table.page_id',
                 array()
-            )->group('main_table.page_id');
+            )->group(
+                'main_table.page_id'
+            );
         }
         return parent::_renderFiltersBefore();
     }
-
 
     /**
      * Get SQL for get record count.

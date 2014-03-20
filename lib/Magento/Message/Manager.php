@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 use Magento\Logger;
@@ -224,7 +223,8 @@ class Manager implements ManagerInterface
             if ($message instanceof MessageInterface) {
                 $text = $message->getText();
             } else {
-                continue; // Some unknown object, add it anyway
+                // Some unknown object, add it anyway
+                continue;
             }
 
             // Check for duplication

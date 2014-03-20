@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit;
 
 /**
@@ -25,20 +24,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
-        $form = $this->_formFactory->create(array(
-            'data' => array(
-                'id' => 'edit_form',
-                'action' => $this->getData('action'),
-                'method' => 'post',
-            ))
+        $form = $this->_formFactory->create(
+            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
         );
 
         $banner = $this->_coreRegistry->registry('current_banner');
 
         if ($banner->getId()) {
-            $form->addField('banner_id', 'hidden', array(
-                'name' => 'banner_id',
-            ));
+            $form->addField('banner_id', 'hidden', array('name' => 'banner_id'));
             $form->setValues($banner->getData());
         }
 

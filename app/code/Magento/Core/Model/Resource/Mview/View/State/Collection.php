@@ -7,8 +7,8 @@
  */
 namespace Magento\Core\Model\Resource\Mview\View\State;
 
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
-    implements \Magento\Mview\View\State\CollectionInterface
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection implements 
+    \Magento\Mview\View\State\CollectionInterface
 {
     /**
      * Collection initialization

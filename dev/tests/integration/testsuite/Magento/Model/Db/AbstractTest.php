@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Model\Resource\Db;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
@@ -25,7 +24,6 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             array('resource' => $resource)
         );
     }
-
 
     public function testConstruct()
     {
@@ -50,13 +48,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($idFieldName, $this->_model->getIdFieldName());
     }
 
-
     public function testGetTableName()
     {
         $tableNameOrig = 'core_website';
         $tableSuffix = 'suffix';
         $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\App\Resource', array('tablePrefix' => 'prefix_')
+            'Magento\App\Resource',
+            array('tablePrefix' => 'prefix_')
         );
 
         $model = $this->getMockForAbstractClass('Magento\Model\Resource\Db\AbstractDb',

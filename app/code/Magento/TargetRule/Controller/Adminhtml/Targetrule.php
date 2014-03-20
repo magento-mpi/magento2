@@ -7,14 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 
 class Targetrule extends \Magento\Backend\App\Action
 {
-
     /**
      * Core registry
      *
@@ -98,7 +96,7 @@ class Targetrule extends \Magento\Backend\App\Action
         $this->_title->add(__('Related Products Rule'));
 
         /* @var $model \Magento\TargetRule\Model\Rule */
-        $model  = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
+        $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
         $ruleId = $this->getRequest()->getParam('id', null);
 
         if ($ruleId) {
@@ -148,20 +146,23 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     public function saveAction()
     {
-        $redirectPath   = '*/*/';
+        $redirectPath = '*/*/';
         $redirectParams = array();
 
         $data = $this->getRequest()->getPost();
 
         if ($this->getRequest()->isPost() && $data) {
             /* @var $model \Magento\TargetRule\Model\Rule */
-            $model          = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
-            $redirectBack   = $this->getRequest()->getParam('back', false);
-            $hasError       = false;
+            $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
+            $redirectBack = $this->getRequest()->getParam('back', false);
+            $hasError = false;
 
             try {
                 $inputFilter = new \Zend_Filter_Input(
-                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter),
+                    array(),
+                    $data
+                );
                 $data = $inputFilter->getUnescaped();
                 $ruleId = $this->getRequest()->getParam('rule_id');
                 if ($ruleId) {
@@ -178,26 +179,21 @@ class Targetrule extends \Magento\Backend\App\Action
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('adminhtml/*/edit', array('id'=>$model->getId()));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                     return;
                 }
 
                 $data['conditions'] = $data['rule']['conditions'];
-                $data['actions']    = $data['rule']['actions'];
+                $data['actions'] = $data['rule']['actions'];
                 unset($data['rule']);
 
                 $model->loadPost($data);
                 $model->save();
 
-                $this->messageManager->addSuccess(
-                    __('You saved the rule.')
-                );
+                $this->messageManager->addSuccess(__('You saved the rule.'));
 
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array(
-                        'id'       => $model->getId(),
-                        '_current' => true,
-                    ));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), '_current' => true));
                     return;
                 }
             } catch (\Magento\Model\Exception $e) {
@@ -207,9 +203,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Invalid date.'));
                 $hasError = true;
             } catch (\Exception $e) {
-                $this->messageManager->addException($e,
-                    __('An error occurred while saving Product Rule.')
-                );
+                $this->messageManager->addException($e, __('An error occurred while saving Product Rule.'));
 
                 $this->messageManager->addError($e->getMessage());
                 $this->messageManager->setPageData($data);
@@ -244,8 +238,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('adminhtml/*/');
                 return;
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
@@ -267,11 +260,17 @@ class Targetrule extends \Magento\Backend\App\Action
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $model = $this->_objectManager->create($type)
-            ->setId($id)
-            ->setType($type)
-            ->setRule($this->_objectManager->create('Magento\TargetRule\Model\Rule'))
-            ->setPrefix($prefix);
+        $model = $this->_objectManager->create(
+            $type
+        )->setId(
+            $id
+        )->setType(
+            $type
+        )->setRule(
+            $this->_objectManager->create('Magento\TargetRule\Model\Rule')
+        )->setPrefix(
+            $prefix
+        );
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
@@ -294,5 +293,4 @@ class Targetrule extends \Magento\Backend\App\Action
     {
         return $this->_authorization->isAllowed('Magento_TargetRule::targetrule');
     }
-
 }

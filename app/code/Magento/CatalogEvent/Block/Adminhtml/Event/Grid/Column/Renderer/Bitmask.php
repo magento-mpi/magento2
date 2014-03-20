@@ -27,7 +27,7 @@ class Bitmask extends Text
      */
     public function render(\Magento\Object $row)
     {
-        $value = (int) $row->getData($this->getColumn()->getIndex());
+        $value = (int)$row->getData($this->getColumn()->getIndex());
         $result = array();
         foreach ($this->getColumn()->getOptions() as $option) {
             if (($value & $option['value']) == $option['value']) {

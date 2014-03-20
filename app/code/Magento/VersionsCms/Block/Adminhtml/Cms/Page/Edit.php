@@ -12,8 +12,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page;
 /**
  * Cms page edit form revisions tab
  */
-class Edit
-    extends \Magento\Backend\Block\Template
+class Edit extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
@@ -62,21 +61,24 @@ class Edit
                 $page = $this->_coreRegistry->registry('cms_page');
                 if ($page) {
                     if ($page->getId()) {
-                        $editBlock->addButton('preview', array(
-                            'label'     => __('Preview'),
-                            'class'     => 'preview',
-                            'data_attribute'  => array(
-                                'mage-init' => array(
-                                    'button' => array(
-                                        'event' => 'preview',
-                                        'target' => '#edit_form',
-                                        'eventData' => array(
-                                            'action' => $this->getUrl('adminhtml/cms_page_revision/preview'),
+                        $editBlock->addButton(
+                            'preview',
+                            array(
+                                'label' => __('Preview'),
+                                'class' => 'preview',
+                                'data_attribute' => array(
+                                    'mage-init' => array(
+                                        'button' => array(
+                                            'event' => 'preview',
+                                            'target' => '#edit_form',
+                                            'eventData' => array(
+                                                'action' => $this->getUrl('adminhtml/cms_page_revision/preview')
+                                            )
                                         )
-                                    ),
-                                ),
-                            ),
-                        ));
+                                    )
+                                )
+                            )
+                        );
                     }
 
                     $formBlock = $editBlock->getChildBlock('form');
@@ -85,8 +87,11 @@ class Edit
                         if ($page->getUnderVersionControl()) {
                             $tabId = $this->getRequest()->getParam('tab');
                             if ($tabId) {
-                                $formBlock->setSelectedTabId($tabsBlock->getId() . '_' . $tabId)
-                                    ->setTabJsObject($tabsBlock->getJsObjectName());
+                                $formBlock->setSelectedTabId(
+                                    $tabsBlock->getId() . '_' . $tabId
+                                )->setTabJsObject(
+                                    $tabsBlock->getJsObjectName()
+                                );
                             }
                         }
                     }

@@ -17,8 +17,7 @@
  */
 namespace Magento\Rule\Model\Resource\Rule\Collection;
 
-abstract class AbstractCollection
-    extends \Magento\Model\Resource\Db\Collection\AbstractCollection
+abstract class AbstractCollection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Store associated with rule entities information map
@@ -77,7 +76,7 @@ abstract class AbstractCollection
      */
     public function addWebsitesToResult($flag = null)
     {
-        $flag = ($flag === null) ? true : $flag;
+        $flag = $flag === null ? true : $flag;
         $this->setFlag('add_websites_to_result', $flag);
         return $this;
     }
@@ -97,9 +96,13 @@ abstract class AbstractCollection
                 $websiteId = $websiteId->getId();
             }
 
-            $subSelect = $this->getConnection()->select()
-                ->from(array('website' => $this->getTable($entityInfo['associations_table'])), '')
-                ->where('website.' . $entityInfo['entity_id_field'] . ' IN (?)', $websiteId);
+            $subSelect = $this->getConnection()->select()->from(
+                array('website' => $this->getTable($entityInfo['associations_table'])),
+                ''
+            )->where(
+                'website.' . $entityInfo['entity_id_field'] . ' IN (?)',
+                $websiteId
+            );
             $this->getSelect()->exists(
                 $subSelect,
                 'main_table.' . $entityInfo['rule_id_field'] . ' = website.' . $entityInfo['rule_id_field']
@@ -156,13 +159,10 @@ abstract class AbstractCollection
         }
 
         throw new \Magento\Model\Exception(
-            __('There is no information about associated entity type "%1".', $entityType), 0
+            __('There is no information about associated entity type "%1".', $entityType),
+            0
         );
     }
-
-
-
-
 
     /**
      * Set environment for all rules in collection
@@ -172,7 +172,7 @@ abstract class AbstractCollection
      *
      * @deprecated after 1.6.2.0
      */
-    public function setEnv( $env = null)
+    public function setEnv($env = null)
     {
         $this->_env = $env;
         return $this;

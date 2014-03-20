@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Plugin;
 
 class StoreGroup
@@ -22,9 +21,8 @@ class StoreGroup
     /**
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      */
-    public function __construct(
-        \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
-    ) {
+    public function __construct(\Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor)
+    {
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
     }
 

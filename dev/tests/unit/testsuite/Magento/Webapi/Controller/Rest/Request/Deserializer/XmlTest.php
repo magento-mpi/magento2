@@ -104,7 +104,11 @@ class XmlTest extends \PHPUnit_Framework_TestCase
             $exceptionMessage = 'Decoding Error: End tag for "key1" was omitted.';
             $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals($exceptionMessage, $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
+                $e->getHttpCode(),
+                'HTTP code is invalid'
+            );
         }
     }
 
@@ -125,7 +129,11 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         } catch (\Magento\Webapi\Exception $e) {
             $this->assertInstanceOf('Magento\Webapi\Exception', $e, 'Exception type is invalid');
             $this->assertEquals('Decoding error.', $e->getMessage(), 'Exception message is invalid');
-            $this->assertEquals(\Magento\Webapi\Exception::HTTP_BAD_REQUEST, $e->getHttpCode(), 'HTTP code is invalid');
+            $this->assertEquals(
+                \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
+                $e->getHttpCode(),
+                'HTTP code is invalid'
+            );
         }
     }
 }

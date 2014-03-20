@@ -92,10 +92,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
         if ($headBlock) {
             $headBlock->setTitle(__('Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -183,7 +180,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
     public function getShipmentAddressFormattedHtml($shipment)
     {
         $shippingAddress = $shipment->getShippingAddress();
-        if (!($shippingAddress instanceof \Magento\Sales\Model\Order\Address)) {
+        if (!$shippingAddress instanceof \Magento\Sales\Model\Order\Address) {
             return '';
         }
         return $shippingAddress->format('html');
@@ -198,7 +195,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
     public function getBillingAddressFormattedHtml($order)
     {
         $billingAddress = $order->getBillingAddress();
-        if (!($billingAddress instanceof \Magento\Sales\Model\Order\Address)) {
+        if (!$billingAddress instanceof \Magento\Sales\Model\Order\Address) {
             return '';
         }
         return $billingAddress->format('html');
@@ -221,4 +218,3 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
         return $res;
     }
 }
-

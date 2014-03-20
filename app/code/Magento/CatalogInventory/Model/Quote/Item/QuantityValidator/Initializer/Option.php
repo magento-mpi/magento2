@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer;
+
 use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\QuoteItemQtyList;
 
 class Option
@@ -93,4 +93,4 @@ class Option
 
         return $result;
     }
-} 
+}

@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model\Shipping;
 
-use \Magento\Sales\Model\Order\Shipment;
+use Magento\Sales\Model\Order\Shipment;
 
 /**
  * Shipping labels model
@@ -98,14 +96,27 @@ class Labels extends \Magento\Shipping\Model\Shipping
             (array)$this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId)
         );
 
-        if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
-            || !$originStreet1 || !$shipperRegionCode
-            || !$this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_CITY, $shipmentStoreId)
-            || !$this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_ZIP, $shipmentStoreId)
-            || !$this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_COUNTRY_ID, $shipmentStoreId)
+        if (!$admin->getFirstname() ||
+            !$admin->getLastname() ||
+            !$storeInfo->getName() ||
+            !$storeInfo->getPhone() ||
+            !$originStreet1 ||
+            !$shipperRegionCode ||
+            !$this->_coreStoreConfig->getConfig(
+                Shipment::XML_PATH_STORE_CITY,
+                $shipmentStoreId
+            ) || !$this->_coreStoreConfig->getConfig(
+                Shipment::XML_PATH_STORE_ZIP,
+                $shipmentStoreId
+            ) || !$this->_coreStoreConfig->getConfig(
+                Shipment::XML_PATH_STORE_COUNTRY_ID,
+                $shipmentStoreId
+            )
         ) {
             throw new \Magento\Model\Exception(
-                __('We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.')
+                __(
+                    'We don\'t have enough information to create shipping labels. Please make sure your store information and settings are complete.'
+                )
             );
         }
 

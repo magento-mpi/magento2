@@ -34,17 +34,24 @@ class Node extends \Magento\Model\AbstractModel
      * Meta node's types
      */
     const META_NODE_TYPE_CHAPTER = 'chapter';
+
     const META_NODE_TYPE_SECTION = 'section';
+
     const META_NODE_TYPE_FIRST = 'start';
+
     const META_NODE_TYPE_NEXT = 'next';
+
     const META_NODE_TYPE_PREVIOUS = 'prev';
 
     /**
      * Node's scope constants
      */
-    const NODE_SCOPE_DEFAULT    = 'default';
-    const NODE_SCOPE_WEBSITE    = 'website';
-    const NODE_SCOPE_STORE      = 'store';
+    const NODE_SCOPE_DEFAULT = 'default';
+
+    const NODE_SCOPE_WEBSITE = 'website';
+
+    const NODE_SCOPE_STORE = 'store';
+
     const NODE_SCOPE_DEFAULT_ID = 0;
 
     /**
@@ -225,13 +232,11 @@ class Node extends \Magento\Model\AbstractModel
     public function getNodesData()
     {
         $nodes = array();
-        $collection = $this->getCollection()
-                ->joinCmsPage()
-                ->addCmsPageInStoresColumn()
-                ->joinMetaData()
-                ->applyScope($this->_scope)
-                ->applyScopeId($this->_scopeId)
-                ->setOrderByLevel();
+        $collection = $this->getCollection()->joinCmsPage()->addCmsPageInStoresColumn()->joinMetaData()->applyScope(
+            $this->_scope
+        )->applyScopeId(
+            $this->_scopeId
+        )->setOrderByLevel();
 
         $this->_isInherited = $this->getIsInherited(true);
         foreach ($collection as $item) {
@@ -241,11 +246,11 @@ class Node extends \Magento\Model\AbstractModel
             }
             /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
             $node = array(
-                'node_id'           => $item->getId(),
-                'parent_node_id'    => $item->getParentNodeId(),
-                'label'             => $item->getLabel(),
-                'identifier'        => $item->getIdentifier(),
-                'page_id'           => $item->getPageId()
+                'node_id' => $item->getId(),
+                'parent_node_id' => $item->getParentNodeId(),
+                'label' => $item->getLabel(),
+                'identifier' => $item->getIdentifier(),
+                'page_id' => $item->getPageId()
             );
             $nodes[] = $this->_cmsHierarchy->copyMetaData($item->getData(), $node);
         }
@@ -260,13 +265,11 @@ class Node extends \Magento\Model\AbstractModel
      */
     public function getNodesCollection()
     {
-        $collection = $this->getCollection()
-                ->joinCmsPage()
-                ->addCmsPageInStoresColumn()
-                ->joinMetaData()
-                ->applyScope($this->_scope)
-                ->applyScopeId($this->_scopeId)
-                ->setOrderByLevel();
+        $collection = $this->getCollection()->joinCmsPage()->addCmsPageInStoresColumn()->joinMetaData()->applyScope(
+            $this->_scope
+        )->applyScopeId(
+            $this->_scopeId
+        )->setOrderByLevel();
 
         return $collection;
     }
@@ -297,9 +300,7 @@ class Node extends \Magento\Model\AbstractModel
 
         $nodes = array();
         foreach ($data as $v) {
-            $required = array(
-                'node_id', 'parent_node_id', 'page_id', 'label', 'identifier', 'level', 'sort_order'
-            );
+            $required = array('node_id', 'parent_node_id', 'page_id', 'label', 'identifier', 'level', 'sort_order');
             // validate required node data
             foreach ($required as $field) {
                 if (!array_key_exists($field, $v)) {
@@ -311,19 +312,18 @@ class Node extends \Magento\Model\AbstractModel
 
 
             $_node = array(
-                'node_id'            => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
-                'page_id'            => $pageId,
-                'label'              => !$pageId ? $v['label'] : null,
-                'identifier'         => !$pageId ? $v['identifier'] : null,
-                'level'              => intval($v['level']),
-                'sort_order'         => intval($v['sort_order']),
-                'request_url'        => $v['identifier'],
-                'scope'              => $this->_scope,
-                'scope_id'           => $this->_scopeId,
+                'node_id' => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
+                'page_id' => $pageId,
+                'label' => !$pageId ? $v['label'] : null,
+                'identifier' => !$pageId ? $v['identifier'] : null,
+                'level' => intval($v['level']),
+                'sort_order' => intval($v['sort_order']),
+                'request_url' => $v['identifier'],
+                'scope' => $this->_scope,
+                'scope_id' => $this->_scopeId
             );
 
-            $nodes[$parentNodeId][$v['node_id']] = $this->_cmsHierarchy
-                ->copyMetaData($v, $_node);
+            $nodes[$parentNodeId][$v['node_id']] = $this->_cmsHierarchy->copyMetaData($v, $_node);
         }
 
         $this->_getResource()->beginTransaction();
@@ -567,9 +567,7 @@ class Node extends \Magento\Model\AbstractModel
      */
     public function getUrl($store = null)
     {
-        return $this->_storeManager->getStore($store)->getUrl('', array(
-            '_direct' => trim($this->getRequestUrl())
-        ));
+        return $this->_storeManager->getStore($store)->getUrl('', array('_direct' => trim($this->getRequestUrl())));
     }
 
     /**
@@ -607,10 +605,15 @@ class Node extends \Magento\Model\AbstractModel
      */
     public function getTreeSlice($up = 0, $down = 0)
     {
-        $data = $this->_getResource()
-            ->setTreeMaxDepth($this->_getData('tree_max_depth'))
-            ->setTreeIsBrief($this->_getData('tree_is_brief'))
-            ->getTreeSlice($this, $up, $down);
+        $data = $this->_getResource()->setTreeMaxDepth(
+            $this->_getData('tree_max_depth')
+        )->setTreeIsBrief(
+            $this->_getData('tree_is_brief')
+        )->getTreeSlice(
+            $this,
+            $up,
+            $down
+        );
 
         $blankModel = $this->_nodeFactory->create();
         foreach ($data as $parentId => $children) {
@@ -621,6 +624,7 @@ class Node extends \Magento\Model\AbstractModel
         }
         return $data;
     }
+
     /**
      * Retrieve parent node's children.
      *
@@ -661,15 +665,14 @@ class Node extends \Magento\Model\AbstractModel
      */
     public function appendPageToNodes($page, $nodes)
     {
-        $parentNodes = $this->getCollection()
-            ->joinPageExistsNodeInfo($page)
-            ->applyPageExistsOrNodeIdFilter(array_keys($nodes), $page);
-
-        $pageData = array(
-            'page_id' => $page->getId(),
-            'identifier' => null,
-            'label' => null
+        $parentNodes = $this->getCollection()->joinPageExistsNodeInfo(
+            $page
+        )->applyPageExistsOrNodeIdFilter(
+            array_keys($nodes),
+            $page
         );
+
+        $pageData = array('page_id' => $page->getId(), 'identifier' => null, 'label' => null);
 
         $removeFromNodes = array();
 
@@ -680,14 +683,21 @@ class Node extends \Magento\Model\AbstractModel
                 if ($node->getPageExists()) {
                     continue;
                 } else {
-                    $node->addData($pageData)
-                        ->setParentNodeId($node->getId())
-                        ->unsetData($this->getIdFieldName())
-                        ->setLevel($node->getLevel() + 1)
-                        ->setSortOrder($sortOrder)
-                        ->setRequestUrl($node->getRequestUrl() . '/' . $page->getIdentifier())
-                        ->setXpath($node->getXpath() . '/')
-                        ->save();
+                    $node->addData(
+                        $pageData
+                    )->setParentNodeId(
+                        $node->getId()
+                    )->unsetData(
+                        $this->getIdFieldName()
+                    )->setLevel(
+                        $node->getLevel() + 1
+                    )->setSortOrder(
+                        $sortOrder
+                    )->setRequestUrl(
+                        $node->getRequestUrl() . '/' . $page->getIdentifier()
+                    )->setXpath(
+                        $node->getXpath() . '/'
+                    )->save();
                 }
             } else {
                 $removeFromNodes[] = $node->getId();
@@ -724,7 +734,8 @@ class Node extends \Magento\Model\AbstractModel
     {
         $values = array(
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES,
-            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO);
+            \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO
+        );
 
         return $this->getResource()->getParentMetadataParams($this, 'pager_visibility', $values);
     }
@@ -788,7 +799,7 @@ class Node extends \Magento\Model\AbstractModel
         parent::_afterSave();
         // we save to metadata table not only metadata :(
         //if ($this->_cmsHierarchy->isMetadataEnabled()) {
-            $this->_getResource()->saveMetaData($this);
+        $this->_getResource()->saveMetaData($this);
         //}
 
         return $this;
@@ -810,11 +821,11 @@ class Node extends \Magento\Model\AbstractModel
         $this->getResource()->deleteByScope($scope, $scopeId);
 
         if (!$this->_copyCollection) {
-            $this->_copyCollection = $this->getCollection()
-                ->applyScope($this->_scope)
-                ->applyScopeId($this->_scopeId)
-                ->joinCmsPage()
-                ->joinMetaData();
+            $this->_copyCollection = $this->getCollection()->applyScope(
+                $this->_scope
+            )->applyScopeId(
+                $this->_scopeId
+            )->joinCmsPage()->joinMetaData();
         }
         $this->getResource()->copyTo($scope, $scopeId, $this->_copyCollection);
         return $this;
@@ -851,16 +862,14 @@ class Node extends \Magento\Model\AbstractModel
         if ($this->getIsInherited()) {
             $helper = $this->_cmsHierarchy;
             $parentScope = $helper->getParentScope($this->_scope, $this->_scopeId);
-            $parentScopeNode = $this->_nodeFactory->create(array('data' => array(
-                'scope' =>  $parentScope[0],
-                'scope_id' => $parentScope[1],
-            )));
+            $parentScopeNode = $this->_nodeFactory->create(
+                array('data' => array('scope' => $parentScope[0], 'scope_id' => $parentScope[1]))
+            );
             if ($parentScopeNode->getIsInherited()) {
                 $parentScope = $helper->getParentScope($parentScope[0], $parentScope[1]);
-                $parentScopeNode = $this->_nodeFactory->create(array('data' => array(
-                    'scope' =>  $parentScope[0],
-                    'scope_id' => $parentScope[1],
-                )));
+                $parentScopeNode = $this->_nodeFactory->create(
+                    array('data' => array('scope' => $parentScope[0], 'scope_id' => $parentScope[1]))
+                );
             }
             return $parentScopeNode;
         }

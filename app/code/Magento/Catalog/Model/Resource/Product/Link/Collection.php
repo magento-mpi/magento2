@@ -141,8 +141,11 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
             $aliasInCondition = $adapter->quoteColumnAs($alias, null);
             $this->getSelect()->joinLeft(
                 array($alias => $table),
-                $aliasInCondition . '.link_id = main_table.link_id AND '
-                    . $aliasInCondition . '.product_link_attribute_id = ' . (int) $attribute['id'],
+                $aliasInCondition .
+                '.link_id = main_table.link_id AND ' .
+                $aliasInCondition .
+                '.product_link_attribute_id = ' .
+                (int)$attribute['id'],
                 array($attribute['code'] => 'value')
             );
         }

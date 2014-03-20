@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Item\Attribute\Source;
 
 /**
@@ -32,7 +31,7 @@ class Status extends \Magento\Rma\Model\Rma\Source\Status
             self::STATE_RECEIVED,
             self::STATE_APPROVED,
             self::STATE_REJECTED,
-            self::STATE_DENIED,
+            self::STATE_DENIED
         );
     }
 

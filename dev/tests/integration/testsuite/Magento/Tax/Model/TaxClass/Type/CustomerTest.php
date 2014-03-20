@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\TaxClass\Type;
 
 use Magento\Customer\Service\V1\Data\CustomerGroup;
@@ -19,6 +18,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     const TAX_CLASS_ID = 4;
+
     const GROUP_CODE = 'Test Group';
 
     /**
@@ -30,8 +30,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $customerGroupService \Magento\Customer\Service\V1\CustomerGroupServiceInterface */
         $customerGroupService = $this->_objectManager->create('\Magento\Customer\Service\V1\CustomerGroupService');
-        $group = (new CustomerGroupBuilder())->setId(null)->setCode(self::GROUP_CODE)->setTaxClassId(self::TAX_CLASS_ID)
-            ->create();
+        $group = (new CustomerGroupBuilder())->setId(
+            null
+        )->setCode(
+            self::GROUP_CODE
+        )->setTaxClassId(
+            self::TAX_CLASS_ID
+        )->create();
         $customerGroupService->saveGroup($group);
 
         /** @var $model \Magento\Tax\Model\TaxClass\Type\Customer */
@@ -46,4 +51,3 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::GROUP_CODE, $dataObjectArray[0]->getCode());
     }
 }
- 

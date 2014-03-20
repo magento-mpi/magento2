@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Invitation\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
@@ -85,7 +84,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invitations'));
 
-        $invitation =  $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
+        $invitation = $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
             throw new \Magento\Model\Exception(__("We couldn't find this invitation."));
         }
@@ -157,17 +156,19 @@ class Index extends \Magento\Backend\App\Action
             }
 
             // try to send invitation(s)
-            $sentCount   = 0;
+            $sentCount = 0;
             $failedCount = 0;
             $customerExistsCount = 0;
             foreach ($emails as $key => $email) {
                 try {
-                    $invitation =  $this->_invitationFactory->create()->setData(array(
-                        'email'    => $email,
-                        'store_id' => $storeId,
-                        'message'  => $this->getRequest()->getParam('message'),
-                        'group_id' => $this->getRequest()->getParam('group_id'),
-                    ))->save();
+                    $invitation = $this->_invitationFactory->create()->setData(
+                        array(
+                            'email' => $email,
+                            'store_id' => $storeId,
+                            'message' => $this->getRequest()->getParam('message'),
+                            'group_id' => $this->getRequest()->getParam('group_id')
+                        )
+                    )->save();
                     if ($invitation->sendInvitationEmail()) {
                         $sentCount++;
                     } else {
@@ -188,10 +189,17 @@ class Index extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('We sent %1 invitation(s).', $sentCount));
             }
             if ($failedCount) {
-                $this->messageManager->addError(__('Something went wrong sending %1 of %2 invitations.', $failedCount, count($emails)));
+                $this->messageManager->addError(
+                    __('Something went wrong sending %1 of %2 invitations.', $failedCount, count($emails))
+                );
             }
             if ($customerExistsCount) {
-                $this->messageManager->addNotice(__('%1 invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExistsCount));
+                $this->messageManager->addNotice(
+                    __(
+                        '%1 invitation(s) were not sent, because customer accounts already exist for specified email addresses.',
+                        $customerExistsCount
+                    )
+                );
             }
             $this->_getSession()->unsInvitationFormData();
             $this->_redirect('invitations/*/');
@@ -215,8 +223,7 @@ class Index extends \Magento\Backend\App\Action
             if ($this->getRequest()->isPost()) {
                 $email = $this->getRequest()->getParam('email');
 
-                $invitation->setMessage($this->getRequest()->getParam('message'))
-                    ->setEmail($email);
+                $invitation->setMessage($this->getRequest()->getParam('message'))->setEmail($email);
 
                 $result = $invitation->validate();
                 //checking if there was validation
@@ -251,11 +258,12 @@ class Index extends \Magento\Backend\App\Action
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 throw new \Magento\Model\Exception(__('Please select invitations.'));
             }
-            $collection =  $this->_invitationFactory->create()->getCollection()
-                ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
-                ->addCanBeSentFilter();
+            $collection = $this->_invitationFactory->create()->getCollection()->addFieldToFilter(
+                'invitation_id',
+                array('in' => $invitationsPost)
+            )->addCanBeSentFilter();
             $found = 0;
-            $sent  = 0;
+            $sent = 0;
             $customerExists = 0;
             foreach ($collection as $invitation) {
                 try {
@@ -310,10 +318,11 @@ class Index extends \Magento\Backend\App\Action
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 throw new \Magento\Model\Exception(__('Please select invitations.'));
             }
-            $collection =  $this->_invitationFactory->create()->getCollection()
-                ->addFieldToFilter('invitation_id', array('in' => $invitationsPost))
-                ->addCanBeCanceledFilter();
-            $found     = 0;
+            $collection = $this->_invitationFactory->create()->getCollection()->addFieldToFilter(
+                'invitation_id',
+                array('in' => $invitationsPost)
+            )->addCanBeCanceledFilter();
+            $found = 0;
             $cancelled = 0;
             foreach ($collection as $invitation) {
                 try {
@@ -349,7 +358,8 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_config->isEnabled()
-            && $this->_authorization->isAllowed('Magento_Invitation::magento_invitation');
+        return $this->_config->isEnabled() && $this->_authorization->isAllowed(
+            'Magento_Invitation::magento_invitation'
+        );
     }
 }

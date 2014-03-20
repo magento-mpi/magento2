@@ -14,8 +14,7 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation\Grid\Column;
 
-class Invitee
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Invitee extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Backend Url
@@ -50,8 +49,12 @@ class Invitee
             if (!$row->getReferralId()) {
                 return '';
             }
-            return '<a href="' . $this->_url->getUrl('customer/index/edit', array('id' => $row->getReferralId())) . '">'
-                   . $this->escapeHtml($row->getData($this->getColumn()->getIndex())) . '</a>';
+            return '<a href="' . $this->_url->getUrl(
+                'customer/index/edit',
+                array('id' => $row->getReferralId())
+            ) . '">' . $this->escapeHtml(
+                $row->getData($this->getColumn()->getIndex())
+            ) . '</a>';
         } else {
             return parent::_getValue($row);
         }

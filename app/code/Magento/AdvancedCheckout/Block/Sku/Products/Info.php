@@ -72,8 +72,10 @@ class Info extends \Magento\View\Element\Template
     {
         switch ($this->getItem()->getCode()) {
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
-                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' . $this->getItem()->getId() . '">'
-                    . $this->_checkoutData->getMessage(
+                $message = '<span class="sku-out-of-stock" id="sku-stock-failed-' .
+                    $this->getItem()->getId() .
+                    '">' .
+                    $this->_checkoutData->getMessage(
                         \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK
                     ) . '</span>';
                 return $message;
@@ -81,7 +83,12 @@ class Info extends \Magento\View\Element\Template
                 $message = $this->_checkoutData->getMessage(
                     \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED
                 );
-                $message .= '<br/>' . __("Only %1%2%3 left in stock", '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">', $this->getItem()->getQtyMaxAllowed(), '</span>');
+                $message .= '<br/>' . __(
+                    "Only %1%2%3 left in stock",
+                    '<span class="sku-failed-qty" id="sku-stock-failed-' . $this->getItem()->getId() . '">',
+                    $this->getItem()->getQtyMaxAllowed(),
+                    '</span>'
+                );
                 return $message;
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART:
                 $item = $this->getItem();
@@ -91,7 +98,7 @@ class Info extends \Magento\View\Element\Template
                 $message .= '<br/>';
                 if ($item->getQtyMaxAllowed()) {
                     $message .= __('The maximum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMaxAllowed()  * 1) . '</span>');
-                } else if ($item->getQtyMinAllowed()) {
+                } elseif ($item->getQtyMinAllowed()) {
                     $message .= __('The minimum quantity allowed for purchase is %1.', '<span class="sku-failed-qty" id="sku-stock-failed-' . $item->getId() . '">' . ($item->getQtyMinAllowed()  * 1) . '</span>');
                 }
                 return $message;
@@ -109,7 +116,7 @@ class Info extends \Magento\View\Element\Template
      */
     public function isItemSkuFailed()
     {
-        return $this->getItem()->getCode() ==  \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
+        return $this->getItem()->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
     }
 
     /**
@@ -132,14 +139,13 @@ class Info extends \Magento\View\Element\Template
         $item = $this->getItem();
         switch ($item->getCode()) {
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE:
-                $link = $this->getUrl('checkout/cart/configureFailed', array(
-                    'id'  => $item->getProductId(),
-                    'qty' => $item->getQty(),
-                    'sku' => $item->getSku()
-                ));
-                return '<a href="' . $link . '" class="configure-popup">'
-                        . __("Specify the product's options")
-                        . '</a>';
+                $link = $this->getUrl(
+                    'checkout/cart/configureFailed',
+                    array('id' => $item->getProductId(), 'qty' => $item->getQty(), 'sku' => $item->getSku())
+                );
+                return '<a href="' . $link . '" class="configure-popup">' . __(
+                    "Specify the product's options"
+                ) . '</a>';
             case \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK:
                 /** @var $helper \Magento\ProductAlert\Helper\Data */
                 $helper = $this->_productAlertData;
@@ -150,9 +156,9 @@ class Info extends \Magento\View\Element\Template
 
                 $helper->setProduct($this->getItem()->getProduct());
                 $signUpLabel = $this->escapeHtml(__('Receive notice when item is restocked.'));
-                return '<a href="'
-                    . $this->escapeHtml($helper->getSaveUrl('stock'))
-                    . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';
+                return '<a href="' . $this->escapeHtml(
+                    $helper->getSaveUrl('stock')
+                ) . '" title="' . $signUpLabel . '">' . $signUpLabel . '</a>';
             default:
                 return '';
         }
@@ -174,8 +180,9 @@ class Info extends \Magento\View\Element\Template
         $productTierPrices = $product->getData('tier_price');
         if (!is_array($productTierPrices)) {
             $productAttributes = $product->getAttributes();
-            if (!isset($productAttributes['tier_price'])
-                || !($productAttributes['tier_price'] instanceof \Magento\Catalog\Model\Resource\Eav\Attribute)
+            if (!isset(
+                $productAttributes['tier_price']
+            ) || !$productAttributes['tier_price'] instanceof \Magento\Catalog\Model\Resource\Eav\Attribute
             ) {
                 return '';
             }

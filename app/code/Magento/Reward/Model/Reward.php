@@ -29,21 +29,34 @@ use Magento\Model\Exception;
 class Reward extends \Magento\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
+
     const XML_PATH_BALANCE_WARNING_TEMPLATE = 'magento_reward/notification/expiry_warning_template';
+
     const XML_PATH_EMAIL_IDENTITY = 'magento_reward/notification/email_sender';
+
     const XML_PATH_MIN_POINTS_BALANCE = 'magento_reward/general/min_points_balance';
 
-    const REWARD_ACTION_ADMIN               = 0;
-    const REWARD_ACTION_ORDER               = 1;
-    const REWARD_ACTION_REGISTER            = 2;
-    const REWARD_ACTION_NEWSLETTER          = 3;
+    const REWARD_ACTION_ADMIN = 0;
+
+    const REWARD_ACTION_ORDER = 1;
+
+    const REWARD_ACTION_REGISTER = 2;
+
+    const REWARD_ACTION_NEWSLETTER = 3;
+
     const REWARD_ACTION_INVITATION_CUSTOMER = 4;
-    const REWARD_ACTION_INVITATION_ORDER    = 5;
-    const REWARD_ACTION_REVIEW              = 6;
-    const REWARD_ACTION_ORDER_EXTRA         = 8;
-    const REWARD_ACTION_CREDITMEMO          = 9;
-    const REWARD_ACTION_SALESRULE           = 10;
-    const REWARD_ACTION_REVERT              = 11;
+
+    const REWARD_ACTION_INVITATION_ORDER = 5;
+
+    const REWARD_ACTION_REVIEW = 6;
+
+    const REWARD_ACTION_ORDER_EXTRA = 8;
+
+    const REWARD_ACTION_CREDITMEMO = 9;
+
+    const REWARD_ACTION_SALESRULE = 10;
+
+    const REWARD_ACTION_REVERT = 11;
 
     /**
      * Model is loaded by customer
@@ -57,7 +70,7 @@ class Reward extends \Magento\Model\AbstractModel
      *
      * @var array
      */
-    static protected $_actionModelClasses = array();
+    protected static $_actionModelClasses = array();
 
     /**
      * Rates
@@ -187,17 +200,17 @@ class Reward extends \Magento\Model\AbstractModel
         parent::_construct();
         $this->_init('Magento\Reward\Model\Resource\Reward');
         self::$_actionModelClasses = self::$_actionModelClasses + array(
-            self::REWARD_ACTION_ADMIN               => 'Magento\Reward\Model\Action\Admin',
-            self::REWARD_ACTION_ORDER               => 'Magento\Reward\Model\Action\Order',
-            self::REWARD_ACTION_REGISTER            => 'Magento\Reward\Model\Action\Register',
-            self::REWARD_ACTION_NEWSLETTER          => 'Magento\Reward\Model\Action\Newsletter',
+            self::REWARD_ACTION_ADMIN => 'Magento\Reward\Model\Action\Admin',
+            self::REWARD_ACTION_ORDER => 'Magento\Reward\Model\Action\Order',
+            self::REWARD_ACTION_REGISTER => 'Magento\Reward\Model\Action\Register',
+            self::REWARD_ACTION_NEWSLETTER => 'Magento\Reward\Model\Action\Newsletter',
             self::REWARD_ACTION_INVITATION_CUSTOMER => 'Magento\Reward\Model\Action\InvitationCustomer',
-            self::REWARD_ACTION_INVITATION_ORDER    => 'Magento\Reward\Model\Action\InvitationOrder',
-            self::REWARD_ACTION_REVIEW              => 'Magento\Reward\Model\Action\Review',
-            self::REWARD_ACTION_ORDER_EXTRA         => 'Magento\Reward\Model\Action\OrderExtra',
-            self::REWARD_ACTION_CREDITMEMO          => 'Magento\Reward\Model\Action\Creditmemo',
-            self::REWARD_ACTION_SALESRULE           => 'Magento\Reward\Model\Action\Salesrule',
-            self::REWARD_ACTION_REVERT              => 'Magento\Reward\Model\Action\OrderRevert'
+            self::REWARD_ACTION_INVITATION_ORDER => 'Magento\Reward\Model\Action\InvitationOrder',
+            self::REWARD_ACTION_REVIEW => 'Magento\Reward\Model\Action\Review',
+            self::REWARD_ACTION_ORDER_EXTRA => 'Magento\Reward\Model\Action\OrderExtra',
+            self::REWARD_ACTION_CREDITMEMO => 'Magento\Reward\Model\Action\Creditmemo',
+            self::REWARD_ACTION_SALESRULE => 'Magento\Reward\Model\Action\Salesrule',
+            self::REWARD_ACTION_REVERT => 'Magento\Reward\Model\Action\OrderRevert'
         );
     }
 
@@ -227,9 +240,7 @@ class Reward extends \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {
-        $this->loadByCustomer()
-            ->_preparePointsDelta()
-            ->_preparePointsBalance();
+        $this->loadByCustomer()->_preparePointsDelta()->_preparePointsBalance();
         return parent::_beforeSave();
     }
 
@@ -243,9 +254,7 @@ class Reward extends \Magento\Model\AbstractModel
     {
         if ((int)$this->getPointsDelta() != 0 || $this->getCappedReward()) {
             $this->_prepareCurrencyAmount();
-            $this->getHistory()
-                ->prepareFromReward()
-                ->save();
+            $this->getHistory()->prepareFromReward()->save();
             $this->sendBalanceUpdateNotification();
         }
         return parent::_afterSave();
@@ -438,8 +447,11 @@ class Reward extends \Magento\Model\AbstractModel
      */
     public function getFormatedCurrencyAmount()
     {
-        $currencyAmount = $this->_localeCurrency->getCurrency($this->getWebsiteCurrencyCode())
-                ->toCurrency($this->getCurrencyAmount());
+        $currencyAmount = $this->_localeCurrency->getCurrency(
+            $this->getWebsiteCurrencyCode()
+        )->toCurrency(
+            $this->getCurrencyAmount()
+        );
         return $currencyAmount;
     }
 
@@ -451,8 +463,10 @@ class Reward extends \Magento\Model\AbstractModel
     public function getWebsiteCurrencyCode()
     {
         if (!$this->_getData('website_currency_code')) {
-            $this->setData('website_currency_code', $this->_storeManager->getWebsite($this->getWebsiteId())
-                ->getBaseCurrencyCode());
+            $this->setData(
+                'website_currency_code',
+                $this->_storeManager->getWebsite($this->getWebsiteId())->getBaseCurrencyCode()
+            );
         }
         return $this->_getData('website_currency_code');
     }
@@ -480,8 +494,11 @@ class Reward extends \Magento\Model\AbstractModel
     protected function _getRateByDirection($direction)
     {
         if (!isset($this->_rates[$direction])) {
-            $this->_rates[$direction] = $this->_rateFactory->create()
-                ->fetch($this->getCustomerGroupId(), $this->getWebsiteId(), $direction);
+            $this->_rates[$direction] = $this->_rateFactory->create()->fetch(
+                $this->getCustomerGroupId(),
+                $this->getWebsiteId(),
+                $direction
+            );
         }
         return $this->_rates[$direction];
     }
@@ -523,7 +540,7 @@ class Reward extends \Magento\Model\AbstractModel
      */
     public function getRateDirectionByAction()
     {
-        switch($this->getAction()) {
+        switch ($this->getAction()) {
             case self::REWARD_ACTION_ORDER_EXTRA:
                 $direction = \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS;
                 break;
@@ -542,8 +559,7 @@ class Reward extends \Magento\Model\AbstractModel
     public function loadByCustomer()
     {
         if (!$this->_modelLoadedByCustomer && $this->getCustomerId() && $this->getWebsiteId()) {
-            $this->getResource()->loadByCustomerId($this,
-                $this->getCustomerId(), $this->getWebsiteId());
+            $this->getResource()->loadByCustomerId($this, $this->getCustomerId(), $this->getWebsiteId());
             $this->_modelLoadedByCustomer = true;
         }
         return $this;
@@ -620,15 +636,12 @@ class Reward extends \Magento\Model\AbstractModel
         }
         $pointsBalance = 0;
         $pointsBalance = (int)$this->getPointsBalance() + $points;
-        $maxPointsBalance = (int)($this->_rewardData
-            ->getGeneralConfig('max_points_balance', $this->getWebsiteId()));
-        if ($maxPointsBalance != 0 && ($pointsBalance > $maxPointsBalance)) {
+        $maxPointsBalance = (int)$this->_rewardData->getGeneralConfig('max_points_balance', $this->getWebsiteId());
+        if ($maxPointsBalance != 0 && $pointsBalance > $maxPointsBalance) {
             $pointsBalance = $maxPointsBalance;
-            $pointsDelta   = $maxPointsBalance - (int)$this->getPointsBalance();
+            $pointsDelta = $maxPointsBalance - (int)$this->getPointsBalance();
             $croppedPoints = (int)$this->getPointsDelta() - $pointsDelta;
-            $this->setPointsDelta($pointsDelta)
-                ->setIsCappedReward(true)
-                ->setCroppedPoints($croppedPoints);
+            $this->setPointsDelta($pointsDelta)->setIsCappedReward(true)->setCroppedPoints($croppedPoints);
         }
         $this->setPointsBalance($pointsBalance);
         return $this;
@@ -647,8 +660,8 @@ class Reward extends \Magento\Model\AbstractModel
             $amountDelta = $this->_convertPointsToCurrency($this->getPointsDelta());
         }
         $amount = $this->_convertPointsToCurrency($this->getPointsBalance());
-        $this->setCurrencyDelta((float)$amountDelta);
-        $this->setCurrencyAmount((float)($amount));
+        $this->setCurrencyDelta((double)$amountDelta);
+        $this->setCurrencyAmount((double)$amount);
         return $this;
     }
 
@@ -660,9 +673,9 @@ class Reward extends \Magento\Model\AbstractModel
      */
     protected function _convertPointsToCurrency($points)
     {
-        return $points && $this->getRateToCurrency()
-            ? (float)$this->getRateToCurrency()->calculateToCurrency($points)
-            : 0;
+        return $points && $this->getRateToCurrency() ? (double)$this->getRateToCurrency()->calculateToCurrency(
+            $points
+        ) : 0;
     }
 
     /**
@@ -719,31 +732,36 @@ class Reward extends \Magento\Model\AbstractModel
         $history = $this->getHistory();
         $store = $this->_storeManager->getStore($this->getStore());
 
-        $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_BALANCE_UPDATE_TEMPLATE))
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars(array(
+        $this->_transportBuilder->setTemplateIdentifier(
+            $store->getConfig(self::XML_PATH_BALANCE_UPDATE_TEMPLATE)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            array(
                 'store' => $store,
                 'customer' => $this->getCustomer(),
-                'unsubscription_url' => $this->_rewardCustomer
-                        ->getUnsubscribeUrl('update', $store->getId()),
+                'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('update', $store->getId()),
                 'points_balance' => $this->getPointsBalance(),
                 'reward_amount_was' => $this->_rewardData->formatAmount(
-                        $this->getCurrencyAmount() - $history->getCurrencyDelta(), true, $store->getStoreId()
-                    ),
+                    $this->getCurrencyAmount() - $history->getCurrencyDelta(),
+                    true,
+                    $store->getStoreId()
+                ),
                 'reward_amount_now' => $this->_rewardData->formatAmount(
-                        $this->getCurrencyAmount(), true, $store->getStoreId()
-                    ),
-                'reward_pts_was' => ($this->getPointsBalance() - $delta),
+                    $this->getCurrencyAmount(),
+                    true,
+                    $store->getStoreId()
+                ),
+                'reward_pts_was' => $this->getPointsBalance() - $delta,
                 'reward_pts_change' => $delta,
                 'update_message' => $this->getHistory()->getMessage(),
                 'update_comment' => $history->getComment()
-            ))
-            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
-            ->addTo($this->getCustomer()->getEmail());
+            )
+        )->setFrom(
+            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY)
+        )->addTo(
+            $this->getCustomer()->getEmail()
+        );
         $transport = $this->_transportBuilder->getTransport();
         $error = false;
         try {
@@ -770,28 +788,33 @@ class Reward extends \Magento\Model\AbstractModel
     {
         $store = $this->_storeManager->getStore($item->getStoreId());
         $helper = $this->_rewardData;
-        $amount = $helper
-            ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
+        $amount = $helper->getRateFromRatesArray(
+            $item->getPointsBalanceTotal(),
+            $websiteId,
+            $item->getCustomerGroupId()
+        );
         $action = $this->getActionInstance($item->getAction());
 
-        $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE))
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $item->getStoreId()
-            ))
-            ->setTemplateVars(array(
+        $this->_transportBuilder->setTemplateIdentifier(
+            $store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+        )->setTemplateVars(
+            array(
                 'store' => $store,
-                'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
+                'customer_name' => $item->getCustomerFirstname() . ' ' . $item->getCustomerLastname(),
                 'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
                 'remaining_days' => $store->getConfig('magento_reward/notification/expiry_day_before'),
                 'points_balance' => $item->getPointsBalanceTotal(),
                 'points_expiring' => $item->getTotalExpired(),
                 'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
-                'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
-            ))
-            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
-            ->addTo($item->getCustomerEmail());
+                'update_message' => $action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : ''
+            )
+        )->setFrom(
+            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY)
+        )->addTo(
+            $item->getCustomerEmail()
+        );
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
@@ -823,7 +846,7 @@ class Reward extends \Magento\Model\AbstractModel
     public function deleteOrphanPointsByCustomer($customer = null)
     {
         if ($customer === null) {
-            $customer = $this->getCustomerId()?$this->getCustomerId():$this->getCustomer();
+            $customer = $this->getCustomerId() ? $this->getCustomerId() : $this->getCustomer();
         }
         if (is_object($customer) && $customer instanceof \Magento\Customer\Model\Customer) {
             $customer = $customer->getId();

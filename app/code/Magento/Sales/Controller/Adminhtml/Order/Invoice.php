@@ -100,8 +100,12 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 return false;
             }
             $savedQtys = $this->_getItemQtys();
-            $invoice = $this->_objectManager->create('Magento\Sales\Model\Service\Order', array('order' => $order))
-                ->prepareInvoice($savedQtys);
+            $invoice = $this->_objectManager->create(
+                'Magento\Sales\Model\Service\Order',
+                array('order' => $order)
+            )->prepareInvoice(
+                $savedQtys
+            );
             if (!$invoice->getTotalQty()) {
                 throw new Exception(__('Cannot create an invoice without products.'));
             }
@@ -120,10 +124,13 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     protected function _saveInvoice($invoice)
     {
         $invoice->getOrder()->setIsInProcess(true);
-        $this->_objectManager->create('Magento\DB\Transaction')
-            ->addObject($invoice)
-            ->addObject($invoice->getOrder())
-            ->save();
+        $this->_objectManager->create(
+            'Magento\DB\Transaction'
+        )->addObject(
+            $invoice
+        )->addObject(
+            $invoice->getOrder()
+        )->save();
 
         return $this;
     }
@@ -137,8 +144,12 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     protected function _prepareShipment($invoice)
     {
         $savedQtys = $this->_getItemQtys();
-        $shipment = $this->_objectManager->create('Magento\Sales\Model\Service\Order', array('order' => $invoice->getOrder()))
-            ->prepareShipment($savedQtys);
+        $shipment = $this->_objectManager->create(
+            'Magento\Sales\Model\Service\Order',
+            array('order' => $invoice->getOrder())
+        )->prepareShipment(
+            $savedQtys
+        );
         if (!$shipment->getTotalQty()) {
             return false;
         }
@@ -148,8 +159,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         $tracks = $this->getRequest()->getPost('tracking');
         if ($tracks) {
             foreach ($tracks as $data) {
-                $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
-                    ->addData($data);
+                $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->addData($data);
                 $shipment->addTrack($track);
             }
         }
@@ -168,9 +178,12 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
             $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_order');
-            $this->_view->getLayout()->getBlock('sales_invoice_view')
-                ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_view->getLayout()->getBlock(
+                'sales_invoice_view'
+            )->updateBackButtonUrl(
+                $this->getRequest()->getParam('come_from')
+            );
             $this->_view->renderLayout();
         } else {
             $this->_forward('noroute');
@@ -211,7 +224,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $this->_setActiveMenu('Magento_Sales::sales_order');
             $this->_view->renderLayout();
         } else {
-            $this->_redirect('sales/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
+            $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -232,16 +245,10 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => $e->getMessage()
-            );
+            $response = array('error' => true, 'message' => $e->getMessage());
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => __('Cannot update item quantity.')
-            );
+            $response = array('error' => true, 'message' => __('Cannot update item quantity.'));
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
@@ -287,11 +294,15 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 $invoice->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $invoice->getOrder()->setIsInProcess(true);
 
-                $transactionSave = $this->_objectManager->create('Magento\DB\Transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder());
+                $transactionSave = $this->_objectManager->create(
+                    'Magento\DB\Transaction'
+                )->addObject(
+                    $invoice
+                )->addObject(
+                    $invoice->getOrder()
+                );
                 $shipment = false;
-                if (!empty($data['do_shipment']) || (int) $invoice->getOrder()->getForcedShipmentWithInvoice()) {
+                if (!empty($data['do_shipment']) || (int)$invoice->getOrder()->getForcedShipmentWithInvoice()) {
                     $shipment = $this->_prepareShipment($invoice);
                     if ($shipment) {
                         $shipment->setEmailSent($invoice->getEmailSent());
@@ -301,8 +312,12 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 $transactionSave->save();
 
                 if (isset($shippingResponse) && $shippingResponse->hasErrors()) {
-                    $this->messageManager->addError(__('The invoice and the shipment  have been created. '
-                        . 'The shipping label cannot be created now.'));
+                    $this->messageManager->addError(
+                        __(
+                            'The invoice and the shipment  have been created. ' .
+                            'The shipping label cannot be created now.'
+                        )
+                    );
                 } elseif (!empty($data['do_shipment'])) {
                     $this->messageManager->addSuccess(__('You created the invoice and shipment.'));
                 } else {
@@ -343,7 +358,6 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         $this->_redirect('sales/*/new', array('order_id' => $orderId));
     }
 
-
     /**
      * Capture invoice action
      *
@@ -362,7 +376,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Invoice capturing error'));
             }
-            $this->_redirect('sales/*/view', array('invoice_id'=>$invoice->getId()));
+            $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
             $this->_forward('noroute');
         }
@@ -439,16 +453,10 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => $e->getMessage()
-            );
+            $response = array('error' => true, 'message' => $e->getMessage());
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         } catch (\Exception $e) {
-            $response = array(
-                'error'     => true,
-                'message'   => __('Cannot add new comment.')
-            );
+            $response = array('error' => true, 'message' => __('Cannot add new comment.'));
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);

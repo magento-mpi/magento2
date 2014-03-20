@@ -16,12 +16,11 @@
         \Magento\App\Filesystem::THEMES_DIR => array('path' => realpath(__DIR__)),
     ),
 ));
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
-    'preferences' => array(
-        'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'
-    )
-));
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
+    array('preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'))
+);
 /** @var $registration \Magento\Core\Model\Theme\Registration */
-$registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Core\Model\Theme\Registration');
+$registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Core\Model\Theme\Registration'
+);
 $registration->register(implode('/', array('*', '*', 'theme.xml')));

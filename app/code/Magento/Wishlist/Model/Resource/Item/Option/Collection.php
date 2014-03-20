@@ -28,7 +28,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      *
      * @var array
      */
-    protected $_optionsByItem    = array();
+    protected $_optionsByItem = array();
 
     /**
      * Array of option ids grouped by product id
@@ -57,9 +57,9 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
         parent::_afterLoad();
 
         foreach ($this as $option) {
-            $optionId   = $option->getId();
-            $itemId     = $option->getWishlistItemId();
-            $productId  = $option->getProductId();
+            $optionId = $option->getId();
+            $itemId = $option->getWishlistItemId();
+            $productId = $option->getProductId();
             if (isset($this->_optionsByItem[$itemId])) {
                 $this->_optionsByItem[$itemId][] = $optionId;
             } else {

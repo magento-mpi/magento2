@@ -42,7 +42,7 @@ class Observer
     public function upgradeCustomerPassword($observer)
     {
         $password = $observer->getEvent()->getPassword();
-        $model    = $observer->getEvent()->getModel();
+        $model = $observer->getEvent()->getModel();
         if (!$this->_encryptor->validateHashByVersion($password, $model->getPasswordHash())) {
             $model->changePassword($password);
         }

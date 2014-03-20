@@ -26,7 +26,7 @@ class Generator extends XmlGenerator
     /**
      * @param string $file
      */
-    public function __construct($file='')
+    public function __construct($file = '')
     {
         if ($file) {
             $this->_file = $file;
@@ -59,9 +59,7 @@ class Generator extends XmlGenerator
      */
     public function save($content)
     {
-        $xmlContent = $this->getGenerator()
-        ->arrayToXml($content)
-        ->save($this->getFile());
+        $xmlContent = $this->getGenerator()->arrayToXml($content)->save($this->getFile());
         return $this;
     }
 }

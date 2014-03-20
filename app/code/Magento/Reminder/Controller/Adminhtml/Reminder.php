@@ -72,11 +72,12 @@ class Reminder extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Reminder::promo_reminder')
-            ->_addBreadcrumb(
-                __('Reminder Rules'),
-                __('Reminder Rules')
-            );
+        $this->_setActiveMenu(
+            'Magento_Reminder::promo_reminder'
+        )->_addBreadcrumb(
+            __('Reminder Rules'),
+            __('Reminder Rules')
+        );
         return $this;
     }
 
@@ -154,12 +155,14 @@ class Reminder extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $this->_view->getLayout()->getBlock('adminhtml_reminder_edit')
-            ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
+        $this->_view->getLayout()->getBlock(
+            'adminhtml_reminder_edit'
+        )->setData(
+            'form_action_url',
+            $this->getUrl('adminhtml/*/save')
+        );
 
-        $this->_view->getLayout()->getBlock('head')
-            ->setCanLoadExtJs(true)
-            ->setCanLoadRulesJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setCanLoadRulesJs(true);
 
         $caption = $model->getId() ? __('Edit Rule') : __('New Reminder Rule');
         $this->_addBreadcrumb($caption, $caption);
@@ -177,11 +180,17 @@ class Reminder extends \Magento\Backend\App\Action
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
 
-        $model = $this->_conditionFactory->create($type)
-            ->setId($id)
-            ->setType($type)
-            ->setRule($this->_ruleFactory->create())
-            ->setPrefix('conditions');
+        $model = $this->_conditionFactory->create(
+            $type
+        )->setId(
+            $id
+        )->setType(
+            $type
+        )->setRule(
+            $this->_ruleFactory->create()
+        )->setPrefix(
+            'conditions'
+        );
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }
@@ -209,7 +218,10 @@ class Reminder extends \Magento\Backend\App\Action
                 $model = $this->_initRule('rule_id');
 
                 $inputFilter = new \Zend_Filter_Input(
-                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter),
+                    array(),
+                    $data
+                );
                 $data = $inputFilter->getUnescaped();
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
@@ -235,13 +247,9 @@ class Reminder extends \Magento\Backend\App\Action
                 $this->_getSession()->setPageData(false);
 
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array(
-                        'id'       => $model->getId(),
-                        '_current' => true,
-                    ));
+                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), '_current' => true));
                     return;
                 }
-
             } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
@@ -266,8 +274,7 @@ class Reminder extends \Magento\Backend\App\Action
             $model = $this->_initRule();
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted the reminder rule.'));
-        }
-        catch (\Magento\Model\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
@@ -306,7 +313,9 @@ class Reminder extends \Magento\Backend\App\Action
     public function customerGridAction()
     {
         if ($this->_initRule('rule_id')) {
-            $block = $this->_view->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
+            $block = $this->_view->getLayout()->createBlock(
+                'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers'
+            );
             $this->getResponse()->setBody($block->toHtml());
         }
     }
@@ -318,7 +327,10 @@ class Reminder extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Reminder::magento_reminder') &&
-            $this->_objectManager->get('Magento\Reminder\Helper\Data')->isEnabled();
+        return $this->_authorization->isAllowed(
+            'Magento_Reminder::magento_reminder'
+        ) && $this->_objectManager->get(
+            'Magento\Reminder\Helper\Data'
+        )->isEnabled();
     }
 }

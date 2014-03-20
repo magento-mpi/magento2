@@ -16,7 +16,6 @@ namespace Magento\Review\Model\Resource\Review;
  */
 class Status extends \Magento\Model\Resource\Db\AbstractDb
 {
-
     /**
      * Resource status model initialization
      *

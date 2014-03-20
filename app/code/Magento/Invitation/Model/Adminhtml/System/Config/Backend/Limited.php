@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Invitation\Model\Adminhtml\System\Config\Backend;
 
 /**
@@ -59,15 +58,16 @@ class Limited extends \Magento\Core\Model\Config\Value
             $parameter = __('Max Invitations Allowed to be Sent at One Time');
 
             //if even old value is not valid we will have to you '1'
-            $value = (int) $this->getOldValue();
+            $value = (int)$this->getOldValue();
             if ($value < 1) {
                 $value = 1;
-
             }
             $this->setValue($value);
             $this->messageManager->addNotice(
-                __('Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.',
-                    $parameter)
+                __(
+                    'Please correct the value for "%1" parameter, otherwise we\'ll use the saved value instead.',
+                    $parameter
+                )
             );
         }
         return $this;

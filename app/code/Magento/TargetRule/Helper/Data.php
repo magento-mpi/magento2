@@ -19,9 +19,9 @@ namespace Magento\TargetRule\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_TARGETRULE_CONFIG    = 'catalog/magento_targetrule/';
+    const XML_PATH_TARGETRULE_CONFIG = 'catalog/magento_targetrule/';
 
-    const MAX_PRODUCT_LIST_RESULT       = 20;
+    const MAX_PRODUCT_LIST_RESULT = 20;
 
     /**
      * Core store config
@@ -53,13 +53,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit');
+                $number = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit'
+                );
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit');
+                $number = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit'
+                );
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
+                $number = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit'
+                );
                 break;
             default:
                 throw new \Magento\Model\Exception(__('Invalid product list type'));
@@ -79,13 +85,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior');
+                $show = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior'
+                );
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior');
+                $show = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior'
+                );
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
+                $show = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior'
+                );
                 break;
             default:
                 throw new \Magento\Model\Exception(__('Invalid product list type'));
@@ -128,7 +140,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rotation_mode');
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
+                $mode = $this->_coreStoreConfig->getConfig(
+                    self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode'
+                );
                 break;
             default:
                 throw new \Magento\Model\Exception(__('Invalid rotation mode type'));

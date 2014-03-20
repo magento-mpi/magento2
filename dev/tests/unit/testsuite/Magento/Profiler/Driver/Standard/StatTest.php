@@ -41,8 +41,8 @@ class StatTest extends \PHPUnit_Framework_TestCase
 
         foreach ($expected as $timerId => $expectedTimer) {
             $actualTimer = $this->_stat->get($timerId);
-            $this->assertInternalType('array', $actualTimer, "Timer '$timerId' must be an array");
-            $this->assertEquals($expectedTimer, $actualTimer, "Timer '$timerId' has unexpected value");
+            $this->assertInternalType('array', $actualTimer, "Timer '{$timerId}' must be an array");
+            $this->assertEquals($expectedTimer, $actualTimer, "Timer '{$timerId}' has unexpected value");
         }
     }
 
@@ -56,7 +56,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
         return array(
             'Start only once' => array(
                 'actions' => array(
-                    array('start', 'timer1', 'time' => 25, 'realMemory' => 1500, 'emallocMemory' => 10),
+                    array('start', 'timer1', 'time' => 25, 'realMemory' => 1500, 'emallocMemory' => 10)
                 ),
                 'expected' => array(
                     'timer1' => array(
@@ -73,7 +73,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
             'Start only twice' => array(
                 'actions' => array(
                     array('start', 'timer1', 'time' => 25, 'realMemory' => 1500, 'emallocMemory' => 10),
-                    array('start', 'timer1', 'time' => 75, 'realMemory' => 2000, 'emallocMemory' => 20),
+                    array('start', 'timer1', 'time' => 75, 'realMemory' => 2000, 'emallocMemory' => 20)
                 ),
                 'expected' => array(
                     'timer1' => array(
@@ -92,7 +92,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'timer1', 'time' => 25, 'realMemory' => 1500, 'emallocMemory' => 10),
                     array('stop', 'timer1', 'time' => 75, 'realMemory' => 2000, 'emallocMemory' => 20),
                     array('start', 'timer1', 'time' => 200, 'realMemory' => 3000, 'emallocMemory' => 50),
-                    array('stop', 'timer1', 'time' => 250, 'realMemory' => 4000, 'emallocMemory' => 80),
+                    array('stop', 'timer1', 'time' => 250, 'realMemory' => 4000, 'emallocMemory' => 80)
                 ),
                 'expected' => array(
                     'timer1' => array(
@@ -111,7 +111,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'timer1', 'time' => 25, 'realMemory' => 1500, 'emallocMemory' => 10),
                     array('start', 'timer2', 'time' => 50, 'realMemory' => 2000, 'emallocMemory' => 20),
                     array('stop', 'timer2', 'time' => 80, 'realMemory' => 2500, 'emallocMemory' => 25),
-                    array('stop', 'timer1', 'time' => 100, 'realMemory' => 4200, 'emallocMemory' => 55),
+                    array('stop', 'timer1', 'time' => 100, 'realMemory' => 4200, 'emallocMemory' => 55)
                 ),
                 'expected' => array(
                     'timer1' => array(
@@ -204,12 +204,9 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'root'),
                     array('start', 'root->init'),
                     array('stop', 'root->init'),
-                    array('stop', 'root'),
+                    array('stop', 'root')
                 ),
-                'expected' => array(
-                    'root',
-                    'root->init',
-                )
+                'expected' => array('root', 'root->init')
             ),
             'Simple sorting' => array(
                 'actions' => array(
@@ -224,7 +221,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('stop', 'root->init'),
                     array('start', 'root->dispatch'),
                     array('stop', 'root->dispatch'),
-                    array('stop', 'root'),
+                    array('stop', 'root')
                 ),
                 'expected' => array(
                     'root',
@@ -232,7 +229,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     'root->init',
                     'root->init->init_stores',
                     'root->init->init_stores->store_collection_load_after',
-                    'root->dispatch',
+                    'root->dispatch'
                 )
             ),
             'Nested sorting' => array(
@@ -244,14 +241,9 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'root->init->init_config'),
                     array('stop', 'root->init->init_config'),
                     array('stop', 'root->init'),
-                    array('stop', 'root'),
+                    array('stop', 'root')
                 ),
-                'expected' => array(
-                    'root',
-                    'root->init',
-                    'root->init->init_config',
-                    'root->system',
-                )
+                'expected' => array('root', 'root->init', 'root->init->init_config', 'root->system')
             )
         );
     }
@@ -286,13 +278,11 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'root'),
                     array('start', 'root->init'),
                     array('stop', 'root->init'),
-                    array('stop', 'root'),
+                    array('stop', 'root')
                 ),
                 'thresholds' => array(),
                 'filterPattern' => '/^root$/',
-                'expected' => array(
-                    'root',
-                )
+                'expected' => array('root')
             ),
             'Filtering by thresholds' => array(
                 'actions' => array(
@@ -301,18 +291,16 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'root->init->init_cache', 'time' => 50, 'realMemory' => 1000),
                     array('stop', 'root->init->init_cache', 'time' => 100, 'realMemory' => 21000),
                     array('stop', 'root->init', 999),
-                    array('stop', 'root', 'time' => 1000, 'realMemory' => 500, 'emallocMemory' => 0),
+                    array('stop', 'root', 'time' => 1000, 'realMemory' => 500, 'emallocMemory' => 0)
                 ),
                 'thresholds' => array(
                     \Magento\Profiler\Driver\Standard\Stat::TIME => 1000,
-                    \Magento\Profiler\Driver\Standard\Stat::REALMEM => 20000,
+                    \Magento\Profiler\Driver\Standard\Stat::REALMEM => 20000
                 ),
                 'filterPattern' => null,
-                'expected' => array(
-                    'root', // TIME >= 1000
-                    'root->init->init_cache', // REALMEM >= 20000
-                )
-            ),
+                // TIME >= 1000, REALMEM >= 20000
+                'expected' => array('root', 'root->init->init_cache')
+            )
         );
     }
 
@@ -349,7 +337,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
             array(
                 'actions' => array(
                     array('start', 'root', 'time' => 0, 'realMemory' => 0, 'emallocMemory' => 0),
-                    array('stop', 'root', 'time' => 1000, 'realMemory' => 500, 'emallocMemory' => 10),
+                    array('stop', 'root', 'time' => 1000, 'realMemory' => 500, 'emallocMemory' => 10)
                 ),
                 'expects' => array(
                     array(
@@ -371,7 +359,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                         'timerId' => 'root',
                         'key' => \Magento\Profiler\Driver\Standard\Stat::EMALLOC,
                         'expectedValue' => 10
-                    ),
+                    )
                 )
             ),
             array(
@@ -379,28 +367,31 @@ class StatTest extends \PHPUnit_Framework_TestCase
                     array('start', 'root', 'time' => 0),
                     array('stop', 'root', 'time' => 10),
                     array('start', 'root', 'time' => 20),
-                    array('stop', 'root', 'time' => 30),
+                    array('stop', 'root', 'time' => 30)
                 ),
-                'expects' => array(array(
-                    'timerId' => 'root',
-                    'key' => \Magento\Profiler\Driver\Standard\Stat::AVG,
-                    'expectedValue' => 10
-                ))
+                'expects' => array(
+                    array(
+                        'timerId' => 'root',
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::AVG,
+                        'expectedValue' => 10
+                    )
+                )
             ),
             array(
-                'actions' => array(
-                    array('start', 'root', 'time' => 0),
-                ),
-                'expects' => array(array(
-                    'timerId' => 'root',
-                    'key' => \Magento\Profiler\Driver\Standard\Stat::TIME,
-                    'expectedValue' => $this->greaterThan(microtime(true))
-                ), array(
-                    'timerId' => 'root',
-                    'key' => \Magento\Profiler\Driver\Standard\Stat::ID,
-                    'expectedValue' => 'root'
-                ))
-            ),
+                'actions' => array(array('start', 'root', 'time' => 0)),
+                'expects' => array(
+                    array(
+                        'timerId' => 'root',
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::TIME,
+                        'expectedValue' => $this->greaterThan(microtime(true))
+                    ),
+                    array(
+                        'timerId' => 'root',
+                        'key' => \Magento\Profiler\Driver\Standard\Stat::ID,
+                        'expectedValue' => 'root'
+                    )
+                )
+            )
         );
     }
 
@@ -442,7 +433,7 @@ class StatTest extends \PHPUnit_Framework_TestCase
                 $this->_stat->stop($timerId, $time, $realMemory, $emallocMemory);
                 break;
             default:
-                $this->fail("Unexpected action '$action'");
+                $this->fail("Unexpected action '{$action}'");
                 break;
         }
     }

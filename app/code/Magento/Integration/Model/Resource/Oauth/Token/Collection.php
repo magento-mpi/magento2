@@ -37,10 +37,10 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
     {
         $select = $this->getSelect();
         $select->joinLeft(
-                    array('c' => $this->getTable('oauth_consumer')),
-                    'c.entity_id = main_table.consumer_id',
-                    'name'
-                );
+            array('c' => $this->getTable('oauth_consumer')),
+            'c.entity_id = main_table.consumer_id',
+            'name'
+        );
 
         return $this;
     }
@@ -113,7 +113,7 @@ class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollectio
      */
     public function addFilterByRevoked($flag)
     {
-        $this->addFilter('main_table.revoked', (int) $flag, 'public');
+        $this->addFilter('main_table.revoked', (int)$flag, 'public');
         return $this;
     }
 }

@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\App\Action\Plugin;
+
 use Magento\App\RequestInterface;
 
 class Design

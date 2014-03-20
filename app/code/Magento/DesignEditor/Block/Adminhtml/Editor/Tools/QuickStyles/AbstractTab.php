@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class AbstractTab
-    extends \Magento\Backend\Block\Widget\Form
+abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Form factory for VDE "Quick Styles" tab
@@ -73,18 +71,19 @@ abstract class AbstractTab
     {
         if (!$this->_formId || !$this->_tab) {
             throw new \Magento\Model\Exception(
-                __('We found an invalid block of class "%1". Please define the required properties.',
-                    get_class($this))
+                __('We found an invalid block of class "%1". Please define the required properties.', get_class($this))
             );
         }
-        $form = $this->_formBuilder->create(array(
-            'id'            => $this->_formId,
-            'action'        => '#',
-            'method'        => 'post',
-            'tab'           => $this->_tab,
-            'theme'         => $this->_themeContext->getStagingTheme(),
-            'parent_theme'  => $this->_themeContext->getEditableTheme()->getParentTheme(),
-        ));
+        $form = $this->_formBuilder->create(
+            array(
+                'id' => $this->_formId,
+                'action' => '#',
+                'method' => 'post',
+                'tab' => $this->_tab,
+                'theme' => $this->_themeContext->getStagingTheme(),
+                'parent_theme' => $this->_themeContext->getEditableTheme()->getParentTheme()
+            )
+        );
         $form->setUseContainer(true);
 
         $this->setForm($form);

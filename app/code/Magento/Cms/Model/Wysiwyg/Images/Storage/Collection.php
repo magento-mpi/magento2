@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model\Wysiwyg\Images\Storage;
 
 /**
@@ -43,7 +42,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         return array(
             'filename' => $filename,
             'basename' => basename($filename),
-            'mtime'    => $path->stat($path->getRelativePath($filename))['mtime']
+            'mtime' => $path->stat($path->getRelativePath($filename))['mtime']
         );
     }
 }
