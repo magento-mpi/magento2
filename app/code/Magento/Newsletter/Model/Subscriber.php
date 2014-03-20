@@ -343,17 +343,20 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function loadByCustomerId($customerId)
     {
-        /** @var \Magento\Customer\Service\V1\Data\Customer $customerData */
-        $customerData = $this->_customerAccountService->getCustomer($customerId);
-        $data = $this->getResource()->loadByCustomerData($customerData);
-        $this->addData($data);
-        if (!empty($data) && $customerData->getId() && !$this->getCustomerId()) {
-            $this->setCustomerId($customerData->getId());
-            $this->setSubscriberConfirmCode($this->randomSequence());
-            if ($this->getStatus() == self::STATUS_NOT_ACTIVE) {
-                $this->setStatus(self::STATUS_UNSUBSCRIBED);
+        try {
+            /** @var \Magento\Customer\Service\V1\Data\Customer $customerData */
+            $customerData = $this->_customerAccountService->getCustomer($customerId);
+            $data = $this->getResource()->loadByCustomerData($customerData);
+            $this->addData($data);
+            if (!empty($data) && $customerData->getId() && !$this->getCustomerId()) {
+                $this->setCustomerId($customerData->getId());
+                $this->setSubscriberConfirmCode($this->randomSequence());
+                if ($this->getStatus() == self::STATUS_NOT_ACTIVE) {
+                    $this->setStatus(self::STATUS_UNSUBSCRIBED);
+                }
+                $this->save();
             }
-            $this->save();
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
         }
         return $this;
     }
