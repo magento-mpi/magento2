@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     performance_toolkit
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <profile>
+        <websites>5</websites> <!-- Number of websites to generate -->
+        <store_groups>5</store_groups> <!--Number of stores-->
+        <store_views>5</store_views> <!-- Number of store views -->
+        <simple_products>1000000</simple_products> <!-- Simple products count -->
+        <configurable_products>500000</configurable_products> <!--Configurable products count (each configurable has 2 simple products as options, that are not displayed individually in catalog) -->
+        <categories>3000</categories> <!-- Number of categories to generate -->
+        <categories_nesting_level>6</categories_nesting_level> <!-- Nesting level for categories -->
+        <catalog_price_rules>100</catalog_price_rules> <!-- Number os catalog price rules -->
+        <catalog_target_rules>50</catalog_target_rules> <!-- NUmber of catalog target rules -->
+        <cart_price_rules>100</cart_price_rules> <!-- Number of shopping cart price rules -->
+        <cart_price_rules_floor>5</cart_price_rules_floor> <!-- The price rule condition: minimum products amount in shopping cart for price rule to be aaplied -->
+        <cart_price_rules_first_category>5</cart_price_rules_first_category> <!-- The first category the first price rule will be applied to, e.g. if you have 30 categories, 10 price rules and set this param to 10, cart price rules will be applied to only products that are in cetegories #10-#19 -->
+        <distribute_configurable_products>1</distribute_configurable_products> <!-- Distribute configurable products in catalog by categories evenly, if set to 0 - products are not distributed among categories and stored in a category mentioned below -->
+        <configurables_category_path></configurables_category_path> <!-- Path to category with configurable products if they are not distributed. Format: "Category 1/Category .../Category N", Default: "Category 1" -->
+        <distribute_simple_products>1</distribute_simple_products> <!-- Distribute simple products in catalog by categories evenly, if set to 0 - products are not distributed among categories and stored in a category mentioned below -->
+        <configurables_category_path></configurables_category_path> <!-- Path to category with simple products if they are not distributed. Format: "Category 1/Category .../Category N", Default: "Category 1" -->
+        <customers>20000</customers> <!-- Number of customers to generate -->
+    </profile>
+</config>

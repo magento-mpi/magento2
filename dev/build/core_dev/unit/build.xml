@@ -38,7 +38,7 @@
         </exec>
     </target>
     <target name="_unit_tests_performance_toolkit_framework" depends="_product_location" description="Unit Tests for performance toolkit framework">
-        <exec dir="${product_root_dir}/dev/tools/preformance_toolkit/framework/tests/unit" executable="${phpunit}" failonerror="true">
+        <exec dir="${product_root_dir}/dev/tools/performance_toolkit/framework/tests/unit" executable="${phpunit}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_performance_toolkit_framework.xml"/>
         </exec>
     </target>
@@ -60,6 +60,7 @@
             <target name="_unit_tests_performance_framework"/>
             <target name="_unit_tests_static_framework"/>
             <target name="_unit_tests_unit_framework"/>
+            <target name="_unit_tests_performance_toolkit_framework"/>
         </antcall>
     </target>
 
