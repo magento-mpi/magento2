@@ -59,8 +59,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
                 'paypalConfigFactory' => $paypalConfigFactory,
                 'currentCustomer' => $this->currentCustomer,
                 'layout' => $layout,
-                'localeResolver' => $localeResolver,
-            ]
+                'localeResolver' => $localeResolver
+            )
         );
     }
 

@@ -119,7 +119,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
                 'serializer' => $serializer,
                 'errorProcessor' => $errorProcessorMock,
                 'areaList' => $this->areaListMock
-            ]
+            )
         );
 
         // Set default expectations used by all tests

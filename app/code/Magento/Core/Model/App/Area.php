@@ -23,12 +23,6 @@ class Area implements \Magento\App\AreaInterface
     
     const AREA_ADMIN    = 'admin';
 
-    const PART_CONFIG = 'config';
-
-    const PART_TRANSLATE = 'translate';
-
-    const PART_DESIGN = 'design';
-
     /**
      * Area parameter.
      */
