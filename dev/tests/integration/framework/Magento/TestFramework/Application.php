@@ -493,7 +493,7 @@ class Application
         if ($areaCode == \Magento\TestFramework\Application::DEFAULT_APP_AREA) {
             $app->getArea($areaCode)->load(\Magento\Core\Model\App\Area::PART_CONFIG);
         } else {
-            $app->getArea($areaCode)->load();
+            \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($areaCode);
         }
     }
 }
