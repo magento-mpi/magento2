@@ -36,16 +36,18 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $cacheInterfaceMock = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false);
 
+        $removeProtectorMock = $this->getMock('\Magento\Model\RemoveProtectorInterface');
+        $removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
+
         $contextMock = $this->getMock(
             '\Magento\Model\Context',
-            array('getEventDispatcher', 'getCacheManager'),
-            array(),
-            '',
-            false
+            array('getEventDispatcher', 'getCacheManager', 'getRemoveProtector'), array(), '', false
         );
 
         $contextMock->expects($this->any())->method('getEventDispatcher')->will($this->returnValue($eventManagerMock));
         $contextMock->expects($this->any())->method('getCacheManager')->will($this->returnValue($cacheInterfaceMock));
+        $contextMock->expects($this->any())->method('getRemoveProtector')
+            ->will($this->returnValue($removeProtectorMock));
 
         $dbAdapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
 

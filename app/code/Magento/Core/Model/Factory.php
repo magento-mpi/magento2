@@ -33,7 +33,7 @@ class Factory
      * @param string $model
      * @param array $data
      * @throws \InvalidArgumentException
-     * @return AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     public function create($model, array $data = array())
     {
