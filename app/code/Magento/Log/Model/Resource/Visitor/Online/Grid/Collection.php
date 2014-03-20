@@ -21,7 +21,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Eav\Helper\Data $eavHelper
      * @param \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory
      * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
@@ -31,7 +31,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Helper\Data $eavHelper,
         \Magento\Log\Model\Visitor\OnlineFactory $onlineFactory,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
@@ -42,7 +42,7 @@ class Collection extends \Magento\Log\Model\Resource\Visitor\Online\Collection
             $logger,
             $fetchStrategy,
             $eventManager,
-            $customerFactory,
+            $eavHelper,
             $connection,
             $resource
         );

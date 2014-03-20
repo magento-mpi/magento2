@@ -70,16 +70,12 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Load last log by customer id
      *
-     * @param \Magento\Customer\Model\Customer|int $customer
-     * @return $this
+     * @param int $customerId
+     * @return \Magento\Log\Model\Customer
      */
-    public function loadByCustomer($customer)
+    public function loadByCustomer($customerId)
     {
-        if ($customer instanceof \Magento\Customer\Model\Customer) {
-            $customer = $customer->getId();
-        }
-
-        return $this->load($customer, 'customer_id');
+        return $this->load($customerId, 'customer_id');
     }
 
     /**

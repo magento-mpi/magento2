@@ -1576,5 +1576,6 @@ return array(
     array('getModeUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
-    array('getCacheIdTags', 'Magento\Core\Model\AbstractModel')
+    array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
+    array('addCustomerData', 'Magento\Log\Model\Visitor')
 );
