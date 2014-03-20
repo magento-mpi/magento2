@@ -20,6 +20,13 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare imp
     \Magento\View\Block\IdentityInterface
 {
     /**
+     * The property is used to define content-scope of block. Can be private or public.
+     *
+     * @var bool
+     */
+     protected $_isScopePrivate = true;
+
+    /**
      * Compare Products Collection
      *
      * @var null|\Magento\Catalog\Model\Resource\Product\Compare\Item\Collection
@@ -102,7 +109,7 @@ class Sidebar extends \Magento\Catalog\Block\Product\Compare\AbstractCompare imp
         foreach ($this->getItems() as $item) {
             $product = $item->getProduct();
             if ($product instanceof \Magento\Object\IdentityInterface) {
-                $identities[] = $product->getIdentities();
+                $identities = array_merge($identities, $product->getIdentities());
             }
         }
         $identities[] = \Magento\Catalog\Model\Product\Compare\Item::CACHE_TAG .

@@ -32,6 +32,16 @@ class Notices extends \Magento\View\Element\Template
     }
 
     /**
+     * Check if no local storage notice should be displayed
+     *
+     * @return boolean
+     */
+    public function displayNoLocalStorageNotice()
+    {
+        return $this->_storeConfig->getConfig('web/browser_capabilities/local_storage');
+    }
+
+    /**
      * Check if demo store notice should be displayed
      *
      * @return boolean

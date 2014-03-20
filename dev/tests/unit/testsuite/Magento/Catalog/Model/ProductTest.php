@@ -32,6 +32,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $_productPriceProcessor;
 
+    /**
+     * @var Product\Type|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_productTypeMock;
+
     public function setUp()
     {
         $this->categoryIndexerMock = $this->getMockForAbstractClass(
@@ -51,6 +56,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->_productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
 
         $this->_productPriceProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',
@@ -109,7 +115,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Catalog\Model\Product\Attribute\Source\Status', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Model\Product\Media\Config', array(), array(), '', false),
             $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false),
-            $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false),
+            $this->_productTypeMock,
             $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Helper\Data', array(), array(), '', false),
             $this->getMock('Magento\Catalog\Helper\Product', array(), array(), '', false),
@@ -146,5 +152,66 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_productPriceProcessor->expects($this->once())->method('reindexRow');
 
         $this->_model->priceReindexCallback();
+    }
+
+    /**
+     * @dataProvider getIdentitiesProvider
+     * @param array $expected
+     * @param array $origData
+     * @param array $data
+     * @param bool $isDeleted
+     */
+    public function testGetIdentities($expected, $origData, $data, $isDeleted = false)
+    {
+        $this->_model->setIdFieldName('id');
+        $typeMock = $this->getMock('Magento\Catalog\Model\Product\Type\AbstractType', array(), array(), '', false);
+
+        $this->_productTypeMock
+            ->expects($this->once())
+            ->method('factory')
+            ->with($this->_model)
+            ->will($this->returnValue($typeMock));
+
+        $typeMock->expects($this->once())
+            ->method('getIdentities')
+            ->will($this->returnValue(array('type_1')));
+        if (is_array($origData)) {
+            foreach ($origData as $key => $value) {
+                $this->_model->setOrigData($key, $value);
+            }
+        }
+        $this->_model->setData($data);
+        $this->_model->isDeleted($isDeleted);
+        $this->assertEquals($expected, $this->_model->getIdentities());
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentitiesProvider()
+    {
+        return array(
+            array(
+                array('catalog_product_1', 'type_1', 'catalog_category_product_1'),
+                array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
+                array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
+            ),
+            array(
+                array('catalog_product_1', 'type_1', 'catalog_category_1'),
+                null,
+                array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
+            ),
+            array(
+                array('catalog_product_1', 'type_1', 'catalog_category_1'),
+                array('id' => 1, 'name' => '', 'category_ids' => array(1)),
+                array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
+            ),
+            array(
+                array('catalog_product_1', 'type_1', 'catalog_category_1'),
+                array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
+                array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
+                true
+            ),
+        );
     }
 }

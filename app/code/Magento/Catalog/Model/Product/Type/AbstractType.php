@@ -1071,4 +1071,15 @@ abstract class AbstractType
     {
         return $this;
     }
+
+    /**
+     * Return array of specific to type product entities
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return array
+     */
+    public function getIdentities(\Magento\Catalog\Model\Product $product)
+    {
+        return array();
+    }
 }

@@ -251,15 +251,11 @@ class Db implements StorageInterface
      */
     protected function _checkGetStore($type)
     {
-        if (empty($_GET)) {
+        if (empty($_POST['___store']) && empty($_GET['___store'])) {
             return;
         }
+        $store = empty($_POST['___store']) ? $_GET['___store'] : $_POST['___store'];
 
-        if (!isset($_GET['___store'])) {
-            return;
-        }
-
-        $store = $_GET['___store'];
         if (!isset($this->_stores[$store])) {
             return;
         }
@@ -288,7 +284,11 @@ class Db implements StorageInterface
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
-                $this->_httpContext->setValue(Store::ENTITY, $this->_currentStore);
+                $this->_httpContext->setValue(
+                    \Magento\Core\Helper\Data::CONTEXT_STORE,
+                    $this->_currentStore,
+                    $this->_getDefaultStore()->getCode()
+                );
             }
         }
         return;

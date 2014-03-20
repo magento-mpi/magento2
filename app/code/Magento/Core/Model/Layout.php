@@ -723,7 +723,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 $this->_scheduleElement($parentName, $this->_scheduledStructure->getStructureElement($parentName));
             }
             if ($this->_structure->hasElement($parentName)) {
-                $this->_structure->setAsChild($name, $parentName, $alias);
+                try {
+                    $this->_structure->setAsChild($name, $parentName, $alias);
+                } catch (\Exception $e) {
+                    $this->_logger->log($e->getMessage());
+                }
             } else {
                 $this->_logger->log(
                     "Broken reference: the '{$name}' element cannot be added as child to '{$parentName}', " .

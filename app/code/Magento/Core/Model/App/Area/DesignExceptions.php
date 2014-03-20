@@ -18,7 +18,7 @@ class DesignExceptions
     /**
      * Design exception key
      */
-    const XML_PATH_DESIGN_EXCEPTION = 'design/package/ua_regexp';
+    const XML_PATH_DESIGN_EXCEPTION = 'design/theme/ua_regexp';
 
     /**
      * Core store config

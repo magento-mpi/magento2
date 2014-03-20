@@ -30,12 +30,17 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
             function ($module, $class, $area) {
                 $this->assertNotEmpty($module);
                 $this->assertTrue(class_exists($class), "Block class: {$class}");
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Config\ScopeInterface'
-                )->setCurrentScope(
-                    $area
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\Config\ScopeInterface')
+                    ->setCurrentScope($area);
+                $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                    ->get('Magento\App\Http\Context');
+                $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+                $context->setValue(
+                    \Magento\Customer\Helper\Data::CONTEXT_GROUP,
+                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
+                    \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
                 );
-
                 /** @var \Magento\Core\Model\App $app */
                 $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
                 $app->loadArea($area);

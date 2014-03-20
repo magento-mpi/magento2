@@ -24,23 +24,9 @@ class Viewed extends \Magento\Reports\Block\Product\Viewed implements \Magento\W
     protected function _construct()
     {
         parent::_construct();
-        $this->addColumnCountLayoutDepend(
-            'one_column',
-            5
-        )->addColumnCountLayoutDepend(
-            'two_columns_left',
-            4
-        )->addColumnCountLayoutDepend(
-            'two_columns_right',
-            4
-        )->addColumnCountLayoutDepend(
-            'three_columns',
-            3
-        );
-        $this->addPriceBlockType(
-            'bundle',
-            'Magento\Bundle\Block\Catalog\Product\Price',
-            'catalog/product/price.phtml'
-        );
+        $this->addColumnCountLayoutDepend('one_column', 5)
+            ->addColumnCountLayoutDepend('two_columns_left', 4)
+            ->addColumnCountLayoutDepend('two_columns_right', 4)
+            ->addColumnCountLayoutDepend('three_columns', 3);
     }
 }

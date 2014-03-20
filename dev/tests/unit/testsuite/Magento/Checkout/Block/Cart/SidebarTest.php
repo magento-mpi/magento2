@@ -90,7 +90,15 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $block = $this->_objectManager->getObject('Magento\Checkout\Block\Cart\Sidebar');
 
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
-        $product = $this->getMock('Magento\Catalog\Model\Product', array('__wakeup'), array(), '', false);
+        $product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('__wakeup', 'getIdentities'),
+            array(), '', false
+        );
+        $identities = [0 => 1, 1 => 2, 2 => 3];
+        $product->expects($this->exactly(2))
+            ->method('getIdentities')
+            ->will($this->returnValue($identities));
 
         /** @var \Magento\Sales\Model\Quote\Item|\PHPUnit_Framework_MockObject_MockObject $item */
         $item = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
