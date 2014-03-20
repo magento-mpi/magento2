@@ -102,13 +102,13 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     /**
      * (to use in templates only)
      *
-     * @param float|array $amount
+     * @param PriceInterface $price
      * @param array $arguments
      * @return string
      */
-    public function renderAmount($amount, array $arguments = [])
+    public function renderAmount(PriceInterface $price, array $arguments = [])
     {
-        return $this->getAmountRender()->render($amount, $this->price, $this->product, $arguments);
+        return $this->getAmountRender()->render($price, $this->product, $arguments);
     }
 
     /**

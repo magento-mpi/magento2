@@ -63,19 +63,18 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
-     * @param float $amount
      * @param PriceInterface $price
      * @param SaleableInterface $product
      * @param array $arguments
      * @return string
      */
-    public function render($amount, PriceInterface $price, SaleableInterface $product, array $arguments = [])
+    public function render(PriceInterface $price, SaleableInterface $product, array $arguments = [])
     {
         $origArguments = $this->_data;
         // @todo probably use block vars instead
         $this->_data = array_replace($origArguments, $arguments);
 
-        $this->amount = $amount;
+        $this->amount = $price->getValue();
         $this->price = $price;
         $this->product = $product;
 
@@ -95,19 +94,19 @@ class Amount extends Template implements AmountRenderInterface
             }
         }
 
-        $result = $this->toHtml();
+        $html = $this->toHtml();
 
         // render Price Adjustment Renders if available
         // @todo resolve the key issue with decoration
         foreach ($adjustmentRenders as $adjustmentRender) {
-            $result = $adjustmentRender->render($result, $price, $product, $this->_data);
+            $html = $adjustmentRender->render($html, $this, $this->getData());
         }
 
         // restore original block arguments
         $this->_data = $origArguments;
 
         // return result
-        return $result;
+        return $html;
     }
 
     /**

@@ -12,16 +12,10 @@
 <?php
 /** @var \Magento\Tax\Pricing\Render\Adjustment $this */
 
-/** @var \Magento\Core\Helper\Data $coreHelper */
-$coreHelper = $this->helper('Magento\Core\Helper\Data');
-
 $productId = $this->getProduct()->getId();
 
-/** @var \Magento\Pricing\Price\PriceInterface $finalPriceModel */
-$finalPriceModel = $this->getPriceType('final_price');
-
-$displayAmountExclTax = $finalPriceModel->getDisplayValue('tax');
-$displayAmount = $finalPriceModel->getDisplayValue();
+$displayAmountExclTax = $this->getPrice()->getDisplayValue('tax');
+$displayAmount = $this->getPrice()->getDisplayValue();
 ?>
 
 <?php //echo $this->getOriginalPriceHtml(); ?>

@@ -25,13 +25,13 @@ $displayFinalPrice = $finalPriceModel->getDisplayValue();
 ?>
 
 <?php if ($displayFinalPrice >= $displayRegularPrice): ?>
-    <?php echo $this->renderAmount($displayFinalPrice, [
+    <?php echo $this->renderAmount($finalPriceModel, [
         'price_id' => 'regular-price-' . $id,
         'include_container' => true
     ]); ?>
 <?php else: ?>
     <p class="old-price">
-        <?php echo $this->renderAmount($displayRegularPrice, [
+        <?php echo $this->renderAmount($priceModel, [
             'display_label' => __('Regular Price:'),
             'price_id' => 'old-price-' . $id,
             'include_container' => true,
@@ -39,7 +39,7 @@ $displayFinalPrice = $finalPriceModel->getDisplayValue();
         ]); ?>
     </p>
     <p class="special-price">
-        <?php echo $this->renderAmount($displayFinalPrice, [
+        <?php echo $this->renderAmount($finalPriceModel, [
             'display_label' => __('Special Price:'),
             'id' => 'old-price-' . $id,
             'include_container' => false

@@ -28,7 +28,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 ?>
 
 <?php if ($_product->getMsrp()): ?>
-    <?php $_msrpPrice = $this->renderAmount($_product->getMsrp(), [
+    <?php $_msrpPrice = $this->renderAmount($priceType, [
 //        'display_label' => __('Regular Price:'),
         'price_id' => 'old-price-' . $_id,
         'include_container' => false,

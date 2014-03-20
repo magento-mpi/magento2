@@ -19,13 +19,17 @@ use Magento\Pricing\Object\SaleableInterface;
 interface AmountRenderInterface
 {
     /**
-     * @param float $amount
      * @param PriceInterface $price
      * @param SaleableInterface $product
      * @param array $arguments
      * @return string
      */
-    public function render($amount, PriceInterface $price, SaleableInterface $product, array $arguments = []);
+    public function render(PriceInterface $price, SaleableInterface $product, array $arguments = []);
+
+    /**
+     * @return PriceInterface
+     */
+    public function getPrice();
 
     /**
      * (to use in templates only)
