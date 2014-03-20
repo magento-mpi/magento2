@@ -323,9 +323,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
-        $customerData = (array)$this->getData();
-        $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
-        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
+        $dataObject = $this->_getServiceDataObject();
         $customerOrigData = (array)$this->getOrigData();
         $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
         $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
@@ -1255,5 +1253,18 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _createCustomerAttribute()
     {
         return $this->_attributeFactory->create();
+    }
+
+    /**
+     * Get service data object
+     *
+     * @return \Magento\Customer\Service\V1\Data\Customer
+     */
+    protected function _getServiceDataObject()
+    {
+        $customerData = (array)$this->getData();
+        $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
+        return $dataObject;
     }
 }

@@ -300,9 +300,18 @@ abstract class AbstractModel extends \Magento\Object
         return array(
             'data_object'       => $this,
             $this->_eventObject => $this,
+            $this->_eventObject . '_service_data_object' => $this->_getServiceDataObject(),
         );
     }
 
+    /**
+     * Get Service Data Object
+     * @return \Magento\Service\Data\AbstractObject|null
+     */
+    protected function _getServiceDataObject()
+    {
+        return null;
+    }
     /**
      * Processing object before load data
      *

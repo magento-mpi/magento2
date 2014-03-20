@@ -48,21 +48,6 @@ class Observer
     }
 
     /**
-     * Subscribe customer handler
-     *
-     * @param \Magento\Object $observer
-     * @return $this
-     */
-    public function subscribeCustomer($observer)
-    {
-        $customer = $observer->getEvent()->getCustomer();
-        if (($customer instanceof \Magento\Customer\Model\Customer)) {
-            $this->_subscriberFactory->create()->subscribeCustomerById($customer->getId());
-        }
-        return $this;
-    }
-
-    /**
      * Customer delete handler
      *
      * @param \Magento\Object $observer
@@ -72,15 +57,18 @@ class Observer
     {
         /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
         $subscriber = $this->_subscriberFactory->create();
-        $subscriber->loadByEmail($observer->getEvent()->getCustomer()->getEmail());
-        if ($subscriber->getId()) {
-            $subscriber->delete();
+        $customerServiceDataObject = $observer->getEvent()->getCustomerServiceDataObject();
+        if (!empty($customerServiceDataObject)) {
+            $subscriber->loadByEmail($customerServiceDataObject->getEmail());
+            if ($subscriber->getId()) {
+                $subscriber->delete();
+            }
         }
         return $this;
     }
 
     /**
-     * Customer delete handler
+     * Scheduled send handler
      *
      * @param Schedule $schedule
      * @return void
