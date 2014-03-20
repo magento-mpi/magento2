@@ -15,7 +15,7 @@
         <store_groups>2</store_groups> <!--Number of stores-->
         <store_views>3</store_views> <!-- Number of store views -->
         <simple_products>500000</simple_products> <!-- Simple products count -->
-        <configurable_products>100000</configurable_products> <!--Configurable products count (each configurable has 2 simple products as options, that are not displayed individually in catalog) -->
+        <configurable_products>100000</configurable_products> <!--Configurable products count (each configurable has 3 simple products as options, that are not displayed individually in catalog) -->
         <categories>1000</categories> <!-- Number of categories to generate -->
         <categories_nesting_level>3</categories_nesting_level> <!-- Nesting level for categories -->
         <catalog_price_rules>50</catalog_price_rules> <!-- Number os catalog price rules -->
