@@ -16,7 +16,7 @@ use Magento\Catalog\Helper\Data;
 /**
  * MSRP price model
  */
-class MsrpPrice extends FinalPrice
+class MsrpPrice extends FinalPrice implements MsrpPriceInterface
 {
     /**
      * @var string
@@ -54,5 +54,15 @@ class MsrpPrice extends FinalPrice
     public function getMsrpPriceMessage()
     {
         return $this->catalogDataHelper->getMsrpPriceMessage($this->product);
+    }
+
+    /**
+     * Returns true in case MSRP is enabled
+     *
+     * @return bool
+     */
+    public function isMsrpEnabled()
+    {
+        return $this->catalogDataHelper->isMsrpEnabled();
     }
 }

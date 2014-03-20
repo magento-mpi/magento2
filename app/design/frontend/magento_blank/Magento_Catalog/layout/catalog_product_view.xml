@@ -10,12 +10,4 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <move element="page.main.title" destination="product.info.main" before="-"/>
-    <referenceContainer name="product.info.main">
-        <block class="Magento\Pricing\Render" name="product.price.render">
-            <arguments>
-                <argument name="price_render_handle" xsi:type="string">catalog_product_prices</argument>
-                <!-- set "override" configuration settings here -->
-            </arguments>
-        </block>
-    </referenceContainer>
 </layout>

@@ -24,18 +24,17 @@ class Render extends Template
     protected $priceLayout;
 
     /**
+     * Construct
+     *
      * @param Template\Context $context
-     * @param \Magento\Registry $registry
      * @param Layout $priceLayout
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Registry $registry,
         Layout $priceLayout,
         array $data = array()
     ) {
-        $this->coreRegistry = $registry;
         $this->priceLayout = $priceLayout;
         parent::__construct($context, $data);
     }
@@ -45,29 +44,9 @@ class Render extends Template
      */
     protected function _prepareLayout()
     {
-        parent::_prepareLayout();
-
         $this->priceLayout->addHandle($this->getPriceRenderHandle());
         $this->priceLayout->loadLayout();
-        return $this;
-    }
-
-    /**
-     * @return string
-     * @todo for example purpose
-     */
-    public function toHtml()
-    {
-        $product = $this->coreRegistry->registry('product');
-
-        /**
-         * Temporary added for tier price testing
-         * return $this->render('tier_price', $product);
-         */
-        if ($product instanceof SaleableInterface) {
-            return $this->render('final_price', $product);
-        }
-        return '';
+        return parent::_prepareLayout();
     }
 
     /**
