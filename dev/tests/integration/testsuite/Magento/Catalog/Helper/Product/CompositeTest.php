@@ -51,7 +51,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         $configureResult = new \Magento\Object();
         $configureResult->setOk(true)
             ->setProductId(1)
-            ->setCurrentCustomerId(1);
+            ->setCustomerId(1);
 
         $this->helper->renderConfigureResult($configureResult);
 
