@@ -1050,7 +1050,6 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
 

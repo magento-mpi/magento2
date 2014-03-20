@@ -120,6 +120,11 @@ abstract class AbstractModel extends \Magento\Object
     protected $_appState;
 
     /**
+     * @var \Magento\Model\RemoveProtectorInterface
+     */
+    protected $_removeProtector;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Model\Resource\AbstractResource $resource
@@ -140,6 +145,7 @@ abstract class AbstractModel extends \Magento\Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
         $this->_logger = $context->getLogger();
+        $this->_removeProtector = $context->getRemoveProtector();
 
         if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Object) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
@@ -610,29 +616,18 @@ abstract class AbstractModel extends \Magento\Object
      * Processing object before delete data
      *
      * @return $this
+     * @throws Exception
      */
     protected function _beforeDelete()
     {
+        if (!$this->_removeProtector->canBeRemoved($this)) {
+            throw new Exception(__('Delete operation is forbidden for current area'));
+        }
+
         $this->_eventManager->dispatch('model_delete_before', array('object' => $this));
         $this->_eventManager->dispatch($this->_eventPrefix . '_delete_before', $this->_getEventData());
         $this->cleanModelCache();
         return $this;
-    }
-
-    /**
-     * Safeguard func that will check, if we are in admin area
-     *
-     * @return void
-     * @throws \Magento\Model\Exception
-     */
-    protected function _protectFromNonAdmin()
-    {
-        if ($this->_coreRegistry->registry('isSecureArea')) {
-            return;
-        }
-        if ($this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
-            throw new \Magento\Model\Exception(__('Cannot complete this operation from non-admin area.'));
-        }
     }
 
     /**

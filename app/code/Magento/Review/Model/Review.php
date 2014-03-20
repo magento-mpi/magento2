@@ -306,7 +306,6 @@ class Review extends \Magento\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
 

@@ -852,7 +852,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         if ($this->getResource()->isForbiddenToDelete($this->getId())) {
             throw new \Magento\Model\Exception("Can't delete root category.");
         }

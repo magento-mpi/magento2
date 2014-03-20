@@ -1187,7 +1187,6 @@ class Store extends AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         \Magento\App\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
             ->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         $this->_configDataResource->clearStoreData(array($this->getId()));

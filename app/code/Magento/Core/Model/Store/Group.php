@@ -362,7 +362,6 @@ class Group extends \Magento\Model\AbstractModel implements \Magento\Object\Iden
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
         $this->_configDataResource->clearStoreData($this->getStoreIds());
         return parent::_beforeDelete();
     }

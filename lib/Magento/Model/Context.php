@@ -32,21 +32,29 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_appState;
 
     /**
+     * @var \Magento\Model\RemoveProtectorInterface
+     */
+    protected $_removeProtector;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      * @param \Magento\App\CacheInterface $cacheManager
      * @param \Magento\App\State $appState
+     * @param \Magento\Model\RemoveProtectorInterface $removeProtector
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventDispatcher,
         \Magento\App\CacheInterface $cacheManager,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\Model\RemoveProtectorInterface $removeProtector
     ) {
         $this->_eventDispatcher = $eventDispatcher;
         $this->_cacheManager = $cacheManager;
         $this->_appState = $appState;
         $this->_logger = $logger;
+        $this->_removeProtector = $removeProtector;
     }
 
     /**
@@ -79,5 +87,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAppState()
     {
         return $this->_appState;
+    }
+
+    /**
+     * @return \Magento\Model\RemoveProtectorInterface
+     */
+    public function getRemoveProtector()
+    {
+        return $this->_removeProtector;
     }
 }

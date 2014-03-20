@@ -548,4 +548,13 @@
             <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>
         </arguments>
     </type>
+    <type name="Magento\Model\RemoveProtector">
+        <arguments>
+            <argument name="protectedModels" xsi:type="array">
+                <item name="store" xsi:type="string">Magento\Core\Model\Store</item>
+                <item name="website" xsi:type="string">Magento\Core\Model\Website</item>
+                <item name="storeGroup" xsi:type="string">Magento\Core\Model\Store\Group</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
