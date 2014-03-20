@@ -58,7 +58,8 @@ interface CustomerAccountServiceInterface
      * the array must be null.
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @return void
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerDetails is not found.
+     * @return bool True if this customer was updated
      */
     public function updateCustomer(\Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails);
 

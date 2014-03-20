@@ -609,7 +609,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
         $requestData = ['customerDetails' => $customerDetailsAsArray];
-        $this->_webApiCall($serviceInfo, $requestData);
+        $response = $this->_webApiCall($serviceInfo, $requestData);
+        $this->assertTrue($response);
 
         //Verify if the customer is updated
         $customerDetails = $this->customerAccountService->getCustomerDetails($customerData[Customer::ID]);
@@ -645,8 +646,15 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
         $requestData = ['customerDetails' => $customerDetailsAsArray];
+        $expectedMessage = "No such entity with customerId = -1";
+
         try {
             $this->_webApiCall($serviceInfo, $requestData);
+            $this->fail("Expected exception.");
+        } catch (\SoapFault $e) {
+            $this->assertContains(
+                $expectedMessage, $e->getMessage(), "SoapFault does not contain expected message."
+            );
         } catch (\Exception $e) {
             $errorObj = $this->_processRestExceptionResult($e);
             $this->assertEquals("No such entity with customerId = -1", $errorObj['message']);

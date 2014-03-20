@@ -367,6 +367,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             }
             $this->_customerAddressService->saveAddresses($customer->getId(), $addresses);
         }
+
+        return true;
     }
 
     /**
