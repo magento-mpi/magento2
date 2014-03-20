@@ -307,7 +307,7 @@ class Rewrite extends \Magento\Model\AbstractModel
             $currentStore = $this->_storeManager->getStore();
             $this->setStoreId($currentStore->getId())->loadByIdPath($this->getIdPath());
 
-            $this->_cookie->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);            
+            $this->_cookie->set(\Magento\Core\Model\Store::COOKIE_NAME, $currentStore->getCode(), true);
             $targetUrl = $request->getBaseUrl(). '/' . $this->getRequestPath();
 
             $this->_sendRedirectHeaders($targetUrl, true);

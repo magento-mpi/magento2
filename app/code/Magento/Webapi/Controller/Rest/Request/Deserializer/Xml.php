@@ -23,7 +23,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterfa
      * @param \Magento\Xml\Parser $xmlParser
      * @param State $appState
      */
-    public function __construct(\Magento\Xml\Parser $xmlParser, State $appState) 
+    public function __construct(\Magento\Xml\Parser $xmlParser, State $appState)
     {
         $this->_xmlParser = $xmlParser;
         $this->_appState = $appState;

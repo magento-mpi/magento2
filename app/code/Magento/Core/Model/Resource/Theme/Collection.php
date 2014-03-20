@@ -12,8 +12,8 @@ namespace Magento\Core\Model\Resource\Theme;
 /**
  * Theme collection
  */
-class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection implements 
-    \Magento\View\Design\Theme\Label\ListInterface, 
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection implements
+    \Magento\View\Design\Theme\Label\ListInterface,
     \Magento\View\Design\Theme\ListInterface
 {
     /**

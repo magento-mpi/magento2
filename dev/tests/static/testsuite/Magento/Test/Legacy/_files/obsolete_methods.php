@@ -1547,10 +1547,10 @@ return array(
     array('getModeUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
-    array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),    
+    array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
     array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Review\Controller\Adminhtml\Product\Reviews::gridAction'
-    ),
+    )
 );

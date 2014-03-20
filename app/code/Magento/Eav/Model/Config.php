@@ -296,8 +296,13 @@ class Config
         $this->_entityData = $types;
 
         if ($this->_isCacheEnabled()) {
-            $this->_cache->save(serialize($this->_entityData), self::ENTITIES_CACHE_ID,
-                array(\Magento\Eav\Model\Cache\Type::CACHE_TAG, \Magento\Eav\Model\Entity\Attribute::CACHE_TAG)
+            $this->_cache->save(
+                serialize($this->_entityData),
+                self::ENTITIES_CACHE_ID,
+                array(
+                    \Magento\Eav\Model\Cache\Type::CACHE_TAG,
+                    \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
+                )
             );
         }
         \Magento\Profiler::stop('EAV: ' . __METHOD__);

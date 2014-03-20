@@ -75,6 +75,8 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\App\AreaList $areaList
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,

@@ -42,7 +42,7 @@ class AreaList
      * @param \Magento\ObjectManager $objectManager
      * @param Area\FrontNameResolverFactory $resolverFactory
      * @param array $areas
-     * @param $default
+     * @param string $default
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,

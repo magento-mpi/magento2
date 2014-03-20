@@ -212,11 +212,13 @@ class Application
 
         Helper\Bootstrap::setObjectManager($objectManager);
 
-        $objectManager->configure(array(
-            'preferences' => array(
-                'Magento\App\State' => 'Magento\TestFramework\App\State'
+        $objectManager->configure(
+            array(
+                'preferences' => array(
+                    'Magento\App\State' => 'Magento\TestFramework\App\State'
+                )
             )
-        ));
+        );
 
         /** Register event observer of Integration Framework */
         /** @var \Magento\Event\Config\Data $eventConfigData */

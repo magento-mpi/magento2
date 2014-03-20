@@ -239,7 +239,12 @@ class Helper extends \Magento\DB\Helper\AbstractHelper
      * @return \Magento\DB\Select
      */
     public function addGroupConcatColumn(
-        $select, $fieldAlias, $fields, $groupConcatDelimiter = ',', $fieldsDelimiter = '', $additionalWhere = ''
+        $select,
+        $fieldAlias,
+        $fields,
+        $groupConcatDelimiter = ',',
+        $fieldsDelimiter = '',
+        $additionalWhere = ''
     ) {
         if (is_array($fields)) {
             $fieldExpr = $this->_getReadAdapter()->getConcatSql($fields, $fieldsDelimiter);

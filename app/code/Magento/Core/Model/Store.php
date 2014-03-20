@@ -820,7 +820,7 @@ class Store extends AbstractModel implements
         $configValue = $this->getConfig(self::XML_PATH_PRICE_SCOPE);
         if ($configValue == self::PRICE_SCOPE_GLOBAL) {
             return $this->_appConfig->getValue(
-                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 
+                \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                 'default'
             );
         } else {

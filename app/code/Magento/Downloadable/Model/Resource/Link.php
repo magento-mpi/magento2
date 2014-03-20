@@ -137,7 +137,8 @@ class Link extends \Magento\Model\Resource\Db\AbstractDb
                     $websiteIds = $linkObject->getProductWebsiteIds();
                     foreach ($websiteIds as $websiteId) {
                         $baseCurrency = $this->_configuration->getValue(
-                            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, 'default'
+                            \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
+                            'default'
                         );
                         $websiteCurrency = $this->_storeManager->getWebsite($websiteId)->getBaseCurrencyCode();
                         if ($websiteCurrency == $baseCurrency) {

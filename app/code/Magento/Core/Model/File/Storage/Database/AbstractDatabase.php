@@ -81,7 +81,7 @@ abstract class AbstractDatabase extends \Magento\Model\AbstractModel
     {
         $connectionName = $this->_configuration
             ->getValue(
-                \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE, 
+                \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE,
                 'default'
             );
         if (empty($connectionName)) {

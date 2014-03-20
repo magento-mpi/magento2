@@ -291,15 +291,17 @@ class Rate extends \Magento\Backend\App\Action
         try {
             $rate = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rate')->load($rateId);
             $rate->delete();
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => true,
-                'error_message' => ''
-            ));
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array('success' => true, 'error_message' => '')
+            );
         } catch (\Magento\Model\Exception $e) {
-            $responseContent = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
-                'success' => false,
-                'error_message' => $e->getMessage()
-            ));
+            $responseContent = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonEncode(
+                array('success' => false, 'error_message' => $e->getMessage())
+            );
         } catch (\Exception $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
