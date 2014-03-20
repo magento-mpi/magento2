@@ -168,8 +168,8 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
             } else {
                 $result = false;
             }
-        } else if ($entity == \Magento\Store\Model\Store::ENTITY) {
-            /* @var $storeGroup \Magento\Store\Model\Store */
+        } else if ($entity == \Magento\Store\Model\Group::ENTITY) {
+            /* @var $storeGroup \Magento\Store\Model\Group */
             $storeGroup = $event->getDataObject();
             if ($storeGroup && $storeGroup->dataHasChangedFor('website_id')) {
                 $result = true;

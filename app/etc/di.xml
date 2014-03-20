@@ -9,7 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\App\RequestInterface" type="Magento\App\Request\Http" />
-    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Core\App\Request\PathInfoProcessor" />
+    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Store\App\Request\PathInfoProcessor" />
     <preference for="Magento\App\ResponseInterface" type="Magento\App\Response\Http" />
     <preference for="Magento\App\RouterListInterface" type="Magento\App\RouterList" />
     <preference for="Magento\App\FrontControllerInterface" type="Magento\App\FrontController" />
@@ -81,7 +81,7 @@
     <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\App\Request\Http">
         <arguments>
-            <argument name="pathInfoProcessor" xsi:type="object">Magento\Core\App\Request\PathInfoProcessor\Proxy</argument>
+            <argument name="pathInfoProcessor" xsi:type="object">Magento\Store\App\Request\PathInfoProcessor\Proxy</argument>
         </arguments>
     </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />

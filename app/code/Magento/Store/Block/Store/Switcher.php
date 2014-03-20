@@ -44,13 +44,13 @@ class Switcher extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Store\Model\StoreFactory $storeGroupFactory
+     * @param \Magento\Store\Model\GroupFactory $storeGroupFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Store\Model\StoreFactory $storeGroupFactory,
+        \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         array $data = array()
     ) {

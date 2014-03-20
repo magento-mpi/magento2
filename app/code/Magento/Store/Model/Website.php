@@ -170,7 +170,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Store\Model\StoreFactory $storeGroupFactory
+     * @param \Magento\Store\Model\GroupFactory $storeGroupFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\App $app
@@ -185,7 +185,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Store\Model\StoreFactory $storeGroupFactory,
+        \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\App $app,

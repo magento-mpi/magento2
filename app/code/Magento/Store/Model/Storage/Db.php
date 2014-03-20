@@ -11,7 +11,8 @@ namespace Magento\Store\Model\Storage;
 
 use Magento\App\State;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\Group\Factory;
+use Magento\Store\Model\Group;
+use Magento\Store\Model\GroupFactory;
 use Magento\Store\Model\StoreFactory;
 use Magento\Store\Model\Website;
 use Magento\Store\Model\Website\Factory as WebsiteFactory;
@@ -63,7 +64,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Groups cache
      *
-     * @var Group
+     * @var Group[]
      */
     protected $_groups = array();
 
@@ -141,7 +142,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     public function __construct(
         StoreFactory $storeFactory,
         WebsiteFactory $websiteFactory,
-        Factory $groupFactory,
+        \Magento\Store\Model\GroupFactory $groupFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Stdlib\Cookie $cookie,
         State $appState,
@@ -563,7 +564,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      */
     public function throwStoreException()
     {
-        throw new \Magento\Store\Model\Exception('');
+        throw new \Magento\Store\Model\Exception('Store Manager has been initialized not properly');
     }
 
     /**

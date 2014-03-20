@@ -143,13 +143,6 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_priceFilter;
 
     /**
-     * Group model
-     *
-     * @var \Magento\Store\Model\Store
-     */
-    protected $_group;
-
-    /**
      * Store configuration cache
      *
      * @var array|null
@@ -293,7 +286,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\Filesystem $filesystem
-     * @param Store\Config $storeConfig
+     * @param \Magento\Store\Model\Config $storeConfig
      * @param \Magento\App\ReinitableConfigInterface $coreConfig
      * @param Resource\Store $resource
      * @param StoreManagerInterface $storeManager
@@ -325,7 +318,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
-        $this->_coreStoreConfig = $storeConfig;
+        $this->_storeConfig = $storeConfig;
         $this->_url = $url;
         $this->_configCacheType = $configCacheType;
         $this->_request = $request;
@@ -348,7 +341,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $properties = parent::__sleep();
         $properties = array_diff($properties, array(
             '_coreFileStorageDatabase',
-            '_coreStoreConfig',
+            '_storeConfig',
             '_config'
         ));
         return $properties;
@@ -364,7 +357,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         parent::__wakeup();
         $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Helper\File\Storage\Database');
-        $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
+        $this->_storeConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Store\Model\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\App\ReinitableConfigInterface');

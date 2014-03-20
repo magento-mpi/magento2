@@ -36,7 +36,7 @@
     <preference for="Magento\View\Asset\ConfigInterface" type="Magento\Core\Model\Asset\Config" />
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
     <preference for="Magento\TranslateInterface" type="Magento\Translate" />
-    <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
+    <preference for="Magento\App\Response\RedirectInterface" type="Magento\Store\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
     <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Core\Model\Translate\Inline\Config" />
@@ -379,7 +379,6 @@
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-        <plugin name="dispatchExceptionHandler" type="Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
         <plugin name="clickjacking" type="Magento\App\FrontController\Plugin\Clickjacking" sortOrder="0"/>
     </type>
     <type name="Magento\App\Action\Action">

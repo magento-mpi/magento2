@@ -28,7 +28,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Application website object
      *
-     * @var \Magento\Store\Model\Store
+     * @var \Magento\Store\Model\Group
      */
     protected $_group;
 
@@ -148,7 +148,7 @@ class DefaultStorage implements \Magento\Store\Model\StoreManagerInterface
      */
     public function getGroup($groupId = null)
     {
-        if ($groupId instanceof \Magento\Store\Model\Store) {
+        if ($groupId instanceof \Magento\Store\Model\Group) {
             return $groupId;
         }
 

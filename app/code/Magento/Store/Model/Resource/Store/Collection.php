@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Store\Model\Resource;
+namespace Magento\Store\Model\Resource\Store;
 
 /**
  * Stores collection

@@ -37,6 +37,9 @@
     <type name="Magento\App\Action\Action">
         <plugin name="storeCheck" type="Magento\Store\App\Action\Plugin\StoreCheck" sortOrder="10"/>
     </type>
+    <type name="Magento\App\FrontController">
+        <plugin name="dispatchExceptionHandler" type="Magento\Store\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
+    </type>
     <type name="Magento\Store\Model\Resource\Website\Collection">
         <arguments>
             <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Website\Collection\FetchStrategy</argument>

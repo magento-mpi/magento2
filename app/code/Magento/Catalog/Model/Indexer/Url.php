@@ -141,7 +141,8 @@ class Url extends \Magento\Index\Model\Indexer\AbstractIndexer
             } else {
                 $result = false;
             }
-        } else if ($entity == \Magento\Store\Model\Store::ENTITY) {
+        } else if ($entity == \Magento\Store\Model\Group::ENTITY) {
+            /** @var \Magento\Store\Model\Group $storeGroup */
             $storeGroup = $event->getDataObject();
             $hasDataChanges = $storeGroup && ($storeGroup->dataHasChangedFor('root_category_id')
                 || $storeGroup->dataHasChangedFor('website_id'));
