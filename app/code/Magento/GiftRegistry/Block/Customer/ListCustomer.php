@@ -31,6 +31,11 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $typeFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
@@ -38,6 +43,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      * @param CustomerAddressServiceInterface $addressService
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -48,6 +54,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         CustomerAddressServiceInterface $addressService,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->customerSession = $customerSession;
@@ -61,6 +68,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
             $addressService,
             $data
         );
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -110,9 +118,8 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         if (!$this->hasEntityCollection()) {
             $this->setData(
                 'entity_collection',
-                $this->entityFactory->create()->getCollection()->filterByCustomerId(
-                    $this->customerSession->getCustomerId()
-                )
+                $this->entityFactory->create()->getCollection()
+                ->filterByCustomerId($this->currentCustomer->getCustomerId())
             );
         }
         return $this->_getData('entity_collection');
@@ -125,9 +132,10 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function canAddNewEntity()
     {
-        $collection = $this->typeFactory->create()->getCollection()->addStoreData(
-            $this->_storeManager->getStore()->getId()
-        )->applyListedFilter();
+        $collection = $this->typeFactory->create()
+            ->getCollection()
+            ->addStoreData($this->_storeManager->getStore()->getId())
+            ->applyListedFilter();
 
         return (bool)$collection->getSize();
     }

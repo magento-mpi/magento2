@@ -62,7 +62,9 @@ class Lists implements \Magento\Locale\ListsInterface
         $this->_config = $config;
         $this->_app = $app;
         $this->_localeResolver = $localeResolver;
-        $this->_localeResolver->setLocale($locale);
+        if ($locale !== null) {
+            $this->_localeResolver->setLocale($locale);
+        }
         $this->_currencyInstalled = $currencyInstalled;
     }
 

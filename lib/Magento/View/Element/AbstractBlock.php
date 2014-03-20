@@ -156,14 +156,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @var bool
      */
-    protected $_isScopePrivate;
-
-    /**
-     * This property is for defining of tome to live for a block.
-     *
-     * @var int
-     */
-    public $ttl;
+    protected $_isScopePrivate = false;
 
     /**
      * Constructor
@@ -190,7 +183,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_escaper = $context->getEscaper();
         $this->filterManager = $context->getFilterManager();
         $this->_localeDate = $context->getLocaleDate();
-        $this->_isScopePrivate = false;
         parent::__construct($data);
         $this->_construct();
     }

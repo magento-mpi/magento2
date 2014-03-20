@@ -45,8 +45,13 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_imageHelper;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
@@ -54,11 +59,12 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\Product\Visibility $visibility,
@@ -66,6 +72,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -74,7 +81,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_rssFactory = $rssFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $customerSession, $catalogData, $data);
+        $this->customerSession = $customerSession;
+        parent::__construct($context, $httpContext, $catalogData, $data);
     }
 
     /**
@@ -83,14 +91,13 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected function _construct()
     {
         /*
-         * setting cache to save the rss for 10 minutes
-         */
+        * setting cache to save the rss for 10 minutes
+        */
         $this->setCacheKey(
-            'rss_catalog_category_' . $this->getRequest()->getParam(
-                'cid'
-            ) . '_' . $this->getRequest()->getParam(
-                'store_id'
-            ) . '_' . $this->_customerSession->getId()
+            'rss_catalog_category_'
+            . $this->getRequest()->getParam('cid') . '_'
+            . $this->getRequest()->getParam('store_id') . '_'
+            . $this->customerSession->getId()
         );
         $this->setCacheLifetime(600);
     }

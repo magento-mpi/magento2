@@ -106,5 +106,10 @@ return array(
     array(
         'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable',
         'Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable'
-    )
+    ),
+    array('Magento\FullPageCache\App\*'),
+    array('Magento\FullPageCache\Block\*'),
+    array('Magento\FullPageCache\Controller\Request'),
+    array('Magento\FullPageCache\Helper\*'),
+    array('Magento\FullPageCache\Model\*'),
 );

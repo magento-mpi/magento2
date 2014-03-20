@@ -9,6 +9,8 @@
  */
 namespace Magento\CustomerSegment\Model;
 
+use \Magento\CustomerSegment\Helper\Data;
+
 /**
  * Segment/customer relatio model. Model working in website scope. If website is not declared
  * all methods are working in current ran website scoupe
@@ -241,8 +243,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $segmentIds = $allSegments[$websiteId];
         }
 
-        $this->_eventManager->dispatch('magento_customersegment_ids_changed', array('segment_ids' => $segmentIds));
-
         return $this;
     }
 
@@ -296,7 +296,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        $this->_httpContext->setValue('customer_segment', array_filter($visitorSegmentIds));
+        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorSegmentIds), array());
         return $this;
     }
 
@@ -322,7 +322,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        $this->_httpContext->setValue('customer_segment', array_filter($visitorCustomerSegmentIds));
+        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorCustomerSegmentIds), array());
         return $this;
     }
 

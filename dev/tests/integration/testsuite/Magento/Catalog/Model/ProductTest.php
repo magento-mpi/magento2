@@ -339,16 +339,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppArea frontend
-     */
-    public function testSetOrigDataFrontend()
-    {
-        $this->assertEmpty($this->_model->getOrigData());
-        $this->_model->setOrigData('key', 'value');
-        $this->assertEmpty($this->_model->getOrigData());
-    }
-
-    /**
      * @magentoAppArea adminhtml
      */
     public function testSetOrigDataBackend()
@@ -398,7 +388,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected function _assertEmpty($model)
     {
         $this->assertEquals(array(), $model->getData());
-        $this->assertEquals(null, $model->getOrigData());
+        $this->assertEmpty($model->getOrigData());
         $this->assertEquals(array(), $model->getCustomOptions());
         // impossible to test $_optionInstance
         $this->assertEquals(array(), $model->getOptions());

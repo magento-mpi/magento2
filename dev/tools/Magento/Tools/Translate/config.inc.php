@@ -380,7 +380,6 @@ $CONFIG['translates'] = array(
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
         'app/design/adminhtml/default/default/template/enterprise/logging/'
     ),
-    'Magento_FullPageCache' => array('app/code/Magento/FullPageCache/'),
     'Magento_Pbridge' => array(
         'app/code/Magento/Pbridge/',
         'app/design/adminhtml/default/default/layout/enterprise/pbridge.xml',
@@ -418,7 +417,9 @@ $CONFIG['translates'] = array(
         'app/code/Magento/SalesArchive/',
         'app/design/adminhtml/default/default/layout/enterprise/salesarchive.xml'
     ),
-    'Magento_Search' => array('app/code/Magento/Search/'),
+    'Magento_Search' => array(
+        'app/code/Magento/Search/'
+    ),
     'Magento_TargetRule' => array(
         'app/code/Magento/TargetRule/',
         'app/design/adminhtml/default/default/layout/enterprise/targetrule.xml',
@@ -549,7 +550,6 @@ $CONFIG['helpers'] = array(
     'magento_scheduledimportexport' => 'Magento_ScheduledImportExport',
     'magento_invitation' => 'Magento_Invitation',
     'magento_logging' => 'Magento_Logging',
-    'magento_fullpagecache' => 'Magento_FullPageCache',
     'magento_pbridge' => 'Magento_Pbridge',
     'magento_pci' => 'Magento_Pci',
     'magento_persistenthistory' => 'Magento_PersistentHistory',

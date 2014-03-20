@@ -279,5 +279,11 @@ return array(
     array('_columns', 'Magento\Catalog\Model\Resource\Category\Flat'),
     array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection'),
     array('_allowDuplication', 'Magento\View\Publisher'),
-    array('_modulesReader', 'Magento\View\Publisher')
+    array('_modulesReader', 'Magento\View\Publisher'),
+    array('_directoryUrl', 'Magento\Directory\Block\Currency'),
+    array('_pageVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_orderVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_directionVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_modeVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
+    array('_limitVarName', 'Magento\Catalog\Block\Product\ProductList\Toolbar')
 );

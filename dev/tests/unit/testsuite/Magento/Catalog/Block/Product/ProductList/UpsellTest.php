@@ -27,7 +27,7 @@ class UpsellTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTag = 'compare_item_1';
+        $productTag = array('compare_item_1');
         $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTag));
 
@@ -35,6 +35,9 @@ class UpsellTest extends \PHPUnit_Framework_TestCase
         $itemsCollection->setAccessible(true);
         $itemsCollection->setValue($this->block, array($product));
 
-        $this->assertEquals(array($productTag), $this->block->getIdentities());
+        $this->assertEquals(
+            $productTag,
+            $this->block->getIdentities()
+        );
     }
 }

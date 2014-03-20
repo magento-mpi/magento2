@@ -23,7 +23,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $productConfigMock;
-
+    
     /** @var Renderer */
     protected $_renderer;
 
