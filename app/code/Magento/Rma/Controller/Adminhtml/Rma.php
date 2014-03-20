@@ -1408,7 +1408,7 @@ class Rma extends \Magento\Backend\App\Action
                     'message' => __('We cannot initialize an RMA to add a tracking number.')
                 );
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $e->getMessage(),
