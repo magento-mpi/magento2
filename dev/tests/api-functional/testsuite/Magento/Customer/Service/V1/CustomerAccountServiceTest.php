@@ -674,6 +674,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testSearchCustomers()
     {
+        $this->markTestSkipped("The test should be enabled after fixing MAGETWO-22613.");
         $customerData = $this->_createSampleCustomer();
         $this->searchCriteriaBuilder->addFilter(
             (new FilterBuilder())->setField('email')->setValue($customerData[Customer::EMAIL])->create()
@@ -698,6 +699,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testSearchCustomersMultipleFilters()
     {
+        $this->markTestSkipped("The test should be enabled after fixing MAGETWO-22613.");
         $customerData1 = $this->_createSampleCustomer();
         $customerData2 = $this->_createSampleCustomer();
         $filter1 = (new FilterBuilder())->setField('email')->setValue($customerData1[Customer::EMAIL])->create();
