@@ -35,7 +35,7 @@ class RemoveProtectorTest extends \PHPUnit_Framework_TestCase
     public function canBeRemovedDataProvider()
     {
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
-        $bannerMock = $this->getMock('\Magento\Banner\Model\Banner', array(), array(), '', false);
+        $bannerMock = $this->getMock('\Magento\Wishlist\Model\Wishlist', array(), array(), '', false);
 
         return array(
             array(
