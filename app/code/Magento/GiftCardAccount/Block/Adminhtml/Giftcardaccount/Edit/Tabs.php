@@ -52,32 +52,40 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _beforeToHtml()
     {
-        $this->addTab('info', array(
-            'label'     => __('Information'),
-            'content'   => $this->getLayout()->createBlock(
-                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
-            )->initForm()->toHtml(),
-            'active'    => true
-        ));
+        $this->addTab(
+            'info',
+            array(
+                'label' => __('Information'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Info'
+                )->initForm()->toHtml(),
+                'active' => true
+            )
+        );
 
-        $this->addTab('send', array(
-            'label'     => __('Send Gift Card'),
-            'content'   => $this->getLayout()->createBlock(
-                'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
-            )->initForm()->toHtml(),
-        ));
+        $this->addTab(
+            'send',
+            array(
+                'label' => __('Send Gift Card'),
+                'content' => $this->getLayout()->createBlock(
+                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\Send'
+                )->initForm()->toHtml()
+            )
+        );
 
         $model = $this->_coreRegistry->registry('current_giftcardaccount');
         if ($model->getId()) {
-            $this->addTab('history', array(
-                'label'     => __('History'),
-                'content'   => $this->getLayout()->createBlock(
-                    'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
-                )->toHtml(),
-            ));
+            $this->addTab(
+                'history',
+                array(
+                    'label' => __('History'),
+                    'content' => $this->getLayout()->createBlock(
+                        'Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History'
+                    )->toHtml()
+                )
+            );
         }
 
         return parent::_beforeToHtml();
     }
-
 }

@@ -28,7 +28,7 @@ class MviewState
      */
     protected $viewIds = array(
         \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
-        \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID,
+        \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
     );
 
     /**
@@ -52,15 +52,14 @@ class MviewState
     public function afterSetStatus(\Magento\Mview\View\StateInterface $state)
     {
         if (in_array($state->getViewId(), $this->viewIds)) {
-            $viewId = $state->getViewId() == \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
-                ? \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
-                : \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID;
+            $viewId = $state->getViewId() ==
+                \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID ? \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID : \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID;
 
             $relatedState = $this->state->loadByView($viewId);
 
             // If equals nothing to change
-            if ($relatedState->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
-                || $state->getStatus() == $relatedState->getStatus()
+            if ($relatedState->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED ||
+                $state->getStatus() == $relatedState->getStatus()
             ) {
                 return $state;
             }

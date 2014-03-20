@@ -71,23 +71,32 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($rule && $rule->getId()) {
             $confirm = __('Are you sure you want to match this rule now?');
             if ($limit = $this->_reminderData->getOneRunLimit()) {
-                $confirm .= ' ' . __('No more than %1 customers may receive the reminder email after this action.', $limit);
+                $confirm .= ' ' . __(
+                    'No more than %1 customers may receive the reminder email after this action.',
+                    $limit
+                );
             }
-            $this->_addButton('run_now', array(
-                'label'   => __('Run Now'),
-                'onclick' => "confirmSetLocation('{$confirm}', '{$this->getRunUrl()}')"
-            ), -1);
+            $this->_addButton(
+                'run_now',
+                array(
+                    'label' => __('Run Now'),
+                    'onclick' => "confirmSetLocation('{$confirm}', '{$this->getRunUrl()}')"
+                ),
+                -1
+            );
         }
 
-        $this->_addButton('save_and_continue_edit', array(
-            'class'   => 'save',
-            'label'   => __('Save and Continue Edit'),
-            'data_attribute'  => array(
-                'mage-init' => array(
-                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                ),
+        $this->_addButton(
+            'save_and_continue_edit',
+            array(
+                'class' => 'save',
+                'label' => __('Save and Continue Edit'),
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
-        ), 3);
+            3
+        );
     }
 
     /**

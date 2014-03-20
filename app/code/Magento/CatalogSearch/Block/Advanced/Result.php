@@ -70,16 +70,20 @@ class Result extends Template
     {
         $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
         if ($breadcrumbs) {
-            $breadcrumbs->addCrumb('home', array(
-                'label' => __('Home'),
-                'title' => __('Go to Home Page'),
-                'link'  => $this->_storeManager->getStore()->getBaseUrl(),
-            ))->addCrumb('search', array(
-                'label' => __('Catalog Advanced Search'),
-                'link'  => $this->getUrl('*/*/')
-            ))->addCrumb('search_result', array(
-                'label' => __('Results')
-            ));
+            $breadcrumbs->addCrumb(
+                'home',
+                array(
+                    'label' => __('Home'),
+                    'title' => __('Go to Home Page'),
+                    'link' => $this->_storeManager->getStore()->getBaseUrl()
+                )
+            )->addCrumb(
+                'search',
+                array('label' => __('Catalog Advanced Search'), 'link' => $this->getUrl('*/*/'))
+            )->addCrumb(
+                'search_result',
+                array('label' => __('Results'))
+            );
         }
         return parent::_prepareLayout();
     }
@@ -89,7 +93,8 @@ class Result extends Template
      *
      * @return void
      */
-    public function setListOrders() {
+    public function setListOrders()
+    {
         /* @var $category \Magento\Catalog\Model\Category */
         $category = $this->_catalogLayer->getCurrentCategory();
 
@@ -114,8 +119,7 @@ class Result extends Template
      */
     public function setListCollection()
     {
-        $this->getChildBlock('search_result_list')
-           ->setCollection($this->_getProductCollection());
+        $this->getChildBlock('search_result_list')->setCollection($this->_getProductCollection());
     }
 
     /**
@@ -159,9 +163,12 @@ class Result extends Template
      */
     public function getFormUrl()
     {
-        return $this->_urlFactory->create()
-            ->setQueryParams($this->getRequest()->getQuery())
-            ->getUrl('*/*/', array('_escape' => true));
+        return $this->_urlFactory->create()->setQueryParams(
+            $this->getRequest()->getQuery()
+        )->getUrl(
+            '*/*/',
+            array('_escape' => true)
+        );
     }
 
     /**
@@ -174,6 +181,6 @@ class Result extends Template
         $left = array_slice($searchCriterias, 0, $middle);
         $right = array_slice($searchCriterias, $middle);
 
-        return array('left'=>$left, 'right'=>$right);
+        return array('left' => $left, 'right' => $right);
     }
 }

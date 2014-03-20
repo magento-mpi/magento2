@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Category\Product\Action;
 
 /**
@@ -52,9 +51,11 @@ class RowsFactory
     {
         /** @var \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction $instance */
         $instance = $this->objectManager->create($this->instanceName, $data);
-        if (!($instance instanceof \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction)) {
-            throw new \InvalidArgumentException($this->instanceName
-                . ' is not instance of \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction');
+        if (!$instance instanceof \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction) {
+            throw new \InvalidArgumentException(
+                $this->instanceName .
+                ' is not instance of \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction'
+            );
         }
         return $instance;
     }

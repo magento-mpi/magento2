@@ -55,9 +55,9 @@ class Additional extends \Magento\View\Element\Template
     public function isFullyPaidAfterApplication()
     {
         // TODO remove dependences to other modules
-        if ($this->getQuote()->getBaseGrandTotal() > 0
-            || $this->getQuote()->getCustomerBalanceAmountUsed() > 0
-            || $this->getQuote()->getRewardPointsBalance() > 0
+        if ($this->getQuote()->getBaseGrandTotal() > 0 ||
+            $this->getQuote()->getCustomerBalanceAmountUsed() > 0 ||
+            $this->getQuote()->getRewardPointsBalance() > 0
         ) {
             return false;
         }

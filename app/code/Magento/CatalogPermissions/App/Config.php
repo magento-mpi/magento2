@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\App;
 
 /**
@@ -61,9 +60,10 @@ class Config implements ConfigInterface
     public function getCatalogCategoryViewGroups($store = null)
     {
         $groups = $this->coreStoreConfig->getConfig(
-            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups', $store
+            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
+            $store
         );
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -86,9 +86,10 @@ class Config implements ConfigInterface
     public function getCatalogProductPriceGroups($store = null)
     {
         $groups = $this->coreStoreConfig->getConfig(
-            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups', $store
+            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
+            $store
         );
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -110,8 +111,11 @@ class Config implements ConfigInterface
      */
     public function getCheckoutItemsGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups', $store);
-        return $groups ? explode(',', $groups) : [];
+        $groups = $this->coreStoreConfig->getConfig(
+            ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups',
+            $store
+        );
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**
@@ -123,7 +127,7 @@ class Config implements ConfigInterface
     public function getCatalogSearchDenyGroups($store = null)
     {
         $groups = $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH, $store);
-        return $groups ? explode(',', $groups) : [];
+        return $groups ? explode(',', $groups) : array();
     }
 
     /**

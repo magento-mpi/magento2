@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\SalesRule\Model\Coupon;
 
 interface CodegeneratorInterface

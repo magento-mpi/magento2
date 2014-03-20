@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule2\Service\V1;
 
 use Magento\TestModule2\Service\V1\Entity\ItemBuilder;
@@ -30,7 +29,7 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
 
         $result2 = (new ItemBuilder())->setId(2)->setName('testProduct2')->create();
 
-        return [$result1, $result2];
+        return array($result1, $result2);
     }
 
     /**
@@ -46,6 +45,6 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
      */
     public function update(Item $item)
     {
-        return (new ItemBuilder())->setId($item->getId())->setName('Updated'.$item->getName())->create();
+        return (new ItemBuilder())->setId($item->getId())->setName('Updated' . $item->getName())->create();
     }
 }

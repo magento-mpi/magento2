@@ -23,7 +23,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @var array
      */
-    protected $_fields   = array();
+    protected $_fields = array();
 
     /**
      * @var \Magento\Customer\Model\CustomerFactory
@@ -69,12 +69,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addCustomerData()
     {
-        $customer   = $this->_customerFactory->create();
+        $customer = $this->_customerFactory->create();
         // alias => attribute_code
         $attributes = array(
-            'customer_lastname'     => 'lastname',
-            'customer_firstname'    => 'firstname',
-            'customer_email'        => 'email'
+            'customer_lastname' => 'lastname',
+            'customer_firstname' => 'firstname',
+            'customer_email' => 'email'
         );
 
         foreach ($attributes as $alias => $attributeCode) {
@@ -91,11 +91,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 );
 
                 $this->_fields[$alias] = sprintf('%s.%s', $tableAlias, $attribute->getAttributeCode());
-            }
-            else {
+            } else {
                 $tableAlias = 'customer_' . $attribute->getAttributeCode();
 
-                $joinConds  = array(
+                $joinConds = array(
                     sprintf('%s.entity_id=main_table.customer_id', $tableAlias),
                     $this->getConnection()->quoteInto($tableAlias . '.attribute_id=?', $attribute->getAttributeId())
                 );
@@ -123,8 +122,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function addWebsiteFilter($websiteIds)
     {
         if ($this->getFlag('has_customer_data')) {
-            $this->getSelect()
-                ->where('customer_email.website_id IN (?)', $websiteIds);
+            $this->getSelect()->where('customer_email.website_id IN (?)', $websiteIds);
         }
         return $this;
     }

@@ -63,7 +63,8 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function markAsSent($id)
     {
-        $this->_getWriteAdapter()->update($this->getMainTable(),
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
             array('is_customer_notified' => 1),
             array('history_id = ?' => $id)
         );

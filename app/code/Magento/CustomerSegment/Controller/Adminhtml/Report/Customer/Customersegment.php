@@ -70,15 +70,15 @@ class Customersegment extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Customers'),
-                __('Customers')
-            );
+        $this->_setActiveMenu(
+            'Magento_CustomerSegment::report_customers_segment'
+        )->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        )->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        );
         return $this;
     }
 
@@ -94,9 +94,11 @@ class Customersegment extends \Magento\Backend\App\Action
         $segmentId = $this->getRequest()->getParam('segment_id', 0);
         $segmentIds = $this->getRequest()->getParam('massaction');
         if ($segmentIds) {
-            $this->_getAdminSession()
-                ->setMassactionIds($segmentIds)
-                ->setViewMode($this->getRequest()->getParam('view_mode'));
+            $this->_getAdminSession()->setMassactionIds(
+                $segmentIds
+            )->setViewMode(
+                $this->getRequest()->getParam('view_mode')
+            );
         }
 
         /* @var $segment \Magento\CustomerSegment\Model\Segment */
@@ -163,13 +165,10 @@ class Customersegment extends \Magento\Backend\App\Action
         if ($this->_initSegment()) {
             // Add help Notice to Combined Report
             if ($this->_getAdminSession()->getMassactionIds()) {
-                $collection = $this->_collectionFactory->create()
-                    ->addFieldToFilter(
-                        'segment_id',
-                        array(
-                            'in' => $this->_getAdminSession()->getMassactionIds(),
-                        )
-                    );
+                $collection = $this->_collectionFactory->create()->addFieldToFilter(
+                    'segment_id',
+                    array('in' => $this->_getAdminSession()->getMassactionIds())
+                );
 
                 $segments = array();
                 foreach ($collection as $item) {
@@ -177,8 +176,11 @@ class Customersegment extends \Magento\Backend\App\Action
                 }
                 /* @translation __('Viewing combined "%1" report from segments: %2') */
                 if ($segments) {
-                    $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')
-                        ->getViewModeLabel($this->_getAdminSession()->getViewMode());
+                    $viewModeLabel = $this->_objectManager->get(
+                        'Magento\CustomerSegment\Helper\Data'
+                    )->getViewModeLabel(
+                        $this->_getAdminSession()->getViewMode()
+                    );
                     $this->messageManager->addNotice(
                         __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
@@ -191,7 +193,7 @@ class Customersegment extends \Magento\Backend\App\Action
             $this->_view->renderLayout();
         } else {
             $this->_redirect('*/*/segment');
-            return ;
+            return;
         }
     }
 
@@ -229,8 +231,7 @@ class Customersegment extends \Magento\Backend\App\Action
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
             $this->_view->loadLayout();
-            $content = $this->_view->getLayout()
-                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $content = $this->_view->getLayout()->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getExcelFile($fileName),
@@ -252,8 +253,7 @@ class Customersegment extends \Magento\Backend\App\Action
         if ($this->_initSegment()) {
             $this->_view->loadLayout();
             $fileName = 'customersegment_customers.csv';
-            $content = $this->_view->getLayout()
-                ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
+            $content = $this->_view->getLayout()->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getCsvFile($fileName),
@@ -299,7 +299,10 @@ class Customersegment extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return  $this->_authorization->isAllowed('Magento_CustomerSegment::customersegment')
-                && $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')->isEnabled();
+        return $this->_authorization->isAllowed(
+            'Magento_CustomerSegment::customersegment'
+        ) && $this->_objectManager->get(
+            'Magento\CustomerSegment\Helper\Data'
+        )->isEnabled();
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Payment\Model\Method\Specification;
 
 /**
@@ -20,8 +19,13 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->factoryMock = $this->getMock('Magento\Payment\Model\Method\Specification\Factory', array(), array(), '',
-            false);
+        $this->factoryMock = $this->getMock(
+            'Magento\Payment\Model\Method\Specification\Factory',
+            array(),
+            array(),
+            '',
+            false
+        );
     }
 
     /**
@@ -32,10 +36,10 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        return $objectManager->getObject('Magento\Payment\Model\Method\Specification\Composite', array(
-            'factory' => $this->factoryMock,
-            'specifications' => $specifications,
-        ));
+        return $objectManager->getObject(
+            'Magento\Payment\Model\Method\Specification\Composite',
+            array('factory' => $this->factoryMock, 'specifications' => $specifications)
+        );
     }
 
     /**
@@ -49,17 +53,45 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         $method = 'method-name';
 
         $specificationFirst = $this->getMock('Magento\Payment\Model\Method\SpecificationInterface');
-        $specificationFirst->expects($this->once())->method('isSatisfiedBy')->with($method)
-            ->will($this->returnValue($firstSpecificationResult));
+        $specificationFirst->expects(
+            $this->once()
+        )->method(
+            'isSatisfiedBy'
+        )->with(
+            $method
+        )->will(
+            $this->returnValue($firstSpecificationResult)
+        );
 
         $specificationSecond = $this->getMock('Magento\Payment\Model\Method\SpecificationInterface');
-        $specificationSecond->expects($this->any())->method('isSatisfiedBy')->with($method)
-            ->will($this->returnValue($secondSpecificationResult));
+        $specificationSecond->expects(
+            $this->any()
+        )->method(
+            'isSatisfiedBy'
+        )->with(
+            $method
+        )->will(
+            $this->returnValue($secondSpecificationResult)
+        );
 
-        $this->factoryMock->expects($this->at(0))->method('create')->with('SpecificationFirst')
-            ->will($this->returnValue($specificationFirst));
-        $this->factoryMock->expects($this->at(1))->method('create')->with('SpecificationSecond')
-            ->will($this->returnValue($specificationSecond));
+        $this->factoryMock->expects(
+            $this->at(0)
+        )->method(
+            'create'
+        )->with(
+            'SpecificationFirst'
+        )->will(
+            $this->returnValue($specificationFirst)
+        );
+        $this->factoryMock->expects(
+            $this->at(1)
+        )->method(
+            'create'
+        )->with(
+            'SpecificationSecond'
+        )->will(
+            $this->returnValue($specificationSecond)
+        );
 
         $composite = $this->createComposite(array('SpecificationFirst', 'SpecificationSecond'));
 
@@ -79,7 +111,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             array(true, true, true),
             array(true, false, false),
             array(false, true, false),
-            array(false, false, false),
+            array(false, false, false)
         );
     }
 }

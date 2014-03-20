@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesArchive\Model\Order\Archive\Grid\Massaction;
 
 class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
@@ -17,6 +16,7 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_cfgSalesArchiveMock;
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -34,12 +34,11 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cfgSalesArchiveMock = $this->getMockBuilder('Magento\SalesArchive\Model\Config')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_cfgSalesArchiveMock = $this->getMockBuilder(
+            'Magento\SalesArchive\Model\Config'
+        )->disableOriginalConstructor()->getMock();
 
-        $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')
-            ->getMock();
+        $this->_authorizationMock = $this->getMockBuilder('Magento\AuthorizationInterface')->getMock();
 
         $this->_model = new \Magento\SalesArchive\Model\Order\Archive\Grid\Massaction\ItemsUpdater(
             $this->_cfgSalesArchiveMock,
@@ -51,22 +50,10 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
                 'label' => 'Move to Orders Management',
                 'url' => '*/sales_archive/massRemove'
             ),
-            'cancel_order' => array(
-                'label' => 'Cancel',
-                'url' => '*/sales_archive/massCancel'
-            ),
-            'hold_order' => array(
-                'label' => 'Hold',
-                'url' => '*/sales_archive/massHold'
-            ),
-            'unhold_order' => array(
-                'label' => 'Unhold',
-                'url' => '*/sales_archive/massUnhold'
-            ),
-            'pdfinvoices_order' => array(
-                'label' => 'Print Invoices',
-                'url' => '*/sales_archive/massPrintInvoices'
-            ),
+            'cancel_order' => array('label' => 'Cancel', 'url' => '*/sales_archive/massCancel'),
+            'hold_order' => array('label' => 'Hold', 'url' => '*/sales_archive/massHold'),
+            'unhold_order' => array('label' => 'Unhold', 'url' => '*/sales_archive/massUnhold'),
+            'pdfinvoices_order' => array('label' => 'Print Invoices', 'url' => '*/sales_archive/massPrintInvoices'),
             'pdfshipments_order' => array(
                 'label' => 'Print Packing Slips',
                 'url' => '*/sales_archive/massPrintPackingSlips'
@@ -75,10 +62,7 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
                 'label' => 'Print Credit Memos',
                 'url' => '*/sales_archive/massPrintCreditMemos'
             ),
-            'pdfdocs_order' => array(
-                'label' => 'Print All',
-                'url' => '*/sales_archive/massPrintAllDocuments'
-            ),
+            'pdfdocs_order' => array('label' => 'Print All', 'url' => '*/sales_archive/massPrintAllDocuments'),
             'print_shipping_label' => array(
                 'label' => 'Print Shipping Labels',
                 'url' => '*/sales_archive/massPrintShippingLabel'
@@ -88,9 +72,7 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testConfigNotActive()
     {
-        $this->_cfgSalesArchiveMock->expects($this->any())
-            ->method('isArchiveActive')
-            ->will($this->returnValue(false));
+        $this->_cfgSalesArchiveMock->expects($this->any())->method('isArchiveActive')->will($this->returnValue(false));
 
         $this->assertEquals($this->_updateArgs, $this->_model->update($this->_updateArgs));
     }
@@ -101,7 +83,7 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
             array('Magento_Sales::cancel', null, $isAllowed),
             array('Magento_Sales::hold', null, $isAllowed),
             array('Magento_Sales::unhold', null, $isAllowed),
-            array('Magento_SalesArchive::remove', null, $isAllowed),
+            array('Magento_SalesArchive::remove', null, $isAllowed)
         );
     }
 
@@ -112,13 +94,15 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthAllowed()
     {
-        $this->_cfgSalesArchiveMock->expects($this->any())
-            ->method('isArchiveActive')
-            ->will($this->returnValue(true));
+        $this->_cfgSalesArchiveMock->expects($this->any())->method('isArchiveActive')->will($this->returnValue(true));
 
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValueMap($this->_getAclResourceMap(true)));
+        $this->_authorizationMock->expects(
+            $this->any()
+        )->method(
+            'isAllowed'
+        )->will(
+            $this->returnValueMap($this->_getAclResourceMap(true))
+        );
 
         $updatedArgs = $this->_model->update($this->_updateArgs);
         foreach ($this->_getItemsId() as $massItemId) {
@@ -128,18 +112,19 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthNotAllowed()
     {
-        $this->_cfgSalesArchiveMock->expects($this->any())
-            ->method('isArchiveActive')
-            ->will($this->returnValue(true));
+        $this->_cfgSalesArchiveMock->expects($this->any())->method('isArchiveActive')->will($this->returnValue(true));
 
-        $this->_authorizationMock->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValueMap($this->_getAclResourceMap(false)));
+        $this->_authorizationMock->expects(
+            $this->any()
+        )->method(
+            'isAllowed'
+        )->will(
+            $this->returnValueMap($this->_getAclResourceMap(false))
+        );
 
         $updatedArgs = $this->_model->update($this->_updateArgs);
         foreach ($this->_getItemsId() as $massItemId) {
             $this->assertArrayNotHasKey($massItemId, $updatedArgs);
         }
     }
-
 }

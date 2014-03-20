@@ -9,9 +9,7 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
-class Giftregistry
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Giftregistry extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Gift registry data
@@ -49,7 +47,7 @@ class Giftregistry
      *
      * @return void
      */
-    protected  function _construct()
+    protected function _construct()
     {
         parent::_construct();
         $this->setId('gifregustry');
@@ -84,9 +82,9 @@ class Giftregistry
     public function canShowTab()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        return $customer->getId()
-           && $this->_giftRegistryData->isEnabled()
-           && $this->_authorization->isAllowed('Magento_GiftRegistry::customer_magento_giftregistry');
+        return $customer->getId() && $this->_giftRegistryData->isEnabled() && $this->_authorization->isAllowed(
+            'Magento_GiftRegistry::customer_magento_giftregistry'
+        );
     }
 
     /**

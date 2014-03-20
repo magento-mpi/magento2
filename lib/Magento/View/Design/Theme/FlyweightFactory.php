@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme;
 
 /**
@@ -39,9 +38,8 @@ class FlyweightFactory
      *
      * @param ThemeProviderInterface $themeProvider
      */
-    public function __construct(
-        ThemeProviderInterface $themeProvider
-    ) {
+    public function __construct(ThemeProviderInterface $themeProvider)
+    {
         $this->themeProvider = $themeProvider;
     }
 

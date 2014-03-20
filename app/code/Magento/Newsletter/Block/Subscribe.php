@@ -15,7 +15,6 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Newsletter\Block;
 
 class Subscribe extends \Magento\View\Element\Template

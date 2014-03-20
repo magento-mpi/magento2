@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Model;
 
 use Magento\Catalog\Model\Product;
@@ -303,7 +302,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                     array(array($this, 'callbackValidateProduct')),
                     array(
                         'attributes' => $this->getCollectedAttributes(),
-                        'product'    => $this->_productFactory->create(),
+                        'product' => $this->_productFactory->create()
                     )
                 );
             }
@@ -381,16 +380,16 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function calcProductPriceRule(Product $product, $price)
     {
         $priceRules = null;
-        $productId  = $product->getId();
-        $storeId    = $product->getStoreId();
-        $websiteId  = $this->_storeManager->getStore($storeId)->getWebsiteId();
+        $productId = $product->getId();
+        $storeId = $product->getStoreId();
+        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
         if ($product->hasCustomerGroupId()) {
             $customerGroupId = $product->getCustomerGroupId();
         } else {
             $customerGroupId = $this->_customerSession->getCustomerGroupId();
         }
-        $dateTs     = $this->_localeDate->scopeTimeStamp($storeId);
-        $cacheKey   = date('Y-m-d', $dateTs) . "|$websiteId|$customerGroupId|$productId|$price";
+        $dateTs = $this->_localeDate->scopeTimeStamp($storeId);
+        $cacheKey = date('Y-m-d', $dateTs) . "|{$websiteId}|{$customerGroupId}|{$productId}|{$price}";
 
         if (!array_key_exists($cacheKey, self::$_priceRulesData)) {
             $rulesData = $this->_getRulesFromProduct($dateTs, $websiteId, $customerGroupId, $productId);

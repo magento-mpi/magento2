@@ -9,10 +9,8 @@
  * @license     {license_link}
  */
 
-$model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Catalog\Model\Resource\Eav\Attribute');
-$model->setName('system_attribute')
-    ->setId(2)
-    ->setEntityTypeId(4)
-    ->setIsUserDefined(0);
+$model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Catalog\Model\Resource\Eav\Attribute'
+);
+$model->setName('system_attribute')->setId(2)->setEntityTypeId(4)->setIsUserDefined(0);
 $model->save();

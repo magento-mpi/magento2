@@ -67,10 +67,7 @@ class Download
 
         $this->_fileFactory->create(
             $info['title'],
-            [
-                'value' => $this->_rootDir->getRelativePath($relativePath),
-                'type' => 'filename',
-            ],
+            array('value' => $this->_rootDir->getRelativePath($relativePath), 'type' => 'filename'),
             \Magento\App\Filesystem::ROOT_DIR
         );
     }
@@ -82,8 +79,13 @@ class Download
     protected function _isCanProcessed($relativePath)
     {
         $filePath = $this->_rootDir->getAbsolutePath($relativePath);
-        return (!$this->_rootDir->isFile($relativePath) || !$this->_rootDir->isReadable($relativePath))
-            && !$this->_processDatabaseFile($filePath);
+        return (!$this->_rootDir->isFile(
+            $relativePath
+        ) || !$this->_rootDir->isReadable(
+            $relativePath
+        )) && !$this->_processDatabaseFile(
+            $filePath
+        );
     }
 
     /**

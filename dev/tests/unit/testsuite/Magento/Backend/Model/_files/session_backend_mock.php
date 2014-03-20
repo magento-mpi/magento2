@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Session;
+
 use \Magento\Backend\Model\SessionTest;
 
 function headers_sent()

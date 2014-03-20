@@ -25,7 +25,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\Downloadable\Model\Link\Purchased', 'Magento\Downloadable\Model\Resource\Link\Purchased');
+        $this->_init(
+            'Magento\Downloadable\Model\Link\Purchased',
+            'Magento\Downloadable\Model\Resource\Link\Purchased'
+        );
     }
 
     /**
@@ -35,9 +38,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addPurchasedItemsToResult()
     {
-        $this->getSelect()
-            ->join(array('pi'=>$this->getTable('downloadable_link_purchased_item')),
-                'pi.purchased_id=main_table.purchased_id');
+        $this->getSelect()->join(
+            array('pi' => $this->getTable('downloadable_link_purchased_item')),
+            'pi.purchased_id=main_table.purchased_id'
+        );
         return $this;
     }
 }

@@ -8,15 +8,17 @@
  */
 namespace Magento\WebsiteRestriction\Model;
 
-class Config
-    extends \Magento\Config\Data\Scoped
-    implements \Magento\WebsiteRestriction\Model\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements \Magento\WebsiteRestriction\Model\ConfigInterface
 {
-    const XML_PATH_RESTRICTION_ENABLED          = 'general/restriction/is_active';
-    const XML_PATH_RESTRICTION_MODE             = 'general/restriction/mode';
-    const XML_PATH_RESTRICTION_LANDING_PAGE     = 'general/restriction/cms_page';
-    const XML_PATH_RESTRICTION_HTTP_STATUS      = 'general/restriction/http_status';
-    const XML_PATH_RESTRICTION_HTTP_REDIRECT    = 'general/restriction/http_redirect';
+    const XML_PATH_RESTRICTION_ENABLED = 'general/restriction/is_active';
+
+    const XML_PATH_RESTRICTION_MODE = 'general/restriction/mode';
+
+    const XML_PATH_RESTRICTION_LANDING_PAGE = 'general/restriction/cms_page';
+
+    const XML_PATH_RESTRICTION_HTTP_STATUS = 'general/restriction/http_status';
+
+    const XML_PATH_RESTRICTION_HTTP_REDIRECT = 'general/restriction/http_redirect';
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -96,9 +98,7 @@ class Config
      */
     public function getHTTPStatusCode()
     {
-        return (int)$this->_storeConfig->getConfig(
-            self::XML_PATH_RESTRICTION_HTTP_STATUS
-        );
+        return (int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_HTTP_STATUS);
     }
 
     /**
@@ -108,9 +108,7 @@ class Config
      */
     public function getHTTPRedirectCode()
     {
-        return (int)$this->_storeConfig->getConfig(
-            self::XML_PATH_RESTRICTION_HTTP_REDIRECT
-        );
+        return (int)$this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_HTTP_REDIRECT);
     }
 
     /**
@@ -120,8 +118,6 @@ class Config
      */
     public function getLandingPageCode()
     {
-        return $this->_storeConfig->getConfig(
-            self::XML_PATH_RESTRICTION_LANDING_PAGE
-        );
+        return $this->_storeConfig->getConfig(self::XML_PATH_RESTRICTION_LANDING_PAGE);
     }
 }

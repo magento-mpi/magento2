@@ -54,7 +54,7 @@ class Image
     {
         $this->_adapter->checkDependencies();
 
-        if ( !file_exists($this->_fileName) ) {
+        if (!file_exists($this->_fileName)) {
             throw new \Exception("File '{$this->_fileName}' does not exists.");
         }
 
@@ -80,7 +80,7 @@ class Image
      * @access public
      * @return void
      */
-    public function save($destination=null, $newFileName=null)
+    public function save($destination = null, $newFileName = null)
     {
         $this->_adapter->save($destination, $newFileName);
     }
@@ -107,7 +107,7 @@ class Image
      * @access public
      * @return void
      */
-    public function crop($top=0, $left=0, $right=0, $bottom=0)
+    public function crop($top = 0, $left = 0, $right = 0, $bottom = 0)
     {
         $this->_adapter->crop($top, $left, $right, $bottom);
     }
@@ -203,9 +203,14 @@ class Image
      * @throws \Exception
      * @return void
      */
-    public function watermark($watermarkImage, $positionX=0, $positionY=0, $watermarkImageOpacity=30, $repeat=false)
-    {
-        if ( !file_exists($watermarkImage) ) {
+    public function watermark(
+        $watermarkImage,
+        $positionX = 0,
+        $positionY = 0,
+        $watermarkImageOpacity = 30,
+        $repeat = false
+    ) {
+        if (!file_exists($watermarkImage)) {
             throw new \Exception("Required file '{$watermarkImage}' does not exists.");
         }
         $this->_adapter->watermark($watermarkImage, $positionX, $positionY, $watermarkImageOpacity, $repeat);
@@ -230,7 +235,6 @@ class Image
      */
     public function process()
     {
-
     }
 
     /**
@@ -241,7 +245,6 @@ class Image
      */
     public function instruction()
     {
-
     }
 
     /**
@@ -303,7 +306,6 @@ class Image
         $this->_adapter->setWatermarkHeight($height);
         return $this;
     }
-
 
     /**
      * Retrieve original image width

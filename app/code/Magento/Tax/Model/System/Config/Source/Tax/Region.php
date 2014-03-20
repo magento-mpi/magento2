@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\System\Config\Source\Tax;
 
 class Region implements \Magento\Option\ArrayInterface

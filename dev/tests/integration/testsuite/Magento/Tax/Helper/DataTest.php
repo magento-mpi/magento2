@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -32,5 +31,4 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Tax\Helper\Data');
         $this->assertEquals(1, $helper->getDefaultProductTaxClass());
     }
-
 }

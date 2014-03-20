@@ -124,7 +124,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Customer\Model\Session $session,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Data\Collection\Db $resourceCollection,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
@@ -332,11 +332,14 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     {
         /* @var $collection \Magento\TargetRule\Model\Resource\Rule\Collection */
         $collection = $this->_ruleCollectionFactory->create();
-        $collection->addApplyToFilter($this->getType())
-            ->addProductFilter($this->getProduct()->getId())
-            ->addIsActiveFilter()
-            ->setPriorityOrder()
-            ->setFlag('do_not_run_after_load', true);
+        $collection->addApplyToFilter(
+            $this->getType()
+        )->addProductFilter(
+            $this->getProduct()->getId()
+        )->addIsActiveFilter()->setPriorityOrder()->setFlag(
+            'do_not_run_after_load',
+            true
+        );
 
         return $collection;
     }
@@ -364,7 +367,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         foreach ($websites as $website) {
             /* @var $website \Magento\Core\Model\Website */
             $store = $website->getDefaultStore();
-            $date  = $this->_localeDate->scopeDate($store);
+            $date = $this->_localeDate->scopeDate($store);
             if ($date->equals(0, \Zend_Date::HOUR)) {
                 $this->_indexer->logEvent(
                     new \Magento\Object(array('type_id' => null, 'store' => $website->getStoreIds())),
@@ -373,10 +376,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
                 );
             }
         }
-        $this->_indexer->indexEvents(
-            self::ENTITY_TARGETRULE,
-            self::EVENT_TYPE_CLEAN_TARGETRULES
-        );
+        $this->_indexer->indexEvents(self::ENTITY_TARGETRULE, self::EVENT_TYPE_CLEAN_TARGETRULES);
     }
 
     /**

@@ -80,37 +80,55 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
             return $this;
         }
 
-        $this->addChild('add_products_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Add Products'),
-            'onclick' => 'checkoutObj.searchProducts()',
-            'class' => 'add',
-            'id' => 'add_products_btn'
-        ));
+        $this->addChild(
+            'add_products_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add Products'),
+                'onclick' => 'checkoutObj.searchProducts()',
+                'class' => 'add',
+                'id' => 'add_products_btn'
+            )
+        );
 
-        $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Update Items and Qty\'s'),
-            'onclick' => 'checkoutObj.updateItems()',
-            'class' => 'update'
-        ));
+        $this->addChild(
+            'update_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Update Items and Qty\'s'),
+                'onclick' => 'checkoutObj.updateItems()',
+                'class' => 'update'
+            )
+        );
         $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
-        $this->addChild('empty_customer_cart_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Clear the shopping cart.'),
-            'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
-                . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
-            'class' => 'clear'
-        ));
+        $this->addChild(
+            'empty_customer_cart_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Clear the shopping cart.'),
+                'onclick' => 'confirm(\'' .
+                $deleteAllConfirmString .
+                '\') ' .
+                ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
+                'class' => 'clear'
+            )
+        );
 
-        $this->addChild('addto_cart_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Add Selected Product(s) to Shopping Cart'),
-            'onclick' => 'checkoutObj.addToCart()',
-            'class' => 'add button-to-cart'
-        ));
+        $this->addChild(
+            'addto_cart_button',
+            'Magento\Backend\Block\Widget\Button',
+            array(
+                'label' => __('Add Selected Product(s) to Shopping Cart'),
+                'onclick' => 'checkoutObj.addToCart()',
+                'class' => 'add button-to-cart'
+            )
+        );
 
-        $this->addChild('cancel_add_products_button', 'Magento\Backend\Block\Widget\Button', array(
-            'label' => __('Cancel'),
-            'onclick' => 'checkoutObj.cancelSearch()',
-            'class' => 'cancel'
-        ));
+        $this->addChild(
+            'cancel_add_products_button',
+            'Magento\Backend\Block\Widget\Button',
+            array('label' => __('Cancel'), 'onclick' => 'checkoutObj.cancelSearch()', 'class' => 'cancel')
+        );
 
         return $this;
     }
@@ -213,9 +231,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
             'coupon' => $this->getActionUrl('coupon')
         );
 
-        $messages = array(
-            'chooseProducts' => __('Choose  products to add to shopping cart.')
-        );
+        $messages = array('chooseProducts' => __('Choose  products to add to shopping cart.'));
 
         $data = array(
             'action_urls' => $actionUrls,

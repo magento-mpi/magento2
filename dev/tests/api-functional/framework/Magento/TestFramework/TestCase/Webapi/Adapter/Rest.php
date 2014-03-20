@@ -9,7 +9,7 @@
  */
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-use \Magento\Webapi\Model\Config\Converter;
+use Magento\Webapi\Model\Config\Converter;
 
 class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
@@ -55,12 +55,13 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $oAuthClient = $accessCredentials['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
-        $urlFormEncoded = false; // we're always using JSON
+        $urlFormEncoded = false;
+        // we're always using JSON
         $oauthHeader = $oAuthClient->buildOauthHeaderForApiRequest(
             $curlClient->constructResourceUrl($resourcePath),
             $accessCredentials['key'],
             $accessCredentials['secret'],
-            (($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded) ? $arguments : array(),
+            ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : array(),
             $httpMethod
         );
         switch ($httpMethod) {
@@ -108,9 +109,11 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
                         throw new \LogicException('Entity ID is required (to be used instead of placeholder).');
                     }
                     $resourcePath = preg_replace('#:\w+#', $serviceInfo['entityId'], $routePattern);
-                } else if ($numberOfPlaceholders > 1) {
-                    throw new \LogicException("Current implementation of Web API functional framework "
-                        . "is able to process only one placeholder in REST route.");
+                } elseif ($numberOfPlaceholders > 1) {
+                    throw new \LogicException(
+                        "Current implementation of Web API functional framework " .
+                        "is able to process only one placeholder in REST route."
+                    );
                 }
             }
         }

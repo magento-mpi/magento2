@@ -14,8 +14,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer\Edit;
 
-class AbstractTest
-    extends \PHPUnit_Framework_TestCase
+class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Stub class name
@@ -25,19 +24,28 @@ class AbstractTest
     public function testGetCalendarDateHtml()
     {
         $this->getMockForAbstractClass(
-            'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit', array(), self::STUB_CLASS, false
+            'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit',
+            array(),
+            self::STUB_CLASS,
+            false
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock(self::STUB_CLASS);
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            self::STUB_CLASS
+        );
 
         $value = null;
         $formatType = \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM;
 
         $html = $block->getCalendarDateHtml('date_name', 'date_id', $value, $formatType);
 
-        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Stdlib\DateTime\TimezoneInterface')->getDateFormat($formatType);
+        $dateFormat = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Stdlib\DateTime\TimezoneInterface'
+        )->getDateFormat(
+            $formatType
+        );
         $value = $block->formatDate($value, $formatType);
 
         $this->assertContains('dateFormat: "' . $dateFormat . '",', $html);

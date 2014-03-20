@@ -12,7 +12,6 @@ namespace Magento\Core\Model\Layout;
 /**
  * Layout structure model
  */
-
 class ScheduledStructure
 {
     /**
@@ -71,7 +70,6 @@ class ScheduledStructure
     {
         return array_keys(array_intersect_key($this->_scheduledElements, $this->_scheduledMoves));
     }
-
 
     /**
      * Get elements to remove
@@ -214,7 +212,7 @@ class ScheduledStructure
      */
     public function getStructureElement($elementName, $default = null)
     {
-        return $this->hasStructureElement($elementName) ?  $this->_scheduledStructure[$elementName] : $default;
+        return $this->hasStructureElement($elementName) ? $this->_scheduledStructure[$elementName] : $default;
     }
 
     /**

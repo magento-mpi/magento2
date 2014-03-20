@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Backend;
 
 /**
@@ -133,9 +132,9 @@ class File extends \Magento\Core\Model\Config\Value
     public function validateMaxSize($filePath)
     {
         $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::SYS_TMP_DIR);
-        if (
-            $this->_maxFileSize > 0 &&
-            $directory->stat($directory->getRelativePath($filePath))['size'] > ($this->_maxFileSize * 1024)
+        if ($this->_maxFileSize > 0 && $directory->stat(
+            $directory->getRelativePath($filePath)
+        )['size'] > $this->_maxFileSize * 1024
         ) {
             throw new \Magento\Core\Exception(
                 __('The file you\'re uploading exceeds the server size limit of %1 kilobytes.', $this->_maxFileSize)
@@ -152,7 +151,7 @@ class File extends \Magento\Core\Model\Config\Value
     {
         $fieldConfig = $this->getFieldConfig();
         $dirParams = array_key_exists('upload_dir', $fieldConfig) ? $fieldConfig['upload_dir'] : array();
-        return (is_array($dirParams) && array_key_exists('scope_info', $dirParams) && $dirParams['scope_info']);
+        return is_array($dirParams) && array_key_exists('scope_info', $dirParams) && $dirParams['scope_info'];
     }
 
     /**
@@ -167,15 +166,12 @@ class File extends \Magento\Core\Model\Config\Value
         /* @var $fieldConfig \Magento\Simplexml\Element */
 
         if (!array_key_exists('upload_dir', $fieldConfig)) {
-            throw new \Magento\Core\Exception(
-                __('The base directory to upload file is not specified.')
-            );
+            throw new \Magento\Core\Exception(__('The base directory to upload file is not specified.'));
         }
 
         if (is_array($fieldConfig['upload_dir'])) {
             $uploadDir = $fieldConfig['upload_dir']['value'];
-            if (array_key_exists('scope_info', $fieldConfig['upload_dir'])
-                && $fieldConfig['upload_dir']['scope_info']
+            if (array_key_exists('scope_info', $fieldConfig['upload_dir']) && $fieldConfig['upload_dir']['scope_info']
             ) {
                 $uploadDir = $this->_appendScopeInfo($uploadDir);
             }
@@ -184,7 +180,7 @@ class File extends \Magento\Core\Model\Config\Value
                 $uploadDir = $this->_mediaDirectory->getAbsolutePath($uploadDir);
             }
         } else {
-            $uploadDir = (string) $fieldConfig['upload_dir'];
+            $uploadDir = (string)$fieldConfig['upload_dir'];
         }
 
         return $uploadDir;

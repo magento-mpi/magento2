@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
 /**

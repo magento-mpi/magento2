@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout;
 
 class LayoutTest extends \PHPUnit_Framework_TestCase
@@ -18,8 +17,11 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     public function testCartLayout()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setDesignTheme('magento_plushe');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setDesignTheme(
+            'magento_plushe'
+        );
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $layout->getUpdate()->addHandle('checkout_cart_index');
         $layout->getUpdate()->load();

@@ -36,7 +36,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper
      * @param array $data
@@ -56,7 +56,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper,
         array $data = array(),
@@ -75,7 +75,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes

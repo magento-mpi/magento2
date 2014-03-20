@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Rule\Model\Action;
 
 class Collection extends AbstractAction
@@ -93,7 +91,7 @@ class Collection extends AbstractAction
 
         $actions[] = $action;
         if (!$action->getId()) {
-            $action->setId($this->getId().'.'.sizeof($actions));
+            $action->setId($this->getId() . '.' . sizeof($actions));
         }
 
         $this->setActions($actions);
@@ -105,9 +103,9 @@ class Collection extends AbstractAction
      */
     public function asHtml()
     {
-        $html = $this->getTypeElement()->toHtml().'Perform following actions: ';
-        if ($this->getId()!='1') {
-            $html.= $this->getRemoveLinkHtml();
+        $html = $this->getTypeElement()->toHtml() . 'Perform following actions: ';
+        if ($this->getId() != '1') {
+            $html .= $this->getRemoveLinkHtml();
         }
         return $html;
     }
@@ -117,11 +115,17 @@ class Collection extends AbstractAction
      */
     public function getNewChildElement()
     {
-        return $this->getForm()->addField('action:' . $this->getId() . ':new_child', 'select', array(
-            'name' => 'rule[actions][' . $this->getId() . '][new_child]',
-            'values' => $this->getNewChildSelectOptions(),
-            'value_name' => $this->getNewChildName(),
-        ))->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild'));
+        return $this->getForm()->addField(
+            'action:' . $this->getId() . ':new_child',
+            'select',
+            array(
+                'name' => 'rule[actions][' . $this->getId() . '][new_child]',
+                'values' => $this->getNewChildSelectOptions(),
+                'value_name' => $this->getNewChildName()
+            )
+        )->setRenderer(
+            $this->_layout->getBlockSingleton('Magento\Rule\Block\Newchild')
+        );
     }
 
     /**

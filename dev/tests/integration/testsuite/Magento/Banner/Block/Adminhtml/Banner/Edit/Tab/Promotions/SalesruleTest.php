@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
 /**
@@ -22,8 +21,11 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule'
+        );
     }
 
     protected function tearDown()
@@ -34,13 +36,11 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
     public function testGetCollection()
     {
         /** @var \Magento\SalesRule\Model\Rule $ruleOne */
-        $ruleOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\SalesRule\Model\Rule');
+        $ruleOne = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\SalesRule\Model\Rule');
         $ruleOne->load('40% Off on Large Orders', 'name');
 
         /** @var \Magento\SalesRule\Model\Rule $ruleTwo */
-        $ruleTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\SalesRule\Model\Rule');
+        $ruleTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\SalesRule\Model\Rule');
         $ruleTwo->load('50% Off on Large Orders', 'name');
 
         $this->assertEquals(array($ruleOne->getId(), $ruleTwo->getId()), $this->_block->getCollection()->getAllIds());

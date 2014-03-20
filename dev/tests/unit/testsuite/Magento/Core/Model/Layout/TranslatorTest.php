@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Layout;
 
 class TranslatorTest extends \PHPUnit_Framework_TestCase
@@ -83,7 +82,7 @@ XML;
     public function testTranslateActionParametersWithHierarchyTranslatedArgumentAndNonStringParam()
     {
         $args = array('one' => array('some', 'data'), 'two' => array('value' => 'test'), 'three' => 'test');
-        $expected = array('one' =>  array('some', 'data'), 'two' => array('value' => __('test')), 'three' => 'test');
+        $expected = array('one' => array('some', 'data'), 'two' => array('value' => __('test')), 'three' => 'test');
 
         $this->_object->translateActionParameters($this->_xmlDocument->action_three, $args);
         $this->assertEquals($expected, $args);

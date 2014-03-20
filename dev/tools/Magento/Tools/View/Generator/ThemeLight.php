@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\View\Generator;
 
 use Magento\View\Design\ThemeInterface;

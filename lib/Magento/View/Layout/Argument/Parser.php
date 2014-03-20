@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument;
 
 use Magento\Config\Converter\Dom\Flat as FlatConverter;
@@ -44,13 +43,8 @@ class Parser
         if (!$this->converter) {
             $arrayNodeConfig = new ArrayNodeConfig(
                 new NodePathMatcher(),
-                array(
-                    'argument/param' => 'name',
-                    'argument(/item)+' => 'name',
-                ),
-                array(
-                    'argument/updater',
-                )
+                array('argument/param' => 'name', 'argument(/item)+' => 'name'),
+                array('argument/updater')
             );
             $this->converter = new FlatConverter($arrayNodeConfig);
         }

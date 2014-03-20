@@ -17,8 +17,7 @@
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\System\Config;
 
-class Clean
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class Clean extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Remove scope label
@@ -40,15 +39,15 @@ class Clean
      */
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
-        $url    = $this->getUrl('adminhtml/scheduled_operation/logClean', array(
-            'section' => $this->getRequest()->getParam('section')
-        ));
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'id'        => 'clean_now',
-                'label'     => __('Clean Now'),
-                'onclick'   => 'setLocation(\'' . $url . '\')'
-            ));
+        $url = $this->getUrl(
+            'adminhtml/scheduled_operation/logClean',
+            array('section' => $this->getRequest()->getParam('section'))
+        );
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('id' => 'clean_now', 'label' => __('Clean Now'), 'onclick' => 'setLocation(\'' . $url . '\')')
+        );
 
         return $button->toHtml();
     }

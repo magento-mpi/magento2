@@ -68,21 +68,22 @@ class Recommendations
         $productCollection = $this->_searchLayer->getProductCollection();
         $searchQueryText = $this->_catalogSearchData->getQuery()->getQueryText();
 
-        $params = array(
-            'store_id' => $productCollection->getStoreId(),
-        );
+        $params = array('store_id' => $productCollection->getStoreId());
 
-        $searchRecommendationsEnabled = (boolean)$this->_searchData
-            ->getSearchConfigData('search_recommendations_enabled');
-        $searchRecommendationsCount   = (int)$this->_searchData
-            ->getSearchConfigData('search_recommendations_count');
+        $searchRecommendationsEnabled = (bool)$this->_searchData->getSearchConfigData(
+            'search_recommendations_enabled'
+        );
+        $searchRecommendationsCount = (int)$this->_searchData->getSearchConfigData('search_recommendations_count');
 
         if ($searchRecommendationsCount < 1) {
             $searchRecommendationsCount = 1;
         }
         if ($searchRecommendationsEnabled) {
-            return $this->_recommendationsFactory->create()
-                ->getRecommendationsByQuery($searchQueryText, $params, $searchRecommendationsCount);
+            return $this->_recommendationsFactory->create()->getRecommendationsByQuery(
+                $searchQueryText,
+                $params,
+                $searchRecommendationsCount
+            );
         } else {
             return array();
         }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Model\Resource;
 
 /**
@@ -59,7 +58,7 @@ class IndexPool
         $className = 'Magento\TargetRule\Model\Resource\Index\\' . $model;
         $indexResource = $this->_objectManager->get($className, $arguments);
 
-        if (false === ($indexResource instanceof \Magento\TargetRule\Model\Resource\Index\AbstractIndex)) {
+        if (false === $indexResource instanceof \Magento\TargetRule\Model\Resource\Index\AbstractIndex) {
             throw new \LogicException(
                 $className . ' doesn\'t extend \Magento\TargetRule\Model\Resource\Index\AbstractIndex'
             );

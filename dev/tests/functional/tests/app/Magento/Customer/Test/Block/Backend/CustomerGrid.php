@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Test\Block\Backend;
 
 use Mtf\Client\Element\Locator;
@@ -29,7 +28,7 @@ class CustomerGrid extends Grid
      * @var string
      */
     protected $addNewCustomer = "../*[@class='page-actions']//*[@id='add']";
-    
+
     /**
      * {@inheritDoc}
      */
@@ -48,7 +47,8 @@ class CustomerGrid extends Grid
      *
      * @var string
      */
-    protected $customerGroupSelector = '//tr[td[text()[normalize-space()="%s"]]]/td[normalize-space(@class)="col-group"]';
+    protected $customerGroupSelector =
+        '//tr[td[text()[normalize-space()="%s"]]]/td[normalize-space(@class)="col-group"]';
 
     /**
      * {@inheritDoc}

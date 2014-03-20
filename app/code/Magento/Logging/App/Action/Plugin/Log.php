@@ -9,8 +9,8 @@
  */
 namespace Magento\Logging\App\Action\Plugin;
 
-use \Magento\App\ResponseInterface;
-use \Magento\Logging\Model\Processor;
+use Magento\App\ResponseInterface;
+use Magento\Logging\Model\Processor;
 
 class Log
 {
@@ -71,4 +71,4 @@ class Log
         $this->_processor->initAction($fullActionName, $actionName);
         return $proceed($request);
     }
-} 
+}

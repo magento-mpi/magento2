@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\Catalog\Model\Product\Attribute\Backend;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Groupprice
-    extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
+class Groupprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice
 {
     /**
      * Catalog product attribute backend groupprice

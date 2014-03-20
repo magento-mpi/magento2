@@ -147,7 +147,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     protected function _sortAttributes($a, $b)
     {
         if ($a['sort_order'] != $b['sort_order']) {
-            return ($a['sort_order'] > $b['sort_order']) ? 1 : -1;
+            return $a['sort_order'] > $b['sort_order'] ? 1 : -1;
         }
         return 0;
     }
@@ -241,7 +241,9 @@ class Type extends \Magento\Core\Model\AbstractModel
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
                                     $this->_getResource()->deleteAttributeStoreData(
-                                        $this->getId(), $attribute['code'], $option['code']
+                                        $this->getId(),
+                                        $attribute['code'],
+                                        $option['code']
                                     );
                                 } else {
                                     $optionsToSave[] = $option;
@@ -441,16 +443,16 @@ class Type extends \Magento\Core\Model\AbstractModel
         $type = $data['type'];
         $this->setCode($type['code']);
 
-        $attributes = (isset($data['attributes'])) ? $data['attributes'] : null;
+        $attributes = isset($data['attributes']) ? $data['attributes'] : null;
         $this->setAttributes($attributes);
 
-        $label = (isset($type['label'])) ? $type['label'] : null;
+        $label = isset($type['label']) ? $type['label'] : null;
         $this->setLabel($label);
 
-        $sortOrder = (isset($type['sort_order'])) ? $type['sort_order'] : null;
+        $sortOrder = isset($type['sort_order']) ? $type['sort_order'] : null;
         $this->setSortOrder($sortOrder);
 
-        $isListed = (isset($type['is_listed'])) ? $type['is_listed'] : null;
+        $isListed = isset($type['is_listed']) ? $type['is_listed'] : null;
         $this->setIsListed($isListed);
 
         return $this;

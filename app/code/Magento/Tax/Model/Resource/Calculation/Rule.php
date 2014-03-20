@@ -35,10 +35,7 @@ class Rule extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array(
-            'field' => array('code'),
-            'title' => __('Code'),
-        ));
+        $this->_uniqueFields = array(array('field' => array('code'), 'title' => __('Code')));
         return $this;
     }
 }

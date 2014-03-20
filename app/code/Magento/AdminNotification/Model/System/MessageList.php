@@ -27,10 +27,8 @@ class MessageList
      * @param \Magento\ObjectManager $objectManager
      * @param array $messages
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        $messages = array()
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, $messages = array())
+    {
         $this->_objectManager = $objectManager;
         $this->_messageClasses = $messages;
     }

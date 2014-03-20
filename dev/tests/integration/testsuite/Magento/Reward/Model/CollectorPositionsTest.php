@@ -23,20 +23,20 @@ class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPosit
                 'reward',
                 'quote',
                 array('giftcardaccount', 'customerbalance'),
-                array('weee', 'discount', 'tax', 'tax_subtotal', 'grand_total'),
+                array('weee', 'discount', 'tax', 'tax_subtotal', 'grand_total')
             ),
             'invoice collectors' => array(
                 'reward',
                 'invoice',
                 array('giftcardaccount', 'customerbalance'),
-                array('grand_total'),
+                array('grand_total')
             ),
             'creditmemo collectors' => array(
                 'reward',
                 'creditmemo',
                 array(),
-                array('weee', 'discount', 'tax', 'grand_total', 'customerbalance', 'giftcardaccount'),
-            ),
+                array('weee', 'discount', 'tax', 'grand_total', 'customerbalance', 'giftcardaccount')
+            )
         );
     }
 }

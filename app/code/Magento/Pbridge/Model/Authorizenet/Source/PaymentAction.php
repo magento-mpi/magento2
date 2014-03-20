@@ -31,7 +31,7 @@ class PaymentAction implements \Magento\Option\ArrayInterface
             array(
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorize and Capture')
-            ),
+            )
         );
     }
 }

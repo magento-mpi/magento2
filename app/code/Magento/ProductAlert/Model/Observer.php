@@ -21,29 +21,29 @@ class Observer
     /**
      * Error email template configuration
      */
-    const XML_PATH_ERROR_TEMPLATE   = 'catalog/productalert_cron/error_email_template';
+    const XML_PATH_ERROR_TEMPLATE = 'catalog/productalert_cron/error_email_template';
 
     /**
      * Error email identity configuration
      */
-    const XML_PATH_ERROR_IDENTITY   = 'catalog/productalert_cron/error_email_identity';
+    const XML_PATH_ERROR_IDENTITY = 'catalog/productalert_cron/error_email_identity';
 
     /**
      * 'Send error emails to' configuration
      */
-    const XML_PATH_ERROR_RECIPIENT  = 'catalog/productalert_cron/error_email';
+    const XML_PATH_ERROR_RECIPIENT = 'catalog/productalert_cron/error_email';
 
     /**
      * Allow price alert
      *
      */
-    const XML_PATH_PRICE_ALLOW      = 'catalog/productalert/allow_price';
+    const XML_PATH_PRICE_ALLOW = 'catalog/productalert/allow_price';
 
     /**
      * Allow stock alert
      *
      */
-    const XML_PATH_STOCK_ALLOW      = 'catalog/productalert/allow_stock';
+    const XML_PATH_STOCK_ALLOW = 'catalog/productalert/allow_stock';
 
     /**
      * Website collection array
@@ -167,8 +167,7 @@ class Observer
         if (is_null($this->_websites)) {
             try {
                 $this->_websites = $this->_storeManager->getWebsites();
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
             }
         }
@@ -193,15 +192,15 @@ class Observer
             if (!$this->_coreStoreConfig->getConfig(
                 self::XML_PATH_PRICE_ALLOW,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
-            )) {
+            )
+            ) {
                 continue;
             }
             try {
-                $collection = $this->_priceColFactory->create()
-                    ->addWebsiteFilter($website->getId())
-                    ->setCustomerOrder();
-            }
-            catch (\Exception $e) {
+                $collection = $this->_priceColFactory->create()->addWebsiteFilter(
+                    $website->getId()
+                )->setCustomerOrder();
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 return $this;
             }
@@ -225,9 +224,11 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = $this->_productFactory->create()
-                        ->setStoreId($website->getDefaultStore()->getId())
-                        ->load($alert->getProductId());
+                    $product = $this->_productFactory->create()->setStoreId(
+                        $website->getDefaultStore()->getId()
+                    )->load(
+                        $alert->getProductId()
+                    );
                     if (!$product) {
                         continue;
                     }
@@ -244,16 +245,14 @@ class Observer
                         $alert->setStatus(1);
                         $alert->save();
                     }
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
             if ($previousCustomer) {
                 try {
                     $email->send();
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
@@ -280,16 +279,17 @@ class Observer
             if (!$this->_coreStoreConfig->getConfig(
                 self::XML_PATH_STOCK_ALLOW,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
-            )) {
+            )
+            ) {
                 continue;
             }
             try {
-                $collection = $this->_stockColFactory->create()
-                    ->addWebsiteFilter($website->getId())
-                    ->addStatusFilter(0)
-                    ->setCustomerOrder();
-            }
-            catch (\Exception $e) {
+                $collection = $this->_stockColFactory->create()->addWebsiteFilter(
+                    $website->getId()
+                )->addStatusFilter(
+                    0
+                )->setCustomerOrder();
+            } catch (\Exception $e) {
                 $this->_errors[] = $e->getMessage();
                 return $this;
             }
@@ -313,9 +313,11 @@ class Observer
                         $customer = $previousCustomer;
                     }
 
-                    $product = $this->_productFactory->create()
-                        ->setStoreId($website->getDefaultStore()->getId())
-                        ->load($alert->getProductId());
+                    $product = $this->_productFactory->create()->setStoreId(
+                        $website->getDefaultStore()->getId()
+                    )->load(
+                        $alert->getProductId()
+                    );
                     /* @var $product \Magento\Catalog\Model\Product */
                     if (!$product) {
                         continue;
@@ -331,8 +333,7 @@ class Observer
                         $alert->setStatus(1);
                         $alert->save();
                     }
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
@@ -340,8 +341,7 @@ class Observer
             if ($previousCustomer) {
                 try {
                     $email->send();
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->_errors[] = $e->getMessage();
                 }
             }
@@ -364,16 +364,20 @@ class Observer
 
             $this->_translate->setTranslateInline(false);
 
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE))
-                ->setTemplateOptions(array(
-                    'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)
+            )->setTemplateOptions(
+                array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
-                ))
-                ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY))
-                ->addTo($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT))
-                ->getTransport();
+                )
+            )->setTemplateVars(
+                array('warnings' => join("\n", $this->_errors))
+            )->setFrom(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY)
+            )->addTo(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)
+            )->getTransport();
 
             $transport->sendMessage();
 

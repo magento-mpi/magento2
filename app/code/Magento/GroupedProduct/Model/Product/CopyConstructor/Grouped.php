@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Model\Product\CopyConstructor;
 
 class Grouped implements \Magento\Catalog\Model\Product\CopyConstructorInterface

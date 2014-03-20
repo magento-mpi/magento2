@@ -45,8 +45,13 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_imageHelper;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
@@ -54,11 +59,12 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\Product\Visibility $visibility,
@@ -66,6 +72,7 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
@@ -74,7 +81,8 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_rssFactory = $rssFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $customerSession, $catalogData, $data);
+        $this->customerSession = $customerSession;
+        parent::__construct($context, $httpContext, $catalogData, $data);
     }
 
     /**
@@ -85,10 +93,11 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
         /*
         * setting cache to save the rss for 10 minutes
         */
-        $this->setCacheKey('rss_catalog_category_'
+        $this->setCacheKey(
+            'rss_catalog_category_'
             . $this->getRequest()->getParam('cid') . '_'
             . $this->getRequest()->getParam('store_id') . '_'
-            . $this->_customerSession->getId()
+            . $this->customerSession->getId()
         );
         $this->setCacheLifetime(600);
     }
@@ -112,21 +121,23 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 $category->setIsAnchor(true);
                 $newUrl = $category->getUrl();
                 $title = $category->getName();
-                $rssModel->_addHeader(array(
-                    'title'       => $title,
-                    'description' => $title,
-                    'link'        => $newUrl,
-                    'charset'     => 'UTF-8',
-                ));
+                $rssModel->_addHeader(
+                    array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8')
+                );
 
                 $_collection = $category->getCollection();
-                $_collection->addAttributeToSelect('url_key')
-                    ->addAttributeToSelect('name')
-                    ->addAttributeToSelect('is_anchor')
-                    ->addAttributeToFilter('is_active', 1)
-                    ->addIdFilter($category->getChildren())
-                    ->load()
-                ;
+                $_collection->addAttributeToSelect(
+                    'url_key'
+                )->addAttributeToSelect(
+                    'name'
+                )->addAttributeToSelect(
+                    'is_anchor'
+                )->addAttributeToFilter(
+                    'is_active',
+                    1
+                )->addIdFilter(
+                    $category->getChildren()
+                )->load();
                 /** @var $productCollection \Magento\Catalog\Model\Resource\Product\Collection */
                 $productCollection = $this->_collectionFactory->create();
 
@@ -138,13 +149,16 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
                 /*
                 only load latest 50 products
                 */
-                $_productCollection = $currentCategory
-                    ->getProductCollection()
-                    ->addAttributeToSort('updated_at', 'desc')
-                    ->setVisibility($this->_visibility->getVisibleInCatalogIds())
-                    ->setCurPage(1)
-                    ->setPageSize(50)
-                ;
+                $_productCollection = $currentCategory->getProductCollection()->addAttributeToSort(
+                    'updated_at',
+                    'desc'
+                )->setVisibility(
+                    $this->_visibility->getVisibleInCatalogIds()
+                )->setCurPage(
+                    1
+                )->setPageSize(
+                    50
+                );
 
                 if ($_productCollection->getSize() > 0) {
                     $args = array('rssObj' => $rssModel);
@@ -177,23 +191,32 @@ class Category extends \Magento\Rss\Block\Catalog\AbstractCatalog
             return;
         }
 
-        $description = '<table><tr>'
-                     . '<td><a href="'.$product->getProductUrl().'"><img src="'
-                     . $this->_imageHelper->init($product, 'thumbnail')->resize(75, 75)
-                     . '" border="0" align="left" height="75" width="75"></a></td>'
-                     . '<td  style="text-decoration:none;">' . $product->getDescription();
+        $description = '<table><tr>' .
+            '<td><a href="' .
+            $product->getProductUrl() .
+            '"><img src="' .
+            $this->_imageHelper->init(
+                $product,
+                'thumbnail'
+            )->resize(
+                75,
+                75
+            ) .
+            '" border="0" align="left" height="75" width="75"></a></td>' .
+            '<td  style="text-decoration:none;">' .
+            $product->getDescription();
 
         if ($product->getAllowedPriceInRss()) {
-            $description.= $this->getPriceHtml($product, true);
+            $description .= $this->getPriceHtml($product, true);
         }
 
         $description .= '</td></tr></table>';
         /** @var $rssObj \Magento\Rss\Model\Rss */
         $rssObj = $args['rssObj'];
         $data = array(
-            'title'       => $product->getName(),
-            'link'        => $product->getProductUrl(),
-            'description' => $description,
+            'title' => $product->getName(),
+            'link' => $product->getProductUrl(),
+            'description' => $description
         );
 
         $rssObj->_addEntry($data);

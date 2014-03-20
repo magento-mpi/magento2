@@ -119,9 +119,9 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     public function getAllowedAttributes($setId)
     {
-        $attributes = $this->_productFactory->create()->getResource()
-                ->loadAllAttributes()
-                ->getSortedAttributes($setId);
+        $attributes = $this->_productFactory->create()->getResource()->loadAllAttributes()->getSortedAttributes(
+            $setId
+        );
 
         $titles = array();
         foreach ($attributes as $attribute) {
@@ -147,8 +147,12 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      */
     protected function _isAllowedAttribute($attribute)
     {
-        return !in_array($attribute->getFrontendInput(), $this->_ignoredAttributeTypes)
-               && !in_array($attribute->getAttributeCode(), $this->_ignoredAttributeCodes)
-               && $attribute->getFrontendLabel() != "";
+        return !in_array(
+            $attribute->getFrontendInput(),
+            $this->_ignoredAttributeTypes
+        ) && !in_array(
+            $attribute->getAttributeCode(),
+            $this->_ignoredAttributeCodes
+        ) && $attribute->getFrontendLabel() != "";
     }
 }

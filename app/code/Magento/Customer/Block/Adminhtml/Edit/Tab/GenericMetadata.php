@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
@@ -29,21 +28,22 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
 
         foreach ($attributes as $attribute) {
             // Note, ignoring whether its visible or not,
-            if (($inputType = $attribute->getFrontendInput())
-                && !in_array($attribute->getAttributeCode(), $exclude)
-                && (('media_image' != $inputType) || ($attribute->getAttributeCode() == 'image'))
+            if (($inputType = $attribute->getFrontendInput()) && !in_array(
+                $attribute->getAttributeCode(),
+                $exclude
+            ) && ('media_image' != $inputType || $attribute->getAttributeCode() == 'image')
             ) {
 
-                $fieldType      = $inputType;
+                $fieldType = $inputType;
                 $element = $fieldset->addField(
                     $attribute->getAttributeCode(),
                     $fieldType,
                     array(
-                        'name'      => $attribute->getAttributeCode(),
-                        'label'     => __($attribute->getFrontendLabel()),
-                        'class'     => $attribute->getFrontendClass(),
-                        'required'  => $attribute->isRequired(),
-                        'note'      => $attribute->getNote(),
+                        'name' => $attribute->getAttributeCode(),
+                        'label' => __($attribute->getFrontendLabel()),
+                        'class' => $attribute->getFrontendClass(),
+                        'required' => $attribute->isRequired(),
+                        'note' => $attribute->getNote()
                     )
                 );
 
@@ -94,7 +94,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getAttributeOptionsArray(\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata $attribute)
     {
         $options = $attribute->getOptions();
-        $result = [];
+        $result = array();
         foreach ($options as $option) {
             $result[] = $option->__toArray();
         }

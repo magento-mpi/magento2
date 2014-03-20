@@ -26,9 +26,8 @@ class Format implements \Magento\Option\ArrayInterface
     /**
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      */
-    public function __construct(
-        \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
-    ) {
+    public function __construct(\Magento\ImportExport\Model\Export\ConfigInterface $exportConfig)
+    {
         $this->_exportConfig = $exportConfig;
     }
 
@@ -42,6 +41,5 @@ class Format implements \Magento\Option\ArrayInterface
             $options[] = array('value' => $formatName, 'label' => __($formatConfig['label']));
         }
         return $options;
-
     }
 }

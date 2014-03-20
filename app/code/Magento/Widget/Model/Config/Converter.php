@@ -68,9 +68,9 @@ class Converter implements \Magento\Config\ConverterInterface
                             );
                         }
                         break;
-                    case "#text": 
+                    case "#text":
                         break;
-                    case '#comment': 
+                    case '#comment':
                         break;
                     default:
                         throw new \LogicException(
@@ -85,7 +85,6 @@ class Converter implements \Magento\Config\ConverterInterface
         }
         return $widgets;
     }
-
 
     /**
      * Convert dom Container node to magneto array
@@ -107,8 +106,11 @@ class Converter implements \Magento\Config\ConverterInterface
                 throw new \LogicException("Only 'template' node can be child of 'container' node");
             }
             $templateAttributes = $containerTemplate->attributes;
-            $template[$templateAttributes->getNamedItem('name')->nodeValue] =
-                $templateAttributes->getNamedItem('value')->nodeValue;
+            $template[$templateAttributes->getNamedItem(
+                'name'
+            )->nodeValue] = $templateAttributes->getNamedItem(
+                'value'
+            )->nodeValue;
         }
         $supportedContainers[] = array(
             'container_name' => $containerAttributes->getNamedItem('name')->nodeValue,
@@ -225,15 +227,15 @@ class Converter implements \Magento\Config\ConverterInterface
             }
             if ($childNode->nodeName !== 'parameter') {
                 throw new \LogicException(
-                    sprintf(
-                        "Only 'parameter' node can be child of 'depends' node, %s found",
-                        $childNode->nodeName
-                    )
+                    sprintf("Only 'parameter' node can be child of 'depends' node, %s found", $childNode->nodeName)
                 );
             }
             $parameterAttributes = $childNode->attributes;
-            $depends[$parameterAttributes->getNamedItem('name')->nodeValue] =
-                array('value' => $parameterAttributes->getNamedItem('value')->nodeValue);
+            $depends[$parameterAttributes->getNamedItem(
+                'name'
+            )->nodeValue] = array(
+                'value' => $parameterAttributes->getNamedItem('value')->nodeValue
+            );
         }
         return $depends;
     }
@@ -255,10 +257,7 @@ class Converter implements \Magento\Config\ConverterInterface
             }
             if ($blockSubNode->nodeName !== 'data') {
                 throw new \LogicException(
-                    sprintf(
-                        "Only 'data' node can be child of 'block' node, %s found",
-                        $blockSubNode->nodeName
-                    )
+                    sprintf("Only 'data' node can be child of 'block' node, %s found", $blockSubNode->nodeName)
                 );
             }
             $helperBlock['data'] = $this->_convertData($blockSubNode);

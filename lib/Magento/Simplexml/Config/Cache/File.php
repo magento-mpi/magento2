@@ -20,7 +20,6 @@ namespace Magento\Simplexml\Config\Cache;
 
 class File extends \Magento\Simplexml\Config\Cache\AbstractCache
 {
-
     /**
      * Initialize variables that depend on the cache key
      *
@@ -29,12 +28,12 @@ class File extends \Magento\Simplexml\Config\Cache\AbstractCache
      */
     public function setKey($key)
     {
-    	$this->setData('key', $key);
-    	
-    	$file = $this->getDir() . '/' . $this->getKey();
-        $this->setFileName($file.'.xml');
-        $this->setStatFileName($file.'.stat');
-        
+        $this->setData('key', $key);
+
+        $file = $this->getDir() . '/' . $this->getKey();
+        $this->setFileName($file . '.xml');
+        $this->setStatFileName($file . '.stat');
+
         return $this;
     }
 
@@ -56,12 +55,12 @@ class File extends \Magento\Simplexml\Config\Cache\AbstractCache
         if (!$this->validateComponents(unserialize($stats))) {
             return false;
         }
-        
+
         // try to read cache file
         if (!($cache = @file_get_contents($this->getFileName()))) {
             return false;
         }
-            
+
         // try to process cache file
         if (!($data = $this->getConfig()->processFileData($cache))) {
             return false;
@@ -73,7 +72,7 @@ class File extends \Magento\Simplexml\Config\Cache\AbstractCache
 
         return true;
     }
-    
+
     /**
      * Try to save configuration cache to file
      *
@@ -84,13 +83,13 @@ class File extends \Magento\Simplexml\Config\Cache\AbstractCache
         if (!$this->getIsAllowedToSave()) {
             return false;
         }
-        
+
         // save stats
         @file_put_contents($this->getStatFileName(), serialize($this->getComponents()));
 
         // save cache
         @file_put_contents($this->getFileName(), $this->getConfig()->getNode()->asNiceXml());
-        
+
         return true;
     }
 }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Http\PhpEnvironment;
 
 class ServerAddressTest extends \PHPUnit_Framework_TestCase
@@ -25,15 +24,17 @@ class ServerAddressTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_request = $this->getMockBuilder('Magento\App\Request\Http')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getServer'))
-            ->getMock();
+        $this->_request = $this->getMockBuilder(
+            'Magento\App\Request\Http'
+        )->disableOriginalConstructor()->setMethods(
+            array('getServer')
+        )->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_serverAddress = $objectManager->getObject('Magento\HTTP\PhpEnvironment\ServerAddress', array(
-            'httpRequest' => $this->_request
-        ));
+        $this->_serverAddress = $objectManager->getObject(
+            'Magento\HTTP\PhpEnvironment\ServerAddress',
+            array('httpRequest' => $this->_request)
+        );
     }
 
     /**
@@ -41,10 +42,15 @@ class ServerAddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServerAddress($serverVar, $expected, $ipToLong)
     {
-        $this->_request->expects($this->atLeastOnce())
-            ->method('getServer')
-            ->with('SERVER_ADDR')
-            ->will($this->returnValue($serverVar));
+        $this->_request->expects(
+            $this->atLeastOnce()
+        )->method(
+            'getServer'
+        )->with(
+            'SERVER_ADDR'
+        )->will(
+            $this->returnValue($serverVar)
+        );
         $this->assertEquals($expected, $this->_serverAddress->getServerAddress($ipToLong));
     }
 

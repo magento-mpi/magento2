@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -42,11 +41,8 @@ class ViewFile implements MergeableInterface
      * @param string $contentType
      * @throws \InvalidArgumentException
      */
-    public function __construct(
-        \Magento\View\Url $viewUrl,
-        $file,
-        $contentType
-    ) {
+    public function __construct(\Magento\View\Url $viewUrl, $file, $contentType)
+    {
         if (empty($file)) {
             throw new \InvalidArgumentException("Parameter 'file' must not be empty");
         }

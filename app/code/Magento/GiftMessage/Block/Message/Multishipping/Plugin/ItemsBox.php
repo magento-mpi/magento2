@@ -7,7 +7,6 @@
  */
 namespace Magento\GiftMessage\Block\Message\Multishipping\Plugin;
 
-
 /**
  * Multishipping items box plugin
  */

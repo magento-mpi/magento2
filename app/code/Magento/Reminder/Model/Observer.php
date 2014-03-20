@@ -17,8 +17,10 @@ use Magento\Event\Observer as EventObserver;
 class Observer
 {
     const CRON_MINUTELY = 'I';
-    const CRON_HOURLY   = 'H';
-    const CRON_DAILY    = 'D';
+
+    const CRON_HOURLY = 'H';
+
+    const CRON_DAILY = 'D';
 
     /**
      * Reminder data
@@ -74,8 +76,7 @@ class Observer
         }
         if ($fieldset = $form->getElements()->searchById('base_fieldset')) {
             if ($couponTypeFiled = $fieldset->getElements()->searchById('coupon_type')) {
-                $couponTypeFiled->setNote(
-                    __('You can create auto-generated coupons using reminder promotion rules.'));
+                $couponTypeFiled->setNote(__('You can create auto-generated coupons using reminder promotion rules.'));
             }
         }
         return $this;
@@ -90,8 +91,8 @@ class Observer
     {
         return array(
             self::CRON_MINUTELY => __('Minute Intervals'),
-            self::CRON_HOURLY   => __('Hourly'),
-            self::CRON_DAILY    => __('Daily')
+            self::CRON_HOURLY => __('Hourly'),
+            self::CRON_DAILY => __('Daily')
         );
     }
 
@@ -103,7 +104,7 @@ class Observer
     public function getCronMinutes()
     {
         return array(
-            5  => __('5 minutes'),
+            5 => __('5 minutes'),
             10 => __('10 minutes'),
             15 => __('15 minutes'),
             20 => __('20 minutes'),
@@ -169,9 +170,10 @@ class Observer
     {
         $form = $observer->getForm();
         $checkbox = $form->getElement('use_auto_generation');
-        $checkbox->setNote($checkbox->getNote()
-            . '<br />'
-            . __('<b>Important</b>: If you select "Use Auto Generation", this rule will no longer be used in any automated email reminder rules for abandoned carts')
+        $checkbox->setNote(
+            $checkbox->getNote() . '<br />' . __(
+                '<b>Important</b>: If you select "Use Auto Generation", this rule will no longer be used in any automated email reminder rules for abandoned carts'
+            )
         );
     }
 }

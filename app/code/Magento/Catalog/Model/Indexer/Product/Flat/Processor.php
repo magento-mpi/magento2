@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
 class Processor
@@ -32,8 +31,8 @@ class Processor
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $state
      */
     public function __construct(
-       \Magento\Indexer\Model\IndexerFactory $indexerFactory,
-       \Magento\Catalog\Model\Indexer\Product\Flat\State $state
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Catalog\Model\Indexer\Product\Flat\State $state
     ) {
         $this->_indexer = $indexerFactory->create();
         $this->_state = $state;

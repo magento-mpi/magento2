@@ -63,11 +63,7 @@ abstract class AbstractLogger
      */
     public function __toString()
     {
-        $output = array(
-            'Mapped items' => array(),
-            'Not mapped items' => array(),
-            'Items in actual format' => array(),
-        );
+        $output = array('Mapped items' => array(), 'Not mapped items' => array(), 'Items in actual format' => array());
         foreach ($this->_logs as $oldKey => $data) {
             $newKey = $data['newKey'];
             $countItems = $data['updateResult'];
@@ -77,8 +73,11 @@ abstract class AbstractLogger
             } elseif (empty($newKey)) {
                 $output['Not mapped items'][$oldKey] = $oldKey;
             } else {
-                $output['Mapped items'][$oldKey] = $oldKey . ' => ' . $newKey
-                    . ' :: Count updated rules: ' . $countItems;
+                $output['Mapped items'][$oldKey] = $oldKey .
+                    ' => ' .
+                    $newKey .
+                    ' :: Count updated rules: ' .
+                    $countItems;
             }
         }
 
@@ -98,5 +97,5 @@ abstract class AbstractLogger
      * @abstract
      * @return mixed
      */
-    public abstract function report();
+    abstract public function report();
 }

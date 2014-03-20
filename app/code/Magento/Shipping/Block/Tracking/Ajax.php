@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Block\Tracking;
 
 class Ajax extends \Magento\View\Element\Template
 {
-
 }

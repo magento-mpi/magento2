@@ -16,7 +16,6 @@ namespace Magento\Connect\Model\Extension;
  * @package     Magento_Connect
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
@@ -24,12 +23,12 @@ class Collection extends \Magento\Data\Collection\Filesystem
      *
      * @var string
      */
-    protected $_allowedDirsMask     = '/^[a-z0-9\.\-]+$/i';
+    protected $_allowedDirsMask = '/^[a-z0-9\.\-]+$/i';
 
     /**
      * @var string
      */
-    protected $_allowedFilesMask    = '/^[a-z0-9\.\-\_]+\.(xml|ser)$/i';
+    protected $_allowedFilesMask = '/^[a-z0-9\.\-\_]+\.(xml|ser)$/i';
 
     /**
      * @var string
@@ -70,8 +69,11 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $row['package'] = preg_replace('/\.(xml|ser)$/', '',
-            str_replace($this->connectDirectory->getAbsolutePath('connect/'), '', $filename));
+        $row['package'] = preg_replace(
+            '/\.(xml|ser)$/',
+            '',
+            str_replace($this->connectDirectory->getAbsolutePath('connect/'), '', $filename)
+        );
         $row['filename_id'] = $row['package'];
         $folder = explode('/', $row['package']);
         array_pop($folder);
@@ -103,5 +105,4 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $this->setCollectFiles($collectFiles)->setCollectDirs($collectDirs);
         return $result;
     }
-
 }

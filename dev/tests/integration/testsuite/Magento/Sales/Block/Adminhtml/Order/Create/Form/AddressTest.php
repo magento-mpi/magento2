@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 /**
@@ -27,18 +26,15 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_addressService = $this->getMock(
-            'Magento\Customer\Service\V1\CustomerAddressServiceInterface'
-        );
+        $this->_addressService = $this->getMock('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         /** @var \Magento\View\LayoutInterface $layout */
         $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
-        $sessionQuoteMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
-            ->disableOriginalConstructor()
-            ->setMethods(['getCustomerId', 'getStore', 'getStoreId', 'getQuote'])
-            ->getMock();
-        $sessionQuoteMock->expects($this->any())
-            ->method('getCustomerId')
-            ->will($this->returnValue(1));
+        $sessionQuoteMock = $this->getMockBuilder(
+            'Magento\Backend\Model\Session\Quote'
+        )->disableOriginalConstructor()->setMethods(
+            array('getCustomerId', 'getStore', 'getStoreId', 'getQuote')
+        )->getMock();
+        $sessionQuoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
 
         $this->_addressBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address',
@@ -121,8 +117,23 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetForm()
     {
-        $expectedFields = ['prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'company', 'street', 'city',
-            'country_id', 'region', 'region_id', 'postcode', 'telephone', 'fax', 'vat_id'];
+        $expectedFields = array(
+            'prefix',
+            'firstname',
+            'middlename',
+            'lastname',
+            'suffix',
+            'company',
+            'street',
+            'city',
+            'country_id',
+            'region',
+            'region_id',
+            'postcode',
+            'telephone',
+            'fax',
+            'vat_id'
+        );
         $form = $this->_addressBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");
         /** @var \Magento\Data\Form\Element\Fieldset $fieldset */

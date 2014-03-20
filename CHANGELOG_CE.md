@@ -3,9 +3,6 @@
   * Content invalidation
   * Added Edge side includes(ESI) supporting
   * Added Built-in caching application
-* Themes update:
-  * LESS styles library added in pub/lib/css/
-  * New Blank theme set as default
 * GitHub requests:
   * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
@@ -42,6 +39,8 @@
   * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
   * Fixed ability to check Solr connection (MAGETWO-19110)
   * Fixed ability to use of custom module front name (MAGETWO-16160)
+  * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
+  * Fixed applying catalog price rule on category level (MAGETWO-22143)
 * Modularity improvements:
   * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
@@ -73,6 +72,7 @@
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types
 * Updated XML files to include relative path reference to schema file (MAGETWO-15527)
+* Updated code to be PSR-2 compliant
 
 2.0.0.0-dev68
 =============

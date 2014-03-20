@@ -6,12 +6,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
-use \Magento\TestFramework\Helper\Bootstrap;
-use \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio;
-use \Magento\View\LayoutInterface;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio;
+use Magento\View\LayoutInterface;
 
 /**
  * @magentoAppArea adminhtml
@@ -28,8 +27,11 @@ class RadioTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->block = Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio');
+        $this->block = Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            '\Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio'
+        );
     }
 
     /**
@@ -42,18 +44,31 @@ class RadioTest extends \PHPUnit_Framework_TestCase
     public function testGetParameters($blockOptions, $widgetOptions, $expectedResult)
     {
         $this->block->setWidgetValues($blockOptions);
-        $this->layoutMock->expects($this->any())
-            ->method('getBlock')
-            ->with('wysiwyg_widget.options')
-            ->will($this->returnValue($blockOptions ? $this->block : null));
+        $this->layoutMock->expects(
+            $this->any()
+        )->method(
+            'getBlock'
+        )->with(
+            'wysiwyg_widget.options'
+        )->will(
+            $this->returnValue($blockOptions ? $this->block : null)
+        );
 
         if ($widgetOptions) {
             $widgetInstance = $this->getMock(
-                'Magento\Widget\Model\Widget\Instance', array('getWidgetParameters'), array(), '', false
+                'Magento\Widget\Model\Widget\Instance',
+                array('getWidgetParameters'),
+                array(),
+                '',
+                false
             );
-            $widgetInstance->expects($this->once())
-                ->method('getWidgetParameters')
-                ->will($this->returnValue($widgetOptions));
+            $widgetInstance->expects(
+                $this->once()
+            )->method(
+                'getWidgetParameters'
+            )->will(
+                $this->returnValue($widgetOptions)
+            );
 
             /** @var $objectManager \Magento\TestFramework\ObjectManager */
             $objectManager = Bootstrap::getObjectManager();
@@ -77,7 +92,7 @@ class RadioTest extends \PHPUnit_Framework_TestCase
         return array(
             array(array('key' => 'value'), null, array('key' => 'value')),
             array(null, array('key' => 'value'), array('key' => 'value')),
-            array(null, null, array()),
+            array(null, null, array())
         );
     }
 }

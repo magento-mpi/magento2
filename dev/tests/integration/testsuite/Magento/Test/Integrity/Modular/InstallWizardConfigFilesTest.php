@@ -9,8 +9,7 @@
  */
 namespace Magento\Test\Integrity\Modular;
 
-class InstallWizardConfigFilesTest
-    extends \Magento\TestFramework\TestCase\AbstractConfigFiles
+class InstallWizardConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfigFiles
 {
     /**
      * Returns the reader class name that will be instantiated via ObjectManager

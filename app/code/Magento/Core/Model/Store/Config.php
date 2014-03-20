@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Store;
 
 class Config implements \Magento\Core\Model\Store\ConfigInterface

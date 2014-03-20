@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Indexer;
 
 class TestCase extends \PHPUnit_Framework_TestCase
@@ -48,7 +47,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected static function _getDbInstance()
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getInstance()
-            ->getBootstrap()->getApplication()->getDbInstance();
+        return \Magento\TestFramework\Helper\Bootstrap::getInstance()->getBootstrap()
+            ->getApplication()
+            ->getDbInstance();
     }
 }

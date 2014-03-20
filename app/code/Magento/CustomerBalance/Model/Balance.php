@@ -10,6 +10,7 @@
 namespace Magento\CustomerBalance\Model;
 
 use Magento\Core\Exception;
+
 /**
  * Customer balance model
  *
@@ -105,7 +106,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
      */
     public function getAmount()
     {
-        return (float)$this->getData('amount');
+        return (double)$this->getData('amount');
     }
 
     /**
@@ -153,7 +154,6 @@ class Balance extends \Magento\Core\Model\AbstractModel
             $this->setStoreId($storeId);
         }
         return $this;
-
     }
 
     /**
@@ -204,9 +204,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
 
         // save history action
         if (abs($this->getAmountDelta())) {
-            $this->_historyFactory->create()
-                ->setBalanceModel($this)
-                ->save();
+            $this->_historyFactory->create()->setBalanceModel($this)->save();
         }
 
         return $this;
@@ -227,9 +225,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             throw new Exception(__('A customer ID must be specified.'));
         }
         if (!$this->getCustomer()) {
-            $this->setCustomer(
-                $this->_customerFactory->create()->load($this->getCustomerId())
-            );
+            $this->setCustomer($this->_customerFactory->create()->load($this->getCustomerId()));
         }
         if (!$this->getCustomer()->getId()) {
             throw new Exception(__('This customer is not set or does not exist.'));
@@ -245,9 +241,9 @@ class Balance extends \Magento\Core\Model\AbstractModel
     {
         $result = 0;
         if ($this->hasAmountDelta()) {
-            $result = (float)$this->getAmountDelta();
+            $result = (double)$this->getAmountDelta();
             if ($this->getId()) {
-                if (($result < 0) && (($this->getAmount() + $result) < 0)) {
+                if ($result < 0 && $this->getAmount() + $result < 0) {
                     $result = -1 * $this->getAmount();
                 }
             } elseif ($result <= 0) {
@@ -276,7 +272,7 @@ class Balance extends \Magento\Core\Model\AbstractModel
             return false;
         }
         return $this->getAmount() >=
-            ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalAmountUsed());
+            (double)$quote->getBaseGrandTotal() + (double)$quote->getBaseCustomerBalAmountUsed();
     }
 
     /**

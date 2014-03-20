@@ -25,24 +25,30 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfigureActionWithGiftCardProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Checkout\Model\Session'
+        );
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
 
         $this->dispatch('checkout/cart/configure/id/' . $quoteItem->getId());
         $response = $this->getResponse();
 
-        $this->assertSessionMessages(
-            $this->isEmpty(),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for gift card product doesn\'t contain "Update Cart" button'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for gift card product doesn\'t contain "Update Cart" button');
-
-        $this->assertSelectCount('input#giftcard-amount-input[type="text"]', 1, $response->getBody(),
-            'Response for gift card product doesn\'t contain gift card amount input field');
+        $this->assertSelectCount(
+            'input#giftcard-amount-input[type="text"]',
+            1,
+            $response->getBody(),
+            'Response for gift card product doesn\'t contain gift card amount input field'
+        );
     }
 
     /**
@@ -55,13 +61,14 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('checkout/cart/configureFailed/id/1');
         $response = $this->getResponse();
 
-        $this->assertSessionMessages(
-            $this->isEmpty(),
-            \Magento\Message\MessageInterface::TYPE_ERROR
-        );
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for simple product doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for simple product doesn\'t contain "Update Cart" button'
+        );
     }
 
     /**
@@ -74,13 +81,14 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('checkout/cart/configureFailed/id/3');
         $response = $this->getResponse();
 
-        $this->assertSessionMessages(
-            $this->isEmpty(),
-            \Magento\Message\MessageInterface::TYPE_ERROR
-        );
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for bundle product doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for bundle product doesn\'t contain "Update Cart" button'
+        );
     }
 
     /**
@@ -93,16 +101,21 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('checkout/cart/configureFailed/id/1');
         $response = $this->getResponse();
 
-        $this->assertSessionMessages(
-            $this->isEmpty(),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for downloadable product doesn\'t contain "Update Cart" button'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for downloadable product doesn\'t contain "Update Cart" button');
-
-        $this->assertSelectCount('#downloadable-links-list', 1, $response->getBody(),
-            'Response for downloadable product doesn\'t contain links for download');
+        $this->assertSelectCount(
+            '#downloadable-links-list',
+            1,
+            $response->getBody(),
+            'Response for downloadable product doesn\'t contain links for download'
+        );
     }
 
     /**
@@ -115,16 +128,21 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('checkout/cart/configureFailed/id/1');
         $response = $this->getResponse();
 
-        $this->assertSessionMessages(
-            $this->isEmpty(),
-            \Magento\Message\MessageInterface::TYPE_ERROR
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for gift card product doesn\'t contain "Update Cart" button'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for gift card product doesn\'t contain "Update Cart" button');
-
-        $this->assertSelectCount('input#giftcard-amount-input[type="text"]', 1, $response->getBody(),
-            'Response for gift card product doesn\'t contain gift card amount input field');
+        $this->assertSelectCount(
+            'input#giftcard-amount-input[type="text"]',
+            1,
+            $response->getBody(),
+            'Response for gift card product doesn\'t contain gift card amount input field'
+        );
     }
 
     /**

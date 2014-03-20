@@ -7,11 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sales\Model\Order;
 
 class Total extends \Magento\Object
 {
-
 }

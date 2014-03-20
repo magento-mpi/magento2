@@ -124,9 +124,12 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getTypeIdByEntityId($entityId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'type_id')
-            ->where($this->getIdFieldName() . ' = :entity_id');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'type_id'
+        )->where(
+            $this->getIdFieldName() . ' = :entity_id'
+        );
         return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => $entityId));
     }
 
@@ -138,9 +141,12 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getWebsiteIdByEntityId($entityId)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), 'website_id')
-            ->where($this->getIdFieldName() . ' = :entity_id');
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable(),
+            'website_id'
+        )->where(
+            $this->getIdFieldName() . ' = :entity_id'
+        );
         return $this->_getReadAdapter()->fetchOne($select, array(':entity_id' => (int)$entityId));
     }
 
@@ -154,11 +160,13 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function setActiveEntity($customerId, $entityId)
     {
         $adapter = $this->_getWriteAdapter();
-        $adapter->update($this->getMainTable(),
-            array('is_active'      => new \Zend_Db_Expr('0')),
+        $adapter->update(
+            $this->getMainTable(),
+            array('is_active' => new \Zend_Db_Expr('0')),
             array('customer_id =?' => (int)$customerId)
         );
-        $adapter->update($this->getMainTable(),
+        $adapter->update(
+            $this->getMainTable(),
             array('is_active' => new \Zend_Db_Expr('1')),
             array('customer_id =?' => (int)$customerId, 'entity_id = ?' => (int)$entityId)
         );
@@ -200,9 +208,7 @@ class Entity extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function loadByUrlKey($object, $urlKey)
     {
         $adapter = $this->_getReadAdapter();
-        $select  = $adapter->select()
-            ->from($this->getMainTable())
-            ->where('url_key = :url_key');
+        $select = $adapter->select()->from($this->getMainTable())->where('url_key = :url_key');
 
         $this->_joinEventData($select);
 

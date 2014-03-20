@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reward\Model;
 
 use Magento\Reward\Model\Action\AbstractAction;

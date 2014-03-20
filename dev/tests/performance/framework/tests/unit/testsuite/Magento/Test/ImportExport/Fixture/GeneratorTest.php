@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\ImportExport\Fixture;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +23,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
              */
             'calculated' => function ($index) {
                 return $index * 10;
-            },
+            }
             // @codingStandardsIgnoreEnd
         );
         $model = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, 2);
@@ -32,9 +31,12 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         foreach ($model as $row) {
             $rows[] = $row;
         }
-        $this->assertEquals(array(
-            array('id' => '1', 'name' => 'Static', 'calculated' => 10),
-            array('id' => '2', 'name' => 'Static', 'calculated' => 20),
-        ), $rows);
+        $this->assertEquals(
+            array(
+                array('id' => '1', 'name' => 'Static', 'calculated' => 10),
+                array('id' => '2', 'name' => 'Static', 'calculated' => 20)
+            ),
+            $rows
+        );
     }
 }

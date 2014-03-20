@@ -73,20 +73,12 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name',
-            array(
-                'header'    => __('Product'),
-                'width'     => '30%',
-                'index'     => 'name',
-        ));
+        $this->addColumn('name', array('header' => __('Product'), 'width' => '30%', 'index' => 'name'));
 
-        $this->addColumn('expires',
-            array(
-                'header'    => __('Expires'),
-                'type'      => 'datetime',
-                'width'     => '100px',
-                'index'     => 'expires',
-        ));
+        $this->addColumn(
+            'expires',
+            array('header' => __('Expires'), 'type' => 'datetime', 'width' => '100px', 'index' => 'expires')
+        );
 
         return parent::_prepareColumns();
     }
@@ -102,17 +94,25 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->getMassactionBlock()->setFormFieldName('item');
         $this->setNoFilterMassactionColumn(true);
 
-        $this->getMassactionBlock()->addItem('delete', array(
-             'label'    => __('Delete'),
-             'url'      => $this->getUrl('adminhtml/*/massDelete', array('_current'=>true)),
-             'confirm'  => __('Are you sure?')
-        ));
+        $this->getMassactionBlock()->addItem(
+            'delete',
+            array(
+                'label' => __('Delete'),
+                'url' => $this->getUrl('adminhtml/*/massDelete', array('_current' => true)),
+                'confirm' => __('Are you sure?')
+            )
+        );
 
-        $this->getMassactionBlock()->addItem('refresh', array(
-             'label'    => __('Synchronize'),
-             'url'      => $this->getUrl('adminhtml/*/refresh', array('_current'=>true)),
-             'confirm'  => __('This action will update items\' attributes and remove items that are not available in Google Content. If an attribute was deleted from the mapping, it will also be deleted from Google. Do you want to continue?')
-        ));
+        $this->getMassactionBlock()->addItem(
+            'refresh',
+            array(
+                'label' => __('Synchronize'),
+                'url' => $this->getUrl('adminhtml/*/refresh', array('_current' => true)),
+                'confirm' => __(
+                    'This action will update items\' attributes and remove items that are not available in Google Content. If an attribute was deleted from the mapping, it will also be deleted from Google. Do you want to continue?'
+                )
+            )
+        );
         return $this;
     }
 
@@ -123,6 +123,6 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/grid', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/grid', array('_current' => true));
     }
 }
