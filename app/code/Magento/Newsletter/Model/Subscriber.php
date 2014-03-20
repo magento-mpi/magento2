@@ -402,10 +402,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $isConfirmNeed = ($this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) ? true : false;
         $isOwnSubscribes = false;
 
-        $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         $isSubscribeOwnEmail = $this->_customerSession->isLoggedIn()
-            && $this->_customerSession->getCustomerDataObject()->getEmail() !== $email
-            && !$this->_customerAccountService->isEmailAvailable($email, $websiteId);
+            && $this->_customerSession->getCustomerDataObject()->getEmail() == $email;
 
         if (!$this->getId() || $this->getStatus() == self::STATUS_UNSUBSCRIBED
             || $this->getStatus() == self::STATUS_NOT_ACTIVE
@@ -463,8 +461,10 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Core\Exception(__('This is an invalid subscription confirmation code.'));
         }
 
-        $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();
-        $this->sendUnsubscriptionEmail();
+        if ($this->getSubscriberStatus() != self::STATUS_UNSUBSCRIBED) {
+            $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();
+            $this->sendUnsubscriptionEmail();
+        }
         return $this;
     }
 
@@ -603,10 +603,6 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function sendConfirmationRequestEmail()
     {
-        if ($this->getImportMode()) {
-            return $this;
-        }
-
         if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE)
             || !$this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY)
         ) {
@@ -644,10 +640,6 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function sendConfirmationSuccessEmail()
     {
-        if ($this->getImportMode()) {
-            return $this;
-        }
-
         if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE)
             || !$this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY)
         ) {
@@ -682,9 +674,6 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function sendUnsubscriptionEmail()
     {
-        if ($this->getImportMode()) {
-            return $this;
-        }
         if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
             || !$this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)
         ) {
