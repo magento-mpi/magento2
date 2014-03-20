@@ -12,12 +12,22 @@ namespace Magento\Model;
 class RemoveProtector implements RemoveProtectorInterface
 {
     /**
+     * @var \Magento\Registry
+     */
+    protected $registry;
+
+    /**
      * @var array
      */
     protected $protectedModels;
 
-    public function __construct(array $protectedModels = array())
+    /**
+     * @param \Magento\Registry $registry
+     * @param array $protectedModels
+     */
+    public function __construct(\Magento\Registry $registry, array $protectedModels = array())
     {
+        $this->registry = $registry;
         $this->protectedModels = $protectedModels;
     }
 
@@ -29,11 +39,15 @@ class RemoveProtector implements RemoveProtectorInterface
      */
     public function canBeRemoved(AbstractModel $model)
     {
-        if (in_array($this->getBaseClassName($model), $this->protectedModels)) {
-            return false;
+        $canBeRemoved = true;
+
+        if ($this->registry->registry('isSecureArea')) {
+            $canBeRemoved = true;
+        } elseif (in_array($this->getBaseClassName($model), $this->protectedModels)) {
+            $canBeRemoved = false;
         }
 
-        return true;
+        return $canBeRemoved;
     }
 
     /**

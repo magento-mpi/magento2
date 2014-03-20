@@ -63,10 +63,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'Magento\App\CacheInterface', array(), array(), '', false
         );
 
+        $removeProtectorMock = $this->getMock('\Magento\Model\RemoveProtectorInterface');
+        $removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
 
         $contextMock = $this->getMock(
             '\Magento\Model\Context',
-            array('getEventDispatcher', 'getCacheManager', 'getAppState'), array(), '', false
+            array('getEventDispatcher', 'getCacheManager', 'getAppState', 'getRemoveProtector'), array(), '', false
         );
 
         $contextMock->expects($this->any())
@@ -80,6 +82,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())
             ->method('getCacheManager')
             ->will($this->returnValue($cacheInterfaceMock));
+
+        $contextMock->expects($this->any())
+            ->method('getRemoveProtector')
+            ->will($this->returnValue($removeProtectorMock));
 
         $this->_model = new \Magento\Catalog\Model\Product(
             $contextMock,
