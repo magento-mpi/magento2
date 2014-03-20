@@ -514,7 +514,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
         $groupData = [
             'id' => $groupId,
             'code' => 'Updated Group REST',
-            'tax_class_id' => 2
+            'tax_class_id' => 3
         ];
         $requestData = ['group' => $groupData];
 
