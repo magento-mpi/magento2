@@ -116,11 +116,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         try {
             $customer = $this->customerAccount->getCustomer($review->getCustomerId());
-            $customerText = __('<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>',
+            $customerText = __(
+                '<a href="%1" onclick="this.target=\'blank\'">%2 %3</a> <a href="mailto:%4">(%4)</a>',
                 $this->getUrl('customer/index/edit', array('id' => $customer->getId(), 'active_tab'=>'review')),
                 $this->escapeHtml($customer->getFirstname()),
                 $this->escapeHtml($customer->getLastname()),
-                $this->escapeHtml($customer->getEmail()));
+                $this->escapeHtml($customer->getEmail())
+            );
         } catch (\Magento\Exception\NoSuchEntityException $e) {
             $customerText = ($review->getStoreId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID)
                 ? __('Administrator') : __('Guest');
