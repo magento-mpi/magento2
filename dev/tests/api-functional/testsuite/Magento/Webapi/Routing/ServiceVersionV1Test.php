@@ -82,7 +82,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Items'
             )
         );
-        $item = $this->toSnakeCase($this->_webApiCall($serviceInfo));
+        $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
     }
 

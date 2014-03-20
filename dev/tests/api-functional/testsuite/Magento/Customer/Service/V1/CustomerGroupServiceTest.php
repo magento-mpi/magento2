@@ -83,7 +83,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['groupId' => $groupId];
-        $groupData = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
+        $groupData = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($testGroup, $groupData, "The group data does not match.");
     }
@@ -129,7 +129,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
 
         $groups = array_map(
             function ($array) {
-                return $this->toSnakeCase($array);
+                return $array;
             }, $this->_webApiCall($serviceInfo)
         );
 
@@ -159,7 +159,7 @@ class CustomerGroupServiceTest extends WebapiAbstract
             ]
         ];
         $requestData = ['storeId' => $storeId];
-        $groupData = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
+        $groupData = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($defaultGroupData, $groupData, "The default group does not match.");
     }

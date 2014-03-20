@@ -53,7 +53,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
             "attributeCode" => $attributeCode
         ];
 
-        $attributeMetadata = $this->toSnakeCase($this->_webapiCall($serviceInfo, $requestData));
+        $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
 
@@ -166,7 +166,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $requestData = ['attributeCode' => $attributeCode];
-        $attributeMetadata = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
+        $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
@@ -206,7 +206,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $attributeMetadata = array_map(
             function ($array) {
-                return $this->toSnakeCase($array);
+                return $array;
             }, $this->_webApiCall($serviceInfo)
         );
 
@@ -241,7 +241,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
         ];
 
         $requestData = ['attributeCode' => $attributeCode];
-        $attributeMetadata = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
+        $attributeMetadata = $this->_webApiCall($serviceInfo, $requestData);
 
         $this->assertEquals($expectedMetadata, $attributeMetadata);
     }
@@ -278,7 +278,7 @@ class CustomerMetadataServiceTest extends WebapiAbstract
 
         $attributeMetadata = array_map(
             function ($array) {
-                return $this->toSnakeCase($array);
+                return $array;
             }, $this->_webApiCall($serviceInfo)
         );
 

@@ -102,25 +102,8 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testCreateCustomer()
     {
-        $this->_markTestAsRestOnly();
         $customerData = $this->_createSampleCustomer();
-        $this->assertNotNull($customerData['id']);;
-    }
-
-    public function testCreateCustomerSoapOnly()
-    {
-        $this->_markTestAsSoapOnly();
-        $serviceInfo = [
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateAccount'
-            ]
-        ];
-        $customerDetailsAsArray = $this->helper->unpackArray($this->_createSampleCustomerDetailsData()->__toArray());
-        $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
-        $customerData = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertNotNull($customerData['id']);;
+        $this->assertNotNull($customerData['id']);
     }
 
     public function testGetCustomerDetails()
@@ -139,9 +122,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerDetailsData = $this->toSnakeCase(
-                $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']])
-            );
+            $customerDetailsData = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
         } else {
             $customerDetailsData = $this->_webApiCall($serviceInfo);
         }
@@ -164,9 +145,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerResponseData = $this->toSnakeCase(
-                $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']])
-            );
+            $customerResponseData = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
         } else {
             $customerResponseData = $this->_webApiCall($serviceInfo);
         }
@@ -191,7 +170,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         $requestData = ['confirmationKey' => $customerData[Customer::CONFIRMATION]];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             $requestData['customerId'] = $customerData['id'];
-            $customerResponseData = $this->toSnakeCase($this->_webApiCall($serviceInfo, $requestData));
+            $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
         } else {
             $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
         }
@@ -616,7 +595,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'UpdateCustomer'
             ]
         ];
-        $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
         $requestData = ['customerDetails' => $customerDetailsAsArray];
         $response = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($response);
@@ -653,7 +632,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'UpdateCustomer'
             ]
         ];
-        $customerDetailsAsArray = $this->helper->unpackArray($updatedCustomerDetails->__toArray());
+        $customerDetailsAsArray = $updatedCustomerDetails->__toArray();
         $requestData = ['customerDetails' => $customerDetailsAsArray];
         $expectedMessage = 'No such entity with customerId = -1';
 
@@ -824,11 +803,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ],
+            'soap' => [
+                'service' => self::SERVICE_NAME,
+                'serviceVersion' => self::SERVICE_VERSION,
+                'operation' => self::SERVICE_NAME . 'CreateAccount'
             ]
         ];
         $customerDetailsAsArray = $this->_createSampleCustomerDetailsData()->__toArray();
         $requestData = ['customerDetails' => $customerDetailsAsArray, 'password' => 'test@123'];
-        $customerData = $this->_webApiCall($serviceInfo, $requestData, 'rest');
+        $customerData = $this->_webApiCall($serviceInfo, $requestData);
         return $customerData;
     }
 

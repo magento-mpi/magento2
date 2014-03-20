@@ -9,6 +9,7 @@ namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 use Magento\Service\Data\AbstractObject;
+use Magento\Service\DataObjectConverter;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
@@ -20,8 +21,6 @@ use Magento\Webapi\Controller\ServiceArgsSerializer;
  *
  * The main responsibility is to instantiate proper action controller (service) and execute requested method on it.
  *
- * TODO: Fix warnings suppression
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Handler
 {
@@ -39,8 +38,8 @@ class Handler
     /** @var AuthorizationService */
     protected $_authorizationService;
 
-    /** @var \Magento\Webapi\Helper\Data */
-    protected $_helper;
+    /** @var DataObjectConverter */
+    protected $_dataObjectConverter;
 
     /** @var ServiceArgsSerializer */
     protected $_serializer;
@@ -52,7 +51,7 @@ class Handler
      * @param \Magento\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationService $authorizationService
-     * @param \Magento\Webapi\Helper\Data $helper
+     * @param DataObjectConverter $dataObjectConverter
      * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
@@ -60,14 +59,14 @@ class Handler
         \Magento\ObjectManager $objectManager,
         SoapConfig $apiConfig,
         AuthorizationService $authorizationService,
-        \Magento\Webapi\Helper\Data $helper,
+        DataObjectConverter $dataObjectConverter,
         ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_authorizationService = $authorizationService;
-        $this->_helper = $helper;
+        $this->_dataObjectConverter = $dataObjectConverter;
         $this->_serializer = $serializer;
     }
 
@@ -122,7 +121,7 @@ class Handler
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $arguments = $this->_helper->_toArray($arguments);
+        $arguments = $this->_dataObjectConverter->toArray($arguments);
         return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 
@@ -136,10 +135,12 @@ class Handler
     protected function _prepareResponseData($data)
     {
         if ($data instanceof AbstractObject) {
-            $result = $this->_helper->unpackDataObject($data);
+            $result = $this->_dataObjectConverter->toStdObject($data);
         } elseif (is_array($data)) {
             foreach ($data as $key => $value) {
-                $result[$key] = $value instanceof AbstractObject ? $this->_helper->unpackDataObject($value) : $value;
+                $result[$key] = $value instanceof AbstractObject
+                    ? $this->_dataObjectConverter->toStdObject($value)
+                    : $value;
             }
         } elseif (is_scalar($data) || is_null($data)) {
             $result = $data;

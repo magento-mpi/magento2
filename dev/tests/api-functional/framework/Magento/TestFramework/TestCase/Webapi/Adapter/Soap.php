@@ -8,6 +8,7 @@
 
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
+use Magento\Service\DataObjectConverter;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
 use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
 
@@ -36,6 +37,11 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     protected $_helper;
 
     /**
+     * @var DataObjectConverter
+     */
+    protected $_converter;
+
+    /**
      * Initialize dependencies.
      */
     public function __construct()
@@ -44,6 +50,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
         $this->_helper = $objectManager->get('Magento\Webapi\Helper\Data');
+        $this->_converter = $objectManager->get('\Magento\Service\DataObjectConverter');
     }
 
     /**
@@ -52,6 +59,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     public function call($serviceInfo, $arguments = array())
     {
         $soapOperation = $this->_getSoapOperation($serviceInfo);
+        $arguments = $this->_converter->convertArrayToStdObject($arguments);
         $soapResponse = $this->_getSoapClient($serviceInfo)->$soapOperation($arguments);
 
         // TODO: Check if code below is necessary (when some tests are implemented)
@@ -209,7 +217,8 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      */
     protected function _normalizeResponse($soapResult)
     {
-        return $this->_replaceComplexObjectArray($this->_soapResultToArray($soapResult));
+        $result = $this->_replaceComplexObjectArray($this->_soapResultToArray($soapResult));
+        return $this->toSnakeCase($result);
     }
 
     /**
@@ -270,5 +279,28 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             return $_data;
         }
         return array();
+    }
+
+    /**
+     * Recursively transform array keys from camelCase to snake_case.
+     *
+     * Utility method for converting SOAP responses. Webapi framework's SOAP processing outputs
+     * snake case Data Object properties(ex. item_id) as camel case(itemId) to adhere to the WSDL.
+     * This method allows tests to use the same data for asserting both SOAP and REST responses.
+     *
+     * @param array $objectData An array of data.
+     * @return array The array with all camelCase keys converted to snake_case.
+     */
+    protected function toSnakeCase(array $objectData)
+    {
+        $data = [];
+        foreach ($objectData as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = $this->toSnakeCase($value);
+            } else {
+                $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
+            }
+        }
+        return $data;
     }
 }

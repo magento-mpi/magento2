@@ -505,27 +505,4 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $this->_updateAppConfig($configPath, $origValue, true, true);
         }
     }
-
-    /**
-     * Recursively transform array keys from camelCase to snake_case.
-     *
-     * Utility method for converting SOAP responses. Webapi framework's SOAP processing outputs
-     * snake case Data Object properties(ex. item_id) as camel case(itemId) to adhere to the WSDL.
-     * This method allows tests to use the same data for asserting both SOAP and REST responses.
-     *
-     * @param array $objectData An array of data.
-     * @return array The array with all camelCase keys converted to snake_case.
-     */
-    protected function toSnakeCase(array $objectData)
-    {
-        $data = [];
-        foreach ($objectData as $key => $value) {
-            if (is_array($value)) {
-                $data[$key] = $this->toSnakeCase($value);
-            } else {
-                $data[strtolower(preg_replace("/(?<=\\w)(?=[A-Z])/", "_$1", $key))] = $value;
-            }
-        }
-        return $data;
-    }
 }

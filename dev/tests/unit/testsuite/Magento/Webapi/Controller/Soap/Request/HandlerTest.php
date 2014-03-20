@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Webapi\Controller\Soap\Request;
+use Magento\Service\DataObjectConverter;
 
 /**
  * Test for \Magento\Webapi\Controller\Soap\Request\Handler.
@@ -28,8 +29,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_authzServiceMock;
 
-    /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperMock;
+    /** @var DataObjectConverter|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_dataObjectConverter;
 
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_serializerMock;
@@ -45,7 +46,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
-        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', ['_toArray'], [], '', false);
+        $this->_dataObjectConverter = $this->getMock('Magento\Service\DataObjectConverter', ['toArray'], [], '', false);
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
@@ -53,7 +54,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_objectManagerMock,
             $this->_apiConfigMock,
             $this->_authzServiceMock,
-            $this->_helperMock,
+            $this->_dataObjectConverter,
             $this->_serializerMock
         );
         parent::setUp();
@@ -65,8 +66,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())
             ->method('getRequestedServices')
             ->will($this->returnValue($requestedServices));
-        $this->_helperMock->expects($this->once())
-            ->method('_toArray')
+        $this->_dataObjectConverter->expects($this->once())
+            ->method('toArray')
             ->will($this->returnValue(['field' => 1]));
         $operationName = 'soapOperation';
         $className = 'Magento\Object';

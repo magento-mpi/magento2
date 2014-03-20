@@ -78,7 +78,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
-            $this->toSnakeCase($addressData),
+            $addressData,
             "Address data is invalid."
         );
     }
@@ -105,7 +105,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressesData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             [$this->getFirstFixtureAddressData(), $this->getSecondFixtureAddressData()],
-            $this->toSnakeCase($addressesData),
+            $addressesData,
             "Addresses list is invalid."
         );
     }
@@ -132,7 +132,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
-            $this->toSnakeCase($addressData),
+            $addressData,
             "Default billing address data is invalid."
         );
     }
@@ -159,7 +159,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals(
             $this->getFirstFixtureAddressData(),
-            $this->toSnakeCase($addressData),
+            $addressData,
             "Default shipping address data is invalid."
         );
     }
@@ -224,7 +224,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         unset($firstAddressStoredData['id']);
         $this->assertEquals(
             $firstAddressData,
-            $this->toSnakeCase($firstAddressStoredData),
+            $firstAddressStoredData,
             "First address was stored incorrectly."
         );
 
@@ -232,7 +232,7 @@ class CustomerAddressServiceTest extends \Magento\TestFramework\TestCase\WebapiA
         unset($secondAddressStoredData['id']);
         $this->assertEquals(
             $secondAddressData,
-            $this->toSnakeCase($secondAddressStoredData),
+            $secondAddressStoredData,
             "Second address was stored incorrectly."
         );
     }
