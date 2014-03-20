@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code;
 
 class DictionaryTest extends \PHPUnit_Framework_TestCase

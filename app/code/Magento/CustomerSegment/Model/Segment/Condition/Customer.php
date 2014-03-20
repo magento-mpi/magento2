@@ -47,13 +47,14 @@ class Customer extends AbstractCondition
     public function getNewChildSelectOptions()
     {
         $conditions = $this->_conditionFactory->create('Customer\Attributes')->getNewChildSelectOptions();
-        $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer\Newsletter')->getNewChildSelectOptions());
-        $conditions = array_merge($conditions,
-            $this->_conditionFactory->create('Customer\Storecredit')->getNewChildSelectOptions());
-        return array(
-            'value' => $conditions,
-            'label' => __('Customer'),
+        $conditions = array_merge(
+            $conditions,
+            $this->_conditionFactory->create('Customer\Newsletter')->getNewChildSelectOptions()
         );
+        $conditions = array_merge(
+            $conditions,
+            $this->_conditionFactory->create('Customer\Storecredit')->getNewChildSelectOptions()
+        );
+        return array('value' => $conditions, 'label' => __('Customer'));
     }
 }

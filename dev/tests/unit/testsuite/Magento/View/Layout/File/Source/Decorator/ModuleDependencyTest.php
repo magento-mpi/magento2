@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\Source\Decorator;
 
 class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
@@ -28,22 +27,19 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $modulesConfig = array(
-            'Fixture_ModuleB' => array(
-                'name' => 'Fixture_ModuleB',
-            ),
+            'Fixture_ModuleB' => array('name' => 'Fixture_ModuleB'),
             'Fixture_ModuleA' => array(
                 'name' => 'Fixture_ModuleA',
-                'depends' => array(
-                    'module' => array('Fixture_ModuleB'),
-                )
-            ),
+                'depends' => array('module' => array('Fixture_ModuleB'))
+            )
         );
 
         $this->_fileSource = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $this->_moduleListMock = $this->getMock('Magento\Module\ModuleListInterface');
         $this->_moduleListMock->expects($this->any())->method('getModules')->will($this->returnValue($modulesConfig));
         $this->_model = new \Magento\View\Layout\File\Source\Decorator\ModuleDependency(
-            $this->_fileSource, $this->_moduleListMock
+            $this->_fileSource,
+            $this->_moduleListMock
         );
     }
 
@@ -56,12 +52,15 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
     public function testGetFiles(array $fixtureFiles, array $expectedFiles, $message)
     {
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-        $this->_fileSource
-            ->expects($this->once())
-            ->method('getFiles')
-            ->with($theme)
-            ->will($this->returnValue($fixtureFiles))
-        ;
+        $this->_fileSource->expects(
+            $this->once()
+        )->method(
+            'getFiles'
+        )->with(
+            $theme
+        )->will(
+            $this->returnValue($fixtureFiles)
+        );
         $this->assertSame($expectedFiles, $this->_model->getFiles($theme), $message);
     }
 
@@ -77,23 +76,23 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
             'same module' => array(
                 array($fileThree, $fileTwo),
                 array($fileTwo, $fileThree),
-                'Files belonging to the same module are expected to be sorted by file names',
+                'Files belonging to the same module are expected to be sorted by file names'
             ),
             'different modules' => array(
                 array($fileTwo, $fileOne),
                 array($fileOne, $fileTwo),
-                'Files belonging to different modules are expected to be sorted by module dependencies',
+                'Files belonging to different modules are expected to be sorted by module dependencies'
             ),
             'different unknown modules' => array(
                 array($unknownFileTwo, $unknownFileOne),
                 array($unknownFileOne, $unknownFileTwo),
-                'Files belonging to different unknown modules are expected to be sorted by module names',
+                'Files belonging to different unknown modules are expected to be sorted by module names'
             ),
             'known and unknown modules' => array(
                 array($fileTwo, $unknownFileOne),
                 array($unknownFileOne, $fileTwo),
-                'Files belonging to unknown modules are expected to go before ones of known modules',
-            ),
+                'Files belonging to unknown modules are expected to go before ones of known modules'
+            )
         );
     }
 }

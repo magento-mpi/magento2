@@ -14,8 +14,7 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Tabs
-    extends \Magento\Backend\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs

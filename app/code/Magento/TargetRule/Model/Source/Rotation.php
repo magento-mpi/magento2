@@ -7,12 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TargetRule\Model\Source;
 
 class Rotation implements \Magento\Option\ArrayInterface
 {
-
     /**
      * Get data for Rotation mode selector
      *
@@ -21,11 +19,8 @@ class Rotation implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            \Magento\TargetRule\Model\Rule::ROTATION_NONE =>
-                __('Do not rotate'),
-            \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE =>
-                __('Shuffle'),
+            \Magento\TargetRule\Model\Rule::ROTATION_NONE => __('Do not rotate'),
+            \Magento\TargetRule\Model\Rule::ROTATION_SHUFFLE => __('Shuffle')
         );
     }
-
 }

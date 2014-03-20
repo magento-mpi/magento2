@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Config\Converter;
 
 class XmlTest extends \PHPUnit_Framework_TestCase
@@ -61,7 +60,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
                     'schedule' => '* * * * *',
                     'instance' => 'Model2',
                     'method' => 'method2'
-                ),
+                )
             )
         );
 

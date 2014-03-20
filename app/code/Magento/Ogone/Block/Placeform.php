@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ogone\Block;
 
 class Placeform extends \Magento\View\Element\Template
@@ -67,7 +66,7 @@ class Placeform extends \Magento\View\Element\Template
     {
         if ($this->getOrder()) {
             $order = $this->getOrder();
-        } else if ($this->_checkoutSession->getLastRealOrderId()) {
+        } elseif ($this->_checkoutSession->getLastRealOrderId()) {
             $order = $this->_salesOrderFactory->create()
                 ->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
         } else {

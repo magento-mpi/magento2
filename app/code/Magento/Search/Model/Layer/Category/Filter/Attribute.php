@@ -71,7 +71,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
                 $data[] = array(
                     'label' => $option['label'],
                     'value' => $option['label'],
-                    'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0,
+                    'count' => isset($optionsFacetedData[$optionId]) ? $optionsFacetedData[$optionId] : 0
                 );
             }
         }
@@ -102,11 +102,11 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
     }
 
     /**
-    * Validates if provided filter value is valid
-    *
-    * @param string $value
-    * @return bool
-    */
+     * Validates if provided filter value is valid
+     *
+     * @param string $value
+     * @return bool
+     */
     protected function _validateFilteredValue($value)
     {
         $options = $this->getAttributeModel()->getSource()->getAllOptions();
@@ -140,8 +140,13 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      */
     public function applyFilterToCollection($filter, $value)
     {
-        if (empty($value) || (is_array($value) && isset($value['from']) && empty($value['from'])
-            && isset($value['to']) && empty($value['to']))
+        if (empty($value) || is_array(
+            $value
+        ) && isset(
+            $value['from']
+        ) && empty($value['from']) && isset(
+            $value['to']
+        ) && empty($value['to'])
         ) {
             $value = array();
         }
@@ -173,7 +178,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      */
     public function getItemsCount()
     {
-       $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
+        $attributeIsFilterable = $this->getAttributeModel()->getIsFilterable();
         if ($attributeIsFilterable == \Magento\Catalog\Model\Layer\Filter\Attribute::OPTIONS_ONLY_WITH_RESULTS) {
             return parent::getItemsCount();
         }

@@ -47,9 +47,7 @@ class Info extends \Magento\View\Element\Template
     {
         $wrappingId = null;
         if ($this->getLayout()->getBlock('additional.product.info')) {
-            $wrappingId = $this->getLayout()->getBlock('additional.product.info')
-                ->getItem()
-                ->getGwId();
+            $wrappingId = $this->getLayout()->getBlock('additional.product.info')->getItem()->getGwId();
         }
 
         if ($wrappingId) {

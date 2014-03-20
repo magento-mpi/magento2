@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\ObjectManager\Factory;
 
 use Magento\ObjectManager\Config\Config;
@@ -41,7 +40,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->config = new Config;
+        $this->config = new Config();
         $this->objectFactory = new ObjectFactory($this->config);
         $this->interpreterMock = $this->getMockForAbstractClass('\Magento\Data\Argument\InterpreterInterface');
         $this->factory = new Factory($this->config, $this->interpreterMock, $this->objectFactory);
@@ -95,8 +94,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         // let's imitate that One is injectable by providing DI configuration for it
         $this->config->extend(
-            array('Magento\ObjectManager\Factory\Fixture\OneScalar' =>
-                array('arguments' => array('foo' => array('value' => 'bar')))
+            array(
+                'Magento\ObjectManager\Factory\Fixture\OneScalar' => array(
+                    'arguments' => array('foo' => array('value' => 'bar'))
+                )
             )
         );
         $this->interpreterMock
@@ -136,7 +137,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         return array(
             array("{$prefix}CircularOne", "{$prefix}CircularThree"),
             array("{$prefix}CircularTwo", "{$prefix}CircularOne"),
-            array("{$prefix}CircularThree", "{$prefix}CircularTwo"),
+            array("{$prefix}CircularThree", "{$prefix}CircularTwo")
         );
     }
 
@@ -158,4 +159,4 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         ));
         $this->assertSame(10, $result->getArg(9));
     }
-} 
+}

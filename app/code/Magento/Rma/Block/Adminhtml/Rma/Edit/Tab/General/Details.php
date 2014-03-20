@@ -17,8 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
-class Details
-    extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
+class Details extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
     /**
      * Get order link (href address)
@@ -75,5 +74,4 @@ class Details
     {
         return $this->escapeHtml($this->getRmaData('customer_custom_email'));
     }
-
 }

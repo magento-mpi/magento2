@@ -12,8 +12,7 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype;
 /**
  * Form Types Grid Block
  */
-class Grid
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Eav\Model\Resource\Form\Type\CollectionFactory
@@ -77,47 +76,37 @@ class Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('code', array(
-            'header'    => __('Type Code'),
-            'index'     => 'code',
-        ));
+        $this->addColumn('code', array('header' => __('Type Code'), 'index' => 'code'));
 
-        $this->addColumn('label', array(
-            'header'    => __('Label'),
-            'index'     => 'label',
-        ));
+        $this->addColumn('label', array('header' => __('Label'), 'index' => 'label'));
 
-        $this->addColumn('store_id', array(
-            'header'    => __('Store View'),
-            'index'     => 'store_id',
-            'type'      => 'store'
-        ));
+        $this->addColumn('store_id', array('header' => __('Store View'), 'index' => 'store_id', 'type' => 'store'));
 
         /** @var $label \Magento\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
-        array_unshift($design, array(
-            'value' => 'all',
-            'label' => __('All Themes')
-        ));
-        $this->addColumn('theme', array(
-            'header'     => __('Theme'),
-            'type'       => 'theme',
-            'index'      => 'theme',
-            'options'    => $design,
-            'with_empty' => true,
-            'default'    => __('All Themes')
-        ));
-
-        $this->addColumn('is_system', array(
-            'header'    => __('System'),
-            'index'     => 'is_system',
-            'type'      => 'options',
-            'options'   => array(
-                0 => __('No'),
-                1 => __('Yes'),
+        array_unshift($design, array('value' => 'all', 'label' => __('All Themes')));
+        $this->addColumn(
+            'theme',
+            array(
+                'header' => __('Theme'),
+                'type' => 'theme',
+                'index' => 'theme',
+                'options' => $design,
+                'with_empty' => true,
+                'default' => __('All Themes')
             )
-        ));
+        );
+
+        $this->addColumn(
+            'is_system',
+            array(
+                'header' => __('System'),
+                'index' => 'is_system',
+                'type' => 'options',
+                'options' => array(0 => __('No'), 1 => __('Yes'))
+            )
+        );
 
         return parent::_prepareColumns();
     }

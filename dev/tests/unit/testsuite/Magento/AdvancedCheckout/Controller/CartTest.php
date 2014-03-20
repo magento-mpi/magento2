@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdvancedCheckout\Controller;
 
 class CartTest extends \PHPUnit_Framework_TestCase

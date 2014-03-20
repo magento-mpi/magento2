@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
@@ -90,8 +89,8 @@ class CloseOrder extends Curl
     protected function _prepareData($elements)
     {
         $data = array();
-        foreach($elements as $element) {
-            foreach($element as $key) {
+        foreach ($elements as $element) {
+            foreach ($element as $key) {
                 $data[$key] = '1';
             }
         }
@@ -115,7 +114,7 @@ class CloseOrder extends Curl
         $searchUrl = '#sales/order/view/order_id/[0-9]+/#';
 
         preg_match($searchUrl, $response, $orderUrl);
-        $urlSubStrings = explode('/',$orderUrl[0]);
+        $urlSubStrings = explode('/', $orderUrl[0]);
         $orderId = $urlSubStrings[count($urlSubStrings)-2];
 
         //Click Ship button and create a new shipment page
@@ -140,11 +139,11 @@ class CloseOrder extends Curl
         // Click Invoice button if the payment action is not 'Sale'
         $paymentMethod = $fixture->getPaymentMethod();
         $paymentAction = null;
-        if($paymentMethod !== null) {
+        if ($paymentMethod !== null) {
             $paymentAction = $paymentMethod->getPaymentAction();
         }
 
-        if(self::PAYMENT_ACTION_SALE !== $paymentAction) {
+        if (self::PAYMENT_ACTION_SALE !== $paymentAction) {
             //Click Invoice button and create a new invoice page
             $url = $_ENV['app_backend_url'] . $this->startInvoiceUrl . $orderId;
             $data = array();

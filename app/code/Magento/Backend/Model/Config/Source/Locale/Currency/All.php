@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Source\Locale\Currency;
 
 class All implements \Magento\Option\ArrayInterface
@@ -41,7 +40,7 @@ class All implements \Magento\Option\ArrayInterface
         }
         $options = $this->_options;
         if (!$isMultiselect) {
-            array_unshift($options, array('value'=>'', 'label'=>''));
+            array_unshift($options, array('value' => '', 'label' => ''));
         }
 
         return $options;

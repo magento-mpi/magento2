@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Model;
 
 /**
@@ -61,14 +60,15 @@ class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
      * Page's Statuses
      */
     const STATUS_ENABLED = 1;
+
     const STATUS_DISABLED = 0;
 
-    const CACHE_TAG              = 'cms_page';
+    const CACHE_TAG = 'cms_page';
 
     /**
      * @var string
      */
-    protected $_cacheTag         = 'cms_page';
+    protected $_cacheTag = 'cms_page';
 
     /**
      * Prefix of model events names
@@ -133,10 +133,7 @@ class Page extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
      */
     public function getAvailableStatuses()
     {
-        return array(
-            self::STATUS_ENABLED => __('Enabled'),
-            self::STATUS_DISABLED => __('Disabled'),
-        );
+        return array(self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled'));
     }
 
     /**

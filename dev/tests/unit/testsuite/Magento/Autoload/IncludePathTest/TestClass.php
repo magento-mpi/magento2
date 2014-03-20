@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Autoload\IncludePathTest;
 
 class TestClass
 {
-
 }

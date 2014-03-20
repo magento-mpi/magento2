@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Block;
 
 /**
@@ -57,16 +56,18 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNoResultText($isMinQueryLength, $expectedResult)
     {
-        $this->dataMock->expects($this->once())
-            ->method('isMinQueryLength')
-            ->will($this->returnValue($isMinQueryLength));
+        $this->dataMock->expects(
+            $this->once()
+        )->method(
+            'isMinQueryLength'
+        )->will(
+            $this->returnValue($isMinQueryLength)
+        );
         if ($isMinQueryLength) {
-            $queryMock = $this->getMock('Magento\CatalogSearch\Model\Query', [], [], '', false);
+            $queryMock = $this->getMock('Magento\CatalogSearch\Model\Query', array(), array(), '', false);
             $queryMock->expects($this->once())->method('getMinQueryLength')->will($this->returnValue('5'));
 
-            $this->dataMock->expects($this->once())
-                ->method('getQuery')
-                ->will($this->returnValue($queryMock));
+            $this->dataMock->expects($this->once())->method('getQuery')->will($this->returnValue($queryMock));
         }
         $this->assertEquals($expectedResult, $this->model->getNoResultText());
     }
@@ -76,9 +77,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     public function getNoResultTextDataProvider()
     {
-        return array(
-            array(true, 'Minimum Search query length is 5'),
-            array(false, null),
-        );
+        return array(array(true, 'Minimum Search query length is 5'), array(false, null));
     }
 }

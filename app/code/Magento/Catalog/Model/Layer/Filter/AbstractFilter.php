@@ -179,18 +179,13 @@ abstract class AbstractFilter extends \Magento\Object
     protected function _initItems()
     {
         $data = $this->_getItemsData();
-        $items=array();
+        $items = array();
         foreach ($data as $itemData) {
-            $items[] = $this->_createItem(
-                $itemData['label'],
-                $itemData['value'],
-                $itemData['count']
-            );
+            $items[] = $this->_createItem($itemData['label'], $itemData['value'], $itemData['count']);
         }
         $this->_items = $items;
         return $this;
     }
-
 
     /**
      * Retrieve layer object
@@ -215,13 +210,17 @@ abstract class AbstractFilter extends \Magento\Object
      * @param   int $count
      * @return  \Magento\Catalog\Model\Layer\Filter\Item
      */
-    protected function _createItem($label, $value, $count=0)
+    protected function _createItem($label, $value, $count = 0)
     {
-        return $this->_filterItemFactory->create()
-            ->setFilter($this)
-            ->setLabel($label)
-            ->setValue($value)
-            ->setCount($count);
+        return $this->_filterItemFactory->create()->setFilter(
+            $this
+        )->setLabel(
+            $label
+        )->setValue(
+            $value
+        )->setCount(
+            $count
+        );
     }
 
     /**

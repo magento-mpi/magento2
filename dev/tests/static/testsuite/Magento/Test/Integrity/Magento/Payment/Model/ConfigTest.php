@@ -11,7 +11,6 @@ namespace Magento\Test\Integrity\Magento\Payment\Model;
 
 class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
-
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
         $expectedErrors = array(

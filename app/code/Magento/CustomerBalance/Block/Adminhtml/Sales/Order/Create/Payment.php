@@ -101,15 +101,15 @@ class Payment extends \Magento\View\Element\Template
      */
     public function getBalance($convertPrice = false)
     {
-        if (
-            !$this->_customerBalanceHelper->isEnabled()
-            || !$this->_getBalanceInstance()
-        ) {
+        if (!$this->_customerBalanceHelper->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         if ($convertPrice) {
-            return $this->_getStoreManagerModel()->getStore($this->_getOrderCreateModel()->getQuote()->getStoreId())
-                ->convertPrice($this->_getBalanceInstance()->getAmount());
+            return $this->_getStoreManagerModel()->getStore(
+                $this->_getOrderCreateModel()->getQuote()->getStoreId()
+            )->convertPrice(
+                $this->_getBalanceInstance()->getAmount()
+            );
         }
         return $this->_getBalanceInstance()->getAmount();
     }
@@ -161,10 +161,11 @@ class Payment extends \Magento\View\Element\Template
             }
 
             $store = $this->_storeManager->getStore($quote->getStoreId());
-            $this->_balanceInstance = $this->_balanceFactory->create()
-                ->setCustomerId($quote->getCustomerId())
-                ->setWebsiteId($store->getWebsiteId())
-                ->loadByCustomer();
+            $this->_balanceInstance = $this->_balanceFactory->create()->setCustomerId(
+                $quote->getCustomerId()
+            )->setWebsiteId(
+                $store->getWebsiteId()
+            )->loadByCustomer();
         }
         return $this->_balanceInstance;
     }
@@ -177,6 +178,6 @@ class Payment extends \Magento\View\Element\Template
     public function canUseCustomerBalance()
     {
         $quote = $this->_orderCreate->getQuote();
-        return $this->getBalance() && ($quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0);
+        return $this->getBalance() && $quote->getBaseGrandTotal() + $quote->getBaseCustomerBalanceAmountUsed() > 0;
     }
 }

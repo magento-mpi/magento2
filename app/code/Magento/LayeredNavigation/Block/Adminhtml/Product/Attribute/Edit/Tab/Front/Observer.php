@@ -49,32 +49,44 @@ class Observer
 
         $fieldset = $form->getElement('front_fieldset');
 
-        $fieldset->addField('is_filterable', 'select', array(
-            'name' => 'is_filterable',
-            'label' => __("Use In Layered Navigation"),
-            'title' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'values' => array(
-                array('value' => '0', 'label' => __('No')),
-                array('value' => '1', 'label' => __('Filterable (with results)')),
-                array('value' => '2', 'label' => __('Filterable (no results)')),
-            ),
-        ));
+        $fieldset->addField(
+            'is_filterable',
+            'select',
+            array(
+                'name' => 'is_filterable',
+                'label' => __("Use In Layered Navigation"),
+                'title' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+                'note' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+                'values' => array(
+                    array('value' => '0', 'label' => __('No')),
+                    array('value' => '1', 'label' => __('Filterable (with results)')),
+                    array('value' => '2', 'label' => __('Filterable (no results)')),
+                ),
+            )
+        );
 
-        $fieldset->addField('is_filterable_in_search', 'select', array(
-            'name' => 'is_filterable_in_search',
-            'label' => __("Use In Search Results Layered Navigation"),
-            'title' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'note' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
-            'values' => $this->optionList->toOptionArray(),
-        ));
+        $fieldset->addField(
+            'is_filterable_in_search',
+            'select',
+            array(
+                'name' => 'is_filterable_in_search',
+                'label' => __("Use In Search Results Layered Navigation"),
+                'title' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+                'note' => __('Can be used only with catalog input type Dropdown, Multiple Select and Price'),
+                'values' => $this->optionList->toOptionArray(),
+            )
+        );
 
-        $fieldset->addField('position', 'text', array(
-            'name' => 'position',
-            'label' => __('Position'),
-            'title' => __('Position in Layered Navigation'),
-            'note' => __('Position of attribute in layered navigation block'),
-            'class' => 'validate-digits'
-        ));
+        $fieldset->addField(
+            'position',
+            'text',
+            array(
+                'name' => 'position',
+                'label' => __('Position'),
+                'title' => __('Position in Layered Navigation'),
+                'note' => __('Position of attribute in layered navigation block'),
+                'class' => 'validate-digits'
+            )
+        );
     }
 }

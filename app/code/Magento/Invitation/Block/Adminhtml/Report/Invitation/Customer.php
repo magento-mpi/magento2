@@ -15,8 +15,7 @@ namespace Magento\Invitation\Block\Adminhtml\Report\Invitation;
  * @category   Magento
  * @package    Magento_Invitation
  */
-class Customer
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Customer extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * @return void

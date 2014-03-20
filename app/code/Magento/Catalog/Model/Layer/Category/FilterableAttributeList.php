@@ -80,4 +80,4 @@ class FilterableAttributeList implements FilterableAttributeListInterface
         $collection->addIsFilterableFilter();
         return $collection;
     }
-} 
+}

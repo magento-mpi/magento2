@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Image;
 
 class AdapterFactory
@@ -59,8 +58,8 @@ class AdapterFactory
         $imageAdapter = $this->objectManager->create($this->adapterMap[$adapterAlias]['class']);
         if (!$imageAdapter instanceof Adapter\AdapterInterface) {
             throw new \InvalidArgumentException(
-                $this->adapterMap[$adapterAlias]['class']
-                . ' is not instance of \Magento\Image\Adapter\AdapterInterface'
+                $this->adapterMap[$adapterAlias]['class'] .
+                ' is not instance of \Magento\Image\Adapter\AdapterInterface'
             );
         }
         $imageAdapter->checkDependencies();

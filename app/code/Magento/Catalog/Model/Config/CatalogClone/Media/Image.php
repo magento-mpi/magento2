@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Config\CatalogClone\Media;
 
 /**
@@ -79,11 +78,10 @@ class Image extends \Magento\Core\Model\Config\Value
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $prefixes[] = array(
                 'field' => $attribute->getAttributeCode() . '_',
-                'label' => $attribute->getFrontend()->getLabel(),
+                'label' => $attribute->getFrontend()->getLabel()
             );
         }
 
         return $prefixes;
     }
-
 }

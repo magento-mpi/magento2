@@ -14,8 +14,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Details\Renderer;
 
-class Sourcename
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Sourcename extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value

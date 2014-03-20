@@ -19,45 +19,42 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      *
      * @var bool|null
      */
-    protected $_useEngineInLayeredNavigation    = null;
+    protected $_useEngineInLayeredNavigation = null;
 
     /**
      * Store languag codes for local codes
      *
      * @var array
      */
-    protected $_languageCode                    = array();
+    protected $_languageCode = array();
 
     /**
      * Store result of third party search engine availability check
      *
      * @var bool|null
      */
-    protected $_isThirdPartyEngineAvailable     = null;
+    protected $_isThirdPartyEngineAvailable = null;
 
     /**
      * Show if taxes have influence on price
      *
      * @var bool|null
      */
-    protected $_taxInfluence                    = null;
+    protected $_taxInfluence = null;
 
     /**
      * Define if engine is available for layered navigation
      *
      * @var bool|null
      */
-    protected $_isEngineAvailableForNavigation  = null;
+    protected $_isEngineAvailableForNavigation = null;
 
     /**
      * Define text type fields
      *
      * @var string[]
      */
-    protected $_textFieldTypes = array(
-        'text',
-        'varchar'
-    );
+    protected $_textFieldTypes = array('text', 'varchar');
 
     /**
      * Tax data
@@ -180,9 +177,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             //French
             'fr' => array('fr_CA', 'fr_FR'),
             //German
-            'de' => array('de_DE','de_CH','de_AT'),
+            'de' => array('de_DE', 'de_CH', 'de_AT'),
             //Italian
-            'it' => array('it_IT','it_CH'),
+            'it' => array('it_IT', 'it_CH'),
             //Norwegian
             'nb' => array('nb_NO', 'nn_NO'),
             //Portuguese
@@ -197,7 +194,6 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             'sv' => 'sv_SE',
             //Turkish
             'tr' => 'tr_TR',
-
             /**
              * Lucene class based
              */
@@ -336,16 +332,16 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
      */
     public function getSearchParam($collection, $attribute, $value)
     {
-        if (empty($value)
-            || (isset($value['from']) && empty($value['from'])
-                && isset($value['to']) && empty($value['to'])
-            )
+        if (empty($value) || isset(
+            $value['from']
+        ) && empty($value['from']) && isset(
+            $value['to']
+        ) && empty($value['to'])
         ) {
             return false;
         }
 
-        $locale = $this->_storeManager->getStore()
-            ->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $locale = $this->_storeManager->getStore()->getConfig($this->_localeResolver->getDefaultLocalePath());
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();
@@ -353,13 +349,13 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         $frontendInput = $attribute->getFrontendInput();
 
         if ($frontendInput == 'multiselect') {
-            $field = 'attr_multi_'. $field;
+            $field = 'attr_multi_' . $field;
         } elseif ($backendType == 'decimal') {
-            $field = 'attr_decimal_'. $field;
+            $field = 'attr_decimal_' . $field;
         } elseif ($frontendInput == 'select' || $frontendInput == 'boolean') {
-            $field = 'attr_select_'. $field;
+            $field = 'attr_select_' . $field;
         } elseif ($backendType == 'datetime') {
-            $field = 'attr_datetime_'. $field;
+            $field = 'attr_datetime_' . $field;
 
             $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
             if (is_array($value)) {
@@ -405,7 +401,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function isThirdPartyEngineAvailable()
     {
         if ($this->_isThirdPartyEngineAvailable === null) {
-            $this->_isThirdPartyEngineAvailable = ($this->isThirdPartSearchEngine() && $this->isActiveEngine());
+            $this->_isThirdPartyEngineAvailable = $this->isThirdPartSearchEngine() && $this->isActiveEngine();
         }
 
         return $this->_isThirdPartyEngineAvailable;
@@ -419,7 +415,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getTaxInfluence()
     {
         if (is_null($this->_taxInfluence)) {
-            $this->_taxInfluence = (bool) $this->_taxData->getPriceTaxSql('price', 'tax');
+            $this->_taxInfluence = (bool)$this->_taxData->getPriceTaxSql('price', 'tax');
         }
 
         return $this->_taxInfluence;
@@ -437,8 +433,9 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             $this->_isEngineAvailableForNavigation = false;
             if ($this->isActiveEngine()) {
                 if ($isCatalog) {
-                    if ($this->getSearchConfigData('solr_server_use_in_catalog_navigation')
-                        && !$this->getTaxInfluence()
+                    if ($this->getSearchConfigData(
+                        'solr_server_use_in_catalog_navigation'
+                    ) && !$this->getTaxInfluence()
                     ) {
                         $this->_isEngineAvailableForNavigation = true;
                     }
@@ -451,7 +448,6 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         return $this->_isEngineAvailableForNavigation;
     }
 
-
     /**
      * Return search client options
      *
@@ -462,17 +458,15 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     {
         $def_options = array(
             'hostname' => $this->getSolrConfigData('server_hostname'),
-            'login'    => $this->getSolrConfigData('server_username'),
+            'login' => $this->getSolrConfigData('server_username'),
             'password' => $this->getSolrConfigData('server_password'),
-            'port'     => $this->getSolrConfigData('server_port'),
-            'timeout'  => $this->getSolrConfigData('server_timeout'),
-            'path'     => $this->getSolrConfigData('server_path')
+            'port' => $this->getSolrConfigData('server_port'),
+            'timeout' => $this->getSolrConfigData('server_timeout'),
+            'path' => $this->getSolrConfigData('server_path')
         );
         $options = array_merge($def_options, $options);
         return $options;
     }
-
-
 
     // Deprecated methods
 

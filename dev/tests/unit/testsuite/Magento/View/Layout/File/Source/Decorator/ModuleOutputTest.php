@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\Source\Decorator;
 
 class ModuleOutputTest extends \PHPUnit_Framework_TestCase
@@ -29,16 +28,16 @@ class ModuleOutputTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileSource = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
-        $this->_moduleManager
-            ->expects($this->any())
-            ->method('isOutputEnabled')
-            ->will($this->returnValueMap(array(
-                array('Module_OutputEnabled', true),
-                array('Module_OutputDisabled', false),
-            )))
-        ;
+        $this->_moduleManager->expects(
+            $this->any()
+        )->method(
+            'isOutputEnabled'
+        )->will(
+            $this->returnValueMap(array(array('Module_OutputEnabled', true), array('Module_OutputDisabled', false)))
+        );
         $this->_model = new \Magento\View\Layout\File\Source\Decorator\ModuleOutput(
-            $this->_fileSource, $this->_moduleManager
+            $this->_fileSource,
+            $this->_moduleManager
         );
     }
 
@@ -48,12 +47,15 @@ class ModuleOutputTest extends \PHPUnit_Framework_TestCase
         $fileOne = new \Magento\View\Layout\File('1.xml', 'Module_OutputEnabled');
         $fileTwo = new \Magento\View\Layout\File('2.xml', 'Module_OutputDisabled');
         $fileThree = new \Magento\View\Layout\File('3.xml', 'Module_OutputEnabled', $theme);
-        $this->_fileSource
-            ->expects($this->once())
-            ->method('getFiles')
-            ->with($theme)
-            ->will($this->returnValue(array($fileOne, $fileTwo, $fileThree)))
-        ;
+        $this->_fileSource->expects(
+            $this->once()
+        )->method(
+            'getFiles'
+        )->with(
+            $theme
+        )->will(
+            $this->returnValue(array($fileOne, $fileTwo, $fileThree))
+        );
         $this->assertSame(array($fileOne, $fileThree), $this->_model->getFiles($theme));
     }
 }

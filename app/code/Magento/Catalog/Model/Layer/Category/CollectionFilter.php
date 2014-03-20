@@ -61,4 +61,4 @@ class CollectionFilter implements CollectionFilterInterface
             ->addUrlRewrite($category->getId())
             ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
     }
-} 
+}

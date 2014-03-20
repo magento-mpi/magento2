@@ -7,11 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Authorizenet\Model\Authorizenet;
 
 class Request extends \Magento\Object
 {
-    
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Model\Process;
 
 use Magento\Filesystem\FilesystemException;
@@ -64,7 +63,7 @@ class File
         }
         try {
             $this->_streamHandler->lock($lockMode);
-            $this->_streamLocked  = true;
+            $this->_streamLocked = true;
         } catch (FilesystemException $e) {
             $this->_streamLocked = false;
         }

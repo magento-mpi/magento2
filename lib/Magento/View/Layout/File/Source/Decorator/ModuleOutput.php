@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\Source\Decorator;
 
 use Magento\View\Layout\File\SourceInterface;
@@ -38,10 +37,8 @@ class ModuleOutput implements SourceInterface
      * @param SourceInterface $subject
      * @param Manager $moduleManager
      */
-    public function __construct(
-        SourceInterface $subject,
-        Manager $moduleManager
-    ) {
+    public function __construct(SourceInterface $subject, Manager $moduleManager)
+    {
         $this->subject = $subject;
         $this->moduleManager = $moduleManager;
     }

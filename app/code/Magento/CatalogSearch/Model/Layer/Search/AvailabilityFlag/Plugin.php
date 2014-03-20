@@ -45,7 +45,10 @@ class Plugin
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsEnabled(
-        \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject, \Closure $proceed, $layer, $filters
+        \Magento\Catalog\Model\Layer\AvailabilityFlagInterface $subject,
+        \Closure $proceed,
+        $layer,
+        $filters
     ) {
         $_isLNAllowedByEngine = $this->engineProvider->get()->isLayeredNavigationAllowed();
         if (!$_isLNAllowedByEngine) {
@@ -58,4 +61,4 @@ class Plugin
         }
         return false;
     }
-} 
+}

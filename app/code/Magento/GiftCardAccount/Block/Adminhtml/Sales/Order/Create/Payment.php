@@ -73,7 +73,7 @@ class Payment extends \Magento\View\Element\Template
     {
         $quote = $this->_getOrderCreateModel()->getQuote();
 
-        return ($quote->getGiftCardsAmount() > 0);
+        return $quote->getGiftCardsAmount() > 0;
     }
 
     /**
@@ -82,9 +82,9 @@ class Payment extends \Magento\View\Element\Template
     public function isFullyPaid()
     {
         $quote = $this->_orderCreate->getQuote();
-        if (!$quote->getGiftCardsAmount()
-            || $quote->getBaseGrandTotal() > 0
-            || $quote->getCustomerBalanceAmountUsed() > 0
+        if (!$quote->getGiftCardsAmount() ||
+            $quote->getBaseGrandTotal() > 0 ||
+            $quote->getCustomerBalanceAmountUsed() > 0
         ) {
             return false;
         }

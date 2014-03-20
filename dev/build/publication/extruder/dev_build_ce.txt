@@ -7,7 +7,6 @@ dev/tests/functional/tests/app/Magento/Pci
 dev/tests/functional-old/fixture/_testFiles/Enterprise*
 dev/tests/functional-old/fixture/enterprise*
 dev/tests/functional-old/testsuite/Enterprise
-dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php

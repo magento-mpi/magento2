@@ -6,17 +6,9 @@
  * @license     {license_link}
  */
 return array(
-    'attribute_types' => array(
-        'text' => array(
-            'label' => 'Text'
-        )
-    ),
+    'attribute_types' => array('text' => array('label' => 'Text')),
     'attribute_groups' => array(
-        'event_information' => array(
-            'sortOrder'=> '5',
-            'visible'   => 'true',
-            'label'     => 'Event Information'
-        )
+        'event_information' => array('sortOrder' => '5', 'visible' => 'true', 'label' => 'Event Information')
     ),
     'registry' => array(
         'static_attributes' => array(
@@ -38,12 +30,7 @@ return array(
     ),
     'registrant' => array(
         'static_attributes' => array(
-            'role' => array(
-                'type' => 'select',
-                'group' => 'registrant',
-                'visible' => 'true',
-                'label' => 'Role'
-            )
+            'role' => array('type' => 'select', 'group' => 'registrant', 'visible' => 'true', 'label' => 'Role')
         ),
         'custom_attributes' => array(
             'my_special_attribute' => array(

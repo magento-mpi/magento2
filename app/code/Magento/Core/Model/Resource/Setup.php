@@ -44,6 +44,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @var array
      */
     protected $_tables = array();
+
     /**
      * Tables data cache array
      *
@@ -192,7 +193,6 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     {
         if (is_array($tableName)) {
             return join('_', $tableName);
-
         }
         return $tableName;
     }
@@ -204,7 +204,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      */
     public function applyDataUpdates()
     {
-        $dataVer= $this->_resourceResource->getDataVersion($this->_resourceName);
+        $dataVer = $this->_resourceResource->getDataVersion($this->_resourceName);
         $configVer = $this->_moduleConfig['version'];
         if ($dataVer !== false) {
             $status = version_compare($configVer, $dataVer);
@@ -343,17 +343,17 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      */
     protected function _getAvailableDbFiles($actionType, $fromVersion, $toVersion)
     {
-        $modName    = (string)$this->_moduleConfig['name'];
+        $modName = (string)$this->_moduleConfig['name'];
 
-        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . '/' . $this->_resourceName;
+        $filesDir = $this->_modulesReader->getModuleDir('sql', $modName) . '/' . $this->_resourceName;
         $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
         if (!$this->modulesDir->isDirectory($modulesDirPath) || !$this->modulesDir->isReadable($modulesDirPath)) {
             return array();
         }
 
-        $dbFiles    = array();
-        $typeFiles  = array();
-        $regExpDb   = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
+        $dbFiles = array();
+        $typeFiles = array();
+        $regExpDb = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
         $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
         foreach ($this->modulesDir->read($modulesDirPath) as $file) {
             $matches = array();
@@ -385,13 +385,13 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      */
     protected function _getAvailableDataFiles($actionType, $fromVersion, $toVersion)
     {
-        $modName    = (string)$this->_moduleConfig['name'];
-        $files      = array();
+        $modName = (string)$this->_moduleConfig['name'];
+        $files = array();
 
-        $filesDir   = $this->_modulesReader->getModuleDir('data', $modName) . '/' . $this->_resourceName;
+        $filesDir = $this->_modulesReader->getModuleDir('data', $modName) . '/' . $this->_resourceName;
         $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
         if ($this->modulesDir->isDirectory($modulesDirPath) && $this->modulesDir->isReadable($modulesDirPath)) {
-            $regExp     = sprintf('#%s-(.*)\.php$#i', $actionType);
+            $regExp = sprintf('#%s-(.*)\.php$#i', $actionType);
             foreach ($this->modulesDir->read($modulesDirPath) as $file) {
                 $matches = array();
                 if (preg_match($regExp, $file, $matches)) {
@@ -531,10 +531,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
                 uksort($arrFiles, 'version_compare');
                 foreach ($arrFiles as $version => $file) {
                     if (version_compare($version, $toVersion) !== self::VERSION_COMPARE_GREATER) {
-                        $arrRes[0] = array(
-                            'toVersion' => $version,
-                            'fileName'  => $file
-                        );
+                        $arrRes[0] = array('toVersion' => $version, 'fileName' => $file);
                     }
                 }
                 break;
@@ -550,13 +547,16 @@ class Setup implements \Magento\Module\Updater\SetupInterface
                         break;
                     }
                     $infoFrom = $versionInfo[0];
-                    $infoTo   = $versionInfo[1];
-                    if (version_compare($infoFrom, $fromVersion) !== self::VERSION_COMPARE_LOWER
-                        && version_compare($infoTo, $toVersion) !== self::VERSION_COMPARE_GREATER) {
-                        $arrRes[] = array(
-                            'toVersion' => $infoTo,
-                            'fileName'  => $file
-                        );
+                    $infoTo = $versionInfo[1];
+                    if (version_compare(
+                        $infoFrom,
+                        $fromVersion
+                    ) !== self::VERSION_COMPARE_LOWER && version_compare(
+                        $infoTo,
+                        $toVersion
+                    ) !== self::VERSION_COMPARE_GREATER
+                    ) {
+                        $arrRes[] = array('toVersion' => $infoTo, 'fileName' => $file);
                     }
                 }
                 break;
@@ -568,7 +568,6 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         }
         return $arrRes;
     }
-
 
     /******************* UTILITY METHODS *****************/
 
@@ -588,10 +587,8 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $table = $this->getTable($table);
         if (empty($this->_setupCache[$table][$parentId][$rowId])) {
             $adapter = $this->getConnection();
-            $bind    = array('id_field' => $rowId);
-            $select  = $adapter->select()
-                ->from($table)
-                ->where($adapter->quoteIdentifier($idField) . '= :id_field');
+            $bind = array('id_field' => $rowId);
+            $select = $adapter->select()->from($table)->where($adapter->quoteIdentifier($idField) . '= :id_field');
             if (null !== $parentField) {
                 $select->where($adapter->quoteIdentifier($parentField) . '= :parent_id');
                 $bind['parent_id'] = $parentId;
@@ -602,11 +599,10 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         if (null === $field) {
             return $this->_setupCache[$table][$parentId][$rowId];
         }
-        return isset($this->_setupCache[$table][$parentId][$rowId][$field])
-            ? $this->_setupCache[$table][$parentId][$rowId][$field]
-            : false;
+        return isset(
+            $this->_setupCache[$table][$parentId][$rowId][$field]
+        ) ? $this->_setupCache[$table][$parentId][$rowId][$field] : false;
     }
-
 
     /**
      * Delete table row
@@ -663,8 +659,10 @@ class Setup implements \Magento\Module\Updater\SetupInterface
 
         if (isset($this->_setupCache[$table][$parentId][$rowId])) {
             if (is_array($field)) {
-                $this->_setupCache[$table][$parentId][$rowId] =
-                    array_merge($this->_setupCache[$table][$parentId][$rowId], $field);
+                $this->_setupCache[$table][$parentId][$rowId] = array_merge(
+                    $this->_setupCache[$table][$parentId][$rowId],
+                    $field
+                );
             } else {
                 $this->_setupCache[$table][$parentId][$rowId][$field] = $value;
             }
@@ -702,12 +700,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         // this is a fix for mysql 4.1
         $this->getConnection()->showTableStatus($table);
 
-        $data  = array(
-            'scope'     => $scope,
-            'scope_id'  => $scopeId,
-            'path'      => $path,
-            'value'     => $value
-        );
+        $data = array('scope' => $scope, 'scope_id' => $scopeId, 'path' => $path, 'value' => $value);
         $this->getConnection()->insertOnDuplicate($table, $data, array('value'));
         return $this;
     }

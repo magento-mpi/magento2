@@ -91,8 +91,7 @@ class Category extends AbstractCategory
                     $result = $tree['children'];
                 }
             }
-        }
-        else {
+        } else {
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
@@ -110,10 +109,11 @@ class Category extends AbstractCategory
     {
         $collection = $this->_getData('category_collection');
         if (is_null($collection)) {
-            $collection = $this->_categoryFactory->create()->getCollection()
-                ->addAttributeToSelect(array('name', 'is_active'))
-                ->setLoadProductCount(true)
-            ;
+            $collection = $this->_categoryFactory->create()->getCollection()->addAttributeToSelect(
+                array('name', 'is_active')
+            )->setLoadProductCount(
+                true
+            );
             $this->setData('category_collection', $collection);
         }
         return $collection;
@@ -129,17 +129,14 @@ class Category extends AbstractCategory
     {
         $eventHelper = $this->_eventAdminhtml;
         $result = array(
-            'id'             => (int)$node->getId(),
-            'parent_id'      => (int)$node->getParentId(),
+            'id' => (int)$node->getId(),
+            'parent_id' => (int)$node->getParentId(),
             'children_count' => (int)$node->getChildrenCount(),
-            'is_active'      => (bool)$node->getIsActive(),
-            'disabled'       => ($node->getLevel() <= 1 || in_array(
-                                    $node->getId(),
-                                    $eventHelper->getInEventCategoryIds()
-                                )),
-            'name'           => $node->getName(),
-            'level'          => (int)$node->getLevel(),
-            'product_count'  => (int)$node->getProductCount(),
+            'is_active' => (bool)$node->getIsActive(),
+            'disabled' => $node->getLevel() <= 1 || in_array($node->getId(), $eventHelper->getInEventCategoryIds()),
+            'name' => $node->getName(),
+            'level' => (int)$node->getLevel(),
+            'product_count' => (int)$node->getProductCount()
         );
         if ($node->hasChildren()) {
             $result['children'] = array();

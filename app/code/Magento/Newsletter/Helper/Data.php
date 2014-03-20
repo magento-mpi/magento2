@@ -28,12 +28,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConfirmationUrl($subscriber)
     {
-        return $this->_urlBuilder->setScope($subscriber->getStoreId())
-            ->getUrl('newsletter/subscriber/confirm', array(
-                'id'     => $subscriber->getId(),
-                'code'   => $subscriber->getCode(),
-                '_nosid' => true,
-            ));
+        return $this->_urlBuilder->setScope(
+            $subscriber->getStoreId()
+        )->getUrl(
+            'newsletter/subscriber/confirm',
+            array('id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true)
+        );
     }
 
     /**
@@ -44,11 +44,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getUnsubscribeUrl($subscriber)
     {
-        return $this->_urlBuilder->setScope($subscriber->getStoreId())
-            ->getUrl('newsletter/subscriber/unsubscribe', array(
-                'id'     => $subscriber->getId(),
-                'code'   => $subscriber->getCode(),
-                '_nosid' => true,
-            ));
+        return $this->_urlBuilder->setScope(
+            $subscriber->getStoreId()
+        )->getUrl(
+            'newsletter/subscriber/unsubscribe',
+            array('id' => $subscriber->getId(), 'code' => $subscriber->getCode(), '_nosid' => true)
+        );
     }
 }

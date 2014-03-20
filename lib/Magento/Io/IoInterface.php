@@ -24,7 +24,7 @@ interface IoInterface
      * @param array $args
      * @return bool
      */
-    public function open(array $args=array());
+    public function open(array $args = array());
 
     /**
      * Close a connection
@@ -41,7 +41,7 @@ interface IoInterface
      * @param bool $recursive
      * @return bool
      */
-    public function mkdir($dir, $mode=0777, $recursive=true);
+    public function mkdir($dir, $mode = 0777, $recursive = true);
 
     /**
      * Delete a directory
@@ -50,7 +50,7 @@ interface IoInterface
      * @param bool $recursive
      * @return bool
      */
-    public function rmdir($dir, $recursive=false);
+    public function rmdir($dir, $recursive = false);
 
     /**
      * Get current working directory
@@ -74,7 +74,7 @@ interface IoInterface
      * @param string|resource|null $dest
      * @return string|bool
      */
-    public function read($filename, $dest=null);
+    public function read($filename, $dest = null);
 
     /**
      * Write a file
@@ -84,7 +84,7 @@ interface IoInterface
      * @param int|null $mode
      * @return int|bool
      */
-    public function write($filename, $src, $mode=null);
+    public function write($filename, $src, $mode = null);
 
     /**
      * Delete a file
@@ -118,7 +118,7 @@ interface IoInterface
      * @param string|null $grep
      * @return array
      */
-    public function ls($grep=null);
+    public function ls($grep = null);
 
     /**
      * Retrieve directory separator in context of io resource

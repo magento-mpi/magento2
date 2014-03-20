@@ -6,7 +6,8 @@
  * @license     {license_link}
  */
 namespace Magento\SomeModule;
-require_once __DIR__  . '/Element.php';
+
+require_once __DIR__ . '/Element.php';
 class ElementFactory
 {
     /**

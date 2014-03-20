@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -33,10 +32,8 @@ class FileSystem
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
      * @param Service $viewService
      */
-    public function __construct(
-        \Magento\View\Design\FileResolution\StrategyPool $resolutionPool,
-        Service $viewService
-    ) {
+    public function __construct(\Magento\View\Design\FileResolution\StrategyPool $resolutionPool, Service $viewService)
+    {
         $this->_resolutionPool = $resolutionPool;
         $this->_viewService = $viewService;
     }
@@ -52,8 +49,14 @@ class FileSystem
     {
         $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
         $this->_viewService->updateDesignParams($params);
-        return $this->_resolutionPool->getFileStrategy(!empty($params['skipProxy']))
-            ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
+        return $this->_resolutionPool->getFileStrategy(
+            !empty($params['skipProxy'])
+        )->getFile(
+            $params['area'],
+            $params['themeModel'],
+            $filePath,
+            $params['module']
+        );
     }
 
     /**
@@ -67,7 +70,9 @@ class FileSystem
     {
         $this->_viewService->updateDesignParams($params);
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getLocaleStrategy($skipProxy)->getLocaleFile(
+        return $this->_resolutionPool->getLocaleStrategy(
+            $skipProxy
+        )->getLocaleFile(
             $params['area'],
             $params['themeModel'],
             $params['locale'],
@@ -87,7 +92,9 @@ class FileSystem
         $filePath = $this->_viewService->extractScope($this->normalizePath($fileId), $params);
         $this->_viewService->updateDesignParams($params);
         $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getViewStrategy($skipProxy)->getViewFile(
+        return $this->_resolutionPool->getViewStrategy(
+            $skipProxy
+        )->getViewFile(
             $params['area'],
             $params['themeModel'],
             $params['locale'],
@@ -135,7 +142,7 @@ class FileSystem
 
         foreach ($parts as $part) {
             if ('..' === $part) {
-                if (!count($result) || ($result[count($result) - 1] == '..')) {
+                if (!count($result) || $result[count($result) - 1] == '..') {
                     $result[] = $part;
                 } else {
                     array_pop($result);

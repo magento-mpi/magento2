@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\View;
 
 class AdditionalTest extends \PHPUnit_Framework_TestCase

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model;
 
 /**
@@ -23,14 +22,15 @@ class RoleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\Role');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\Role');
     }
 
     public function testGetUsersCollection()
     {
-        $this->assertInstanceOf('Magento\User\Model\Resource\Role\User\Collection',
-            $this->_model->getUsersCollection());
+        $this->assertInstanceOf(
+            'Magento\User\Model\Resource\Role\User\Collection',
+            $this->_model->getUsersCollection()
+        );
     }
 
     public function testGetRoleUsers()

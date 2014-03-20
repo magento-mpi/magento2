@@ -208,10 +208,10 @@ class Widget
             $result = array();
             foreach ($this->getWidgets($filters) as $code => $widget) {
                 $result[$widget['name']] = array(
-                    'name'          => __((string)$widget['name']),
-                    'code'          => $code,
-                    'type'          => $widget['@']['type'],
-                    'description'   => __((string)$widget['description'])
+                    'name' => __((string)$widget['name']),
+                    'code' => $code,
+                    'type' => $widget['@']['type'],
+                    'description' => __((string)$widget['description'])
                 );
             }
             usort($result, array($this, "_sortWidgets"));
@@ -253,7 +253,8 @@ class Widget
             return $directive;
         }
 
-        $html = sprintf('<img id="%s" src="%s" title="%s">',
+        $html = sprintf(
+            '<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
             $this->_escaper->escapeUrl($directive)
@@ -321,7 +322,6 @@ class Widget
             $inputArray[$key] = $this->_getAsCanonicalArray($value);
         }
         return $inputArray;
-
     }
 
     /**

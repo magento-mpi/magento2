@@ -66,12 +66,19 @@ class Query extends AbstractDb
      */
     public function loadByQuery(\Magento\Core\Model\AbstractModel $object, $value)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('synonym_for=? OR query_text=?', $value)
-            ->where('store_id=?', $object->getStoreId())
-            ->order('synonym_for ASC')
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'synonym_for=? OR query_text=?',
+            $value
+        )->where(
+            'store_id=?',
+            $object->getStoreId()
+        )->order(
+            'synonym_for ASC'
+        )->limit(
+            1
+        );
         $data = $this->_getReadAdapter()->fetchRow($select);
         if ($data) {
             $object->setData($data);
@@ -90,11 +97,17 @@ class Query extends AbstractDb
      */
     public function loadByQueryText(\Magento\Core\Model\AbstractModel $object, $value)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('query_text = ?', $value)
-            ->where('store_id = ?', $object->getStoreId())
-            ->limit(1);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            'query_text = ?',
+            $value
+        )->where(
+            'store_id = ?',
+            $object->getStoreId()
+        )->limit(
+            1
+        );
         $data = $this->_getReadAdapter()->fetchRow($select);
         if ($data) {
             $object->setData($data);

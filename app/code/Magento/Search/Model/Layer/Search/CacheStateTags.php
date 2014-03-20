@@ -23,4 +23,4 @@ class CacheStateTags extends \Magento\Search\Model\Layer\Category\CacheStateTags
         $tags[] = \Magento\CatalogSearch\Model\Query::CACHE_TAG;
         return $tags;
     }
-} 
+}

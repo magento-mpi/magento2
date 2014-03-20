@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
 class AdditionalTest extends \PHPUnit_Framework_TestCase
@@ -26,22 +25,23 @@ class AdditionalTest extends \PHPUnit_Framework_TestCase
         $modelClass = 'Magento\Backend\Block\Widget\Grid\Massaction';
         $data = array(
             'fields' => array(
-                'field1' => array(
-                    'type' => 'select',
-                    'values' => $modelClass,
-                    'class' => 'custom_class',
-                ),
-            ),
+                'field1' => array('type' => 'select', 'values' => $modelClass, 'class' => 'custom_class')
+            )
         );
         $block->setData($data);
         $evaluatedValues = array(
             array('value' => 'value1', 'label' => 'label 1'),
-            array('value' => 'value2', 'label' => 'label 2'),
+            array('value' => 'value2', 'label' => 'label 2')
         );
-        $interpreter->expects($this->once())
-            ->method('evaluate')
-            ->with(array('model' => $modelClass))
-            ->will($this->returnValue($evaluatedValues));
+        $interpreter->expects(
+            $this->once()
+        )->method(
+            'evaluate'
+        )->with(
+            array('model' => $modelClass)
+        )->will(
+            $this->returnValue($evaluatedValues)
+        );
 
         $html = $block->toHtml();
         $this->assertStringMatchesFormat(

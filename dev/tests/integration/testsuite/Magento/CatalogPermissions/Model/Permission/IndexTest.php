@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Permission;
 
 class IndexTest extends \PHPUnit_Framework_TestCase
@@ -25,10 +24,12 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->index = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogPermissions\Model\Permission\Index');
-        $this->indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Indexer\Model\IndexerInterface');
+        $this->index = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\CatalogPermissions\Model\Permission\Index'
+        );
+        $this->indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Indexer\Model\IndexerInterface'
+        );
         $this->indexer->load(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
     }
 
@@ -40,13 +41,14 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testGetIndexForCategory()
     {
         $fixturePermission = array(
-            'category_id'                 => 6,
-            'website_id'                  => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-                get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId(),
-            'customer_group_id'           => 1,
+            'category_id' => 6,
+            'website_id' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Core\Model\StoreManagerInterface'
+            )->getWebsite()->getId(),
+            'customer_group_id' => 1,
             'grant_catalog_category_view' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
             'grant_catalog_product_price' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
-            'grant_checkout_items'        => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY,
+            'grant_checkout_items' => \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
         );
 
         $permissions = $this->index->getIndexForCategory(6, 1, 1);
@@ -75,13 +77,13 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToCategoryCollectionWithDefaultAllow()
     {
         /** @var \Magento\Customer\Model\Session $session */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Customer\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
 
         $session->setCustomerGroupId(0);
         /** @var \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection */
-        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Category\Collection');
+        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Category\Collection'
+        );
         $categoryCollection->addIsActiveFilter();
         $categoryCollection->load();
         $this->assertCount(10, $categoryCollection->getItems());
@@ -91,8 +93,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $session->setCustomerGroupId(1);
         /** @var \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection */
-        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Category\Collection');
+        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Category\Collection'
+        );
         $categoryCollection->addIsActiveFilter();
         $categoryCollection->load();
         $this->assertCount(9, $categoryCollection->getItems());
@@ -111,8 +114,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToCategoryCollectionWithDefaultDeny()
     {
         /** @var \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection */
-        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Category\Collection');
+        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Category\Collection'
+        );
         $categoryCollection->addIsActiveFilter();
         $categoryCollection->load();
         $this->assertCount(0, $categoryCollection->getItems());
@@ -120,8 +124,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $this->indexer->reindexAll();
 
         /** @var \Magento\Catalog\Model\Resource\Category\Collection $categoryCollection */
-        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Category\Collection');
+        $categoryCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Category\Collection'
+        );
         $categoryCollection->addIsActiveFilter();
         $categoryCollection->load();
         $this->assertCount(0, $categoryCollection->getItems());
@@ -137,8 +142,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRestrictedCategoryIdsWithDefaultDeny()
     {
-        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId();
+        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getWebsite()->getId();
 
         $this->assertCount(12, $this->index->getRestrictedCategoryIds(0, $websiteId));
         $this->assertCount(12, $this->index->getRestrictedCategoryIds(1, $websiteId));
@@ -159,8 +165,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRestrictedCategoryIdsWithDefaultAllow()
     {
-        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Core\Model\StoreManagerInterface')->getWebsite()->getId();
+        $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getWebsite()->getId();
 
         $this->assertCount(0, $this->index->getRestrictedCategoryIds(0, $websiteId));
         $this->assertCount(0, $this->index->getRestrictedCategoryIds(1, $websiteId));
@@ -183,18 +190,19 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToProductCollectionWithDefaultAllow()
     {
         /** @var \Magento\Customer\Model\Session $session */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Customer\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
 
         /** @var \Magento\Catalog\Model\Category $category */
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->load(6);
 
         $session->setCustomerGroupId(0);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $categoryCollection */
-        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Product\Collection');
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Product\Collection'
+        );
         $productCollection->addCategoryFilter($category);
         $productCollection->load();
         $this->assertCount(1, $productCollection->getItems());
@@ -204,8 +212,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $session->setCustomerGroupId(1);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $categoryCollection */
-        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Product\Collection');
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Product\Collection'
+        );
         $productCollection->addCategoryFilter($category);
         $productCollection->load();
         $this->assertCount(0, $productCollection->getItems());
@@ -224,18 +233,19 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToProductCollectionWithDefaultDeny()
     {
         /** @var \Magento\Customer\Model\Session $session */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Customer\Model\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
 
         /** @var \Magento\Catalog\Model\Category $category */
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->load(6);
 
         $session->setCustomerGroupId(0);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $categoryCollection */
-        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Product\Collection');
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Product\Collection'
+        );
         $productCollection->addCategoryFilter($category);
         $productCollection->load();
         $this->assertCount(0, $productCollection->getItems());
@@ -245,8 +255,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $session->setCustomerGroupId(1);
         /** @var \Magento\Catalog\Model\Resource\Product\Collection $categoryCollection */
-        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Resource\Product\Collection');
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Resource\Product\Collection'
+        );
         $productCollection->addCategoryFilter($category);
         $productCollection->load();
         $this->assertCount(0, $productCollection->getItems());
@@ -264,18 +275,19 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToProductWithCategoryAndDefaultAllow()
     {
         /** @var \Magento\Catalog\Model\Category $category */
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->load(6);
 
         /** @var \Magento\Registry $registry */
-        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Registry');
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Registry');
         $registry->register('current_category', $category);
 
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->load(5);
 
         $this->index->addIndexToProduct($product, 0);
@@ -324,8 +336,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToProductStandaloneWithDefaultAllow()
     {
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->load(5);
 
         $this->index->addIndexToProduct($product, 0);
@@ -374,8 +387,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     public function testAddIndexToProductStandaloneWithDefaultDeny()
     {
         /** @var \Magento\Catalog\Model\Product $product */
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->load(5);
 
         $this->index->addIndexToProduct($product, 0);
@@ -423,8 +437,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForProductWithDefaultAllow()
     {
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->getId();
 
         $deny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 
@@ -458,8 +473,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIndexForProductWithDefaultDeny()
     {
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->
-            get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
+        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\StoreManagerInterface'
+        )->getStore()->getId();
 
         $deny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
 

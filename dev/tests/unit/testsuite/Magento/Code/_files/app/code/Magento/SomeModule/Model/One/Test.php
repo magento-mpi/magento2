@@ -7,7 +7,8 @@
  */
 namespace Magento\SomeModule\Model\One;
 
-require_once __DIR__ .  '/../Proxy.php';
+
+require_once __DIR__ . '/../Proxy.php';
 class Test
 {
     /**
@@ -15,9 +16,8 @@ class Test
      */
     protected $_proxy;
 
-    public function __construct(
-        \Magento\SomeModule\Model\Proxy $proxy
-    ) {
+    public function __construct(\Magento\SomeModule\Model\Proxy $proxy)
+    {
         $this->_proxy = $proxy;
     }
 }

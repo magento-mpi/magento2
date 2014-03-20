@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Element\Dependency;
 
 class Field
@@ -44,8 +43,13 @@ class Field
         } else {
             $this->_values = array($fieldData['value']);
         }
-        $fieldId = $fieldPrefix . (isset($fieldData['dependPath']) && is_array($fieldData['dependPath'])
-            ? array_pop($fieldData['dependPath']) : '');
+        $fieldId = $fieldPrefix . (isset(
+            $fieldData['dependPath']
+        ) && is_array(
+            $fieldData['dependPath']
+        ) ? array_pop(
+            $fieldData['dependPath']
+        ) : '');
         $fieldData['dependPath'][] = $fieldId;
         $this->_id = implode('_', $fieldData['dependPath']);
         $this->_isNegative = isset($fieldData['negative']) && $fieldData['negative'];

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme\Customization\File;
 
 /**
@@ -17,7 +16,9 @@ class Css extends \Magento\View\Design\Theme\Customization\AbstractFile
      * CSS file customization types
      */
     const TYPE = 'css';
+
     const CONTENT_TYPE = 'css';
+
     /**#@-*/
 
     /**

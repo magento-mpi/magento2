@@ -21,7 +21,7 @@ class Validator
     /**
      * @var string[]
      */
-    protected static $_stability = array(0=>'devel',1=>'alpha',2=>'beta',3=>'stable');
+    protected static $_stability = array(0 => 'devel', 1 => 'alpha', 2 => 'beta', 3 => 'stable');
 
     /**
      * @return string[]
@@ -71,7 +71,6 @@ class Validator
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -82,7 +81,7 @@ class Validator
      */
     public function validateMaxLen($str, $maxLen)
     {
-        return strlen((string) $str) <= (int) $maxLen;
+        return strlen((string)$str) <= (int)$maxLen;
     }
 
     /**
@@ -93,7 +92,7 @@ class Validator
      */
     public function validateChannelNameOrUri($str)
     {
-        return ( $this->validateUrl($str) || $this->validatePackageName($str));
+        return $this->validateUrl($str) || $this->validatePackageName($str);
     }
 
     /**
@@ -105,7 +104,7 @@ class Validator
     public function validateLicenseUrl($str)
     {
         if ($str) {
-            return ( $this->validateUrl($str) || $this->validatePackageName($str));
+            return $this->validateUrl($str) || $this->validatePackageName($str);
         }
         return true;
     }
@@ -124,9 +123,9 @@ class Validator
             return true;
         }
         $count = 0;
-        foreach ($data as $k=>$v) {
-            foreach (array('name','channel','min','max') as $fld) {
-                 $$fld = trim($v[$fld]);
+        foreach ($data as $k => $v) {
+            foreach (array('name', 'channel', 'min', 'max') as $fld) {
+                ${$fld} = trim($v[$fld]);
             }
             $count++;
 
@@ -150,9 +149,8 @@ class Validator
             if ($res1 && $res2 && $this->versionLower($max, $min)) {
                 $this->addError("Max version is lower than min in compat #{$count}");
             }
-
         }
-        return ! $this->hasErrors();
+        return !$this->hasErrors();
     }
 
     /**
@@ -167,7 +165,7 @@ class Validator
             return false;
         }
         $count = 0;
-        foreach ($authors as $k=>$v) {
+        foreach ($authors as $k => $v) {
             $count++;
             array_map('trim', $v);
             $name = $v['name'];
@@ -186,9 +184,8 @@ class Validator
                 $this->addError("Invalid or empty email for author #{$count}");
             }
         }
-        return ! $this->hasErrors();
+        return !$this->hasErrors();
     }
-
 
     /**
      * Validator errors
@@ -234,7 +231,6 @@ class Validator
         return count($this->_errors) != 0;
     }
 
-
     /**
      * Get errors
      * @param bool $clear if true after this call erros will be cleared
@@ -256,12 +252,11 @@ class Validator
      */
     public function validateUrl($str)
     {
-        $regex = "@([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|"
-            ."(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)"
-            ."[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?@i";
+        $regex = "@([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}|" .
+            "(((news|telnet|nttp|file|http|ftp|https)://)|(www|ftp)" .
+            "[-A-Za-z0-9]*\\.)[-A-Za-z0-9\\.]+)(:[0-9]*)?@i";
         return preg_match($regex, $str);
     }
-
 
     /**
      * Validates package stability
@@ -287,7 +282,6 @@ class Validator
         }
         return checkdate($subs[2], $subs[3], $subs[1]);
     }
-
 
     /**
      * Validate email
@@ -400,6 +394,6 @@ class Validator
         if ($max) {
             $maxAccepted = version_compate($ver, $max, "<=");
         }
-        return (bool) $minAccepted && $maxAccepted;
+        return (bool)$minAccepted && $maxAccepted;
     }
 }

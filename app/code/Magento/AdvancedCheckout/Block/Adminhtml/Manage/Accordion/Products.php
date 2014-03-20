@@ -113,13 +113,21 @@ class Products extends AbstractAccordion
     {
         if (!$this->hasData('items_collection')) {
             $attributes = $this->_catalogConfig->getProductAttributes();
-            $collection = $this->_productFactory->create()->getCollection()
-                ->setStore($this->_getStore())
-                ->addAttributeToSelect($attributes)
-                ->addAttributeToSelect('sku')
-                ->addAttributeToFilter('type_id', $this->_salesConfig->getAvailableProductTypes())
-                ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                ->addStoreFilter($this->_getStore());
+            $collection = $this->_productFactory->create()->getCollection()->setStore(
+                $this->_getStore()
+            )->addAttributeToSelect(
+                $attributes
+            )->addAttributeToSelect(
+                'sku'
+            )->addAttributeToFilter(
+                'type_id',
+                $this->_salesConfig->getAvailableProductTypes()
+            )->addAttributeToFilter(
+                'status',
+                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+            )->addStoreFilter(
+                $this->_getStore()
+            );
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $this->setData('items_collection', $collection);
         }
@@ -133,34 +141,34 @@ class Products extends AbstractAccordion
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id', array(
-            'header'    => __('ID'),
-            'sortable'  => true,
-            'width'     => '60',
-            'index'     => 'entity_id'
-        ));
+        $this->addColumn(
+            'entity_id',
+            array('header' => __('ID'), 'sortable' => true, 'width' => '60', 'index' => 'entity_id')
+        );
 
-        $this->addColumn('name', array(
-            'header'    => __('Product'),
-            'renderer'  => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product',
-            'index'     => 'name'
-        ));
+        $this->addColumn(
+            'name',
+            array(
+                'header' => __('Product'),
+                'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product',
+                'index' => 'name'
+            )
+        );
 
-        $this->addColumn('sku', array(
-            'header'    => __('SKU'),
-            'width'     => '80',
-            'index'     => 'sku'
-        ));
+        $this->addColumn('sku', array('header' => __('SKU'), 'width' => '80', 'index' => 'sku'));
 
-        $this->addColumn('price', array(
-            'header'    => __('Price'),
-            'type'      => 'currency',
-            'column_css_class' => 'price',
-            'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
-            'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
-            'index'     => 'price',
-            'renderer'  => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price'
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header' => __('Price'),
+                'type' => 'currency',
+                'column_css_class' => 'price',
+                'currency_code' => $this->_getStore()->getCurrentCurrencyCode(),
+                'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
+                'index' => 'price',
+                'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price'
+            )
+        );
 
         $this->_addControlColumns();
 
@@ -196,7 +204,7 @@ class Products extends AbstractAccordion
             if ($column->getFilter()->getValue()) {
                 $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
             } elseif ($productIds) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
             }
         } else {
             parent::_addColumnFilterToCollection($column);
@@ -227,7 +235,7 @@ class Products extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/products', array('_current'=>true));
+        return $this->getUrl('checkout/*/products', array('_current' => true));
     }
 
     /**

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdminGws\Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
 /**
@@ -38,8 +37,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Registry')->register('magento_catalogevent_event', $event);
 
         /** @var \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form $block */
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form');
+        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form'
+        );
         $block->toHtml();
 
         $checkboxValues = array(

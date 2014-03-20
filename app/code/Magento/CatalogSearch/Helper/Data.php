@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Helper;
 
 use Magento\App\Helper\AbstractHelper;
@@ -35,7 +34,7 @@ class Data extends AbstractHelper
     /**
      * Max query length
      */
-    const MAX_QUERY_LEN  = 200;
+    const MAX_QUERY_LEN = 200;
 
     /**
      * Query object
@@ -179,9 +178,11 @@ class Data extends AbstractHelper
             if ($this->_queryText === null) {
                 $this->_queryText = '';
             } else {
-                $this->_queryText = is_array($this->_queryText)
-                    ? ''
-                    : $this->string->cleanString(trim($this->_queryText));
+                $this->_queryText = is_array(
+                    $this->_queryText
+                ) ? '' : $this->string->cleanString(
+                    trim($this->_queryText)
+                );
 
                 $maxQueryLength = $this->getMaxQueryLength();
                 if ($maxQueryLength !== '' && $this->string->strlen($this->_queryText) > $maxQueryLength) {
@@ -222,10 +223,10 @@ class Data extends AbstractHelper
      */
     public function getResultUrl($query = null)
     {
-        return $this->_getUrl('catalogsearch/result', array(
-            '_query' => array(self::QUERY_VAR_NAME => $query),
-            '_secure' => $this->_request->isSecure()
-        ));
+        return $this->_getUrl(
+            'catalogsearch/result',
+            array('_query' => array(self::QUERY_VAR_NAME => $query), '_secure' => $this->_request->isSecure())
+        );
     }
 
     /**
@@ -235,9 +236,7 @@ class Data extends AbstractHelper
      */
     public function getSuggestUrl()
     {
-        return $this->_getUrl('catalogsearch/ajax/suggest', array(
-            '_secure' => $this->_request->isSecure()
-        ));
+        return $this->_getUrl('catalogsearch/ajax/suggest', array('_secure' => $this->_request->isSecure()));
     }
 
     /**
@@ -268,10 +267,7 @@ class Data extends AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(
-            Query::XML_PATH_MIN_QUERY_LENGTH,
-            $store
-        );
+        return $this->_coreStoreConfig->getConfig(Query::XML_PATH_MIN_QUERY_LENGTH, $store);
     }
 
     /**
@@ -282,10 +278,7 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(
-            Query::XML_PATH_MAX_QUERY_LENGTH,
-            $store
-        );
+        return $this->_coreStoreConfig->getConfig(Query::XML_PATH_MAX_QUERY_LENGTH, $store);
     }
 
     /**
@@ -296,10 +289,7 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(
-            Query::XML_PATH_MAX_QUERY_WORDS,
-            $store
-        );
+        return $this->_coreStoreConfig->getConfig(Query::XML_PATH_MAX_QUERY_WORDS, $store);
     }
 
     /**
@@ -346,16 +336,15 @@ class Data extends AbstractHelper
     {
         if ($this->_isMaxLength) {
             $this->addNoteMessage(
-                __('Your search query can\'t be longer than %1, so we had to shorten your query.',
-                $this->getMaxQueryLength())
+                __(
+                    'Your search query can\'t be longer than %1, so we had to shorten your query.',
+                    $this->getMaxQueryLength()
+                )
             );
         }
 
-        $searchType = $this->_coreStoreConfig
-            ->getConfig(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
-        if ($searchType == Fulltext::SEARCH_TYPE_COMBINE
-            || $searchType == Fulltext::SEARCH_TYPE_LIKE
-        ) {
+        $searchType = $this->_coreStoreConfig->getConfig(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+        if ($searchType == Fulltext::SEARCH_TYPE_COMBINE || $searchType == Fulltext::SEARCH_TYPE_LIKE) {
             $wordsFull = $this->filter->splitWords($this->getQueryText(), array('uniqueOnly' => true));
             $wordsLike = $this->filter->splitWords(
                 $this->getQueryText(),
@@ -364,7 +353,11 @@ class Data extends AbstractHelper
             if (count($wordsFull) > count($wordsLike)) {
                 $wordsCut = array_map(array($this->_escaper, 'escapeHtml'), array_diff($wordsFull, $wordsLike));
                 $this->addNoteMessage(
-                    __('Sorry, but the maximum word count is %1. We left out this part of your search: %2.', $this->getMaxQueryWords(), join(' ', $wordsCut))
+                    __(
+                        'Sorry, but the maximum word count is %1. We left out this part of your search: %2.',
+                        $this->getMaxQueryWords(),
+                        join(' ', $wordsCut)
+                    )
                 );
             }
         }

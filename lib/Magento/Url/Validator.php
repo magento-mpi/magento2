@@ -23,6 +23,7 @@ class Validator extends \Zend_Validate_Abstract
      * Error keys
      */
     const INVALID_URL = 'invalidUrl';
+
     /**#@-*/
 
     /**
@@ -39,9 +40,7 @@ class Validator extends \Zend_Validate_Abstract
      *
      * @var array
      */
-    protected $_messageTemplates = array(
-        self::INVALID_URL => "Invalid URL '%value%'.",
-    );
+    protected $_messageTemplates = array(self::INVALID_URL => "Invalid URL '%value%'.");
 
     /**
      * Validate value

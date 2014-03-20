@@ -16,8 +16,7 @@ namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer;
  * @package    Magento_CustomerSegment
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Segment
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Segment extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor
@@ -32,5 +31,4 @@ class Segment
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

@@ -8,15 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backup;
+
 require_once __DIR__ . '/_files/Gz.php';
 require_once __DIR__ . '/_files/Tar.php';
 require_once __DIR__ . '/_files/Fs.php';
 require_once __DIR__ . '/_files/Helper.php';
-require_once(__DIR__ . '/_files/io.php');
-
-
+require_once __DIR__ . '/_files/io.php';
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -37,35 +35,33 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_backupDbMock = $this->getMock('Magento\Backup\Db', array(), array(), '', false);
-        $this->_backupDbMock->expects($this->any())
-            ->method('setBackupExtension')
-            ->will($this->returnSelf());
+        $this->_backupDbMock->expects($this->any())->method('setBackupExtension')->will($this->returnSelf());
 
-        $this->_backupDbMock->expects($this->any())
-            ->method('setTime')
-            ->will($this->returnSelf());
+        $this->_backupDbMock->expects($this->any())->method('setTime')->will($this->returnSelf());
 
-        $this->_backupDbMock->expects($this->any())
-            ->method('setBackupsDir')
-            ->will($this->returnSelf());
+        $this->_backupDbMock->expects($this->any())->method('setBackupsDir')->will($this->returnSelf());
 
-        $this->_backupDbMock->expects($this->any())
-            ->method('setResourceModel')
-            ->will($this->returnSelf());
+        $this->_backupDbMock->expects($this->any())->method('setResourceModel')->will($this->returnSelf());
 
-        $this->_backupDbMock->expects($this->any())
-            ->method('getBackupPath')
-            ->will($this->returnValue('\unexistingpath'));
+        $this->_backupDbMock->expects(
+            $this->any()
+        )->method(
+            'getBackupPath'
+        )->will(
+            $this->returnValue('\unexistingpath')
+        );
 
-        $this->_backupDbMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue(true));
+        $this->_backupDbMock->expects($this->any())->method('create')->will($this->returnValue(true));
 
         $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
-        $this->_backupFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->_backupDbMock));
+        $this->_backupFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->_backupDbMock)
+        );
     }
 
     /**
@@ -80,10 +76,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\Backup\Media($this->_filesystemMock, $this->_backupFactoryMock);
         $model->setRootDir($rootDir);
-        $model->$action();
+        $model->{$action}();
         $this->assertTrue($model->getIsSuccess());
 
-        $this->assertTrue($model->$action());
+        $this->assertTrue($model->{$action}());
 
         $paths = $model->getIgnorePaths();
         $path1 = str_replace('\\', '/', $paths[0]);
@@ -99,9 +95,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public static function actionProvider()
     {
-        return array(
-            array('create'),
-            array('rollback'),
-        );
+        return array(array('create'), array('rollback'));
     }
 }

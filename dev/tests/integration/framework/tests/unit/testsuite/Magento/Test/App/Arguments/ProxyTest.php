@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\App\Arguments;
 
 class ProxyTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     public function testProxiedMethods($method, $params)
     {
         $subject = $this->getMock('\Magento\App\Arguments', array(), array(), '', false);
-        $invocation = $subject->expects($this->once())
-            ->method($method);
+        $invocation = $subject->expects($this->once())->method($method);
         $invocation = call_user_func_array(array($invocation, 'with'), $params);
         $expectedResult = new \stdClass();
         $invocation->will($this->returnValue($expectedResult));
@@ -43,19 +41,17 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
             array('getCacheFrontendSettings', array()),
             array('getCacheTypeFrontendId', array('cache type')),
             array('get', array('key', 'default')),
-            array('reload', array()),
+            array('reload', array())
         );
     }
 
     public function testSetSubject()
     {
         $subject1 = $this->getMock('\Magento\App\Arguments', array(), array(), '', false);
-        $subject1->expects($this->once())
-            ->method('get');
+        $subject1->expects($this->once())->method('get');
 
         $subject2 = $this->getMock('\Magento\App\Arguments', array(), array(), '', false);
-        $subject2->expects($this->once())
-            ->method('get');
+        $subject2->expects($this->once())->method('get');
 
         $object = new \Magento\TestFramework\App\Arguments\Proxy($subject1);
         $object->get('data');
@@ -63,6 +59,4 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         $object->setSubject($subject2);
         $object->get('data');
     }
-
-
 }

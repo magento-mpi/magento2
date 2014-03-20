@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -118,7 +117,7 @@ class Url
      */
     public function getViewFileUrl($fileId, array $params = array())
     {
-        $isSecure = isset($params['_secure']) ? (bool) $params['_secure'] : null;
+        $isSecure = isset($params['_secure']) ? (bool)$params['_secure'] : null;
         unset($params['_secure']);
 
         $publicFilePath = $this->getViewFilePublicPath($fileId, $params);
@@ -160,11 +159,8 @@ class Url
             if (strpos($publicFilePath, $dir) === 0) {
                 $relativePath = ltrim(substr($publicFilePath, strlen($dir)), '\\/');
                 $url = $this->_urlBuilder->getBaseUrl(
-                        array(
-                            '_type' => $urlMap['key'],
-                            '_secure' => $isSecure
-                        )
-                    ) . $relativePath;
+                    array('_type' => $urlMap['key'], '_secure' => $isSecure)
+                ) . $relativePath;
 
                 if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
                     $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
@@ -176,7 +172,7 @@ class Url
         }
 
         throw new \Magento\Exception(
-            "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
+            "Cannot build URL for the file '{$publicFilePath}' because it does not reside in a public directory."
         );
     }
 

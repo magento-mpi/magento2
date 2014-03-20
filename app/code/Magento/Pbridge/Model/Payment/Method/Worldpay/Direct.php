@@ -23,7 +23,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      * Payment method code
      * @var string
      */
-    protected $_code  = 'worldpay_direct';
+    protected $_code = 'worldpay_direct';
 
     /**
      * @var array
@@ -33,27 +33,27 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = true;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = false;
+    protected $_canCapturePartial = false;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = true;
+    protected $_canRefund = true;
 
     /**
      * @var bool
@@ -63,22 +63,22 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canVoid                 = true;
+    protected $_canVoid = true;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
      */
-    protected $_canSaveCc               = false;
+    protected $_canSaveCc = false;
 
     /**
      * PSi Gate method being executed via Payment Bridge
@@ -93,6 +93,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
         $payment->addData((array)$response);
         return $this;
     }
+
     /**
      * Capturing method being executed via Payment Bridge
      *
@@ -138,6 +139,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
         $payment->setIsTransactionClosed(1);
         return $this;
     }
+
     /**
      * Cancel method being executed via Payment Bridge
      *

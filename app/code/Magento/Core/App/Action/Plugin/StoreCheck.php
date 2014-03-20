@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\App\Action\Plugin;
 
 class StoreCheck
@@ -19,9 +18,8 @@ class StoreCheck
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    {
         $this->_storeManager = $storeManager;
     }
 
@@ -43,4 +41,4 @@ class StoreCheck
         }
         return $proceed($request);
     }
-} 
+}

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\MultipleWishlist\Model;
 
 /**
@@ -29,9 +28,8 @@ class Search
      *
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
-    public function __construct(
-        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
-    ) {
+    public function __construct(\Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory)
+    {
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
     }
 

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator;
 
 class QuoteItemQtyList
@@ -31,8 +30,13 @@ class QuoteItemQtyList
     public function getQty($productId, $quoteItemId, $itemQty)
     {
         $qty = $itemQty;
-        if (isset($this->_checkedQuoteItems[$productId]['qty']) &&
-            !in_array($quoteItemId, $this->_checkedQuoteItems[$productId]['items'])) {
+        if (isset(
+            $this->_checkedQuoteItems[$productId]['qty']
+        ) && !in_array(
+            $quoteItemId,
+            $this->_checkedQuoteItems[$productId]['items']
+        )
+        ) {
             $qty += $this->_checkedQuoteItems[$productId]['qty'];
         }
 
@@ -41,4 +45,4 @@ class QuoteItemQtyList
 
         return $qty;
     }
-} 
+}

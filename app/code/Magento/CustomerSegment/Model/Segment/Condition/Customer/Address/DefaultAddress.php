@@ -66,10 +66,7 @@ class DefaultAddress extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => __('Default Address')
-        );
+        return array('value' => $this->getType(), 'label' => __('Default Address'));
     }
 
     /**
@@ -79,10 +76,7 @@ class DefaultAddress extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            'default_billing'  => __('Billing'),
-            'default_shipping' => __('Shipping'),
-        ));
+        $this->setValueOption(array('default_billing' => __('Billing'), 'default_shipping' => __('Shipping')));
         return $this;
     }
 
@@ -103,9 +97,11 @@ class DefaultAddress extends AbstractCondition
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('Customer Address %1 Default %2 Address', $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Customer Address %1 Default %2 Address',
+            $this->getOperatorElementHtml(),
+            $this->getValueElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -119,10 +115,15 @@ class DefaultAddress extends AbstractCondition
     {
         $select = $this->getResource()->createSelect();
         $attribute = $this->_eavConfig->getAttribute('customer', $this->getValue());
-        $select->from(array('default'=>$attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
-        $select->where('default.attribute_id = ?', $attribute->getId())
-            ->where('default.value=customer_address.entity_id')
-            ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
+        $select->from(array('default' => $attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
+        $select->where(
+            'default.attribute_id = ?',
+            $attribute->getId()
+        )->where(
+            'default.value=customer_address.entity_id'
+        )->where(
+            $this->_createCustomerFilter($customer, 'default.entity_id')
+        );
         $select->limit(1);
         return $select;
     }

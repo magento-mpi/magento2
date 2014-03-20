@@ -19,14 +19,13 @@ namespace Magento\Archive;
 
 class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\ArchiveInterface
 {
-
     /**
-    * Pack file by BZIP2 compressor.
-    *
-    * @param string $source
-    * @param string $destination
-    * @return string
-    */
+     * Pack file by BZIP2 compressor.
+     *
+     * @param string $source
+     * @param string $destination
+     * @return string
+     */
     public function pack($source, $destination)
     {
         $fileReader = new \Magento\Archive\Helper\File($source);
@@ -46,12 +45,12 @@ class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\Ar
     }
 
     /**
-    * Unpack file by BZIP2 compressor.
-    *
-    * @param string $source
-    * @param string $destination
-    * @return string
-    */
+     * Unpack file by BZIP2 compressor.
+     *
+     * @param string $source
+     * @param string $destination
+     * @return string
+     */
     public function unpack($source, $destination)
     {
         if (is_dir($destination)) {
@@ -71,5 +70,4 @@ class Bz extends \Magento\Archive\AbstractArchive implements \Magento\Archive\Ar
 
         return $destination;
     }
-
 }

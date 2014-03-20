@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 class Multiline extends Text
@@ -33,8 +32,8 @@ class Multiline extends Text
      */
     public function validateValue($value)
     {
-        $errors     = array();
-        $attribute  = $this->getAttribute();
+        $errors = array();
+        $attribute = $this->getAttribute();
 
         if ($value === false) {
             // try to load original value and validate it
@@ -47,7 +46,7 @@ class Multiline extends Text
         if (!is_array($value)) {
             $value = array($value);
         }
-        for ($i = 0; $i < $attribute->getMultilineCount(); $i ++) {
+        for ($i = 0; $i < $attribute->getMultilineCount(); $i++) {
             if (!isset($value[$i])) {
                 $value[$i] = null;
             }
@@ -79,7 +78,7 @@ class Multiline extends Text
     public function compactValue($value)
     {
         if (!is_array($value)) {
-            $value = [$value];
+            $value = array($value);
         }
         return parent::compactValue($value);
     }

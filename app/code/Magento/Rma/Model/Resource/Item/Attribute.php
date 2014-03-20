@@ -43,5 +43,4 @@ class Attribute extends \Magento\Eav\Model\Resource\Attribute
     {
         return $this->getTable('magento_rma_item_form_attribute');
     }
-
 }

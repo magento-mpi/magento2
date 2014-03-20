@@ -10,7 +10,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Dependency;
 
 interface RuleInterface
@@ -19,6 +18,7 @@ interface RuleInterface
      * Types of dependencies between modules
      */
     const TYPE_SOFT = 'soft';
+
     const TYPE_HARD = 'hard';
 
     /**

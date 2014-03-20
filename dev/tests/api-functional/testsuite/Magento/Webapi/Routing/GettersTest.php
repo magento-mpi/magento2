@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Routing;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -16,10 +15,12 @@ class GettersTest extends \Magento\Webapi\Routing\BaseService
      * @var string
      */
     protected $_version;
+
     /**
      * @var string
      */
     protected $_restResourcePath;
+
     /**
      * @var string
      */
@@ -40,10 +41,7 @@ class GettersTest extends \Magento\Webapi\Routing\BaseService
                 'resourcePath' => $this->_restResourcePath . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Item'
-            )
+            'soap' => array('service' => $this->_soapService, 'operation' => $this->_soapService . 'Item')
         );
         $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
 
 /**
@@ -44,7 +43,6 @@ class ImageUploader extends \Magento\Object
      */
     protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
 
-
     /**
      * Generic constructor of change instance
      *
@@ -70,8 +68,9 @@ class ImageUploader extends \Magento\Object
     public function getStoragePath()
     {
         if (null === $this->_storagePath) {
-            $this->_storagePath = $this->_getTheme()->getCustomization()->getCustomizationPath() . '/'
-                . self::PATH_PREFIX_QUICK_STYLE;
+            $this->_storagePath = $this->_getTheme()->getCustomization()->getCustomizationPath() .
+                '/' .
+                self::PATH_PREFIX_QUICK_STYLE;
         }
         return $this->_storagePath;
     }
@@ -124,7 +123,8 @@ class ImageUploader extends \Magento\Object
             throw new \Magento\Core\Exception('Cannot upload file.');
         }
         $result['css_path'] = implode(
-            '/', array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
+            '/',
+            array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
         );
         $result['name'] = $uploader->getUploadedFileName();
         return $result;

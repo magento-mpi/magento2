@@ -95,10 +95,9 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addCustomerIdFilter($this->_registryManager->registry('current_customer')->getId())
-        ->resetSortOrder()
-        ->addDaysInWishlist()
-        ->addStoreData();
+        $this->addCustomerIdFilter(
+            $this->_registryManager->registry('current_customer')->getId()
+        )->resetSortOrder()->addDaysInWishlist()->addStoreData();
         return $this;
     }
 
@@ -134,7 +133,7 @@ class Grid extends \Magento\Wishlist\Model\Resource\Item\Collection
     {
         switch ($field) {
             case 'product_name':
-                $value = (string) $condition['like'];
+                $value = (string)$condition['like'];
                 $value = trim(trim($value, "'"), "%");
                 return $this->addProductNameFilter($value);
             case 'store_id':

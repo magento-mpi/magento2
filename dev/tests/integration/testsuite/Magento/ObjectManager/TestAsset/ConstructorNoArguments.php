@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\TestAsset;
 
 class ConstructorNoArguments
@@ -20,4 +19,3 @@ class ConstructorNoArguments
     {
     }
 }
-

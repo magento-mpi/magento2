@@ -29,9 +29,8 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      */
-    public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData
-    ) {
+    public function __construct(\Magento\Catalog\Helper\Data $catalogData)
+    {
         $this->_catalogData = $catalogData;
     }
 
@@ -56,7 +55,8 @@ class Msrp extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 $item->getProductId(),
                 \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM,
                 true
-            )) {
+            )
+            ) {
                 $canApplyMsrp = true;
                 break;
             }

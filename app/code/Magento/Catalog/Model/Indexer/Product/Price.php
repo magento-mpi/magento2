@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product;
 
 class Price implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface

@@ -101,8 +101,11 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
      */
     public function isAvailable($quote = null)
     {
-        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $this->_pro->getConfig()->isMethodAvailable(\Magento\Paypal\Model\Config::METHOD_WPP_DIRECT);
+        return $this->_paypal->getPbridgeMethodInstance()->isDummyMethodAvailable(
+            $quote
+        ) && $this->_pro->getConfig()->isMethodAvailable(
+            \Magento\Paypal\Model\Config::METHOD_WPP_DIRECT
+        );
     }
 
     /**

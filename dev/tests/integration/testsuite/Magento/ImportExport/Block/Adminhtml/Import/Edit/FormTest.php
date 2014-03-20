@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Block\Adminhtml\Import\Edit;
 
 /**
@@ -22,10 +21,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_expectedFieldsets = array(
-        'base_fieldset',
-        'upload_file_fieldset',
-    );
+    protected $_expectedFieldsets = array('base_fieldset', 'upload_file_fieldset');
 
     /**
      * Add behaviour fieldsets to expected fieldsets
@@ -47,12 +43,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareForm()
     {
-        $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form');
-        $prepareForm = new \ReflectionMethod(
-            'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form',
-            '_prepareForm'
+        $formBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\ImportExport\Block\Adminhtml\Import\Edit\Form'
         );
+        $prepareForm = new \ReflectionMethod('Magento\ImportExport\Block\Adminhtml\Import\Edit\Form', '_prepareForm');
         $prepareForm->setAccessible(true);
         $prepareForm->invoke($formBlock);
 

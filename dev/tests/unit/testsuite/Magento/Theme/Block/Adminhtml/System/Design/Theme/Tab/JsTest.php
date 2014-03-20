@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Tab;
 
 class JsTest extends \PHPUnit_Framework_TestCase
@@ -31,9 +30,9 @@ class JsTest extends \PHPUnit_Framework_TestCase
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
-                 'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
-                 'objectManager' => $this->getMock('Magento\ObjectManager', array(), array(), '', false),
-                 'urlBuilder'    => $this->_urlBuilder
+                'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
+                'objectManager' => $this->getMock('Magento\ObjectManager', array(), array(), '', false),
+                'urlBuilder' => $this->_urlBuilder
             )
         );
 
@@ -89,19 +88,20 @@ class JsTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $themeMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($themeId));
+        $themeMock->expects($this->any())->method('getId')->will($this->returnValue($themeId));
 
-        $this->_model->expects($this->any())
-            ->method('_getCurrentTheme')
-            ->will($this->returnValue($themeMock));
+        $this->_model->expects($this->any())->method('_getCurrentTheme')->will($this->returnValue($themeMock));
 
-        $this->_urlBuilder
-            ->expects($this->once())
-            ->method('getUrl')
-            ->with('adminhtml/system_design_theme/uploadjs', array('id' => $themeId))
-            ->will($this->returnValue($uploadUrl));
+        $this->_urlBuilder->expects(
+            $this->once()
+        )->method(
+            'getUrl'
+        )->with(
+            'adminhtml/system_design_theme/uploadjs',
+            array('id' => $themeId)
+        )->will(
+            $this->returnValue($uploadUrl)
+        );
 
         $this->assertEquals($uploadUrl, $this->_model->getJsUploadUrl());
     }

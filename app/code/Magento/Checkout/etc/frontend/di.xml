@@ -20,4 +20,8 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="checkout-session-depersonalize"
+                type="Magento\Checkout\Model\Layout\DepersonalizePlugin" sortOrder="20"/>
+    </type>
 </config>

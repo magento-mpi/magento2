@@ -30,10 +30,8 @@ class Operation extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -88,8 +86,12 @@ class Operation extends \Magento\Backend\App\Action
         $operationType = $this->getRequest()->getParam('type');
         $this->_initAction();
         $this->_title->add(
-            $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
-                ->getOperationHeaderText($operationType, 'new')
+            $this->_objectManager->get(
+                'Magento\ScheduledImportExport\Helper\Data'
+            )->getOperationHeaderText(
+                $operationType,
+                'new'
+            )
         );
 
         $this->_view->renderLayout();
@@ -110,9 +112,7 @@ class Operation extends \Magento\Backend\App\Action
 
         /** @var $helper \Magento\ScheduledImportExport\Helper\Data */
         $helper = $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data');
-        $this->_title->add(
-            $helper->getOperationHeaderText($operationType, 'edit')
-        );
+        $this->_title->add($helper->getOperationHeaderText($operationType, 'edit'));
 
         $this->_view->renderLayout();
     }
@@ -128,9 +128,17 @@ class Operation extends \Magento\Backend\App\Action
         if ($request->isPost()) {
             $data = $request->getPost();
 
-            if (isset($data['id']) && !is_numeric($data['id']) || !isset($data['id'])
-                && (!isset($data['operation_type']) || empty($data['operation_type']))
-                || !is_array($data['start_time'])
+            if (isset(
+                $data['id']
+            ) && !is_numeric(
+                $data['id']
+            ) || !isset(
+                $data['id']
+            ) && (!isset(
+                $data['operation_type']
+            ) || empty($data['operation_type'])) || !is_array(
+                $data['start_time']
+            )
             ) {
                 $this->messageManager->addError(__("We couldn't save the scheduled operation."));
                 $this->_redirect('adminhtml/*/*', array('_current' => true));
@@ -147,14 +155,15 @@ class Operation extends \Magento\Backend\App\Action
 
             try {
                 /** @var \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation */
-                $operation = $this->_objectManager->create(
-                    'Magento\ScheduledImportExport\Model\Scheduled\Operation'
-                );
+                $operation = $this->_objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
                 $operation->setData($data);
                 $operation->save();
                 $this->messageManager->addSuccess(
-                    $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')
-                        ->getSuccessSaveMessage($operation->getOperationType())
+                    $this->_objectManager->get(
+                        'Magento\ScheduledImportExport\Helper\Data'
+                    )->getSuccessSaveMessage(
+                        $operation->getOperationType()
+                    )
                 );
             } catch (\Magento\Core\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -177,11 +186,15 @@ class Operation extends \Magento\Backend\App\Action
         $id = (int)$request->getParam('id');
         if ($id) {
             try {
-                $this->_objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation')
-                    ->setId($id)
-                    ->delete();
+                $this->_objectManager->create(
+                    'Magento\ScheduledImportExport\Model\Scheduled\Operation'
+                )->setId(
+                    $id
+                )->delete();
                 $this->messageManager->addSuccess(
-                    $this->_objectManager->get('Magento\ScheduledImportExport\Helper\Data')->getSuccessDeleteMessage(
+                    $this->_objectManager->get(
+                        'Magento\ScheduledImportExport\Helper\Data'
+                    )->getSuccessDeleteMessage(
                         $request->getParam('type')
                     )
                 );
@@ -256,10 +269,11 @@ class Operation extends \Magento\Backend\App\Action
                 $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
 
                 foreach ($operations as $operation) {
-                    $operation->setStatus($status)
-                        ->save();
+                    $operation->setStatus($status)->save();
                 }
-                $this->messageManager->addSuccess(__('A total of %1 record(s) have been updated.', count($operations)));
+                $this->messageManager->addSuccess(
+                    __('A total of %1 record(s) have been updated.', count($operations))
+                );
             } catch (\Magento\Core\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -286,13 +300,10 @@ class Operation extends \Magento\Backend\App\Action
                 $export = $this->_objectManager->create('Magento\ScheduledImportExport\Model\Export')->setData($data);
 
                 /** @var $attrFilterBlock \Magento\ScheduledImportExport\Block\Adminhtml\Export\Filter */
-                $attrFilterBlock = $this->_view->getLayout()->getBlock('export.filter')
-                    ->setOperation($export);
+                $attrFilterBlock = $this->_view->getLayout()->getBlock('export.filter')->setOperation($export);
 
                 $export->filterAttributeCollection(
-                    $attrFilterBlock->prepareCollection(
-                        $export->getEntityAttributeCollection()
-                    )
+                    $attrFilterBlock->prepareCollection($export->getEntityAttributeCollection())
                 );
                 $this->_view->renderLayout();
                 return;
@@ -331,12 +342,14 @@ class Operation extends \Magento\Backend\App\Action
             $design = $this->_objectManager->get('Magento\View\DesignInterface');
             $area = $design->getArea();
             $theme = $design->getDesignTheme();
-            $design->setDesignTheme(
-                $design->getConfigurationDesignTheme(\Magento\Core\Model\App\Area::AREA_FRONTEND)
-            );
+            $design->setDesignTheme($design->getConfigurationDesignTheme(\Magento\Core\Model\App\Area::AREA_FRONTEND));
 
-            $result = $this->_objectManager->get('Magento\ScheduledImportExport\Model\Observer')
-                ->processScheduledOperation($schedule, true);
+            $result = $this->_objectManager->get(
+                'Magento\ScheduledImportExport\Model\Observer'
+            )->processScheduledOperation(
+                $schedule,
+                true
+            );
 
             // restore current design area and theme
             $design->setDesignTheme($theme, $area);
@@ -361,8 +374,12 @@ class Operation extends \Magento\Backend\App\Action
     public function logCleanAction()
     {
         $schedule = new \Magento\Object();
-        $result = $this->_objectManager->get('Magento\ScheduledImportExport\Model\Observer')
-            ->scheduledLogClean($schedule, true);
+        $result = $this->_objectManager->get(
+            'Magento\ScheduledImportExport\Model\Observer'
+        )->scheduledLogClean(
+            $schedule,
+            true
+        );
         if ($result) {
             $this->messageManager->addSuccess(__('We deleted the history files.'));
         } else {

@@ -13,4 +13,6 @@
  */
 namespace Magento\Catalog\Controller\Product\View;
 
-interface ViewInterface{}
+interface ViewInterface
+{
+}

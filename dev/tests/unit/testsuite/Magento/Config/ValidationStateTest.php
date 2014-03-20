@@ -26,18 +26,9 @@ class ValidationStateTest extends \PHPUnit_Framework_TestCase
     public function isValidatedDataProvider()
     {
         return array(
-            array(
-                \Magento\App\State::MODE_DEVELOPER,
-                true
-            ),
-            array(
-                \Magento\App\State::MODE_DEFAULT,
-                false
-            ),
-            array(
-                \Magento\App\State::MODE_PRODUCTION,
-                false
-            ),
+            array(\Magento\App\State::MODE_DEVELOPER, true),
+            array(\Magento\App\State::MODE_DEFAULT, false),
+            array(\Magento\App\State::MODE_PRODUCTION, false)
         );
     }
 }

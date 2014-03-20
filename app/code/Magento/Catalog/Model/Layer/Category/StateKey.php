@@ -47,4 +47,4 @@ class StateKey implements StateKeyInterface
             . '_CAT_' . $category->getId()
             . '_CUSTGROUP_' . $this->customerSession->getCustomerGroupId();
     }
-} 
+}

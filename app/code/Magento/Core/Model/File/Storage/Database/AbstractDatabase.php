@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage\Database;
 
 /**
@@ -80,8 +79,10 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
      */
     public function getConfigConnectionName()
     {
-        $connectionName = $this->_app->getConfig()
-            ->getValue(\Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE, 'default');
+        $connectionName = $this->_app->getConfig()->getValue(
+            \Magento\Core\Model\File\Storage::XML_PATH_STORAGE_MEDIA_DATABASE,
+            'default'
+        );
         if (empty($connectionName)) {
             $connectionName = 'default_setup';
         }

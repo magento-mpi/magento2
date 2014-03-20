@@ -27,18 +27,14 @@ class WebsiteRestrictionConfigFilesTest extends \PHPUnit_Framework_TestCase
         );
 
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
-        $fileResolverMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($xmlFiles));
+        $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
-        $validationStateMock->expects($this->any())
-            ->method('isValidated')
-            ->will($this->returnValue(true));
-        $this->_model = $objectManager->create('Magento\WebsiteRestriction\Model\Config\Reader', array(
-            'fileResolver' => $fileResolverMock,
-            'validationState' => $validationStateMock,
-        ));
+        $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
+        $this->_model = $objectManager->create(
+            'Magento\WebsiteRestriction\Model\Config\Reader',
+            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+        );
     }
 
     public function testWebsiteRestrictionXmlFiles()

@@ -29,8 +29,8 @@ class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             '\InvalidArgumentException',
-            'Magento\Object does not implement '
-            . 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
+            'Magento\Object does not implement ' .
+            'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
         );
         $this->_objectManagerMock->expects($this->never())->method('create');
         $this->_model->create('Magento\Object');
@@ -38,11 +38,15 @@ class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateWithValidType()
     {
-        $this->_objectManagerMock->expects($this->once())
-            ->method('create')
-            ->with(
-                '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
-            )->will($this->returnValue('object'));
+        $this->_objectManagerMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
+        )->will(
+            $this->returnValue('object')
+        );
         $this->assertEquals(
             'object',
             $this->_model->create(

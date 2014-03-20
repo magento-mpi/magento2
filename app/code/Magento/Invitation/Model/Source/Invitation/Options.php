@@ -16,9 +16,7 @@
  */
 namespace Magento\Invitation\Model\Source\Invitation;
 
-class Options
-    implements \Magento\Option\ArrayInterface
-
+class Options implements \Magento\Option\ArrayInterface
 {
     /**
      * Invitation Status
@@ -30,9 +28,8 @@ class Options
     /**
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
-    function __construct(
-        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
-    ) {
+    public function __construct(\Magento\Invitation\Model\Source\Invitation\Status $invitationStatus)
+    {
         $this->_invitationStatus = $invitationStatus;
     }
 

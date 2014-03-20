@@ -198,9 +198,11 @@ class Db implements StorageInterface
     protected function _getDefaultStore()
     {
         if (empty($this->_store)) {
-            $this->_store = $this->_storeFactory->create()
-                ->setId(\Magento\Core\Model\Store::DISTRO_STORE_ID)
-                ->setCode(\Magento\Core\Model\Store::DEFAULT_CODE);
+            $this->_store = $this->_storeFactory->create()->setId(
+                \Magento\Core\Model\Store::DISTRO_STORE_ID
+            )->setCode(
+                \Magento\Core\Model\Store::DEFAULT_CODE
+            );
         }
         return $this->_store;
     }
@@ -249,15 +251,11 @@ class Db implements StorageInterface
      */
     protected function _checkGetStore($type)
     {
-        if (empty($_GET)) {
+        if (empty($_POST['___store']) && empty($_GET['___store'])) {
             return;
         }
+        $store = empty($_POST['___store']) ? $_GET['___store'] : $_POST['___store'];
 
-        if (!isset($_GET['___store'])) {
-            return;
-        }
-
-        $store = $_GET['___store'];
         if (!isset($this->_stores[$store])) {
             return;
         }
@@ -286,7 +284,11 @@ class Db implements StorageInterface
                 $this->_cookie->set(Store::COOKIE_NAME, null);
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
-                $this->_httpContext->setValue(Store::ENTITY, $this->_currentStore);
+                $this->_httpContext->setValue(
+                    \Magento\Core\Helper\Data::CONTEXT_STORE,
+                    $this->_currentStore,
+                    $this->_getDefaultStore()->getCode()
+                );
             }
         }
         return;
@@ -305,17 +307,17 @@ class Db implements StorageInterface
         }
 
         $store = $this->_cookie->get(Store::COOKIE_NAME);
-        if ($store && isset($this->_stores[$store])
-            && $this->_stores[$store]->getId()
-            && $this->_stores[$store]->getIsActive()
+        if ($store && isset(
+            $this->_stores[$store]
+        ) && $this->_stores[$store]->getId() && $this->_stores[$store]->getIsActive()
         ) {
-            if ($type == 'website'
-                && $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()
+            if ($type == 'website' &&
+                $this->_stores[$store]->getWebsiteId() == $this->_stores[$this->_currentStore]->getWebsiteId()
             ) {
                 $this->_currentStore = $store;
             }
-            if ($type == 'group'
-                && $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()
+            if ($type == 'group' &&
+                $this->_stores[$store]->getGroupId() == $this->_stores[$this->_currentStore]->getGroupId()
             ) {
                 $this->_currentStore = $store;
             }
@@ -366,12 +368,12 @@ class Db implements StorageInterface
      */
     protected function _initStores()
     {
-        $this->_store    = null;
-        $this->_stores   = array();
-        $this->_groups   = array();
+        $this->_store = null;
+        $this->_stores = array();
+        $this->_groups = array();
         $this->_websites = array();
 
-        $this->_website  = null;
+        $this->_website = null;
 
         /** @var $websiteCollection \Magento\Core\Model\Resource\Website\Collection */
         $websiteCollection = $this->_websiteFactory->create()->getCollection();
@@ -392,7 +394,7 @@ class Db implements StorageInterface
 
         $websiteStores = array();
         $websiteGroups = array();
-        $groupStores   = array();
+        $groupStores = array();
 
         foreach ($storeCollection as $store) {
             /** @var $store Store */

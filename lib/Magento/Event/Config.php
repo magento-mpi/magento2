@@ -9,7 +9,7 @@
  */
 namespace Magento\Event;
 
-use \Magento\Event\Config\Data;
+use Magento\Event\Config\Data;
 
 class Config implements ConfigInterface
 {

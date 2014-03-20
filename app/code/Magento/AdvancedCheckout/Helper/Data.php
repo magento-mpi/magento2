@@ -38,25 +38,40 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Config path to Enable Order By SKU tab in the Customer account dashboard and Allowed groups
      */
     const XML_PATH_SKU_ENABLED = 'sales/product_sku/my_account_enable';
+
     const XML_PATH_SKU_ALLOWED_GROUPS = 'sales/product_sku/allowed_groups';
 
     /**
      * Status of item, that was added by SKU
      */
     const ADD_ITEM_STATUS_SUCCESS = 'success';
+
     const ADD_ITEM_STATUS_FAILED_SKU = 'failed_sku';
+
     const ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK = 'failed_out_of_stock';
+
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED = 'failed_qty_allowed';
+
     const ADD_ITEM_STATUS_FAILED_QTY_ALLOWED_IN_CART = 'failed_qty_allowed_in_cart';
+
     const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NUMBER = 'failed_qty_invalid_number';
+
     const ADD_ITEM_STATUS_FAILED_QTY_INVALID_NON_POSITIVE = 'failed_qty_invalid_non_positive';
+
     const ADD_ITEM_STATUS_FAILED_QTY_INVALID_RANGE = 'failed_qty_invalid_range';
+
     const ADD_ITEM_STATUS_FAILED_QTY_INCREMENTS = 'failed_qty_increment';
+
     const ADD_ITEM_STATUS_FAILED_CONFIGURE = 'failed_configure';
+
     const ADD_ITEM_STATUS_FAILED_PERMISSIONS = 'failed_permissions';
+
     const ADD_ITEM_STATUS_FAILED_WEBSITE = 'failed_website';
+
     const ADD_ITEM_STATUS_FAILED_UNKNOWN = 'failed_unknown';
+
     const ADD_ITEM_STATUS_FAILED_EMPTY = 'failed_empty';
+
     const ADD_ITEM_STATUS_FAILED_DISABLED = 'failed_disabled';
 
     /**
@@ -344,8 +359,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
                 if ($this->_customerSession) {
                     $groupId = $this->_customerSession->getCustomerGroupId();
-                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID
-                        || in_array($groupId, $this->getSkuCustomerGroups());
+                    $result = $groupId === \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID || in_array(
+                        $groupId,
+                        $this->getSkuCustomerGroups()
+                    );
                 }
                 break;
         }
@@ -361,7 +378,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if ($this->_allowedGroups === null) {
             $this->_allowedGroups = explode(
-                ',', trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS))
+                ',',
+                trim($this->_coreStoreConfig->getConfig(self::XML_PATH_SKU_ALLOWED_GROUPS))
             );
         }
         return $this->_allowedGroups;
@@ -377,12 +395,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if ($all && is_null($this->_itemsAll) || !$all && is_null($this->_items)) {
             $failedItems = $this->_cart->getFailedItems();
-            $collection = $this->_products
-                ->addMinimalPrice()
-                ->addFinalPrice()
-                ->addTaxPercents()
-                ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
-                ->addUrlRewrite();
+            $collection = $this->_products->addMinimalPrice()->addFinalPrice()->addTaxPercents()->addAttributeToSelect(
+                $this->_catalogConfig->getProductAttributes()
+            )->addUrlRewrite();
             $itemsToLoad = array();
 
             $quoteItemsCollection = is_null($this->_items) ? array() : $this->_items;
@@ -403,9 +418,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     $item['item']['code'] = $item['code'];
                     $item['item']['product_type'] = 'undefined';
                     // Create empty quote item. Otherwise it won't be correctly treated inside failed.phtml
-                    $collectionItem = $this->_quoteItemFactory->create()
-                        ->setProduct($this->_productFactory->create())
-                        ->addData($item['item']);
+                    $collectionItem = $this->_quoteItemFactory->create()->setProduct(
+                        $this->_productFactory->create()
+                    )->addData(
+                        $item['item']
+                    );
                     $quoteItemsCollection[] = $collectionItem;
                 }
             }
@@ -419,18 +436,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 foreach ($collection->getItems() as $product) {
                     $itemsCount = count($itemsToLoad[$product->getId()]);
                     foreach ($itemsToLoad[$product->getId()] as $index => $itemToLoad) {
-                        $itemProduct = ($index == $itemsCount - 1) ? $product : (clone $product);
+                        $itemProduct = $index == $itemsCount - 1 ? $product : clone $product;
                         $itemProduct->addData($itemToLoad);
                         if (!$itemProduct->getOptionsByCode()) {
                             $itemProduct->setOptionsByCode(array());
                         }
                         // Create a new quote item and import data to it
                         $quoteItem = clone $emptyQuoteItem;
-                        $quoteItem->addData($itemProduct->getData())
-                            ->setQuote($quote)
-                            ->setProduct($itemProduct)
-                            ->setOptions($itemProduct->getOptions())
-                            ->setRedirectUrl($itemProduct->getUrlModel()->getUrl($itemProduct));
+                        $quoteItem->addData(
+                            $itemProduct->getData()
+                        )->setQuote(
+                            $quote
+                        )->setProduct(
+                            $itemProduct
+                        )->setOptions(
+                            $itemProduct->getOptions()
+                        )->setRedirectUrl(
+                            $itemProduct->getUrlModel()->getUrl($itemProduct)
+                        );
 
                         $itemProduct->setCustomOptions($itemProduct->getOptionsByCode());
                         if ($this->_catalogData->canApplyMsrp($itemProduct)) {
@@ -439,7 +462,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
                                 $this->_storeManager->getStore()->formatPrice(
                                     $this->_storeManager->getStore()->convertPrice(
                                         $this->_taxData->getPrice($itemProduct, $itemProduct->getFinalPrice(), true)
-                                ))
+                                    )
+                                )
                             );
                             $itemProduct->setAddToCartUrl($this->_checkoutCart->getAddUrl($itemProduct));
                         } else {
@@ -525,8 +549,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getSkuEmptyDataMessageText()
     {
-        return $this->isSkuApplied()
-            ? __('You have not entered a product SKU. Please <a href="%1">click here</a> to add product(s) by SKU.', $this->getAccountSkuUrl())
-            : __('You have not entered a product SKU.');
+        return $this->isSkuApplied() ? __(
+            'You have not entered a product SKU. Please <a href="%1">click here</a> to add product(s) by SKU.',
+            $this->getAccountSkuUrl()
+        ) : __(
+            'You have not entered a product SKU.'
+        );
     }
 }
