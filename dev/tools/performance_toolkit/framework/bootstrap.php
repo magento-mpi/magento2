@@ -11,7 +11,7 @@
  */
 
 $toolkitBaseDir = realpath(__DIR__ . '/..');
-$magentoBaseDir = realpath($testsBaseDir . '/../../../');
+$magentoBaseDir = realpath($toolkitBaseDir . '/../../../');
 
 require_once "$magentoBaseDir/app/bootstrap.php";
 \Magento\Autoload\IncludePath::addIncludePath("$toolkitBaseDir/framework");
