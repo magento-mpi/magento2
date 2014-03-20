@@ -6,6 +6,9 @@ use Magento\View\Element\Template;
 use Magento\Registry;
 use Magento\Pricing\Render as PricingRender;
 
+/**
+ * Catalog Price Render
+ */
 class Render extends Template
 {
     /**
@@ -36,16 +39,19 @@ class Render extends Template
      */
     protected function _toHtml()
     {
+        $parentBlock = $this->getParentBlock();
+        $product = $parentBlock && $parentBlock->getProductItem()
+            ? $parentBlock->getProductItem()
+            : $this->registry->registry('product');
+
         /** @var PricingRender $priceRender */
         $priceRender = $this->getLayout()->getBlock($this->getPriceRender());
         if ($priceRender instanceof PricingRender) {
             /** @var SaleableInterface $product */
-            $product = $this->registry->registry('product');
             if ($product instanceof SaleableInterface) {
                 return $priceRender->render($this->getPriceTypeCode(), $product, []);
             }
         }
-
         return parent::_toHtml();
     }
 }
