@@ -41,7 +41,7 @@ class Customer extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'login_email' => array(
-                        'value' => 'mtf_buyer@example.com'
+                        'value' => 'mtf_personal@example.com'
                     ),
                     'login_password' => array(
                         'value' => '12345678'
