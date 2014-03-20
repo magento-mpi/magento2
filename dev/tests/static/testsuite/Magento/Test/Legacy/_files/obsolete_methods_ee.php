@@ -181,4 +181,5 @@ return array(
     ['reindexAfterProductAssignedWebsite', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
     ['saveProductPermissionIndex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
     ['reindexProducts', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'],
+    ['_compareSortOrder', 'Magento\Rma\Block\Returns\Create'],
 );
