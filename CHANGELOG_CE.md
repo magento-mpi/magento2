@@ -39,6 +39,7 @@
   * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
   * Fixed ability to check Solr connection (MAGETWO-19110)
   * Fixed ability to use of custom module front name (MAGETWO-16160)
+  * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
 * Modularity improvements:
   * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
