@@ -176,7 +176,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get store id
      *
-     * @return int
+     * @return int|null
      */
     public function getStoreId()
     {
@@ -206,7 +206,7 @@ class Customer extends \Magento\Service\Data\EAV\AbstractObject
     /**
      * Get website id
      *
-     * @return int
+     * @return int|null
      */
     public function getWebsiteId()
     {

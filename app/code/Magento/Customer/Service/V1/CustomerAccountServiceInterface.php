@@ -193,7 +193,7 @@ interface CustomerAccountServiceInterface
      *
      * @param \Magento\Customer\Service\V1\Data\Customer $customer
      * @param \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata[] $attributes
-     * @return array|bool
+     * @return \Magento\Customer\Service\V1\Data\CustomerValidationResults
      */
     public function validateCustomerData(\Magento\Customer\Service\V1\Data\Customer $customer, array $attributes = []);
 

@@ -43,6 +43,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /** @var Data\SearchResultsBuilder */
     private $_searchResultsBuilder;
 
+    /** @var Data\CustomerValidationResultsBuilder */
+    private $_customerValidationResultsBuilder;
+
     /**
      * Core event manager proxy
      *
@@ -96,7 +99,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Validator $validator
      * @param Data\CustomerBuilder $customerBuilder
      * @param Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param Data\SearchResultsBuilder $searchResultsBuilder,
+     * @param Data\SearchResultsBuilder $searchResultsBuilder
+     * @param Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param UrlInterface $url
@@ -113,6 +117,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Data\CustomerBuilder $customerBuilder,
         Data\CustomerDetailsBuilder $customerDetailsBuilder,
         Data\SearchResultsBuilder $searchResultsBuilder,
+        Data\CustomerValidationResultsBuilder $customerValidationResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataServiceInterface $customerMetadataService,
         UrlInterface $url
@@ -126,6 +131,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_searchResultsBuilder = $searchResultsBuilder;
+        $this->_customerValidationResultsBuilder = $customerValidationResultsBuilder;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
@@ -151,6 +157,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             throw new StateException('No confirmation needed.', StateException::INVALID_STATE);
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -198,7 +205,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             throw new AuthenticationException($e->getMessage(), $code, $e);
         }
 
-        $this->_eventManager->dispatch('customer_login', array('customer'=>$customerModel));
+        $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
 
         return $this->_converter->createCustomerFromModel($customerModel);
     }
@@ -264,7 +271,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      */
     public function getConfirmationStatus($customerId)
     {
-        $customerModel= $this->_converter->getCustomerModel($customerId);
+        $customerModel = $this->_converter->getCustomerModel($customerId);
         if (!$customerModel->getConfirmation()) {
             return CustomerAccountServiceInterface::ACCOUNT_CONFIRMED;
         }
@@ -536,22 +543,25 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         );
 
         if ($customerErrors !== true) {
-            return array(
-                'error'     => -1,
-                'message'   => implode(', ', $this->_validator->getMessages())
-            );
+            return $this->_customerValidationResultsBuilder
+                ->setIsValid(false)
+                ->setMessages($this->_validator->getMessages())
+                ->create();
         }
 
         $customerModel = $this->_converter->createCustomerModel($customer);
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {
-            return array(
-                'error'   => -1,
-                'message' => implode(', ', $result)
-            );
+            return $this->_customerValidationResultsBuilder
+                ->setIsValid(false)
+                ->setMessages($result)
+                ->create();
         }
-        return true;
+        return $this->_customerValidationResultsBuilder
+            ->setIsValid(true)
+            ->setMessages([])
+            ->create();
     }
 
     /**

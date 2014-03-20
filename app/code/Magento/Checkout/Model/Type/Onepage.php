@@ -349,7 +349,7 @@ class Onepage
         if (!empty($customerAddressId)) {
             try {
                 $customerAddress = $this->_customerAddressService->getAddress($customerAddressId);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 /** Address does not exist */
             }
             if (isset($customerAddress)) {
@@ -512,10 +512,10 @@ class Onepage
             // We always have $customerRequest here, otherwise we would have been kicked off the function several
             // lines above
             if ($customerRequest->getParam('customer_password') != $customerRequest->getParam('confirm_password')) {
-                return array(
+                return [
                     'error'   => -1,
                     'message' => __('Password and password confirmation are not equal.')
-                );
+                ];
             }
         } else {
             // set NOT LOGGED IN group id explicitly,
@@ -528,8 +528,11 @@ class Onepage
         //validate customer
         $attributes = $customerForm->getAllowedAttributes();
         $result = $this->_customerAccountService->validateCustomerData($customer, $attributes);
-        if (true !== $result && is_array($result)) {
-            return $result;
+        if (!$result->isValid()) {
+            return [
+                'error' => -1,
+                'message' => implode(', ', $result->getMessages())
+            ];
         }
 
         // copy customer/guest email to address

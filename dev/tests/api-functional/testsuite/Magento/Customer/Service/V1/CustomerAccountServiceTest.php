@@ -431,11 +431,9 @@ class CustomerAccountServiceTest extends WebapiAbstract
         ];
         $requestData = ['customer' => $customerData->__toArray(), 'attributes' => []];
         $validationResponse = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals(-1, $validationResponse[0]);
-        $this->assertEquals(
-            'The first name cannot be empty., The last name cannot be empty.',
-            $validationResponse[1]
-        );
+        $this->assertFalse($validationResponse['valid']);
+        $this->assertEquals('The first name cannot be empty.', $validationResponse['messages'][0]);
+        $this->assertEquals('The last name cannot be empty.', $validationResponse['messages'][1]);
     }
 
     public function testCanModify()
