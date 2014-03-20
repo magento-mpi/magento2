@@ -71,7 +71,6 @@ class RssTest extends \PHPUnit_Framework_TestCase
         $block = $this->_objectManager->create('Magento\MultipleWishlist\Block\Rss',
             [
                 'context' => $contextBlock,
-                'customerSession' => $this->_customerSession,
                 'wishlistHelper' => $wishlistHelper
             ]
         );

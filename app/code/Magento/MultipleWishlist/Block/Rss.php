@@ -41,7 +41,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -66,7 +66,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -93,7 +93,7 @@ class Rss extends \Magento\Rss\Block\Wishlist
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $coreData,
             $wishlistFactory,

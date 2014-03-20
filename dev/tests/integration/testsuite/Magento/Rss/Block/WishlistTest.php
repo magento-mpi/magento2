@@ -71,7 +71,6 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $block = $this->_objectManager->create('Magento\Rss\Block\Wishlist',
             [
                 'context' => $contextBlock,
-                'customerSession' => $this->_customerSession,
                 'wishlistHelper' => $wishlistHelper
             ]
         );
