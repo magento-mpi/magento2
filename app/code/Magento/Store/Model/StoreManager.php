@@ -224,8 +224,8 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Retrieve application store group object
      *
-     * @param null|\Magento\Store\Model\Store|string $groupId
-     * @return \Magento\Store\Model\Store
+     * @param null|\Magento\Store\Model\Group|string $groupId
+     * @return \Magento\Store\Model\Group
      * @throws \Magento\Store\Model\Exception
      */
     public function getGroup($groupId = null)
@@ -240,7 +240,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
      *
      * @param bool $withDefault
      * @param bool $codeKey
-     * @return \Magento\Store\Model\Store[]
+     * @return \Magento\Store\Model\Group[]
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {

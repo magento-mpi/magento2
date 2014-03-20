@@ -51,7 +51,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Store\Model\Store::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
-        \Magento\Store\Model\Store::ENTITY => array(
+        \Magento\Store\Model\Group::ENTITY => array(
             \Magento\Index\Model\Event::TYPE_SAVE
         ),
         \Magento\App\Config\ValueInterface::ENTITY => array(
@@ -211,7 +211,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
                 break;
 
             case \Magento\Store\Model\Store::ENTITY:
-            case \Magento\Store\Model\Store::ENTITY:
+            case \Magento\Store\Model\Group::ENTITY:
             case \Magento\App\Config\ValueInterface::ENTITY:
                 $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();

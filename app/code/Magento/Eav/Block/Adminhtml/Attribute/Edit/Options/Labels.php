@@ -45,7 +45,7 @@ class Labels extends \Magento\Backend\Block\Template
     /**
      * Retrieve stores collection with default store
      *
-     * @return \Magento\Store\Model\Resource\Collection
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStores()
     {

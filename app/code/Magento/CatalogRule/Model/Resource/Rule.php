@@ -112,7 +112,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
         \Magento\Logger $logger,
-        \Magento\Stdlib\DateTime $dateTime        
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_storeManager = $storeManager;
         $this->_conditionFactory = $conditionFactory;
@@ -396,7 +396,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         if ($websiteId !== null) {
             $website  = $this->_storeManager->getWebsite($websiteId);
             $defaultGroup = $website->getDefaultGroup();
-            if ($defaultGroup instanceof \Magento\Store\Model\Store) {
+            if ($defaultGroup instanceof \Magento\Store\Model\Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
                 $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
@@ -421,7 +421,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId  = $website->getId();
                 $defaultGroup = $website->getDefaultGroup();
-                if ($defaultGroup instanceof \Magento\Store\Model\Store) {
+                if ($defaultGroup instanceof \Magento\Store\Model\Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
                     $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID;

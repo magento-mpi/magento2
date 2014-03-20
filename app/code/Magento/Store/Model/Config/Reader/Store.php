@@ -20,7 +20,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     protected $_scopePool;
 
     /**
-     * @var \Magento\Core\Model\Config\Scope\Converter
+     * @var \Magento\Config\ConverterInterface
      */
     protected $_converter;
 
@@ -42,7 +42,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     /**
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\ScopePool $scopePool
-     * @param \Magento\Core\Model\Config\Scope\Converter $converter
+     * @param \Magento\Config\ConverterInterface $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\App\State $appState
@@ -50,7 +50,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     public function __construct(
         \Magento\App\Config\Initial $initialConfig,
         \Magento\App\Config\ScopePool $scopePool,
-        \Magento\Core\Model\Config\Scope\Converter $converter,
+        \Magento\Config\ConverterInterface $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\App\State $appState
@@ -91,4 +91,4 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
         }
         return $config;
     }
-} 
+}

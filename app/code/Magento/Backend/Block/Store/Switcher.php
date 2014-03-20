@@ -171,12 +171,12 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @param \Magento\Store\Model\Store|int $group
-     * @return \Magento\Store\Model\Resource\Collection
+     * @param \Magento\Store\Model\Group|int $group
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStoreCollection($group)
     {
-        if (!$group instanceof \Magento\Store\Model\Store) {
+        if (!$group instanceof \Magento\Store\Model\Group) {
             $group = $this->_storeGroupFactory->create()->load($group);
         }
         $stores = $group->getStoreCollection();
@@ -190,12 +190,12 @@ class Switcher extends \Magento\Backend\Block\Template
     /**
      * Get store views for specified store group
      *
-     * @param \Magento\Store\Model\Store|int $group
+     * @param \Magento\Store\Model\Group|int $group
      * @return \Magento\Store\Model\Store[]
      */
     public function getStores($group)
     {
-        if (!$group instanceof \Magento\Store\Model\Store) {
+        if (!$group instanceof \Magento\Store\Model\Group) {
             $group = $this->_storeManager->getGroup($group);
         }
         $stores = $group->getStores();

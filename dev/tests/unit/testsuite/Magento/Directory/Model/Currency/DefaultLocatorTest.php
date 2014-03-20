@@ -86,7 +86,7 @@ class DefaultLocatorTest extends \PHPUnit_Framework_TestCase
         $websiteMock->expects($this->once())->method('getBaseCurrencyCode')
             ->will($this->returnValue('websiteCurrency'));
 
-        $groupMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $groupMock = $this->getMock('Magento\Store\Model\Group', array(), array(), '', false);
         $groupMock->expects($this->once())->method('getWebsite')
             ->will($this->returnValue($websiteMock));
 

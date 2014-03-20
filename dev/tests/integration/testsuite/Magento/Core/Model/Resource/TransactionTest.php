@@ -30,7 +30,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
     public function testSaveDelete()
     {
         $first  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store');
+            ->create('Magento\Store\Model\Group');
         $first->setData(
             array(
                 'website_id'        => 1,
@@ -40,7 +40,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             )
         );
         $second  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store');
+            ->create('Magento\Store\Model\Groups');
         $second->setData(
             array(
                 'website_id'        => 1,
@@ -61,7 +61,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
         $this->_model->delete();
 
         $test  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Store');
+            ->create('Magento\Store\Model\Group');
         $test->load($first->getId());
         $this->assertEmpty($test->getId());
     }

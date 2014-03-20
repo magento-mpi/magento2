@@ -22,6 +22,7 @@
     </type>
     <type name="Magento\Store\Model\Config\Reader\Store">
         <arguments>
+            <argument name="converter" xsi:type="object">Magento\Core\Model\Config\Scope\Converter</argument>
             <argument name="scopePool" xsi:type="object">Magento\App\Config\ScopePool\Proxy</argument>
         </arguments>
     </type>
@@ -50,9 +51,9 @@
             <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Group\Collection\FetchStrategy</argument>
         </arguments>
     </type>
-    <type name="Magento\Store\Model\Resource\Collection">
+    <type name="Magento\Store\Model\Resource\Store\Collection">
         <arguments>
-            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Collection\FetchStrategy</argument>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Store\Model\Resource\Store\Collection\FetchStrategy</argument>
         </arguments>
     </type>
     <type name="Magento\Store\Model\Store">
@@ -82,7 +83,7 @@
             <argument name="cacheLifetime" xsi:type="boolean">false</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Magento\Store\Model\Resource\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
+    <virtualType name="Magento\Store\Model\Resource\Store\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>
             <argument name="cacheIdPrefix" xsi:type="string">app_</argument>

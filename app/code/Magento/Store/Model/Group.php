@@ -45,7 +45,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Group Store collection array
      *
-     * @var \Magento\Store\Model\Resource\Collection[]
+     * @var \Magento\Store\Model\Resource\Store\Collection[]
      */
     protected $_stores;
 
@@ -178,7 +178,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve new (not loaded) Store collection object with group filter
      *
-     * @return \Magento\Store\Model\Resource\Collection
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStoreCollection()
     {
@@ -190,7 +190,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     /**
      * Retrieve website store objects
      *
-     * @return \Magento\Store\Model\Resource\Collection[]
+     * @return \Magento\Store\Model\Resource\Store\Collection[]
      */
     public function getStores()
     {
@@ -362,7 +362,7 @@ class Group extends \Magento\Core\Model\AbstractModel implements \Magento\Object
     {
         $this->_protectFromNonAdmin();
         $this->_configDataResource->clearScopeData(
-            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             $this->getStoreIds()
         );
         return parent::_beforeDelete();

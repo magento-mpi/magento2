@@ -21,24 +21,24 @@ class Config implements \Magento\Store\Model\ConfigInterface
     protected $_config;
 
     /**
-     * @var \Magento\Store\Model\Resource\Collection
+     * @var \Magento\Store\Model\Resource\Store\Collection
      */
     protected $_storeCollection;
 
     /**
-     * @var \Magento\Store\Model\Resource\CollectionFactory
+     * @var \Magento\Store\Model\Resource\Store\CollectionFactory
      */
     protected $_factory;
 
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Store\Model\Resource\CollectionFactory $factory
+     * @param \Magento\Store\Model\Resource\Store\CollectionFactory $factory
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Store\Model\Resource\CollectionFactory $factory
+        \Magento\Store\Model\Resource\Store\CollectionFactory $factory
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;

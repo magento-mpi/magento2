@@ -103,7 +103,7 @@ class Store extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     }
 
     /**
-     * @return \Magento\Store\Model\Resource\Collection
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     protected function _createStoresCollection()
     {

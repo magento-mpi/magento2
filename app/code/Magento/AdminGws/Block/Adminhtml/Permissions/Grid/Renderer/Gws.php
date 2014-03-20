@@ -60,7 +60,7 @@ class Gws
         // lookup websites and store groups in system
         if (!self::$websites) {
             foreach ($this->_storeGroupCollection as $storeGroup) {
-                /* @var $storeGroup \Magento\Store\Model\Groupe */
+                /* @var $storeGroup \Magento\Store\Model\Group */
                 $website = $storeGroup->getWebsite();
                 $websiteId = (string)$storeGroup->getWebsiteId();
                 self::$websites[$websiteId]['name'] = $website->getName();

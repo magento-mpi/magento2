@@ -11,7 +11,7 @@
  */
 namespace Magento\Store\Block;
 
-use Magento\Store\Model\Store;
+use Magento\Store\Model\Group;
 
 class Switcher extends \Magento\View\Element\Template
 {
@@ -70,7 +70,7 @@ class Switcher extends \Magento\View\Element\Template
             $websiteStores = $this->_storeManager->getWebsite()->getStores();
             $stores = array();
             foreach ($websiteStores as $store) {
-                /* @var $store Store */
+                /* @var $store \Magento\Store\Model\Store */
                 if (!$store->getIsActive()) {
                     continue;
                 }
@@ -128,7 +128,7 @@ class Switcher extends \Magento\View\Element\Template
     }
 
     /**
-     * @return Store[]
+     * @return \Magento\Store\Model\Store[]
      */
     public function getStores()
     {

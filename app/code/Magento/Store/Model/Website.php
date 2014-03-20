@@ -140,7 +140,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Store\Model\StoreFactory
+     * @var \Magento\Store\Model\GroupFactory
      */
     protected $_storeGroupFactory;
 
@@ -155,7 +155,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     protected $_storeManager;
 
     /**
-     * @var App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
@@ -401,7 +401,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     /**
      * Retrieve new (not loaded) Store collection object with website filter
      *
-     * @return \Magento\Store\Model\Resource\Collection
+     * @return \Magento\Store\Model\Resource\Store\Collection
      */
     public function getStoreCollection()
     {
@@ -512,11 +512,11 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     {
         $this->_protectFromNonAdmin();
         $this->_configDataResource->clearScopeData(
-            \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES,
             $this->getId()
         );
         $this->_configDataResource->clearScopeData(
-            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             $this->getStoreIds()
         );
         return parent::_beforeDelete();

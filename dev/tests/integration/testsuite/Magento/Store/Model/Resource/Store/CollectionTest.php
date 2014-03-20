@@ -6,19 +6,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Store\Model\Resource;
+namespace Magento\Store\Model\Resource\Store;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Store\Model\Resource\Collection
+     * @var \Magento\Store\Model\Resource\Store\Collection
      */
     protected $_collection;
 
     protected function setUp()
     {
         $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Resource\Collection');
+            ->create('Magento\Store\Model\Resource\Store\Collection');
     }
 
     public function testSetGetLoadDefault()
@@ -41,10 +41,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Store\Model\Resource\Collection::addGroupFilter
-     * @covers \Magento\Store\Model\Resource\Collection::addIdFilter
-     * @covers \Magento\Store\Model\Resource\Collection::addWebsiteFilter
-     * @covers \Magento\Store\Model\Resource\Collection::addCategoryFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addGroupFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addIdFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addWebsiteFilter
+     * @covers \Magento\Store\Model\Resource\Store\Collection::addCategoryFilter
      */
     public function testAddFilters()
     {

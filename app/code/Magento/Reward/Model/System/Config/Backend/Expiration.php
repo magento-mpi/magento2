@@ -74,12 +74,12 @@ class Expiration extends \Magento\Core\Model\Config\Value
         }
 
         $websiteIds = array();
-        if ($this->getScope() == \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES) {
+        if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
             $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());
         } else {
             $collection = $this->_configFactory->create()
                 ->addFieldToFilter('path', self::XML_PATH_EXPIRATION_DAYS)
-                ->addFieldToFilter('scope', \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES);
+                ->addFieldToFilter('scope', \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES);
             $websiteScopeIds = array();
             foreach ($collection as $item) {
                 $websiteScopeIds[] = $item->getScopeId();
@@ -106,7 +106,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
     protected function _beforeDelete()
     {
         parent::_beforeDelete();
-        if ($this->getScope() == \Magento\Core\Model\ScopeInterface::SCOPE_WEBSITES) {
+        if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
             $default = (string)$this->_config->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
             $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());
             $this->_historyFactory->create()->updateExpirationDate($default, $websiteIds);

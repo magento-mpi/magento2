@@ -1024,7 +1024,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Set group model for store
      *
-     * @param \Magento\Store\Model\Store $group
+     * @param \Magento\Store\Model\Group $group
      * @return void
      */
     public function setGroup($group)
@@ -1035,7 +1035,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve group model
      *
-     * @return \Magento\Store\Model\Store|bool
+     * @return \Magento\Store\Model\Group|bool
      */
     public function getGroup()
     {
@@ -1174,7 +1174,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\App\ObjectManager::getInstance()->get('Magento\Index\Model\Indexer')
             ->logEvent($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE);
         $this->_configDataResource->clearScopeData(
-            \Magento\Core\Model\ScopeInterface::SCOPE_STORES,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORES,
             $this->getId()
         );
         return parent::_beforeDelete();

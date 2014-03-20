@@ -22,7 +22,7 @@ class Website
     extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
 {
     /**
-     * @var \Magento\Store\Model\StoreFactory
+     * @var \Magento\Store\Model\GroupFactory
      */
     protected $_groupFactory;
 
@@ -30,14 +30,14 @@ class Website
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Store\Model\StoreFactory $groupFactory
+     * @param \Magento\Store\Model\GroupFactory $groupFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Store\Model\StoreFactory $groupFactory,
+        \Magento\Store\Model\GroupFactory $groupFactory,
         array $data = array()
     ) {
         $this->_groupFactory = $groupFactory;

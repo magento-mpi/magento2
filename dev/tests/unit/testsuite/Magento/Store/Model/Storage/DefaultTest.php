@@ -58,7 +58,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
             false,
             false
         );
-        $this->_groupMock = $this->getMock('Magento\Store\Model\Store',
+        $this->_groupMock = $this->getMock('Magento\Store\Model\Group',
             array('getCode', 'getId', '__wakeup'),
             array(),
             '',
@@ -154,7 +154,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
     public function testGetGroup()
     {
         $groupId = 'testGroup';
-        $this->assertInstanceOf('Magento\Store\Model\Store', $this->_model->getGroup($groupId));
+        $this->assertInstanceOf('Magento\Store\Model\Group', $this->_model->getGroup($groupId));
     }
 
     public function testGetGroupsWithDefault()
@@ -164,7 +164,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
         $this->_groupMock->expects($this->once())->method('getCode')->will($this->returnValue(0));
         $this->_groupMock->expects($this->never())->method('getId');
         $result = $this->_model->getGroups($withDefault, $codeKey);
-        $this->assertInstanceOf('Magento\Store\Model\Store', $result[0]);
+        $this->assertInstanceOf('Magento\Store\Model\Group', $result[0]);
     }
 
     public function testGetGroupsWithoutDefault()

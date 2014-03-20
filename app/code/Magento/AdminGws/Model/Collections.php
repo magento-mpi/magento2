@@ -50,7 +50,7 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Limit store views collection. Adding limitation depending
      * on allowed group ids for user.
      *
-     * @param \Magento\Store\Model\Resource\Collection $collection
+     * @param \Magento\Store\Model\Resource\Store\Collection $collection
      * @return void
      */
     public function limitStores($collection)

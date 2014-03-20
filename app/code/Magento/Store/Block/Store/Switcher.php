@@ -38,7 +38,7 @@ class Switcher extends \Magento\View\Element\Template
     /**
      * Store group factory
      *
-     * @var \Magento\Store\Model\StoreFactory
+     * @var \Magento\Store\Model\GroupFactory
      */
     protected $_storeGroupFactory;
 

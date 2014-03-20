@@ -18,7 +18,7 @@ class CsvImportHandler
     /**
      * Collection of publicly available stores
      *
-     * @var \Magento\Store\Model\Resource\Collection
+     * @var \Magento\Store\Model\Resource\Store\Collection
      */
     protected $_publicStores;
 
@@ -46,13 +46,13 @@ class CsvImportHandler
     protected $_taxRateFactory;
 
     /**
-     * @param \Magento\Store\Model\Resource\Collection $storeCollection
+     * @param \Magento\Store\Model\Resource\Store\Collection $storeCollection
      * @param \Magento\Directory\Model\Resource\Region\Collection $regionCollection
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory
      */
     public function __construct(
-        \Magento\Store\Model\Resource\Collection $storeCollection,
+        \Magento\Store\Model\Resource\Store\Collection $storeCollection,
         \Magento\Directory\Model\Resource\Region\Collection $regionCollection,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Tax\Model\Calculation\RateFactory $taxRateFactory
