@@ -290,7 +290,7 @@ class Index extends \Magento\Backend\App\Action
                 $wishlist = $this->_objectManager->create(
                     'Magento\Wishlist\Model\Wishlist'
                 )->loadByCustomer(
-                    $customer
+                    $customer->getId()
                 )->setStore(
                     $store
                 )->setSharedStoreIds(

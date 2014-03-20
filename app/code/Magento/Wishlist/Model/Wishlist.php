@@ -164,23 +164,19 @@ class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Obj
     }
 
     /**
-     * Load wishlist by customer
+     * Load wishlist by customer id
      *
-     * @param Customer|int $customer
+     * @param int $customerId
      * @param bool $create Create wishlist if don't exists
      * @return $this
      */
-    public function loadByCustomer($customer, $create = false)
+    public function loadByCustomerId($customerId, $create = false)
     {
-        if ($customer instanceof Customer) {
-            $customer = $customer->getId();
-        }
-
-        $customer = (int)$customer;
+        $customerId = (int)$customerId;
         $customerIdFieldName = $this->_getResource()->getCustomerIdFieldName();
-        $this->_getResource()->load($this, $customer, $customerIdFieldName);
+        $this->_getResource()->load($this, $customerId, $customerIdFieldName);
         if (!$this->getId() && $create) {
-            $this->setCustomerId($customer);
+            $this->setCustomerId($customerId);
             $this->setSharingCode($this->_getSharingRandomCode());
             $this->save();
         }
