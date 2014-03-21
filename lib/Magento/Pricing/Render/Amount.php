@@ -74,7 +74,7 @@ class Amount extends Template implements AmountRenderInterface
         // @todo probably use block vars instead
         $this->_data = array_replace($origArguments, $arguments);
 
-        $this->amount = $price->getValue();
+        $this->amount = $price->getDisplayValue();
         $this->price = $price;
         $this->saleableItem = $saleableItem;
 

@@ -209,4 +209,17 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
         }
         return '';
     }
+
+
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @param $arguments
+     * @return mixed
+     */
+    public function getProductPrice(\Magento\Catalog\Model\Product $product, $arguments)
+    {
+        return $this->getLayout()->getBlock('product.price.render.default')
+            ->render('final_price', $product, $arguments);
+    }
 }
