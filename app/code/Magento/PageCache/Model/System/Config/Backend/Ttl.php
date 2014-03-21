@@ -19,7 +19,7 @@ class Ttl extends \Magento\Core\Model\Config\Value
     /**
      * Throw exception if Ttl data is invalid or empty
      *
-     * @return $this|\Magento\Model\AbstractModel
+     * @return $this
      * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
