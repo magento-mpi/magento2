@@ -64,8 +64,8 @@ class Context extends \Magento\View\Element\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\AuthorizationInterface $authorization,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {
         $this->_authorization = $authorization;
