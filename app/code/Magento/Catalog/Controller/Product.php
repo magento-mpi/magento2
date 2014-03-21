@@ -46,12 +46,32 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
      *
      * @return void
      */
+
+    /**
+     * Product view action
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
+     */
     public function viewAction()
     {
         // Get initial data from request
         $categoryId = (int)$this->getRequest()->getParam('category', false);
         $productId = (int)$this->getRequest()->getParam('id');
         $specifyOptions = $this->getRequest()->getParam('options');
+
+        if ($this->getRequest()->isPost() && $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
+            if ($specifyOptions) {
+                $product = $this->_initProduct();
+                if (!$product) {
+                    throw new \Magento\Core\Exception(__('Product is not loaded'));
+                }
+                $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
+                $this->messageManager->addNotice($notice);
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+            }
+            return;
+        }
 
         // Prepare helper and params
         /** @var \Magento\Catalog\Helper\Product\View $viewHelper */

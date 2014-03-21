@@ -121,7 +121,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $data,
             $priceBlockTypes
         );
-        $this->_isScopePrivate = true;
     }
 
     /**

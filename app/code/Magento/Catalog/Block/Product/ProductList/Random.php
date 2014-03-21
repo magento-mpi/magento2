@@ -42,6 +42,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer\Category $catalogLayer
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
@@ -63,6 +64,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer\Category $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
@@ -84,6 +86,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
             $compareProduct,
             $layoutHelper,
             $imageHelper,
+            $postDataHelper,
             $categoryFactory,
             $catalogLayer,
             $data,

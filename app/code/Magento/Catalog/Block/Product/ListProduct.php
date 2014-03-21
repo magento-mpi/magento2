@@ -53,6 +53,11 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
     protected $_categoryFactory;
 
     /**
+     * @var \Magento\Core\Helper\PostData
+     */
+    protected $_postDataHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Registry $registry
@@ -64,6 +69,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param array $data
@@ -83,6 +89,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
         array $data = array(),
@@ -90,6 +97,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogLayer = $catalogLayer;
+        $this->_postDataHelper = $postDataHelper;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -347,5 +355,22 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
             $identities = array_merge($identities, $item->getIdentities());
         }
         return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
+    }
+
+    /**
+     * Get post parameters
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getAddToCartPostParams(\Magento\Catalog\Model\Product $product)
+    {
+        $url = $this->getAddToCartUrl($product);
+        $data = [
+            'product' => $product->getEntityId(),
+            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
+        ];
+        $postData = $this->_postDataHelper->getPostData($url, $data);
+        return $postData;
     }
 }
