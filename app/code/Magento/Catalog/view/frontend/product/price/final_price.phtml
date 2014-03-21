@@ -1,0 +1,69 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var \Magento\Pricing\Render\PriceBox $this */
+
+$product = $this->getProduct();
+$id = $product->getId();
+
+/** @var \Magento\Catalog\Pricing\Price\Price $priceModel */
+$priceModel = $this->getPriceType('price');
+$displayRegularPrice = $this->getPriceType('price')->getDisplayValue();
+
+/** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
+$finalPriceModel = $this->getPriceType('final_price');
+$displayFinalPrice = $finalPriceModel->getDisplayValue();
+?>
+
+<?php if ($displayFinalPrice >= $displayRegularPrice): ?>
+    <?php echo $this->renderAmount($displayFinalPrice, [
+        'price_id' => 'regular-price-' . $id,
+        'include_container' => true
+    ]); ?>
+<?php else: ?>
+    <p class="old-price">
+        <?php echo $this->renderAmount($displayRegularPrice, [
+            'display_label' => __('Regular Price:'),
+            'price_id' => 'old-price-' . $id,
+            'include_container' => true,
+            'skip_adjustments' => true
+        ]); ?>
+    </p>
+    <p class="special-price">
+        <?php echo $this->renderAmount($displayFinalPrice, [
+            'display_label' => __('Special Price:'),
+            'id' => 'old-price-' . $id,
+            'include_container' => false
+        ]); ?>
+    </p>
+<?php endif; ?>
+
+<?php if ($this->getDisplayMinimalPrice()): ?>
+    <?php $minimalPrice = $finalPriceModel->getMinimalPrice(); ?>
+    <?php if ($minimalPrice && $minimalPrice < $displayFinalPrice): ?>
+        <?php if ($this->getUseLinkForAsLowAs()):?>
+            <a href="<?php echo $product->getProductUrl(); ?>" class="minimal-price-link">
+        <?php else:?>
+            <span class="minimal-price-link">
+        <?php endif?>
+                <?php echo $this->renderAmount($minimalPrice, [
+                        'display_label' => __('As low as:'),
+                        'id' => 'product-minimal-price-' . $id,
+                        'include_container' => false
+                    ]); ?>
+        <?php if ($this->getUseLinkForAsLowAs()):?>
+            </a>
+        <?php else:?>
+            </span>
+        <?php endif?>
+    <?php endif?>
+<?php endif; ?>
