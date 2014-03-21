@@ -9,16 +9,13 @@
 /**
  * Template for displaying product price at product view page, gift registry and wishlist
  *
- * @var $this \Magento\Pricing\Render\PriceBox
+ * @var $this \Magento\Catalog\Pricing\Render\PriceBox
  */
 ?>
 <?php
 
 /** @var Magento\Catalog\Pricing\Price\MsrpPrice $priceType */
 $priceType = $this->getPriceType('msrp');
-
-/** @var \Magento\Core\Helper\Data $coreHelper */
-$coreHelper = $this->helper('Magento\Core\Helper\Data');
 
 /** @var $_product \Magento\Catalog\Model\Product */
 $_product = $this->getSaleableItem();
@@ -29,7 +26,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 
 <?php if ($_product->getMsrp()): ?>
     <?php $_msrpPrice = $this->renderAmount($priceType, [
-//        'display_label' => __('Regular Price:'),
+        'display_label' => __('Regular Price:'),
         'price_id' => 'old-price-' . $_id,
         'include_container' => false,
         'skip_adjustments' => true
@@ -61,8 +58,8 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
                     cartForm: "#product_addtocart_form",
                     popupId: "#<?php echo $popupId;?>",
                     productName: '<?php echo $_product->getName() ?>',
-                    realPrice: <?php echo $coreHelper->jsonEncode($_product->getRealPriceHtml()) ?>,
-                    msrpPrice: <?php echo $coreHelper->jsonEncode($_msrpPrice) ?>,
+                    realPrice: <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,
+                    msrpPrice: <?php echo $this->jsonEncode($_msrpPrice) ?>,
                     priceElementId: '<?php echo $priceElementId ?>',
                     closeButtonId: '#map-popup-close',
                     popupCartButtonId: "#map-popup-button"
