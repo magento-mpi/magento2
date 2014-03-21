@@ -1,15 +1,18 @@
 <?php
 /**
- * Remove protector
+ * Action validator, remove action
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Model;
 
-class RemoveProtector implements RemoveProtectorInterface
+namespace Magento\Model\ActionValidator;
+
+use Magento\Model\AbstractModel;
+
+class RemoveAction
 {
     /**
      * @var \Magento\Registry
@@ -37,17 +40,17 @@ class RemoveProtector implements RemoveProtectorInterface
      * @param AbstractModel $model
      * @return bool
      */
-    public function canBeRemoved(AbstractModel $model)
+    public function isAllowed(AbstractModel $model)
     {
-        $canBeRemoved = true;
+        $isAllowed = true;
 
         if ($this->registry->registry('isSecureArea')) {
-            $canBeRemoved = true;
+            $isAllowed = true;
         } elseif (in_array($this->getBaseClassName($model), $this->protectedModels)) {
-            $canBeRemoved = false;
+            $isAllowed = false;
         }
 
-        return $canBeRemoved;
+        return $isAllowed;
     }
 
     /**

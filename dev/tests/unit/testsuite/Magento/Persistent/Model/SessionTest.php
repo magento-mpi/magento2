@@ -37,11 +37,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $eventDispatcherMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManagerMock = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $removeProtectorMock = $this->getMock('\Magento\Model\RemoveProtectorInterface');
-        $removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
+        $actionValidatorMock = $this->getMock(
+            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+        );
+        $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $context = new \Magento\Model\Context(
-            $loggerMock, $eventDispatcherMock, $cacheManagerMock, $appStateMock, $removeProtectorMock
+            $loggerMock, $eventDispatcherMock, $cacheManagerMock, $appStateMock, $actionValidatorMock
         );
 
         $this->_model = $helper->getObject('Magento\Persistent\Model\Session', array(

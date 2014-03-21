@@ -43,18 +43,19 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $removeProtectorMock;
+    protected $actionValidatorMock;
 
     protected function setUp()
     {
-
-        $this->removeProtectorMock = $this->getMock('Magento\Model\RemoveProtectorInterface');
+        $this->actionValidatorMock = $this->getMock(
+            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+        );
         $this->contextMock = new \Magento\Model\Context(
             $this->getMock('Magento\Logger', array(), array(), '', false),
             $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
             $this->getMock('Magento\App\CacheInterface', array(), array(), '', false),
             $this->getMock('Magento\App\State', array(), array(), '', false),
-            $this->removeProtectorMock
+            $this->actionValidatorMock
         );
         $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->resourceMock = $this->getMock(
@@ -89,7 +90,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
 
     public function testDelete()
     {
-        $this->removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
+        $this->actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->adapterMock->expects($this->once())
             ->method('beginTransaction');
         $this->resourceMock->expects($this->once())
@@ -105,7 +106,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteRaiseException()
     {
-        $this->removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
+        $this->actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
         $this->adapterMock->expects($this->once())
             ->method('beginTransaction');
         $this->resourceMock->expects($this->once())
@@ -124,7 +125,7 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteOnModelThatCanNotBeRemoved()
     {
-        $this->removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(false));
+        $this->actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
         $this->model->delete();
     }
 }

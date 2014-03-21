@@ -15,14 +15,16 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);        
-        $removeProtectorMock = $this->getMock('\Magento\Model\RemoveProtectorInterface');
+        $actionValidatorMock = $this->getMock(
+            'Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+        );
 
         $context = new \Magento\Model\Context(
             $logger,
             $eventDispatcher,
             $cacheManager,
             $appState,
-            $removeProtectorMock
+            $actionValidatorMock
         );
 
         $resource = $this->getMock('Magento\Core\Model\Resource\Config\Data', array(), array(), '', false);

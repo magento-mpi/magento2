@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Model;
+namespace Magento\Model\ActionValidator;
 
-class RemoveProtectorTest extends \PHPUnit_Framework_TestCase
+class RemoveActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param \PHPUnit_Framework_MockObject_MockObject $modelToCheck
@@ -15,24 +15,24 @@ class RemoveProtectorTest extends \PHPUnit_Framework_TestCase
      * @param bool $secureArea
      * @param bool $expectedResult
      *
-     * @dataProvider canBeRemovedDataProvider
-     * @covers \Magento\Model\RemoveProtector::canBeRemoved
-     * @covers \Magento\Model\RemoveProtector::getBaseClassName
+     * @dataProvider isAllowedDataProvider
+     * @covers \Magento\Model\ActionValidator\RemoveAction::isAllowed
+     * @covers \Magento\Model\ActionValidator\RemoveAction::getBaseClassName
      */
-    public function testCanBeRemoved($modelToCheck, $protectedModel, $secureArea, $expectedResult)
+    public function testIsAllowed($modelToCheck, $protectedModel, $secureArea, $expectedResult)
     {
         $registryMock = $this->getMock('\Magento\Registry', array(), array(), '', false);
         $registryMock->expects($this->once())
             ->method('registry')->with('isSecureArea')->will($this->returnValue($secureArea));
 
-        $model = new \Magento\Model\RemoveProtector($registryMock, array('class' => $protectedModel));
-        $this->assertEquals($expectedResult, $model->canBeRemoved($modelToCheck));
+        $model = new \Magento\Model\ActionValidator\RemoveAction($registryMock, array('class' => $protectedModel));
+        $this->assertEquals($expectedResult, $model->isAllowed($modelToCheck));
     }
 
     /**
      * return array
      */
-    public function canBeRemovedDataProvider()
+    public function isAllowedDataProvider()
     {
         $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
         $bannerMock = $this->getMock('\Magento\Wishlist\Model\Wishlist', array(), array(), '', false);

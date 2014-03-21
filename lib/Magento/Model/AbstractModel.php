@@ -121,14 +121,14 @@ abstract class AbstractModel extends \Magento\Object
     protected $_appState;
 
     /**
-     * @var \Magento\Model\RemoveProtectorInterface
+     * @var \Magento\Model\ActionValidator\RemoveAction
      */
-    protected $_removeProtector;
+    protected $_actionValidator;
 
     /**
-     * @param \Magento\Model\Context $context
+     * @param Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -146,7 +146,7 @@ abstract class AbstractModel extends \Magento\Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
         $this->_logger = $context->getLogger();
-        $this->_removeProtector = $context->getRemoveProtector();
+        $this->_actionValidator = $context->getActionValidator();
 
         if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Object) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();
@@ -591,7 +591,7 @@ abstract class AbstractModel extends \Magento\Object
      */
     protected function _beforeDelete()
     {
-        if (!$this->_removeProtector->canBeRemoved($this)) {
+        if (!$this->_actionValidator->isAllowed($this)) {
             throw new Exception(__('Delete operation is forbidden for current area'));
         }
 

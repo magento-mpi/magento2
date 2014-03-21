@@ -1,15 +1,15 @@
 <?php
 /**
- * Remove protector
+ * Action validator for remove action
  *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Model\RemoveProtector;
+namespace Magento\Model\ActionValidator\RemoveAction;
 
-class Disabled implements \Magento\Model\RemoveProtectorInterface
+class Allowed extends \Magento\Model\ActionValidator\RemoveAction
 {
     /**
      * Safeguard function that checks if item can be removed
@@ -19,7 +19,7 @@ class Disabled implements \Magento\Model\RemoveProtectorInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function canBeRemoved(\Magento\Model\AbstractModel $model)
+    public function isAllowed(\Magento\Model\AbstractModel $model)
     {
         return true;
     }

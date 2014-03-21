@@ -36,18 +36,20 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
         $cacheInterfaceMock = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false);
 
-        $removeProtectorMock = $this->getMock('\Magento\Model\RemoveProtectorInterface');
-        $removeProtectorMock->expects($this->any())->method('canBeRemoved')->will($this->returnValue(true));
+        $actionValidatorMock = $this->getMock(
+            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
+        );
+        $actionValidatorMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $contextMock = $this->getMock(
             '\Magento\Model\Context',
-            array('getEventDispatcher', 'getCacheManager', 'getRemoveProtector'), array(), '', false
+            array('getEventDispatcher', 'getCacheManager', 'getActionValidator'), array(), '', false
         );
 
         $contextMock->expects($this->any())->method('getEventDispatcher')->will($this->returnValue($eventManagerMock));
         $contextMock->expects($this->any())->method('getCacheManager')->will($this->returnValue($cacheInterfaceMock));
-        $contextMock->expects($this->any())->method('getRemoveProtector')
-            ->will($this->returnValue($removeProtectorMock));
+        $contextMock->expects($this->any())->method('getActionValidator')
+            ->will($this->returnValue($actionValidatorMock));
 
         $dbAdapterMock = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array(), array(), '', false);
 
