@@ -38,7 +38,7 @@ class Config implements \Magento\App\Config\ScopeConfigInterface
      * @param null|string $scopeCode
      * @return mixed
      */
-    public function getValue($path = null, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
+    public function getValue($path = null, $scope = \Magento\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
     {
         return $this->_scopePool->getScope($scope, $scopeCode)->getValue($path);
     }
@@ -51,7 +51,7 @@ class Config implements \Magento\App\Config\ScopeConfigInterface
      * @param null|string $scopeCode
      * @return bool
      */
-    public function isSetFlag($path, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
+    public function isSetFlag($path, $scope = \Magento\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
     {
         return (bool)$this->getValue($path, $scope, $scopeCode);
     }

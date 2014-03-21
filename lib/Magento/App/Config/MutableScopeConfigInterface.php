@@ -21,5 +21,5 @@ interface MutableScopeConfigInterface extends \Magento\App\Config\ScopeConfigInt
      * @param null|string $scopeCode
      * @return void
      */
-    public function setValue($path, $value, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null);
+    public function setValue($path, $value, $scope = \Magento\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null);
 }

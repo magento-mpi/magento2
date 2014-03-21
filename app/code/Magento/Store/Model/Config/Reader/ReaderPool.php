@@ -17,22 +17,12 @@ class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
     protected $_readers = array();
 
     /**
-     * @param ReaderInterface $default
-     * @param ReaderInterface $website
-     * @param ReaderInterface $store
+     * @param \Magento\App\Config\Scope\ReaderInterface[] $readers
      */
     public function __construct(
-        \Magento\App\Config\Scope\ReaderInterface $default,
-        \Magento\App\Config\Scope\ReaderInterface $website,
-        \Magento\App\Config\Scope\ReaderInterface $store
+        array $readers
     ) {
-        $this->_readers = array(
-            \Magento\BaseScopeInterface::SCOPE_DEFAULT => $default,
-            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE => $website,
-            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES => $website,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE => $store,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORES => $store
-        );
+        $this->_readers = $readers;
     }
 
     /**

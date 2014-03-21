@@ -20,7 +20,7 @@ interface ScopeConfigInterface
      * @param null|string $scopeCode
      * @return mixed
      */
-    public function getValue($path, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null);
+    public function getValue($path, $scope = \Magento\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null);
 
     /**
      * Retrieve config flag by path and scope
@@ -30,5 +30,5 @@ interface ScopeConfigInterface
      * @param null|string $scopeCode
      * @return bool
      */
-    public function isSetFlag($path, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null);
+    public function isSetFlag($path, $scope = \Magento\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null);
 }

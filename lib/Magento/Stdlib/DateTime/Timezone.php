@@ -255,7 +255,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function isScopeDateInInterval($scope, $dateFrom = null, $dateTo = null)
     {
-        if (!$scope instanceof \Magento\BaseScopeInterface) {
+        if (!$scope instanceof \Magento\App\ScopeInterface) {
             $scope = $this->_scopeResolver->getScope($scope);
         }
 

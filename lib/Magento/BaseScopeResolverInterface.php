@@ -15,7 +15,7 @@ interface BaseScopeResolverInterface
      * Retrieve application scope object
      *
      * @param null|int $scopeId
-     * @return \Magento\BaseScopeInterface
+     * @return \Magento\App\ScopeInterface
      */
     public function getScope($scopeId = null);
 }

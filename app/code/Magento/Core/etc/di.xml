@@ -58,6 +58,7 @@
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
+    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
     <preference for="Magento\LocaleInterface" type="Magento\Locale" />
     <preference for="Magento\Locale\CurrencyInterface" type="Magento\Locale\Currency" />
     <preference for="Magento\CurrencyInterface" type="Magento\Currency" />
@@ -202,6 +203,17 @@
     <type name="Magento\App\Config\Initial\Reader">
         <arguments>
             <argument name="converter" xsi:type="object">Magento\App\Config\Initial\Converter</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Core\Model\Config\Scope\ReaderPool">
+        <arguments>
+            <argument name="readers" xsi:type="array">
+                <item name="default" xsi:type="object">Magento\Store\Model\Config\Reader\DefaultReader</item>
+                <item name="website" xsi:type="object">Magento\Store\Model\Config\Reader\Website</item>
+                <item name="store" xsi:type="object">Magento\Store\Model\Config\Reader\Store</item>
+                <item name="websites" xsi:type="object">Magento\Store\Model\Config\Reader\Website</item>
+                <item name="stores" xsi:type="object">Magento\Store\Model\Config\Reader\Store</item>
+            </argument>
         </arguments>
     </type>
     <type name="Magento\Core\App\Router\Base">
@@ -457,6 +469,14 @@
         <arguments>
             <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>
             <argument name="scopeType" xsi:type="string">store</argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\ScopeResolverPool">
+        <arguments>
+            <argument name="scopeResolvers" xsi:type="array">
+                <item name="store" xsi:type="object">Magento\Store\Model\Resolver\Store</item>
+                <item name="website" xsi:type="object">Magento\Store\Model\Resolver\Website</item>
+            </argument>
         </arguments>
     </type>
 </config>

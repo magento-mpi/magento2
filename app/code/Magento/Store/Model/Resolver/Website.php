@@ -1,14 +1,13 @@
 <?php
 /**
  * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * 
+ * @copyright {copyright}
+ * @license   {license_link}
  */
+namespace Magento\Store\Model\Resolver;
 
-namespace Magento\Store\Model;
-
-class BaseScopeResolver implements \Magento\BaseScopeResolverInterface
+class Website implements \Magento\BaseScopeResolverInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -29,7 +28,7 @@ class BaseScopeResolver implements \Magento\BaseScopeResolverInterface
      */
     public function getScope($scopeId = null)
     {
-        $scope = $this->_storeManager->getStore($scopeId);
+        $scope = $this->_storeManager->getWebsite($scopeId);
         if (!($scope instanceof \Magento\App\ScopeInterface)) {
             throw new \Magento\Exception('Invalid scope object');
         }

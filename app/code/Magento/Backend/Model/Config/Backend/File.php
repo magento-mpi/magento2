@@ -199,7 +199,7 @@ class File extends \Magento\Core\Model\Config\Value
     protected function _prependScopeInfo($path)
     {
         $scopeInfo = $this->getScope();
-        if (\Magento\BaseScopeInterface::SCOPE_DEFAULT != $this->getScope()) {
+        if (\Magento\App\ScopeInterface::SCOPE_DEFAULT != $this->getScope()) {
             $scopeInfo .= '/' . $this->getScopeId();
         }
         return $scopeInfo . '/' . $path;
@@ -216,7 +216,7 @@ class File extends \Magento\Core\Model\Config\Value
     protected function _appendScopeInfo($path)
     {
         $path .= '/' . $this->getScope();
-        if (\Magento\BaseScopeInterface::SCOPE_DEFAULT != $this->getScope()) {
+        if (\Magento\App\ScopeInterface::SCOPE_DEFAULT != $this->getScope()) {
             $path .= '/' . $this->getScopeId();
         }
         return $path;

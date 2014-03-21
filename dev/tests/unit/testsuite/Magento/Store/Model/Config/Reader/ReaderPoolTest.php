@@ -41,11 +41,11 @@ class ReaderPoolTest extends \PHPUnit_Framework_TestCase
             'Magento\Store\Model\Config\Reader\Store', array(), array(), '', false
         );
 
-        $this->_model = new \Magento\Store\Model\Config\Reader\ReaderPool(
-            $this->_defaultReaderMock,
-            $this->_websiteReaderMock,
-            $this->_storeReaderMock
-        );
+        $this->_model = new \Magento\Store\Model\Config\Reader\ReaderPool(array(
+            'default' => $this->_defaultReaderMock,
+            'website' => $this->_websiteReaderMock,
+            'store' => $this->_storeReaderMock,
+        ));
     }
 
     /**
@@ -74,17 +74,9 @@ class ReaderPoolTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => 'Magento\Store\Model\Config\Reader\Website'
             ),
             array(
-                'scope' => 'websites',
-                'expectedResult' => 'Magento\Store\Model\Config\Reader\Website'
-            ),
-            array(
                 'scope' => 'store',
                 'expectedResult' => 'Magento\Store\Model\Config\Reader\Store'
             ),
-            array(
-                'scope' => 'stores',
-                'expectedResult' => 'Magento\Store\Model\Config\Reader\Store'
-            )
         );
     }
 }

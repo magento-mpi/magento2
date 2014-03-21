@@ -31,7 +31,7 @@ class ScopeDefinerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetScopeReturnsDefaultScopeIfNoScopeDataIsSpecified()
     {
-        $this->assertEquals(\Magento\BaseScopeInterface::SCOPE_DEFAULT, $this->_model->getScope());
+        $this->assertEquals(\Magento\App\ScopeInterface::SCOPE_DEFAULT, $this->_model->getScope());
     }
 
     public function testGetScopeReturnsStoreScopeIfStoreIsSpecified()

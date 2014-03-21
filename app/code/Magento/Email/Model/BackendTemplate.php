@@ -81,7 +81,7 @@ class BackendTemplate extends Template
             return array();
         }
 
-        $configData = $this->_scopeConfig->getValue(null, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
+        $configData = $this->_scopeConfig->getValue(null, \Magento\App\ScopeInterface::SCOPE_DEFAULT);
         $paths = $this->_findEmailTemplateUsages($templateCode, $configData, '');
         return $paths;
     }

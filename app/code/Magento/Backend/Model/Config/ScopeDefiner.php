@@ -39,6 +39,6 @@ class ScopeDefiner
     {
         return $this->_request->getParam('store')
             ? \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            : ($this->_request->getParam('website') ? \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE : \Magento\BaseScopeInterface::SCOPE_DEFAULT);
+            : ($this->_request->getParam('website') ? \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE : \Magento\App\ScopeInterface::SCOPE_DEFAULT);
     }
 }

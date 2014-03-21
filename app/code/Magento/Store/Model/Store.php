@@ -22,7 +22,7 @@ use Magento\Directory\Model\Currency\Filter;
  * @method \Magento\Store\Model\Store setIsActive(int $value)
  */
 class Store extends \Magento\Core\Model\AbstractModel
-    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface, \Magento\Object\IdentityInterface
+    implements \Magento\App\ScopeInterface, \Magento\Url\ScopeInterface, \Magento\Object\IdentityInterface
 {
     /**
      * Entity name
@@ -441,7 +441,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         $data = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $this->getCode());
         if (!$data && !$this->_appState->isInstalled()) {
-            $data = $this->_config->getValue($path, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
+            $data = $this->_config->getValue($path, \Magento\App\ScopeInterface::SCOPE_DEFAULT);
         }
         return ($data === false) ? null : $data;
     }
@@ -712,7 +712,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $standardRule = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
         $offloaderHeader = trim((string)$this->_config->getValue(
             self::XML_PATH_OFFLOADER_HEADER,
-            \Magento\BaseScopeInterface::SCOPE_DEFAULT
+            \Magento\App\ScopeInterface::SCOPE_DEFAULT
         ));
 
         if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {

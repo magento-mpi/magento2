@@ -75,7 +75,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Core\Model\Resource\Config $config */
         $config = $this->_objectManager->get('Magento\Core\Model\Resource\Config');
-        $config->saveConfig('payment/checkmo/order_status', $statusCode, \Magento\BaseScopeInterface::SCOPE_DEFAULT, 0);
+        $config->saveConfig('payment/checkmo/order_status', $statusCode, \Magento\App\ScopeInterface::SCOPE_DEFAULT, 0);
 
         $this->_resetConfig();
 

@@ -178,7 +178,7 @@ class Config
     protected function _assignThemeToDefaultScope($themeId, &$isReassigned)
     {
         $configPath = \Magento\View\DesignInterface::XML_PATH_THEME_ID;
-        $this->_configWriter->save($configPath, $themeId, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
+        $this->_configWriter->save($configPath, $themeId, \Magento\App\ScopeInterface::SCOPE_DEFAULT);
         $isReassigned = true;
         return $this;
     }

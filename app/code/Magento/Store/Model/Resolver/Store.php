@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Store\Model\Resolver;
 
-namespace Magento\Store\Model;
-
-class BaseScopeResolver implements \Magento\BaseScopeResolverInterface
+class Store implements \Magento\BaseScopeResolverInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface

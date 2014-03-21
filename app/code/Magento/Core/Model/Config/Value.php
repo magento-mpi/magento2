@@ -106,7 +106,7 @@ class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Co
     {
         return (string) $this->_config->getValue(
             $this->getPath(),
-            $this->getScope() ?: \Magento\BaseScopeInterface::SCOPE_DEFAULT,
+            $this->getScope() ?: \Magento\App\ScopeInterface::SCOPE_DEFAULT,
             $this->getScopeCode()
         );
     }

@@ -21,7 +21,7 @@ class MutableScopeConfig extends \Magento\App\Config implements \Magento\App\Con
      * @param null|string $scopeCode
      * @return void
      */
-    public function setValue($path, $value, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
+    public function setValue($path, $value, $scope = \Magento\App\ScopeInterface::SCOPE_DEFAULT, $scopeCode = null)
     {
         $this->_scopePool->getScope($scope, $scopeCode)->setValue($path, $value);
     }

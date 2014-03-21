@@ -27,7 +27,8 @@ namespace Magento\Store\Model;
  * @method int getIsDefault()
  * @method \Magento\Store\Model\Website setIsDefault(int $value)
  */
-class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Website extends \Magento\Core\Model\AbstractModel
+    implements \Magento\Object\IdentityInterface, \Magento\App\ScopeInterface
 {
     const ENTITY = 'store_website';
     const CACHE_TAG = 'website';

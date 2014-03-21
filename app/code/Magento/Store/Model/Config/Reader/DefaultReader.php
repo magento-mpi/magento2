@@ -56,10 +56,10 @@ class DefaultReader implements \Magento\App\Config\Scope\ReaderInterface
      */
     public function read()
     {
-        $config = $this->_initialConfig->getData(\Magento\BaseScopeInterface::SCOPE_DEFAULT);
+        $config = $this->_initialConfig->getData(\Magento\App\ScopeInterface::SCOPE_DEFAULT);
         if ($this->_appState->isInstalled()) {
             $collection = $this->_collectionFactory->create(
-                array('scope' => \Magento\BaseScopeInterface::SCOPE_DEFAULT)
+                array('scope' => \Magento\App\ScopeInterface::SCOPE_DEFAULT)
             );
             $dbDefaultConfig = array();
             foreach ($collection as $item) {

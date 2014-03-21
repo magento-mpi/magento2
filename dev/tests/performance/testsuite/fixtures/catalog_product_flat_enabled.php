@@ -13,7 +13,7 @@
  */
 $configData = $this->getObjectManager()->create('Magento\App\Config\ValueInterface');
 $configData->setPath('catalog/frontend/flat_catalog_product')
-    ->setScope(\Magento\BaseScopeInterface::SCOPE_DEFAULT)
+    ->setScope(\Magento\App\ScopeInterface::SCOPE_DEFAULT)
     ->setScopeId(0)
     ->setValue(1)
     ->save();

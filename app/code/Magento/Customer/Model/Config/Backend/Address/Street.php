@@ -68,7 +68,7 @@ class Street extends \Magento\Core\Model\Config\Value
                 }
                 break;
 
-            case \Magento\BaseScopeInterface::SCOPE_DEFAULT:
+            case \Magento\App\ScopeInterface::SCOPE_DEFAULT:
                 $attribute->setData('multiline_count', $value);
                 break;
         }

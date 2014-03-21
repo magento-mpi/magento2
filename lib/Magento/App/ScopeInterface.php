@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\App;
 
-interface BaseScopeInterface
+interface ScopeInterface
 {
     /**
      * Default scope type

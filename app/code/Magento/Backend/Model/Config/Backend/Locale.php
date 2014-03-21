@@ -95,7 +95,7 @@ class Locale extends \Magento\Core\Model\Config\Value
                     }
 
                     switch ($data->getScope()) {
-                        case \Magento\BaseScopeInterface::SCOPE_DEFAULT:
+                        case \Magento\App\ScopeInterface::SCOPE_DEFAULT:
                             $scopeName = __('Default scope');
                             break;
 
