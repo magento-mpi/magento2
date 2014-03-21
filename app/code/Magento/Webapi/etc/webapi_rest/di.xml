@@ -15,7 +15,7 @@
         </arguments>
     </type>
     <preference for="Magento\App\FrontControllerInterface" type="Magento\Webapi\Controller\Rest" />
-    <preference for="Magento\Model\RemoveProtectorInterface" type="Magento\Model\RemoveProtector\Disabled" />
+    <preference for="Magento\Model\Context" type="Magento\Webapi\Model\Context" />
     <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
     <type name="Magento\Webapi\Controller\Rest\Request\Deserializer\Factory">
         <arguments>
