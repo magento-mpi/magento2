@@ -6,11 +6,11 @@
 \Magento\App\Config
 \Magento\App\ReinitableConfig
 Magento\Store\Model\Config\Reader\ReaderPool
-\Magento\Core\Model\Config\Scope\Converter
+\Magento\Store\Model\Config\Converter
 \Magento\Store\Model\Config\Reader\DefaultReader
 \Magento\Store\Model\Config\Reader\Store
 \Magento\Store\Model\Config\Reader\Website
-\Magento\Core\Model\Config\Scope\Processor\Placeholder
+\Magento\Store\Model\Config\Processor\Placeholder
 \Magento\Core\Model\Config\Storage\Db
 \Magento\Core\Model\Config\Value
 \Magento\Core\Model\Config\FileResolver

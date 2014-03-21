@@ -63,7 +63,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
-            'Magento\Core\Model\Config\Scope\Processor\Placeholder',
+            'Magento\Store\Model\Config\Processor\Placeholder',
             array(),
             array(),
             '',
@@ -75,7 +75,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Store\Model\Config\Reader\Store(
             $this->_initialConfigMock,
             $this->_scopePullMock,
-            new \Magento\Core\Model\Config\Scope\Converter($placeholderProcessor),
+            new \Magento\Store\Model\Config\Converter($placeholderProcessor),
             $this->_collectionFactory,
             $storeFactoryMock,
             $this->_appStateMock,

@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Config\Scope\Processor;
 class PlaceholderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope\Processor\Placeholder
+     * @var \Magento\Store\Model\Config\Processor\Placeholder
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->any())
             ->method('getDistroBaseUrl')
             ->will($this->returnValue('http://localhost/'));
-        $this->_model = new \Magento\Core\Model\Config\Scope\Processor\Placeholder(
+        $this->_model = new \Magento\Store\Model\Config\Processor\Placeholder(
             $this->_requestMock,
             array(
                 'unsecureBaseUrl' => \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
