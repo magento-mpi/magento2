@@ -84,13 +84,8 @@ class PriceBox extends Template implements PriceBoxRenderInterface
             $this->setTemplate($this->defaultTemplate);
         }
 
-        $childBlock = $this->getChildBlock('price.render');
-        if ($childBlock instanceof PriceBoxRenderInterface) {
-            $result = $childBlock->render($childBlock->getNameInLayout(), $saleableItem, $arguments);
-        } else {
-            // wrap with standard required container
-            $result = '<div class="price-box ' . $this->_data['css_classes'] . '">' . $this->toHtml() . '</div>';
-        }
+        // wrap with standard required container
+        $result = '<div class="price-box ' . $this->_data['css_classes'] . '">' . $this->toHtml() . '</div>';
 
         // restore original block arguments
         $this->_data = $origArguments;
