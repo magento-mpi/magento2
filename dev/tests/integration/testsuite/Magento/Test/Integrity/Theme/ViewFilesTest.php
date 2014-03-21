@@ -77,8 +77,8 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewFilesFromThemes()
     {
-        /** @var \Magento\View\Design\FileResolution\Strategy\Fallback $fallback */
-        $fallback = $this->objectManager->get('Magento\View\Design\FileResolution\Strategy\Fallback');
+        /** @var \Magento\View\Design\FileResolution\Fallback $fallback */
+        $fallback = $this->objectManager->get('Magento\View\Design\FileResolution\Fallback');
 
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(

@@ -14,11 +14,11 @@ namespace Magento\View;
 class FileSystem
 {
     /**
-     * Model, used to resolve the file paths
+     * File paths resolver
      *
-     * @var \Magento\View\Design\FileResolution\StrategyPool
+     * @var \Magento\View\Design\FileResolution\Fallback
      */
-    protected $_resolutionPool;
+    protected $_viewFileResolution;
 
     /**
      * View service
@@ -30,14 +30,14 @@ class FileSystem
     /**
      * Constructor
      *
-     * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
+     * @param \Magento\View\Design\FileResolution\Fallback $fallback
      * @param Asset\Service $assetService
      */
     public function __construct(
-        \Magento\View\Design\FileResolution\StrategyPool $resolutionPool,
+        Design\FileResolution\Fallback $fallback,
         Asset\Service $assetService
     ) {
-        $this->_resolutionPool = $resolutionPool;
+        $this->_viewFileResolution = $fallback;
         $this->_assetService = $assetService;
     }
 
@@ -52,7 +52,7 @@ class FileSystem
     {
         $filePath = $this->_assetService->extractScope($this->normalizePath($fileId), $params);
         $this->_assetService->updateDesignParams($params);
-        return $this->_resolutionPool->getFileStrategy(!empty($params['skipProxy']))
+        return $this->_viewFileResolution
             ->getFile($params['area'], $params['themeModel'], $filePath, $params['module']);
     }
 
@@ -66,13 +66,8 @@ class FileSystem
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_assetService->updateDesignParams($params);
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        return $this->_resolutionPool->getLocaleStrategy($skipProxy)->getLocaleFile(
-            $params['area'],
-            $params['themeModel'],
-            $params['locale'],
-            $file
-        );
+        return $this->_viewFileResolution
+            ->getLocaleFile($params['area'], $params['themeModel'], $params['locale'], $file);
     }
 
     /**
@@ -86,32 +81,6 @@ class FileSystem
     {
         $asset = $this->_assetService->createAsset($fileId, $params);
         return $asset->getSourceFile();
-    }
-
-    /**
-     * Notify that view file resolved path was changed (i.e. it was published to a public directory)
-     *
-     * @param Publisher\FileInterface $publisherFile
-     * @return $this
-     */
-    public function notifyViewFileLocationChanged(Publisher\FileInterface $publisherFile)
-    {
-        $params = $publisherFile->getViewParams();
-        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
-        $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
-        if ($strategy instanceof Design\FileResolution\Strategy\View\NotifiableInterface) {
-            /** @var $strategy Design\FileResolution\Strategy\View\NotifiableInterface  */
-            $strategy->setViewFilePathToMap(
-                $params['area'],
-                $params['themeModel'],
-                $params['locale'],
-                $params['module'],
-                $publisherFile->getFilePath(),
-                $publisherFile->buildPublicViewFilename()
-            );
-        }
-
-        return $this;
     }
 
     /**

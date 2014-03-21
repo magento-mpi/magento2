@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Design\FileResolution\Strategy;
+namespace Magento\View\Design\FileResolution;
 
 use Magento\App\Filesystem;
 use Magento\View\Design\Fallback\Factory;
@@ -19,8 +19,13 @@ use Magento\Filesystem\Directory\Read;
  *
  * Resolver, which performs full search of files, according to fallback rules
  */
-class Fallback implements FileInterface, LocaleInterface, ViewInterface
+class Fallback
 {
+    /**
+     * @var \Magento\View\Design\FileResolution\Fallback\Cache
+     */
+    private $cache;
+
     /**
      * Fallback factory
      *
@@ -64,15 +69,18 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     /**
      * Constructor
      *
+     * @param \Magento\View\Design\FileResolution\Fallback\Cache $cache
      * @param Filesystem $filesystem
      * @param Factory $fallbackFactory
      * @param array $staticExtensionRule
      */
     public function __construct(
+        \Magento\View\Design\FileResolution\Fallback\Cache $cache,
         Filesystem $filesystem,
         Factory $fallbackFactory,
         array $staticExtensionRule = array()
     ) {
+        $this->cache = $cache;
         $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         $this->fallbackFactory = $fallbackFactory;
         $this->staticExtensionRule = $staticExtensionRule;
@@ -93,7 +101,12 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
-        return $this->resolveFile($this->getFileRule(), $file, $params);
+        $result = $this->getFromCache('file', $file, $params);
+        if (!$result) {
+            $result = $this->resolveFile($this->getFileRule(), $file, $params);
+            $this->saveToCache($result, 'file', $file, $params);
+        }
+        return $result;
     }
 
     /**
@@ -108,7 +121,12 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     public function getLocaleFile($area, ThemeInterface $themeModel, $locale, $file)
     {
         $params = array('area' => $area, 'theme' => $themeModel, 'locale' => $locale);
-        return $this->resolveFile($this->getLocaleFileRule(), $file, $params);
+        $result = $this->getFromCache('locale', $file, $params);
+        if (!$result) {
+            $result = $this->resolveFile($this->getLocaleFileRule(), $file, $params);
+            $this->saveToCache($result, 'locale', $file, $params);
+        }
+        return $result;
     }
 
     /**
@@ -129,12 +147,72 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
         if ($module) {
             list($params['namespace'], $params['module']) = explode('_', $module, 2);
         }
-        $rule = $this->getViewFileRule();
-        $result = $this->resolveFile($rule, $file, $params);
+        $result = $this->getFromCache('view', $file, $params);
         if (!$result) {
-            $result = $this->lookupAdditionalExtensions($rule, $file, $params);
+            $rule = $this->getViewFileRule();
+            $result = $this->resolveFile($rule, $file, $params);
+            if (!$result) {
+                $result = $this->lookupAdditionalExtensions($rule, $file, $params);
+            }
+            $this->saveToCache($result, 'view', $file, $params);
         }
         return $result;
+    }
+
+    /**
+     * Retrieve cached file path
+     *
+     * @param string $type
+     * @param string $file
+     * @param array $params
+     * @return string
+     */
+    protected function getFromCache($type, $file, array $params)
+    {
+        $cacheId = $this->getCacheId($type, $file, $params);
+        $path = $this->cache->load($cacheId);
+        if ($path) {
+            $path = $this->rootDirectory->getAbsolutePath($path);
+        }
+        return $path;
+    }
+
+    /**
+     * Save calculated file path
+     *
+     * @param string $relativePath
+     * @param string $type
+     * @param string $file
+     * @param array $params
+     * @return bool
+     */
+    protected function saveToCache($relativePath, $type, $file, array $params)
+    {
+        $relativePath = $this->rootDirectory->getRelativePath($relativePath);
+        $cacheId = $this->getCacheId($type, $file, $params);
+        return $this->cache->save($relativePath, $cacheId);
+    }
+
+    /**
+     * Generate cache ID
+     *
+     * @param string $type
+     * @param string $file
+     * @param array $params
+     * @return string
+     */
+    protected function getCacheId($type, $file, array $params)
+    {
+        return sprintf(
+            "type:%s|area:%s|theme:%s|locale:%s|module:%s_%s|file:%s",
+            $type,
+            !empty($params['area']) ? $params['area'] : '',
+            !empty($params['theme']) ? $params['theme']->getThemePath() : '',
+            !empty($params['locale']) ? $params['locale'] : '',
+            !empty($params['namespace']) ? $params['namespace'] : '',
+            !empty($params['module']) ? $params['module'] : '',
+            $file
+        );
     }
 
     /**

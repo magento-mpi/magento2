@@ -12,7 +12,7 @@
 /**
  * Test that Design Package delegates fallback resolution to a Fallback model
  */
-namespace Magento\View\Design\FileResolution\Strategy;
+namespace Magento\View\Design\FileResolution;
 
 /**
  * Fallback Test
@@ -46,6 +46,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
      */
     protected $theme;
 
+    /**
+     * @var \Magento\View\Design\FileResolution\Fallback\Cache|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $cache;
+
     protected function setUp()
     {
         $this->fallbackFile = $this->getMockForAbstractClass('Magento\View\Design\Fallback\Rule\RuleInterface');
@@ -69,6 +74,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())->method('createViewFileRule')->will($this->returnValue($this->fallbackViewFile));
 
         $this->theme = $this->getMock('Magento\View\Design\ThemeInterface', array(), array(), '', false);
+        $this->theme->expects($this->any())
+            ->method('getThemePath')
+            ->will($this->returnValue('magento_theme'));
+
+        $this->cache = $this->getMock('Magento\View\Design\FileResolution\Fallback\Cache', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -83,14 +93,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getFileDataProvider
      */
-    public function testGetFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
+    public function testGetFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName, $expectedCacheId)
     {
         $filesystem = $this->getFileSystemMock($targetFile);
 
-        $fallback = new Fallback(
-            $filesystem,
-            $this->fallbackFactory
-        );
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory);
 
         $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => $namespace, 'module' => $module);
 
@@ -98,6 +105,10 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ->method('getPatternDirs')
             ->with($params)
             ->will($this->returnValue(array('found_folder', 'not_found_folder')));
+        $this->cache->expects($this->once())
+            ->method('save')
+            ->with($expectedFileName, $expectedCacheId)
+            ->will($this->returnValue(true));
 
         $filename = $fallback->getFile('area', $this->theme, 'file.txt', $fullModuleName);
 
@@ -116,6 +127,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                 null,
                 'found_folder/file.txt',
                 'found_folder/file.txt',
+                'type:file|area:area|theme:magento_theme|locale:|module:_|file:file.txt',
             ),
             'module, file found' => array(
                 'Namespace_Module',
@@ -123,6 +135,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                 'Module',
                 'found_folder/file.txt',
                 'found_folder/file.txt',
+                'type:file|area:area|theme:magento_theme|locale:|module:Namespace_Module|file:file.txt',
             ),
             'no module, file not found' => array(
                 null,
@@ -130,6 +143,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 false,
+                'type:file|area:area|theme:magento_theme|locale:|module:_|file:file.txt',
             ),
             'module, file not found' => array(
                 'Namespace_Module',
@@ -137,6 +151,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                 'Module',
                 null,
                 false,
+                'type:file|area:area|theme:magento_theme|locale:|module:Namespace_Module|file:file.txt',
             ),
         );
     }
@@ -144,14 +159,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider getLocaleFileDataProvider
      */
-    public function testGetLocaleFile($targetFile, $expectedFileName)
+    public function testGetLocaleFile($targetFile, $expectedFileName, $expectedCacheId)
     {
         $filesystem = $this->getFileSystemMock($targetFile);
 
-        $fallback = new Fallback(
-            $filesystem,
-            $this->fallbackFactory
-        );
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory);
 
         $params = array('area' => 'area', 'theme' => $this->theme, 'locale' => 'locale');
 
@@ -159,6 +171,10 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ->method('getPatternDirs')
             ->with($params)
             ->will($this->returnValue(array('found_folder', 'not_found_folder')));
+        $this->cache->expects($this->once())
+            ->method('save')
+            ->with($expectedFileName, $expectedCacheId)
+            ->will($this->returnValue(true));
 
         $filename = $fallback->getLocaleFile('area', $this->theme, 'locale', 'file.txt');
 
@@ -174,25 +190,25 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             'file found' => array(
                 'found_folder/file.txt',
                 'found_folder/file.txt',
+                'type:locale|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
             ),
             'file not found' => array(
                 null,
                 false,
+                'type:locale|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
             )
         );
     }
 
     /**
-     * @dataProvider getFileDataProvider
+     * @dataProvider getViewFileDataProvider
      */
-    public function testGetViewFile($fullModuleName, $namespace, $module, $targetFile, $expectedFileName)
-    {
+    public function testGetViewFile(
+        $fullModuleName, $namespace, $module, $targetFile, $expectedFileName, $expectedCacheId
+    ) {
         $filesystem = $this->getFileSystemMock($targetFile);
 
-        $fallback = new Fallback(
-            $filesystem,
-            $this->fallbackFactory
-        );
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory);
 
         $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => $namespace, 'module' => $module,
             'locale' => 'locale');
@@ -201,21 +217,62 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
             ->method('getPatternDirs')
             ->with($params)
             ->will($this->returnValue(array('found_folder', 'not_found_folder')));
+        $this->cache->expects($this->once())
+            ->method('save')
+            ->with($expectedFileName, $expectedCacheId)
+            ->will($this->returnValue(true));
 
         $filename = $fallback->getViewFile('area', $this->theme, 'locale', 'file.txt', $fullModuleName);
 
         $this->assertSame($expectedFileName, $filename);
     }
 
+    /**
+     * @return array
+     */
+    public function getViewFileDataProvider()
+    {
+        return array(
+            'no module, file found' => array(
+                null,
+                null,
+                null,
+                'found_folder/file.txt',
+                'found_folder/file.txt',
+                'type:view|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
+            ),
+            'module, file found' => array(
+                'Namespace_Module',
+                'Namespace',
+                'Module',
+                'found_folder/file.txt',
+                'found_folder/file.txt',
+                'type:view|area:area|theme:magento_theme|locale:locale|module:Namespace_Module|file:file.txt',
+            ),
+            'no module, file not found' => array(
+                null,
+                null,
+                null,
+                null,
+                false,
+                'type:view|area:area|theme:magento_theme|locale:locale|module:_|file:file.txt',
+            ),
+            'module, file not found' => array(
+                'Namespace_Module',
+                'Namespace',
+                'Module',
+                null,
+                false,
+                'type:view|area:area|theme:magento_theme|locale:locale|module:Namespace_Module|file:file.txt',
+            ),
+        );
+    }
+
     public function testGetViewFileAdditionalExtension()
     {
         $filesystem = $this->getFileSystemMock('found_folder/file.less');
 
-        $fallback = new Fallback(
-            $filesystem,
-            $this->fallbackFactory,
-            array('css' => array('less'))
-        );
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory, array('css' => array('less')));
         $params = array('area' => 'area', 'theme' => $this->theme, 'namespace' => 'Namespace', 'module' => 'Module',
             'locale' => 'locale');
 
@@ -229,6 +286,57 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('found_folder/file.less', $filename);
     }
 
+    public function testGetFileCached()
+    {
+        $file = 'some/file';
+        $expectedResult = 'some/file';
+
+        $filesystem = $this->getFileSystemMock($file);
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory);
+
+        $this->cache->expects($this->once())
+            ->method('load')
+            ->with('type:file|area:frontend|theme:magento_theme|locale:|module:Magento_Core|file:some/file')
+            ->will($this->returnValue($expectedResult));
+
+        $resultCached = $fallback->getFile('frontend', $this->theme, $file, 'Magento_Core');
+        $this->assertSame($expectedResult, $resultCached);
+    }
+
+    public function testGetLocaleFileCached()
+    {
+        $file = 'some/file';
+        $expectedResult = 'some/file';
+
+        $filesystem = $this->getFileSystemMock($file);
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory);
+
+        $this->cache->expects($this->once())
+            ->method('load')
+            ->with('type:locale|area:frontend|theme:magento_theme|locale:en_US|module:_|file:some/file')
+            ->will($this->returnValue($expectedResult));
+
+        $resultCached = $fallback->getLocaleFile('frontend', $this->theme, 'en_US', $file);
+        $this->assertSame($expectedResult, $resultCached);
+    }
+
+    public function testGetViewFileCached()
+    {
+        $file = 'some/file';
+        $expectedResult = 'some/file';
+
+        $filesystem = $this->getFileSystemMock($file);
+        $fallback = new Fallback($this->cache, $filesystem, $this->fallbackFactory);
+
+        $this->cache->expects($this->once())
+            ->method('load')
+            ->with('type:view|area:frontend|theme:magento_theme|locale:en_US|module:Magento_Core|file:some/file')
+            ->will($this->returnValue($expectedResult));
+
+        $resultCached = $fallback->getViewFile('frontend', $this->theme, 'en_US', $file, 'Magento_Core');
+        $this->assertSame($expectedResult, $resultCached);
+    }
+
     /**
      * @param string $targetFile
      * @return \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
@@ -237,10 +345,13 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     {
         $directoryMock = $this->getMock(
             'Magento\Filesystem\Directory\Read',
-            array('isExist', 'getRelativePath'), array(), '', false
+            array('isExist', 'getRelativePath', 'getAbsolutePath'), array(), '', false
         );
         $directoryMock->expects($this->any())
             ->method('getRelativePath')
+            ->will($this->returnArgument(0));
+        $directoryMock->expects($this->any())
+            ->method('getAbsolutePath')
             ->will($this->returnArgument(0));
         $directoryMock->expects($this->any())
             ->method('isExist')

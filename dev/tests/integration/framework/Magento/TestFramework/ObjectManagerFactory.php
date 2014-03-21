@@ -90,14 +90,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
         $objectManager->configure(array(
-            'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
-                'arguments' => array(
-                    'canSaveMap' => array(
-                        \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                        'value' => false
-                    ),
-                )
-            ),
             'default_setup' => array(
                 'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
             ),

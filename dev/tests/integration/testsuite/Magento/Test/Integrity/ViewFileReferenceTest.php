@@ -30,7 +30,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
     static protected $_fallbackRule;
 
     /**
-     * @var \Magento\View\Design\FileResolution\Strategy\Fallback
+     * @var \Magento\View\Design\FileResolution\Fallback
      */
     static protected $_fallback;
 
@@ -57,7 +57,7 @@ class ViewFileReferenceTest extends \PHPUnit_Framework_TestCase
         $fallbackFactory = $objectManager->get('Magento\View\Design\Fallback\Factory');
         self::$_fallbackRule = $fallbackFactory->createViewFileRule();
 
-        self::$_fallback = $objectManager->get('Magento\View\Design\FileResolution\Strategy\Fallback');
+        self::$_fallback = $objectManager->get('Magento\View\Design\FileResolution\Fallback');
 
         // Themes to be checked
         self::$_themeCollection = $objectManager->get('Magento\Core\Model\Theme\Collection');

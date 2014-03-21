@@ -1339,4 +1339,5 @@ return array(
     ['_sortThemesByHierarchyCallback', 'Magento\Core\Helper\Theme'],
     ['getFileGroups', 'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'],
     ['_convertFileData', 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css'],
+    ['notifyViewFileLocationChanged', 'Magento\View\FileSystem'],
 );

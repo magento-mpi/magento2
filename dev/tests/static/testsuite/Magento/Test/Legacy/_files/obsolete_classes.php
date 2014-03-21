@@ -1256,18 +1256,18 @@ return array(
     array('Magento\Core\Model\Design\Fallback\Rule\RuleInterface', 'Magento\View\Design\Fallback\Rule\RuleInterface'),
     array('Magento\Core\Model\Design\Fallback\Rule\Simple', 'Magento\View\Design\Fallback\Rule\Simple'),
     array('Magento\Core\Model\Design\Fallback\Factory', 'Magento\View\Design\Fallback\Factory'),
-    array(
-        'Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy',
-        'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy'
-    ),
+    array('Magento\Core\Model\Design\FileResolution\Strategy\Fallback\CachingProxy'),
+    array('Magento\View\Design\FileResolution\Strategy\View\NotifiableInterface'),
+    array('Magento\View\Design\FileResolution\Strategy\View\FileInterface'),
+    array('Magento\View\Design\FileResolution\Strategy\View\LocaleInterface'),
+    array('Magento\View\Design\FileResolution\Strategy\View\ViewInterface'),
+    array('Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy'),
     array(
         'Magento\Core\Model\Design\FileResolution\Strategy\Fallback',
         'Magento\View\Design\FileResolution\Strategy\Fallback'
     ),
-    array(
-        'Magento\Core\Model\Design\FileResolution\StrategyPool',
-        'Magento\View\Design\FileResolution\StrategyPool'
-    ),
+    array('Magento\Core\Model\Design\FileResolution\StrategyPool'),
+    array('Magento\View\Design\FileResolution\StrategyPool'),
     array('Magento\Core\Model\Layout\File','Magento\View\File'),
     array('Magento\Core\Model\Layout\File\Factory','Magento\View\File\Factory'),
     array('Magento\Core\Model\Layout\File\FileList\Factory','Magento\View\File\FileList\Factory'),
@@ -2142,7 +2142,10 @@ return array(
     ['Magento\View\Layout\File\SourceInterface', 'Magento\View\File\CollectorInterface'],
     ['Magento\View\Layout\File', 'Magento\View\File'],
     ['Magento\View\Url\Resolver', 'Magento\View\Asset\Service'],
-    ['Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css\Group', 'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'],
+    [
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css\Group',
+        'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'
+    ],
     ['Magento\Css\PreProcessor\Composite'],
     ['Magento\Css\PreProcessor\UrlResolver', 'Magento\View\Asset\PreProcessor\ModuleNotation'],
     ['Magento\Less\PreProcessor\File\FileList'],

@@ -28,6 +28,11 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     /**#@-*/
 
     /**
+     * @var Service\PreProcessing\Cache
+     */
+    protected $cachePreProcessing;
+
+    /**
      * @var \Magento\App\State
      */
     protected $appState;
@@ -38,14 +43,24 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $filesystem;
 
     /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $rootDir;
+
+    /**
+     * @var \Magento\Filesystem\Directory\WriteInterface
+     */
+    protected $varDir;
+
+    /**
      * @var \Magento\View\Asset\PreProcessor\Factory
      */
     private $preprocessorFactory;
 
     /**
-     * @var \Magento\View\Design\FileResolution\StrategyPool
+     * @var \Magento\View\Design\FileResolution\Fallback
      */
-    protected $resolutionPool;
+    protected $viewFileResolution;
 
     /**
      * @var \Magento\View\Design\Theme\Provider
@@ -53,23 +68,34 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     protected $themeProvider;
 
     /**
+     * @param Service\PreProcessing\CacheFactory $cacheFactory
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Asset\PreProcessor\Factory $preprocessorFactory
-     * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
+     * @param \Magento\View\Design\FileResolution\Fallback $viewFileResolution
      * @param Design\Theme\Provider $themeProvider
      */
     public function __construct(
+        \Magento\View\Service\PreProcessing\CacheFactory $cacheFactory,
         \Magento\App\State $appState,
         \Magento\App\Filesystem $filesystem,
         Asset\PreProcessor\Factory $preprocessorFactory,
-        Design\FileResolution\StrategyPool $resolutionPool,
+        Design\FileResolution\Fallback $viewFileResolution,
         \Magento\View\Design\Theme\Provider $themeProvider
     ) {
         $this->appState = $appState;
         $this->filesystem = $filesystem;
+        $this->rootDir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->varDir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->cachePreProcessing = $cacheFactory->create(
+            $this->rootDir,
+            array(
+                '%root%' => $this->rootDir,
+                '%var%'  => $this->varDir,
+            )
+        );
         $this->preprocessorFactory = $preprocessorFactory;
-        $this->resolutionPool = $resolutionPool;
+        $this->viewFileResolution = $viewFileResolution;
         $this->themeProvider = $themeProvider;
     }
 
@@ -84,55 +110,56 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
     }
 
     /**
-     * @inheritdoc
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function getSourceFile(Asset\LocalInterface $asset)
-    {
-        $cacheId = $asset->getRelativePath();
-        $cacheHit = false;
-        // TODO implement caching
-        $file = false;
-        if (!$cacheHit) {
-            $file = $this->resolveAssetSource($asset);
-            // TODO add result to cache (it can be false as well)
-        }
-        return $file;
-    }
-
-    /**
      * Determine the original source file for an asset
      *
      * The original source file is always different from what asset "claims" or it may not even exist.
      * This method will either locate the original file and process (materialize) it if necessary.
      * Materialization will occur only if result of preprocessing is different from the originally located file.
-     *
+     */
+    public function getSourceFile(Asset\LocalInterface $asset)
+    {
+        $assetSourceFile = $this->getOriginalSourceFile($asset);
+        if ($assetSourceFile) {
+            $assetSourceFile = $this->getProcessedFile($asset, $assetSourceFile);
+        }
+        return $assetSourceFile;
+    }
+
+    /**
      * @param Asset\FileId $asset
      * @return bool|string
-     * @throws \LogicException
      */
-    private function resolveAssetSource(Asset\FileId $asset)
+    private function getOriginalSourceFile(Asset\FileId $asset)
     {
         $themeModel = $this->themeProvider->getThemeModel($asset->getThemePath(), $asset->getAreaCode());
-        /**
-         * Bypass proxy, since caching is out of scope of this method intentionally
-         * @var Design\FileResolution\Strategy\Fallback $fallback
-         */
-        $fallback = $this->resolutionPool->getViewStrategy(true);
-        $file = $fallback->getViewFile(
+        $sourceFile = $this->viewFileResolution->getViewFile(
             $asset->getAreaCode(),
             $themeModel,
             $asset->getLocaleCode(),
             $asset->getFilePath(),
             $asset->getModule()
         );
-        if ($file) {
-            $origContent = file_get_contents($file);
-            $origContentType = pathinfo($file, PATHINFO_EXTENSION);
+        return $sourceFile;
+    }
+
+    /**
+     * @param Asset\FileId $asset
+     * @param string $sourceFile
+     * @return bool|string
+     * @throws \LogicException
+     */
+    private function getProcessedFile(Asset\FileId $asset, $sourceFile)
+    {
+        $processedFile = $this->cachePreProcessing->getProcessedFileFromCache($sourceFile);
+        if (!$processedFile) {
+            $processedFile = $sourceFile;
+            $origContent = $this->rootDir->readFile($this->rootDir->getRelativePath($sourceFile));
+            $origContentType = pathinfo($sourceFile, PATHINFO_EXTENSION);
             $targetContentType = $asset->getContentType();
             $content = $origContent;
             $contentType = $origContentType;
-            foreach ($this->preprocessorFactory->getPreProcessors($origContentType, $targetContentType) as $processor) {
+            $preProcessors = $this->preprocessorFactory->getPreProcessors($origContentType, $targetContentType);
+            foreach ($preProcessors as $processor) {
                 list($content, $contentType) = $processor->process($content, $contentType, $asset);
             }
             if ($contentType !== $targetContentType) {
@@ -143,11 +170,12 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
             }
             if ($origContent != $content || $origContentType != $contentType) {
                 $relPath = self::TMP_MATERIALIZATION_DIR . '/' . $asset->getRelativePath();
-                $file = $this->filesystem->getPath(\Magento\App\Filesystem::VAR_DIR) . '/' . $relPath;
-                $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR)->writeFile($relPath, $content);
+                $processedFile = $this->varDir->getAbsolutePath() . '/' . $relPath;
+                $this->varDir->writeFile($relPath, $content);
             }
+            $this->cachePreProcessing->saveProcessedFileToCache($processedFile, $sourceFile);
         }
-        return $file;
+        return $processedFile;
     }
 
     /**

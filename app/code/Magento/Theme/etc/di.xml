@@ -56,7 +56,7 @@
     <type name="Magento\Url\ScopeInterface">
         <plugin name="urlSignature" type="Magento\Theme\Model\Url\Plugin\Signature"/>
     </type>
-    <type name="Magento\View\Design\FileResolution\Strategy\Fallback">
+    <type name="Magento\View\Design\FileResolution\Fallback">
         <arguments>
             <argument name="staticExtensionRule" xsi:type="array">
                 <item name="css" xsi:type="array">

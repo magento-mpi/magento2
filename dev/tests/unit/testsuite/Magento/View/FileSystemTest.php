@@ -20,9 +20,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\View\Design\FileResolution\StrategyPool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\FileResolution\Fallback|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_strategyPool;
+    protected $_viewFileResolution;
 
     /**
      * @var \Magento\View\Asset\Service|\PHPUnit_Framework_MockObject_MockObject
@@ -32,14 +32,14 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_strategyPool = $this->getMock('Magento\View\Design\FileResolution\StrategyPool', array(),
+        $this->_viewFileResolution = $this->getMock('Magento\View\Design\FileResolution\Fallback', array(),
             array(), '', false
         );
         $this->_assetService = $this->getMock('Magento\View\Asset\Service',
             array('extractScope', 'updateDesignParams', 'createAsset'), array(), '', false
         );
 
-        $this->_model = new \Magento\View\FileSystem($this->_strategyPool, $this->_assetService);
+        $this->_model = new \Magento\View\FileSystem($this->_viewFileResolution, $this->_assetService);
     }
 
     public function testGetFilename()
@@ -53,16 +53,10 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\FileInterface');
-        $strategyMock->expects($this->once())
+        $this->_viewFileResolution->expects($this->once())
             ->method('getFile')
             ->with($params['area'], $params['themeModel'], 'some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
-
-        $this->_strategyPool->expects($this->once())
-            ->method('getFileStrategy')
-            ->with(false)
-            ->will($this->returnValue($strategyMock));
 
         $this->_assetService->expects($this->any())
             ->method('extractScope')
@@ -83,16 +77,10 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $file = 'some_file.ext';
         $expected = 'path/to/some_file.ext';
 
-        $strategyMock = $this->getMock('Magento\View\Design\FileResolution\Strategy\LocaleInterface');
-        $strategyMock->expects($this->once())
+        $this->_viewFileResolution->expects($this->once())
             ->method('getLocaleFile')
             ->with($params['area'], $params['themeModel'], $params['locale'], 'some_file.ext')
             ->will($this->returnValue($expected));
-
-        $this->_strategyPool->expects($this->once())
-            ->method('getLocaleStrategy')
-            ->with(false)
-            ->will($this->returnValue($strategyMock));
 
         $actual = $this->_model->getLocaleFileName($file, $params);
         $this->assertEquals($expected, $actual);

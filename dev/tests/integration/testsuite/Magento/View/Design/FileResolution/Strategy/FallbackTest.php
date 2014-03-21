@@ -41,7 +41,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     /**
      * Build a model to test
      *
-     * @return \Magento\View\Design\FileResolution\Strategy\Fallback
+     * @return \Magento\View\Design\FileResolution\Fallback
      */
     protected function _buildModel()
     {
@@ -62,7 +62,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         );
 
         return Bootstrap::getObjectManager()->create(
-            'Magento\View\Design\FileResolution\Strategy\Fallback',
+            'Magento\View\Design\FileResolution\Fallback',
             array('fallbackFactory' => new Factory($filesystem))
         );
     }
