@@ -2086,5 +2086,9 @@ return array(
     ),
     array('Magento\Catalog\Helper\Product\Url', 'Magento\Filter\Translit'),
     array('Magento\Catalog\Model\Product\Indexer\Price'),
-    array('Magento\Catalog\Model\Resource\Product\Indexer\Price')
+    array('Magento\Catalog\Model\Resource\Product\Indexer\Price'),
+    array('Magento\Convert\ConvertException'),
+    array('Magento\Convert\Container\AbstractContainer'),
+    array('Magento\Convert\Mapper\Column'),
+    array('Magento\Convert\Mapper\MapperInterface')
 );
