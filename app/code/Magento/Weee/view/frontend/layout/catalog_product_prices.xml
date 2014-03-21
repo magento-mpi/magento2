@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <referenceBlock name="price.render.adjustments">
+        <block class="Magento\Weee\Pricing\Render\Adjustment" name="price.adjustment.weee" as="weee"
+               template="Magento_Weee::pricing/adjustment.phtml"/>
+    </referenceBlock>
+</layout>

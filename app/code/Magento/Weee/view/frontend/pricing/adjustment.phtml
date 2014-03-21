@@ -1,0 +1,45 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var \Magento\Weee\Pricing\Render\Adjustment $this */
+
+/** @var \Magento\Pricing\Object\SaleableInterface $product */
+$product = $this->getProduct();
+$weeeSeparator = '';
+
+$isDisplayFpt = $this->typeOfDisplay(
+    [
+        \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+        \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
+    ]
+);
+$weeeTaxAmount = $isDisplayFpt ? $this->getAmount($product) : null;
+$weeeTaxAttributes = $isDisplayFpt ? $this->getProductWeeeAttributesForDisplay($product) : [];
+?>
+
+<?php echo $this->getOriginalPriceHtml(); ?>
+
+<?php if ($weeeTaxAmount && $this->typeOfDisplay(\Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR)): // incl. + weee ?>
+    <span class="weee">(
+        <?php foreach ($weeeTaxAttributes as $weeeTaxAttribute): ?>
+            <?php echo $weeeSeparator; ?>
+            <?php echo $weeeTaxAttribute->getName(); ?>: <?php echo $this->convertAndFormatCurrency($weeeTaxAttribute->getAmount()); ?>
+            <?php $weeeSeparator = ' + '; ?>
+        <?php endforeach; ?>
+    )</span>
+<?php elseif ($weeeTaxAmount && $this->typeOfDisplay(\Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL)): // excl. + weee + final ?>
+    <?php foreach ($weeeTaxAttributes as $weeeTaxAttribute): ?>
+        <span class="weee">
+            <?php echo $weeeTaxAttribute->getName(); ?>: <?php echo $this->convertAndFormatCurrency($weeeTaxAttribute->getAmount()); ?>
+        </span>
+    <?php endforeach; ?>
+<?php endif; ?>
