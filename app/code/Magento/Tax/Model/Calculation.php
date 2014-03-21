@@ -371,15 +371,11 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected function _getRequestCacheKey($request)
     {
         $key = $request->getStore() ? $request->getStore()->getId() . '|' : '';
-        $key .= $request->getProductClassId() .
-            '|' .
-            $request->getCustomerClassId() .
-            '|' .
-            $request->getCountryId() .
-            '|' .
-            $request->getRegionId() .
-            '|' .
-            $request->getPostcode();
+        $key .= $request->getProductClassId() . '|'
+            . $request->getCustomerClassId() . '|'
+            . $request->getCountryId() . '|'
+            . $request->getRegionId() . '|'
+            . $request->getPostcode();
         return $key;
     }
 
@@ -434,7 +430,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param   null|bool|\Magento\Object $shippingAddress
      * @param   null|bool||\Magento\Object $billingAddress
      * @param   null|int $customerTaxClass
-     * @param   null|int $store
+     * @param   null|int|\Magento\Core\Model\Store $store
      * @return  \Magento\Object
      */
     public function getRateRequest(
@@ -454,11 +450,11 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         ) {
             $basedOn = 'default';
         } else {
-            if (($billingAddress === false || is_null(
-                $billingAddress
-            ) || !$billingAddress->getCountryId()) && $basedOn == 'billing' || ($shippingAddress === false || is_null(
-                $shippingAddress
-            ) || !$shippingAddress->getCountryId()) && $basedOn == 'shipping'
+
+            if (($billingAddress === false || is_null($billingAddress) || !$billingAddress->getCountryId())
+                && $basedOn == 'billing'
+                || ($shippingAddress === false || is_null($shippingAddress) || !$shippingAddress->getCountryId())
+                && $basedOn == 'shipping'
             ) {
                 if ($customerData->getId()) {
                     try {
