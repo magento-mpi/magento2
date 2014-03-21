@@ -10,6 +10,7 @@
 
 namespace Magento\Newsletter\Model\Resource\Problem;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 /**
  * Newsletter problems collection
  *
@@ -39,11 +40,31 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_customerCollectionFactory;
 
     /**
+     * Customer Service
+     *
+     * @var CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
+     * Customer View Helper
+     *
+     * @var \Magento\Customer\Helper\View
+     */
+    protected $_customerView;
+
+    /**
+     * @var boolean
+     */
+    protected $_checkCustomersData = false;
+
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
+     * @param \Magento\Customer\Helper\View $customerView,
      * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -52,12 +73,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
+        CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Helper\View $customerView,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-        $this->_customerCollectionFactory = $customerCollectionFactory;
+        $this->_customerAccountService = $customerAccountService;
+        $this->_customerView = $customerView;
     }
 
     /**
@@ -101,6 +124,56 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         ->joinLeft(array('template'=>$this->getTable('newsletter_template')), 'queue.template_id = template.template_id',
             array('template_subject','template_code','template_sender_name','template_sender_email')
         );
+        return $this;
+    }
+
+    /**
+     * Loads customers info to collection
+     *
+     * @return void
+     */
+    protected function _addCustomersData()
+    {
+        if (!$this->_checkCustomersData) {
+            $this->_checkCustomersData = true;
+            $customersIds = array();
+
+            foreach ($this->getItems() as $item) {
+                if ($item->getCustomerId()) {
+                    $customersIds[] = $item->getCustomerId();
+                }
+            }
+
+            if (count($customersIds) == 0) {
+                return;
+            }
+
+            foreach ($customersIds as $customerId) {
+                $customer = $this->_customerAccountService->getCustomer($customerId);
+                $problems = $this->getItemsByColumnValue('customer_id', $customerId);
+                $customerName = $this->_customerView->getCustomerName($customer);
+                foreach ($problems as $problem) {
+                    $problem->setCustomerName($customerName)
+                        ->setCustomerFirstName($customer->getFirstName())
+                        ->setCustomerLastName($customer->getLastName());
+                }
+            }
+        }
+    }
+
+    /**
+     * Loads collecion and adds customers info
+     *
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return $this
+     */
+    public function load($printQuery = false, $logQuery = false)
+    {
+        parent::load($printQuery, $logQuery);
+        if ($this->_subscribersInfoJoinedFlag) {
+            $this->_addCustomersData();
+        }
         return $this;
     }
 }
