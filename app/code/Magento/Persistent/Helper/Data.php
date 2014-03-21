@@ -56,6 +56,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param Session $persistentSession
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Escaper $escaper
@@ -66,6 +67,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         Session $persistentSession,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Escaper $escaper,
@@ -75,7 +77,14 @@ class Data extends \Magento\Core\Helper\Data
         $this->_persistentSession = $persistentSession;
         $this->_escaper = $escaper;
 
-        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
+        parent::__construct(
+            $context,
+            $coreStoreConfig,
+            $storeManager,
+            $appState,
+            $priceCurrency,
+            $dbCompatibleMode
+        );
     }
 
     /**

@@ -34,6 +34,7 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
+     * @param \Magento\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Convert\Xml $xmlConverter
      * @param bool $dbCompatibleMode
@@ -43,6 +44,7 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
+        \Magento\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\App\Filesystem $filesystem,
         \Magento\Convert\Xml $xmlConverter,
         $dbCompatibleMode = true
@@ -50,7 +52,14 @@ class Data extends \Magento\Core\Helper\Data
         $this->filesystem = $filesystem;
         $this->readDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
         $this->_xmlConverter = $xmlConverter;
-        parent::__construct($context, $coreStoreConfig, $storeManager, $appState, $dbCompatibleMode);
+        parent::__construct(
+            $context,
+            $coreStoreConfig,
+            $storeManager,
+            $appState,
+            $priceCurrency,
+            $dbCompatibleMode
+        );
     }
 
     /**
