@@ -160,9 +160,9 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
         );
         return <<<HTML
 <script>
-    jQuery(function($) { // waiting for page to load to have '#category_ids-template' available
-        $('#new-category').mage('newCategoryDialog', $widgetOptions);
-    });
+(function($) { // waiting for page to load to have '#category_ids-template' available
+    $('#new-category').mage('newCategoryDialog', $widgetOptions);
+})(jQuery);
 </script>
 HTML;
     }

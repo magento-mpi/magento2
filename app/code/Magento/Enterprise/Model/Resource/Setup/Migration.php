@@ -35,12 +35,11 @@ class Migration extends \Magento\Core\Model\Resource\Setup\Migration
                 'magento_giftregistry' => 'Magento_GiftRegistry',
                 'magento_giftwrapping' => 'Magento_GiftWrapping',
                 'magento_scheduledimportexport' => 'Magento_ScheduledImportExport',
-                'magento_fullpagecache' => 'Magento_FullPageCache',
                 'magento_pricepermissions' => 'Magento_PricePermissions',
                 'magento_promotionpermissions' => 'Magento_PromotionPermissions',
                 'magento_salesarchive' => 'Magento_SalesArchive',
                 'magento_targetrule' => 'Magento_TargetRule',
-                'magento_websiterestriction' => 'Magento_WebsiteRestriction'
+                'magento_websiterestriction' => 'Magento_WebsiteRestriction',
             )
         );
     }

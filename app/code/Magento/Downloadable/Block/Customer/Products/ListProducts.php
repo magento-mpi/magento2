@@ -21,9 +21,9 @@ use Magento\Downloadable\Model\Link\Purchased\Item;
 class ListProducts extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
      */
-    protected $_customerSession;
+    protected $currentCustomer;
 
     /**
      * @var \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory
@@ -37,19 +37,19 @@ class ListProducts extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
         array $data = array()
     ) {
-        $this->_customerSession = $customerSession;
+        $this->currentCustomer = $currentCustomer;
         $this->_linksFactory = $linksFactory;
         $this->_itemsFactory = $itemsFactory;
         parent::__construct($context, $data);
@@ -64,13 +64,9 @@ class ListProducts extends \Magento\View\Element\Template
     protected function _construct()
     {
         parent::_construct();
-        $purchased = $this->_linksFactory->create()->addFieldToFilter(
-            'customer_id',
-            $this->_customerSession->getCustomerId()
-        )->addOrder(
-            'created_at',
-            'desc'
-        );
+        $purchased = $this->_linksFactory->create()
+            ->addFieldToFilter('customer_id', $this->currentCustomer->getCustomerId())
+            ->addOrder('created_at', 'desc');
         $this->setPurchased($purchased);
         $purchasedIds = array();
         foreach ($purchased as $_item) {

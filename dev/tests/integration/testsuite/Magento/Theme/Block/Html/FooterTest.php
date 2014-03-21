@@ -26,14 +26,11 @@ class FooterTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCacheKeyInfo()
     {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\View\LayoutInterface'
-        )->createBlock(
-            'Magento\Theme\Block\Html\Footer'
-        );
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->getStore()->getId();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $context = $objectManager->get('Magento\App\Http\Context');
+        $context->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, false, false);
+        $block = $objectManager->get('Magento\View\LayoutInterface')->createBlock('Magento\Theme\Block\Html\Footer');
+        $storeId = $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(
             array('PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null),
             $block->getCacheKeyInfo()

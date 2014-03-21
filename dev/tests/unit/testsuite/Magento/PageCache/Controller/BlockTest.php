@@ -77,8 +77,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(false));
         $this->requestMock->expects($this->once())->method('setActionName')->will($this->returnValue('noroute'));
         $this->requestMock->expects($this->once())->method('setDispatched')->will($this->returnValue(false));
-        $result = $this->controller->renderAction();
-        $this->assertNull($result);
+        $this->controller->renderAction();
     }
 
     /**
@@ -87,28 +86,15 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     public function testRenderActionNoParams()
     {
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
-        $this->requestMock->expects(
-            $this->at(1)
-        )->method(
-            'getParam'
-        )->with(
-            $this->equalTo('blocks'),
-            $this->equalTo('')
-        )->will(
-            $this->returnValue('')
-        );
-        $this->requestMock->expects(
-            $this->at(2)
-        )->method(
-            'getParam'
-        )->with(
-            $this->equalTo('handles'),
-            $this->equalTo('')
-        )->will(
-            $this->returnValue('')
-        );
-        $result = $this->controller->renderAction();
-        $this->assertNull($result);
+        $this->requestMock->expects($this->at(1))
+            ->method('getParam')
+            ->with($this->equalTo('blocks'), $this->equalTo(''))
+            ->will($this->returnValue(''));
+        $this->requestMock->expects($this->at(2))
+            ->method('getParam')
+            ->with($this->equalTo('handles'), $this->equalTo(''))
+            ->will($this->returnValue(''));
+        $this->controller->renderAction();
     }
 
     public function testRenderAction()
@@ -117,25 +103,21 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $handles = array('handle1', 'handle2');
         $expectedData = array('block1' => 'data1', 'block2' => 'data2');
 
-        $blockInstance1 = $this->getMockForAbstractClass(
-            'Magento\View\Element\AbstractBlock',
+        $blockInstance1 = $this->getMock(
+            'Magento\PageCache\Block\Controller\StubBlock',
+            array('toHtml'),
             array(),
             '',
-            false,
-            true,
-            true,
-            array('toHtml')
+            false
         );
         $blockInstance1->expects($this->once())->method('toHtml')->will($this->returnValue($expectedData['block1']));
 
-        $blockInstance2 = $this->getMockForAbstractClass(
-            'Magento\View\Element\AbstractBlock',
+        $blockInstance2 = $this->getMock(
+            'Magento\PageCache\Block\Controller\StubBlock',
+            array('toHtml'),
             array(),
             '',
-            false,
-            true,
-            true,
-            array('toHtml')
+            false
         );
         $blockInstance2->expects($this->once())->method('toHtml')->will($this->returnValue($expectedData['block2']));
 
@@ -192,21 +174,24 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->controller->renderAction();
     }
 
-    public function testEsiAction()
+    /**
+     * @dataProvider esiActionDataProvider
+     * @param string $blockClass
+     * @param bool $shouldSetHeaders
+     */
+    public function testEsiAction($blockClass, $shouldSetHeaders)
     {
         $block = 'block';
         $handles = array('handle1', 'handle2');
         $html = 'some-html';
         $mapData = array(array('blocks', '', json_encode(array($block))), array('handles', '', json_encode($handles)));
 
-        $blockInstance1 = $this->getMockForAbstractClass(
-            'Magento\View\Element\AbstractBlock',
+        $blockInstance1 = $this->getMock(
+            $blockClass,
+            array('toHtml'),
             array(),
             '',
-            false,
-            true,
-            true,
-            array('toHtml', 'getTtl')
+            false
         );
 
         $blockInstance1->expects($this->once())->method('toHtml')->will($this->returnValue($html));
@@ -228,21 +213,41 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($blockInstance1)
         );
 
-        $this->responseMock->expects($this->once())->method('appendBody')->with($this->equalTo($html));
+        if ($shouldSetHeaders) {
+            $this->responseMock->expects($this->once())
+                ->method('setHeader')
+                ->with('X-Magento-Tags', implode(',', $blockInstance1->getIdentities()));
+        } else {
+            $this->responseMock->expects($this->never())
+                ->method('setHeader');
+        }
 
-        $result = $this->controller->esiAction();
-        $this->assertNull($result);
+        $this->responseMock->expects($this->once())
+            ->method('appendBody')
+            ->with($this->equalTo($html));
+
+        $this->controller->esiAction();
+    }
+
+    public function esiActionDataProvider()
+    {
+        return array(
+            array('Magento\PageCache\Block\Controller\StubBlock', true),
+            array('Magento\View\Element\AbstractBlock', false),
+        );
     }
 
     public function testEsiActionBlockNotExists()
     {
         $handles = json_encode(array('handle1', 'handle2'));
-        $mapData = array(array('blocks', '', null), array('handles', '', $handles));
+        $mapData = array(
+            array('blocks', '', null),
+            array('handles', '', $handles)
+        );
 
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($mapData));
         $this->viewMock->expects($this->never())->method('getLayout')->will($this->returnValue($this->layoutMock));
 
-        $result = $this->controller->esiAction();
-        $this->assertNull($result);
+        $this->controller->esiAction();
     }
 }

@@ -58,12 +58,18 @@ class Sidebar extends \Magento\View\Element\Template
     protected $_itemsCompareFactory;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerCurrentService
+     */
+    protected $currentCustomer;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishListFactory
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory
+     * @param \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer
      * @param array $data
      */
     public function __construct(
@@ -73,6 +79,7 @@ class Sidebar extends \Magento\View\Element\Template
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishListFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory,
+        \Magento\Customer\Service\V1\CustomerCurrentService $currentCustomer,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -82,6 +89,7 @@ class Sidebar extends \Magento\View\Element\Template
         $this->_itemsCompareFactory = $itemsCompareFactory;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
+        $this->currentCustomer = $currentCustomer;
     }
 
     /**
@@ -160,6 +168,9 @@ class Sidebar extends \Magento\View\Element\Template
         if (!$this->_compareItems) {
             $this->_compareItems = $this->_createProductCompareCollection()->setStoreId(
                 $this->_storeManager->getStore()->getId()
+            );
+            $this->_compareItems->setCustomerId(
+                $this->currentCustomer->getCustomerId()
             );
             $this->_compareItems->setCustomerId($this->_customerSession->getCustomerId());
             $this->_compareItems->addAttributeToSelect('name')->useProductItem()->load();

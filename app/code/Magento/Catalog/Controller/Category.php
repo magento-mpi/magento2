@@ -119,6 +119,10 @@ class Category extends \Magento\App\Action\Action
      */
     public function viewAction()
     {
+        if ($this->_request->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED)) {
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+            return;
+        }
         $category = $this->_initCategory();
         if ($category) {
             $settings = $this->_catalogDesign->getDesignSettings($category);

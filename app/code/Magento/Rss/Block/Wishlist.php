@@ -69,7 +69,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -93,7 +93,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -120,7 +120,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $customerSession,
+            $httpContext,
             $productFactory,
             $data,
             $priceBlockTypes
@@ -162,9 +162,9 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $this->_customer = $this->_customerFactory->create();
 
             $params = $this->_coreData->urlDecode($this->getRequest()->getParam('data'));
-            $data = explode(',', $params);
-            $cId = abs(intval($data[0]));
-            if ($cId && $cId == $this->_customerSession->getCustomerId()) {
+            $data   = explode(',', $params);
+            $cId    = abs(intval($data[0]));
+            if ($cId && ($cId == $this->httpContext->getValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH))) {
                 $this->_customer->load($cId);
             }
         }
