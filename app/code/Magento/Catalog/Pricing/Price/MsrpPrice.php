@@ -29,7 +29,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     protected $catalogDataHelper;
 
     /**
-     * @param \Magento\Catalog\Model\Product $salableItem
+     * @param Product $salableItem
      * @param Data $catalogDataHelper
      * @param float $quantity
      */
@@ -40,6 +40,8 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     }
 
     /**
+     * Returns whether the MSRP should be shown on gesture
+     *
      * @return bool
      */
     public function isShowPriceOnGesture()
