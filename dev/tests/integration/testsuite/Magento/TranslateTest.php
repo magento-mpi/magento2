@@ -105,20 +105,20 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testInitCaching()
     {
         // ensure string translation is cached
-        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
+        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
 
         /** @var \Magento\Translation\Model\Resource\String $translateString */
         $translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Translation\Model\Resource\String');
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
-        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
+        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
         $this->assertEquals(
             'Fixture Db Translation', $this->_model->translate(array('Fixture String')),
             'Translation is expected to be cached'
         );
 
-        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND, null, true);
+        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, null, true);
         $this->assertEquals(
             'New Db Translation', $this->_model->translate(array('Fixture String')),
             'Forced load should not use cache'

@@ -14,7 +14,7 @@ namespace Magento\DesignEditor\Model\Translate;
 class InlineVdeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\DesignEditor\Model\Translate\InlineVde
+     * @var \Magento\DesignEditor\Model\Translate\Inline
      */
     protected $_model;
 
@@ -39,7 +39,7 @@ class InlineVdeTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->_model = $objectManager->get('Magento\DesignEditor\Model\Translate\InlineVde');
+        $this->_model = $objectManager->get('Magento\DesignEditor\Model\Translate\Inline');
         $this->_request = $objectManager->get('Magento\App\RequestInterface');
         $this->_request->setParam('translation_mode', 'text');
 
@@ -49,7 +49,7 @@ class InlineVdeTest extends \PHPUnit_Framework_TestCase
 
     public function testObjectCreation()
     {
-        $this->assertInstanceOf('Magento\DesignEditor\Model\Translate\InlineVde', $this->_model);
+        $this->assertInstanceOf('Magento\DesignEditor\Model\Translate\Inline', $this->_model);
         $this->assertInstanceOf('Magento\App\RequestInterface', $this->_request);
         $this->assertInstanceOf('Magento\DesignEditor\Helper\Data', $this->_helperData);
     }

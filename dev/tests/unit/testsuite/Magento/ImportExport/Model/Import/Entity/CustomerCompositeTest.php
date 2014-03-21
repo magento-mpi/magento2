@@ -105,7 +105,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMock('Magento\App\Helper\Context', array('getInlineFactory'), array(), '', false);
         $context->expects($this->any())->method('getInlineFactory')->will($this->returnValue($inlineFactory));
         $data = array(
-            'inlineFactory' => $inlineFactory,
+            'inlineProvider' => $inlineFactory,
             'context' => $context,
             'locale' => $this->getMock('Magento\Locale', array(), array(), '', false),
             'dateModel' => $this->getMock('Magento\Stdlib\DateTime\DateTime', array(), array(), '', false)

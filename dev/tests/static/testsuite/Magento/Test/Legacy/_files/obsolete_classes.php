@@ -2237,4 +2237,13 @@ return array(
     ['Magento\Core\Model\Resource\Translate\String', 'Magento\Translation\Model\Resource\String'],
     ['Magento\Core\Model\Resource\Translate', 'Magento\Translation\Model\Resource\Translate'],
     ['Magento\Core\Model\Translate\String', 'Magento\Translation\Model\String'],
+    ['Magento\Translation\Helper\Data'],
+    ['Magento\Translate\Factory'],
+    ['Magento\Backend\Model\Translate'],
+    ['Magento\Backend\Model\Resource\Translate'],
+    ['Magento\Backend\Model\Resource\Translate\String'],
+    ['Magento\DesignEditor\Model\Translate\InlineVde', 'Magento\DesignEditor\Model\Translate\Inline'],
+    ['Magento\Backend\Model\Translate\Inline'],
+    ['Magento\Backend\Model\Translate\Inline\ConfigFactory'],
+    ['Magento\Translate\Inline\ConfigFactory'],
 );
