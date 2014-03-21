@@ -74,10 +74,10 @@ class Totals extends \Magento\Backend\Block\Dashboard\Bar
 
         if ($this->getRequest()->getParam('store')) {
             $collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
-        } else if ($this->getRequest()->getParam('website')) {
+        } elseif ($this->getRequest()->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
-        } else if ($this->getRequest()->getParam('group')) {
+        } elseif ($this->getRequest()->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
             $collection->addFieldToFilter('store_id', array('in' => $storeIds));
         } elseif (!$collection->isLive()) {

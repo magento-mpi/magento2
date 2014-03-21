@@ -11,10 +11,6 @@ namespace Magento\Catalog\Model\Resource;
 
 /**
  * Catalog entity abstract model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
 {
@@ -65,7 +61,15 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     ) {
         $this->_storeManager = $storeManager;
         $this->_modelFactory = $modelFactory;
-        parent::__construct($resource, $eavConfig, $attrSetEntity, $localeFormat, $resourceHelper, $universalFactory);
+        parent::__construct(
+            $resource,
+            $eavConfig,
+            $attrSetEntity,
+            $localeFormat,
+            $resourceHelper,
+            $universalFactory,
+            $data
+        );
     }
 
     /**
@@ -98,14 +102,8 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     protected function _isApplicableAttribute($object, $attribute)
     {
         $applyTo = $attribute->getApplyTo();
-        return (count(
-            $applyTo
-        ) == 0 || in_array(
-            $object->getTypeId(),
-            $applyTo
-        )) && $attribute->isInSet(
-            $object->getAttributeSetId()
-        );
+        return (count($applyTo) == 0 || in_array($object->getTypeId(), $applyTo))
+            && $attribute->isInSet($object->getAttributeSetId());
     }
 
     /**
@@ -118,13 +116,11 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend &&
-            ($method == 'beforeSave' ||
-            ($method = 'afterSave'))
+        if ($instance instanceof \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+            && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
-            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false
-            ) {
+            if (isset($args[0]) && $args[0] instanceof \Magento\Object && $args[0]->getData($attributeCode) === false) {
                 return false;
             }
         }
@@ -148,9 +144,9 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
          * to single store mode. We should load correct values
          */
         if ($this->_storeManager->hasSingleStore()) {
-            $storeId = (int)$this->_storeManager->getStore(true)->getId();
+            $storeId = (int) $this->_storeManager->getStore(true)->getId();
         } else {
-            $storeId = (int)$object->getStoreId();
+            $storeId = (int) $object->getStoreId();
         }
 
         $setId = $object->getAttributeSetId();
@@ -281,13 +277,13 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
              * Update attribute value for store
              */
             $this->_attributeValuesToSave[$table][] = $bind;
-        } else if ($attribute->isScopeWebsite() && $storeId != $this->getDefaultStoreId()) {
+        } elseif ($attribute->isScopeWebsite() && $storeId != $this->getDefaultStoreId()) {
             /**
              * Update attribute value for website
              */
             $storeIds = $this->_storeManager->getStore($storeId)->getWebsite()->getStoreIds(true);
             foreach ($storeIds as $storeId) {
-                $bind['store_id'] = (int)$storeId;
+                $bind['store_id'] = (int) $storeId;
                 $this->_attributeValuesToSave[$table][] = $bind;
             }
         } else {
@@ -314,38 +310,27 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         /**
          * save required attributes in global scope every time if store id different from default
          */
-        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
+        $storeId = (int) $this->_storeManager->getStore($object->getStoreId())->getId();
         if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
             $table = $attribute->getBackend()->getTable();
 
-            $select = $this->_getReadAdapter()->select()->from(
-                $table
-            )->where(
-                'entity_type_id = ?',
-                $attribute->getEntityTypeId()
-            )->where(
-                'attribute_id = ?',
-                $attribute->getAttributeId()
-            )->where(
-                'store_id = ?',
-                $this->getDefaultStoreId()
-            )->where(
-                'entity_id = ?',
-                $object->getEntityId()
-            );
+            $select = $this->_getReadAdapter()->select()
+                ->from($table)
+                ->where('entity_type_id = ?', $attribute->getEntityTypeId())
+                ->where('attribute_id = ?', $attribute->getAttributeId())
+                ->where('store_id = ?', $this->getDefaultStoreId())
+                ->where('entity_id = ?', $object->getEntityId());
             $row = $this->_getReadAdapter()->fetchOne($select);
 
             if (!$row) {
-                $data = new \Magento\Object(
-                    array(
-                        'entity_type_id' => $attribute->getEntityTypeId(),
-                        'attribute_id' => $attribute->getAttributeId(),
-                        'store_id' => $this->getDefaultStoreId(),
-                        'entity_id' => $object->getEntityId(),
-                        'value' => $this->_prepareValueForSave($value, $attribute)
-                    )
-                );
-                $bind = $this->_prepareDataForTable($data, $table);
+                $data  = new \Magento\Object(array(
+                    'entity_type_id'    => $attribute->getEntityTypeId(),
+                    'attribute_id'      => $attribute->getAttributeId(),
+                    'store_id'          => $this->getDefaultStoreId(),
+                    'entity_id'         => $object->getEntityId(),
+                    'value'             => $this->_prepareValueForSave($value, $attribute)
+                ));
+                $bind  = $this->_prepareDataForTable($data, $table);
                 $this->_getWriteAdapter()->insertOnDuplicate($table, $bind, array('value'));
             }
         }
@@ -381,18 +366,12 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->_getWriteAdapter();
         $table = $attribute->getBackend()->getTable();
         $entityIdField = $attribute->getBackend()->getEntityIdField();
-        $select = $adapter->select()->from(
-            $table,
-            'value_id'
-        )->where(
-            'entity_type_id = :entity_type_id'
-        )->where(
-            "{$entityIdField} = :entity_field_id"
-        )->where(
-            'store_id = :store_id'
-        )->where(
-            'attribute_id = :attribute_id'
-        );
+        $select  = $adapter->select()
+            ->from($table, 'value_id')
+            ->where('entity_type_id = :entity_type_id')
+            ->where("$entityIdField = :entity_field_id")
+            ->where('store_id = :store_id')
+            ->where('attribute_id = :attribute_id');
         $bind = array(
             'entity_type_id' => $object->getEntityTypeId(),
             'entity_field_id' => $object->getId(),
@@ -449,7 +428,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             } elseif ($attribute->isScopeWebsite()) {
                 $websiteAttributes[] = (int)$itemData['attribute_id'];
             } elseif ($itemData['value_id'] !== null) {
-                $globalValues[] = (int)$itemData['value_id'];
+                $globalValues[] = (int) $itemData['value_id'];
             }
         }
 

@@ -7,14 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Bundle\Block\Catalog\Product;
 
 /**
  * Product View block (to modify getTierPrices method)
- *
- * @category   Magento
- * @package    Magento_Bundle
- * @module     Catalog
  */
 class View extends \Magento\Catalog\Block\Product\View
 {
@@ -35,7 +32,6 @@ class View extends \Magento\Catalog\Block\Product\View
         $prices = $product->getFormatedTierPrice();
         if (is_array($prices)) {
             $store = $this->_storeManager->getStore();
-            $helper = $this->_taxData;
             $specialPrice = $product->getSpecialPrice();
             $defaultDiscount = max($product->getGroupPrice(), $specialPrice ? 100 - $specialPrice : 0);
             foreach ($prices as $price) {
@@ -43,10 +39,10 @@ class View extends \Magento\Catalog\Block\Product\View
                     $price['price_qty'] += 0;
                     $price['savePercent'] = ceil(100 - $price['price']);
 
-                    $priceExclTax = $helper->getPrice($product, $price['website_price']);
+                    $priceExclTax = $this->_taxData->getPrice($product, $price['website_price']);
                     $price['formated_price'] = $store->formatPrice($store->convertPrice($priceExclTax));
 
-                    $priceInclTax = $helper->getPrice($product, $price['website_price'], true);
+                    $priceInclTax = $this->_taxData->getPrice($product, $price['website_price'], true);
                     $price['formated_price_incl_tax'] = $store->formatPrice($store->convertPrice($priceInclTax));
 
                     $res[] = $price;

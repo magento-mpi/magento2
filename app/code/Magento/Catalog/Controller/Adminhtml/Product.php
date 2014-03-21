@@ -14,10 +14,6 @@ use Magento\Catalog\Model\Product\Validator;
 
 /**
  * Catalog product controller
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Product extends \Magento\Backend\App\Action
 {
@@ -38,7 +34,7 @@ class Product extends \Magento\Backend\App\Action
      *
      * @var \Magento\Registry
      */
-    protected $registry = null;
+    protected $registry;
 
     /**
      * @var \Magento\Stdlib\DateTime\Filter\Date
@@ -124,15 +120,11 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Backend\Block\Widget\Grid $gridBlock,
         $productsArray
     ) {
-        return $this->_view->getLayout()->createBlock(
-            'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer'
-        )->setGridBlock(
-            $gridBlock
-        )->setProducts(
-            $productsArray
-        )->setInputElementName(
-            $inputName
-        );
+        return $this->_view->getLayout()
+            ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
+            ->setGridBlock($gridBlock)
+            ->setProducts($productsArray)
+            ->setInputElementName($inputName);
     }
 
     /**
@@ -192,13 +184,11 @@ class Product extends \Magento\Backend\App\Action
         if ($this->getRequest()->getParam('popup')) {
             $this->_view->loadLayout('popup');
         } else {
-            $this->_view->loadLayout(
-                array(
-                    'default',
-                    strtolower($this->_request->getFullActionName()),
-                    'catalog_product_' . $product->getTypeId()
-                )
-            );
+            $this->_view->loadLayout(array(
+                'default',
+                strtolower($this->_request->getFullActionName()),
+                'catalog_product_' . $product->getTypeId()
+            ));
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
 
@@ -220,7 +210,7 @@ class Product extends \Magento\Backend\App\Action
     public function editAction()
     {
         $this->_title->add(__('Products'));
-        $productId = (int)$this->getRequest()->getParam('id');
+        $productId = (int) $this->getRequest()->getParam('id');
         $product = $this->productBuilder->build($this->getRequest());
 
         if ($productId && !$product->getId()) {
@@ -243,11 +233,8 @@ class Product extends \Magento\Backend\App\Action
 
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
 
-        if (!$this->_objectManager->get(
-            'Magento\Core\Model\StoreManagerInterface'
-        )->isSingleStoreMode() && ($switchBlock = $this->_view->getLayout()->getBlock(
-            'store_switcher'
-        ))
+        if (!$this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode()
+            && ($switchBlock = $this->_view->getLayout()->getBlock('store_switcher'))
         ) {
             $switchBlock->setDefaultStoreName(
                 __('Default Values')
@@ -563,7 +550,6 @@ class Product extends \Magento\Backend\App\Action
         $storeId = $this->getRequest()->getParam('store');
         $redirectBack = $this->getRequest()->getParam('back', false);
         $productId = $this->getRequest()->getParam('id');
-        $isEdit = (int)($this->getRequest()->getParam('id') != null);
 
         $data = $this->getRequest()->getPost();
         if ($data) {
@@ -584,15 +570,11 @@ class Product extends \Magento\Backend\App\Action
                  */
                 if (isset($data['copy_to_stores'])) {
                     foreach ($data['copy_to_stores'] as $storeTo => $storeFrom) {
-                        $this->_objectManager->create(
-                            'Magento\Catalog\Model\Product'
-                        )->setStoreId(
-                            $storeFrom
-                        )->load(
-                            $productId
-                        )->setStoreId(
-                            $storeTo
-                        )->save();
+                        $this->_objectManager->create('Magento\Catalog\Model\Product')
+                            ->setStoreId($storeFrom)
+                            ->load($productId)
+                            ->setStoreId($storeTo)
+                            ->save();
                     }
                 }
 
@@ -601,10 +583,9 @@ class Product extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->messageManager->addNotice(
-                        __(
-                            'SKU for product %1 has been changed to %2.',
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
-                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku())
+                        __('SKU for product %1 has been changed to %2.',
+                           $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
+                           $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku())
                         )
                     );
                 }
@@ -786,13 +767,11 @@ class Product extends \Magento\Backend\App\Action
     public function showUpdateResultAction()
     {
         $session = $this->_objectManager->get('Magento\Backend\Model\Session');
-        if ($session->hasCompositeProductResult() && $session->getCompositeProductResult() instanceof \Magento\Object
+        if ($session->hasCompositeProductResult()
+            && $session->getCompositeProductResult() instanceof \Magento\Object
         ) {
-            $this->_objectManager->get(
-                'Magento\Catalog\Helper\Product\Composite'
-            )->renderUpdateResult(
-                $session->getCompositeProductResult()
-            );
+            $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
+                ->renderUpdateResult($session->getCompositeProductResult());
             $session->unsCompositeProductResult();
         } else {
             $session->unsCompositeProductResult();
