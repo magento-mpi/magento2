@@ -48,8 +48,8 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
-            if (!$this->_coreRegistry->registry('giftcardaccount_code_length_check')) {
-                $this->_coreRegistry->register('giftcardaccount_code_length_check', 1);
+            if (!$this->_registry->registry('giftcardaccount_code_length_check')) {
+                $this->_registry->register('giftcardaccount_code_length_check', 1);
                 $this->_checkMaxLength();
             }
         }

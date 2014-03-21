@@ -275,13 +275,13 @@ class Reward extends \Magento\Model\AbstractModel
                 return null;
             }
         }
-        $instance = $this->_coreRegistry->registry('_reward_actions' . $action);
+        $instance = $this->_registry->registry('_reward_actions' . $action);
         if (!$instance && array_key_exists($action, self::$_actionModelClasses)) {
             $instance = $this->_actionFactory->create(self::$_actionModelClasses[$action]);
             // setup invariant properties once
             $instance->setAction($action);
             $instance->setReward($this);
-            $this->_coreRegistry->register('_reward_actions' . $action, $instance);
+            $this->_registry->register('_reward_actions' . $action, $instance);
         }
         if (!$instance) {
             return null;

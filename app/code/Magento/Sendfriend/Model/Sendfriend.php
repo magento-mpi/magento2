@@ -574,8 +574,8 @@ class Sendfriend extends \Magento\Model\AbstractModel
      */
     public function register()
     {
-        if (!$this->_coreRegistry->registry('send_to_friend_model')) {
-            $this->_coreRegistry->register('send_to_friend_model', $this);
+        if (!$this->_registry->registry('send_to_friend_model')) {
+            $this->_registry->register('send_to_friend_model', $this);
         }
         return $this;
     }

@@ -506,7 +506,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     public function getCategoryId()
     {
-        $category = $this->_coreRegistry->registry('current_category');
+        $category = $this->_registry->registry('current_category');
         if ($category) {
             return $category->getId();
         }

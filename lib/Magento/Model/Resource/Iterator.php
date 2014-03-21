@@ -2,16 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Active record implementation
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Model\Resource;
 

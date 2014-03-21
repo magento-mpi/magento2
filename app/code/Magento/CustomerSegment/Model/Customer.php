@@ -391,7 +391,7 @@ class Customer extends \Magento\Model\AbstractModel
         $customerSession = $this->_customerSession;
         $result = array();
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_coreRegistry->registry('segment_customer');
+        $customer = $this->_registry->registry('segment_customer');
         if (!$customer) {
             $customer = $customerSession->getCustomer();
         }

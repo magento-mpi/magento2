@@ -207,7 +207,7 @@ class User extends \Magento\Model\AbstractModel implements \Magento\Backend\Mode
         $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_userData = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
-        $this->_coreRegistry = $objectManager->get('Magento\Registry');
+        $this->_registry = $objectManager->get('Magento\Registry');
         $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');

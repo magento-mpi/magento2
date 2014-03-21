@@ -235,7 +235,7 @@ class Observer extends \Magento\Model\AbstractModel
         $response = $observer->getEvent()->getResponseObject();
         $options = $response->getAdditionalOptions();
 
-        $_product = $this->_coreRegistry->registry('current_product');
+        $_product = $this->_registry->registry('current_product');
         if (!$_product) {
             return $this;
         }
@@ -271,7 +271,7 @@ class Observer extends \Magento\Model\AbstractModel
         $selection = $observer->getEvent()->getSelection();
         $options = $response->getAdditionalOptions();
 
-        $_product = $this->_coreRegistry->registry('current_product');
+        $_product = $this->_registry->registry('current_product');
 
         $typeDynamic = \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Attributes\Extend::DYNAMIC;
         if (!$_product || $_product->getPriceType() != $typeDynamic) {

@@ -874,12 +874,12 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements \Magento\
         if ($this->_useFlatResource) {
             $anchors = $this->_getResource()->getAnchorsAbove($path, $this->getStoreId());
         } else {
-            if (!$this->_coreRegistry->registry('_category_is_anchor_attribute')) {
+            if (!$this->_registry->registry('_category_is_anchor_attribute')) {
                 $model = $this->_getAttribute('is_anchor');
-                $this->_coreRegistry->register('_category_is_anchor_attribute', $model);
+                $this->_registry->register('_category_is_anchor_attribute', $model);
             }
 
-            $isAnchorAttribute = $this->_coreRegistry->registry('_category_is_anchor_attribute');
+            $isAnchorAttribute = $this->_registry->registry('_category_is_anchor_attribute');
             if ($isAnchorAttribute) {
                 $anchors = $this->getResource()->findWhereAttributeIs($path, $isAnchorAttribute, 1);
             }
