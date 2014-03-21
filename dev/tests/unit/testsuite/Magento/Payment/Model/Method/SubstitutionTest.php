@@ -28,19 +28,26 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTitle()
     {
-        $infoMock = $this->getMockBuilder('Magento\Payment\Model\Info')
-            ->disableOriginalConstructor()
-            ->setMethods([])
-            ->getMock();
+        $infoMock = $this->getMockBuilder(
+            'Magento\Payment\Model\Info'
+        )->disableOriginalConstructor()->setMethods(
+            []
+        )->getMock();
 
         $this->model->setInfoInstance($infoMock);
         $expectedResult = 'StringTitle';
-        $infoMock->expects($this->once())
-            ->method('getAdditionalInformation')
-            ->with(\Magento\Payment\Model\Method\Substitution::INFO_KEY_TITLE)
-            ->will($this->returnValue($expectedResult));
+        $infoMock->expects(
+            $this->once()
+        )->method(
+            'getAdditionalInformation'
+        )->with(
+            \Magento\Payment\Model\Method\Substitution::INFO_KEY_TITLE
+        )->will(
+            $this->returnValue(
+                $expectedResult
+            )
+        );
 
         $this->assertEquals($expectedResult, $this->model->getTitle());
     }
 }
- 

@@ -17,6 +17,12 @@ namespace Magento\Test\Integrity\Magento\Payment;
 class MethodsTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * List of payment method models, which need to be prepared before processing
+     * @var array
+     */
+    protected $_methodsNeedTobePrepared = ['substitution'];
+
+    /**
      * @param string $methodClass
      * @param string $code
      * @dataProvider paymentMethodDataProvider
@@ -40,6 +46,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             $this->fail("Model of '{$code}' payment method is not found."); // prevent fatal error
         }
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($methodClass);
+        $this->_prepareModel($code, $model);
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
@@ -85,5 +92,40 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             $result[] = array($code, $method['model']);
         }
         return $result;
+    }
+
+    /**
+     * Prepares method model with data which is needed for its business logic
+     *
+     * @param string $code
+     * @param \Magento\Payment\Model\MethodInterface $methodModel
+     */
+    private function _prepareModel($code, $methodModel)
+    {
+        if (in_array($code, $this->_methodsNeedTobePrepared)) {
+            $prepareMethod = 'prepare' . ucfirst(strtolower($code));
+            $this->$prepareMethod($methodModel);
+        }
+    }
+
+    /**
+     * @param \Magento\Payment\Model\MethodInterface $methodModel
+     * @SuppressWarnings(PHPMD.UnusedPrivateMethod)
+     */
+    private function prepareSubstitution($methodModel)
+    {
+        $paymentInfo = $this->getMockBuilder(
+            'Magento\Payment\Model\Info'
+        )->disableOriginalConstructor()->setMethods(
+            []
+        )->getMock();
+        $paymentInfo->expects(
+            $this->any()
+        )->method(
+            'getAdditionalInformation'
+        )->will(
+            $this->returnValue('Additional data mock')
+        );
+        $methodModel->setInfoInstance($paymentInfo);
     }
 }

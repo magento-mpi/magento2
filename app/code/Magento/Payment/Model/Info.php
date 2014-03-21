@@ -90,8 +90,9 @@ class Info extends \Magento\Core\Model\AbstractModel
             if ($this->getMethod()) {
                 $instance = $this->_paymentData->getMethodInstance($this->getMethod());
                 if (!$instance) {
-                    $instance = $this->_paymentData
-                        ->getMethodInstance(\Magento\Payment\Model\Method\Substitution::CODE);
+                    $instance = $this->_paymentData->getMethodInstance(
+                        \Magento\Payment\Model\Method\Substitution::CODE
+                    );
                 }
                 $instance->setInfoInstance($this);
                 $this->setMethodInstance($instance);

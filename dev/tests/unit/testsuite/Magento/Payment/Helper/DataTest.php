@@ -50,13 +50,26 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodInstance($code, $class, $methodInstance)
     {
-        $this->_coreStoreConfig->expects($this->once())
-            ->method('getConfig')
-            ->will($this->returnValue($class));
-        $this->_methodFactory->expects($this->any())
-            ->method('create')
-            ->with($class)
-            ->will($this->returnValue($methodInstance));
+        $this->_coreStoreConfig->expects(
+            $this->once()
+        )->method(
+            'getConfig'
+        )->will(
+            $this->returnValue(
+                $class
+            )
+        );
+        $this->_methodFactory->expects(
+            $this->any()
+        )->method(
+            'create'
+        )->with(
+            $class
+        )->will(
+            $this->returnValue(
+                $methodInstance
+            )
+        );
 
         $this->assertEquals($methodInstance, $this->_helper->getMethodInstance($code));
     }
