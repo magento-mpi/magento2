@@ -1,0 +1,49 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php
+/** @var \Magento\Tax\Pricing\Render\Adjustment $this */
+
+/** @var \Magento\Core\Helper\Data $coreHelper */
+$coreHelper = $this->helper('Magento\Core\Helper\Data');
+
+$productId = $this->getProduct()->getId();
+
+/** @var \Magento\Pricing\Price\PriceInterface $finalPriceModel */
+$finalPriceModel = $this->getPriceType('final_price');
+
+$displayAmountExclTax = $finalPriceModel->getDisplayValue('tax');
+$displayAmount = $finalPriceModel->getDisplayValue();
+?>
+
+<?php //echo $this->getOriginalPriceHtml(); ?>
+
+<?php if ($this->getDisplayLabel()): ?>
+    <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
+<?php endif; ?>
+<?php if ($this->displayBothPrices()): ?>
+    <span class="price-excluding-tax">
+        <span class="label"><?php echo __('Excl. Tax:') ?></span>
+        <span class="price" id="price-excluding-tax-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
+            <?php echo $this->convertAndFormatCurrency($displayAmountExclTax, false) ?>
+        </span>
+    </span>
+    <span class="price-including-tax">
+        <span class="label"><?php echo __('Incl. Tax:') ?></span>
+        <span class="price" id="price-including-tax-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
+            <?php echo $this->convertAndFormatCurrency($displayAmount, false) ?>
+        </span>
+    </span>
+<?php else: ?>
+    <span class="regular-price" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
+        <?php echo $this->convertAndFormatCurrency($displayAmount) ?>
+    </span>
+<?php endif; ?>
