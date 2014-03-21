@@ -99,15 +99,15 @@ class Observer
      */
     public function scheduledBackup()
     {
-        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_BACKUP_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_BACKUP_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return $this;
         }
 
-        if ($this->_storeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $this->_backupData->turnOnMaintenanceMode();
         }
 
-        $type = $this->_storeConfig->getValue(self::XML_PATH_BACKUP_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $type = $this->_storeConfig->getValue(self::XML_PATH_BACKUP_TYPE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         $this->_errors = array();
         try {
@@ -133,7 +133,7 @@ class Observer
             $this->_logger->logException($e);
         }
 
-        if ($this->_storeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->isSetFlag(self::XML_PATH_BACKUP_MAINTENANCE_MODE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $this->_backupData->turnOffMaintenanceMode();
         }
 

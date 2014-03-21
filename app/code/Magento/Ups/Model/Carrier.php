@@ -250,7 +250,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $origCountry = $request->getOrigCountry();
         } else {
             $origCountry = $this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -261,7 +261,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $origRegionCode = $request->getOrigRegionCode();
         } else {
             $origRegionCode = $this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -274,7 +274,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
             $rowRequest->setOrigPostal($this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
         }
@@ -283,7 +283,7 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
             $rowRequest->setOrigCity($this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
         }

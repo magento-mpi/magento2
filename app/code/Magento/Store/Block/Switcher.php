@@ -104,7 +104,7 @@ class Switcher extends \Magento\View\Element\Template
             $rawStores = $this->getRawStores();
 
             $groups = array();
-            $localeCode = $this->_storeConfig->getValue('general/locale/code', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $localeCode = $this->_storeConfig->getValue('general/locale/code', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             foreach ($rawGroups as $group) {
                 /* @var $group Group */
                 if (!isset($rawStores[$group->getId()])) {

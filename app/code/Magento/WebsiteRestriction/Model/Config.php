@@ -76,7 +76,7 @@ class Config
      */
     public function isRestrictionEnabled($store = null)
     {
-        return (bool)(int)$this->_storeConfig->getValue(self::XML_PATH_RESTRICTION_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return (bool)(int)$this->_storeConfig->getValue(self::XML_PATH_RESTRICTION_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -86,7 +86,7 @@ class Config
      */
     public function getMode()
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_RESTRICTION_MODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int)$this->_storeConfig->getValue(self::XML_PATH_RESTRICTION_MODE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -98,7 +98,7 @@ class Config
     {
         return (int)$this->_storeConfig->getValue(
             self::XML_PATH_RESTRICTION_HTTP_STATUS
-        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -110,7 +110,7 @@ class Config
     {
         return (int)$this->_storeConfig->getValue(
             self::XML_PATH_RESTRICTION_HTTP_REDIRECT
-        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -122,6 +122,6 @@ class Config
     {
         return $this->_storeConfig->getValue(
             self::XML_PATH_RESTRICTION_LANDING_PAGE
-        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

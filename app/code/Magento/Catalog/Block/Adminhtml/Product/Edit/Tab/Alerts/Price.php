@@ -112,7 +112,7 @@ class Price extends Extended
             'index'     => 'price',
             'type'      => 'currency',
             'currency_code'
-                        => $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                        => $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         ));
 
         $this->addColumn('add_date', array(

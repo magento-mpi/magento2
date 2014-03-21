@@ -91,7 +91,7 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer implements
          * Show parent product thumbnail if it must be always shown according to the related setting in system config
          * or if child thumbnail is not available
          */
-        if ($this->_storeConfig->getValue(self::CONFIG_THUMBNAIL_SOURCE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == ThumbnailSource::OPTION_USE_PARENT_IMAGE
+        if ($this->_storeConfig->getValue(self::CONFIG_THUMBNAIL_SOURCE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == ThumbnailSource::OPTION_USE_PARENT_IMAGE
             || !($this->getChildProduct()->getThumbnail() && $this->getChildProduct()->getThumbnail() != 'no_selection')
         ) {
             $product = $this->getProduct();

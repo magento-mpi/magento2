@@ -135,7 +135,7 @@ class Config
      */
     private function _getServiceConfigValue($key)
     {
-        return $this->_storeConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        return $this->_storeConfig->getValue($this->_serviceConfigPath . '/' . $key, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
     }
 
     /**

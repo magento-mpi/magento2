@@ -76,7 +76,7 @@ class Payment extends \Magento\Backend\Block\Template
     {
         $websiteId = $this->_storeManager->getStore($this->getQuote()->getStoreId())->getWebsiteId();
         $minPointsBalance = (int)$this->_storeConfig->getValue(
-            \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $this->getQuote()->getStoreId()
         );
 

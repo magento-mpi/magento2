@@ -167,7 +167,7 @@ class Observer
                     }
                     if ($this->_storeConfig->isSetFlag(
                         \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-                    , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+                    , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                         $afterLoginUrl = $this->_customerHelper->getDashboardUrl();
                     } else {
                         $afterLoginUrl = $this->getUrl();

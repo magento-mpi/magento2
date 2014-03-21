@@ -88,9 +88,9 @@ class Calendar extends \Magento\View\Element\Template
         $this->assign('pm', $this->encoder->encode(\Zend_Locale_Data::getContent($localeCode, 'pm')));
 
         // get first day of week and weekend days
-        $this->assign('firstDay', (int)$this->_storeConfig->getValue('general/locale/firstday', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
+        $this->assign('firstDay', (int)$this->_storeConfig->getValue('general/locale/firstday', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
         $this->assign('weekendDays', $this->encoder->encode(
-            (string)$this->_storeConfig->getValue('general/locale/weekend', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            (string)$this->_storeConfig->getValue('general/locale/weekend', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         ));
 
         // define default format and tooltip format

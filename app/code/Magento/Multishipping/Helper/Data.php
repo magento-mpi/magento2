@@ -68,7 +68,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaximumQty()
     {
-        return (int)$this->coreStoreConfig->getValue(self::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int)$this->coreStoreConfig->getValue(self::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -80,7 +80,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isMultishippingCheckoutAvailable()
     {
         $quote = $this->getQuote();
-        $isMultiShipping = $this->coreStoreConfig->isSetFlag(self::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $isMultiShipping = $this->coreStoreConfig->isSetFlag(self::XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!$quote || !$quote->hasItems()) {
             return $isMultiShipping;
         }

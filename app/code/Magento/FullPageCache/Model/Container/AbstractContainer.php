@@ -137,7 +137,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
             return false;
         }
 
-        if ($this->_storeConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_DEBUG, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_DEBUG, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $debugBlock = $this->_layout->createBlock('Magento\FullPageCache\Block\Debug');
             $debugBlock->setDynamicBlockContent($blockContent);
             $this->_applyToContent($content, $debugBlock->toHtml());

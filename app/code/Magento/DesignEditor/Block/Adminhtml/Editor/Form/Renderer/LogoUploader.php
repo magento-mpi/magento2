@@ -96,7 +96,7 @@ class LogoUploader
     {
         $image = null;
         if (null !== $store) {
-            $image = basename($this->_storeConfig->getValue('design/header/logo_src', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store->getId()));
+            $image = basename($this->_storeConfig->getValue('design/header/logo_src', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store->getId()));
         }
         return $image;
     }

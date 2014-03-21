@@ -173,7 +173,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
 
         $order = $observer->getEvent()->getOrder();
         $requiredStatus = $this->_storeConfig->getValue(
-            \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $order->getStore()
         );
         $loadedInvoices = array();
@@ -295,7 +295,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             ))
                             ->setTemplateVars($templateData)
                             ->setFrom($this->_storeConfig->getValue(
-                                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                                 $item->getOrder()->getStoreId()
                             ))
                             ->addTo(

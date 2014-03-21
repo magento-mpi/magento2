@@ -35,8 +35,8 @@ class Alerts extends \Magento\Backend\Block\Widget\Tab
             ->setId('productAlerts');
         /* @var $accordion \Magento\Backend\Block\Widget\Accordion */
 
-        $alertPriceAllow = $this->_storeConfig->getValue('catalog/productalert/allow_price', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
-        $alertStockAllow = $this->_storeConfig->getValue('catalog/productalert/allow_stock', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $alertPriceAllow = $this->_storeConfig->getValue('catalog/productalert/allow_price', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $alertStockAllow = $this->_storeConfig->getValue('catalog/productalert/allow_stock', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         if ($alertPriceAllow) {
             $accordion->addItem('price', array(
@@ -76,8 +76,8 @@ class Alerts extends \Magento\Backend\Block\Widget\Tab
      */
     public function canShowTab()
     {
-        $alertPriceAllow = $this->_storeConfig->getValue('catalog/productalert/allow_price', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
-        $alertStockAllow = $this->_storeConfig->getValue('catalog/productalert/allow_stock', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $alertPriceAllow = $this->_storeConfig->getValue('catalog/productalert/allow_price', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $alertStockAllow = $this->_storeConfig->getValue('catalog/productalert/allow_stock', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return ($alertPriceAllow || $alertStockAllow) && parent::canShowTab();
     }
 }

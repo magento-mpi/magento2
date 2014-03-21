@@ -80,7 +80,7 @@ class Grid extends \Magento\Backend\Block\Template
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
         $shipperAddressCountryCode = $this->_storeConfig->getValue(
-            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();

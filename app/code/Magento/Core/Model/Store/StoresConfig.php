@@ -13,7 +13,7 @@ namespace Magento\Core\Model\Store;
 class StoresConfig
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -23,11 +23,11 @@ class StoresConfig
     protected $_config;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_storeManager = $storeManager;

@@ -119,7 +119,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        return $this->_storeConfig->getValue($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class AbstractCarrier extends \Magento\Object implements AbstractCarrie
             return false;
         }
         $path = 'carriers/'.$this->_code.'/'.$field;
-        return $this->_storeConfig->isSetFlag($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
+        return $this->_storeConfig->isSetFlag($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore());
     }
 
     /**

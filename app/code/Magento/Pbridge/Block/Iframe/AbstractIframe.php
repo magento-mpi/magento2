@@ -193,7 +193,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     public function getFrameParam($param = '')
     {
-        return $this->_storeConfig->getValue('payment_services/pbridge_styling/' . $param, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue('payment_services/pbridge_styling/' . $param, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -217,7 +217,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         if (!$this->getFrameParam('use_theme')) {
             return '';
         }
-        $shouldMergeCss = $this->_storeConfig->isSetFlag('dev/css/merge_css_files', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $shouldMergeCss = $this->_storeConfig->isSetFlag('dev/css/merge_css_files', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (!is_object($this->getLayout()->getBlock('head'))) {
             return $this->_pbridgeSession->getCssUrl();
         }

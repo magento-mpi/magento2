@@ -201,7 +201,7 @@ class Links
     {
         return $this->getProduct()->getId() && $this->getProduct()->getTypeId() == 'downloadable'
             ? $this->getProduct()->getLinksTitle()
-            : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -332,7 +332,7 @@ class Links
      */
     public function getConfigMaxDownloads()
     {
-        return $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_DEFAULT_DOWNLOADS_NUMBER, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

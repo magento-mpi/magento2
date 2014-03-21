@@ -145,7 +145,7 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
             $storeId = $this->_paypalMethodInstance->getStore();
         }
         $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
-        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->getValue($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**

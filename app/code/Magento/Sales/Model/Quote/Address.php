@@ -1203,7 +1203,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function validateMinimumAmount()
     {
         $storeId = $this->getQuote()->getStoreId();
-        if (!$this->_storeConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)) {
+        if (!$this->_storeConfig->isSetFlag('sales/minimum_order/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)) {
             return true;
         }
 
@@ -1213,7 +1213,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             return true;
         }
 
-        $amount = $this->_storeConfig->getValue('sales/minimum_order/amount', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $amount = $this->_storeConfig->getValue('sales/minimum_order/amount', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if ($this->getBaseSubtotalWithDiscount() < $amount) {
             return false;
         }

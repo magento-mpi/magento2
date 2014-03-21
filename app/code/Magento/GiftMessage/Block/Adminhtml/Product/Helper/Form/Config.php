@@ -53,6 +53,6 @@ class Config
     {
         return $this->_storeConfig->getValue(
             \Magento\GiftMessage\Helper\Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS
-        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

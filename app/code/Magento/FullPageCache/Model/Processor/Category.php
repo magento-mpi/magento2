@@ -143,7 +143,7 @@ class Category extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
             $params = $this->_getSessionParams();
             $queryParams = $request->getQuery();
             $queryParams = array_merge($queryParams, $params);
-            $maxDepth = $this->_storeConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $maxDepth = $this->_storeConfig->getValue(\Magento\FullPageCache\Model\Processor::XML_PATH_ALLOWED_DEPTH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $res = count($queryParams)<=$maxDepth;
         }
         return $res;

@@ -318,7 +318,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
-        $this->_storeConfig = $storeConfig;
+        $this->_storeConfig = $coreStoreConfig;
         $this->_url = $url;
         $this->_configCacheType = $configCacheType;
         $this->_request = $request;

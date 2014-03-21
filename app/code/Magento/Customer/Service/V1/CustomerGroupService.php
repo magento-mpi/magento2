@@ -220,7 +220,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getDefaultGroup($storeId)
     {
-        $groupId = $this->_storeConfig->getValue(CustomerGroupModel::XML_PATH_DEFAULT_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $groupId = $this->_storeConfig->getValue(CustomerGroupModel::XML_PATH_DEFAULT_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         try {
             return $this->getGroup($groupId);
         } catch (NoSuchEntityException $e) {

@@ -328,14 +328,14 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
         }
         $isRedirectOption = $this->hasOption('R');
         if ($isRedirectOption || $isPermanentRedirectOption) {
-            if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
+            if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
                 $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
             }
 
             $this->_sendRedirectHeaders($targetUrl, $isPermanentRedirectOption);
         }
 
-        if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
+        if ($this->_storeConfig->getValue('web/url/use_store', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) && $storeCode = $this->_storeManager->getStore()->getCode()) {
             $targetUrl = $request->getBaseUrl(). '/' . $storeCode . '/' .$this->getTargetPath();
         }
 

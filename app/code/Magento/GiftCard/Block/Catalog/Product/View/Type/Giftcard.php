@@ -159,7 +159,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     public function isMessageAvailable($product)
     {
         if ($product->getUseConfigAllowMessage()) {
-            return $this->_storeConfig->isSetFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            return $this->_storeConfig->isSetFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         } else {
             return (int) $product->getAllowMessage();
         }
@@ -205,7 +205,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getMessageMaxLength()
     {
-        return (int) $this->_storeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int) $this->_storeConfig->getValue(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

@@ -345,6 +345,6 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

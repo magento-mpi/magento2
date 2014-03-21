@@ -92,7 +92,7 @@ class Lister extends AbstractEvent
     public function canDisplay()
     {
         return $this->_catalogEventData->isEnabled()
-            && $this->_storeConfig->isSetFlag('catalog/magento_catalogevent/lister_output', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            && $this->_storeConfig->isSetFlag('catalog/magento_catalogevent/lister_output', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && (count($this->getEvents()) > 0);
     }
 
@@ -176,7 +176,7 @@ class Lister extends AbstractEvent
         if ($this->hasData('limit') && is_numeric($this->getData('limit'))) {
             $pageSize = (int) $this->_getData('limit');
         } else {
-            $pageSize = (int)$this->_storeConfig->getValue('catalog/magento_catalogevent/lister_widget_limit', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $pageSize = (int)$this->_storeConfig->getValue('catalog/magento_catalogevent/lister_widget_limit', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return max($pageSize, 1);
     }
@@ -191,7 +191,7 @@ class Lister extends AbstractEvent
         if ($this->hasData('scroll') && is_numeric($this->getData('scroll'))) {
             $scrollSize = (int) $this->_getData('scroll');
         } else {
-            $scrollSize = (int)$this->_storeConfig->getValue('catalog/magento_catalogevent/lister_widget_scroll', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $scrollSize = (int)$this->_storeConfig->getValue('catalog/magento_catalogevent/lister_widget_scroll', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return  min(max($scrollSize, 1), $this->getPageSize());
     }

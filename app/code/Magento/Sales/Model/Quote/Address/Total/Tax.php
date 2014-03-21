@@ -173,7 +173,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         }
 
         $shippingTaxClass = $this->_storeConfig->getValue(
-            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
 

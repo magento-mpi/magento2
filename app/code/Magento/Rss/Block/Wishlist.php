@@ -196,7 +196,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
                 'code' => $this->_getWishlist()->getSharingCode()
             ));
             $title = $this->_getTitle();
-            $lang = $this->_storeConfig->getValue('general/locale/code', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $lang = $this->_storeConfig->getValue('general/locale/code', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $rssObj->_addHeader(array(
                 'title'         => $title,
                 'description'   => $title,

@@ -173,7 +173,7 @@ class Design implements \Magento\View\DesignInterface
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
                 ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)$this->_storeConfig->getValue(self::XML_PATH_THEME_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+                : (string)$this->_storeConfig->getValue(self::XML_PATH_THEME_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         }
 
         if (!$theme && isset($this->_themes[$area])) {

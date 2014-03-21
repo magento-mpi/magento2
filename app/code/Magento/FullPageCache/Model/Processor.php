@@ -539,7 +539,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $contentSize = strlen($content);
                 $currentStorageSize = (int) $this->_fpcCache->load(self::CACHE_SIZE_KEY);
 
-                $maxSizeInBytes = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MAX_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) * 1024 * 1024;
+                $maxSizeInBytes = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MAX_SIZE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) * 1024 * 1024;
 
                 if ($currentStorageSize >= $maxSizeInBytes) {
                     $this->_typeList->invalidate('full_page');
@@ -593,13 +593,13 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $output = $this->isAllowed();
 
         if ($output) {
-            $maxDepth = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_DEPTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $maxDepth = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_DEPTH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $queryParams = $request->getQuery();
             unset($queryParams[\Magento\FullPageCache\Model\Cache::REQUEST_MESSAGE_GET_PARAM]);
             $output = count($queryParams) <= $maxDepth;
         }
         if ($output) {
-            $multiCurrency = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MULTICURRENCY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $multiCurrency = $this->_storeConfig->getValue(self::XML_PATH_CACHE_MULTICURRENCY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $currency = $this->_environment->getCookie('currency');
             if (!$multiCurrency && !empty($currency)) {
                 $output = false;

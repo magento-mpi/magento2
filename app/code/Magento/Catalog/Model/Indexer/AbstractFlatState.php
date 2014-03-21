@@ -57,7 +57,7 @@ abstract class AbstractFlatState
      */
     public function isFlatEnabled()
     {
-        return $this->storeConfig->isSetFlag(static::INDEXER_ENABLED_XML_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->storeConfig->isSetFlag(static::INDEXER_ENABLED_XML_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

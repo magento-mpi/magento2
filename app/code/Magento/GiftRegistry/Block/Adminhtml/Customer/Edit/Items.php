@@ -99,7 +99,7 @@ class Items
             'index'  => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
         ));
 
         $this->addColumn('qty', array(

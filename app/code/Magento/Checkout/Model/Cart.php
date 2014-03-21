@@ -588,7 +588,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         }
 
         if ($quoteId && $this->_summaryQty === null) {
-            if ($this->_storeConfig->getValue('checkout/cart_link/use_qty', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+            if ($this->_storeConfig->getValue('checkout/cart_link/use_qty', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 $this->_summaryQty = $this->getItemsQty();
             } else {
                 $this->_summaryQty = $this->getItemsCount();

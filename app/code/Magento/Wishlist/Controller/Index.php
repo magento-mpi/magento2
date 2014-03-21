@@ -737,7 +737,7 @@ class Index
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 foreach ($emails as $email) {
                     $transport = $this->_transportBuilder
-                        ->setTemplateIdentifier($storeConfig->getValue('wishlist/email/email_template', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                        ->setTemplateIdentifier($storeConfig->getValue('wishlist/email/email_template', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                         ->setTemplateOptions(array(
                             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                             'store' => $storeManager->getStore()->getStoreId()
@@ -751,7 +751,7 @@ class Index
                             'message'       => $message,
                             'store'         => $storeManager->getStore()
                         ))
-                        ->setFrom($storeConfig->getValue('wishlist/email/email_identity', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                        ->setFrom($storeConfig->getValue('wishlist/email/email_identity', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
                         ->addTo($email)
                         ->getTransport();
 

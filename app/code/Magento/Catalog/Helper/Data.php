@@ -327,7 +327,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPriceScope()
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_PRICE_SCOPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(self::XML_PATH_PRICE_SCOPE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -348,7 +348,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function shouldSaveUrlRewritesHistory($storeId = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_SEO_SAVE_HISTORY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_SEO_SAVE_HISTORY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**
@@ -358,7 +358,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isUsingStaticUrlsAllowed()
     {
-        return $this->_storeConfig->isSetFlag(self::CONFIG_USE_STATIC_URLS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        return $this->_storeConfig->isSetFlag(self::CONFIG_USE_STATIC_URLS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
     }
 
     /**
@@ -368,7 +368,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isUrlDirectivesParsingAllowed()
     {
-        return $this->_storeConfig->isSetFlag(self::CONFIG_PARSE_URL_DIRECTIVES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        return $this->_storeConfig->isSetFlag(self::CONFIG_PARSE_URL_DIRECTIVES, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
     }
 
     /**
@@ -388,7 +388,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isMsrpEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_MSRP_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        return (bool)$this->_storeConfig->getValue(self::XML_PATH_MSRP_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
     }
 
     /**
@@ -398,7 +398,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMsrpDisplayActualPriceType()
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        return $this->_storeConfig->getValue(self::XML_PATH_MSRP_DISPLAY_ACTUAL_PRICE_TYPE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
     }
 
     /**
@@ -408,7 +408,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_MSRP_APPLY_TO_ALL, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        return (bool)$this->_storeConfig->getValue(self::XML_PATH_MSRP_APPLY_TO_ALL, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
     }
 
     /**
@@ -419,7 +419,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getMsrpExplanationMessage()
     {
         return $this->_escaper->escapeHtml(
-            $this->_storeConfig->getValue(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId),
+            $this->_storeConfig->getValue(self::XML_PATH_MSRP_EXPLANATION_MESSAGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId),
             array('b','br','strong','i','u', 'p', 'span')
         );
     }
@@ -432,7 +432,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getMsrpExplanationMessageWhatsThis()
     {
         return $this->_escaper->escapeHtml(
-            $this->_storeConfig->getValue(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId),
+            $this->_storeConfig->getValue(self::XML_PATH_MSRP_EXPLANATION_MESSAGE_WHATS_THIS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId),
             array('b','br','strong','i','u', 'p', 'span')
         );
     }
@@ -554,6 +554,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function shouldDisplayProductCountOnLayer($storeId = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_COUNT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_COUNT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 }
