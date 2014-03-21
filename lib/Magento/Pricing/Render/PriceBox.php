@@ -71,9 +71,9 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      */
     public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
     {
-        $origArguments = $this->_data;
+        $origArguments = $this->getData();
         // @todo probably use block vars instead
-        $this->_data = array_replace($origArguments, $arguments);
+        $this->setData(array_replace($origArguments, $arguments));
 
         $this->saleableItem = $saleableItem;
 
@@ -87,14 +87,11 @@ class PriceBox extends Template implements PriceBoxRenderInterface
             $this->setTemplate($this->defaultTemplate);
         }
 
-        // wrap with standard required container
-        $result = '<div class="price-box ' . $this->_data['css_classes'] . '">' . $this->toHtml() . '</div>';
-
         // restore original block arguments
-        $this->_data = $origArguments;
+//        $this->setData($origArguments);
 
         // return result
-        return $result;
+        return $this->toHtml();
     }
 
     /**
@@ -139,25 +136,6 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     public function getPriceType($priceCode, $quantity = null)
     {
         return $this->priceInfo->getPrice($priceCode, $quantity);
-    }
-
-    /**
-     * @param float $amount
-     * @return float
-     */
-    public function convertToDisplayCurrency($amount)
-    {
-        // @todo move to abstract pricing block
-        return $amount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDisplayCurrencySymbol()
-    {
-        // @todo move to abstract pricing block
-        return '';
     }
 
     /**

@@ -25,11 +25,14 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->coreHelper = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
+        $this->coreHelper = $this->getMock('Magento\Core\Helper\Data', ['jsonEncode'], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
-            'Magento\Catalog\Pricing\Render\PriceBox'
+            'Magento\Catalog\Pricing\Render\PriceBox',
+            [
+                'coreDataHelper' => $this->coreHelper
+            ]
         );
     }
 
