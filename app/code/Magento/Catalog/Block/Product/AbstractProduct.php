@@ -264,8 +264,8 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         $stockItem = $product->getStockItem();
         if ($stockItem) {
-            return $stockItem->getMinSaleQty() &&
-                $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null;
+            return $stockItem->getMinSaleQty()
+                && $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null;
         }
         return null;
     }
@@ -448,7 +448,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\Product $product
      * @return array
      *
-     * @deprecated
+     * @deprecated use \Magento\Catalog\Pricing\Price\TierPrice::getApplicableTierPrices
      */
     public function getTierPrices($product = null)
     {
@@ -602,7 +602,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
             }
         }
 
-        return (int)$this->_getData('column_count');
+        return (int) $this->_getData('column_count');
     }
 
     /**
@@ -678,7 +678,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         $statusInfo = new \Magento\Object(array('display_status' => true));
         $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
-        return (bool)$statusInfo->getDisplayStatus();
+        return (bool) $statusInfo->getDisplayStatus();
     }
 
     /**
@@ -819,7 +819,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getBaseImageIconUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'image')
+        return (string) $this->_imageHelper->init($product, 'image')
             ->resize($this->getBaseImageIconSize());
     }
 

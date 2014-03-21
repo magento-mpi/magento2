@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="page_one_column"/>
     <referenceBlock name="page.main.title">
         <arguments>
@@ -52,10 +52,16 @@
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.price" template="product/view/price.phtml" after="product.info.rating"/>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.rating" template="product/view/rating.phtml" after="product.info.sku"/>
-            <block class="Magento\Catalog\Pricing\Render" name="product.price.new" after="product.info.rating">
+            <block class="Magento\Catalog\Pricing\Render" name="product.price.final" after="product.info.rating">
                 <arguments>
                     <argument name="price_render" xsi:type="string">product.price.render.default</argument>
                     <argument name="price_type_code" xsi:type="string">final_price</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Pricing\Render" name="product.price.tier" after="product.price.final">
+                <arguments>
+                    <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                    <argument name="price_type_code" xsi:type="string">tier_price</argument>
                 </arguments>
             </block>
             <container name="alert.urls" as="alert_urls" label="Alert Urls" after="product.price"/>

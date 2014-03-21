@@ -17,7 +17,7 @@ $id = $product->getId();
 
 /** @var \Magento\Catalog\Pricing\Price\Price $priceModel */
 $priceModel = $this->getPriceType('price');
-$displayRegularPrice = $this->getPriceType('price')->getDisplayValue();
+$displayRegularPrice = $priceModel->getDisplayValue();
 
 /** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPriceType('final_price');
