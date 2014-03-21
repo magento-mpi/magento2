@@ -3,6 +3,7 @@
   * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
   * Fixed ability to check Solr connection (MAGETWO-19110)
   * Fixed ability to use of custom module front name (MAGETWO-16160)
+  * Fixed ability to use USPS and DHL on production (MAGETWO-22592)
 * Modularity improvements:
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Framework Improvements:
