@@ -12,12 +12,13 @@ namespace Magento\Catalog\Block\Product;
 /**
  * Product View block
  */
-class View extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\View\Block\IdentityInterface
+class View extends AbstractProduct implements \Magento\View\Block\IdentityInterface
 {
     /**
      * Default MAP renderer type
      *
      * @var string
+     * @deprecated
      */
     protected $_mapRenderer = 'msrp_item';
 

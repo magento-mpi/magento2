@@ -1,0 +1,82 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Template for displaying product price at product view page, gift registry and wishlist
+ *
+ * @var $this \Magento\Pricing\Render\PriceBox
+ */
+?>
+<?php
+
+/** @var Magento\Catalog\Pricing\Price\MsrpPrice $priceType */
+$priceType = $this->getPriceType('msrp');
+
+/** @var \Magento\Core\Helper\Data $coreHelper */
+$coreHelper = $this->helper('Magento\Core\Helper\Data');
+
+/** @var $_product \Magento\Catalog\Model\Product */
+$_product = $this->getProduct();
+$_id = $_product->getId();
+$_msrpPrice = '';
+$priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
+?>
+
+<?php if ($_product->getMsrp()): ?>
+    <?php $_msrpPrice = $this->renderAmount($_product->getMsrp(), [
+//        'display_label' => __('Regular Price:'),
+        'price_id' => 'old-price-' . $_id,
+        'include_container' => false,
+        'skip_adjustments' => true
+    ]); ?>
+    <span class="old-price"><?php echo $_msrpPrice ?></span>
+<?php endif; ?>
+
+<?php if ($priceType->isShowPriceOnGesture()): ?>
+    <?php $priceElementId = $priceElementIdPrefix . $_id . $this->getIdSuffix(); ?>
+    <span id="<?php echo $priceElementId ?>" style="display:none"></span>
+    <?php $popupId = 'msrp-popup-' . $_id . $this->getRandomString(20); ?>
+    <a href="#" id="<?php echo($popupId);?>"><?php echo __('Click for price'); ?></a>
+<?php else: ?>
+    <span class="msrp message">
+     <?php echo $priceType->getMsrpPriceMessage() ?>
+    </span>
+<?php endif; ?>
+
+<?php $helpLinkId = 'msrp-help-' . $_id . $this->getRandomString(20); ?>
+<a href="#" id="<?php echo $helpLinkId;?>" class="action show map"><span><?php echo __("What's this?"); ?></span></a>
+
+<script type="text/javascript">
+    //<![CDATA[
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/msrp.js') ?>",
+            function () {
+                <?php if ($priceType->isShowPriceOnGesture()): ?>
+                $('#<?php echo($popupId);?>').addToCart({
+                    cartForm: "#product_addtocart_form",
+                    popupId: "#<?php echo $popupId;?>",
+                    productName: '<?php echo $_product->getName() ?>',
+                    realPrice: <?php echo $coreHelper->jsonEncode($_product->getRealPriceHtml()) ?>,
+                    msrpPrice: <?php echo $coreHelper->jsonEncode($_msrpPrice) ?>,
+                    priceElementId: '<?php echo $priceElementId ?>',
+                    closeButtonId: '#map-popup-close',
+                    popupCartButtonId: "#map-popup-button"
+                });
+                <?php endif; ?>
+                $("#<?php echo($helpLinkId);?>").addToCart({
+                    helpLinkId: "#<?php echo $helpLinkId ;?>",
+                    productName: '<?php echo $_product->getName() ?>',
+                    closeButtonId: '#map-popup-close'
+                });
+            });
+    })(jQuery);
+    //]]>
+</script>
+
+
+
