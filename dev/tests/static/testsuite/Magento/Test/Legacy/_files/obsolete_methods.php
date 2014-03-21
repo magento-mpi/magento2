@@ -1457,5 +1457,4 @@ return array(
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
     ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
-    ['getTranslateJson', 'Magento\Core\Helper\Js'],
 );
