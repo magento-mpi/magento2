@@ -280,8 +280,8 @@ class Carrier
     protected function _getDefaultValue($origValue, $pathToValue)
     {
         if (!$origValue) {
-            $origValue = $this->_coreStoreConfig->getConfig(
-                $pathToValue,
+            $origValue = $this->_coreStoreConfig->getValue(
+                $pathToValue, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $this->getStore()
             );
         }
@@ -433,7 +433,7 @@ class Carrier
             ->setOrigCity($request->getOrigCity())
             ->setOrigPhoneNumber($request->getOrigPhoneNumber())
             ->setOrigPersonName($request->getOrigPersonName())
-            ->setOrigEmail($this->_coreStoreConfig->getConfig('trans_email/ident_general/email', $requestObject->getStoreId()))
+            ->setOrigEmail($this->_coreStoreConfig->getValue('trans_email/ident_general/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $requestObject->getStoreId()))
             ->setOrigCity($request->getOrigCity())
             ->setOrigPostal($request->getOrigPostal())
             ->setOrigStreetLine2($request->getOrigStreetLine2())
@@ -441,8 +441,8 @@ class Carrier
             ->setDestPersonName($request->getDestPersonName())
             ->setDestCompanyName($request->getDestCompanyName());
 
-        $originStreet2 = $this->_coreStoreConfig->getConfig(
-            Shipment::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
+        $originStreet2 = $this->_coreStoreConfig->getValue(
+            Shipment::XML_PATH_STORE_ADDRESS2, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $requestObject->getStoreId());
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
@@ -1266,7 +1266,7 @@ class Carrier
         }
 
         $countryParams = $this->getCountryParams(
-            $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
+            $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1381,7 +1381,7 @@ class Carrier
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore())
         )->getRegion();
 
         if (!$originRegion) {

@@ -656,8 +656,8 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function validateMinimumAmount()
     {
-        return !($this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active')
-            && $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/multi_address')
+        return !($this->_coreStoreConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            && $this->_coreStoreConfig->isSetFlag('sales/minimum_order/multi_address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && !$this->getQuote()->validateMinimumAmount());
     }
 
@@ -668,9 +668,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function getMinimumAmountDescription()
     {
-        $descr = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_description');
+        $descr = $this->_coreStoreConfig->getValue('sales/minimum_order/multi_address_description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (empty($descr)) {
-            $descr = $this->_coreStoreConfig->getConfig('sales/minimum_order/description');
+            $descr = $this->_coreStoreConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $descr;
     }
@@ -680,9 +680,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      */
     public function getMinimumAmountError()
     {
-        $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/multi_address_error_message');
+        $error = $this->_coreStoreConfig->getValue('sales/minimum_order/multi_address_error_message', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if (empty($error)) {
-            $error = $this->_coreStoreConfig->getConfig('sales/minimum_order/error_message');
+            $error = $this->_coreStoreConfig->getValue('sales/minimum_order/error_message', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $error;
     }

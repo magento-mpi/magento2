@@ -81,7 +81,7 @@ class SidResolver implements SidResolverInterface
     public function getSid(SessionManagerInterface $session)
     {
         $sidKey = null;
-        if ($this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID)
+        if ($this->coreStoreConfig->getValue(self::XML_PATH_USE_FRONTEND_SID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->request->getQuery($this->getSessionIdQueryParam($session), false)
             && $this->urlBuilder->isOwnOriginUrl()
         ) {

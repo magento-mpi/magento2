@@ -169,7 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_ENABLED);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -297,7 +297,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        $pageIdentifier = $this->_storeConfig->getConfig(self::XML_PATH_LANDING_PAGE);
+        $pageIdentifier = $this->_storeConfig->getValue(self::XML_PATH_LANDING_PAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
     }
 
@@ -441,6 +441,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAutoRefundEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_AUTO_REFUND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

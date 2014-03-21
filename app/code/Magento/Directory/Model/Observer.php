@@ -88,15 +88,15 @@ class Observer
     public function scheduledUpdateCurrencyRates($schedule)
     {
         $importWarnings = array();
-        if (!$this->_coreStoreConfig->getConfig(self::IMPORT_ENABLE)
-            || !$this->_coreStoreConfig->getConfig(self::CRON_STRING_PATH)
+        if (!$this->_coreStoreConfig->getValue(self::IMPORT_ENABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            || !$this->_coreStoreConfig->getValue(self::CRON_STRING_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
         ) {
             return;
         }
 
         $errors = array();
         $rates = array();
-        $service = $this->_coreStoreConfig->getConfig(self::IMPORT_SERVICE);
+        $service = $this->_coreStoreConfig->getValue(self::IMPORT_SERVICE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($service) {
             try {
                 $importModel = $this->_importFactory->create($service);
@@ -122,15 +122,15 @@ class Observer
             $this->_translate->setTranslateInline(false);
 
             $this->_transportBuilder->setTemplateIdentifier(
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)
+                    $this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 )
                 ->setTemplateOptions(array(
                     'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId(),
                 ))
                 ->setTemplateVars(array('warnings' => join("\n", $importWarnings)))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY))
-                ->addTo($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT));
+                ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->addTo($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 

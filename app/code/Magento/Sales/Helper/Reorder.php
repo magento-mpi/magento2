@@ -63,7 +63,7 @@ class Reorder extends \Magento\Core\Helper\Data
      */
     public function isAllowed($store = null)
     {
-        if ($this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_REORDER_ALLOW, $store)) {
+        if ($this->_coreStoreConfig->getValue(self::XML_PATH_SALES_REORDER_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
             return true;
         }
         return false;

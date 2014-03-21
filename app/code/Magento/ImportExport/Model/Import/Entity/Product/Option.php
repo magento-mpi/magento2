@@ -472,7 +472,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
             $this->_pageSize = $data['page_size'];
         } else {
             $this->_pageSize = self::XML_PATH_PAGE_SIZE
-                ? (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_PAGE_SIZE)
+                ? (int) $this->_coreStoreConfig->getValue(self::XML_PATH_PAGE_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 : 0;
         }
         return $this;

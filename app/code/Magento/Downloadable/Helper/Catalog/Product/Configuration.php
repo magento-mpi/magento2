@@ -83,7 +83,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         if (strlen($title)) {
             return $title;
         }
-        return $this->_coreStoreConfig->getConfig(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE);
+        return $this->_coreStoreConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

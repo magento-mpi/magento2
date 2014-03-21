@@ -144,7 +144,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
                 }
             }
         } else { // get all stores, required by configuration in current store scope
-            switch ($this->_coreStoreConfig->getConfig('catalog/recently_products/scope')) {
+            switch ($this->_coreStoreConfig->getValue('catalog/recently_products/scope', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 case 'website':
                     $resourceStore = $this->_storeManager->getStore()->getWebsite()->getStores();
                     break;

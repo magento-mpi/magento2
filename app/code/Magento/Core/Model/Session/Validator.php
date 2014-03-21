@@ -89,12 +89,12 @@ class Validator implements ValidatorInterface
         $sessionData = $_SESSION[self::VALIDATOR_KEY];
         $validatorData = $this->_getSessionEnvironment();
 
-        if ($this->_storeConfig->getConfig(self::XML_PATH_USE_REMOTE_ADDR)
+        if ($this->_storeConfig->getValue(self::XML_PATH_USE_REMOTE_ADDR, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $sessionData[self::VALIDATOR_REMOTE_ADDR_KEY] != $validatorData[self::VALIDATOR_REMOTE_ADDR_KEY]
         ) {
             return false;
         }
-        if ($this->_storeConfig->getConfig(self::XML_PATH_USE_HTTP_VIA)
+        if ($this->_storeConfig->getValue(self::XML_PATH_USE_HTTP_VIA, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $sessionData[self::VALIDATOR_HTTP_VIA_KEY] != $validatorData[self::VALIDATOR_HTTP_VIA_KEY]
         ) {
             return false;
@@ -102,11 +102,11 @@ class Validator implements ValidatorInterface
 
         $httpXForwardedKey = $sessionData[self::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY];
         $validatorXForwarded = $validatorData[self::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY];
-        if ($this->_storeConfig->getConfig(self::XML_PATH_USE_X_FORWARDED)
+        if ($this->_storeConfig->getValue(self::XML_PATH_USE_X_FORWARDED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $httpXForwardedKey != $validatorXForwarded ) {
             return false;
         }
-        if ($this->_storeConfig->getConfig(self::XML_PATH_USE_USER_AGENT)
+        if ($this->_storeConfig->getValue(self::XML_PATH_USE_USER_AGENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $sessionData[self::VALIDATOR_HTTP_USER_AGENT_KEY] != $validatorData[self::VALIDATOR_HTTP_USER_AGENT_KEY]
         ) {
             foreach ($this->_skippedAgentList as $agent) {

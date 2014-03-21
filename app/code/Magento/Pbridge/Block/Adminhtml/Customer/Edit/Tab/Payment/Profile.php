@@ -122,7 +122,7 @@ class Profile
      */
     protected function _isProfileEnable()
     {
-        return $this->_storeConfig->getConfigFlag('payment/pbridge/profilestatus', $this->_getCurrentStore());
+        return $this->_storeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_getCurrentStore());
     }
 
     /**

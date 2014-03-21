@@ -51,8 +51,8 @@ class Config
      */
     protected function _getValueFromConfig()
     {
-        return $this->_coreStoreConfig->getConfig(
+        return $this->_coreStoreConfig->getValue(
             \Magento\GiftMessage\Helper\Message::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS
-        );
+        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

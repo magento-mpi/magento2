@@ -82,7 +82,7 @@ class RequestPreprocessor
                     $redirectUrl = $this->_url->getRedirectUrl(
                         $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
                     );
-                    $redirectCode = (int)$this->_storeConfig->getConfig('web/url/redirect_to_base') !== 301
+                    $redirectCode = (int)$this->_storeConfig->getValue('web/url/redirect_to_base', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) !== 301
                         ? 302
                         : 301;
 
@@ -104,7 +104,7 @@ class RequestPreprocessor
      */
     protected function _isBaseUrlCheckEnabled()
     {
-        return (bool) $this->_storeConfig->getConfig('web/url/redirect_to_base');
+        return (bool) $this->_storeConfig->getValue('web/url/redirect_to_base', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

@@ -1195,8 +1195,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     public function addUrlRewrite($categoryId = '')
     {
         $this->_addUrlRewrite = true;
-        $useCategoryUrl = $this->_coreStoreConfig->getConfig(
-            \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, $this->getStoreId()
+        $useCategoryUrl = $this->_coreStoreConfig->getValue(
+            \Magento\Catalog\Helper\Product::XML_PATH_PRODUCT_URL_USE_CATEGORY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId()
         );
         if ($useCategoryUrl) {
             $this->_urlRewriteCategory = $categoryId;

@@ -82,9 +82,9 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      */
     public function prepareContent(\Magento\App\ResponseInterface $response)
     {
-        $countLimit = $this->_coreStoreConfig->getConfig(
+        $countLimit = $this->_coreStoreConfig->getValue(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
-        );
+        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         // save recently viewed product count limit
         $cacheId = $this->_fpcProcessor->getRecentlyViewedCountCacheId();
         if (!$this->_fpcCache->getFrontend()->test($cacheId)) {

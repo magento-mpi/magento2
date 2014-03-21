@@ -216,7 +216,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
 
         $messageAllowed = false;
         if ($product->getUseConfigAllowMessage()) {
-            $messageAllowed = $this->_coreStoreConfig->getConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
+            $messageAllowed = $this->_coreStoreConfig->isSetFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         } else {
             $messageAllowed = (int) $product->getAllowMessage();
         }

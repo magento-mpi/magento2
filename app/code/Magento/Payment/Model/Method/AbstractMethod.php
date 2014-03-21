@@ -658,7 +658,7 @@ abstract class AbstractMethod extends \Magento\Object implements \Magento\Paymen
             $storeId = $this->getStore();
         }
         $path = 'payment/' . $this->getCode() . '/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
+        return $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**

@@ -18,7 +18,7 @@ class RegisterLink extends \Magento\Customer\Block\Account\RegisterLink
     protected function _toHtml()
     {
         $key = 'magento_invitation/general/registration_required_invitation';
-        if ($this->_storeConfig->getConfigFlag($key)) {
+        if ($this->_storeConfig->isSetFlag($key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return '';
         }
         return parent::_toHtml();

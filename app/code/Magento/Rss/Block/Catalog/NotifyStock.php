@@ -83,9 +83,9 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
             'charset'     => 'UTF-8',
         ));
 
-        $globalNotifyStockQty = (float)$this->_storeConfig->getConfig(
+        $globalNotifyStockQty = (float)$this->_storeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY
-        );
+        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */

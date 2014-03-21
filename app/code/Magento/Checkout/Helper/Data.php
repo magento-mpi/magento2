@@ -141,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getRequiredAgreementIds()
     {
         if (is_null($this->_agreements)) {
-            if (!$this->_coreStoreConfig->getConfigFlag('checkout/options/enable_agreements')) {
+            if (!$this->_coreStoreConfig->isSetFlag('checkout/options/enable_agreements', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 $this->_agreements = array();
             } else {
                 $this->_agreements = $this->_agreementCollectionFactory->create()
@@ -160,7 +160,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function canOnepageCheckout()
     {
-        return (bool)$this->_coreStoreConfig->getConfig('checkout/options/onepage_checkout_enabled');
+        return (bool)$this->_coreStoreConfig->getValue('checkout/options/onepage_checkout_enabled', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -229,25 +229,25 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         $this->_translator->setTranslateInline(false);
 
-        $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
+        $template = $this->_coreStoreConfig->getValue('checkout/payment_failed/template', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $checkout->getStoreId());
 
         $copyTo = $this->_getEmails('checkout/payment_failed/copy_to', $checkout->getStoreId());
-        $copyMethod = $this->_coreStoreConfig->getConfig(
-            'checkout/payment_failed/copy_method', $checkout->getStoreId()
+        $copyMethod = $this->_coreStoreConfig->getValue(
+            'checkout/payment_failed/copy_method', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $checkout->getStoreId()
         );
         $bcc = array();
         if ($copyTo && $copyMethod == 'bcc') {
             $bcc = $copyTo;
         }
 
-        $_receiver = $this->_coreStoreConfig->getConfig('checkout/payment_failed/receiver', $checkout->getStoreId());
+        $_receiver = $this->_coreStoreConfig->getValue('checkout/payment_failed/receiver', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $checkout->getStoreId());
         $sendTo = array(
             array(
-                'email' => $this->_coreStoreConfig->getConfig(
-                        'trans_email/ident_' . $_receiver . '/email', $checkout->getStoreId()
+                'email' => $this->_coreStoreConfig->getValue(
+                        'trans_email/ident_' . $_receiver . '/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $checkout->getStoreId()
                     ),
-                'name'  => $this->_coreStoreConfig->getConfig(
-                        'trans_email/ident_' . $_receiver . '/name', $checkout->getStoreId()
+                'name'  => $this->_coreStoreConfig->getValue(
+                        'trans_email/ident_' . $_receiver . '/name', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $checkout->getStoreId()
                     )
             )
         );
@@ -295,12 +295,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     'customerEmail' => $checkout->getCustomerEmail(),
                     'billingAddress' => $checkout->getBillingAddress(),
                     'shippingAddress' => $checkout->getShippingAddress(),
-                    'shippingMethod' => $this->_coreStoreConfig->getConfig('carriers/'.$shippingMethod.'/title'),
-                    'paymentMethod' => $this->_coreStoreConfig->getConfig('payment/'.$paymentMethod.'/title'),
+                    'shippingMethod' => $this->_coreStoreConfig->getValue('carriers/'.$shippingMethod.'/title'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    'paymentMethod' => $this->_coreStoreConfig->getValue('payment/'.$paymentMethod.'/title'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                     'items' => nl2br($items),
                     'total' => $total
                 ))
-                ->setFrom($this->_coreStoreConfig->getConfig('checkout/payment_failed/identity', $checkout->getStoreId()))
+                ->setFrom($this->_coreStoreConfig->getValue('checkout/payment_failed/identity', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $checkout->getStoreId()))
                 ->addTo($recipient['email'], $recipient['name'])
                 ->addBcc($bcc)
                 ->getTransport();
@@ -320,7 +320,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     protected function _getEmails($configPath, $storeId)
     {
-        $data = $this->_coreStoreConfig->getConfig($configPath, $storeId);
+        $data = $this->_coreStoreConfig->getValue($configPath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if (!empty($data)) {
             return explode(',', $data);
         }
@@ -340,7 +340,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($store === null) {
             $store = $quote->getStoreId();
         }
-        $guestCheckout = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GUEST_CHECKOUT, $store);
+        $guestCheckout = $this->_coreStoreConfig->isSetFlag(self::XML_PATH_GUEST_CHECKOUT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
 
         if ($guestCheckout == true) {
             $result = new \Magento\Object();
@@ -374,6 +374,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isCustomerMustBeLogged()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_MUST_BE_LOGGED);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_CUSTOMER_MUST_BE_LOGGED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

@@ -268,8 +268,8 @@ class Data extends AbstractHelper
      */
     public function getMinQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(
-            Query::XML_PATH_MIN_QUERY_LENGTH,
+        return $this->_coreStoreConfig->getValue(
+            Query::XML_PATH_MIN_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
     }
@@ -282,8 +282,8 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryLength($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(
-            Query::XML_PATH_MAX_QUERY_LENGTH,
+        return $this->_coreStoreConfig->getValue(
+            Query::XML_PATH_MAX_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
     }
@@ -296,8 +296,8 @@ class Data extends AbstractHelper
      */
     public function getMaxQueryWords($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(
-            Query::XML_PATH_MAX_QUERY_WORDS,
+        return $this->_coreStoreConfig->getValue(
+            Query::XML_PATH_MAX_QUERY_WORDS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $store
         );
     }
@@ -352,7 +352,7 @@ class Data extends AbstractHelper
         }
 
         $searchType = $this->_coreStoreConfig
-            ->getConfig(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE);
+            ->getValue(Fulltext::XML_PATH_CATALOG_SEARCH_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($searchType == Fulltext::SEARCH_TYPE_COMBINE
             || $searchType == Fulltext::SEARCH_TYPE_LIKE
         ) {

@@ -146,7 +146,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      */
     protected function _initRetrievers()
     {
-        $sorts = $this->_coreStoreConfig->getConfig(self::XML_PATH_SALES_TOTALS_SORT, $this->_store);
+        $sorts = $this->_coreStoreConfig->getValue(self::XML_PATH_SALES_TOTALS_SORT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_store);
         foreach ($sorts as $code => $sortOrder) {
             if (isset($this->_models[$code])) {
                 // Reserve enough space for collisions

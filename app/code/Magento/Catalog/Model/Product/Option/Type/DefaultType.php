@@ -188,7 +188,7 @@ class DefaultType extends \Magento\Object
      */
     public function getConfigData($key)
     {
-        return $this->_coreStoreConfig->getConfig('catalog/custom_options/' . $key);
+        return $this->_coreStoreConfig->getValue('catalog/custom_options/' . $key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

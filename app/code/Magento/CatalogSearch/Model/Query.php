@@ -268,7 +268,7 @@ class Query extends AbstractModel
      */
     public function getMinQueryLength()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_MIN_QUERY_LENGTH, $this->getStoreId());
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_MIN_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -278,7 +278,7 @@ class Query extends AbstractModel
      */
     public function getMaxQueryLength()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_QUERY_LENGTH, $this->getStoreId());
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_MAX_QUERY_LENGTH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
     }
 
     /**
@@ -288,6 +288,6 @@ class Query extends AbstractModel
      */
     public function getMaxQueryWords()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_QUERY_WORDS, $this->getStoreId());
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_MAX_QUERY_WORDS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
     }
 }

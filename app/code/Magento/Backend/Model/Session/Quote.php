@@ -121,7 +121,7 @@ class Quote extends \Magento\Session\SessionManager
                     ->load($this->getQuoteId());
             } elseif ($this->getStoreId() && $this->hasCustomerId()) {
                 $this->_quote->setStoreId($this->getStoreId())
-                    ->setCustomerGroupId($this->_coreStoreConfig->getConfig(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP))
+                    ->setCustomerGroupId($this->_coreStoreConfig->getValue(self::XML_PATH_DEFAULT_CREATEACCOUNT_GROUP), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                     ->assignCustomer($this->getCustomer())
                     ->setIsActive(false)
                     ->save();

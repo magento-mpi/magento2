@@ -704,7 +704,7 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForPrevious()
     {
-        return $this->_storeConfig->getConfig('design/pagination/anchor_text_for_previous');
+        return $this->_storeConfig->getValue('design/pagination/anchor_text_for_previous', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -714,7 +714,7 @@ class Pager extends \Magento\View\Element\Template
      */
     public function getAnchorTextForNext()
     {
-        return $this->_storeConfig->getConfig('design/pagination/anchor_text_for_next');
+        return $this->_storeConfig->getValue('design/pagination/anchor_text_for_next', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

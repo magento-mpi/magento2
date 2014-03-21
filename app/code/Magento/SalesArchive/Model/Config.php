@@ -42,7 +42,7 @@ class Config
      */
     public function isArchiveActive()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ARCHIVE_ACTIVE);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ARCHIVE_ACTIVE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -52,7 +52,7 @@ class Config
      */
     public function getArchiveAge()
     {
-        return (int) $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_AGE);
+        return (int) $this->_coreStoreConfig->getValue(self::XML_PATH_ARCHIVE_AGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -62,7 +62,7 @@ class Config
      */
     public function getArchiveOrderStatuses()
     {
-        $statuses = $this->_coreStoreConfig->getConfig(self::XML_PATH_ARCHIVE_ORDER_STATUSES);
+        $statuses = $this->_coreStoreConfig->getValue(self::XML_PATH_ARCHIVE_ORDER_STATUSES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         if (empty($statuses)) {
             return array();

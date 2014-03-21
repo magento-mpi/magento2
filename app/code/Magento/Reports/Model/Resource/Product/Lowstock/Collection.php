@@ -272,7 +272,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem();
         $manageStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_manage_stock') . ' = 1',
-            (int) $this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, $storeId),
+            (int) $this->_coreStoreConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId),
             $this->_getInventoryItemField('manage_stock')
         );
         $this->getSelect()->where($manageStockExpr . ' = ?', 1);
@@ -290,7 +290,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
         $this->joinInventoryItem(array('qty'));
         $notifyStockExpr = $this->getConnection()->getCheckSql(
             $this->_getInventoryItemField('use_config_notify_stock_qty') . ' = 1',
-            (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY, $storeId),
+            (int)$this->_coreStoreConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId),
             $this->_getInventoryItemField('notify_stock_qty')
         );
         $this->getSelect()->where('qty < ?', $notifyStockExpr);

@@ -58,7 +58,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_HIERARCHY_ENABLED);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_HIERARCHY_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -68,7 +68,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
      */
     public function isMetadataEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_METADATA_ENABLED);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_METADATA_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

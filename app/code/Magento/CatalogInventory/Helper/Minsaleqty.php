@@ -167,7 +167,7 @@ class Minsaleqty
      */
     public function getConfigValue($customerGroupId, $store = null)
     {
-        $value = $this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, $store);
+        $value = $this->_coreStoreConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MIN_SALE_QTY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         $value = $this->_unserializeValue($value);
         if ($this->_isEncodedArrayFieldValue($value)) {
             $value = $this->_decodeArrayFieldValue($value);

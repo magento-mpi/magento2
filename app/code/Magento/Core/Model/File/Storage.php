@@ -291,7 +291,7 @@ class Storage extends AbstractModel
             $config['allowed_resources'][] = $allowedResource;
         }
 
-        $config['update_time'] = $this->_coreStoreConfig->getConfig(self::XML_PATH_MEDIA_UPDATE_TIME);
+        $config['update_time'] = $this->_coreStoreConfig->getValue(self::XML_PATH_MEDIA_UPDATE_TIME, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         return $config;
     }

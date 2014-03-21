@@ -93,7 +93,7 @@ class Switcher extends \Magento\View\Element\Template
             if (!$store->getIsActive()) {
                 continue;
             }
-            $store->setLocaleCode($this->_storeConfig->getConfig('general/locale/code', $store->getId()));
+            $store->setLocaleCode($this->_storeConfig->getValue('general/locale/code', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store->getId()));
             $this->_stores[$store->getGroupId()][$store->getId()] = $store;
         }
 
@@ -108,7 +108,7 @@ class Switcher extends \Magento\View\Element\Template
     public function getStoreCount()
     {
         $stores = array();
-        $localeCode = $this->_storeConfig->getConfig('general/locale/code');
+        $localeCode = $this->_storeConfig->getValue('general/locale/code', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         foreach ($this->_groups as $group) {
             if (!isset($this->_stores[$group->getId()])) {
                 continue;

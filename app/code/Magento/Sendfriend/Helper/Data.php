@@ -57,7 +57,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ENABLED, $store);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -68,7 +68,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAllowForGuest($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ALLOW_FOR_GUEST, $store);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ALLOW_FOR_GUEST, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -79,7 +79,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxRecipients($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_RECIPIENTS, $store);
+        return (int)$this->_coreStoreConfig->getValue(self::XML_PATH_MAX_RECIPIENTS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -90,7 +90,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxEmailPerPeriod($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_PER_HOUR, $store);
+        return (int)$this->_coreStoreConfig->getValue(self::XML_PATH_MAX_PER_HOUR, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -111,7 +111,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getLimitBy($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_LIMIT_BY, $store);
+        return (int)$this->_coreStoreConfig->getValue(self::XML_PATH_LIMIT_BY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -122,7 +122,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEmailTemplate($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE, $store);
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**

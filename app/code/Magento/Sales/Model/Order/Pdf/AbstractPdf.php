@@ -217,7 +217,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected function insertLogo(&$page, $store = null)
     {
         $this->y = $this->y ? $this->y : 815;
-        $image = $this->_coreStoreConfig->getConfig('sales/identity/logo', $store);
+        $image = $this->_coreStoreConfig->getValue('sales/identity/logo', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         if ($image) {
             $imagePath = '/sales/store/logo/' . $image;
             if ($this->_mediaDirectory->isFile($imagePath)) {
@@ -268,7 +268,7 @@ abstract class AbstractPdf extends \Magento\Object
         $page->setLineWidth(0);
         $this->y = $this->y ? $this->y : 815;
         $top = 815;
-        foreach (explode("\n", $this->_coreStoreConfig->getConfig('sales/identity/address', $store)) as $value) {
+        foreach (explode("\n", $this->_coreStoreConfig->getValue('sales/identity/address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) as $value) {
             if ($value !== '') {
                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
                 foreach ($this->string->split($value, 45, true, true) as $_value) {

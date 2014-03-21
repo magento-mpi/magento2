@@ -335,8 +335,8 @@ class Product extends \Magento\Core\Helper\Url
         }
 
         if (!isset($this->_productUrlSuffix[$storeId])) {
-            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getConfig(
-                self::XML_PATH_PRODUCT_URL_SUFFIX, $storeId
+            $this->_productUrlSuffix[$storeId] = $this->_coreStoreConfig->getValue(
+                self::XML_PATH_PRODUCT_URL_SUFFIX, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
             );
         }
         return $this->_productUrlSuffix[$storeId];
@@ -350,7 +350,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, $store);
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_USE_PRODUCT_CANONICAL_TAG, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**

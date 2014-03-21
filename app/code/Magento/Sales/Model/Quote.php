@@ -1994,9 +1994,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function validateMinimumAmount($multishipping = false)
     {
         $storeId = $this->getStoreId();
-        $minOrderActive = $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/active', $storeId);
-        $minOrderMulti  = $this->_coreStoreConfig->getConfigFlag('sales/minimum_order/multi_address', $storeId);
-        $minAmount      = $this->_coreStoreConfig->getConfig('sales/minimum_order/amount', $storeId);
+        $minOrderActive = $this->_coreStoreConfig->isSetFlag('sales/minimum_order/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $minOrderMulti  = $this->_coreStoreConfig->isSetFlag('sales/minimum_order/multi_address', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $minAmount      = $this->_coreStoreConfig->getValue('sales/minimum_order/amount', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
 
         if (!$minOrderActive) {
             return true;

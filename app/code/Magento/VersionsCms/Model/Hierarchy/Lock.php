@@ -242,7 +242,7 @@ class Lock extends \Magento\Core\Model\AbstractModel
      */
     public function getLockLifeTime()
     {
-        $timeout = (int)$this->_coreStoreConfig->getConfig('cms/hierarchy/lock_timeout');
+        $timeout = (int)$this->_coreStoreConfig->getValue('cms/hierarchy/lock_timeout', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
     }
 }

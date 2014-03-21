@@ -128,6 +128,6 @@ class Observer
         if (!$method->getCode()) {
             return null;
         }
-        return $this->_coreStoreConfig->getConfig("payment/{$method->getCode()}/$key", $storeId);
+        return $this->_coreStoreConfig->getValue("payment/{$method->getCode(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE}/$key", $storeId);
     }
 }

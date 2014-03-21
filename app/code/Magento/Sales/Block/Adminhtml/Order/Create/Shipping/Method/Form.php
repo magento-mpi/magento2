@@ -93,7 +93,7 @@ class Form
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title', $this->getStore()->getId())) {
+        if ($name = $this->_storeConfig->getValue('carriers/'.$carrierCode.'/title', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore()->getId())) {
             return $name;
         }
         return $carrierCode;

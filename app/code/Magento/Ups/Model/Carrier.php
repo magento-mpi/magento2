@@ -249,8 +249,8 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
         } else {
-            $origCountry = $this->_coreStoreConfig->getConfig(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+            $origCountry = $this->_coreStoreConfig->getValue(
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -260,8 +260,8 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigRegionCode()) {
             $origRegionCode = $request->getOrigRegionCode();
         } else {
-            $origRegionCode = $this->_coreStoreConfig->getConfig(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
+            $origRegionCode = $this->_coreStoreConfig->getValue(
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -273,8 +273,8 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigPostcode()) {
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $rowRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+            $rowRequest->setOrigPostal($this->_coreStoreConfig->getValue(
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
         }
@@ -282,8 +282,8 @@ class Carrier extends AbstractCarrierOnline implements CarrierInterface
         if ($request->getOrigCity()) {
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
-            $rowRequest->setOrigCity($this->_coreStoreConfig->getConfig(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
+            $rowRequest->setOrigCity($this->_coreStoreConfig->getValue(
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
         }

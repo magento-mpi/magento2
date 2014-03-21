@@ -85,7 +85,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getIsGuestAllowToWrite()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_REVIEW_GUETS_ALLOW);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_REVIEW_GUETS_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

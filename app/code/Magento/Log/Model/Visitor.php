@@ -219,7 +219,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function getOnlineMinutesInterval()
     {
-        $configValue = $this->_coreStoreConfig->getConfig('customer/online_customers/online_minutes_interval');
+        $configValue = $this->_coreStoreConfig->getValue('customer/online_customers/online_minutes_interval', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return intval($configValue) > 0
             ? intval($configValue)
             : self::DEFAULT_ONLINE_MINUTES_INTERVAL;

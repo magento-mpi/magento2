@@ -187,7 +187,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     {
         $shipmentStoreId = $this->getRma()->getStoreId();
         $storeInfo = new \Magento\Object(
-            $this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId)
+            $this->_coreStoreConfig->getValue('general/store_information', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $shipmentStoreId)
         );
         /** @var $order \Magento\Sales\Model\Order */
         $order = $this->_orderFactory->create()->load($this->getRma()->getOrderId());

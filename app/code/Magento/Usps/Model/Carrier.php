@@ -276,8 +276,8 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($request->getOrigPostcode()) {
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+            $r->setOrigPostal($this->_coreStoreConfig->getValue(
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
         }
@@ -285,8 +285,8 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
         if ($request->getOrigCountryId()) {
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
-            $r->setOrigCountryId($this->_coreStoreConfig->getConfig(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+            $r->setOrigCountryId($this->_coreStoreConfig->getValue(
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $request->getStoreId()
             ));
         }

@@ -217,7 +217,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         if ($this->getProduct()->getLinksTitle()) {
             return $this->getProduct()->getLinksTitle();
         }
-        return $this->_storeConfig->getConfig(Link::XML_PATH_LINKS_TITLE);
+        return $this->_storeConfig->getValue(Link::XML_PATH_LINKS_TITLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -227,7 +227,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_storeConfig->getConfigFlag(Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->isSetFlag(Link::XML_PATH_TARGET_NEW_WINDOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

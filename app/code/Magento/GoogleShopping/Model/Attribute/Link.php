@@ -74,7 +74,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $url = $product->getProductUrl(false);
         if ($url) {
-            if (!$this->_coreStoreConfig->getConfigFlag('web/url/use_store')) {
+            if (!$this->_coreStoreConfig->isSetFlag('web/url/use_store', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 $urlInfo = parse_url($url);
                 $store = $product->getStore()->getCode();
                 if (isset($urlInfo['query']) && $urlInfo['query'] != '') {

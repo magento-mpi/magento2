@@ -298,7 +298,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isVatValidationEnabled($store = null)
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VAT_VALIDATION_ENABLED, $store);
+        return (bool)$this->_coreStoreConfig->getValue(self::XML_PATH_VAT_VALIDATION_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -308,7 +308,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisableAutoGroupAssignDefaultValue()
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT);
+        return (bool)$this->_coreStoreConfig->getValue(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -319,7 +319,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function hasValidateOnEachTransaction($store = null)
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_ON_EACH_TRANSACTION, $store);
+        return (bool)$this->_coreStoreConfig->getValue(self::XML_PATH_VIV_ON_EACH_TRANSACTION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -330,7 +330,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getTaxCalculationAddressType($store = null)
     {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE, $store);
+        return (string)$this->_coreStoreConfig->getValue(self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -340,6 +340,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isVatAttributeVisible()
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_VAT_FRONTEND_VISIBILITY);
+        return (bool)$this->_coreStoreConfig->getValue(self::XML_PATH_VAT_FRONTEND_VISIBILITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

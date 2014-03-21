@@ -738,16 +738,16 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         if ($this->_requestHttp->getParam('website')) {
             /** @var $website \Magento\Store\Model\Website */
             $website = $this->_websiteFactory->create()->load($this->_requestHttp->getParam('website'));
-            $secure = $this->_coreStoreConfig->getConfigFlag(
-                \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND,
+            $secure = $this->_coreStoreConfig->isSetFlag(
+                \Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $website->getDefaultStore()
             );
             $path = $secure
                 ? \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL
                 : \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL;
-            $websiteUrl = $this->_coreStoreConfig->getConfig($path, $website->getDefaultStore());
+            $websiteUrl = $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $website->getDefaultStore());
         } else {
-            $secure = $this->_coreStoreConfig->getConfigFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND);
+            $secure = $this->_coreStoreConfig->isSetFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $websiteUrl = $this->_storeManager->getStore()
                 ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure);
         }

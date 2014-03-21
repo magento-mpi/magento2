@@ -190,8 +190,8 @@ class Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!$this->_coreStoreConfig->getConfig(
-                self::XML_PATH_PRICE_ALLOW,
+            if (!$this->_coreStoreConfig->getValue(
+                self::XML_PATH_PRICE_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )) {
                 continue;
@@ -277,8 +277,8 @@ class Observer
             if (!$website->getDefaultGroup() || !$website->getDefaultGroup()->getDefaultStore()) {
                 continue;
             }
-            if (!$this->_coreStoreConfig->getConfig(
-                self::XML_PATH_STOCK_ALLOW,
+            if (!$this->_coreStoreConfig->getValue(
+                self::XML_PATH_STOCK_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $website->getDefaultGroup()->getDefaultStore()->getId()
             )) {
                 continue;
@@ -358,21 +358,21 @@ class Observer
     protected function _sendErrorEmail()
     {
         if (count($this->_errors)) {
-            if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)) {
+            if (!$this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                 return $this;
             }
 
             $this->_translate->setTranslateInline(false);
 
             $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE))
+                ->setTemplateIdentifier($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_TEMPLATE), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 ->setTemplateOptions(array(
                     'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                     'store' => $this->_storeManager->getStore()->getId()
                 ))
                 ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY))
-                ->addTo($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT))
+                ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->addTo($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 ->getTransport();
 
             $transport->sendMessage();

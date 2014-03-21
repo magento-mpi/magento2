@@ -50,7 +50,7 @@ class EngineProvider
     public function get()
     {
         if (!$this->_engine) {
-            $engineClassName = $this->_storeConfig->getConfig('catalog/search/engine');
+            $engineClassName = $this->_storeConfig->getValue('catalog/search/engine', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
             /**
              * This needed if there already was saved in configuration some none-default engine

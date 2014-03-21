@@ -184,9 +184,9 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function canReturnToStock()
     {
-        $canReturnToStock = $this->_storeConfig->getConfig(
+        $canReturnToStock = $this->_storeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
-        );
+        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         if ($canReturnToStock) {
             return true;
         } else {
@@ -202,9 +202,9 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     public function canReturnItemsToStock()
     {
         if (is_null($this->_canReturnToStock)) {
-            $this->_canReturnToStock = $this->_storeConfig->getConfig(
+            $this->_canReturnToStock = $this->_storeConfig->getValue(
                 \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_CAN_SUBTRACT
-            );
+            , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             if ($this->_canReturnToStock) {
                 $canReturnToStock = false;
                 foreach ($this->getCreditmemo()->getAllItems() as $item) {

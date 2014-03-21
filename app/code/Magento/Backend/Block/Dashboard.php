@@ -37,7 +37,7 @@ class Dashboard extends \Magento\Backend\Block\Template
 
         $this->addChild('topSearches', 'Magento\Backend\Block\Dashboard\Searches\Top');
 
-        if ($this->_storeConfig->getConfig(self::XML_PATH_ENABLE_CHARTS)) {
+        if ($this->_storeConfig->getValue(self::XML_PATH_ENABLE_CHARTS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $block = $this->getLayout()->createBlock('Magento\Backend\Block\Dashboard\Diagrams');
         } else {
             $block = $this->getLayout()->createBlock('Magento\Backend\Block\Template')

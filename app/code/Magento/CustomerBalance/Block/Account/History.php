@@ -58,7 +58,7 @@ class History extends \Magento\View\Element\Template
      */
     public function canShow()
     {
-        return $this->_storeConfig->getConfigFlag('customer/magento_customerbalance/show_history');
+        return $this->_storeConfig->isSetFlag('customer/magento_customerbalance/show_history', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

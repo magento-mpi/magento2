@@ -140,7 +140,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
-        $countryShipper = $this->_storeConfig->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),
@@ -260,8 +260,8 @@ class Packaging extends \Magento\Backend\Block\Template
         $storeId = $this->getShipment()->getStoreId();
         $order = $this->getShipment()->getOrder();
         $address = $order->getShippingAddress();
-        $shipperAddressCountryCode = $this->_storeConfig->getConfig(
-            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+        $shipperAddressCountryCode = $this->_storeConfig->getValue(
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $storeId
         );
         $recipientAddressCountryCode = $address->getCountryId();
@@ -339,7 +339,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
         $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
-        $countryShipper = $this->_storeConfig->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(
                 'method' => $order->getShippingMethod(true)->getMethod(),

@@ -199,8 +199,8 @@ class Emulation extends \Magento\Object
     protected function _emulateLocale($storeId, $area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
         $initialLocaleCode = $this->_localeResolver->getLocaleCode();
-        $newLocaleCode = $this->_coreStoreConfig->getConfig(
-            $this->_localeResolver->getDefaultLocalePath(),
+        $newLocaleCode = $this->_coreStoreConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $storeId
         );
         $this->_localeResolver->setLocaleCode($newLocaleCode);

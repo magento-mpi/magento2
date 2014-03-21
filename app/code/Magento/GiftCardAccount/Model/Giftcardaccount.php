@@ -611,7 +611,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 
         $transport = $this->_transportBuilder
             ->setTemplateIdentifier(
-                $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId)
+                $this->_coreStoreConfig->getValue('giftcard/giftcardaccount_email/template', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
             )
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
@@ -624,7 +624,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
                 'store'         => $recipientStore,
                 'store_name'    => $recipientStore->getName(),
             ))
-            ->setFrom($this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId))
+            ->setFrom($this->_coreStoreConfig->getValue('giftcard/giftcardaccount_email/identity', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
             ->addTo($recipientEmail, $recipientName)
             ->getTransport();
 

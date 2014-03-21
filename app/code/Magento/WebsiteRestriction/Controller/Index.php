@@ -111,7 +111,7 @@ class Index extends \Magento\App\Action\Action
              */
             /** @var \Magento\Cms\Model\Page $page */
             $page = $this->_pageFactory->create()->load(
-                $this->_storeConfig->getConfig($this->_stubPageIdentifier),
+                $this->_storeConfig->getValue($this->_stubPageIdentifier), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 'identifier'
             );
 

@@ -61,11 +61,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _prepareForm()
     {
         $model  = $this->getModel();
-        $identity = $this->_storeConfig->getConfig(
+        $identity = $this->_storeConfig->getValue(
             \Magento\Newsletter\Model\Subscriber::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY
-        );
-        $identityName = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/name');
-        $identityEmail = $this->_storeConfig->getConfig('trans_email/ident_'.$identity.'/email');
+        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $identityName = $this->_storeConfig->getValue('trans_email/ident_'.$identity.'/name', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $identityEmail = $this->_storeConfig->getValue('trans_email/ident_'.$identity.'/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(

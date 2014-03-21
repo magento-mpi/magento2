@@ -93,7 +93,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
     {
         $count = $this->getData('item_count');
         if (is_null($count)) {
-            $count = $this->_storeConfig->getConfig(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT);
+            $count = $this->_storeConfig->getValue(self::XML_PATH_CHECKOUT_SIDEBAR_COUNT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $this->setData('item_count', $count);
         }
         return $count;

@@ -165,22 +165,22 @@ class Shipping implements RateCollectorInterface
         if (!$request->getOrig()) {
             $request
                 ->setCountryId(
-                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_COUNTRY_ID, $request->getStore())
+                    $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $request->getStore())
                 )
                 ->setRegionId(
-                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_REGION_ID, $request->getStore())
+                    $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $request->getStore())
                 )
                 ->setCity(
-                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_CITY, $request->getStore())
+                    $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_CITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $request->getStore())
                 )
                 ->setPostcode(
-                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_ZIP, $request->getStore())
+                    $this->_coreStoreConfig->getValue(Shipment::XML_PATH_STORE_ZIP, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $request->getStore())
                 );
         }
 
         $limitCarrier = $request->getLimitCarrier();
         if (!$limitCarrier) {
-            $carriers = $this->_coreStoreConfig->getConfig('carriers', $storeId);
+            $carriers = $this->_coreStoreConfig->getValue('carriers', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
 
             foreach ($carriers as $carrierCode => $carrierConfig) {
                 $this->collectCarrierRates($carrierCode, $request);
@@ -190,7 +190,7 @@ class Shipping implements RateCollectorInterface
                 $limitCarrier = array($limitCarrier);
             }
             foreach ($limitCarrier as $carrierCode) {
-                $carrierConfig = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode, $storeId);
+                $carrierConfig = $this->_coreStoreConfig->getValue('carriers/' . $carrierCode, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
                 if (!$carrierConfig) {
                     continue;
                 }

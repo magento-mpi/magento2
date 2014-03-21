@@ -101,21 +101,21 @@ class Cron extends \Magento\Core\Model\AbstractModel
         if (!$this->_errors) {
             return $this;
         }
-        if (!$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT)) {
+        if (!$this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return $this;
         }
 
         $this->_translate->setTranslateInline(false);
 
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE))
+            ->setTemplateIdentifier($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             ))
             ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-            ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY))
-            ->addTo($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT))
+            ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->addTo($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             ->getTransport();
 
         $transport->sendMessage();
@@ -131,7 +131,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
      */
     public function logClean()
     {
-        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_LOG_CLEAN_ENABLED)) {
+        if (!$this->_coreStoreConfig->isSetFlag(self::XML_PATH_LOG_CLEAN_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return $this;
         }
 

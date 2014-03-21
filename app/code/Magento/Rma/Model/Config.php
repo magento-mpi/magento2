@@ -299,7 +299,7 @@ class Config extends \Magento\Object
         if (is_null($store)) {
             $store = $this->_store;
         }
-        return $this->_coreStoreConfig->getConfig($this->_getPath($path), $this->getStore($store));
+        return $this->_coreStoreConfig->getValue($this->_getPath($path), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStore($store));
     }
 
     /**
@@ -312,7 +312,7 @@ class Config extends \Magento\Object
      */
     public function getCustomerEmailRecipient($store)
     {
-        $senderCode = $this->_coreStoreConfig->getConfig(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, $store);
-        return $this->_coreStoreConfig->getConfig('trans_email/ident_' . $senderCode . '/email', $store);
+        $senderCode = $this->_coreStoreConfig->getValue(self::XML_PATH_CUSTOMER_COMMENT_EMAIL_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_coreStoreConfig->getValue('trans_email/ident_' . $senderCode . '/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

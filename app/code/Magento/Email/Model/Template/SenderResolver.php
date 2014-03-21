@@ -36,8 +36,8 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
         $result = array();
 
         if (!is_array($sender)) {
-            $result['name'] = $this->_storeConfig->getConfig('trans_email/ident_' . $sender . '/name', $scopeId);
-            $result['email'] = $this->_storeConfig->getConfig('trans_email/ident_' . $sender . '/email', $scopeId);
+            $result['name'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/name', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId);
+            $result['email'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/email', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId);
         } else {
             $result = $sender;
         }

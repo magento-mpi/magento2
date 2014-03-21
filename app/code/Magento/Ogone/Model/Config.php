@@ -59,7 +59,7 @@ class Config extends \Magento\Payment\Model\Config
     public function getConfigData($path, $storeId=null)
     {
         if (!empty($path)) {
-            return $this->_coreStoreConfig->getConfig(self::OGONE_PAYMENT_PATH . $path, $storeId);
+            return $this->_coreStoreConfig->getValue(self::OGONE_PAYMENT_PATH . $path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         }
         return false;
     }

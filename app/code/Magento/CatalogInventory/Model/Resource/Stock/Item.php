@@ -97,7 +97,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         if ($columns === null) {
             $adapter = $this->_getReadAdapter();
-            $isManageStock = (int)$this->_coreStoreConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
+            $isManageStock = (int)$this->_coreStoreConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $stockExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 1', $isManageStock, 'cisi.manage_stock');
             $stockExpr = $adapter->getCheckSql("({$stockExpr} = 1)", 'cisi.is_in_stock', '1');
 

@@ -52,7 +52,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGoogleAnalyticsAvailable($store = null)
     {
-        $accountId = $this->_coreStoreConfig->getConfig(self::XML_PATH_ACCOUNT, $store);
-        return $accountId && $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_ACTIVE, $store);
+        $accountId = $this->_coreStoreConfig->getValue(self::XML_PATH_ACCOUNT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $accountId && $this->_coreStoreConfig->isSetFlag(self::XML_PATH_ACTIVE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

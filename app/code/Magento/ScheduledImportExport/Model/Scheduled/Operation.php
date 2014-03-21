@@ -184,12 +184,12 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        $receiverEmail = $this->_coreStoreConfig->getConfig(
-            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/email',
+        $receiverEmail = $this->_coreStoreConfig->getValue(
+            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver(, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) . '/email',
             $storeId
         );
-        $receiverName  = $this->_coreStoreConfig->getConfig(
-            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver() . '/name',
+        $receiverName  = $this->_coreStoreConfig->getValue(
+            self::CONFIG_PREFIX_EMAILS . $this->getEmailReceiver(, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) . '/name',
             $storeId
         );
 

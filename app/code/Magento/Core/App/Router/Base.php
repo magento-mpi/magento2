@@ -324,7 +324,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _getDefaultPath()
     {
-        return $this->_storeConfig->getConfig('web/default/front');
+        return $this->_storeConfig->getValue('web/default/front', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -415,9 +415,9 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _shouldBeSecure($path)
     {
-        return parse_url($this->_storeConfig->getConfig('web/unsecure/base_url'), PHP_URL_SCHEME) === 'https'
-            || $this->_storeConfig->getConfigFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND)
-                && parse_url($this->_storeConfig->getConfig('web/secure/base_url'), PHP_URL_SCHEME) == 'https'
+        return parse_url($this->_storeConfig->getValue('web/unsecure/base_url'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) === 'https'
+            || $this->_storeConfig->isSetFlag(\Magento\Store\Model\Store::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                && parse_url($this->_storeConfig->getValue('web/secure/base_url'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, PHP_URL_SCHEME) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
     }
 }

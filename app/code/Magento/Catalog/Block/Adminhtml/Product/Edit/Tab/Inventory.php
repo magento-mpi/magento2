@@ -124,7 +124,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             return $this->getStockItem()->getDataUsingMethod($field);
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -139,7 +139,7 @@ class Inventory extends \Magento\Backend\Block\Widget
             }
         }
 
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -148,7 +148,7 @@ class Inventory extends \Magento\Backend\Block\Widget
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field);
+        return $this->_storeConfig->getValue(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_ITEM . $field, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

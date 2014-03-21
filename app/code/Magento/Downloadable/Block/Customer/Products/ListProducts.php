@@ -165,7 +165,7 @@ class ListProducts extends \Magento\View\Element\Template
      */
     public function getIsOpenInNewWindow()
     {
-        return $this->_storeConfig->getConfigFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW);
+        return $this->_storeConfig->isSetFlag(\Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
 }

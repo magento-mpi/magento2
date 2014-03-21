@@ -82,7 +82,7 @@ abstract class AbstractCurrency extends \Magento\Core\Model\Config\Value
      */
     protected function _getInstalledCurrencies()
     {
-        return explode(',', $this->_coreStoreConfig->getConfig('system/currency/installed'));
+        return explode(',', $this->_coreStoreConfig->getValue('system/currency/installed'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

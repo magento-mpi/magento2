@@ -816,7 +816,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
 
         $configPath = (string)$node->getAttribute('ifconfig');
-        if (!empty($configPath) && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
+        if (!empty($configPath) && !$this->_coreStoreConfig->isSetFlag($configPath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $this->_scheduledStructure->unsetElement($elementName);
             return;
         }
@@ -899,7 +899,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected function _generateAction($node, $parent)
     {
         $configPath = $node->getAttribute('ifconfig');
-        if ($configPath && !$this->_coreStoreConfig->getConfigFlag($configPath)) {
+        if ($configPath && !$this->_coreStoreConfig->isSetFlag($configPath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return;
         }
 

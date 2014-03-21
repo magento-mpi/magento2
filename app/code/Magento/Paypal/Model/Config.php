@@ -336,7 +336,7 @@ class Config
     public function isMethodActive($method)
     {
         return $this->isMethodSupportedForCountry($method)
-            && $this->_coreStoreConfig->getConfigFlag("payment/{$method}/active", $this->_storeId);
+            && $this->_coreStoreConfig->isSetFlag("payment/{$method}/active", \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
     }
 
     /**
@@ -416,7 +416,7 @@ class Config
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
         if ($path !== null) {
-            $value = $this->_coreStoreConfig->getConfig($path, $this->_storeId);
+            $value = $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
             $value = $this->_prepareValue($underscored, $value);
             $this->$key = $value;
             $this->$underscored = $value;
@@ -471,7 +471,7 @@ class Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = $this->_coreStoreConfig->getConfig($this->_mapGeneralFieldset('merchant_country'), $this->_storeId);
+        $countryCode = $this->_coreStoreConfig->getValue($this->_mapGeneralFieldset('merchant_country'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
         if (!$countryCode) {
             $countryCode = $this->_coreData->getDefaultCountry($this->_storeId);
         }
@@ -837,7 +837,7 @@ class Config
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
-        $configType = $this->_coreStoreConfig->getConfig($this->_mapGenericStyleFieldset('logo'), $this->_storeId);
+        $configType = $this->_coreStoreConfig->getValue($this->_mapGenericStyleFieldset('logo'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
         if (!$configType) {
             return false;
         }

@@ -336,7 +336,7 @@ class Template extends \Magento\Core\Model\Template
      */
     public function isValidForSend()
     {
-        return !$this->_coreStoreConfig->getConfigFlag(\Magento\Email\Model\Template::XML_PATH_SYSTEM_SMTP_DISABLE)
+        return !$this->_coreStoreConfig->isSetFlag(\Magento\Email\Model\Template::XML_PATH_SYSTEM_SMTP_DISABLE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->getTemplateSenderName()
             && $this->getTemplateSenderEmail()
             && $this->getTemplateSubject();

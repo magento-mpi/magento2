@@ -258,7 +258,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
     public function getSearchConfigData($field, $storeId = null)
     {
         $path = 'catalog/search/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
+        return $this->_coreStoreConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
     }
 
     /**

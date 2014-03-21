@@ -171,7 +171,7 @@ class Date
 
             //set default timezone for store (admin)
             $dateObj->setTimezone(
-                $this->_storeConfig->getConfig($this->_localeDate->getDefaultTimezonePath())
+                $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             );
 
             //set beginning of day

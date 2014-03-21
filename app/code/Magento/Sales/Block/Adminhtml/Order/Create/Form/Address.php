@@ -104,7 +104,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
     /**
      * Retrieve current customer address DATA collection.

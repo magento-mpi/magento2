@@ -31,7 +31,7 @@ class Notices extends \Magento\View\Element\Template
      */
     public function displayNoscriptNotice()
     {
-        return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
+        return $this->_storeConfig->getValue('web/browser_capabilities/javascript', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -41,7 +41,7 @@ class Notices extends \Magento\View\Element\Template
      */
     public function displayDemoNotice()
     {
-        return $this->_storeConfig->getConfig('design/head/demonotice');
+        return $this->_storeConfig->getValue('design/head/demonotice', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

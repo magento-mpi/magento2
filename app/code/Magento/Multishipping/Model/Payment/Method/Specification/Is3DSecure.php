@@ -66,7 +66,7 @@ class Is3DSecure extends AbstractSpecification
      */
     protected function is3DSecureEnabled($paymentMethod)
     {
-        return $this->storeConfig->getConfigFlag(sprintf(self::PATH_PAYMENT_3DSECURE, $paymentMethod))
-            || $this->storeConfig->getConfigFlag(sprintf(self::PATH_PAYMENT_CENTINEL, $paymentMethod));
+        return $this->storeConfig->isSetFlag(sprintf(self::PATH_PAYMENT_3DSECURE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $paymentMethod))
+            || $this->storeConfig->isSetFlag(sprintf(self::PATH_PAYMENT_CENTINEL, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $paymentMethod));
     }
 }

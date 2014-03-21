@@ -571,7 +571,7 @@ class Pbridge extends AbstractMethod
     protected function _getApiRequest()
     {
         $request = new \Magento\Object();
-        $request->setCountryCode($this->_coreStoreConfig->getConfig(self::XML_CONFIG_PATH_DEFAULT_COUNTRY));
+        $request->setCountryCode($this->_coreStoreConfig->getValue(self::XML_CONFIG_PATH_DEFAULT_COUNTRY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $request->setClientIdentifier($this->_getCustomerIdentifier());
 
         return $request;

@@ -106,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getMethodInstance($code)
     {
         $key = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/model';
-        $class = $this->_coreStoreConfig->getConfig($key);
+        $class = $this->_coreStoreConfig->getValue($key, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return $this->_methodFactory->create($class);
     }
 
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         uasort($methods, array($this, '_sortMethods'));
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS . '/' . $code . '/';
-            if (!$model = $this->_coreStoreConfig->getConfig($prefix . 'model', $store)) {
+            if (!$model = $this->_coreStoreConfig->getValue($prefix . 'model', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
                 continue;
             }
             $methodInstance = $this->_methodFactory->create($model);
@@ -327,7 +327,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isZeroSubTotal($store = null)
     {
         return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, $store);
+            ->getValue(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ACTIVE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -339,7 +339,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getZeroSubTotalOrderStatus($store = null)
     {
         return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, $store);
+            ->getValue(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_ORDER_STATUS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -351,6 +351,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getZeroSubTotalPaymentAutomaticInvoice($store = null)
     {
         return $this->_coreStoreConfig
-            ->getConfig(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, $store);
+            ->getValue(\Magento\Payment\Model\Method\Free::XML_PATH_PAYMENT_FREE_PAYMENT_ACTION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

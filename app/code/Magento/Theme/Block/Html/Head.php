@@ -227,7 +227,7 @@ class Head extends \Magento\View\Element\Template
     public function getMediaType()
     {
         if (empty($this->_data['media_type'])) {
-            $this->_data['media_type'] = $this->_storeConfig->getConfig('design/head/default_media_type');
+            $this->_data['media_type'] = $this->_storeConfig->getValue('design/head/default_media_type', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->_data['media_type'];
     }
@@ -240,7 +240,7 @@ class Head extends \Magento\View\Element\Template
     public function getCharset()
     {
         if (empty($this->_data['charset'])) {
-            $this->_data['charset'] = $this->_storeConfig->getConfig('design/head/default_charset');
+            $this->_data['charset'] = $this->_storeConfig->getValue('design/head/default_charset', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->_data['charset'];
     }
@@ -260,9 +260,9 @@ class Head extends \Magento\View\Element\Template
             $this->_pureTitle = $title;
         }
 
-        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix')
+        $this->_data['title'] = $this->_storeConfig->getValue('design/head/title_prefix', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             . ' ' . $title
-            . ' ' . $this->_storeConfig->getConfig('design/head/title_suffix');
+            . ' ' . $this->_storeConfig->getValue('design/head/title_suffix', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         return $this;
     }
@@ -301,7 +301,7 @@ class Head extends \Magento\View\Element\Template
      */
     public function getDefaultTitle()
     {
-        return $this->_storeConfig->getConfig('design/head/default_title');
+        return $this->_storeConfig->getValue('design/head/default_title', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -312,7 +312,7 @@ class Head extends \Magento\View\Element\Template
     public function getDescription()
     {
         if (empty($this->_data['description'])) {
-            $this->_data['description'] = $this->_storeConfig->getConfig('design/head/default_description');
+            $this->_data['description'] = $this->_storeConfig->getValue('design/head/default_description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->_data['description'];
     }
@@ -325,7 +325,7 @@ class Head extends \Magento\View\Element\Template
     public function getKeywords()
     {
         if (empty($this->_data['keywords'])) {
-            $this->_data['keywords'] = $this->_storeConfig->getConfig('design/head/default_keywords');
+            $this->_data['keywords'] = $this->_storeConfig->getValue('design/head/default_keywords', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->_data['keywords'];
     }
@@ -338,7 +338,7 @@ class Head extends \Magento\View\Element\Template
     public function getRobots()
     {
         if (empty($this->_data['robots'])) {
-            $this->_data['robots'] = $this->_storeConfig->getConfig('design/search_engine_robots/default_robots');
+            $this->_data['robots'] = $this->_storeConfig->getValue('design/search_engine_robots/default_robots', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->_data['robots'];
     }
@@ -351,7 +351,7 @@ class Head extends \Magento\View\Element\Template
     public function getIncludes()
     {
         if (empty($this->_data['includes'])) {
-            $this->_data['includes'] = $this->_storeConfig->getConfig('design/head/includes');
+            $this->_data['includes'] = $this->_storeConfig->getValue('design/head/includes', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return $this->_data['includes'];
     }
@@ -377,7 +377,7 @@ class Head extends \Magento\View\Element\Template
     protected function _getFaviconFile()
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
-        $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
+        $storeConfig = $this->_storeConfig->getValue('design/head/shortcut_icon', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $path = $folderName . '/' . $storeConfig;
         $faviconFile = $this->_storeManager->getStore()
             ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;

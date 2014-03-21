@@ -64,6 +64,6 @@ class Layer
      */
     protected function _isEnabledShowOutOfStock()
     {
-        return $this->_storeConfig->getConfigFlag('cataloginventory/options/show_out_of_stock');
+        return $this->_storeConfig->isSetFlag('cataloginventory/options/show_out_of_stock', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

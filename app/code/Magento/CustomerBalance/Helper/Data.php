@@ -48,7 +48,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_ENABLED) == 1;
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == 1;
     }
 
     /**
@@ -58,6 +58,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAutoRefundEnabled()
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_AUTO_REFUND);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_AUTO_REFUND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

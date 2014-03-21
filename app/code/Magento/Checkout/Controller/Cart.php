@@ -79,7 +79,7 @@ class Cart
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
             $this->messageManager->getMessages()->clear();
             $this->getResponse()->setRedirect($returnUrl);
-        } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
+        } elseif (!$this->_storeConfig->getValue('checkout/cart/redirect_to_cart', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && !$this->getRequest()->getParam('in_cart')
             && $backUrl = $this->_redirect->getRefererUrl()
         ) {
@@ -129,10 +129,10 @@ class Cart
                     ->getCurrentCurrencyCode();
                 $minimumAmount = $this->_objectManager->get('Magento\Locale\CurrencyInterface')
                     ->getCurrency($currencyCode)
-                    ->toCurrency($this->_storeConfig->getConfig('sales/minimum_order/amount'));
+                    ->toCurrency($this->_storeConfig->getValue('sales/minimum_order/amount'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
-                $warning = $this->_storeConfig->getConfig('sales/minimum_order/description')
-                    ? $this->_storeConfig->getConfig('sales/minimum_order/description')
+                $warning = $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                    ? $this->_storeConfig->getValue('sales/minimum_order/description', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                     : __('Minimum order amount is %1', $minimumAmount);
 
                 $this->messageManager->addNotice($warning);

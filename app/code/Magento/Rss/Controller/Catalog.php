@@ -86,7 +86,7 @@ class Catalog extends \Magento\App\Action\Action
      */
     protected function _isEnabled($code)
     {
-        return $this->_storeConfig->getConfigFlag("rss/catalog/{$code}");
+        return $this->_storeConfig->isSetFlag("rss/catalog/{$code}", \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

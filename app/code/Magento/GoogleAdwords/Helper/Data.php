@@ -95,7 +95,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isGoogleAdwordsActive()
     {
-        return $this->_storeConfig->getConfigFlag(self::XML_PATH_ACTIVE)
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ACTIVE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->getConversionId()
             && $this->getConversionLanguage()
             && $this->getConversionFormat()
@@ -153,7 +153,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionId()
     {
-        return (int)$this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_ID);
+        return (int)$this->_storeConfig->getValue(self::XML_PATH_CONVERSION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -163,7 +163,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionLanguage()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_LANGUAGE);
+        return $this->_storeConfig->getValue(self::XML_PATH_CONVERSION_LANGUAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -173,7 +173,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionFormat()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_FORMAT);
+        return $this->_storeConfig->getValue(self::XML_PATH_CONVERSION_FORMAT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -183,7 +183,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionColor()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_COLOR);
+        return $this->_storeConfig->getValue(self::XML_PATH_CONVERSION_COLOR, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -193,7 +193,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionLabel()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_LABEL);
+        return $this->_storeConfig->getValue(self::XML_PATH_CONVERSION_LABEL, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -203,7 +203,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionValueType()
     {
-        return $this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_VALUE_TYPE);
+        return $this->_storeConfig->getValue(self::XML_PATH_CONVERSION_VALUE_TYPE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -223,7 +223,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConversionValueConstant()
     {
-        return (float)$this->_storeConfig->getConfig(self::XML_PATH_CONVERSION_VALUE);
+        return (float)$this->_storeConfig->getValue(self::XML_PATH_CONVERSION_VALUE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

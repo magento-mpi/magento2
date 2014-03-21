@@ -697,8 +697,8 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isFrontUrlSecure()
     {
         if ($this->_isFrontSecure === null) {
-            $this->_isFrontSecure = $this->_storeConfig->getConfigFlag(
-                self::XML_PATH_SECURE_IN_FRONTEND,
+            $this->_isFrontSecure = $this->_storeConfig->isSetFlag(
+                self::XML_PATH_SECURE_IN_FRONTEND, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $this->getId()
             );
         }
@@ -728,7 +728,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         }
 
         if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = $this->_storeConfig->getConfig(self::XML_PATH_SECURE_BASE_URL);
+            $secureBaseUrl = $this->_storeConfig->getValue(self::XML_PATH_SECURE_BASE_URL, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
             if (!$secureBaseUrl) {
                 return false;
@@ -1242,7 +1242,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function getFrontendName()
     {
         if (null === $this->_frontendName) {
-            $storeGroupName = (string) $this->_storeConfig->getConfig('general/store_information/name', $this);
+            $storeGroupName = (string) $this->_storeConfig->getValue('general/store_information/name', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this);
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;

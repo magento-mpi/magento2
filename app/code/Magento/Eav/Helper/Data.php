@@ -154,7 +154,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getInputTypesValidatorData()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES);
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_VALIDATOR_DATA_INPUT_TYPES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

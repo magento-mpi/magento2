@@ -172,8 +172,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
         // sales_order_save_after
 
         $order = $observer->getEvent()->getOrder();
-        $requiredStatus = $this->_coreStoreConfig->getConfig(
-            \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS,
+        $requiredStatus = $this->_coreStoreConfig->getValue(
+            \Magento\GiftCard\Model\Giftcard::XML_PATH_ORDER_ITEM_STATUS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
             $order->getStore()
         );
         $loadedInvoices = array();
@@ -294,8 +294,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
                                 'store' => $item->getOrder()->getStoreId(),
                             ))
                             ->setTemplateVars($templateData)
-                            ->setFrom($this->_coreStoreConfig->getConfig(
-                                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
+                            ->setFrom($this->_coreStoreConfig->getValue(
+                                \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                                 $item->getOrder()->getStoreId()
                             ))
                             ->addTo(

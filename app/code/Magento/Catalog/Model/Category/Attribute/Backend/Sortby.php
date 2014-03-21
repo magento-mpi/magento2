@@ -83,7 +83,7 @@ class Sortby
                     $available = explode(',', $available);
                 }
                 $data = (!in_array('default_sort_by', $postDataConfig))? $object->getData($attributeCode):
-                       $this->_coreStoreConfig->getConfig("catalog/frontend/default_sort_by");
+                       $this->_coreStoreConfig->getValue("catalog/frontend/default_sort_by", \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 if (!in_array($data, $available)) {
                     throw new \Magento\Core\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')

@@ -475,6 +475,6 @@ class Config extends \Magento\Eav\Model\Config
      */
     public function getProductListDefaultSortBy($store = null)
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_LIST_DEFAULT_SORT_BY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

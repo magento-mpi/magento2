@@ -55,7 +55,7 @@ class Allmethods implements \Magento\Option\ArrayInterface
             if (!$carrierMethods) {
                 continue;
             }
-            $carrierTitle = $this->_coreStoreConfig->getConfig('carriers/'.$carrierCode.'/title');
+            $carrierTitle = $this->_coreStoreConfig->getValue('carriers/'.$carrierCode.'/title', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $methods[$carrierCode] = array(
                 'label'   => $carrierTitle,
                 'value' => array(),

@@ -55,7 +55,7 @@ class Ga extends \Magento\View\Element\Template
      */
     public function getConfig($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

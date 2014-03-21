@@ -397,16 +397,16 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     public function getRateOriginRequest($store = null)
     {
         $request = new \Magento\Object();
-        $request->setCountryId($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID,
+        $request->setCountryId($this->_coreStoreConfig->getValue(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $store
             ))
-            ->setRegionId($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID,
+            ->setRegionId($this->_coreStoreConfig->getValue(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $store
             ))
-            ->setPostcode($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE,
+            ->setPostcode($this->_coreStoreConfig->getValue(
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $store
             ))
             ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
@@ -441,7 +441,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         }
         $address    = new \Magento\Object();
         $customerData   = $this->getCustomerData();
-        $basedOn    = $this->_coreStoreConfig->getConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, $store);
+        $basedOn    = $this->_coreStoreConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
 
         if (($shippingAddress === false && $basedOn == 'shipping')
             || ($billingAddress === false && $basedOn == 'billing')) {
@@ -494,14 +494,14 @@ class Calculation extends \Magento\Core\Model\AbstractModel
                 break;
             case 'default':
                 $address
-                    ->setCountryId($this->_coreStoreConfig->getConfig(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY,
+                    ->setCountryId($this->_coreStoreConfig->getValue(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                         $store))
-                    ->setRegionId($this->_coreStoreConfig->getConfig(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION,
+                    ->setRegionId($this->_coreStoreConfig->getValue(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                         $store))
-                    ->setPostcode($this->_coreStoreConfig->getConfig(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE,
+                    ->setPostcode($this->_coreStoreConfig->getValue(
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                         $store));
                 break;
             default:

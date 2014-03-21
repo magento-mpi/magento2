@@ -59,9 +59,9 @@ class Config extends \Magento\Object
     public function getActiveCarriers($store = null)
     {
         $carriers = array();
-        $config = $this->_coreStoreConfig->getConfig('carriers', $store);
+        $config = $this->_coreStoreConfig->getValue('carriers', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         foreach (array_keys($config) as $carrierCode) {
-            if ($this->_coreStoreConfig->getConfigFlag('carriers/' . $carrierCode . '/active', $store)) {
+            if ($this->_coreStoreConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
                 $carrierModel = $this->_carrierFactory->create($carrierCode, $store);
                 if ($carrierModel) {
                     $carriers[$carrierCode] = $carrierModel;
@@ -80,7 +80,7 @@ class Config extends \Magento\Object
     public function getAllCarriers($store = null)
     {
         $carriers = array();
-        $config = $this->_coreStoreConfig->getConfig('carriers', $store);
+        $config = $this->_coreStoreConfig->getValue('carriers', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         foreach (array_keys($config) as $carrierCode) {
             $model = $this->_carrierFactory->create($carrierCode, $store);
             if ($model) {

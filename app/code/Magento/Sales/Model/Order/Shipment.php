@@ -524,7 +524,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = $this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_COPY_METHOD, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -534,10 +534,10 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_GUEST_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
             $customerName = $order->getCustomerName();
         }
 
@@ -556,7 +556,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                     'payment_html' => $paymentBlockHtml,
                     'store'        => $this->getStore()
                 ))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+                ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
                 ->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -586,7 +586,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                         'payment_html' => $paymentBlockHtml,
                         'store'        => $this->getStore()
                     ))
-                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+                    ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
                     ->addTo($email)
                     ->getTransport()
                     ->sendMessage();
@@ -616,7 +616,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         }
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
-        $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
+        $copyMethod = $this->_coreStoreConfig->getValue(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
@@ -624,10 +624,10 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
 
         // Retrieve corresponding email template id and customer name
         if ($order->getCustomerIsGuest()) {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getValue(self::XML_PATH_UPDATE_EMAIL_GUEST_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getValue(self::XML_PATH_UPDATE_EMAIL_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
             $customerName = $order->getCustomerName();
         }
 
@@ -645,7 +645,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                     'billing'  => $order->getBillingAddress(),
                     'store'    => $this->getStore()
                 ))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
+                ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_UPDATE_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
                 ->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
@@ -674,7 +674,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
                         'billing'  => $order->getBillingAddress(),
                         'store'    => $this->getStore()
                     ))
-                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
+                    ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_UPDATE_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
                     ->addTo($email)
                     ->getTransport()
                     ->sendMessage();
@@ -690,7 +690,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      */
     protected function _getEmails($configPath)
     {
-        $data = $this->_coreStoreConfig->getConfig($configPath, $this->getStoreId());
+        $data = $this->_coreStoreConfig->getValue($configPath, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
         if (!empty($data)) {
             return explode(',', $data);
         }

@@ -113,7 +113,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      */
     public function checkIsLive($range)
     {
-        $this->_isLive = (bool)!$this->_coreStoreConfig->getConfig('sales/dashboard/use_aggregated_data');
+        $this->_isLive = (bool)!$this->_coreStoreConfig->getValue('sales/dashboard/use_aggregated_data', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return $this;
     }
 
@@ -406,7 +406,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
                 break;
 
             case '1m':
-                $dateStart->setDay($this->_coreStoreConfig->getConfig('reports/dashboard/mtd_start'));
+                $dateStart->setDay($this->_coreStoreConfig->getValue('reports/dashboard/mtd_start'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
 
             case 'custom':
@@ -416,7 +416,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
             case '1y':
             case '2y':
-                $startMonthDay = explode(',', $this->_coreStoreConfig->getConfig('reports/dashboard/ytd_start'));
+                $startMonthDay = explode(',', $this->_coreStoreConfig->getValue('reports/dashboard/ytd_start'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 $startMonth = isset($startMonthDay[0]) ? (int)$startMonthDay[0] : 1;
                 $startDay = isset($startMonthDay[1]) ? (int)$startMonthDay[1] : 1;
                 $dateStart->setMonth($startMonth);
@@ -561,7 +561,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         }
         $adapter = $this->getConnection();
 
-        if ($this->_coreStoreConfig->getConfig('sales/dashboard/use_aggregated_data')) {
+        if ($this->_coreStoreConfig->getValue('sales/dashboard/use_aggregated_data', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $this->setMainTable('sales_order_aggregated_created');
             $this->removeAllFieldsFromSelect();
             $averageExpr = $adapter->getCheckSql(

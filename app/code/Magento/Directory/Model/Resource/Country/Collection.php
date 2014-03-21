@@ -104,7 +104,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function loadByStore($store = null)
     {
-        $allowCountries = explode(',', (string)$this->_coreStoreConfig->getConfig('general/country/allow', $store));
+        $allowCountries = explode(',', (string)$this->_coreStoreConfig->getValue('general/country/allow', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store));
         if (!empty($allowCountries)) {
             $this->addFieldToFilter("country_id", array('in' => $allowCountries));
         }

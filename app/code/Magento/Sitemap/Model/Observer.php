@@ -100,7 +100,7 @@ class Observer
         $errors = array();
 
         // check if scheduled generation enabled
-        if (!$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_GENERATION_ENABLED)) {
+        if (!$this->_coreStoreConfig->isSetFlag(self::XML_PATH_GENERATION_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return;
         }
 
@@ -117,21 +117,21 @@ class Observer
             }
         }
 
-        if ($errors && $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT)) {
+        if ($errors && $this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_RECIPIENT, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             $translate = $this->_translateModel->getTranslateInline();
             $this->_translateModel->setTranslateInline(false);
 
             $this->_transportBuilder
                 ->setTemplateIdentifier(
-                    $this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_TEMPLATE)
+                    $this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 )
                 ->setTemplateOptions(array(
                     'area' => \Magento\Core\Model\App\Area::AREA_ADMIN,
                     'store' => $this->_storeManager->getStore()->getId(),
                 ))
                 ->setTemplateVars(array('warnings' => join("\n", $errors)))
-                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_IDENTITY))
-                ->addTo($this->_coreStoreConfig->getConfig(self::XML_PATH_ERROR_RECIPIENT));
+                ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_IDENTITY), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->addTo($this->_coreStoreConfig->getValue(self::XML_PATH_ERROR_RECIPIENT), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
 

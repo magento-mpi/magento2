@@ -178,13 +178,13 @@ class Toolbar extends \Magento\View\Element\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->_orderField  = $this->_storeConfig->getConfig(
+        $this->_orderField  = $this->_storeConfig->getValue(
             \Magento\Catalog\Model\Config::XML_PATH_LIST_DEFAULT_SORT_BY
-        );
+        , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
 
         $this->_availableOrder = $this->_getConfig()->getAttributeUsedForSortByArray();
 
-        switch ($this->_storeConfig->getConfig('catalog/frontend/list_mode')) {
+        switch ($this->_storeConfig->getValue('catalog/frontend/list_mode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             case 'grid':
                 $this->_availableMode = array('grid' => __('Grid'));
                 break;
@@ -669,13 +669,13 @@ class Toolbar extends \Magento\View\Element\Template
             if ($default = $this->getDefaultListPerPage()) {
                 return $default;
             }
-            return $this->_storeConfig->getConfig('catalog/frontend/list_per_page');
+            return $this->_storeConfig->getValue('catalog/frontend/list_per_page', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         elseif ($this->getCurrentMode() == 'grid') {
             if ($default = $this->getDefaultGridPerPage()) {
                 return $default;
             }
-            return $this->_storeConfig->getConfig('catalog/frontend/grid_per_page');
+            return $this->_storeConfig->getValue('catalog/frontend/grid_per_page', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         }
         return 0;
     }
@@ -704,10 +704,10 @@ class Toolbar extends \Magento\View\Element\Template
     protected function _getAvailableLimit($mode)
     {
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
-        $perPageValues = (string)$this->_storeConfig->getConfig($perPageConfigKey);
+        $perPageValues = (string)$this->_storeConfig->getValue($perPageConfigKey, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         $perPageValues = explode(',', $perPageValues);
         $perPageValues = array_combine($perPageValues, $perPageValues);
-        if ($this->_storeConfig->getConfigFlag('catalog/frontend/list_allow_all')) {
+        if ($this->_storeConfig->isSetFlag('catalog/frontend/list_allow_all', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return ($perPageValues + array('all'=>__('All')));
         } else {
             return $perPageValues;
@@ -836,8 +836,8 @@ class Toolbar extends \Magento\View\Element\Template
                 ->setLimitVarName($this->getLimitVarName())
                 ->setPageVarName($this->getPageVarName())
                 ->setLimit($this->getLimit())
-                ->setFrameLength($this->_storeConfig->getConfig('design/pagination/pagination_frame'))
-                ->setJump($this->_storeConfig->getConfig('design/pagination/pagination_frame_skip'))
+                ->setFrameLength($this->_storeConfig->getValue('design/pagination/pagination_frame'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                ->setJump($this->_storeConfig->getValue('design/pagination/pagination_frame_skip'), \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
                 ->setCollection($this->getCollection());
 
             return $pagerBlock->toHtml();

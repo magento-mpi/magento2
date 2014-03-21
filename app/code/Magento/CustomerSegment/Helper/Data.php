@@ -46,7 +46,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getConfig(self::XML_PATH_CUSTOMER_SEGMENT_ENABLER);
+        return (bool)$this->_storeConfig->getValue(self::XML_PATH_CUSTOMER_SEGMENT_ENABLER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**

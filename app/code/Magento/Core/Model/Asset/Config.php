@@ -55,7 +55,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function isMergeCssFiles()
     {
-        return (bool)$this->storeConfig->getConfigFlag(self::XML_PATH_MERGE_CSS_FILES);
+        return (bool)$this->storeConfig->isSetFlag(self::XML_PATH_MERGE_CSS_FILES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -65,7 +65,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function isMergeJsFiles()
     {
-        return (bool)$this->storeConfig->getConfigFlag(self::XML_PATH_MERGE_JS_FILES);
+        return (bool)$this->storeConfig->isSetFlag(self::XML_PATH_MERGE_JS_FILES, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -76,7 +76,7 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function isAssetMinification($contentType)
     {
-        return (bool)$this->storeConfig->getConfigFlag(sprintf(self::XML_PATH_MINIFICATION_ENABLED, $contentType));
+        return (bool)$this->storeConfig->isSetFlag(sprintf(self::XML_PATH_MINIFICATION_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $contentType));
     }
 
     /**
@@ -87,6 +87,6 @@ class Config implements \Magento\View\Asset\ConfigInterface
      */
     public function getAssetMinificationAdapter($contentType)
     {
-        return (string)$this->storeConfig->getConfig(sprintf(self::XML_PATH_MINIFICATION_ADAPTER, $contentType));
+        return (string)$this->storeConfig->getValue(sprintf(self::XML_PATH_MINIFICATION_ADAPTER, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $contentType));
     }
 }

@@ -155,7 +155,7 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isStockAlertAllowed()
     {
-        return $this->_coreStoreConfig->getConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW);
+        return $this->_coreStoreConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_STOCK_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 
     /**
@@ -165,6 +165,6 @@ class Data extends \Magento\Core\Helper\Url
      */
     public function isPriceAlertAllowed()
     {
-        return $this->_coreStoreConfig->getConfigFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW);
+        return $this->_coreStoreConfig->isSetFlag(\Magento\ProductAlert\Model\Observer::XML_PATH_PRICE_ALLOW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

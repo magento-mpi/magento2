@@ -323,9 +323,9 @@ class Account extends \Magento\App\Action\Action
             $this->_getSession()->setBeforeAuthUrl($this->_customerHelperData->getAccountUrl());
             // Redirect customer to the last page visited after logging in
             if ($this->_getSession()->isLoggedIn()) {
-                if (!$this->_storeConfig->getConfigFlag(
+                if (!$this->_storeConfig->isSetFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-                )) {
+                , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
                         $referer = $this->coreHelperData->urlDecode($referer);
@@ -554,9 +554,9 @@ class Account extends \Magento\App\Action\Action
         $this->_addWelcomeMessage();
 
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
-        if (!$this->_storeConfig->getConfigFlag(
+        if (!$this->_storeConfig->isSetFlag(
                 \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-            )
+            , \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
             && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);

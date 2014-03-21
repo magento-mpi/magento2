@@ -38,6 +38,6 @@ class Shipping
      */
     public function afterGetStateActive(\Magento\Checkout\Block\Cart\Shipping $subject, $result)
     {
-        return (bool)$result || (bool)$this->_storeConfig->getConfig('carriers/tablerate/active');
+        return (bool)$result || (bool)$this->_storeConfig->getValue('carriers/tablerate/active', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

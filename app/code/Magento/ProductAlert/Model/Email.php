@@ -297,9 +297,9 @@ class Email extends \Magento\Core\Model\AbstractModel
         $store      = $this->_website->getDefaultStore();
         $storeId    = $store->getId();
 
-        if ($this->_type == 'price' && !$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId)) {
+        if ($this->_type == 'price' && !$this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_PRICE_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)) {
             return false;
-        } elseif ($this->_type == 'stock' && !$this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId)) {
+        } elseif ($this->_type == 'stock' && !$this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_STOCK_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)) {
             return false;
         }
 
@@ -318,7 +318,7 @@ class Email extends \Magento\Core\Model\AbstractModel
                 $this->_getPriceBlock()->addProduct($product);
             }
             $block = $this->_getPriceBlock()->toHtml();
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_PRICE_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_PRICE_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         } else {
             $this->_getStockBlock()
                 ->setStore($store)
@@ -328,7 +328,7 @@ class Email extends \Magento\Core\Model\AbstractModel
                 $this->_getStockBlock()->addProduct($product);
             }
             $block = $this->_getStockBlock()->toHtml();
-            $templateId = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_STOCK_TEMPLATE, $storeId);
+            $templateId = $this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_STOCK_TEMPLATE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
         }
 
         $this->_appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
@@ -343,7 +343,7 @@ class Email extends \Magento\Core\Model\AbstractModel
                 'customerName'  => $this->_customer->getName(),
                 'alertGrid'     => $block
             ))
-            ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+            ->setFrom($this->_coreStoreConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
             ->addTo($this->_customer->getEmail(), $this->_customer->getName())
             ->getTransport();
 

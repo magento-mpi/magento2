@@ -79,7 +79,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getLocalValidPaths()
     {
-        $paths = $this->_coreStoreConfig->getConfig(self::XML_PATH_EXPORT_LOCAL_VALID_PATH);
+        $paths = $this->_coreStoreConfig->getValue(self::XML_PATH_EXPORT_LOCAL_VALID_PATH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
         return $paths;
     }
 
@@ -90,6 +90,6 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getBunchSize()
     {
-        return (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_BUNCH_SIZE);
+        return (int)$this->_coreStoreConfig->getValue(self::XML_PATH_BUNCH_SIZE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }

@@ -197,6 +197,6 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getShouldRedirectToCart($store = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_REDIRECT_TO_CART, $store);
+        return $this->_coreStoreConfig->isSetFlag(self::XML_PATH_REDIRECT_TO_CART, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

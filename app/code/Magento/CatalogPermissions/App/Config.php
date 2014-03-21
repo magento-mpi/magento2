@@ -38,7 +38,7 @@ class Config implements ConfigInterface
      */
     public function isEnabled($store = null)
     {
-        return $this->coreStoreConfig->getConfigFlag(ConfigInterface::XML_PATH_ENABLED, $store);
+        return $this->coreStoreConfig->isSetFlag(ConfigInterface::XML_PATH_ENABLED, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -49,7 +49,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogCategoryViewMode($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW, $store);
+        return $this->coreStoreConfig->getValue(ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -60,8 +60,8 @@ class Config implements ConfigInterface
      */
     public function getCatalogCategoryViewGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(
-            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups', $store
+        $groups = $this->coreStoreConfig->getValue(
+            ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store
         );
         return $groups ? explode(',', $groups) : [];
     }
@@ -74,7 +74,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogProductPriceMode($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE, $store);
+        return $this->coreStoreConfig->getValue(ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -85,8 +85,8 @@ class Config implements ConfigInterface
      */
     public function getCatalogProductPriceGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(
-            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups', $store
+        $groups = $this->coreStoreConfig->getValue(
+            ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store
         );
         return $groups ? explode(',', $groups) : [];
     }
@@ -99,7 +99,7 @@ class Config implements ConfigInterface
      */
     public function getCheckoutItemsMode($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS, $store);
+        return $this->coreStoreConfig->getValue(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 
     /**
@@ -110,7 +110,7 @@ class Config implements ConfigInterface
      */
     public function getCheckoutItemsGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups', $store);
+        $groups = $this->coreStoreConfig->getValue(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         return $groups ? explode(',', $groups) : [];
     }
 
@@ -122,7 +122,7 @@ class Config implements ConfigInterface
      */
     public function getCatalogSearchDenyGroups($store = null)
     {
-        $groups = $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH, $store);
+        $groups = $this->coreStoreConfig->getValue(ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
         return $groups ? explode(',', $groups) : [];
     }
 
@@ -134,6 +134,6 @@ class Config implements ConfigInterface
      */
     public function getRestrictedLandingPage($store = null)
     {
-        return $this->coreStoreConfig->getConfig(ConfigInterface::XML_PATH_LANDING_PAGE, $store);
+        return $this->coreStoreConfig->getValue(ConfigInterface::XML_PATH_LANDING_PAGE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
     }
 }

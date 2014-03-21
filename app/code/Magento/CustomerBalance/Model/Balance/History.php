@@ -194,7 +194,7 @@ class History extends \Magento\Core\Model\AbstractModel
 
             $transport = $this->_transportBuilder
                 ->setTemplateIdentifier(
-                    $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId)
+                    $this->_coreStoreConfig->getValue('customer/magento_customerbalance/email_template', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
                 )
                 ->setTemplateOptions(array(
                     'area' => $this->_design->getArea(),
@@ -207,7 +207,7 @@ class History extends \Magento\Core\Model\AbstractModel
                     'store'    => $this->_storeManager->getStore($storeId),
                 ))
                 ->setFrom(
-                    $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId)
+                    $this->_coreStoreConfig->getValue('customer/magento_customerbalance/email_identity', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
                 )
                 ->addTo($customer->getEmail(), $customer->getName())
                 ->getTransport();

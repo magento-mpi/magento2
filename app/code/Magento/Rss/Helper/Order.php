@@ -48,7 +48,7 @@ class Order extends \Magento\App\Helper\AbstractHelper
      */
     public function isStatusNotificationAllow()
     {
-        if ($this->_storeConfig->getConfig('rss/order/status_notified')) {
+        if ($this->_storeConfig->getValue('rss/order/status_notified', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
             return true;
         }
         return false;

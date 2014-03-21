@@ -94,7 +94,7 @@ class Share extends \Magento\Core\Model\Config\Value
      */
     public function isWebsiteScope()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_CUSTOMER_ACCOUNT_SHARE) == self::SHARE_WEBSITE;
+        return $this->_coreStoreConfig->getValue(self::XML_PATH_CUSTOMER_ACCOUNT_SHARE, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == self::SHARE_WEBSITE;
     }
 
     /**

@@ -53,13 +53,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit');
+                $number = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit');
+                $number = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $number = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
+                $number = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             default:
                 throw new \Magento\Core\Exception(__('Invalid product list type'));
@@ -79,13 +79,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior');
+                $show = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior');
+                $show = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $show = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
+                $show = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             default:
                 throw new \Magento\Core\Exception(__('Invalid product list type'));
@@ -122,13 +122,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         switch ($type) {
             case \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS:
-                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_rotation_mode');
+                $mode = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'related_rotation_mode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             case \Magento\TargetRule\Model\Rule::UP_SELLS:
-                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rotation_mode');
+                $mode = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rotation_mode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             case \Magento\TargetRule\Model\Rule::CROSS_SELLS:
-                $mode = $this->_coreStoreConfig->getConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode');
+                $mode = $this->_coreStoreConfig->getValue(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rotation_mode', \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
                 break;
             default:
                 throw new \Magento\Core\Exception(__('Invalid rotation mode type'));

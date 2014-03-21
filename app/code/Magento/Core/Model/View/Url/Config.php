@@ -35,6 +35,6 @@ class Config implements \Magento\View\Url\ConfigInterface
      */
     public function getValue($path)
     {
-        return $this->_storeConfig->getConfig($path);
+        return $this->_storeConfig->getValue($path, \Magento\Core\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
     }
 }
