@@ -10,6 +10,7 @@
 namespace Magento\Newsletter\Model\Resource\Subscriber;
 
 use Magento\Newsletter\Model\Queue as ModelQueue;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface as CustomerMetadataService;
 
 /**
  * Newsletter subscribers collection
@@ -64,11 +65,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_customerFactory;
 
     /**
+     * Customer Eav data
+     *
+     * @var   \Magento\Eav\Helper\Data
+     */
+    protected $_customerHelperData;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * \Magento\Eav\Helper\Data $customerHelperData
      * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -78,11 +87,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Eav\Helper\Data $customerHelperData,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        // _customerFactory is used in parent class constructor
-        $this->_customerFactory = $customerFactory;
+        $this->_customerHelperData = $customerHelperData;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
@@ -147,23 +156,34 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     public function showCustomerInfo()
     {
         $adapter = $this->getConnection();
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_customerFactory->create();
-        $firstname = $customer->getAttribute('firstname');
-        $lastname = $customer->getAttribute('lastname');
+
+        $lastNameData = $this->_customerHelperData->getAttributeMetadata(
+            CustomerMetadataService::ENTITY_TYPE_CUSTOMER,
+            'lastname'
+        );
+        $firstNameData = $this->_customerHelperData->getAttributeMetadata(
+            CustomerMetadataService::ENTITY_TYPE_CUSTOMER,
+            'firstname'
+        );
 
         $this->getSelect()
             ->joinLeft(
-                array('customer_lastname_table'=>$lastname->getBackend()->getTable()),
-                $adapter->quoteInto('customer_lastname_table.entity_id=main_table.customer_id
-                 AND customer_lastname_table.attribute_id = ?', (int)$lastname->getAttributeId()),
-                array('customer_lastname'=>'value')
+                array('customer_lastname_table' => $lastNameData['attribute_table']),
+                $adapter->quoteInto(
+                    'customer_lastname_table.entity_id=main_table.customer_id
+                                     AND customer_lastname_table.attribute_id = ?',
+                    (int)$lastNameData['attribute_id']
+                ),
+                array('customer_lastname' => 'value')
             )
             ->joinLeft(
-                array('customer_firstname_table'=>$firstname->getBackend()->getTable()),
-                $adapter->quoteInto('customer_firstname_table.entity_id=main_table.customer_id
-                 AND customer_firstname_table.attribute_id = ?', (int)$firstname->getAttributeId()),
-                array('customer_firstname'=>'value')
+                array('customer_firstname_table' => $firstNameData['attribute_table']),
+                $adapter->quoteInto(
+                    'customer_firstname_table.entity_id=main_table.customer_id
+                                     AND customer_firstname_table.attribute_id = ?',
+                    (int)$firstNameData['attribute_id']
+                ),
+                array('customer_firstname' => 'value')
             );
 
         return $this;
