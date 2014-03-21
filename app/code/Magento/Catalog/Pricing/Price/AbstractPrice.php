@@ -28,7 +28,7 @@ class AbstractPrice implements PriceInterface
     /**
      * @var Product
      */
-    protected $product;
+    protected $salableItem;
 
     /**
      * @var PriceInfoInterface
@@ -56,12 +56,19 @@ class AbstractPrice implements PriceInterface
     protected $adjustedAmounts = [];
 
     /**
-     * @param Product $product
+     * @var float
      */
-    public function __construct(Product $product)
+    protected $quantity;
+
+    /**
+     * @param Product $salableItem
+     * @param float $quantity
+     */
+    public function __construct(Product $salableItem, $quantity)
     {
-        $this->product = $product;
-        $this->priceInfo = $product->getPriceInfo();
+        $this->salableItem = $salableItem;
+        $this->quantity = $quantity;
+        $this->priceInfo = $salableItem->getPriceInfo();
         $this->baseAmount = $this->getValue();
 
         $adjustments = [];
@@ -70,13 +77,21 @@ class AbstractPrice implements PriceInterface
             if ($adjustment->isIncludedInBasePrice()) {
                 $code = $adjustment->getAdjustmentCode();
                 $adjustments[$code] = $adjustment;
-                $adjustedAmount = $adjustment->extractAdjustment($this->baseAmount, $this->product);
+                $adjustedAmount = $adjustment->extractAdjustment($this->baseAmount, $this->salableItem);
                 $this->baseAmount = $this->baseAmount - $adjustedAmount;
                 $this->adjustedAmount = + $adjustedAmount;
                 $this->adjustedAmounts[$code] = $adjustedAmount;
             }
         }
         $this->adjustments = $adjustments;
+    }
+
+    /**
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 
     /**
@@ -92,7 +107,7 @@ class AbstractPrice implements PriceInterface
      */
     public function getValue()
     {
-        return $this->product->getDataUsingMethod($this->priceType);
+        return $this->salableItem->getDataUsingMethod($this->priceType);
     }
 
     /**
@@ -107,11 +122,11 @@ class AbstractPrice implements PriceInterface
             if ($excludedCode && $adjustment->isExcludedWith($excludedCode)) {
                 $exclude = true;
             }
-            if ($adjustment->isIncludedInDisplayPrice($this->product) && !$exclude) {
+            if ($adjustment->isIncludedInDisplayPrice($this->salableItem) && !$exclude) {
                 if (isset($this->adjustedAmounts[$code])) {
                     $amount = $amount + $this->adjustedAmounts[$code];
                 } else {
-                    $amount = $adjustment->applyAdjustment($amount, $this->product);
+                    $amount = $adjustment->applyAdjustment($amount, $this->salableItem);
                 }
             }
         }

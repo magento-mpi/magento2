@@ -12,7 +12,7 @@
 <?php
 /** @var \Magento\Tax\Pricing\Render\Adjustment $this */
 
-$productId = $this->getProduct()->getId();
+$productId = $this->getSaleableItem()->getId();
 
 $displayAmountExclTax = $this->getPrice()->getDisplayValue('tax');
 $displayAmount = $this->getPrice()->getDisplayValue();

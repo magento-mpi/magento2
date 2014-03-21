@@ -12,7 +12,7 @@
 <?php
 /** @var \Magento\Pricing\Render\PriceBox $this */
 
-$product = $this->getProduct();
+$product = $this->getSaleableItem();
 $id = $product->getId();
 
 /** @var \Magento\Catalog\Pricing\Price\Price $priceModel */

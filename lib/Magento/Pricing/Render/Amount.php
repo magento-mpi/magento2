@@ -28,7 +28,7 @@ class Amount extends Template implements AmountRenderInterface
     /**
      * @var SaleableInterface
      */
-    protected $product;
+    protected $saleableItem;
 
     /**
      * @var PriceInterface
@@ -64,11 +64,11 @@ class Amount extends Template implements AmountRenderInterface
 
     /**
      * @param PriceInterface $price
-     * @param SaleableInterface $product
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
      */
-    public function render(PriceInterface $price, SaleableInterface $product, array $arguments = [])
+    public function render(PriceInterface $price, SaleableInterface $saleableItem, array $arguments = [])
     {
         $origArguments = $this->_data;
         // @todo probably use block vars instead
@@ -76,7 +76,7 @@ class Amount extends Template implements AmountRenderInterface
 
         $this->amount = $price->getValue();
         $this->price = $price;
-        $this->product = $product;
+        $this->saleableItem = $saleableItem;
 
         // collect correspondent Price Adjustment Renders
         /** @var AdjustmentRenderInterface[] $adjustmentRenders */
@@ -135,10 +135,10 @@ class Amount extends Template implements AmountRenderInterface
      *
      * @return SaleableInterface
      */
-    public function getProduct()
+    public function getSaleableItem()
     {
         // @todo move to abstract pricing block
-        return $this->product;
+        return $this->saleableItem;
     }
 
     /**

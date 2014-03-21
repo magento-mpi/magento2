@@ -24,8 +24,6 @@ class Render extends Template
     protected $priceLayout;
 
     /**
-     * Construct
-     *
      * @param Template\Context $context
      * @param Layout $priceLayout
      * @param array $data

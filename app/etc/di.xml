@@ -159,7 +159,6 @@
             <argument name="locale" xsi:type="object">Magento\Locale\Resolver\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Core\Model\View\Design">
         <arguments>
             <argument name="storeManager" xsi:type="object">Magento\Core\Model\StoreManager\Proxy</argument>
@@ -353,5 +352,4 @@
         </arguments>
     </type>
     <type name="Magento\Core\Model\Layout\ScheduledStructure" shared="false" />
-    <type name="Magento\Data\Structure" shared="false" />
 </config>

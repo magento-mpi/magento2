@@ -18,6 +18,11 @@ use Magento\Pricing\Adjustment\AdjustmentInterface;
 interface PriceInterface
 {
     /**
+     * @return float
+     */
+    public function getQuantity();
+
+    /**
      * Get price unique identifier
      *
      * @return string

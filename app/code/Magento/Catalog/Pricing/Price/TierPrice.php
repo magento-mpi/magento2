@@ -23,26 +23,11 @@ class TierPrice extends AbstractPrice
     protected $priceType = 'tier_price';
 
     /**
-     * @var int
-     */
-    protected $productQty;
-
-    /**
-     * @param Product $product
-     * @param int $productQty
-     */
-    public function __construct(Product $product, $productQty = 1)
-    {
-        $this->productQty = $productQty;
-        parent::__construct($product);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getValue()
     {
-        $tierPrice = $this->product->getDataUsingMethod($this->priceType, $this->productQty);
+        $tierPrice = $this->salableItem->getDataUsingMethod($this->priceType, $this->quantity);
         return is_array($tierPrice) ? $tierPrice[0]['website_price'] : $tierPrice;
     }
 
@@ -52,7 +37,7 @@ class TierPrice extends AbstractPrice
     public function getApplicableTierPrices()
     {
         ///@todo check is float
-        $priceList = $this->product->getTierPrice();
+        $priceList = $this->salableItem->getTierPrice();
 
         $applicablePrices = [];
         foreach ($priceList as $price) {
@@ -101,7 +86,7 @@ class TierPrice extends AbstractPrice
         foreach (array_reverse($this->priceInfo->getAdjustments()) as $adjustment) {
             /** @var \Magento\Pricing\Adjustment\AdjustmentInterface $adjustment */
             if ($adjustment->isIncludedInBasePrice()) {
-                $price['adjustedAmount'] = $adjustment->extractAdjustment($price['website_price'], $this->product);
+                $price['adjustedAmount'] = $adjustment->extractAdjustment($price['website_price'], $this->salableItem);
                 $price['website_price'] = $price['website_price'] - $price['adjustedAmount'];
             }
         }

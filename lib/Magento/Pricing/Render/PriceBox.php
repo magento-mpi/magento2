@@ -19,7 +19,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     /**
      * @var SaleableInterface
      */
-    protected $product;
+    protected $saleableItem;
 
     /**
      * @var PriceInterface
@@ -62,19 +62,19 @@ class PriceBox extends Template implements PriceBoxRenderInterface
 
     /**
      * @param string $priceType
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
      */
-    public function render($priceType, SaleableInterface $object, array $arguments = [])
+    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
     {
         $origArguments = $this->_data;
         // @todo probably use block vars instead
         $this->_data = array_replace($origArguments, $arguments);
 
-        $this->product = $object;
+        $this->saleableItem = $saleableItem;
 
-        $this->priceInfo = $object->getPriceInfo();
+        $this->priceInfo = $saleableItem->getPriceInfo();
         $this->price = $this->priceInfo->getPrice($priceType);
 
         $cssClasses[] = 'price-' . $priceType;
@@ -86,7 +86,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
 
         $childBlock = $this->getChildBlock('price.render');
         if ($childBlock instanceof PriceBoxRenderInterface) {
-            $result = $childBlock->render($childBlock->getNameInLayout(), $object, $arguments);
+            $result = $childBlock->render($childBlock->getNameInLayout(), $saleableItem, $arguments);
         } else {
             // wrap with standard required container
             $result = '<div class="price-box ' . $this->_data['css_classes'] . '">' . $this->toHtml() . '</div>';
@@ -108,7 +108,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      */
     public function renderAmount(PriceInterface $price, array $arguments = [])
     {
-        return $this->getAmountRender()->render($price, $this->product, $arguments);
+        return $this->getAmountRender()->render($price, $this->saleableItem, $arguments);
     }
 
     /**
@@ -116,10 +116,10 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      *
      * @return SaleableInterface
      */
-    public function getProduct()
+    public function getSaleableItem()
     {
         // @todo move to abstract pricing block
-        return $this->product;
+        return $this->saleableItem;
     }
 
     /**
@@ -134,12 +134,13 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
-     * @param $priceCode
+     * @param string $priceCode
+     * @param float|null $quantity
      * @return PriceInterface
      */
-    public function getPriceType($priceCode)
+    public function getPriceType($priceCode, $quantity = null)
     {
-        return $this->priceInfo->getPrice($priceCode);
+        return $this->priceInfo->getPrice($priceCode, $quantity);
     }
 
     /**

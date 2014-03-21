@@ -9,21 +9,26 @@
 
 <?php
 /** @var \Magento\Pricing\Render\PriceBox $this */
-$product = $this->getProduct();
+$product = $this->getSaleableItem();
+
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
-$tierPriceModel = $this->getPriceType('tier_price');
+$tierPriceModel = $this->getPrice();
 $tierPrices = $tierPriceModel->getApplicableTierPrices();
 ?>
 
-<?php if (count($tierPrices) > 0) : ?>
+<?php if (count($tierPrices)) : ?>
     <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
     <?php foreach ($tierPrices as $index => $price) : ?>
+        <li class="item">
         <?php
-            echo $this->renderAmount($price['website_price'], [
+            /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
+            $tierPriceModel = $this->getPriceType('tier_price', $price['price_qty']);
+            echo $this->renderAmount($tierPriceModel, [
                 'price_id' => 'tier-price-' . $index,
                 'include_container' => false
             ]);
         ?>
+        </li>
     <?php endforeach; ?>
     </ul>
 <?php endif; ?>

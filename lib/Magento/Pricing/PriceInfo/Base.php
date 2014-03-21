@@ -23,6 +23,11 @@ use Magento\Pricing\Object\SaleableInterface;
 class Base implements PriceInfoInterface
 {
     /**
+     * Default product quantity
+     */
+    const PRODUCT_QUANTITY_DEFAULT = 1.;
+
+    /**
      * @var SaleableInterface
      */
     protected $product;
@@ -43,18 +48,26 @@ class Base implements PriceInfoInterface
     protected $adjustments;
 
     /**
+     * @var float
+     */
+    protected $quantity;
+
+    /**
      * @param SaleableInterface $product
      * @param PriceComposite $prices
      * @param AdjustmentComposite $adjustments
+     * @param float $quantity
      */
     public function __construct(
         SaleableInterface $product,
         PriceComposite $prices,
-        AdjustmentComposite $adjustments
+        AdjustmentComposite $adjustments,
+        $quantity = self::PRODUCT_QUANTITY_DEFAULT
     ) {
         $this->product = $product;
         $this->prices = $prices;
         $this->adjustments = $adjustments;
+        $this->quantity = $quantity;
     }
 
     /**
@@ -77,7 +90,7 @@ class Base implements PriceInfoInterface
         $prices = $this->prices->getPriceCodes();
         foreach ($prices as $code) {
             if (!isset($this->priceInstances[$code])) {
-                $this->priceInstances[$code] = $this->prices->createPriceObject($code, $this->product);
+                $this->priceInstances[$code] = $this->prices->createPriceObject($this->product, $code, $this->quantity);
             }
         }
         return $this;
@@ -85,14 +98,25 @@ class Base implements PriceInfoInterface
 
     /**
      * @param string $priceCode
+     * @param float|null $quantity
      * @return PriceInterface
      */
-    public function getPrice($priceCode)
+    public function getPrice($priceCode, $quantity = null)
     {
-        if (!isset($this->priceInstances[$priceCode])) {
-            $this->priceInstances[$priceCode] = $this->prices->createPriceObject($priceCode, $this->product);
+        if (!isset($this->priceInstances[$priceCode]) && $quantity === null) {
+            $this->priceInstances[$priceCode] = $this->prices->createPriceObject(
+                $this->product,
+                $priceCode,
+                $this->quantity
+            );
+            return $this->priceInstances[$priceCode];
+        } else {
+            return  $this->prices->createPriceObject(
+                $this->product,
+                $priceCode,
+                $quantity
+            );
         }
-        return $this->priceInstances[$priceCode];
     }
 
     /**

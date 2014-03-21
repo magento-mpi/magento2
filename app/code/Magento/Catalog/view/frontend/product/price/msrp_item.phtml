@@ -21,7 +21,7 @@ $priceType = $this->getPriceType('msrp');
 $coreHelper = $this->helper('Magento\Core\Helper\Data');
 
 /** @var $_product \Magento\Catalog\Model\Product */
-$_product = $this->getProduct();
+$_product = $this->getSaleableItem();
 $_id = $_product->getId();
 $_msrpPrice = '';
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';

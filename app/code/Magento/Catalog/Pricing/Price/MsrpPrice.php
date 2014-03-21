@@ -29,13 +29,14 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     protected $catalogDataHelper;
 
     /**
-     * @param Product $product
+     * @param \Magento\Catalog\Model\Product $salableItem
      * @param Data $catalogDataHelper
+     * @param float $quantity
      */
-    public function __construct(Product $product, Data $catalogDataHelper)
+    public function __construct(Product $salableItem, Data $catalogDataHelper, $quantity)
     {
         $this->catalogDataHelper = $catalogDataHelper;
-        parent::__construct($product);
+        parent::__construct($salableItem, $quantity);
     }
 
     /**
@@ -43,7 +44,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
      */
     public function isShowPriceOnGesture()
     {
-        return $this->catalogDataHelper->isShowPriceOnGesture($this->product);
+        return $this->catalogDataHelper->isShowPriceOnGesture($this->salableItem);
     }
 
     /**
@@ -53,7 +54,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
      */
     public function getMsrpPriceMessage()
     {
-        return $this->catalogDataHelper->getMsrpPriceMessage($this->product);
+        return $this->catalogDataHelper->getMsrpPriceMessage($this->salableItem);
     }
 
     /**

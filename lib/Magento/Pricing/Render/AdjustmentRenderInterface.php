@@ -21,7 +21,7 @@ interface AdjustmentRenderInterface
      * @param array $arguments
      * @return string
      */
-    public function render($html, \Magento\Pricing\Render\AmountRenderInterface $amountRender, array $arguments = []);
+    public function render($html, AmountRenderInterface $amountRender, array $arguments = []);
 
     /**
      * @return string
@@ -52,5 +52,5 @@ interface AdjustmentRenderInterface
      *
      * @return SaleableInterface
      */
-    public function getProduct();
+    public function getSaleableItem();
 }

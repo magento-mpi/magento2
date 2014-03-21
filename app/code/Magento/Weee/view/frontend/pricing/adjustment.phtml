@@ -13,7 +13,7 @@
 /** @var \Magento\Weee\Pricing\Render\Adjustment $this */
 
 /** @var \Magento\Pricing\Object\SaleableInterface $product */
-$product = $this->getProduct();
+$product = $this->getSaleableItem();
 $weeeSeparator = '';
 
 $isDisplayFpt = $this->typeOfDisplay(

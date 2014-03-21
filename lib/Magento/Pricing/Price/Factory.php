@@ -35,15 +35,17 @@ class Factory
     /**
      * Create Price object for particular product
      *
+     * @param SaleableInterface $salableItem
      * @param string $className
-     * @param SaleableInterface $product
+     * @param float $quantity
      * @param array $arguments
-     * @return \Magento\Pricing\Price\PriceInterface
      * @throws \InvalidArgumentException
+     * @return \Magento\Pricing\Price\PriceInterface
      */
-    public function create($className, SaleableInterface $product, array $arguments = [])
+    public function create(SaleableInterface $salableItem, $className, $quantity, array $arguments = [])
     {
-        $arguments['product'] = $product;
+        $arguments['salableItem'] = $salableItem;
+        $arguments['quantity'] = $quantity;
         $price = $this->objectManager->create($className, $arguments);
         if (!$price instanceof \Magento\Pricing\Price\PriceInterface) {
             throw new \InvalidArgumentException(

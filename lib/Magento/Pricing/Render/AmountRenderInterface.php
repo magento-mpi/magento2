@@ -20,11 +20,11 @@ interface AmountRenderInterface
 {
     /**
      * @param PriceInterface $price
-     * @param SaleableInterface $product
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
      */
-    public function render(PriceInterface $price, SaleableInterface $product, array $arguments = []);
+    public function render(PriceInterface $price, SaleableInterface $saleableItem, array $arguments = []);
 
     /**
      * @return PriceInterface
@@ -36,7 +36,7 @@ interface AmountRenderInterface
      *
      * @return SaleableInterface
      */
-    public function getProduct();
+    public function getSaleableItem();
 
     /**
      * (to use in templates only)

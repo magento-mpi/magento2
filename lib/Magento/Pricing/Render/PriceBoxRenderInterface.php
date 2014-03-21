@@ -17,18 +17,18 @@ interface PriceBoxRenderInterface
 {
     /**
      * @param string $priceType
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
      */
-    public function render($priceType, SaleableInterface $object, array $arguments = []);
+    public function render($priceType, SaleableInterface $saleableItem, array $arguments = []);
 
     /**
      * (to use in templates only)
      *
      * @return SaleableInterface
      */
-    public function getProduct();
+    public function getSaleableItem();
 
     /**
      * (to use in templates only)

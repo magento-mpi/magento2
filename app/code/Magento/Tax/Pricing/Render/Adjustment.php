@@ -11,7 +11,6 @@
 namespace Magento\Tax\Pricing\Render;
 
 use Magento\View\Element\Template;
-use Magento\Pricing\PriceCurrencyInterface;
 use Magento\Pricing\Render\AbstractAdjustment;
 
 class Adjustment extends AbstractAdjustment
