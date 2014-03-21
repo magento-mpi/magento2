@@ -50,7 +50,7 @@
   * View publisher re-factored
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Improvements in code coverage calculation:
-  * Code coverage calculation approach for integration tests was changed from blacklist to whitelist
+  * Updated whitelist filter with library code for integration tests code coverage calculation
 * Framework Improvements:
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
