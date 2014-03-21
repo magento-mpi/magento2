@@ -99,7 +99,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     /**
      * Request getter
      *
-     * @return \Magento\App\RequestInterface
+     * @return \Magento\TestFramework\Request
      */
     public function getRequest()
     {
@@ -112,7 +112,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     /**
      * Response getter
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\TestFramework\Response
      */
     public function getResponse()
     {

@@ -91,7 +91,7 @@ class Cart extends \Magento\Backend\App\Action
             $configureResult->setProductId($quoteItem->getProductId());
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
-            $configureResult->setCustomerId($this->_customerId);
+            $configureResult->setCurrentCustomerId($this->_customerId);
         } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
