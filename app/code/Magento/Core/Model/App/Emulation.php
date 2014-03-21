@@ -45,7 +45,7 @@ class Emulation extends \Magento\Object
     protected $_design;
 
     /**
-     * @var \Magento\Translate\Inline\ConfigFactory
+     * @var \Magento\Translate\Inline\ConfigInterface
      */
     protected $inlineConfig;
 

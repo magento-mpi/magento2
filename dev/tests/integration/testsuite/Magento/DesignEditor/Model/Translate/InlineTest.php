@@ -11,7 +11,7 @@
 
 namespace Magento\DesignEditor\Model\Translate;
 
-class InlineVdeTest extends \PHPUnit_Framework_TestCase
+class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\DesignEditor\Model\Translate\Inline
