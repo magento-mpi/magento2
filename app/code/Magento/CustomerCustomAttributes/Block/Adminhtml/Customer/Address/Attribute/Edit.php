@@ -16,8 +16,7 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attr
  * @package     Magento_CustomerCustomAttributes
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
@@ -57,7 +56,7 @@ class Edit
      */
     protected function _construct()
     {
-        $this->_objectId   = 'attribute_id';
+        $this->_objectId = 'attribute_id';
         $this->_blockGroup = 'Magento_CustomerCustomAttributes';
         $this->_controller = 'adminhtml_customer_address_attribute';
 
@@ -66,13 +65,11 @@ class Edit
         $this->_addButton(
             'save_and_edit_button',
             array(
-                'label'     => __('Save and Continue Edit'),
-                'class'     => 'save',
-                'data_attribute'  => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                    ),
-                ),
+                'label' => __('Save and Continue Edit'),
+                'class' => 'save',
+                'data_attribute' => array(
+                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
+                )
             ),
             100
         );

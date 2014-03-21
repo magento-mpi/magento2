@@ -17,8 +17,8 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab;
 
-class General extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class General extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Create form. Fieldset are being added in child blocks

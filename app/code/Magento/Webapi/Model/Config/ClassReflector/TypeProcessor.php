@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Config\ClassReflector;
 
 use Zend\Code\Reflection\ClassReflection;
@@ -172,9 +171,16 @@ class TypeProcessor
      */
     protected function _processMethod(\Zend\Code\Reflection\MethodReflection $methodReflection, $typeName)
     {
-        $isGetter = (strpos($methodReflection->getName(), 'get') === 0)
-            || (strpos($methodReflection->getName(), 'is') === 0)
-            || (strpos($methodReflection->getName(), 'has') === 0);
+        $isGetter = strpos(
+            $methodReflection->getName(),
+            'get'
+        ) === 0 || strpos(
+            $methodReflection->getName(),
+            'is'
+        ) === 0 || strpos(
+            $methodReflection->getName(),
+            'has'
+        ) === 0;
         if ($isGetter) {
             $returnMetadata = $this->getGetterReturnType($methodReflection);
             $fieldName = $this->_helper->dataObjectGetterNameToFieldName($methodReflection->getName());
@@ -238,17 +244,19 @@ class TypeProcessor
          * \Magento\Webapi\Service\Entity\SimpleData instead of \Magento\Webapi\Service\Entity\SimpleData[]
          */
         $escapedReturnType = str_replace('\\', '\\\\', $returnType);
-        if (preg_match("/.*\@return\s+({$escapedReturnType}\[\]).*/i", $methodDocBlock->getContents(), $matches)) {
+        if (preg_match("/.*\\@return\\s+({$escapedReturnType}\\[\\]).*/i", $methodDocBlock->getContents(), $matches)) {
             $returnType = $matches[1];
         }
-        $isRequired = preg_match("/.*\@return\s+\S+\|null.*/i", $methodDocBlock->getContents(), $matches)
-            ? false
-            : true;
-        return [
+        $isRequired = preg_match(
+            "/.*\@return\s+\S+\|null.*/i",
+            $methodDocBlock->getContents(),
+            $matches
+        ) ? false : true;
+        return array(
             'type' => $returnType,
             'isRequired' => $isRequired,
             'description' => $returnAnnotation->getDescription()
-        ];
+        );
     }
 
     /**
@@ -259,11 +267,7 @@ class TypeProcessor
      */
     public function normalizeType($type)
     {
-        $normalizationMap = array(
-            'str' => 'string',
-            'integer' => 'int',
-            'bool' => 'boolean',
-        );
+        $normalizationMap = array('str' => 'string', 'integer' => 'int', 'bool' => 'boolean');
 
         return is_string($type) && isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
     }

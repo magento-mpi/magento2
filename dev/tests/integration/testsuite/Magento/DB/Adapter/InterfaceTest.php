@@ -42,7 +42,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Resource\Setup',
             array(
                 'resourceName' => \Magento\Core\Model\Resource\Setup::DEFAULT_SETUP_CONNECTION,
-                'moduleName' => 'Magento_Core',
+                'moduleName' => 'Magento_Core'
             )
         );
         $this->_connection = $installer->getConnection();
@@ -50,20 +50,27 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         $this->_oneColumnIdxName = $installer->getIdxName($this->_tableName, array('column1'));
         $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
 
-        $table = $this->_connection->newTable($this->_tableName)
-            ->addColumn('id', \Magento\DB\Ddl\Table::TYPE_INTEGER, null,
-                array(
-                    'identity' => true,
-                    'unsigned' => true,
-                    'nullable' => false,
-                    'primary'  => true,
-                ),
-            'Id')
-            ->addColumn('column1', \Magento\DB\Ddl\Table::TYPE_INTEGER)
-            ->addColumn('column2', \Magento\DB\Ddl\Table::TYPE_INTEGER)
-            ->addIndex($this->_oneColumnIdxName, array('column1'))
-            ->addIndex($this->_twoColumnIdxName, array('column1', 'column2'))
-        ;
+        $table = $this->_connection->newTable(
+            $this->_tableName
+        )->addColumn(
+            'id',
+            \Magento\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+            'Id'
+        )->addColumn(
+            'column1',
+            \Magento\DB\Ddl\Table::TYPE_INTEGER
+        )->addColumn(
+            'column2',
+            \Magento\DB\Ddl\Table::TYPE_INTEGER
+        )->addIndex(
+            $this->_oneColumnIdxName,
+            array('column1')
+        )->addIndex(
+            $this->_twoColumnIdxName,
+            array('column1', 'column2')
+        );
         $this->_connection->createTable($table);
     }
 
@@ -169,9 +176,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testInsertArray(array $columns, array $data, array $expected)
     {
         $this->_connection->insertArray($this->_tableName, $columns, $data);
-        $select = $this->_connection->select()
-            ->from($this->_tableName, array_keys($expected[0]))
-            ->order('column1');
+        $select = $this->_connection->select()->from($this->_tableName, array_keys($expected[0]))->order('column1');
         $result = $this->_connection->fetchAll($select);
         $this->assertEquals($expected, $result);
     }
@@ -187,26 +192,17 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
             'one column' => array(
                 array('column1'),
                 array(array(1), array(2)),
-                array(
-                    array('column1' => 1, 'column2' => null),
-                    array('column1' => 2, 'column2' => null),
-                ),
+                array(array('column1' => 1, 'column2' => null), array('column1' => 2, 'column2' => null))
             ),
             'one column simple' => array(
                 array('column1'),
                 array(1, 2),
-                array(
-                    array('column1' => 1, 'column2' => null),
-                    array('column1' => 2, 'column2' => null),
-                ),
+                array(array('column1' => 1, 'column2' => null), array('column1' => 2, 'column2' => null))
             ),
             'two columns' => array(
                 array('column1', 'column2'),
                 array(array(1, 2), array(3, 4)),
-                array(
-                    array('column1' => 1, 'column2' => 2),
-                    array('column1' => 3, 'column2' => 4),
-                ),
+                array(array('column1' => 1, 'column2' => 2), array('column1' => 3, 'column2' => 4))
             ),
             'several columns with identity' => array( // test possibility to insert data with filled identity field
                 array('id', 'column1', 'column2'),
@@ -215,7 +211,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
                     array('id' => 1, 'column1' => 0, 'column2' => 0),
                     array('id' => 2, 'column1' => 1, 'column2' => 1),
                     array('id' => 3, 'column1' => 2, 'column2' => 2)
-                ),
+                )
             )
         );
     }
@@ -235,8 +231,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_connection->insertMultiple($this->_tableName, $data);
 
-        $select = $this->_connection->select()
-            ->from($this->_tableName);
+        $select = $this->_connection->select()->from($this->_tableName);
         $result = $this->_connection->fetchRow($select);
 
         $this->assertEquals($data, $result);
@@ -249,8 +244,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_connection->insertOnDuplicate($this->_tableName, $data);
 
-        $select = $this->_connection->select()
-            ->from($this->_tableName);
+        $select = $this->_connection->select()->from($this->_tableName);
         $result = $this->_connection->fetchRow($select);
 
         $this->assertEquals($data, $result);
@@ -263,8 +257,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(1, $this->_connection->insertForce($this->_tableName, $data));
 
-        $select = $this->_connection->select()
-            ->from($this->_tableName);
+        $select = $this->_connection->select()->from($this->_tableName);
         $result = $this->_connection->fetchRow($select);
 
         $this->assertEquals($data, $result);
@@ -277,10 +270,6 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      */
     public function insertDataProvider()
     {
-        return array(
-            'column with identity field' => array(
-                array('id' => 1, 'column1' => 10, 'column2' => 20)
-            )
-        );
+        return array('column with identity field' => array(array('id' => 1, 'column1' => 10, 'column2' => 20)));
     }
 }

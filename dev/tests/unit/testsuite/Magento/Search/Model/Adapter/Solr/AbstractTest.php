@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Search\Model\Adapter\Solr;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase

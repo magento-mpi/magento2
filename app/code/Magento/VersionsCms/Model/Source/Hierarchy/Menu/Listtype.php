@@ -22,9 +22,6 @@ class Listtype implements \Magento\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            '0'  => __('Unordered'),
-            '1' => __('Ordered'),
-        );
+        return array('0' => __('Unordered'), '1' => __('Ordered'));
     }
 }

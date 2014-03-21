@@ -16,8 +16,7 @@ namespace Magento\SalesArchive\Model\Resource\Order\Invoice;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection
+class Collection extends \Magento\Sales\Model\Resource\Order\Invoice\Grid\Collection
 {
     /**
      * Collection initialization

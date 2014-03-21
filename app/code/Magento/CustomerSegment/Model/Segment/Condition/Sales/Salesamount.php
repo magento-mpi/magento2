@@ -15,8 +15,7 @@ use Zend_Db_Expr;
 /**
  * Orders amount condition
  */
-class Salesamount
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
+class Salesamount extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -46,9 +45,9 @@ class Salesamount
     {
         //filter key "value"
         if (is_array($key) && isset($key['value']) && $key['value'] !== null) {
-            $key['value'] = (float)$key['value'];
+            $key['value'] = (double)$key['value'];
         } elseif ($key == 'value' && $value !== null) {
-            $value = (float)$value;
+            $value = (double)$value;
         }
 
         return parent::setData($key, $value);
@@ -71,9 +70,13 @@ class Salesamount
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('%1 Sales Amount %2 %3 while %4 of these Conditions match:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            '%1 Sales Amount %2 %3 while %4 of these Conditions match:',
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -88,11 +91,14 @@ class Salesamount
         $select = $this->getResource()->createSelect();
 
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
-        $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
+        $aggrFunc = $this->getAttribute() == 'total' ? 'SUM' : 'AVG';
         $adapter = $this->getResource()->getReadConnection();
-        $firstIf = $adapter->getCheckSql($aggrFunc . '(sales_order.base_grand_total) IS NOT NULL',
-            $aggrFunc . '(sales_order.base_grand_total)', 0);
-        $value = (float)$this->getValue();
+        $firstIf = $adapter->getCheckSql(
+            $aggrFunc . '(sales_order.base_grand_total) IS NOT NULL',
+            $aggrFunc . '(sales_order.base_grand_total)',
+            0
+        );
+        $value = (double)$this->getValue();
         $result = $adapter->getCheckSql($firstIf . ' ' . $operator . ' ' . $value, 1, 0);
 
         $select->from(

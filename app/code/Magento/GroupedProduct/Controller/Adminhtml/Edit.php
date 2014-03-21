@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Controller\Adminhtml;
 
 class Edit extends \Magento\Backend\App\AbstractAction
@@ -60,7 +59,7 @@ class Edit extends \Magento\Backend\App\AbstractAction
      */
     public function popupAction()
     {
-        $productId  = (int)$this->getRequest()->getParam('id');
+        $productId = (int)$this->getRequest()->getParam('id');
 
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->factory->create();

@@ -9,8 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Rest\Response\Renderer;
 
-class Json implements
-    \Magento\Webapi\Controller\Rest\Response\RendererInterface
+class Json implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
 {
     /**
      * Adapter mime type.

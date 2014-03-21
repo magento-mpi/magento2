@@ -1,11 +1,33 @@
-* Cache:
-  * Depersonalize private content generation
-  * Content invalidation
-  * Added Edge side includes(ESI) supporting
-  * Added Built-in caching application
+* Fixed bugs:
+  * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
+  * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
+  * Fixed ability to check Solr connection (MAGETWO-19110)
+  * Fixed ability to use of custom module front name (MAGETWO-16160)
+  * Fixed ability to use USPS and DHL on production (MAGETWO-22592)
+  * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
+* Modularity improvements:
+  * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
+* Framework Improvements:
+  * Covered Magento library components with unit tests: (MAGETWO-21137)
+    * Magento/Interception
+    * Magento/ObjectManager
+    * Magento/Message
+    * Magento/Module
+    * Magento/Mail
+    * Magento/Object
+    * Magento/Math
+* Updated XML files to include relative path reference to schema file (MAGETWO-15527)
+* Updated code to be PSR-2 compliant
+* GitHub requests:
+  * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
+  * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
+  * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
+
+2.0.0.0-dev69
+=============
 * Themes update:
   * LESS styles library added in pub/lib/css/
-  * New Blank theme set as default
+  * A new Blank theme set as default
 * GitHub requests:
   * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
@@ -13,54 +35,44 @@
   * [#461](https://github.com/magento/magento2/pull/461) -- Use translates for Quote\Address\Total\Shipping
   * [#235](https://github.com/magento/magento2/issues/235) -- Translation escaping
   * [#463](https://github.com/magento/magento2/pull/463) -- allow _resolveArguments to do sequential lookups
-  * [#499] (https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
-  * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
-  * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
-  * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
+  * [#499](https://github.com/magento/magento2/issues/499) Deleted unclosed comment in calendar.css
 * Fixed bugs:
-  * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
-  * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
-  * Fixed transaction rollback in fetchNewIncrementId on exception
-  * Fixed category saveing when it has more than 1000 products
-  * Fixed error messages displayed during installation when required extensions are not installed
-  * Fixed synopsis of install.php script
-  * Fixed absence of payment scheduled in shopping cart for products with recurring profile
-  * Fixed code coverage fails for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
-  * Fixed PayPal Express Checkout must not redirect to Paypal site if Allow Guest Checkout option is No (MAGETWO-19523)
-  * Fixed ability to reset password for customer from backend (MAGETWO-20164)
-  * Fixed ability to download backup (MAGETWO-21353)
-  * Fixed possibility of XSS injection in the Integration re-authorization flow
-  * Fixed cancellation of the Billing Agreement from backend
-  * Fixed debug section in the developer settings
-  * Fixed unreliable implementation of fetching authorization header via SOAP
-  * Fixed WSDL generation error reporting issues
-  * Fixed correct order Recurring Profile tab in Account Customer on frontend (MAGETWO-20706)
-  * Fixed displaying an image on recurring profile page (MAGETWO-21375)
-  * Fixed ability to edit Product Template (MAGETWO-21757)
-  * Fixed duplicated shipping method options (MAGETWO-20055)
-  * Fixed an issue where flat indexers are reindexed in shell when they are disabled (MAGETWO-21487)
-  * Fixed fatal error when adding wrong/nonexistent SKU using 'Order by SKU' from My Account (MAGETWO-21267)
-  * Fixed JS/CSS merging functionality (MAGETWO-21924)
-  * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
-  * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
+  * Fixed a fatal error that occurred with a dependency in pub/errors/report.php
+  * Fixed an issue where code coverage failed for Magento\SalesRule\Model\Rule\Action\Discount\CartFixedTest
+  * Fixed an issue where PayPal Express Checkout redirected to the PayPal site even though the Allow Guest Checkout option was set to 'No'
+  * Fixed an issue where invalid password reset link was sent when resetting customer password from the backend
+  * Fixed an issue where it was not possible to download a previously created backup
+  * Fixed a security issue with possibility of a XSS injection in the Integration re-authorization flow
+  * Fixed an issue where Billing Agreement cancellation from the backend did not work
+  * Fixed an issue with the debug section in the developer settings
+  * Fixed the unreliable implementation of the fetching authorization header via SOAP
+  * Fixed issues with WSDL generation error reporting
+  * Fixed an issue with incorrect order of the Recurring Profile tab in Account Customer on the frontend
+  * Fixed an issue when the information about a custom option of the 'File' type was not displayed correctly on the recurring profile page
+  * Fixed an issue with editing Product template
+  * Fixed an issue with duplicated shipping method options during checkout
+  * Fixed an issue where flat indexers were re-indexed in shell when they were disabled
+  * Fixed an issue where adding a wrong/nonexistent SKU using 'Order by SKU' from My Account caused a fatal error
+  * Fixed an issue with the JS/CSS merging functionality
+  * Fixed an issue with static view files publication tool used for the 'production' mode
 * Modularity improvements:
-  * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
-  * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
-  * Eliminate dependencies to Customer Models/Blocks from Sales Module
-  * Renamed RecurringProfile to RecurringPayment module (MAGETWO-21456)
-  * Resolved dependencies between Email Templates functionality and other modules
-  * Core module lib-only depended components moved to library
-  * CSS url resolving logic moved from publisher to separate css pre-processor
-  * View publisher re-factored
-* Framework Improvements:
+  * Removed the deprecated GoogleCheckout functionality
+  * Removed all dependencies on the RecurringPayment module
+  * Removed the Sales module dependencies on Customer models/blocks
+  * Renamed the RecurringProfile module to RecurringPayment
+  * Resolved dependencies between the Email Templates functionality and other modules
+  * Moved Core module lib-only depended components to library
+  * Moved CSS URL resolving logic from publisher to the separate CSS pre-processor
+  * Re-factored the View publisher
+* Framework improvements:
   * Added restrictions on the data populated to the Service Data Object
-  * Renamed Data Transfer Object to the Service Data Object
-  * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
+  * Renamed Data Transfer Object to Service Data Object
+  * Updated the view files population tool to support LESS
 * Customer Service usage:
-  * Tax module refactoring to use customer service layer
-  * Refactored Customer module Adminhtml internal controllers and helper to use customer services
-  * Added and updated customer service APIs
-  * Exposed customer services as REST APIs
+  * Refactored the Tax module to use Customer service layer
+  * Refactored Customer module Adminhtml internal controllers and helper to use Customer services
+  * Added and updated the Customer service APIs
+  * Exposed Customer services as REST APIs
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types

@@ -54,7 +54,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $this->_catalogSetupFactory = $catalogSetupFactory;
         $this->productTypeConfig = $productTypeConfig;
         parent::__construct(
-            $context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $config,
+            $moduleName,
+            $connectionName
         );
     }
 

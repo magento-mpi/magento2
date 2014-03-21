@@ -6,9 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Interception\Fixture;
-
 
 interface InterceptedParentInterface
 {

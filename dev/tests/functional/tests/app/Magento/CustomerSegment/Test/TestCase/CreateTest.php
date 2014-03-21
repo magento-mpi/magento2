@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerSegment\Test\TestCase;
 
 use Mtf\Factory\Factory;
@@ -63,7 +62,7 @@ class CreateTest extends Functional
         $customerSegmentCreatePage->getNewCustomerSegmentForm()->openTab('conditions');
         // add condition
         $addWidget = $customerSegmentCreatePage->getConditions();
-        $addWidget->addCustomerGroupCondition($conditionType,$conditionValue);
+        $addWidget->addCustomerGroupCondition($conditionType, $conditionValue);
         $saveWidget = $customerSegmentCreatePage->getSave();
         $saveWidget->clickSaveAndContinue();
 

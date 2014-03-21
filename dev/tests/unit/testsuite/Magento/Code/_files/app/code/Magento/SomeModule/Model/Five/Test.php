@@ -7,9 +7,9 @@
  */
 namespace Magento\SomeModule\Model\Five;
 
-require_once __DIR__ .  '/../Three/Test.php';
-require_once __DIR__ .  '/../Proxy.php';
 
+require_once __DIR__ . '/../Three/Test.php';
+require_once __DIR__ . '/../Proxy.php';
 class Test extends \Magento\SomeModule\Model\Three\Test
 {
     /**
@@ -17,10 +17,8 @@ class Test extends \Magento\SomeModule\Model\Three\Test
      */
     protected $_proxy;
 
-    public function __construct(
-        \Magento\SomeModule\Model\Proxy $proxy
-    ) {
+    public function __construct(\Magento\SomeModule\Model\Proxy $proxy)
+    {
         parent::__construct($proxy);
     }
-
 }

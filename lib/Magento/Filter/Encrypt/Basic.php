@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter\Encrypt;
 
 class Basic implements \Zend_Filter_Encrypt_Interface

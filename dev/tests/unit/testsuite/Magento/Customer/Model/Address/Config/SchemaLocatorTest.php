@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Address\Config;
 
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
@@ -33,14 +32,17 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_xsdFile = $this->_xsdDir . '/address_formats.xsd';
-        $this->_moduleReader = $this->getMock(
-            'Magento\Module\Dir\Reader', array('getModuleDir'), array(), '', false
+        $this->_moduleReader = $this->getMock('Magento\Module\Dir\Reader', array('getModuleDir'), array(), '', false);
+        $this->_moduleReader->expects(
+            $this->once()
+        )->method(
+            'getModuleDir'
+        )->with(
+            'etc',
+            'Magento_Customer'
+        )->will(
+            $this->returnValue($this->_xsdDir)
         );
-        $this->_moduleReader
-            ->expects($this->once())
-            ->method('getModuleDir')->with('etc', 'Magento_Customer')
-            ->will($this->returnValue($this->_xsdDir))
-        ;
 
         $this->_model = new \Magento\Customer\Model\Address\Config\SchemaLocator($this->_moduleReader);
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Config;
 
 /**
@@ -26,18 +25,17 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_typeProcessor = $this->getMock(
             '\Magento\Webapi\Model\Config\ClassReflector\TypeProcessor',
-            ['process'],
-            [],
+            array('process'),
+            array(),
             '',
             false
         );
-        $this->_typeProcessor->expects($this->any())->method('process')->will(
-            $this->returnValueMap(
-                array(
-                    array('string', 'str'),
-                    array('int', 'int')
-                )
-            )
+        $this->_typeProcessor->expects(
+            $this->any()
+        )->method(
+            'process'
+        )->will(
+            $this->returnValueMap(array(array('string', 'str'), array('int', 'int')))
         );
         $this->_classReflector = new \Magento\Webapi\Model\Config\ClassReflector($this->_typeProcessor);
     }
@@ -46,15 +44,16 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->_classReflector->reflectClassMethods(
             '\\Magento\\Webapi\\Model\\Config\\TestServiceForClassReflector',
-            ['generateRandomString' => ['method' => 'generateRandomString']]
+            array('generateRandomString' => array('method' => 'generateRandomString'))
         );
-        $this->assertEquals(['generateRandomString' => $this->_getSampleReflectionData()], $data);
+        $this->assertEquals(array('generateRandomString' => $this->_getSampleReflectionData()), $data);
     }
 
     public function testExtractMethodData()
     {
-        $classReflection = new \Zend\Server\Reflection\ReflectionClass
-        (new \ReflectionClass('\\Magento\\Webapi\\Model\\Config\\TestServiceForClassReflector'));
+        $classReflection = new \Zend\Server\Reflection\ReflectionClass(
+            new \ReflectionClass('\\Magento\\Webapi\\Model\\Config\\TestServiceForClassReflector')
+        );
         /** @var $methodReflection ReflectionMethod */
         $methodReflection = $classReflection->getMethods()[0];
         $methodData = $this->_classReflector->extractMethodData($methodReflection);
@@ -69,35 +68,24 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getSampleReflectionData()
     {
-        return [
+        return array(
             'documentation' => 'Basic random string generator',
-            'interface' =>
-                [
-                    'in' =>
-                        [
-                            'parameters' =>
-                                [
-                                    'length' =>
-                                        [
-                                            'type' => 'int',
-                                            'required' => true,
-                                            'documentation' => 'length of the random string',
-                                        ],
-                                ],
-                        ],
-                    'out' =>
-                        [
-                            'parameters' =>
-                                [
-                                    'result' =>
-                                        [
-                                            'type' => 'str',
-                                            'documentation' => 'random string',
-                                            'required' => true,
-                                        ],
-                                ],
-                        ],
-                ],
-        ];
+            'interface' => array(
+                'in' => array(
+                    'parameters' => array(
+                        'length' => array(
+                            'type' => 'int',
+                            'required' => true,
+                            'documentation' => 'length of the random string'
+                        )
+                    )
+                ),
+                'out' => array(
+                    'parameters' => array(
+                        'result' => array('type' => 'str', 'documentation' => 'random string', 'required' => true)
+                    )
+                )
+            )
+        );
     }
 }

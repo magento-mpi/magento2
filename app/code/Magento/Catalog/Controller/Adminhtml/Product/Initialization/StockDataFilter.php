@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
 
 class StockDataFilter
@@ -41,10 +40,11 @@ class StockDataFilter
         }
 
         if ($stockData['use_config_manage_stock'] == 1 && !isset($stockData['manage_stock'])) {
-            $stockData['manage_stock'] = $this->storeManager->getStore()
-                ->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
+            $stockData['manage_stock'] = $this->storeManager->getStore()->getConfig(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK
+            );
         }
-        if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
+        if (isset($stockData['qty']) && (double)$stockData['qty'] > self::MAX_QTY_VALUE) {
             $stockData['qty'] = self::MAX_QTY_VALUE;
         }
 
@@ -58,4 +58,4 @@ class StockDataFilter
 
         return $stockData;
     }
-} 
+}

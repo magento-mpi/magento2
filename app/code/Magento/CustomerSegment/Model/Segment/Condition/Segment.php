@@ -74,9 +74,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     public function getDefaultOperatorInputByType()
     {
         if (null === $this->_defaultOperatorInputByType) {
-            $this->_defaultOperatorInputByType = array(
-                'multiselect' => array('==', '!=', '()', '!()'),
-            );
+            $this->_defaultOperatorInputByType = array('multiselect' => array('==', '!=', '()', '!()'));
             $this->_arrayInputTypes = array('multiselect');
         }
         return $this->_defaultOperatorInputByType;
@@ -89,10 +87,12 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getValueAfterElementHtml()
     {
-        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . $this->_viewUrl->getViewFileUrl('images/rule_chooser_trigger.gif')
-            . '" alt="" class="v-middle rule-chooser-trigger" title="'
-            . __('Open Chooser') . '" /></a>';
+        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' .
+            $this->_viewUrl->getViewFileUrl(
+                'images/rule_chooser_trigger.gif'
+            ) . '" alt="" class="v-middle rule-chooser-trigger" title="' . __(
+                'Open Chooser'
+            ) . '" /></a>';
     }
 
     /**
@@ -112,10 +112,10 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('customersegment/index/chooserGrid', array(
-            'value_element_id' => $this->_valueElement->getId(),
-            'form' => $this->getJsFormObject(),
-        ));
+        return $this->_adminhtmlData->getUrl(
+            'customersegment/index/chooserGrid',
+            array('value_element_id' => $this->_valueElement->getId(), 'form' => $this->getJsFormObject())
+        );
     }
 
     /**
@@ -136,10 +136,15 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     public function asHtml()
     {
         $this->_valueElement = $this->getValueElement();
-        return $this->getTypeElementHtml()
-            . __('If Customer Segment %1 %2', $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
-            . $this->getRemoveLinkHtml()
-            . '<div class="rule-chooser" url="' . $this->getValueElementChooserUrl() . '"></div>';
+        return $this->getTypeElementHtml() . __(
+            'If Customer Segment %1 %2',
+            $this->getOperatorElementHtml(),
+            $this->_valueElement->getHtml()
+        ) .
+            $this->getRemoveLinkHtml() .
+            '<div class="rule-chooser" url="' .
+            $this->getValueElementChooserUrl() .
+            '"></div>';
     }
 
     /**
@@ -150,12 +155,14 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '=='  => __('matches'),
-            '!='  => __('does not match'),
-            '()'  => __('is one of'),
-            '!()' => __('is not one of'),
-        ));
+        $this->setOperatorOption(
+            array(
+                '==' => __('matches'),
+                '!=' => __('does not match'),
+                '()' => __('is one of'),
+                '!()' => __('is not one of')
+            )
+        );
         return $this;
     }
 

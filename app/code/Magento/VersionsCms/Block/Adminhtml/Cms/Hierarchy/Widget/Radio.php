@@ -93,7 +93,7 @@ class Radio extends \Magento\Backend\Block\Template
                     continue;
                 }
                 if ($view['value'] == 0) {
-                    $view['value'] = array(array('label' => $view['label'],'value' => $view['value']));
+                    $view['value'] = array(array('label' => $view['label'], 'value' => $view['value']));
                 }
                 foreach ($view['value'] as $store) {
                     $this->_allStoreViews[] = $store;
@@ -119,10 +119,7 @@ class Radio extends \Magento\Backend\Block\Template
         $storeValues = $this->_systemStore->getStoreCollection();
 
         foreach ($storeValues as $store) {
-            $storeViews[] = array(
-                'label' => $store->getName(),
-                'value' => $store->getId()
-            );
+            $storeViews[] = array('label' => $store->getName(), 'value' => $store->getId());
         }
 
         return $storeViews;
@@ -136,7 +133,7 @@ class Radio extends \Magento\Backend\Block\Template
     public function getAllStoreViewIds()
     {
         $ids = array();
-        foreach($this->getAllStoreViews() as $view) {
+        foreach ($this->getAllStoreViews() as $view) {
             $ids[] = $view['value'];
         }
 
@@ -189,7 +186,7 @@ class Radio extends \Magento\Backend\Block\Template
     {
         $params = $this->getParameters();
 
-        return (isset($params[$key])) ? $params[$key] : '';
+        return isset($params[$key]) ? $params[$key] : '';
     }
 
     /**

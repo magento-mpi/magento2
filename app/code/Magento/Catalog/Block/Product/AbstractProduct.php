@@ -43,7 +43,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     /**
      * @var string
      */
-    protected $_tierPriceDefaultTemplate  = 'product/view/tierprices.phtml';
+    protected $_tierPriceDefaultTemplate = 'product/view/tierprices.phtml';
 
     /**
      * @var array
@@ -264,8 +264,8 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         $stockItem = $product->getStockItem();
         if ($stockItem) {
-            return ($stockItem->getMinSaleQty()
-                && $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null);
+            return $stockItem->getMinSaleQty() &&
+                $stockItem->getMinSaleQty() > 0 ? $stockItem->getMinSaleQty() * 1 : null;
         }
         return null;
     }
@@ -302,7 +302,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         return $this->_priceBlockDefaultTemplate;
     }
 
-
     /**
      * Prepares and returns block to render some product type
      *
@@ -311,9 +310,13 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function _preparePriceRenderer($productType)
     {
-        return $this->_getPriceBlock($productType)
-            ->setTemplate($this->_getPriceBlockTemplate($productType))
-            ->setUseLinkForAsLowAs($this->_useLinkForAsLowAs);
+        return $this->_getPriceBlock(
+            $productType
+        )->setTemplate(
+            $this->_getPriceBlockTemplate($productType)
+        )->setUseLinkForAsLowAs(
+            $this->_useLinkForAsLowAs
+        );
     }
 
     /**
@@ -328,21 +331,29 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         $type_id = $product->getTypeId();
         if ($this->_catalogData->canApplyMsrp($product)) {
-            $realPriceHtml = $this->_preparePriceRenderer($type_id)
-                ->setProduct($product)
-                ->setDisplayMinimalPrice($displayMinimalPrice)
-                ->setIdSuffix($idSuffix)
-                ->toHtml();
+            $realPriceHtml = $this->_preparePriceRenderer(
+                $type_id
+            )->setProduct(
+                $product
+            )->setDisplayMinimalPrice(
+                $displayMinimalPrice
+            )->setIdSuffix(
+                $idSuffix
+            )->toHtml();
             $product->setAddToCartUrl($this->getAddToCartUrl($product));
             $product->setRealPriceHtml($realPriceHtml);
             $type_id = $this->_mapRenderer;
         }
 
-        return $this->_preparePriceRenderer($type_id)
-            ->setProduct($product)
-            ->setDisplayMinimalPrice($displayMinimalPrice)
-            ->setIdSuffix($idSuffix)
-            ->toHtml();
+        return $this->_preparePriceRenderer(
+            $type_id
+        )->setProduct(
+            $product
+        )->setDisplayMinimalPrice(
+            $displayMinimalPrice
+        )->setIdSuffix(
+            $idSuffix
+        )->toHtml();
     }
 
     /**
@@ -356,10 +367,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     public function addPriceBlockType($type, $block = '', $template = '')
     {
         if ($type) {
-            $this->_priceBlockTypes[$type] = array(
-                'block' => $block,
-                'template' => $template
-            );
+            $this->_priceBlockTypes[$type] = array('block' => $block, 'template' => $template);
         }
     }
 
@@ -371,9 +379,11 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * @param bool $displayIfNoReviews
      * @return string
      */
-    public function getReviewsSummaryHtml(\Magento\Catalog\Model\Product $product, $templateType = false,
-        $displayIfNoReviews = false)
-    {
+    public function getReviewsSummaryHtml(
+        \Magento\Catalog\Model\Product $product,
+        $templateType = false,
+        $displayIfNoReviews = false
+    ) {
         if ($this->_initReviewsHelperBlock()) {
             return $this->_reviewsHelperBlock->getSummaryHtml($product, $templateType, $displayIfNoReviews);
         }
@@ -437,10 +447,13 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         if (is_null($product)) {
             $product = $this->getProduct();
         }
-        return $this->_getPriceBlock($product->getTypeId())
-            ->setTemplate($this->getTierPriceTemplate())
-            ->setProduct($product)
-            ->toHtml();
+        return $this->_getPriceBlock(
+            $product->getTypeId()
+        )->setTemplate(
+            $this->getTierPriceTemplate()
+        )->setProduct(
+            $product
+        )->toHtml();
     }
 
     /**
@@ -454,7 +467,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         if (is_null($product)) {
             $product = $this->getProduct();
         }
-        $prices  = $product->getFormatedTierPrice();
+        $prices = $product->getFormatedTierPrice();
 
         $res = array();
         if (is_array($prices)) {
@@ -473,7 +486,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
                 }
 
                 if ($price['price'] < $_productPrice) {
-                    $price['savePercent'] = ceil(100 - ((100 / $_productPrice) * $price['price']));
+                    $price['savePercent'] = ceil(100 - 100 / $_productPrice * $price['price']);
 
                     $tierPrice = $this->_storeManager->getStore()->convertPrice(
                         $this->_taxData->getPrice($product, $price['website_price'])
@@ -516,12 +529,9 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     protected function _addProductAttributesAndPrices(\Magento\Catalog\Model\Resource\Product\Collection $collection)
     {
-        return $collection
-            ->addMinimalPrice()
-            ->addFinalPrice()
-            ->addTaxPercents()
-            ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
-            ->addUrlRewrite();
+        return $collection->addMinimalPrice()->addFinalPrice()->addTaxPercents()->addAttributeToSelect(
+            $this->_catalogConfig->getProductAttributes()
+        )->addUrlRewrite();
     }
 
     /**
@@ -595,16 +605,13 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         if (!$this->_getData('column_count')) {
             $pageLayout = $this->getPageLayout();
             if ($pageLayout && $this->getColumnCountLayoutDepend($pageLayout->getCode())) {
-                $this->setData(
-                    'column_count',
-                    $this->getColumnCountLayoutDepend($pageLayout->getCode())
-                );
+                $this->setData('column_count', $this->getColumnCountLayoutDepend($pageLayout->getCode()));
             } else {
                 $this->setData('column_count', $this->_defaultColumnCount);
             }
         }
 
-        return (int) $this->_getData('column_count');
+        return (int)$this->_getData('column_count');
     }
 
     /**
@@ -680,7 +687,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     {
         $statusInfo = new \Magento\Object(array('display_status' => true));
         $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
-        return (boolean)$statusInfo->getDisplayStatus();
+        return (bool)$statusInfo->getDisplayStatus();
     }
 
     /**
@@ -711,8 +718,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'thumbnail')
-            ->resize($this->getThumbnailSize());
+        return (string)$this->_imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**
@@ -733,8 +739,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getThumbnailSidebarUrl($product)
     {
-        return (string) $this->_imageHelper->init($product, 'thumbnail')
-            ->resize($this->getThumbnailSidebarSize());
+        return (string)$this->_imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSidebarSize());
     }
 
     /**
@@ -755,8 +760,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getSmallImageUrl($product)
     {
-        return (string) $this->_imageHelper->init($product, 'small_image')
-            ->resize($this->getSmallImageSize());
+        return (string)$this->_imageHelper->init($product, 'small_image')->resize($this->getSmallImageSize());
     }
 
     /**
@@ -777,8 +781,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getSmallImageSidebarUrl($product)
     {
-        return (string) $this->_imageHelper->init($product, 'small_image')
-            ->resize($this->getSmallImageSidebarSize());
+        return (string)$this->_imageHelper->init($product, 'small_image')->resize($this->getSmallImageSidebarSize());
     }
 
     /**
@@ -799,8 +802,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getBaseImageUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'image')
-            ->resize($this->getBaseImageSize());
+        return (string)$this->_imageHelper->init($product, 'image')->resize($this->getBaseImageSize());
     }
 
     /**
@@ -821,8 +823,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getBaseImageIconUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'image')
-            ->resize($this->getBaseImageIconSize());
+        return (string)$this->_imageHelper->init($product, 'image')->resize($this->getBaseImageIconSize());
     }
 
     /**

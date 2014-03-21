@@ -9,8 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
-class Xml implements
-    \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
+class Xml implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
 {
     /** @var \Magento\Xml\Parser */
     protected $_xmlParser;
@@ -24,10 +23,8 @@ class Xml implements
      * @param \Magento\Xml\Parser $xmlParser
      * @param \Magento\Core\Model\App $app
      */
-    public function __construct(
-        \Magento\Xml\Parser $xmlParser,
-        \Magento\Core\Model\App $app
-    ) {
+    public function __construct(\Magento\Xml\Parser $xmlParser, \Magento\Core\Model\App $app)
+    {
         $this->_xmlParser = $xmlParser;
         $this->_app = $app;
     }

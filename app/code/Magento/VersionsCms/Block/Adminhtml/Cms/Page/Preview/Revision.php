@@ -70,13 +70,11 @@ class Revision extends \Magento\Backend\Block\Template
     public function getRevisions()
     {
         /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
-        $collection = $this->_revisionCollectionFactory->create()
-            ->addPageFilter($this->getRequest()->getParam('page_id'))
-            ->joinVersions()
-            ->addNumberSort()
-            ->addVisibilityFilter(
-                $this->_backendAuthSession->getUser()->getId(),
-                $this->_cmsConfig->getAllowedAccessLevel()
+        $collection = $this->_revisionCollectionFactory->create()->addPageFilter(
+            $this->getRequest()->getParam('page_id')
+        )->joinVersions()->addNumberSort()->addVisibilityFilter(
+            $this->_backendAuthSession->getUser()->getId(),
+            $this->_cmsConfig->getAllowedAccessLevel()
         );
 
         $revisions = array();
@@ -87,7 +85,7 @@ class Revision extends \Magento\Backend\Block\Template
             } else {
                 $revisions[$item->getVersionId()] = array(
                     'revisions' => array($item),
-                    'label' => ($item->getLabel() ? $item->getLabel() : __('N/A'))
+                    'label' => $item->getLabel() ? $item->getLabel() : __('N/A')
                 );
             }
         }

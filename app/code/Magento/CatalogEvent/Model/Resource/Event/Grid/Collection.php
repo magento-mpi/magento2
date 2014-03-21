@@ -18,8 +18,7 @@
  */
 namespace Magento\CatalogEvent\Model\Resource\Event\Grid;
 
-class Collection
-    extends \Magento\CatalogEvent\Model\Resource\Event\Collection
+class Collection extends \Magento\CatalogEvent\Model\Resource\Event\Collection
 {
     /**
      * Add category data to collection select (name, position)
@@ -33,4 +32,3 @@ class Collection
         return $this;
     }
 }
-

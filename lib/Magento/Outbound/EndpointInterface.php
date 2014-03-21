@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Outbound;
 
 interface EndpointInterface
@@ -18,10 +17,12 @@ interface EndpointInterface
      * Data formats
      */
     const FORMAT_JSON = 'json';
+
     const FORMAT_XML = 'xml';
 
     /** Authentication types */
     const AUTH_TYPE_HMAC = 'hmac';
+
     const AUTH_TYPE_NONE = 'none';
 
     /**
@@ -45,7 +46,6 @@ interface EndpointInterface
      */
     public function getFormat();
 
-
     /**
      * Returns the user abstraction associated with this subscription or null if no user has been associated yet.
      *
@@ -59,5 +59,4 @@ interface EndpointInterface
      * @return string
      */
     public function getAuthenticationType();
-
 }

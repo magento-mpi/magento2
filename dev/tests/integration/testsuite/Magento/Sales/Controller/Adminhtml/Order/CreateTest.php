@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
 /**
@@ -29,8 +28,11 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionData()
     {
-        $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')
-            ->addProducts(array(1 => array('qty' => 1)));
+        $this->_objectManager->get(
+            'Magento\Sales\Model\AdminOrder\Create'
+        )->addProducts(
+            array(1 => array('qty' => 1))
+        );
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/sales/order_create/loadBlock');
@@ -60,7 +62,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
             'billing_method' => array('billing_method', '<div id=\"order-billing_method_form\">'),
             'newsletter' => array('newsletter', 'name=\"newsletter:subscribe\"'),
             'search' => array('search', '<div id=\"sales_order_create_search_grid\">'),
-            'search_grid' => array('search', '<div id=\"sales_order_create_search_grid\">'),
+            'search_grid' => array('search', '<div id=\"sales_order_create_search_grid\">')
         );
     }
 
@@ -69,8 +71,11 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionItems()
     {
-        $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')
-            ->addProducts(array(1 => array('qty' => 1)));
+        $this->_objectManager->get(
+            'Magento\Sales\Model\AdminOrder\Create'
+        )->addProducts(
+            array(1 => array('qty' => 1))
+        );
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('backend/sales/order_create/loadBlock');
@@ -133,7 +138,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
             array('cancel', false, 'Magento_Sales::cancel'),
             array('cancel', true, 'Magento_Sales::reorder'),
             array('', false, 'Magento_Sales::actions'),
-            array('', true, 'Magento_Sales::actions'),
+            array('', true, 'Magento_Sales::actions')
         );
     }
 }

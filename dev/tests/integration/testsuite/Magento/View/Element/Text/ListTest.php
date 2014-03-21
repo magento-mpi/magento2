@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Text;
 
 class ListTest extends \PHPUnit_Framework_TestCase
@@ -23,8 +22,9 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        );
         $this->_block = $this->_layout->createBlock('Magento\View\Element\Text\ListText');
     }
 
@@ -33,11 +33,10 @@ class ListTest extends \PHPUnit_Framework_TestCase
         $children = array(
             array('block1', 'Magento\View\Element\Text', 'text1'),
             array('block2', 'Magento\View\Element\Text', 'text2'),
-            array('block3', 'Magento\View\Element\Text', 'text3'),
+            array('block3', 'Magento\View\Element\Text', 'text3')
         );
         foreach ($children as $child) {
-            $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())
-                ->setText($child[2]);
+            $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())->setText($child[2]);
         }
         $html = $this->_block->toHtml();
         $this->assertEquals('text1text2text3', $html);

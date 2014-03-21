@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Service\Entity;
 
 class WebapiObjectManager implements \Magento\ObjectManager
@@ -30,7 +29,7 @@ class WebapiObjectManager implements \Magento\ObjectManager
      */
     public function get($type)
     {
-        return new $type;
+        return new $type();
     }
 
     /**

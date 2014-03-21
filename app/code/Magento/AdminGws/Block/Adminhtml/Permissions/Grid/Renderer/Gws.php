@@ -13,8 +13,7 @@ namespace Magento\AdminGws\Block\Adminhtml\Permissions\Grid\Renderer;
  * Website permissions column grid
  *
  */
-class Gws
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var array
@@ -78,8 +77,7 @@ class Gws
                     $storeGroupIds = array_merge($storeGroupIds, array_keys($website));
                 }
             }
-        }
-        else {
+        } else {
             $websiteIds = array();
             if ($ids = $row->getData('gws_store_groups')) {
                 $storeGroupIds = explode(',', $ids);
@@ -113,9 +111,14 @@ class Gws
      */
     protected function _formatName($name, $isStoreGroup = false, $isActive = true)
     {
-        return '<span style="' . (!$isActive ? 'color:#999;text-decoration:line-through;' : '')
-            . ($isStoreGroup ? 'padding-left:2em;' : '')
-            . '">' . str_replace(' ', '&nbsp;', $name) . '</span>'
-        ;
+        return '<span style="' .
+            (!$isActive ? 'color:#999;text-decoration:line-through;' : '') .
+            ($isStoreGroup ? 'padding-left:2em;' : '') .
+            '">' .
+            str_replace(
+                ' ',
+                '&nbsp;',
+                $name
+            ) . '</span>';
     }
 }

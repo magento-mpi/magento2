@@ -23,8 +23,9 @@ class Image extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Image
      */
     public function getImageUrl()
     {
-        $url = $this->_storeManager->getStore()
-            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . \Magento\Rma\Model\Item::ITEM_IMAGE_URL;
+        $url = $this->_storeManager->getStore()->getBaseUrl(
+            \Magento\UrlInterface::URL_TYPE_MEDIA
+        ) . \Magento\Rma\Model\Item::ITEM_IMAGE_URL;
         $file = $this->getValue();
         $url = $url . $file;
         return $url;

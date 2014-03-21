@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource\Role\Grid;
 
 /**
@@ -20,8 +19,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\Resource\Role\Grid\Collection');
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\User\Model\Resource\Role\Grid\Collection'
+        );
     }
 
     public function testGetItems()
@@ -29,8 +29,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $expectedResult = array(
             array(
                 'role_type' => \Magento\User\Model\Acl\Role\Group::ROLE_TYPE,
-                'role_name' => \Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME,
-            ),
+                'role_name' => \Magento\TestFramework\Bootstrap::ADMIN_ROLE_NAME
+            )
         );
         $actualResult = array();
         /** @var \Magento\Reports\Model\Item $reportItem */

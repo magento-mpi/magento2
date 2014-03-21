@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="register-link">
         <action method="setIsDisabled" ifconfig="magento_invitation/general/registration_required_invitation">
             <argument name="is_disabled" xsi:type="boolean">true</argument>

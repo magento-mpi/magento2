@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Http;
 
 class AuthenticationTest extends \PHPUnit_Framework_TestCase
@@ -33,35 +32,42 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
      */
     public function getCredentialsDataProvider()
     {
-        $login    = 'login';
+        $login = 'login';
         $password = 'password';
-        $header   = 'Basic bG9naW46cGFzc3dvcmQ=';
+        $header = 'Basic bG9naW46cGFzc3dvcmQ=';
 
-        $anotherLogin    = 'another_login';
+        $anotherLogin = 'another_login';
         $anotherPassword = 'another_password';
-        $anotherHeader   = 'Basic YW5vdGhlcl9sb2dpbjphbm90aGVyX3Bhc3N3b3Jk';
+        $anotherHeader = 'Basic YW5vdGhlcl9sb2dpbjphbm90aGVyX3Bhc3N3b3Jk';
 
         return array(
             array(array(), '', ''),
             array(array('REDIRECT_HTTP_AUTHORIZATION' => $header), $login, $password),
             array(array('HTTP_AUTHORIZATION' => $header), $login, $password),
             array(array('Authorization' => $header), $login, $password),
-            array(array(
+            array(
+                array(
                     'REDIRECT_HTTP_AUTHORIZATION' => $header,
                     'PHP_AUTH_USER' => $anotherLogin,
                     'PHP_AUTH_PW' => $anotherPassword
-                ), $anotherLogin, $anotherPassword
-            ),
-            array(array(
-                    'REDIRECT_HTTP_AUTHORIZATION' => $header,
-                    'PHP_AUTH_USER' => $anotherLogin,
-                    'PHP_AUTH_PW' => $anotherPassword
-                ), $anotherLogin, $anotherPassword
+                ),
+                $anotherLogin,
+                $anotherPassword
             ),
             array(
-                array('REDIRECT_HTTP_AUTHORIZATION' => $header, 'HTTP_AUTHORIZATION' => $anotherHeader,),
-                $anotherLogin, $anotherPassword
+                array(
+                    'REDIRECT_HTTP_AUTHORIZATION' => $header,
+                    'PHP_AUTH_USER' => $anotherLogin,
+                    'PHP_AUTH_PW' => $anotherPassword
+                ),
+                $anotherLogin,
+                $anotherPassword
             ),
+            array(
+                array('REDIRECT_HTTP_AUTHORIZATION' => $header, 'HTTP_AUTHORIZATION' => $anotherHeader),
+                $anotherLogin,
+                $anotherPassword
+            )
         );
     }
 
@@ -79,7 +85,7 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(0, $headers);
         $this->assertEquals('401 Unauthorized', $headers[0]['value']);
         $this->assertArrayHasKey(1, $headers);
-        $this->assertContains('realm="' . $realm .'"', $headers[1]['value']);
+        $this->assertContains('realm="' . $realm . '"', $headers[1]['value']);
         $this->assertContains('401', $response->getBody());
     }
 }

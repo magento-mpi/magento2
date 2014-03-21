@@ -40,10 +40,8 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $registry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $registry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $registry)
+    {
         parent::__construct($context);
         $this->_registry = $registry;
     }
@@ -55,10 +53,15 @@ class Index extends \Magento\Backend\App\Action
      */
     public function getCartModel()
     {
-        return $this->_objectManager->get('Magento\AdvancedCheckout\Model\Cart')
-            ->setSession($this->_objectManager->get('Magento\Backend\Model\Session'))
-            ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_ADMIN_CHECKOUT)
-            ->setCurrentStore($this->getRequest()->getPost('store'));
+        return $this->_objectManager->get(
+            'Magento\AdvancedCheckout\Model\Cart'
+        )->setSession(
+            $this->_objectManager->get('Magento\Backend\Model\Session')
+        )->setContext(
+            \Magento\AdvancedCheckout\Model\Cart::CONTEXT_ADMIN_CHECKOUT
+        )->setCurrentStore(
+            $this->getRequest()->getPost('store')
+        );
     }
 
     /**
@@ -79,20 +82,15 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getWebsiteId() ==
-            $customer->getWebsiteId()
+        if ($storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getWebsiteId() == $customer->getWebsiteId()
         ) {
             if ($useRedirects) {
-                $this->messageManager->addError(
-                    __('Shopping cart management disabled for this customer.')
-                );
+                $this->messageManager->addError(__('Shopping cart management disabled for this customer.'));
                 $this->_redirect('customer/index/edit', array('id' => $customer->getId()));
                 $this->_redirectFlag = true;
                 return $this;
             } else {
-                throw new AdvancedCheckoutException(
-                    __('Shopping cart management is disabled for this customer.')
-                );
+                throw new AdvancedCheckoutException(__('Shopping cart management is disabled for this customer.'));
             }
         }
 
@@ -107,7 +105,9 @@ class Index extends \Magento\Backend\App\Action
                 // Redirect to preferred store view
                 if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
                     $this->getResponse()->setBody(
-                        $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
+                        $this->_objectManager->get(
+                            'Magento\Core\Helper\Data'
+                        )->jsonEncode(
                             array(
                                 'url' => $this->getUrl(
                                     '*/*/index',
@@ -135,8 +135,11 @@ class Index extends \Magento\Backend\App\Action
         if ($quote->getId()) {
             $quoteCurrencyCode = $quote->getData('quote_currency_code');
             if ($quoteCurrencyCode != $storeManager->getStore($storeId)->getCurrentCurrencyCode()) {
-                $quoteCurrency = $this->_objectManager->create('Magento\Directory\Model\Currency')
-                    ->load($quoteCurrencyCode);
+                $quoteCurrency = $this->_objectManager->create(
+                    'Magento\Directory\Model\Currency'
+                )->load(
+                    $quoteCurrencyCode
+                );
                 $quote->setForcedCurrency($quoteCurrency);
                 $storeManager->getStore($storeId)->setCurrentCurrencyCode($quoteCurrency->getCode());
             }
@@ -210,13 +213,10 @@ class Index extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->messageManager->addError(
-                __('An error has occurred. See error log for details.')
-            );
+            $this->messageManager->addError(__('An error has occurred. See error log for details.'));
         }
         $this->_redirect('checkout/*/error');
     }
-
 
     /**
      * Quote items grid ajax callback
@@ -256,8 +256,11 @@ class Index extends \Magento\Backend\App\Action
             $customer = $this->_registry->registry('checkout_current_customer');
             $store = $this->_registry->registry('checkout_current_store');
 
-            $source = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->jsonDecode($this->getRequest()->getPost('source'));
+            $source = $this->_objectManager->get(
+                'Magento\Core\Helper\Data'
+            )->jsonDecode(
+                $this->getRequest()->getPost('source')
+            );
 
             // Reorder products
             if (isset($source['source_ordered']) && is_array($source['source_ordered'])) {
@@ -284,9 +287,15 @@ class Index extends \Magento\Backend\App\Action
 
             // Remove items from wishlist
             if (isset($source['source_wishlist']) && is_array($source['source_wishlist'])) {
-                $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer($customer)
-                    ->setStore($store)
-                    ->setSharedStoreIds($store->getWebsite()->getStoreIds());
+                $wishlist = $this->_objectManager->create(
+                    'Magento\Wishlist\Model\Wishlist'
+                )->loadByCustomer(
+                    $customer
+                )->setStore(
+                    $store
+                )->setSharedStoreIds(
+                    $store->getWebsite()->getStoreIds()
+                );
                 if ($wishlist->getId()) {
                     $quoteProductIds = array();
                     foreach ($cart->getQuote()->getAllItems() as $item) {
@@ -294,12 +303,13 @@ class Index extends \Magento\Backend\App\Action
                     }
                     foreach ($source['source_wishlist'] as $productId => $qty) {
                         if (in_array($productId, $quoteProductIds)) {
-                            $wishlistItem = $this->_objectManager->create('Magento\Wishlist\Model\Item')
-                                ->loadByProductWishlist(
-                                    $wishlist->getId(),
-                                    $productId,
-                                    $wishlist->getSharedStoreIds()
-                                );
+                            $wishlistItem = $this->_objectManager->create(
+                                'Magento\Wishlist\Model\Item'
+                            )->loadByProductWishlist(
+                                $wishlist->getId(),
+                                $productId,
+                                $wishlist->getSharedStoreIds()
+                            );
                             if ($wishlistItem->getId()) {
                                 $wishlistItem->delete();
                             }
@@ -351,15 +361,11 @@ class Index extends \Magento\Backend\App\Action
             }
             $code = $this->getRequest()->getPost('code', '');
             $quote = $this->_registry->registry('checkout_current_quote');
-            $quote->setCouponCode($code)
-                ->collectTotals()
-                ->save();
+            $quote->setCouponCode($code)->collectTotals()->save();
 
             $this->_view->loadLayout();
             if (!$quote->getCouponCode()) {
-                $this->_view->getLayout()
-                    ->getBlock('form_coupon')
-                    ->setInvalidCouponCode($code);
+                $this->_view->getLayout()->getBlock('form_coupon')->setInvalidCouponCode($code);
             }
             $this->_view->renderLayout();
         } catch (\Exception $e) {
@@ -416,23 +422,27 @@ class Index extends \Magento\Backend\App\Action
             $quote = $this->getCartModel()->copyQuote($activeQuote);
             if ($quote->getId()) {
                 $session = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')->getSession();
-                $session->setQuoteId($quote->getId())
-                   ->setStoreId($quote->getStoreId())
-                   ->setCustomerId($quote->getCustomerId());
-
+                $session->setQuoteId(
+                    $quote->getId()
+                )->setStoreId(
+                    $quote->getStoreId()
+                )->setCustomerId(
+                    $quote->getCustomerId()
+                );
             }
-            $this->_redirect('sales/order_create', array(
-                'customer_id' => $this->_registry->registry('checkout_current_customer')->getId(),
-                'store_id' => $this->_registry->registry('checkout_current_store')->getId(),
-            ));
+            $this->_redirect(
+                'sales/order_create',
+                array(
+                    'customer_id' => $this->_registry->registry('checkout_current_customer')->getId(),
+                    'store_id' => $this->_registry->registry('checkout_current_store')->getId()
+                )
+            );
             return;
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->messageManager->addError(
-                __('An error has occurred. See error log for details.')
-            );
+            $this->messageManager->addError(__('An error has occurred. See error log for details.'));
         }
         $this->_redirect('checkout/*/error');
     }
@@ -505,20 +515,25 @@ class Index extends \Magento\Backend\App\Action
     public function configureProductToAddAction()
     {
         $this->_initData();
-        $customer   = $this->_registry->registry('checkout_current_customer');
-        $store      = $this->_registry->registry('checkout_current_store');
+        $customer = $this->_registry->registry('checkout_current_customer');
+        $store = $this->_registry->registry('checkout_current_store');
 
-        $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
-        $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
+        $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
+        $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
 
         // Prepare data
-        $productId  = (int)$this->getRequest()->getParam('id');
+        $productId = (int)$this->getRequest()->getParam('id');
 
         $configureResult = new \Magento\Object();
-        $configureResult->setOk(true)
-            ->setProductId($productId)
-            ->setCurrentStoreId($storeId)
-            ->setCurrentCustomerId($customerId);
+        $configureResult->setOk(
+            true
+        )->setProductId(
+            $productId
+        )->setCurrentStoreId(
+            $storeId
+        )->setCurrentCustomerId(
+            $customerId
+        );
 
         // Render page
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
@@ -538,27 +553,37 @@ class Index extends \Magento\Backend\App\Action
         try {
             $this->_initData();
 
-            $customer   = $this->_registry->registry('checkout_current_customer');
-            $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
-            $store      = $this->_registry->registry('checkout_current_store');
-            $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
+            $customer = $this->_registry->registry('checkout_current_customer');
+            $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
+            $store = $this->_registry->registry('checkout_current_store');
+            $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
 
             $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
                 throw new Exception(__('The wish list item id is not received.'));
             }
 
-            $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
-                ->loadWithOptions($itemId, 'info_buyRequest');
+            $item = $this->_objectManager->create(
+                'Magento\Wishlist\Model\Item'
+            )->loadWithOptions(
+                $itemId,
+                'info_buyRequest'
+            );
             if (!$item->getId()) {
                 throw new Exception(__('The wish list item is not loaded.'));
             }
 
-            $configureResult->setOk(true)
-                ->setProductId($item->getProductId())
-                ->setBuyRequest($item->getBuyRequest())
-                ->setCurrentStoreId($storeId)
-                ->setCurrentCustomerId($customerId);
+            $configureResult->setOk(
+                true
+            )->setProductId(
+                $item->getProductId()
+            )->setBuyRequest(
+                $item->getBuyRequest()
+            )->setCurrentStoreId(
+                $storeId
+            )->setCurrentCustomerId(
+                $customerId
+            );
         } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
@@ -582,27 +607,32 @@ class Index extends \Magento\Backend\App\Action
         try {
             $this->_initData();
 
-            $customer   = $this->_registry->registry('checkout_current_customer');
-            $customerId = ($customer instanceof \Magento\Customer\Model\Customer) ? $customer->getId() : (int) $customer;
-            $store      = $this->_registry->registry('checkout_current_store');
-            $storeId    = ($store instanceof \Magento\Core\Model\Store) ? $store->getId() : (int) $store;
+            $customer = $this->_registry->registry('checkout_current_customer');
+            $customerId = $customer instanceof \Magento\Customer\Model\Customer ? $customer->getId() : (int)$customer;
+            $store = $this->_registry->registry('checkout_current_store');
+            $storeId = $store instanceof \Magento\Core\Model\Store ? $store->getId() : (int)$store;
 
-            $itemId = (int) $this->getRequest()->getParam('id');
+            $itemId = (int)$this->getRequest()->getParam('id');
             if (!$itemId) {
                 throw new Exception(__('Ordered item id is not received.'));
             }
 
-            $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
-                ->load($itemId);
+            $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($itemId);
             if (!$item->getId()) {
                 throw new Exception(__('Ordered item is not loaded.'));
             }
 
-            $configureResult->setOk(true)
-                ->setProductId($item->getProductId())
-                ->setBuyRequest($item->getBuyRequest())
-                ->setCurrentStoreId($storeId)
-                ->setCurrentCustomerId($customerId);
+            $configureResult->setOk(
+                true
+            )->setProductId(
+                $item->getProductId()
+            )->setBuyRequest(
+                $item->getBuyRequest()
+            )->setCurrentStoreId(
+                $storeId
+            )->setCurrentCustomerId(
+                $customerId
+            );
         } catch (\Exception $e) {
             $configureResult->setError(true);
             $configureResult->setMessage($e->getMessage());
@@ -626,9 +656,7 @@ class Index extends \Magento\Backend\App\Action
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $result = array(
-                'error' => __('An error has occurred. See error log for details.')
-            );
+            $result = array('error' => __('An error has occurred. See error log for details.'));
         }
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }
@@ -653,8 +681,11 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_AdvancedCheckout::view')
-            || $this->_authorization->isAllowed('Magento_AdvancedCheckout::update');
+        return $this->_authorization->isAllowed(
+            'Magento_AdvancedCheckout::view'
+        ) || $this->_authorization->isAllowed(
+            'Magento_AdvancedCheckout::update'
+        );
     }
 
     /**
@@ -670,7 +701,7 @@ class Index extends \Magento\Backend\App\Action
         // Prepare data
         $configureResult = new \Magento\Object();
         try {
-            $quoteItemId = (int) $this->getRequest()->getParam('id');
+            $quoteItemId = (int)$this->getRequest()->getParam('id');
 
             if (!$quoteItemId) {
                 throw new Exception(__('Quote item id is not received.'));
@@ -682,8 +713,11 @@ class Index extends \Magento\Backend\App\Action
             }
 
             $configureResult->setOk(true);
-            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->getCollection()
-                    ->addItemFilter(array($quoteItemId));
+            $optionCollection = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote\Item\Option'
+            )->getCollection()->addItemFilter(
+                array($quoteItemId)
+            );
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
@@ -752,7 +786,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             foreach ($blocks as $block) {
-                if ($criticalException && ($block != 'message')) {
+                if ($criticalException && $block != 'message') {
                     continue;
                 }
                 $update->addHandle('checkout_index_manage_load_block_' . $block);
@@ -787,16 +821,19 @@ class Index extends \Magento\Backend\App\Action
         $buyRequest = new \Magento\Object();
         switch ($listType) {
             case 'wishlist':
-                $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')
-                    ->loadWithOptions($itemId, 'info_buyRequest');
+                $item = $this->_objectManager->create(
+                    'Magento\Wishlist\Model\Item'
+                )->loadWithOptions(
+                    $itemId,
+                    'info_buyRequest'
+                );
                 if ($item->getId()) {
                     $productId = $item->getProductId();
                     $buyRequest = $item->getBuyRequest();
                 }
                 break;
             case 'ordered':
-                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')
-                    ->load($itemId);
+                $item = $this->_objectManager->create('Magento\Sales\Model\Order\Item')->load($itemId);
                 if ($item->getId()) {
                     $productId = $item->getProductId();
                     $buyRequest = $item->getBuyRequest();
@@ -828,9 +865,10 @@ class Index extends \Magento\Backend\App\Action
         switch ($listType) {
             case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE:
                 $info['sku'] = $itemId;
-            // fall-through is intentional
+                // fall-through is intentional
             case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE:
-                if ((!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
+                if (!isset($info['sku']) || (string)$info['sku'] == '') {
+                    // Allow SKU == '0'
                     return false;
                 }
                 $item = $this->getCartModel()->prepareAddProductBySku($info['sku'], $info['qty'], $info);
@@ -890,7 +928,7 @@ class Index extends \Magento\Backend\App\Action
         if ($listTypes) {
             $skuListTypes = array(
                 \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
-                \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE,
+                \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE
             );
             /* @var $productHelper \Magento\Catalog\Helper\Product */
             $productHelper = $this->_objectManager->get('Magento\Catalog\Helper\Product');
@@ -901,10 +939,15 @@ class Index extends \Magento\Backend\App\Action
             }
             $listItems = $this->getRequest()->getPost('list');
             foreach ($listTypes as $listType) {
-                if (!isset($listItems[$listType])
-                    || !is_array($listItems[$listType])
-                    || !isset($listItems[$listType]['item'])
-                    || !is_array($listItems[$listType]['item'])
+                if (!isset(
+                    $listItems[$listType]
+                ) || !is_array(
+                    $listItems[$listType]
+                ) || !isset(
+                    $listItems[$listType]['item']
+                ) || !is_array(
+                    $listItems[$listType]['item']
+                )
                 ) {
                     continue;
                 }
@@ -913,7 +956,8 @@ class Index extends \Magento\Backend\App\Action
 
                 foreach ($items as $itemId => $info) {
                     if (!is_array($info)) {
-                        $info = array(); // For sure to filter incoming data
+                        // For sure to filter incoming data
+                        $info = array();
                     }
 
                     $itemInfo = $this->_getInfoForListItem($listType, $itemId, $info);
@@ -934,8 +978,7 @@ class Index extends \Magento\Backend\App\Action
                             'files_prefix' => 'list_' . $listType . '_item_' . $itemId . '_',
                             'current_config' => $currentConfig
                         );
-                        $config = $productHelper->addParamsToBuyRequest($info, $params)
-                            ->toArray();
+                        $config = $productHelper->addParamsToBuyRequest($info, $params)->toArray();
                     }
                     if (in_array($listType, $skuListTypes)) {
                         // Items will be later added to cart using saveAffectedItems()
@@ -943,9 +986,9 @@ class Index extends \Magento\Backend\App\Action
                     } else {
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
-                        } catch (Exception $e){
+                        } catch (Exception $e) {
                             $this->messageManager->addError($e->getMessage());
-                        } catch (\Exception $e){
+                        } catch (\Exception $e) {
                             $this->_objectManager->get('Magento\Logger')->logException($e);
                         }
                     }
@@ -978,8 +1021,7 @@ class Index extends \Magento\Backend\App\Action
             $this->getCartModel()->moveQuoteItem($moveItemId, $moveTo);
         }
 
-        $this->getCartModel()
-            ->saveQuote();
+        $this->getCartModel()->saveQuote();
 
         return $this;
     }
@@ -1043,9 +1085,7 @@ class Index extends \Magento\Backend\App\Action
 
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
-        $rows = $helper->isSkuFileUploaded($this->getRequest())
-            ? $helper->processSkuFileUploading()
-            : array();
+        $rows = $helper->isSkuFileUploaded($this->getRequest()) ? $helper->processSkuFileUploading() : array();
 
         $items = $this->getRequest()->getPost('add_by_sku');
         if (!is_array($items)) {

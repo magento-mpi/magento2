@@ -34,5 +34,4 @@ class General extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General
         $this->setForm($form);
         return $this;
     }
-
 }

@@ -19,7 +19,7 @@ class RandomTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRandomString($length, $chars = null)
     {
-        $mathRandom = new \Magento\Math\Random;
+        $mathRandom = new \Magento\Math\Random();
         $string = $mathRandom->getRandomString($length, $chars);
 
         $this->assertEquals($length, strlen($string));
@@ -36,17 +36,18 @@ class RandomTest extends \PHPUnit_Framework_TestCase
             array(10, \Magento\Math\Random::CHARS_LOWERS),
             array(10, \Magento\Math\Random::CHARS_UPPERS),
             array(10, \Magento\Math\Random::CHARS_DIGITS),
-            array(20,
-                \Magento\Math\Random::CHARS_LOWERS
-                    . \Magento\Math\Random::CHARS_UPPERS
-                    . \Magento\Math\Random::CHARS_DIGITS
-            ),
+            array(
+                20,
+                \Magento\Math\Random::CHARS_LOWERS .
+                \Magento\Math\Random::CHARS_UPPERS .
+                \Magento\Math\Random::CHARS_DIGITS
+            )
         );
     }
 
     public function testGetUniqueHash()
     {
-        $mathRandom = new \Magento\Math\Random;
+        $mathRandom = new \Magento\Math\Random();
         $hashOne = $mathRandom->getUniqueHash();
         $hashTwo = $mathRandom->getUniqueHash();
         $this->assertTrue(is_string($hashOne));

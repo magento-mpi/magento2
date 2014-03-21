@@ -24,9 +24,7 @@ class Compression extends \Magento\Cache\Backend\Decorator\AbstractDecorator
      * Array of specific options. Made in separate array to distinguish from parent options
      * @var array
      */
-    protected $_decoratorOptions = array(
-        'compression_threshold' => 512
-    );
+    protected $_decoratorOptions = array('compression_threshold' => 512);
 
     /**
      * Test if a cache is available for the given id and (if yes) return it (false else)
@@ -91,7 +89,7 @@ class Compression extends \Magento\Cache\Backend\Decorator\AbstractDecorator
      */
     protected function _isCompressionNeeded($data)
     {
-        return (strlen($data) > (int)$this->_decoratorOptions['compression_threshold']);
+        return strlen($data) > (int)$this->_decoratorOptions['compression_threshold'];
     }
 
     /**
@@ -113,7 +111,6 @@ class Compression extends \Magento\Cache\Backend\Decorator\AbstractDecorator
      */
     protected function _isDecompressionNeeded($data)
     {
-        return (strpos($data, self::COMPRESSION_PREFIX) === 0);
+        return strpos($data, self::COMPRESSION_PREFIX) === 0;
     }
-
 }

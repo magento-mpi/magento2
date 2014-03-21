@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CustomerCustomAttributes\Model;
 
 /**
@@ -21,12 +20,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_blockInjections = array(
-        'Magento\Model\Context',
-        'Magento\Registry',
-        null,
-        null
-    );
+    protected $_blockInjections = array('Magento\Model\Context', 'Magento\Registry', null, null);
 
     /**
      * @var \Magento\CustomerCustomAttributes\Model\Observer
@@ -52,16 +46,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $entity = new \Magento\Object(array('id' => $address->getId()));
         $collection = $this->getMock('Magento\Data\Collection\Db', array('getItems'), array(), '', false);
-        $collection
-            ->expects($this->any())
-            ->method('getItems')
-            ->will($this->returnValue(array($entity)))
-        ;
-        $observer = new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array(
-                'order_address_collection' => $collection,
-            ))
-        ));
+        $collection->expects($this->any())->method('getItems')->will($this->returnValue(array($entity)));
+        $observer = new \Magento\Event\Observer(
+            array('event' => new \Magento\Object(array('order_address_collection' => $collection)))
+        );
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_observer->salesOrderAddressCollectionAfterLoad($observer);
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));
@@ -75,11 +63,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $arguments[] = array('id' => $address->getId());
         $entity = $this->getMockForAbstractClass('Magento\Core\Model\AbstractModel', $arguments);
-        $observer = new \Magento\Event\Observer(array(
-            'event' => new \Magento\Object(array(
-                'address' => $entity,
-            ))
-        ));
+        $observer = new \Magento\Event\Observer(array('event' => new \Magento\Object(array('address' => $entity))));
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
         $this->_observer->salesOrderAddressAfterLoad($observer);
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));

@@ -16,9 +16,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History
-    extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class History extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Template
@@ -69,7 +67,7 @@ class History
         $order = $this->getOrder();
 
         $history = array();
-        foreach ($order->getAllStatusHistory() as $orderComment){
+        foreach ($order->getAllStatusHistory() as $orderComment) {
             $history[] = $this->_prepareHistoryItem(
                 $orderComment->getStatusLabel(),
                 $orderComment->getIsCustomerNotified(),
@@ -78,14 +76,14 @@ class History
             );
         }
 
-        foreach ($order->getCreditmemosCollection() as $_memo){
+        foreach ($order->getCreditmemosCollection() as $_memo) {
             $history[] = $this->_prepareHistoryItem(
                 __('Credit memo #%1 created', $_memo->getIncrementId()),
                 $_memo->getEmailSent(),
                 $_memo->getCreatedAtDate()
             );
 
-            foreach ($_memo->getCommentsCollection() as $_comment){
+            foreach ($_memo->getCommentsCollection() as $_comment) {
                 $history[] = $this->_prepareHistoryItem(
                     __('Credit memo #%1 comment added', $_memo->getIncrementId()),
                     $_comment->getIsCustomerNotified(),
@@ -95,14 +93,14 @@ class History
             }
         }
 
-        foreach ($order->getShipmentsCollection() as $_shipment){
+        foreach ($order->getShipmentsCollection() as $_shipment) {
             $history[] = $this->_prepareHistoryItem(
                 __('Shipment #%1 created', $_shipment->getIncrementId()),
                 $_shipment->getEmailSent(),
                 $_shipment->getCreatedAtDate()
             );
 
-            foreach ($_shipment->getCommentsCollection() as $_comment){
+            foreach ($_shipment->getCommentsCollection() as $_comment) {
                 $history[] = $this->_prepareHistoryItem(
                     __('Shipment #%1 comment added', $_shipment->getIncrementId()),
                     $_comment->getIsCustomerNotified(),
@@ -112,14 +110,14 @@ class History
             }
         }
 
-        foreach ($order->getInvoiceCollection() as $_invoice){
+        foreach ($order->getInvoiceCollection() as $_invoice) {
             $history[] = $this->_prepareHistoryItem(
                 __('Invoice #%1 created', $_invoice->getIncrementId()),
                 $_invoice->getEmailSent(),
                 $_invoice->getCreatedAtDate()
             );
 
-            foreach ($_invoice->getCommentsCollection() as $_comment){
+            foreach ($_invoice->getCommentsCollection() as $_comment) {
                 $history[] = $this->_prepareHistoryItem(
                     __('Invoice #%1 comment added', $_invoice->getIncrementId()),
                     $_comment->getIsCustomerNotified(),
@@ -129,7 +127,7 @@ class History
             }
         }
 
-        foreach ($order->getTracksCollection() as $_track){
+        foreach ($order->getTracksCollection() as $_track) {
             $history[] = $this->_prepareHistoryItem(
                 __('Tracking number %1 for %2 assigned', $_track->getNumber(), $_track->getTitle()),
                 false,
@@ -168,7 +166,7 @@ class History
      */
     public function getItemTitle(array $item)
     {
-        return (isset($item['title']) ? $this->escapeHtml($item['title']) : '');
+        return isset($item['title']) ? $this->escapeHtml($item['title']) : '';
     }
 
     /**
@@ -194,8 +192,8 @@ class History
      */
     public function getItemComment(array $item)
     {
-        $allowedTags = array('b','br','strong','i','u');
-        return (isset($item['comment']) ? $this->escapeHtml($item['comment'], $allowedTags) : '');
+        $allowedTags = array('b', 'br', 'strong', 'i', 'u');
+        return isset($item['comment']) ? $this->escapeHtml($item['comment'], $allowedTags) : '';
     }
 
     /**
@@ -209,12 +207,7 @@ class History
      */
     protected function _prepareHistoryItem($label, $notified, $created, $comment = '')
     {
-        return array(
-            'title'      => $label,
-            'notified'   => $notified,
-            'comment'    => $comment,
-            'created_at' => $created
-        );
+        return array('title' => $label, 'notified' => $notified, 'comment' => $comment, 'created_at' => $created);
     }
 
     /**
@@ -287,7 +280,8 @@ class History
      */
     public function isCustomerNotificationNotApplicable($historyItem)
     {
-        return $historyItem['notified'] == \Magento\Sales\Model\Order\Status\History::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
+        return $historyItem['notified'] ==
+            \Magento\Sales\Model\Order\Status\History::CUSTOMER_NOTIFICATION_NOT_APPLICABLE;
     }
 
     /**
@@ -306,6 +300,6 @@ class History
         if ($createdAtA->getTimestamp() == $createdAtB->getTimestamp()) {
             return 0;
         }
-        return ($createdAtA->getTimestamp() < $createdAtB->getTimestamp()) ? -1 : 1;
+        return $createdAtA->getTimestamp() < $createdAtB->getTimestamp() ? -1 : 1;
     }
 }

@@ -80,5 +80,4 @@ class Result
     {
         return $this->_trackings;
     }
-
 }

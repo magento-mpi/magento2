@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento;
+
 /**
  * Factory class for \Magento\Validator
  */

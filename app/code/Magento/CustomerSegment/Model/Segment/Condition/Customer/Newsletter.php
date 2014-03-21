@@ -48,9 +48,9 @@ class Newsletter extends AbstractCondition
     {
         //filter key "value"
         if (is_array($key) && isset($key['value']) && $key['value'] !== null) {
-            $key['value'] = (int) $key['value'];
+            $key['value'] = (int)$key['value'];
         } elseif ($key == 'value' && $value !== null) {
-            $value = (int) $value;
+            $value = (int)$value;
         }
 
         return parent::setData($key, $value);
@@ -73,10 +73,7 @@ class Newsletter extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(array(
-            'value' => $this->getType(),
-            'label' => __('Newsletter Subscription')
-         ));
+        return array(array('value' => $this->getType(), 'label' => __('Newsletter Subscription')));
     }
 
     /**
@@ -87,9 +84,10 @@ class Newsletter extends AbstractCondition
     public function asHtml()
     {
         $element = $this->getValueElementHtml();
-        return $this->getTypeElementHtml()
-            . __('Customer is %1 to newsletter.', $element)
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            'Customer is %1 to newsletter.',
+            $element
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -109,10 +107,7 @@ class Newsletter extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(
-            '1'  => __('subscribed'),
-            '0' => __('not subscribed'),
-        ));
+        $this->setValueOption(array('1' => __('subscribed'), '0' => __('not subscribed')));
         return $this;
     }
 
@@ -128,10 +123,15 @@ class Newsletter extends AbstractCondition
         $table = $this->getResource()->getTable('newsletter_subscriber');
         $value = (int)$this->getValue();
 
-        $select = $this->getResource()->createSelect()
-            ->from(array('main' => $table), array(new \Zend_Db_Expr($value)))
-            ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
-            ->where('main.subscriber_status = ?', \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED);
+        $select = $this->getResource()->createSelect()->from(
+            array('main' => $table),
+            array(new \Zend_Db_Expr($value))
+        )->where(
+            $this->_createCustomerFilter($customer, 'main.customer_id')
+        )->where(
+            'main.subscriber_status = ?',
+            \Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED
+        );
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {

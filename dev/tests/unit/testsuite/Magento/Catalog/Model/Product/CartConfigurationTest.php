@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product;
 
 class CartConfigurationTest extends \PHPUnit_Framework_TestCase
@@ -34,4 +33,3 @@ class CartConfigurationTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

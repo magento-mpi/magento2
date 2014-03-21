@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model;
 
 class SessionTest extends \PHPUnit_Framework_TestCase
@@ -27,7 +26,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testConstructor()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        include(__DIR__. '/_files/session_backend_mock.php');
+        include __DIR__ . '/_files/session_backend_mock.php';
         $requestMock = $helper->getObject('Magento\App\Request\Http');
         $helper->getObject('Magento\Backend\Model\Session', array('request' => $requestMock));
         $this->assertTrue(self::$sessionStart);

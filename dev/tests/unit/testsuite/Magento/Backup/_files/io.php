@@ -8,8 +8,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backup;
+
 
 /**
  * Mock is_dir function

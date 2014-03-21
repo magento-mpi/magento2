@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Image;
 
 use Magento\ObjectManager;
@@ -26,10 +25,8 @@ class Factory
      * @param ObjectManager $objectManager
      * @param AdapterFactory $adapterFactory
      */
-    public function __construct(
-        ObjectManager $objectManager,
-        AdapterFactory $adapterFactory
-    ) {
+    public function __construct(ObjectManager $objectManager, AdapterFactory $adapterFactory)
+    {
         $this->objectManager = $objectManager;
         $this->adapterFactory = $adapterFactory;
     }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Minifier\Adapter\Js;
 
 class JsminTest extends \PHPUnit_Framework_TestCase

@@ -5,17 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\Validator;
 
-require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Three/Test.php';
-require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Two/Test.php';
-require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/One/Test.php';
-require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Four/Test.php';
-require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Five/Test.php';
-require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Six/Test.php';
-require_once __DIR__ .  '/_files/ClassesForConstructorIntegrity.php';
 
+require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Three/Test.php';
+require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Two/Test.php';
+require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/One/Test.php';
+require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Four/Test.php';
+require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Five/Test.php';
+require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Six/Test.php';
+require_once __DIR__ . '/_files/ClassesForConstructorIntegrity.php';
 class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -72,7 +71,9 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
             'Incompatible argument type: Required type: \Magento\SomeModule\Model\Proxy. ' .
-            'Actual type: \Magento\SomeModule\Model\ElementFactory; File: ' .  PHP_EOL . $fileName
+            'Actual type: \Magento\SomeModule\Model\ElementFactory; File: ' .
+            PHP_EOL .
+            $fileName
         );
         $this->_model->validate('Magento\SomeModule\Model\Six\Test');
     }
@@ -84,7 +85,9 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
             'Incompatible argument type: Required type: \Context. ' .
-            'Actual type: \ClassA; File: ' .  PHP_EOL . $fileName
+            'Actual type: \ClassA; File: ' .
+            PHP_EOL .
+            $fileName
         );
         $this->_model->validate('ClassArgumentWrongOrderForParentArguments');
     }
@@ -95,8 +98,7 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
         $fileName = str_replace('\\', '/', $fileName);
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
-            'Incompatible argument type: Required type: array. ' .
-                'Actual type: \ClassB; File: ' .  PHP_EOL . $fileName
+            'Incompatible argument type: Required type: array. ' . 'Actual type: \ClassB; File: ' . PHP_EOL . $fileName
         );
         $this->_model->validate('ClassArgumentWithWrongParentArgumentsType');
     }

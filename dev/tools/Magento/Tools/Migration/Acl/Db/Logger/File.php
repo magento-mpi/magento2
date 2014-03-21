@@ -53,4 +53,3 @@ class File extends \Magento\Tools\Migration\Acl\Db\AbstractLogger
         file_put_contents($this->_file, (string)$this);
     }
 }
-

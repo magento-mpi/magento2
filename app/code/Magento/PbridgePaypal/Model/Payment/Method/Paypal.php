@@ -58,10 +58,9 @@ class Paypal implements \Magento\Payment\Model\MethodInterface
         $this->_paymentData = $paymentData;
         $this->_paypalMethodInstance = $paymentFactory->create(
             $paypalClassName,
-            ['pbridgeData' => $pbridgeData, 'paypal' => $this]
+            array('pbridgeData' => $pbridgeData, 'paypal' => $this)
         );
     }
-
 
     /**
      * Call method of original instance

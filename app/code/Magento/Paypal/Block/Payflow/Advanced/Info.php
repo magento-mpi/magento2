@@ -19,5 +19,4 @@ namespace Magento\Paypal\Block\Payflow\Advanced;
 
 class Info extends \Magento\Paypal\Block\Payflow\Link\Info
 {
-
 }

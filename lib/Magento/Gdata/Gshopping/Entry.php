@@ -20,7 +20,6 @@ use Magento\Gdata\Gshopping\Extension\Attribute;
 
 class Entry extends \Zend_Gdata_Entry
 {
-
     /**
      * Name of the base class for Google Shopping entries
      *
@@ -79,7 +78,6 @@ class Entry extends \Zend_Gdata_Entry
         return $element;
     }
 
-
     /**
      * Creates individual Entry objects of the appropriate type and
      * stores them as members of this entry based upon DOM data.
@@ -97,20 +95,20 @@ class Entry extends \Zend_Gdata_Entry
         }
 
         switch ($id) {
-            case "$sc:id":
-            case "$sc:image_link":
-            case "$sc:content_language":
-            case "$sc:target_country":
-            case "$sc:expiration_date":
-            case "$sc:adult":
-            case "$sc:attribute":
+            case "{$sc}:id":
+            case "{$sc}:image_link":
+            case "{$sc}:content_language":
+            case "{$sc}:target_country":
+            case "{$sc}:expiration_date":
+            case "{$sc}:adult":
+            case "{$sc}:attribute":
                 $contentAttribute = new Attribute();
                 $contentAttribute->transferFromDOM($child);
                 $this->_contentAttributes[] = $contentAttribute;
                 break;
 
-            case "$sc:group:tax":
-            case "$scp:tax":
+            case "{$sc}:group:tax":
+            case "{$scp}:tax":
                 $tax = new \Magento\Gdata\Gshopping\Extension\Tax();
                 $tax->transferFromDOM($child);
                 $this->_tax[] = $tax;
@@ -284,9 +282,8 @@ class Entry extends \Zend_Gdata_Entry
     public function getDestinationsMode()
     {
         $control = $this->getControl();
-        return ($control instanceof \Magento\Gdata\Gshopping\Extension\Control)
-            ? $control->getDestinationsMode()
-            : array();
+        return $control instanceof
+            \Magento\Gdata\Gshopping\Extension\Control ? $control->getDestinationsMode() : array();
     }
 
     /**

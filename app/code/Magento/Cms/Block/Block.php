@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block;
 
 /**
@@ -69,8 +68,7 @@ class Block extends \Magento\View\Element\AbstractBlock implements \Magento\View
             $storeId = $this->_storeManager->getStore()->getId();
             /** @var \Magento\Cms\Model\Block $block */
             $block = $this->_blockFactory->create();
-            $block->setStoreId($storeId)
-                ->load($blockId);
+            $block->setStoreId($storeId)->load($blockId);
             if ($block->getIsActive()) {
                 $html = $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent());
             }

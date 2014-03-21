@@ -39,7 +39,7 @@ class Options extends \Magento\Object
         return $this;
     }
 
-   /**
+    /**
      * Update gift wrapping options data object
      *
      * @return \Magento\GiftWrapping\Model\Options

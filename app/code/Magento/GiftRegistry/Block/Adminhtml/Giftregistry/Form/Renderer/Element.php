@@ -15,8 +15,7 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
  * @category   Magento
  * @package    Magento_GiftRegistry
  */
-class Element
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * @var string
@@ -41,11 +40,12 @@ class Element
     public function canDisplayUseDefault()
     {
         if ($element = $this->getElement()) {
-            if ($element->getScope() != 'global'
-                && $element->getScope() != null
-                && $this->getDataObject()
-                && $this->getDataObject()->getId()
-                && $this->getDataObject()->getStoreId()) {
+            if ($element->getScope() != 'global' &&
+                $element->getScope() != null &&
+                $this->getDataObject() &&
+                $this->getDataObject()->getId() &&
+                $this->getDataObject()->getStoreId()
+            ) {
                 return true;
             }
         }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pbridge\Model\Payment\Method;
 
 class PbridgeTest extends \PHPUnit_Framework_TestCase
@@ -16,6 +15,7 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
     /**
      * @param bool|null $firstCaptureFlag
      * @dataProvider authorizeDataProvider
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function testAuthorize($firstCaptureFlag)
     {
@@ -33,13 +33,13 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
         );
         $requestHttp = $this->getMock('Magento\App\Request\Http', null, array(), '', false);
         $originalMethodInstance->setData('info_instance', $infoInstance);
-        $order = $this->getMock('Magento\Sales\Model\Order', array(
-            'getBillingAddress',
-            'getStore',
-            '__wakeup',
-            'getShippingAddress',
-            'getCustomerId'
-        ), array(), '', false);
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            array('getBillingAddress', 'getStore', '__wakeup', 'getShippingAddress', 'getCustomerId'),
+            array(),
+            '',
+            false
+        );
         $address = $this->getMock(
             'Magento\Customer\Model\Address\AbstractAddress',
             array('__wakeup'),
@@ -47,24 +47,45 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $order->expects($this->any())->method('getStore')->will($this->returnValue(new \Magento\Object(['id' => 1])));
+        $order->expects(
+            $this->any()
+        )->method(
+            'getStore'
+        )->will(
+            $this->returnValue(new \Magento\Object(array('id' => 1)))
+        );
         $order->expects($this->any())->method('getBillingAddress')->will($this->returnValue($address));
         $order->expects($this->once())->method('getShippingAddress')->will($this->returnValue($address));
         $order->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
         $payment = $this->getMock('Magento\Sales\Model\Order\Payment', array('__wakeup'), array(), '', false);
         $payment->setFirstCaptureFlag($firstCaptureFlag)->setOrder($order);
         $region = $this->getMock('Magento\Directory\Model\Region', array('load', '__wakeup'), array(), '', false);
-        $regionFactory = $this->getMock('Magento\Directory\Model\RegionFactory', array(
-            'create',
-            '__wakeup'
-        ), array(), '', false);
+        $regionFactory = $this->getMock(
+            'Magento\Directory\Model\RegionFactory',
+            array('create', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $regionFactory->expects($this->any())->method('create')->will($this->returnValue($region));
-        $pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data',
-            array('prepareCart', 'getCustomerIdentifierByEmail'), array(), '', false);
+        $pbridgeData = $this->getMock(
+            'Magento\Pbridge\Helper\Data',
+            array('prepareCart', 'getCustomerIdentifierByEmail'),
+            array(),
+            '',
+            false
+        );
         $pbridgeData->expects($this->once())->method('prepareCart')->will($this->returnValue(array(array(), array())));
-        $pbridgeData->expects($this->once())->method('getCustomerIdentifierByEmail')
-            ->with($this->equalTo(1), $this->equalTo(1))
-            ->will($this->returnValue(null));
+        $pbridgeData->expects(
+            $this->once()
+        )->method(
+            'getCustomerIdentifierByEmail'
+        )->with(
+            $this->equalTo(1),
+            $this->equalTo(1)
+        )->will(
+            $this->returnValue(null)
+        );
         $api = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge\Api',
             array('doAuthorize', 'getResponse'),
@@ -73,35 +94,38 @@ class PbridgeTest extends \PHPUnit_Framework_TestCase
             false
         );
         // check fix for partial refunds in Payflow Pro
-        $api->expects($this->once())
-            ->method('doAuthorize')
-            ->with(new ObjectConstraint('is_first_capture', isset($firstCaptureFlag) ? $firstCaptureFlag : true))
-            ->will($this->returnSelf());
+        $api->expects(
+            $this->once()
+        )->method(
+            'doAuthorize'
+        )->with(
+            new ObjectConstraint('is_first_capture', isset($firstCaptureFlag) ? $firstCaptureFlag : true)
+        )->will(
+            $this->returnSelf()
+        );
 
         $apiFactory = $this->getMock('Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory', array('create'));
         $apiFactory->expects($this->once())->method('create')->will($this->returnValue($api));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var Pbridge $model */
-        $model = $helper->getObject('Magento\Pbridge\Model\Payment\Method\Pbridge', array(
-            'requestHttp' => $requestHttp,
-            'regionFactory' => $regionFactory,
-            'pbridgeData' => $pbridgeData,
-            'pbridgeApiFactory' => $apiFactory
-        ));
+        $model = $helper->getObject(
+            'Magento\Pbridge\Model\Payment\Method\Pbridge',
+            array(
+                'requestHttp' => $requestHttp,
+                'regionFactory' => $regionFactory,
+                'pbridgeData' => $pbridgeData,
+                'pbridgeApiFactory' => $apiFactory
+            )
+        );
         $model->setOriginalMethodInstance($originalMethodInstance);
         $model->authorize($payment, 'any');
     }
 
     public function authorizeDataProvider()
     {
-        return array(
-            array(true),
-            array(false),
-            array(null),
-        );
+        return array(array(true), array(false), array(null));
     }
 }
-
 class ObjectConstraint extends \PHPUnit_Framework_Constraint
 {
     /**
@@ -146,8 +170,11 @@ class ObjectConstraint extends \PHPUnit_Framework_Constraint
      */
     public function toString()
     {
-        return 'has ' . \PHPUnit_Util_Type::export($this->_value)
-            . ' data at ' . \PHPUnit_Util_Type::export($this->_key) . ' key';
+        return 'has ' . \PHPUnit_Util_Type::export(
+            $this->_value
+        ) . ' data at ' . \PHPUnit_Util_Type::export(
+            $this->_key
+        ) . ' key';
     }
 
     /**

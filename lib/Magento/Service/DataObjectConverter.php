@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Service;
 
 use Magento\Service\Data\AbstractObject;
@@ -23,6 +22,5 @@ class DataObjectConverter
     {
         $data = $dataObject->__toArray();
         return ConvertArray::toFlatArray($data);
-
     }
-} 
+}

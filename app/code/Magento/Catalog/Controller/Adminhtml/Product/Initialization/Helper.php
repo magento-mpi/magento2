@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
 
-class Helper 
+class Helper
 {
     /**
      * @var \Magento\App\RequestInterface
@@ -120,10 +119,9 @@ class Helper
         }
 
         $product->setCanSaveCustomOptions(
-            (bool)$this->request->getPost('affect_product_custom_options')
-            && !$product->getOptionsReadonly()
+            (bool)$this->request->getPost('affect_product_custom_options') && !$product->getOptionsReadonly()
         );
 
         return $product;
     }
-} 
+}

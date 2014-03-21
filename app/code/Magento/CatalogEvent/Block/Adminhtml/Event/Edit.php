@@ -47,11 +47,8 @@ class Edit extends Container
      * @param Registry $registry
      * @param array $data
      */
-    public function __construct(
-        Context $context,
-        Registry $registry,
-        array $data = array()
-    ) {
+    public function __construct(Context $context, Registry $registry, array $data = array())
+    {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
@@ -72,11 +69,11 @@ class Edit extends Container
                 array(
                     'label' => __('Save and Continue Edit'),
                     'class' => 'save',
-                    'data_attribute'  => array(
+                    'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                        ),
-                    ),
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
+                        )
+                    )
                 ),
                 1
             );
@@ -87,10 +84,16 @@ class Edit extends Container
         if (!$this->getEvent()->getId() && !$this->getEvent()->getCategoryId()) {
             $this->setChild(
                 'form',
-                $this->getLayout()->createBlock(str_replace('_', '\\', $this->_blockGroup)
-                    . '\\Block\\'
-                    . str_replace(' ', '\\', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-                    . '\Category',
+                $this->getLayout()->createBlock(
+                    str_replace(
+                        '_',
+                        '\\',
+                        $this->_blockGroup
+                    ) . '\\Block\\' . str_replace(
+                        ' ',
+                        '\\',
+                        ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode))
+                    ) . '\Category',
                     $this->getNameInLayout() . 'catalog_event_form'
                 )
             );
@@ -113,7 +116,6 @@ class Edit extends Container
         return $this;
     }
 
-
     /**
      * Retrieve form back url
      *
@@ -127,15 +129,11 @@ class Edit extends Container
                 array('clear' => 1, 'id' => $this->getEvent()->getCategoryId())
             );
         } elseif ($this->getEvent() && !$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {
-            return $this->getUrl(
-                '*/*/new',
-                array('_current' => true, 'category_id' => null)
-            );
+            return $this->getUrl('*/*/new', array('_current' => true, 'category_id' => null));
         }
 
         return parent::getBackUrl();
     }
-
 
     /**
      * Retrieve form container header

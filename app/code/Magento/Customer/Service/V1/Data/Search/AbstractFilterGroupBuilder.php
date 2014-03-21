@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1\Data\Search;
 
 use Magento\Service\Data\AbstractObjectBuilder;
@@ -23,10 +22,9 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
      */
     public function addFilter(\Magento\Customer\Service\V1\Data\Filter $filter)
     {
-        if (!isset($this->_data[AbstractFilterGroup::FILTERS])
-            || !is_array($this->_data[AbstractFilterGroup::FILTERS])
+        if (!isset($this->_data[AbstractFilterGroup::FILTERS]) || !is_array($this->_data[AbstractFilterGroup::FILTERS])
         ) {
-            $this->_data[AbstractFilterGroup::FILTERS] = [];
+            $this->_data[AbstractFilterGroup::FILTERS] = array();
         }
         $this->_data[AbstractFilterGroup::FILTERS][] = $filter;
         return $this;
@@ -51,10 +49,9 @@ abstract class AbstractFilterGroupBuilder extends AbstractObjectBuilder
      */
     public function addGroup(\Magento\Customer\Service\V1\Data\Search\FilterGroupInterface $group)
     {
-        if (!isset($this->_data[AbstractFilterGroup::GROUPS])
-            || !is_array($this->_data[AbstractFilterGroup::GROUPS])
+        if (!isset($this->_data[AbstractFilterGroup::GROUPS]) || !is_array($this->_data[AbstractFilterGroup::GROUPS])
         ) {
-            $this->_data[AbstractFilterGroup::GROUPS] = [];
+            $this->_data[AbstractFilterGroup::GROUPS] = array();
         }
         $this->_data[AbstractFilterGroup::GROUPS][] = $group;
         return $this;

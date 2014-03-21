@@ -5,8 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\OfflineShipping\Model\Config\Source;
 
 class Tablerate implements \Magento\Option\ArrayInterface

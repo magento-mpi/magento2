@@ -23,10 +23,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\LayoutInterface $layout
      */
-    public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\View\LayoutInterface $layout
-    ) {
+    public function __construct(\Magento\App\Helper\Context $context, \Magento\View\LayoutInterface $layout)
+    {
         $this->_layout = $layout;
         parent::__construct($context);
     }

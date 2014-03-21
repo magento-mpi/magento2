@@ -12,8 +12,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 /**
  * Grid with revisions on version page
  */
-class Revisions
-    extends \Magento\Backend\Block\Widget\Grid\Extended
+class Revisions extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Cms data
@@ -21,6 +20,7 @@ class Revisions
      * @var \Magento\VersionsCms\Helper\Data
      */
     protected $_cmsData;
+
     /**
      * Core registry
      *
@@ -83,17 +83,17 @@ class Revisions
     protected function _prepareCollection()
     {
         /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
-        $collection = $this->_revisionCollectionFactory->create()
-            ->addPageFilter($this->getPage())
-            ->addVersionFilter($this->getVersion())
-            ->addUserColumn()
-            ->addUserNameColumn();
+        $collection = $this->_revisionCollectionFactory->create()->addPageFilter(
+            $this->getPage()
+        )->addVersionFilter(
+            $this->getVersion()
+        )->addUserColumn()->addUserNameColumn();
 
-            // Commented this bc now revision are shown in scope of version and not page.
-            // So if user has permission to load this version he
-            // has permission to see all its versions
-            //->addVisibilityFilter($this->_objM->get('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
-            //$this->_cmsConfig->getAllowedAccessLevel());
+        // Commented this bc now revision are shown in scope of version and not page.
+        // So if user has permission to load this version he
+        // has permission to see all its versions
+        //->addVisibilityFilter($this->_objM->get('Magento\Backend\Model\Auth\Session')->getUser()->getId(),
+        //$this->_cmsConfig->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -120,27 +120,31 @@ class Revisions
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('revision_number', array(
-            'header' => __('Revision'),
-            'width' => 200,
-            'type' => 'number',
-            'index' => 'revision_number'
-        ));
+        $this->addColumn(
+            'revision_number',
+            array('header' => __('Revision'), 'width' => 200, 'type' => 'number', 'index' => 'revision_number')
+        );
 
-        $this->addColumn('created_at', array(
-            'header' => __('Created'),
-            'index' => 'created_at',
-            'type' => 'datetime',
-            'filter_time' => true,
-            'width' => 250
-        ));
+        $this->addColumn(
+            'created_at',
+            array(
+                'header' => __('Created'),
+                'index' => 'created_at',
+                'type' => 'datetime',
+                'filter_time' => true,
+                'width' => 250
+            )
+        );
 
-        $this->addColumn('author', array(
-            'header' => __('Author'),
-            'index' => 'user',
-            'type' => 'options',
-            'options' => $this->getCollection()->getUsersArray()
-        ));
+        $this->addColumn(
+            'author',
+            array(
+                'header' => __('Author'),
+                'index' => 'user',
+                'type' => 'options',
+                'options' => $this->getCollection()->getUsersArray()
+            )
+        );
 
         return parent::_prepareColumns();
     }
@@ -163,10 +167,10 @@ class Revisions
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/cms_page_revision/edit', array(
-            'page_id' => $row->getPageId(),
-            'revision_id' => $row->getRevisionId()
-        ));
+        return $this->getUrl(
+            'adminhtml/cms_page_revision/edit',
+            array('page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId())
+        );
     }
 
     /**
@@ -201,11 +205,14 @@ class Revisions
             $this->setMassactionIdField('revision_id');
             $this->getMassactionBlock()->setFormFieldName('revision');
 
-            $this->getMassactionBlock()->addItem('delete', array(
-                 'label'=> __('Delete'),
-                 'url'  => $this->getUrl('adminhtml/*/massDeleteRevisions', array('_current' => true)),
-                 'confirm' => __('Are you sure?')
-            ));
+            $this->getMassactionBlock()->addItem(
+                'delete',
+                array(
+                    'label' => __('Delete'),
+                    'url' => $this->getUrl('adminhtml/*/massDeleteRevisions', array('_current' => true)),
+                    'confirm' => __('Are you sure?')
+                )
+            );
         }
         return $this;
     }

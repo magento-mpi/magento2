@@ -5,12 +5,11 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Core\Model\File\Storage;
 
-use Magento\Filesystem\Directory\WriteInterface as DirectoryWrite,
-    Magento\Filesystem\File\Write,
-    Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\Directory\WriteInterface as DirectoryWrite;
+use Magento\Filesystem\File\Write;
+use Magento\Filesystem\FilesystemException;
 
 /**
  * Class Synchronization
@@ -62,7 +61,7 @@ class Synchronization
         if ($storage->getId()) {
             /** @var Write $file */
             $file = $this->pubDirectory->openFile($this->pubDirectory->getRelativePath($filePath), 'w');
-            try{
+            try {
                 $file->lock();
                 $file->write($storage->getContent());
                 $file->unlock();

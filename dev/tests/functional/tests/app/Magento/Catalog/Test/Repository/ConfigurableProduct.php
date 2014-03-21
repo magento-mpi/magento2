@@ -57,7 +57,9 @@ class ConfigurableProduct extends Product
         $pricing = array(
             'data' => array(
                 'fields' => array(
-                    'special_price' => array('value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
+                    'special_price' => array(
+                        'value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING
+                    )
                 )
             )
         );

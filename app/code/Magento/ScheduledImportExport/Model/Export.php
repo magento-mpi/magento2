@@ -22,8 +22,8 @@ namespace Magento\ScheduledImportExport\Model;
  * @method \Magento\ScheduledImportExport\Model\Export setEntity() setEntity(string $value)
  * @method \Magento\ScheduledImportExport\Model\Export setOperationType() setOperationType(string $value)
  */
-class Export extends \Magento\ImportExport\Model\Export
-    implements \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
+class Export extends \Magento\ImportExport\Model\Export implements
+    \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
 {
     /**
      * Date model instance
@@ -96,14 +96,14 @@ class Export extends \Magento\ImportExport\Model\Export
      */
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
-        $fileInfo  = $operation->getFileInfo();
+        $fileInfo = $operation->getFileInfo();
         $attributes = $operation->getEntityAttributes();
         $data = array(
-            'entity'                 => $operation->getEntityType(),
-            'file_format'            => $fileInfo['file_format'],
-            'export_filter'          => $attributes['export_filter'],
-            'operation_type'         => $operation->getOperationType(),
-            'run_at'                 => $operation->getStartTime(),
+            'entity' => $operation->getEntityType(),
+            'file_format' => $fileInfo['file_format'],
+            'export_filter' => $attributes['export_filter'],
+            'operation_type' => $operation->getOperationType(),
+            'run_at' => $operation->getStartTime(),
             'scheduled_operation_id' => $operation->getId()
         );
         if (isset($attributes['skip_attr'])) {
@@ -121,7 +121,9 @@ class Export extends \Magento\ImportExport\Model\Export
     public function getScheduledFileName()
     {
         $runDate = $this->getRunDate() ? $this->getRunDate() : null;
-        return $this->getDateModel()->date('Y-m-d_H-i-s', $runDate) . '_' . $this->getOperationType() . '_'
-            . $this->getEntity();
+        return $this->getDateModel()->date(
+            'Y-m-d_H-i-s',
+            $runDate
+        ) . '_' . $this->getOperationType() . '_' . $this->getEntity();
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme;
 
 /**
@@ -87,9 +86,7 @@ class Customization implements CustomizationInterface
     public function getFilesByType($type)
     {
         if (!isset($this->themeFilesByType[$type])) {
-            $this->themeFilesByType[$type] = $this->fileProvider->getItems(
-                $this->theme, array('file_type' => $type)
-            );
+            $this->themeFilesByType[$type] = $this->fileProvider->getItems($this->theme, array('file_type' => $type));
         }
         return $this->themeFilesByType[$type];
     }
@@ -129,9 +126,11 @@ class Customization implements CustomizationInterface
      */
     public function getThemeFilesPath()
     {
-        return $this->theme->isPhysical()
-            ? $this->customizationPath->getThemeFilesPath($this->theme)
-            : $this->customizationPath->getCustomizationPath($this->theme);
+        return $this->theme->isPhysical() ? $this->customizationPath->getThemeFilesPath(
+            $this->theme
+        ) : $this->customizationPath->getCustomizationPath(
+            $this->theme
+        );
     }
 
     /**

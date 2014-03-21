@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
 class PayflowproTest extends \PHPUnit_Framework_TestCase
@@ -17,11 +16,13 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $pbridgeMethod = $this->getMock('Magento\Pbridge\Model\Payment\Method\Pbridge', array(
-            'capture',
-            'authorize',
-            'refund'
-        ), array(), '', false);
+        $pbridgeMethod = $this->getMock(
+            'Magento\Pbridge\Model\Payment\Method\Pbridge',
+            array('capture', 'authorize', 'refund'),
+            array(),
+            '',
+            false
+        );
         $paypal = $this->getMock(
             'Magento\PbridgePaypal\Model\Payment\Method\Paypal',
             array('getPbridgeMethodInstance'),
@@ -29,13 +30,12 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $paypal->expects($this->any())
-            ->method('getPbridgeMethodInstance')
-            ->will($this->returnValue($pbridgeMethod));
+        $paypal->expects($this->any())->method('getPbridgeMethodInstance')->will($this->returnValue($pbridgeMethod));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $helper->getObject('Magento\PbridgePaypal\Model\Payment\Method\Payflowpro', array(
-            'paypal' => $paypal
-        ));
+        $this->_model = $helper->getObject(
+            'Magento\PbridgePaypal\Model\Payment\Method\Payflowpro',
+            array('paypal' => $paypal)
+        );
     }
 
     /**
@@ -59,12 +59,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
 
     public function captureDataProvider()
     {
-        return array(
-            array(3.2, 5, 1),
-            array(3.2, 5, null),
-            array(3, 3, null),
-            array(2.23, 2.23, 1),
-        );
+        return array(array(3.2, 5, 1), array(3.2, 5, null), array(3, 3, null), array(2.23, 2.23, 1));
     }
 
     /**
@@ -73,14 +68,15 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefund($canRefund)
     {
-        $invoice = $this->getMock('Magento\Sales\Model\Order\Invoice', array(
-            'canRefund',
-            '__wakeup'
-        ), array(), '', false);
+        $invoice = $this->getMock(
+            'Magento\Sales\Model\Order\Invoice',
+            array('canRefund', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $invoice->expects($this->once())->method('canRefund')->will($this->returnValue($canRefund));
-        $payment = new \Magento\Object(array(
-            'creditmemo' => new \Magento\Object(array('invoice' => $invoice))
-        ));
+        $payment = new \Magento\Object(array('creditmemo' => new \Magento\Object(array('invoice' => $invoice))));
         $this->_model->refund($payment, 'any');
         // check fix for partial refunds in Payflow Pro
         $this->assertEquals(!$canRefund, $payment->getShouldCloseParentTransaction());
@@ -88,9 +84,6 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
 
     public function refundDataProvider()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return array(array(true), array(false));
     }
 }

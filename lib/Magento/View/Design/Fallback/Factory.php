@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback;
 
 use Magento\App\Filesystem;
@@ -47,9 +46,7 @@ class Factory
     public function createLocaleFileRule()
     {
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
-        return new Theme(
-            new Simple("$themesDir/<area>/<theme_path>/i18n/<locale>")
-        );
+        return new Theme(new Simple("{$themesDir}/<area>/<theme_path>/i18n/<locale>"));
     }
 
     /**
@@ -62,21 +59,11 @@ class Factory
         $themesDir = $this->filesystem->getPath(Filesystem::THEMES_DIR);
         $modulesDir = $this->filesystem->getPath(Filesystem::MODULES_DIR);
         return new ModularSwitch(
-            new Theme(
-                new Simple(
-                    "$themesDir/<area>/<theme_path>"
-                )
-            ),
+            new Theme(new Simple("{$themesDir}/<area>/<theme_path>")),
             new Composite(
                 array(
-                    new Theme(
-                        new Simple(
-                            "$themesDir/<area>/<theme_path>/<namespace>_<module>"
-                        )
-                    ),
-                    new Simple(
-                        "$modulesDir/<namespace>/<module>/view/<area>"
-                    ),
+                    new Theme(new Simple("{$themesDir}/<area>/<theme_path>/<namespace>_<module>")),
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/<area>")
                 )
             )
         );
@@ -98,17 +85,12 @@ class Factory
                     new Theme(
                         new Composite(
                             array(
-                                new Simple(
-                                    "$themesDir/<area>/<theme_path>/i18n/<locale>",
-                                    array('locale')
-                                ),
-                                new Simple(
-                                    "$themesDir/<area>/<theme_path>"
-                                ),
+                                new Simple("{$themesDir}/<area>/<theme_path>/i18n/<locale>", array('locale')),
+                                new Simple("{$themesDir}/<area>/<theme_path>")
                             )
                         )
                     ),
-                    new Simple($pubLibDir),
+                    new Simple($pubLibDir)
                 )
             ),
             new Composite(
@@ -117,22 +99,15 @@ class Factory
                         new Composite(
                             array(
                                 new Simple(
-                                    "$themesDir/<area>/<theme_path>/i18n/<locale>/<namespace>_<module>",
+                                    "{$themesDir}/<area>/<theme_path>/i18n/<locale>/<namespace>_<module>",
                                     array('locale')
                                 ),
-                                new Simple(
-                                    "$themesDir/<area>/<theme_path>/<namespace>_<module>"
-                                ),
+                                new Simple("{$themesDir}/<area>/<theme_path>/<namespace>_<module>")
                             )
                         )
                     ),
-                    new Simple(
-                        "$modulesDir/<namespace>/<module>/view/<area>/i18n/<locale>",
-                        array('locale')
-                    ),
-                    new Simple(
-                        "$modulesDir/<namespace>/<module>/view/<area>"
-                    ),
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/<area>/i18n/<locale>", array('locale')),
+                    new Simple("{$modulesDir}/<namespace>/<module>/view/<area>")
                 )
             )
         );

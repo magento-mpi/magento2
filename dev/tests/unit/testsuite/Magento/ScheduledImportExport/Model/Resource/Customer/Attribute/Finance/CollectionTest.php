@@ -14,8 +14,7 @@
  */
 namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance;
 
-class CollectionTest
-    extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Returns mock for finance collection
@@ -40,7 +39,7 @@ class CollectionTest
     {
         $collection = $this->_getFinanceCollectionMock();
 
-        $first  = new \Magento\Object(array('id' => 9));
+        $first = new \Magento\Object(array('id' => 9));
         $second = new \Magento\Object(array('id' => 10));
 
         $collection->addItem($first);
@@ -67,7 +66,7 @@ class CollectionTest
     {
         $collection = $this->_getFinanceCollectionMock();
         $collection->setOrder('id');
-        $first  = new \Magento\Object(array('id' => 9));
+        $first = new \Magento\Object(array('id' => 9));
         $second = new \Magento\Object(array('id' => 10));
 
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));

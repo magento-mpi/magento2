@@ -36,35 +36,40 @@ class VO implements \Iterator
     /**
      * @return void
      */
-    public function rewind() {
+    public function rewind()
+    {
         reset($this->properties);
     }
 
     /**
      * @return bool
      */
-    public function valid() {
+    public function valid()
+    {
         return current($this->properties) !== false;
     }
 
     /**
      * @return string
      */
-    public function key() {
+    public function key()
+    {
         return key($this->properties);
     }
 
     /**
      * @return string
      */
-    public function current() {
+    public function current()
+    {
         return current($this->properties);
     }
 
     /**
      * @return void
      */
-    public function next() {
+    public function next()
+    {
         next($this->properties);
     }
 
@@ -105,7 +110,4 @@ class VO implements \Iterator
     {
         return $this->properties;
     }
-
 }
-
-

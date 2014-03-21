@@ -34,10 +34,7 @@ class Weight
     {
         $res = array();
         foreach ($this->getValues() as $value) {
-            $res[] = array(
-               'value' => $value,
-               'label' => $value
-            );
+            $res[] = array('value' => $value, 'label' => $value);
         }
         return $res;
     }

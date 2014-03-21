@@ -100,8 +100,9 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getItemCollection()
     {
         if (!$this->hasItemCollection()) {
-            $collection = $this->itemFactory->create()->getCollection()
-                ->addRegistryFilter($this->getEntity()->getId());
+            $collection = $this->itemFactory->create()->getCollection()->addRegistryFilter(
+                $this->getEntity()->getId()
+            );
             $this->setData('item_collection', $collection);
         }
         return $this->_getData('item_collection');
@@ -137,7 +138,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemQty($item)
     {
-        return $item->getQty()*1;
+        return $item->getQty() * 1;
     }
 
     /**
@@ -148,7 +149,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getItemQtyFulfilled($item)
     {
-        return $item->getQtyFulfilled()*1;
+        return $item->getQtyFulfilled() * 1;
     }
 
     /**

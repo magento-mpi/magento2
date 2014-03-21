@@ -30,8 +30,13 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     public function __construct(\Magento\Sales\Model\Quote $salesModel)
     {
         $this->_salesModel = $salesModel;
-        $this->_address = $this->_salesModel->getIsVirtual() ?
-            $this->_salesModel->getBillingAddress() : $this->_salesModel->getShippingAddress();
+        $this->_address = $this
+            ->_salesModel
+            ->getIsVirtual() ? $this
+            ->_salesModel
+            ->getBillingAddress() : $this
+            ->_salesModel
+            ->getShippingAddress();
     }
 
     /**
@@ -42,13 +47,15 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
         $resultItems = array();
 
         foreach ($this->_salesModel->getAllItems() as $item) {
-            $resultItems[] = new \Magento\Object(array(
-                'parent_item'   => $item->getParentItem(),
-                'name'          => $item->getName(),
-                'qty'           => (int)$item->getTotalQty(),
-                'price'         => $item->isNominal() ? 0 : (float)$item->getBaseCalculationPrice(),
-                'original_item' => $item
-            ));
+            $resultItems[] = new \Magento\Object(
+                array(
+                    'parent_item' => $item->getParentItem(),
+                    'name' => $item->getName(),
+                    'qty' => (int)$item->getTotalQty(),
+                    'price' => $item->isNominal() ? 0 : (double)$item->getBaseCalculationPrice(),
+                    'original_item' => $item
+                )
+            );
         }
 
         return $resultItems;
@@ -99,7 +106,11 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
      */
     public function getTaxContainer()
     {
-        return $this->_salesModel->getIsVirtual()
-            ? $this->_salesModel->getBillingAddress() : $this->_salesModel->getShippingAddress();
+        return $this->_salesModel
+            ->getIsVirtual() ? $this
+            ->_salesModel
+            ->getBillingAddress() : $this
+            ->_salesModel
+            ->getShippingAddress();
     }
 }

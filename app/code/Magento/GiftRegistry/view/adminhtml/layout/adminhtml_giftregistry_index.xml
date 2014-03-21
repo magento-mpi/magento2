@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <update handle="adminhtml_giftregistry_grid_block"/>
     <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Adminhtml\Giftregistry" name="adminhtml.giftregistry.grid.container"/>

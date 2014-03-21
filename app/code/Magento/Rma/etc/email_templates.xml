@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Email/etc/email_templates.xsd">
     <template id="sales_email_magento_rma_template" label="New RMA" file="new.html" type="html" module="Magento_Rma"/>
     <template id="sales_email_magento_rma_guest_template" label="New RMA for Guest" file="new_guest.html" type="html" module="Magento_Rma"/>
     <template id="sales_email_magento_rma_auth_template" label="RMA Authorization" file="auth.html" type="html" module="Magento_Rma"/>

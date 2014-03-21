@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin;
 
 class Grouped
@@ -44,4 +43,4 @@ class Grouped
 
         return $product;
     }
-} 
+}

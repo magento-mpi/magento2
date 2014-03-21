@@ -17,5 +17,5 @@ namespace Magento\Sales\Block\Adminhtml\Items\Column;
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Qty extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
-{}
-?>
+{
+}

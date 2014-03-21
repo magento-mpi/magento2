@@ -30,7 +30,6 @@ class Observer
         $this->_session = $session;
     }
 
-
     /**
      * @param \Magento\Event\Observer $observer
      * @return $this

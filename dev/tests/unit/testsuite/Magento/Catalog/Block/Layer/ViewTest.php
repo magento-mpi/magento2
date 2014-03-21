@@ -8,19 +8,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Layer;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetClearUrl()
     {
-        $childBlock = new \Magento\Object;
+        $childBlock = new \Magento\Object();
 
-        $block = $this->getMock('Magento\Catalog\Block\Layer\View', array('getChildBlock'), array(), '', false);
+        $block = $this->getMock(
+            'Magento\LayeredNavigation\Block\Navigation', array('getChildBlock'), array(), '', false
+        );
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')
-            ->with('layer_state')
+            ->with('state')
             ->will($this->returnValue($childBlock));
 
         $expectedUrl = 'http://example.com/clear_all/12/';

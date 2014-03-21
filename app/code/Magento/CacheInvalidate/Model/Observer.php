@@ -22,7 +22,7 @@ class Observer
     protected $_config;
 
     /**
-     * @var \Magento\CacheInvalidate\Helper\Data
+     * @var \Magento\PageCache\Helper\Data
      */
     protected $_helper;
 
@@ -57,10 +57,16 @@ class Observer
      */
     public function invalidateVarnish(\Magento\Event\Observer $observer)
     {
-        $object = $observer->getEvent()->getObject();
-        if ($object instanceof \Magento\Object\IdentityInterface) {
-            if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
-                $this->sendPurgeRequest(implode('|', $object->getIdentities()));
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
+            $object = $observer->getEvent()->getObject();
+            if ($object instanceof \Magento\Object\IdentityInterface) {
+                $tags = array();
+                $pattern = "((^|,)%s(,|$))";
+                foreach ($object->getIdentities() as $tag) {
+                    $tags[] = sprintf($pattern, preg_replace("~_\\d+$~", '', $tag));
+                    $tags[] = sprintf($pattern, $tag);
+                }
+                $this->sendPurgeRequest(implode('|', array_unique($tags)));
             }
         }
     }
@@ -73,7 +79,7 @@ class Observer
      */
     public function flushAllCache(\Magento\Event\Observer $observer)
     {
-        if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH) {
+        if ($this->_config->getType() == \Magento\PageCache\Model\Config::VARNISH && $this->_config->isEnabled()) {
             $this->sendPurgeRequest('.*');
         }
     }

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="page.main.title">
         <action method="setPageTitle">
             <argument translate="true" name="title" xsi:type="string">Order by SKU</argument>
@@ -15,7 +15,7 @@
     </referenceBlock>
     <update handle="customer_account"/>
     <referenceContainer name="content">
-        <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml" cacheable="false">
+        <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
             <action method="setIsTitleHidden">
                 <argument name="value" xsi:type="string">true</argument>
             </action>

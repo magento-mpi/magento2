@@ -13,6 +13,7 @@ namespace Magento\Logging\Model;
 class Event extends \Magento\Core\Model\AbstractModel
 {
     const RESULT_SUCCESS = 'success';
+
     const RESULT_FAILURE = 'failure';
 
     /**
@@ -64,7 +65,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->getId()) {
             $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
-            if (!$this->getUser() && $id = $this->getUserId()) {
+            if (!$this->getUser() && ($id = $this->getUserId())) {
                 $this->setUser($this->_userFactory->create()->load($id)->getUserName());
             }
             if (!$this->hasTime()) {

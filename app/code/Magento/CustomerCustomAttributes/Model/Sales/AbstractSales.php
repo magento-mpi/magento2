@@ -59,9 +59,7 @@ abstract class AbstractSales extends \Magento\Core\Model\AbstractModel
      */
     public function saveAttributeData(\Magento\Core\Model\AbstractModel $sales)
     {
-        $this->addData($sales->getData())
-            ->setId($sales->getId())
-            ->save();
+        $this->addData($sales->getData())->setId($sales->getId())->save();
 
         return $this;
     }

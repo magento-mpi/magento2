@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
 /**
@@ -63,7 +62,7 @@ class Layout extends \Magento\View\Element\Html\Select
         $label = array();
         // Sort list of page types by label
         foreach ($pageTypes as $key => $row) {
-            $label[$key]  = $row['label'];
+            $label[$key] = $row['label'];
         }
         array_multisort($label, SORT_STRING, $pageTypes);
 

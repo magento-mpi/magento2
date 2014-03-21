@@ -83,8 +83,9 @@ class Observer
      */
     public function affectCmsPageRender(EventObserver $observer)
     {
-        if (!is_object($this->_coreRegistry->registry('current_cms_hierarchy_node'))
-            || !$this->_cmsHierarchy->isEnabled()
+        if (!is_object(
+            $this->_coreRegistry->registry('current_cms_hierarchy_node')
+        ) || !$this->_cmsHierarchy->isEnabled()
         ) {
             return $this;
         }
@@ -130,18 +131,19 @@ class Observer
          */
         $topMenuRootNode = $observer->getMenu();
 
-        $hierarchyModel = $this->_hierarchyNodeFactory->create(array(
-            'data' => array(
-                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
-                'scope_id' => $this->_storeManager->getStore()->getId(),
-            )))->getHeritage();
+        $hierarchyModel = $this->_hierarchyNodeFactory->create(
+            array(
+                'data' => array(
+                    'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
+                    'scope_id' => $this->_storeManager->getStore()->getId()
+                )
+            )
+        )->getHeritage();
 
         $nodes = $hierarchyModel->getNodesData();
         $tree = $topMenuRootNode->getTree();
 
-        $nodesFlatList = array(
-            $topMenuRootNode->getId() => $topMenuRootNode
-        );
+        $nodesFlatList = array($topMenuRootNode->getId() => $topMenuRootNode);
 
         $nodeModel = $this->_hierarchyNodeFactory->create();
 
@@ -149,9 +151,10 @@ class Observer
 
             $nodeData = $nodeModel->load($node['node_id']);
 
-            if (!$nodeData || ($nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility())
-                || ($nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded())
-                || ($nodeData->getPageId() && !$nodeData->getPageIsActive())
+            if (!$nodeData ||
+                $nodeData->getParentNodeId() == null && !$nodeData->getTopMenuVisibility() ||
+                $nodeData->getParentNodeId() != null && $nodeData->getTopMenuExcluded() ||
+                $nodeData->getPageId() && !$nodeData->getPageIsActive()
             ) {
                 continue;
             }
@@ -164,8 +167,9 @@ class Observer
                 'is_active' => $this->_isCmsNodeActive($nodeData)
             );
 
-            $parentNodeId = !isset($node['parent_node_id']) ? $topMenuRootNode->getId()
-                : 'cms-hierarchy-node-' . $node['parent_node_id'];
+            $parentNodeId = !isset(
+                $node['parent_node_id']
+            ) ? $topMenuRootNode->getId() : 'cms-hierarchy-node-' . $node['parent_node_id'];
             $parentNode = isset($nodesFlatList[$parentNodeId]) ? $nodesFlatList[$parentNodeId] : null;
 
             if (!$parentNode) {
@@ -197,11 +201,14 @@ class Observer
          * Validate Request and modify router match condition
          */
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
-        $node = $this->_hierarchyNodeFactory->create(array(
-            'data' => array(
-                'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
-                'scope_id' => $this->_storeManager->getStore()->getId(),
-            )))->getHeritage();
+        $node = $this->_hierarchyNodeFactory->create(
+            array(
+                'data' => array(
+                    'scope' => \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE,
+                    'scope_id' => $this->_storeManager->getStore()->getId()
+                )
+            )
+        )->getHeritage();
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
@@ -216,7 +223,6 @@ class Observer
                         break;
                     }
                 }
-
             }
         }
         if (!$node->getId()) {
@@ -225,16 +231,14 @@ class Observer
 
         if (!$node->getPageId()) {
             /* @var $child \Magento\VersionsCms\Model\Hierarchy\Node */
-            $child = $this->_hierarchyNodeFactory->create(array(
-                'data' => array(
-                    'scope' => $node->getScope(),
-                    'scope_id' => $node->getScopeId(),
-                )));
+            $child = $this->_hierarchyNodeFactory->create(
+                array('data' => array('scope' => $node->getScope(), 'scope_id' => $node->getScopeId()))
+            );
             $child->loadFirstChildByParent($node->getId());
             if (!$child->getId()) {
                 return $this;
             }
-            $url   = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
+            $url = $this->_coreUrl->getUrl('', array('_direct' => $child->getRequestUrl()));
             $condition->setRedirectUrl($url);
         } else {
             if (!$node->getPageIsActive()) {

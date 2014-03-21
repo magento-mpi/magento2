@@ -11,12 +11,15 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     public function testAddProductFilter()
     {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftRegistry\Model\Resource\Item\Option\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftRegistry\Model\Resource\Item\Option\Collection'
+        );
         $select = $collection->getSelect();
         $this->assertSame(array(), $select->getPart(\Zend_Db_Select::WHERE));
 
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         $product->setId(4);
         $collection->addProductFilter(1)->addProductFilter(array(2, 3))->addProductFilter($product);
         $this->assertStringMatchesFormat(
@@ -27,8 +30,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddProductFilterZero()
     {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftRegistry\Model\Resource\Item\Option\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\GiftRegistry\Model\Resource\Item\Option\Collection'
+        );
         $collection->addProductFilter(0);
         $this->assertSame(array(), $collection->getSelect()->getPart(\Zend_Db_Select::WHERE));
         foreach ($collection as $item) {

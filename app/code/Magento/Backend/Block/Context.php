@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block;
 
 /**
@@ -68,8 +67,24 @@ class Context extends \Magento\View\Element\Context
     ) {
         $this->_authorization = $authorization;
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $sidResolver,
-            $storeConfig, $viewUrl, $viewConfig, $cacheState, $logger, $escaper, $filterManager, $localeDate, $data
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $sidResolver,
+            $storeConfig,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $logger,
+            $escaper,
+            $filterManager,
+            $localeDate,
+            $data
         );
     }
 

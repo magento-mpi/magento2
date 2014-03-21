@@ -27,10 +27,8 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Registry $coreRegistry
-    ) {
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Registry $coreRegistry)
+    {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -67,8 +65,11 @@ class Index extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_ratings');
         $this->_addBreadcrumb(__('Manage Ratings'), __('Manage Ratings'));
 
-        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit'))
-            ->_addLeft($this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tabs'));
+        $this->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit')
+        )->_addLeft(
+            $this->_view->getLayout()->createBlock('Magento\Rating\Block\Adminhtml\Edit\Tabs')
+        );
         $this->_view->renderLayout();
     }
 
@@ -97,14 +98,21 @@ class Index extends \Magento\Backend\App\Action
                 $position = (int)$this->getRequest()->getParam('position');
                 $stores[] = 0;
                 $isActive = (bool)$this->getRequest()->getParam('is_active');
-                $ratingModel->setRatingCode($this->getRequest()->getParam('rating_code'))
-                    ->setRatingCodes($this->getRequest()->getParam('rating_codes'))
-                    ->setStores($stores)
-                    ->setPosition($position)
-                    ->setId($this->getRequest()->getParam('id'))
-                    ->setIsActive($isActive)
-                    ->setEntityId($this->_coreRegistry->registry('entityId'))
-                    ->save();
+                $ratingModel->setRatingCode(
+                    $this->getRequest()->getParam('rating_code')
+                )->setRatingCodes(
+                    $this->getRequest()->getParam('rating_codes')
+                )->setStores(
+                    $stores
+                )->setPosition(
+                    $position
+                )->setId(
+                    $this->getRequest()->getParam('id')
+                )->setIsActive(
+                    $isActive
+                )->setEntityId(
+                    $this->_coreRegistry->registry('entityId')
+                )->save();
 
                 $options = $this->getRequest()->getParam('option_title');
 
@@ -116,11 +124,15 @@ class Index extends \Magento\Backend\App\Action
                             $optionModel->setId($key);
                         }
 
-                        $optionModel->setCode($optionCode)
-                            ->setValue($i)
-                            ->setRatingId($ratingModel->getId())
-                            ->setPosition($i)
-                            ->save();
+                        $optionModel->setCode(
+                            $optionCode
+                        )->setValue(
+                            $i
+                        )->setRatingId(
+                            $ratingModel->getId()
+                        )->setPosition(
+                            $i
+                        )->save();
                         $i++;
                     }
                 }
@@ -132,7 +144,11 @@ class Index extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_objectManager->get('Magento\Backend\Model\Session')->setRatingData($this->getRequest()->getPost());
+                $this->_objectManager->get(
+                    'Magento\Backend\Model\Session'
+                )->setRatingData(
+                    $this->getRequest()->getPost()
+                );
                 $this->_redirect('rating/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
@@ -149,8 +165,7 @@ class Index extends \Magento\Backend\App\Action
             try {
                 $model = $this->_objectManager->create('Magento\Rating\Model\Rating');
                 /* @var $model \Magento\Rating\Model\Rating */
-                $model->load($this->getRequest()->getParam('id'))
-                    ->delete();
+                $model->load($this->getRequest()->getParam('id'))->delete();
                 $this->messageManager->addSuccess(__('You deleted the rating.'));
                 $this->_redirect('rating/*/');
             } catch (\Exception $e) {
@@ -169,7 +184,8 @@ class Index extends \Magento\Backend\App\Action
         $this->_title->add(__('Ratings'));
 
         $this->_coreRegistry->register(
-            'entityId', $this->_objectManager->create('Magento\Rating\Model\Rating\Entity')->getIdByCode('product')
+            'entityId',
+            $this->_objectManager->create('Magento\Rating\Model\Rating\Entity')->getIdByCode('product')
         );
     }
 

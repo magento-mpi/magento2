@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Theme;
 
 class RegistrationTest extends \PHPUnit_Framework_TestCase
@@ -28,11 +27,13 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design'),
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
+            array(
+                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/_files/design')
+                )
             )
-        ));
+        );
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\App')
             ->loadAreaPart(
@@ -88,8 +89,11 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
 
         $subVirtualTheme = clone $this->_theme;
         $subVirtualTheme->setData($theme->getData())->setId(null);
-        $subVirtualTheme->setParentId($virtualTheme->getId())
-            ->setType(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)->save();
+        $subVirtualTheme->setParentId(
+            $virtualTheme->getId()
+        )->setType(
+            \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL
+        )->save();
 
         $this->registerThemes();
         $parentId = $subVirtualTheme->getParentId();

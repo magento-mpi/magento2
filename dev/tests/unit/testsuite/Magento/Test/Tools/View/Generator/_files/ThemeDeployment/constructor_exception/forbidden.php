@@ -8,10 +8,4 @@
  * @license     {license_link}
  */
 
-return array(
-    'forbidden1',
-    'forbidden2',
-    'forbidden3',
-    'conflict1',
-    'conflict2',
-);
+return array('forbidden1', 'forbidden2', 'forbidden3', 'conflict1', 'conflict2');

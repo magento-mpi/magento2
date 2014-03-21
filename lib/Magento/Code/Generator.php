@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code;
 
 class Generator
 {
     const GENERATION_SUCCESS = 'success';
+
     const GENERATION_ERROR = 'error';
+
     const GENERATION_SKIP = 'skip';
 
     /**
@@ -41,8 +42,8 @@ class Generator
         \Magento\Code\Generator\Io $ioObject = null,
         array $generatedEntities = array()
     ) {
-        $this->_autoloader = $autoloader ? : new \Magento\Autoload\IncludePath();
-        $this->_ioObject   = $ioObject ? : new \Magento\Code\Generator\Io(
+        $this->_autoloader = $autoloader ?: new \Magento\Autoload\IncludePath();
+        $this->_ioObject = $ioObject ?: new \Magento\Code\Generator\Io(
             new \Magento\Filesystem\Driver\File(),
             $this->_autoloader
         );
@@ -77,8 +78,10 @@ class Generator
             // if $className string ends on $entitySuffix substring
             if (strrpos($className, $entitySuffix) === strlen($className) - strlen($entitySuffix)) {
                 $entity = $entityType;
-                $entityName = rtrim(substr($className, 0, -1 * strlen($entitySuffix)),
-                    \Magento\Autoload\IncludePath::NS_SEPARATOR);
+                $entityName = rtrim(
+                    substr($className, 0, -1 * strlen($entitySuffix)),
+                    \Magento\Autoload\IncludePath::NS_SEPARATOR
+                );
                 break;
             }
         }

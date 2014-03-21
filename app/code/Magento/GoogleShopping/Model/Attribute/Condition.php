@@ -25,7 +25,9 @@ class Condition extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @var string
      */
     const CONDITION_NEW = 'new';
+
     const CONDITION_USED = 'used';
+
     const CONDITION_REFURBISHED = 'refurbished';
 
     /**
@@ -37,9 +39,7 @@ class Condition extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     public function convertAttribute($product, $entry)
     {
-        $availableConditions = array(
-            self::CONDITION_NEW, self::CONDITION_USED, self::CONDITION_REFURBISHED
-        );
+        $availableConditions = array(self::CONDITION_NEW, self::CONDITION_USED, self::CONDITION_REFURBISHED);
 
         $mapValue = $this->getProductAttributeValue($product);
         if (!is_null($mapValue) && in_array($mapValue, $availableConditions)) {

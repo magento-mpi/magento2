@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache\Import\Map;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
@@ -26,29 +25,48 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->mapsDirectoryMock = $this->getMock('Magento\Filesystem\Directory\WriteInterface', [], [], '', false);
-        $this->mapsDirectoryMock->expects($this->once())
-            ->method('isDirectory')
-            ->with($this->equalTo(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR))
-            ->will($this->returnValue(false));
-        $this->mapsDirectoryMock->expects($this->once())
-            ->method('create')
-            ->with($this->equalTo(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR))
-            ->will($this->returnSelf());
+        $this->mapsDirectoryMock = $this->getMock(
+            'Magento\Filesystem\Directory\WriteInterface',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $this->mapsDirectoryMock->expects(
+            $this->once()
+        )->method(
+            'isDirectory'
+        )->with(
+            $this->equalTo(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR)
+        )->will(
+            $this->returnValue(false)
+        );
+        $this->mapsDirectoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            $this->equalTo(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR)
+        )->will(
+            $this->returnSelf()
+        );
 
 
-        $this->filesystemMock = $this->getMock('Magento\App\Filesystem', [], [], '', false);
-        $this->filesystemMock->expects($this->once())
-            ->method('getDirectoryWrite')
-            ->with($this->equalTo(\Magento\App\Filesystem::VAR_DIR))
-            ->will($this->returnValue($this->mapsDirectoryMock));
+        $this->filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
+        $this->filesystemMock->expects(
+            $this->once()
+        )->method(
+            'getDirectoryWrite'
+        )->with(
+            $this->equalTo(\Magento\App\Filesystem::VAR_DIR)
+        )->will(
+            $this->returnValue($this->mapsDirectoryMock)
+        );
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->storage = $this->objectManagerHelper->getObject(
             'Magento\Css\PreProcessor\Cache\Import\Map\Storage',
-            [
-                'filesystem' => $this->filesystemMock
-            ]
+            array('filesystem' => $this->filesystemMock)
         );
     }
 
@@ -61,15 +79,25 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($key, $isFile, $mapFileName, $expected)
     {
-        $this->mapsDirectoryMock->expects($this->once())
-            ->method('isFile')
-            ->with($this->equalTo($mapFileName))
-            ->will($this->returnValue($isFile));
+        $this->mapsDirectoryMock->expects(
+            $this->once()
+        )->method(
+            'isFile'
+        )->with(
+            $this->equalTo($mapFileName)
+        )->will(
+            $this->returnValue($isFile)
+        );
         if ($isFile) {
-            $this->mapsDirectoryMock->expects($this->once())
-                ->method('readFile')
-                ->with($this->equalTo($mapFileName))
-                ->will($this->returnValue($expected));
+            $this->mapsDirectoryMock->expects(
+                $this->once()
+            )->method(
+                'readFile'
+            )->with(
+                $this->equalTo($mapFileName)
+            )->will(
+                $this->returnValue($expected)
+            );
         }
         $this->assertEquals($expected, $this->storage->load($key));
     }
@@ -79,10 +107,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function loadDataProvider()
     {
-        return [
-            ['some_key', false, 'maps/less/3d70412c7e9ea2d96fa23d4f1f1f0a1c.ser', false],
-            ['some_other_key', true, 'maps/less/26df19b852b11fb4b4b845134d13f6fa.ser', 'file_found']
-        ];
+        return array(
+            array('some_key', false, 'maps/less/3d70412c7e9ea2d96fa23d4f1f1f0a1c.ser', false),
+            array('some_other_key', true, 'maps/less/26df19b852b11fb4b4b845134d13f6fa.ser', 'file_found')
+        );
     }
 
     /**
@@ -93,10 +121,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave($key, $mapFileName, $data)
     {
-        $this->mapsDirectoryMock->expects($this->once())
-            ->method('writeFile')
-            ->with($this->equalTo($mapFileName), $this->equalTo($data))
-            ->will($this->returnSelf());
+        $this->mapsDirectoryMock->expects(
+            $this->once()
+        )->method(
+            'writeFile'
+        )->with(
+            $this->equalTo($mapFileName),
+            $this->equalTo($data)
+        )->will(
+            $this->returnSelf()
+        );
         $this->assertEquals($this->storage, $this->storage->save($key, $data));
     }
 
@@ -105,9 +139,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function saveDataProvider()
     {
-        return [
-            ['some-key-to-save', 'maps/less/96760c434adbc683b503ca866784a17e.ser', ['data1', 'data2']]
-        ];
+        return array(
+            array('some-key-to-save', 'maps/less/96760c434adbc683b503ca866784a17e.ser', array('data1', 'data2'))
+        );
     }
 
     /**
@@ -117,10 +151,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testDelete($key, $mapFileName)
     {
-        $this->mapsDirectoryMock->expects($this->once())
-            ->method('writeFile')
-            ->with($this->equalTo($mapFileName), $this->equalTo(''))
-            ->will($this->returnSelf());
+        $this->mapsDirectoryMock->expects(
+            $this->once()
+        )->method(
+            'writeFile'
+        )->with(
+            $this->equalTo($mapFileName),
+            $this->equalTo('')
+        )->will(
+            $this->returnSelf()
+        );
         $this->assertEquals($this->storage, $this->storage->delete($key));
     }
 
@@ -129,17 +169,20 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function deleteDataProvider()
     {
-        return [
-            ['some-key-to-delete', 'maps/less/bf8aef83aab96deb7dbd66579b389794.ser']
-        ];
+        return array(array('some-key-to-delete', 'maps/less/bf8aef83aab96deb7dbd66579b389794.ser'));
     }
 
     public function testClearMaps()
     {
-        $this->mapsDirectoryMock->expects($this->once())
-            ->method('delete')
-            ->with($this->equalTo(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR))
-            ->will($this->returnSelf());
+        $this->mapsDirectoryMock->expects(
+            $this->once()
+        )->method(
+            'delete'
+        )->with(
+            $this->equalTo(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR)
+        )->will(
+            $this->returnSelf()
+        );
 
         $this->assertEquals($this->storage, $this->storage->clearMaps());
     }

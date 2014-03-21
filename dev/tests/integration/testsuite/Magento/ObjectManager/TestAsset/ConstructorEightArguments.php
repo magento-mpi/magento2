@@ -8,14 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\TestAsset;
 
 /**
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class ConstructorEightArguments
-    extends \Magento\ObjectManager\TestAsset\ConstructorSevenArguments
+class ConstructorEightArguments extends \Magento\ObjectManager\TestAsset\ConstructorSevenArguments
 {
     /**
      * @var \Magento\ObjectManager\TestAsset\Basic

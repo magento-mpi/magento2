@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/product_types.xsd">
     <type name="giftcard" label="Gift Card" modelInstance="Magento\GiftCard\Model\Catalog\Product\Type\Giftcard" composite="false" indexPriority="45" isQty="true">
         <priceModel instance="Magento\GiftCard\Model\Catalog\Product\Price\Giftcard" />
         <indexerModel instance="Magento\GiftCard\Model\Resource\Indexer\Price" />

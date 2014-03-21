@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\PageCache;
 
 class VersionTest extends \PHPUnit_Framework_TestCase
@@ -38,7 +37,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     {
         $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('set'), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array('isPost'), array(), '', false);
-        $this->version =  new Version($this->cookieMock, $this->requestMock);
+        $this->version = new Version($this->cookieMock, $this->requestMock);
     }
 
     /**
@@ -53,9 +52,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcess($isPost)
     {
-        $this->requestMock->expects($this->once())
-            ->method('isPost')
-            ->will($this->returnValue($isPost));
+        $this->requestMock->expects($this->once())->method('isPost')->will($this->returnValue($isPost));
         if ($isPost) {
             $this->cookieMock->expects($this->once())->method('set');
         }
@@ -68,9 +65,6 @@ class VersionTest extends \PHPUnit_Framework_TestCase
      */
     public function processProvider()
     {
-        return array(
-            array(true),
-            array(false)
-        );
+        return array(array(true), array(false));
     }
 }

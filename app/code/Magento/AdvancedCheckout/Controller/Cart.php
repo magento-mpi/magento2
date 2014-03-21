@@ -18,9 +18,7 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class Cart
-    extends \Magento\App\Action\Action
-    implements \Magento\Catalog\Controller\Product\View\ViewInterface
+class Cart extends \Magento\App\Action\Action implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
      * Get checkout session model instance
@@ -69,8 +67,11 @@ class Cart
      */
     protected function _getFailedItemsCart()
     {
-        return $this->_objectManager->get('Magento\AdvancedCheckout\Model\Cart')
-            ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_FRONTEND);
+        return $this->_objectManager->get(
+            'Magento\AdvancedCheckout\Model\Cart'
+        )->setContext(
+            \Magento\AdvancedCheckout\Model\Cart::CONTEXT_FRONTEND
+        );
     }
 
     /**
@@ -97,9 +98,7 @@ class Cart
 
         try {
             // perform data
-            $cart = $this->_getFailedItemsCart()
-                ->prepareAddProductsBySku($items)
-                ->saveAffectedProducts();
+            $cart = $this->_getFailedItemsCart()->prepareAddProductsBySku($items)->saveAffectedProducts();
 
             $this->messageManager->addMessages($cart->getMessages());
 
@@ -142,9 +141,7 @@ class Cart
         );
 
         if ($removed) {
-            $this->messageManager->addSuccess(
-                __('You removed the item.')
-            );
+            $this->messageManager->addSuccess(__('You removed the item.'));
         }
 
         $this->_redirect('checkout/cart');
@@ -158,9 +155,7 @@ class Cart
     public function removeAllFailedAction()
     {
         $this->_getFailedItemsCart()->removeAllAffectedItems();
-        $this->messageManager->addSuccess(
-            __('You removed the items.')
-        );
+        $this->messageManager->addSuccess(__('You removed the items.'));
         $this->_redirect('checkout/cart');
     }
 
@@ -179,10 +174,7 @@ class Cart
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
 
-            $buyRequest = new \Magento\Object(array(
-                'product'   => $id,
-                'qty'       => $qty
-            ));
+            $buyRequest = new \Magento\Object(array('product' => $id, 'qty' => $qty));
 
             $params->setBuyRequest($buyRequest);
 
@@ -190,7 +182,6 @@ class Cart
             $view = $this->_objectManager->get('Magento\Catalog\Helper\Product\View');
             $params->setBeforeHandles(array('catalog_product_view'));
             $view->prepareAndRender($id, $this, $params);
-
         } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
@@ -216,9 +207,13 @@ class Cart
         try {
             $cart = $this->_getCart();
 
-            $product = $this->_objectManager->create('Magento\Catalog\Model\Product')
-                ->setStoreId($this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId())
-                ->load($id);
+            $product = $this->_objectManager->create(
+                'Magento\Catalog\Model\Product'
+            )->setStoreId(
+                $this->_objectManager->get('Magento\Core\Model\StoreManager')->getStore()->getId()
+            )->load(
+                $id
+            );
 
             $cart->addProduct($product, $buyRequest)->save();
 
@@ -226,9 +221,7 @@ class Cart
 
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()) {
-                    $productName = $this->_objectManager
-                        ->get('Magento\Escaper')
-                        ->escapeHtml($product->getName());
+                    $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
                     $this->messageManager->addSuccess($message);
                 }

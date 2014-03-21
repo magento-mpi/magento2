@@ -97,7 +97,8 @@ class Registrants extends AbstractEdit
      *
      * @return \Magento\GiftRegistry\Model\Resource\Person\Collection
      */
-    public function getRegistrantList() {
+    public function getRegistrantList()
+    {
         return $this->getEntity->getRegistrantCollection();
     }
 
@@ -111,7 +112,7 @@ class Registrants extends AbstractEdit
     {
         $grouped = array();
         if (is_array($attributes)) {
-            foreach ($attributes as $field => $fdata){
+            foreach ($attributes as $field => $fdata) {
                 if (is_array($fdata)) {
                     $grouped[$field] = $fdata;
                     $grouped[$field]['id'] = $this->_getElementId($field);
@@ -130,8 +131,8 @@ class Registrants extends AbstractEdit
      */
     protected function _getElementName($code)
     {
-        $custom = ($this->isAttributeStatic($code)) ? '' : '[custom]';
-        return $this->_prefix . '[${_index_}]'. $custom . '[' . $code . ']';
+        $custom = $this->isAttributeStatic($code) ? '' : '[custom]';
+        return $this->_prefix . '[${_index_}]' . $custom . '[' . $code . ']';
     }
 
     /**
@@ -142,8 +143,8 @@ class Registrants extends AbstractEdit
      */
     protected function _getElementId($code)
     {
-        $custom = ($this->isAttributeStatic($code)) ? '' : 'custom:';
-        return $this->_prefix . ':'. $custom . $code . '${_index_}';
+        $custom = $this->isAttributeStatic($code) ? '' : 'custom:';
+        return $this->_prefix . ':' . $custom . $code . '${_index_}';
     }
 
     /**

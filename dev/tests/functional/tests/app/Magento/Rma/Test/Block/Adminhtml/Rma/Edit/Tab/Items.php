@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
 use Mtf\Block\Form;
@@ -107,22 +106,19 @@ class Items extends Form
     public function fillCustom($returnItemFixture, $fillFields)
     {
         $products = $returnItemFixture->getProductNames();
-        foreach($products as $product)
-        {
+        foreach ($products as $product) {
             $quantity = $returnItemFixture->getQuantity();
-            if(isset($this->productActions[$fillFields])) {
+            if (isset($this->productActions[$fillFields])) {
                 $quantitySearchString = $this->productRow . $this->productQuantities[$fillFields];
                 $status = $this->productStatus[$fillFields];
-            }
-
-            else {
+            } else {
                 return null;
             }
             $quantitySearchString = sprintf($quantitySearchString, $product);
             $statusSearchString = $this->productRow . $this->statusField;
             $statusSearchString = sprintf($statusSearchString, $product);
             $this->_rootElement->find($quantitySearchString, Locator::SELECTOR_XPATH)->setValue($quantity);
-            $this->_rootElement->find($statusSearchString, Locator::SELECTOR_XPATH,'select')->setValue($status);
+            $this->_rootElement->find($statusSearchString, Locator::SELECTOR_XPATH, 'select')->setValue($status);
         }
     }
 
@@ -136,25 +132,23 @@ class Items extends Form
     public function assertProducts($products, $returnItem)
     {
         $result = true;
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $productName = $product->getProductName();
 
             $productSearchString = $this->productRow . $this->productNameField;
             $productSearchString = sprintf($productSearchString, $productName);
             $gridProductName = $this->_rootElement->find($productSearchString, Locator::SELECTOR_XPATH)->getText();
-            if(strpos($gridProductName, $productName) === false) {
+            if (strpos($gridProductName, $productName) === false) {
                 $result = false;
             }
 
             $returnItemFields = $returnItem->getData('fields');
 
-            foreach ($returnItemFields as $returnItemField => $returnItemValue)
-            {
+            foreach ($returnItemFields as $returnItemField => $returnItemValue) {
                 if (isset($this->productField[$returnItemField])) {
                     $searchString = sprintf($this->productRow . $this->productField[$returnItemField], $productName);
                     $itemValue = $this->_rootElement->find($searchString, Locator::SELECTOR_XPATH)->getText();
-                    if(strpos($itemValue, $returnItemValue) === false) {
+                    if (strpos($itemValue, $returnItemValue) === false) {
                         $result = false;
                     }
                 } else {
