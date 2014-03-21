@@ -98,14 +98,13 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $translateInline->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));
-        $inlineFactory = $this->getMock('\Magento\Translate\InlineFactory', array(), array(), '', false);
-        $inlineFactory->expects($this->any())
-            ->method('get')
+
+        $context = $this->getMock('Magento\App\Helper\Context', array('getTranslateInline'), array(), '', false);
+        $context->expects($this->any())
+            ->method('getTranslateInline')
             ->will($this->returnValue($translateInline));
-        $context = $this->getMock('Magento\App\Helper\Context', array('getInlineFactory'), array(), '', false);
-        $context->expects($this->any())->method('getInlineFactory')->will($this->returnValue($inlineFactory));
+
         $data = array(
-            'inlineProvider' => $inlineFactory,
             'context' => $context,
             'locale' => $this->getMock('Magento\Locale', array(), array(), '', false),
             'dateModel' => $this->getMock('Magento\Stdlib\DateTime\DateTime', array(), array(), '', false)
