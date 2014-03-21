@@ -68,4 +68,15 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     {
         return $this->catalogDataHelper->isMsrpEnabled();
     }
+
+    /**
+     * Check if can apply Minimum Advertise price to product
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return bool
+     */
+    public function canApplyMsrp(Product $product)
+    {
+        return $this->catalogDataHelper->canApplyMsrp($product);
+    }
 }

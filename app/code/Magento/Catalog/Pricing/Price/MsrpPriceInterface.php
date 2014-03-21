@@ -11,7 +11,6 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Helper\Data;
 
 /**
  * MSRP price model
@@ -36,4 +35,12 @@ interface MsrpPriceInterface
      * @return bool
      */
     public function isMsrpEnabled();
+
+    /**
+     * Check if can apply Minimum Advertise price to product in specific visibility
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return bool
+     */
+    public function canApplyMsrp(Product $product);
 }

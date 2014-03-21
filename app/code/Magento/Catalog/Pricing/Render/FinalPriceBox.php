@@ -16,7 +16,6 @@ use Magento\Pricing\Render\PriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
 
-
 /**
  * Class for final_price rendering
  */
@@ -32,7 +31,7 @@ class FinalPriceBox extends PriceBox
      */
     public function render($priceType, SaleableInterface $object, array $arguments = [])
     {
-        $result = parent::render($priceType, $object, $arguments);
+        $result = $this->wrapResult(parent::render($priceType, $object, $arguments));
 
         /** @var MsrpPrice $msrpPriceType */
         $msrpPriceType = $object->getPriceInfo()->getPrice('msrp');
@@ -46,5 +45,16 @@ class FinalPriceBox extends PriceBox
         }
 
         return $result;
+    }
+
+    /**
+     * Wrap with standard required container
+     *
+     * @param string $html
+     * @return string
+     */
+    protected function wrapResult($html)
+    {
+        return '<div class="price-box ' . $this->getData('css_classes') . '">' . $html . '</div>';
     }
 }

@@ -10,12 +10,10 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Catalog\Model\Product;
-
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice
+class TierPrice extends AbstractPrice implements TierPriceInterface
 {
     /**
      * @var string
@@ -49,7 +47,6 @@ class TierPrice extends AbstractPrice
                 $productPrice = $finalPrice;
             }
 
-            // @TODO create group price model
             // Group price must be used for percent calculation if it is lower
             $groupPrice = $this->priceInfo->getPrice('group_price')->getValue();
             if ($productPrice > $groupPrice) {
@@ -59,16 +56,21 @@ class TierPrice extends AbstractPrice
             if ($price['price'] < $productPrice) {
                 $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
 
-//                $tierPrice = $this->_storeManager->getStore()->convertPrice(
-//                    $this->_taxData->getPrice($product, $price['website_price'])
-//                );
-//                $price['formated_price'] = $this->_storeManager->getStore()->formatPrice($tierPrice);
-//                $price['formated_price_incl_tax'] = $this->_storeManager->getStore()->formatPrice(
-//                    $this->_storeManager->getStore()->convertPrice(
-//                        $this->_taxData->getPrice($product, $price['website_price'], true)
-//                    )
-//                );
-
+                // @TODO check msrp
+                /** @var \Magento\Catalog\Pricing\Price\MsrpPrice $msrpPrice */
+//                $msrpPrice = $this->priceInfo->getPrice('msrp');
+//                if ($msrpPrice->canApplyMsrp($this->salableItem)) {
+//                    $oldPrice = $finalPrice;
+//                    $this->salableItem->setPriceCalculation(false);
+//                    $this->salableItem->setPrice($price['website_price']);
+//                    $this->salableItem->setFinalPrice($price['website_price']);
+//
+//                    $this->getPriceHtml($this->salableItem);
+//                    $this->salableItem->setPriceCalculation(true);
+//
+//                    $price['real_price_html'] = $this->salableItem->getRealPriceHtml();
+//                    $this->salableItem->setFinalPrice($oldPrice);
+//                }
                 // @TODO check msrp
 
                 $applicablePrices[] = $this->applyAdjustment($price);

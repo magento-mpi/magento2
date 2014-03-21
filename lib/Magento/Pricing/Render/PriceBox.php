@@ -1,45 +1,182 @@
 <?php
-namespace Magento\Catalog\Pricing\Render;
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Pricing
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-use Magento\Pricing\Render\PriceBox as PriceBoxRender;
-use Magento\View\Element\Template\Context;
-use Magento\Pricing\Render\AmountRenderFactory;
-use Magento\Core\Helper\Data;
+namespace Magento\Pricing\Render;
 
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\Price\PriceInterface;
+use Magento\View\Element\Template;
 
-class PriceBox extends PriceBoxRender
+/**
+ * Default price box renderer
+ */
+class PriceBox extends Template implements PriceBoxRenderInterface
 {
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var SaleableInterface
      */
-    protected $coreDataHelper;
+    protected $saleableItem;
 
     /**
-     * @param Context $context
+     * @var PriceInterface
+     */
+    protected $price;
+
+    /**
+     * @var string
+     */
+    protected $defaultTemplate = '';
+
+    /**
+     * @var \Magento\Pricing\Render\Amount
+     */
+    protected $amountRender;
+
+    /**
+     * @var AmountRenderFactory
+     */
+    protected $amountRenderFactory;
+
+    /**
+     * @var \Magento\Pricing\PriceInfoInterface
+     */
+    protected $priceInfo;
+
+    /**
+     * @param Template\Context $context
      * @param AmountRenderFactory $amountRenderFactory
-     * @param Data $coreDataHelper
      * @param array $data
      */
     public function __construct(
-        Context $context,
+        Template\Context $context,
         AmountRenderFactory $amountRenderFactory,
-        Data $coreDataHelper,
         array $data = array()
     ) {
-        $this->coreDataHelper = $coreDataHelper;
-        parent::__construct($context, $amountRenderFactory);
+        $this->amountRenderFactory = $amountRenderFactory;
+        parent::__construct($context, $data);
     }
 
     /**
-     * Encode the mixed $valueToEncode into the JSON format
-     *
-     * @param mixed $valueToEncode
-     * @param boolean $cycleCheck Optional; whether or not to check for object recursion; off by default
-     * @param array $options Additional options used during encoding
+     * @param string $priceType
+     * @param SaleableInterface $saleableItem
+     * @param array $arguments
      * @return string
      */
-    public function jsonEncode($valueToEncode, $cycleCheck = false, $options = [])
+    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
     {
-        return $this->coreDataHelper->jsonEncode($valueToEncode, $cycleCheck, $options);
+        $origArguments = $this->_data;
+        // @todo probably use block vars instead
+        $this->_data = array_replace($origArguments, $arguments);
+
+        $this->saleableItem = $saleableItem;
+
+        $this->priceInfo = $saleableItem->getPriceInfo();
+        $this->price = $this->priceInfo->getPrice($priceType);
+
+        $cssClasses[] = 'price-' . $priceType;
+        $this->_data['css_classes'] = implode(' ', $cssClasses);
+
+        if (!$this->getTemplate() && $this->defaultTemplate) {
+            $this->setTemplate($this->defaultTemplate);
+        }
+
+        // wrap with standard required container
+        $result = '<div class="price-box ' . $this->_data['css_classes'] . '">' . $this->toHtml() . '</div>';
+
+        // restore original block arguments
+        $this->_data = $origArguments;
+
+        // return result
+        return $result;
+    }
+
+    /**
+     * (to use in templates only)
+     *
+     * @param PriceInterface $price
+     * @param array $arguments
+     * @return string
+     */
+    public function renderAmount(PriceInterface $price, array $arguments = [])
+    {
+        return $this->getAmountRender()->render($price, $this->saleableItem, $arguments);
+    }
+
+    /**
+     * (to use in templates only)
+     *
+     * @return SaleableInterface
+     */
+    public function getSaleableItem()
+    {
+        // @todo move to abstract pricing block
+        return $this->saleableItem;
+    }
+
+    /**
+     * (to use in templates only)
+     *
+     * @return PriceInterface
+     */
+    public function getPrice()
+    {
+        // @todo move to abstract pricing block
+        return $this->price;
+    }
+
+    /**
+     * @param string $priceCode
+     * @param float|null $quantity
+     * @return PriceInterface
+     */
+    public function getPriceType($priceCode, $quantity = null)
+    {
+        return $this->priceInfo->getPrice($priceCode, $quantity);
+    }
+
+    /**
+     * @param float $amount
+     * @return float
+     */
+    public function convertToDisplayCurrency($amount)
+    {
+        // @todo move to abstract pricing block
+        return $amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisplayCurrencySymbol()
+    {
+        // @todo move to abstract pricing block
+        return '';
+    }
+
+    /**
+     * @return Amount|\Magento\View\Element\BlockInterface
+     */
+    protected function getAmountRender()
+    {
+        if (!$this->amountRender) {
+            $rendererClass = AmountRenderFactory::AMOUNT_RENDERER_DEFAULT;
+            if ($this->hasData('amount_render')) {
+                $rendererClass = $this->getData('amount_render');
+            }
+            $this->amountRender = $this->amountRenderFactory->create(
+                $this->_layout,
+                $rendererClass,
+                $this->getData('amount_render_template'),
+                $this->hasData('amount_render_data') ? $this->getData('amount_render') : []
+            );
+        }
+        return $this->amountRender;
     }
 }

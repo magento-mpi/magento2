@@ -14,20 +14,45 @@ $product = $this->getSaleableItem();
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
 $tierPriceModel = $this->getPrice();
 $tierPrices = $tierPriceModel->getApplicableTierPrices();
+
+/** @var \Magento\Catalog\Pricing\Price\Price $priceModel */
+$priceModel = $this->getPriceType('price');
+$regularPrice = $priceModel->getValue();
+
+/** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
+$finalPriceModel = $this->getPriceType('final_price');
+$finalPrice = $finalPriceModel->getValue();
 ?>
 
 <?php if (count($tierPrices)) : ?>
     <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
     <?php foreach ($tierPrices as $index => $price) : ?>
         <li class="item">
-        <?php
-            /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
-            $tierPriceModel = $this->getPriceType('tier_price', $price['price_qty']);
-            echo $this->renderAmount($tierPriceModel, [
-                'price_id' => 'tier-price-' . $index,
-                'include_container' => false
-            ]);
-        ?>
+            <?php
+                /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
+                $tierPriceModel = $this->getPriceType('tier_price', $price['price_qty']);
+
+                echo __(
+                    'Buy %1 for %2',
+                    $price['price_qty'],
+                    $this->renderAmount(
+                        $tierPriceModel,
+                        [
+                            'price_id' => $index,
+                            'include_container' => true
+                        ]
+                    )
+                );
+            ?>&nbsp;<?php echo __('each') ?>
+            <?php if ($this->getShowDetailedPrice() !== false): ?>
+                <?php if(($regularPrice == $finalPrice && $regularPrice > $tierPriceModel->getValue())
+                    || ($regularPrice != $finalPrice &&  $finalPrice > $tierPriceModel->getValue())): ?>
+                    <?php echo __('and') ?>&nbsp;<strong class="benefit">
+                        <?php echo __('save')?>
+                        <span class="percent tier-<?php echo $this->getPriceId() ?>"><?php echo $price['savePercent']?></span>%
+                    </strong>
+                <?php endif ?>
+            <?php endif; ?>
         </li>
     <?php endforeach; ?>
     </ul>
