@@ -17,9 +17,14 @@ use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
 
 
+/**
+ * Class for final_price rendering
+ */
 class FinalPriceBox extends PriceBox
 {
     /**
+     * Renders MAP price in case it is enabled
+     *
      * @param string $priceType
      * @param SaleableInterface $object
      * @param array $arguments
@@ -27,18 +32,19 @@ class FinalPriceBox extends PriceBox
      */
     public function render($priceType, SaleableInterface $object, array $arguments = [])
     {
+        $result = parent::render($priceType, $object, $arguments);
+
         /** @var MsrpPrice $msrpPriceType */
-        $msrpPriceType = $this->getPriceType('msrp');
-        if (!$msrpPriceType->isMsrpEnabled()) {
-            return parent::render($priceType, $object, $arguments);
+        $msrpPriceType = $object->getPriceInfo()->getPrice('msrp');
+        if ($msrpPriceType->isMsrpEnabled()) {
+            /** @var PriceBox $msrpBlock */
+            $msrpBlock = $this->getChildBlock('default.msrp');
+            if ($msrpBlock instanceof PriceBox) {
+                $arguments['real_price_html'] = $result;
+                return $msrpBlock->render('msrp', $object, $arguments);
+            }
         }
 
-        /** @var PriceBox $msrpBlock */
-        $msrpBlock = $this->getChildBlock('default.msrp');
-        if ($msrpBlock instanceof Render) {
-            return $msrpBlock->render('msrp', $object, $arguments);
-        }
-
-        return parent::render($priceType, $object, $arguments);
+        return $result;
     }
 }

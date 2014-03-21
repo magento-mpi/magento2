@@ -11,7 +11,7 @@
  */
 namespace Magento\Event;
 
-class ManagerStub extends \Magento\Event\ManagerInterface
+class ManagerStub implements \Magento\Event\ManagerInterface
 {
     /**
      * Stub dispatch event
