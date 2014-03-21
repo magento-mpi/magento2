@@ -20,4 +20,4 @@ interface AttributeMapperInterface
      * @return array
      */
     public function map(Attribute $attribute);
-} 
+}

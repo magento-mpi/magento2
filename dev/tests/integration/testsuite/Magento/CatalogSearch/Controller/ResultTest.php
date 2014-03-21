@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Controller;
 
 class ResultTest extends \Magento\TestFramework\TestCase\AbstractController

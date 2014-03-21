@@ -50,7 +50,7 @@ class OauthHelper
         $token = $objectManager->create('Magento\Integration\Model\Oauth\Token');
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
-        return array (
+        return array(
             'key' => $consumer->getKey(),
             'secret' => $consumer->getSecret(),
             'verifier' => $verifier,
@@ -84,7 +84,7 @@ class OauthHelper
         );
 
         /** TODO: Reconsider return format. It is not aligned with method name. */
-        return array (
+        return array(
             'key' => $accessToken->getAccessToken(),
             'secret' => $accessToken->getAccessTokenSecret(),
             'oauth_client' => $oAuthClient
@@ -119,8 +119,7 @@ class OauthHelper
                 throw new LogicException('Access token was not created.');
             }
             $consumer = $oauthService->loadConsumer($integration->getConsumerId());
-            $credentials = new Credentials(
-                $consumer->getKey(), $consumer->getSecret(), TESTS_BASE_URL);
+            $credentials = new Credentials($consumer->getKey(), $consumer->getSecret(), TESTS_BASE_URL);
             /** @var $oAuthClient OauthClient */
             $oAuthClient = new OauthClient($credentials);
 
@@ -179,7 +178,7 @@ class OauthHelper
         /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
         $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
 
-        $params = ['name' => 'Integration' . microtime()];
+        $params = array('name' => 'Integration' . microtime());
 
         if ($resources === null || $resources == 'all') {
             $params['all_resources'] = true;

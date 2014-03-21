@@ -22,8 +22,11 @@ class Guest extends \Magento\Sales\Controller\AbstractController
      */
     protected function _loadValidOrder($orderId = null)
     {
-        return $this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder(
-            $this->_request, $this->_response
+        return $this->_objectManager->get(
+            'Magento\Sales\Helper\Guest'
+        )->loadValidOrder(
+            $this->_request,
+            $this->_response
         );
     }
 
@@ -36,7 +39,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
     protected function _canViewOrder($order)
     {
         $currentOrder = $this->_coreRegistry->registry('current_order');
-        if ($order->getId() && ($order->getId() === $currentOrder->getId())) {
+        if ($order->getId() && $order->getId() === $currentOrder->getId()) {
             return true;
         }
         return false;
@@ -82,7 +85,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             return;
         }
 
-        $invoiceId = (int) $this->getRequest()->getParam('invoice_id');
+        $invoiceId = (int)$this->getRequest()->getParam('invoice_id');
         if ($invoiceId) {
             $invoice = $this->_objectManager->create('Magento\Sales\Model\Order\Invoice')->load($invoiceId);
             $order = $invoice->getOrder();
@@ -110,7 +113,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             return;
         }
 
-        $shipmentId = (int) $this->getRequest()->getParam('shipment_id');
+        $shipmentId = (int)$this->getRequest()->getParam('shipment_id');
         if ($shipmentId) {
             $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             $order = $shipment->getOrder();
@@ -137,7 +140,7 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             return;
         }
 
-        $creditmemoId = (int) $this->getRequest()->getParam('creditmemo_id');
+        $creditmemoId = (int)$this->getRequest()->getParam('creditmemo_id');
         if ($creditmemoId) {
             $creditmemo = $this->_objectManager->create('Magento\Sales\Model\Order\Creditmemo')->load($creditmemoId);
             $order = $creditmemo->getOrder();

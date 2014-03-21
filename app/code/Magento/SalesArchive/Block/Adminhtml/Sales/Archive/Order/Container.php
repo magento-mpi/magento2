@@ -20,6 +20,6 @@ class Container extends \Magento\Backend\Block\Widget\Grid\Container
     protected function _prepareLayout()
     {
         $this->_removeButton('add');
-         return $this;
+        return $this;
     }
 }

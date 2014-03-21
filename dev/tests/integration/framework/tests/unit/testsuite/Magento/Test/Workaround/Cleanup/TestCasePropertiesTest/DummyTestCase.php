@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Workaround\Cleanup\TestCasePropertiesTest;
 
 class DummyTestCase extends \PHPUnit_Framework_TestCase
@@ -56,17 +55,17 @@ class DummyTestCase extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    static public $testPublicStatic;
+    public static $testPublicStatic;
 
     /**
      * @var string
      */
-    static protected $_testProtectedStatic;
+    protected static $_testProtectedStatic;
 
     /**
      * @var string
      */
-    static private $_testPrivateStatic;
+    private static $_testPrivateStatic;
 
     public function testDummy()
     {

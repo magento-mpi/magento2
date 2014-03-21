@@ -11,5 +11,4 @@ namespace Magento\SalesRule;
 
 class Exception extends \Zend_Exception
 {
-    
 }

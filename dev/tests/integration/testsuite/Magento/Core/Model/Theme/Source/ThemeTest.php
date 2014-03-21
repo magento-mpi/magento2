@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Theme\Source;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -26,8 +25,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $model = Bootstrap::getObjectManager()->create('Magento\Core\Model\Theme\Source\Theme');
 
         /** @var $expectedCollection \Magento\Core\Model\Theme\Collection */
-        $expectedCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $expectedCollection = Bootstrap::getObjectManager()->create('Magento\Core\Model\Resource\Theme\Collection');
         $expectedCollection->addFilter('area', 'frontend');
 
         $expectedItemsCount = count($expectedCollection);

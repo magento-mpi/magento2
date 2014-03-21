@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Model\Resource\Report;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
@@ -17,13 +16,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\SalesRule\Model\Resource\Report\Collection');
-        $this->_collection
-            ->setPeriod('day')
-            ->setDateRange(null, null)
-            ->addStoreFilter(array(1))
-        ;
+        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\SalesRule\Model\Resource\Report\Collection'
+        );
+        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter(array(1));
     }
 
     /**
@@ -32,12 +28,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItems()
     {
-        $expectedResult = array(
-            array(
-                'coupon_code' => '1234567890',
-                'coupon_uses' => 1,
-            ),
-        );
+        $expectedResult = array(array('coupon_code' => '1234567890', 'coupon_uses' => 1));
         $actualResult = array();
         /** @var \Magento\Reports\Model\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {

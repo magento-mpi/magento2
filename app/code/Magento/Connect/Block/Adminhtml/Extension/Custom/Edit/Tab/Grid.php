@@ -86,18 +86,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('folder', array(
-            'header'  => __('Folder'),
-            'index'   => 'folder',
-            'width'   => 100,
-            'type'    => 'options',
-            'options' => $this->getCollection()->collectFolders()
-        ));
+        $this->addColumn(
+            'folder',
+            array(
+                'header' => __('Folder'),
+                'index' => 'folder',
+                'width' => 100,
+                'type' => 'options',
+                'options' => $this->getCollection()->collectFolders()
+            )
+        );
 
-        $this->addColumn('package', array(
-            'header' => __('Package'),
-            'index'  => 'package',
-        ));
+        $this->addColumn('package', array('header' => __('Package'), 'index' => 'package'));
 
         return parent::_prepareColumns();
     }
@@ -124,6 +124,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/load', array('id' => strtr(base64_encode($row->getFilenameId()), '+/=', '-_,')));
+        return $this->getUrl(
+            'adminhtml/*/load',
+            array('id' => strtr(base64_encode($row->getFilenameId()), '+/=', '-_,'))
+        );
     }
 }

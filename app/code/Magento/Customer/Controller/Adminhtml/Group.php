@@ -108,9 +108,13 @@ class Group extends \Magento\Backend\App\Action
             $this->_title->add($this->_groupService->getGroup($groupId)->getCode());
         }
 
-        $this->_view->getLayout()
-            ->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
-            ->setEditMode((bool)$groupId);
+        $this->_view->getLayout()->addBlock(
+            'Magento\Customer\Block\Adminhtml\Group\Edit',
+            'group',
+            'content'
+        )->setEditMode(
+            (bool)$groupId
+        );
 
         $this->_view->renderLayout();
     }
@@ -159,7 +163,7 @@ class Group extends \Magento\Backend\App\Action
                 if ($customerGroup != null) {
                     $this->_coreRegistry->register(RegistryConstants::CURRENT_GROUP_ID, $id);
                 }
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }
         } else {
@@ -187,7 +191,7 @@ class Group extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }
         }

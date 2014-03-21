@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class LogoUploader
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader
+class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ImageUploader
 {
     /**
      * Control type

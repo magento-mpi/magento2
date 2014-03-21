@@ -53,9 +53,12 @@ class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getVariableByCode($code, $withValue = false, $storeId = 0)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where($this->getMainTable() . '.code = ?', $code);
+        $select = $this->_getReadAdapter()->select()->from(
+            $this->getMainTable()
+        )->where(
+            $this->getMainTable() . '.code = ?',
+            $code
+        );
         if ($withValue) {
             $this->_addValueToSelect($select, $storeId);
         }
@@ -76,16 +79,15 @@ class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
              * remove store value
              */
             $this->_getWriteAdapter()->delete(
-                $this->getTable('core_variable_value'), array(
-                    'variable_id = ?' => $object->getId(),
-                    'store_id = ?' => $object->getStoreId()
-            ));
+                $this->getTable('core_variable_value'),
+                array('variable_id = ?' => $object->getId(), 'store_id = ?' => $object->getStoreId())
+            );
         } else {
-            $data =  array(
+            $data = array(
                 'variable_id' => $object->getId(),
-                'store_id'    => $object->getStoreId(),
+                'store_id' => $object->getStoreId(),
                 'plain_value' => $object->getPlainValue(),
-                'html_value'  => $object->getHtmlValue()
+                'html_value' => $object->getHtmlValue()
             );
             $data = $this->_prepareDataForTable(new \Magento\Object($data), $this->getTable('core_variable_value'));
             $this->_getWriteAdapter()->insertOnDuplicate(
@@ -125,22 +127,24 @@ class Variable extends \Magento\Core\Model\Resource\Db\AbstractDb
     ) {
         $adapter = $this->_getReadAdapter();
         $ifNullPlainValue = $adapter->getCheckSql('store.plain_value IS NULL', 'def.plain_value', 'store.plain_value');
-        $ifNullHtmlValue  = $adapter->getCheckSql('store.html_value IS NULL', 'def.html_value', 'store.html_value');
+        $ifNullHtmlValue = $adapter->getCheckSql('store.html_value IS NULL', 'def.html_value', 'store.html_value');
 
         $select->joinLeft(
-                array('def' => $this->getTable('core_variable_value')),
-                'def.variable_id = '.$this->getMainTable().'.variable_id AND def.store_id = 0',
-                array())
-            ->joinLeft(
-                array('store' => $this->getTable('core_variable_value')),
-                'store.variable_id = def.variable_id AND store.store_id = ' . $adapter->quote($storeId),
-                array())
-            ->columns(array(
-                'plain_value'       => $ifNullPlainValue,
-                'html_value'        => $ifNullHtmlValue,
+            array('def' => $this->getTable('core_variable_value')),
+            'def.variable_id = ' . $this->getMainTable() . '.variable_id AND def.store_id = 0',
+            array()
+        )->joinLeft(
+            array('store' => $this->getTable('core_variable_value')),
+            'store.variable_id = def.variable_id AND store.store_id = ' . $adapter->quote($storeId),
+            array()
+        )->columns(
+            array(
+                'plain_value' => $ifNullPlainValue,
+                'html_value' => $ifNullHtmlValue,
                 'store_plain_value' => 'store.plain_value',
-                'store_html_value'  => 'store.html_value'
-            ));
+                'store_html_value' => 'store.html_value'
+            )
+        );
 
         return $this;
     }

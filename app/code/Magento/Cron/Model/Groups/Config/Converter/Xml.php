@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Groups\Config\Converter;
 
 /**
@@ -37,7 +36,7 @@ class Xml implements \Magento\Config\ConverterInterface
                 throw new \InvalidArgumentException('Attribute "id" does not exist');
             }
             foreach ($group->childNodes as $child) {
-                if (!($child instanceof \DOMElement)) {
+                if (!$child instanceof \DOMElement) {
                     continue;
                 }
                 /** @var $group \DOMElement */

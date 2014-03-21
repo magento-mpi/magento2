@@ -42,7 +42,12 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $connectionName = ''
     ) {
         parent::__construct(
-            $context, $resourceName, $cache, $attrGroupCollectionFactory, $moduleName, $connectionName
+            $context,
+            $resourceName,
+            $cache,
+            $attrGroupCollectionFactory,
+            $moduleName,
+            $connectionName
         );
         $this->_migrationFactory = $migrationFactory;
         $this->_collectionFactory = $collectionFactory;

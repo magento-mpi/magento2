@@ -141,7 +141,7 @@ class Role extends \Magento\Backend\App\AbstractAction
         $this->_initAction();
 
         if ($role->getId()) {
-            $breadCrumb      = __('Edit Role');
+            $breadCrumb = __('Edit Role');
             $breadCrumbTitle = __('Edit Role');
         } else {
             $breadCrumb = __('Add New Role');
@@ -153,9 +153,13 @@ class Role extends \Magento\Backend\App\AbstractAction
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
         $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-        $this->_view->getLayout()->getBlock('adminhtml.user.role.buttons')
-            ->setRoleId($role->getId())
-            ->setRoleInfo($role);
+        $this->_view->getLayout()->getBlock(
+            'adminhtml.user.role.buttons'
+        )->setRoleId(
+            $role->getId()
+        )->setRoleInfo(
+            $role
+        );
 
         $this->_view->renderLayout();
     }
@@ -171,7 +175,7 @@ class Role extends \Magento\Backend\App\AbstractAction
         /** @var \Magento\User\Model\User $currentUser */
         $currentUser = $this->_userFactory->create()->setId($this->_authSession->getUser()->getId());
 
-        if (in_array($rid, $currentUser->getRoles()) ) {
+        if (in_array($rid, $currentUser->getRoles())) {
             $this->messageManager->addError(__('You cannot delete self-assigned roles.'));
             $this->_redirect('adminhtml/*/editrole', array('rid' => $rid));
             return;
@@ -194,9 +198,9 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function saveRoleAction()
     {
-        $rid        = $this->getRequest()->getParam('role_id', false);
-        $resource   = $this->getRequest()->getParam('resource', false);
-        $roleUsers  = $this->getRequest()->getParam('in_role_user', null);
+        $rid = $this->getRequest()->getParam('role_id', false);
+        $resource = $this->getRequest()->getParam('resource', false);
+        $roleUsers = $this->getRequest()->getParam('in_role_user', null);
         parse_str($roleUsers, $roleUsers);
         $roleUsers = array_keys($roleUsers);
 
@@ -219,19 +223,20 @@ class Role extends \Magento\Backend\App\AbstractAction
         try {
             $roleName = $this->getRequest()->getParam('rolename', false);
 
-            $role->setName($roleName)
-                 ->setPid($this->getRequest()->getParam('parent_id', false))
-                 ->setRoleType(RoleGroup::ROLE_TYPE);
+            $role->setName(
+                $roleName
+            )->setPid(
+                $this->getRequest()->getParam('parent_id', false)
+            )->setRoleType(
+                RoleGroup::ROLE_TYPE
+            );
             $this->_eventManager->dispatch(
                 'admin_permissions_role_prepare_save',
                 array('object' => $role, 'request' => $this->getRequest())
             );
             $role->save();
 
-            $this->_rulesFactory->create()
-                ->setRoleId($role->getId())
-                ->setResources($resource)
-                ->saveRel();
+            $this->_rulesFactory->create()->setRoleId($role->getId())->setResources($resource)->saveRel();
 
             foreach ($oldRoleUsers as $oUid) {
                 $this->_deleteUserFromRole($oUid, $role->getId());
@@ -272,10 +277,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     protected function _deleteUserFromRole($userId, $roleId)
     {
         try {
-            $this->_userFactory->create()
-                ->setRoleId($roleId)
-                ->setUserId($userId)
-                ->deleteFromRole();
+            $this->_userFactory->create()->setRoleId($roleId)->setUserId($userId)->deleteFromRole();
         } catch (\Exception $e) {
             throw $e;
         }
@@ -294,7 +296,7 @@ class Role extends \Magento\Backend\App\AbstractAction
         $user = $this->_userFactory->create()->load($userId);
         $user->setRoleId($roleId);
 
-        if ($user->roleUserExists() === true ) {
+        if ($user->roleUserExists() === true) {
             return false;
         } else {
             $user->save();

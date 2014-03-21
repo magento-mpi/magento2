@@ -38,10 +38,8 @@ class Observer
      * @param AuthorizationInterface $authorization
      * @param ConfigInterface $appConfig
      */
-    public function __construct(
-        AuthorizationInterface $authorization,
-        ConfigInterface $appConfig
-    ) {
+    public function __construct(AuthorizationInterface $authorization, ConfigInterface $appConfig)
+    {
         $this->appConfig = $appConfig;
         $this->authorization = $authorization;
     }
@@ -64,10 +62,7 @@ class Observer
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs Tabs */
 
-        $tabs->addTab(
-            'permissions',
-            'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions'
-        );
+        $tabs->addTab('permissions', 'Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions');
 
         return $this;
     }

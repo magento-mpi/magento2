@@ -20,7 +20,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
      * @param \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      */
-    function __construct(
+    public function __construct(
         \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
@@ -38,9 +38,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
     {
         $data = '';
         $value = parent::getValue($object);
-        $format = $this->_localeDate->getDateFormat(
-            \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM
-        );
+        $format = $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM);
 
         if ($value) {
             try {
@@ -53,4 +51,3 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
         return $data;
     }
 }
-

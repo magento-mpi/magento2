@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Product\Action;
 
 /**

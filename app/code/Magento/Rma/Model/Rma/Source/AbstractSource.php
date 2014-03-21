@@ -28,13 +28,9 @@ abstract class AbstractSource extends \Magento\Eav\Model\Entity\Attribute\Source
         if ($withLabels) {
             $result = array();
             foreach ($values as $item) {
-                $result[] = array(
-                    'label' => $this->getItemLabel($item),
-                    'value' => $item
-                );
+                $result[] = array('label' => $this->getItemLabel($item), 'value' => $item);
             }
             return $result;
-
         }
         return $values;
     }

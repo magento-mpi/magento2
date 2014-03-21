@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cron\Model\Backend\Config\Structure;
 
 class Converter

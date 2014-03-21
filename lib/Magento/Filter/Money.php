@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter;
 
 class Money implements \Zend_Filter_Interface

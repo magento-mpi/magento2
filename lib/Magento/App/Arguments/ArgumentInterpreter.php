@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Arguments;
 
 use Magento\Data\Argument\InterpreterInterface;
@@ -48,7 +47,7 @@ class ArgumentInterpreter implements InterpreterInterface
         $argumentName = $this->constInterpreter->evaluate($data);
         $result = $this->arguments->get($argumentName);
         if ($result === null) {
-            throw new MissingOptionalValueException("Value of application argument '$argumentName' is not defined.");
+            throw new MissingOptionalValueException("Value of application argument '{$argumentName}' is not defined.");
         }
         return $result;
     }

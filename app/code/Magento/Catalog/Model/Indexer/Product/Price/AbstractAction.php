@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price;
 
 /**
@@ -152,14 +151,16 @@ abstract class AbstractAction
     protected function _syncData(array $processIds = array())
     {
         // delete invalid rows
-        $select = $this->_getConnection()->select()
-            ->from(array('index_price' => $this->_getTable('catalog_product_index_price')), null)
-            ->joinLeft(
-                array('ip_tmp' => $this->_getIdxTable()),
-                'index_price.entity_id = ip_tmp.entity_id AND index_price.website_id = ip_tmp.website_id',
-                array()
-            )
-            ->where('ip_tmp.entity_id IS NULL');
+        $select = $this->_getConnection()->select()->from(
+            array('index_price' => $this->_getTable('catalog_product_index_price')),
+            null
+        )->joinLeft(
+            array('ip_tmp' => $this->_getIdxTable()),
+            'index_price.entity_id = ip_tmp.entity_id AND index_price.website_id = ip_tmp.website_id',
+            array()
+        )->where(
+            'ip_tmp.entity_id IS NULL'
+        );
         if (!empty($processIds)) {
             $select->where('index_price.entity_id IN(?)', $processIds);
         }
@@ -191,17 +192,16 @@ abstract class AbstractAction
         $write = $this->_getConnection();
         $baseCurrency = $this->_config->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE);
 
-        $select = $write->select()
-            ->from(
-                array('cw' => $this->_getTable('core_website')),
-                array('website_id')
-            )
-            ->join(
-                array('csg' => $this->_getTable('core_store_group')),
-                'cw.default_group_id = csg.group_id',
-                array('store_id' => 'default_store_id')
-            )
-            ->where('cw.website_id != 0');
+        $select = $write->select()->from(
+            array('cw' => $this->_getTable('core_website')),
+            array('website_id')
+        )->join(
+            array('csg' => $this->_getTable('core_store_group')),
+            'cw.default_group_id = csg.group_id',
+            array('store_id' => 'default_store_id')
+        )->where(
+            'cw.website_id != 0'
+        );
 
 
         $data = array();
@@ -210,9 +210,11 @@ abstract class AbstractAction
             $website = $this->_storeManager->getWebsite($item['website_id']);
 
             if ($website->getBaseCurrencyCode() != $baseCurrency) {
-                $rate = $this->_currencyFactory->create()
-                    ->load($baseCurrency)
-                    ->getRate($website->getBaseCurrencyCode());
+                $rate = $this->_currencyFactory->create()->load(
+                    $baseCurrency
+                )->getRate(
+                    $website->getBaseCurrencyCode()
+                );
                 if (!$rate) {
                     $rate = 1;
                 }
@@ -225,9 +227,9 @@ abstract class AbstractAction
             if ($store) {
                 $timestamp = $this->_localeDate->scopeTimeStamp($store);
                 $data[] = array(
-                    'website_id'   => $website->getId(),
+                    'website_id' => $website->getId(),
                     'website_date' => $this->_dateTime->formatDate($timestamp, false),
-                    'rate'         => $rate
+                    'rate' => $rate
                 );
             }
         }
@@ -254,29 +256,28 @@ abstract class AbstractAction
         $this->_emptyTable($table);
 
         $websiteExpression = $write->getCheckSql('tp.website_id = 0', 'ROUND(tp.value * cwd.rate, 4)', 'tp.value');
-        $select = $write->select()
-            ->from(
-                array('tp' => $this->_getTable(array('catalog_product_entity', 'tier_price'))),
-                array('entity_id')
-            )
-            ->join(
-                array('cg' => $this->_getTable('customer_group')),
-                'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id')
-            )
-            ->join(
-                array('cw' => $this->_getTable('core_website')),
-                'tp.website_id = 0 OR tp.website_id = cw.website_id',
-                array('website_id')
-            )
-            ->join(
-                array('cwd' => $this->_getTable('catalog_product_index_website')),
-                'cw.website_id = cwd.website_id',
-                array()
-            )
-            ->where('cw.website_id != 0')
-            ->columns(new \Zend_Db_Expr("MIN({$websiteExpression})"))
-            ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+        $select = $write->select()->from(
+            array('tp' => $this->_getTable(array('catalog_product_entity', 'tier_price'))),
+            array('entity_id')
+        )->join(
+            array('cg' => $this->_getTable('customer_group')),
+            'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->_getTable('core_website')),
+            'tp.website_id = 0 OR tp.website_id = cw.website_id',
+            array('website_id')
+        )->join(
+            array('cwd' => $this->_getTable('catalog_product_index_website')),
+            'cw.website_id = cwd.website_id',
+            array()
+        )->where(
+            'cw.website_id != 0'
+        )->columns(
+            new \Zend_Db_Expr("MIN({$websiteExpression})")
+        )->group(
+            array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id')
+        );
 
         if (!empty($entityIds)) {
             $select->where('tp.entity_id IN(?)', $entityIds);
@@ -301,29 +302,28 @@ abstract class AbstractAction
         $this->_emptyTable($table);
 
         $websiteExpression = $write->getCheckSql('gp.website_id = 0', 'ROUND(gp.value * cwd.rate, 4)', 'gp.value');
-        $select = $write->select()
-            ->from(
-                array('gp' => $this->_getTable(array('catalog_product_entity', 'group_price'))),
-                array('entity_id')
-            )
-            ->join(
-                array('cg' => $this->_getTable('customer_group')),
-                'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
-                array('customer_group_id')
-            )
-            ->join(
-                array('cw' => $this->_getTable('core_website')),
-                'gp.website_id = 0 OR gp.website_id = cw.website_id',
-                array('website_id')
-            )
-            ->join(
-                array('cwd' => $this->_getTable('catalog_product_index_website')),
-                'cw.website_id = cwd.website_id',
-                array()
-            )
-            ->where('cw.website_id != 0')
-            ->columns(new \Zend_Db_Expr("MIN({$websiteExpression})"))
-            ->group(array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+        $select = $write->select()->from(
+            array('gp' => $this->_getTable(array('catalog_product_entity', 'group_price'))),
+            array('entity_id')
+        )->join(
+            array('cg' => $this->_getTable('customer_group')),
+            'gp.all_groups = 1 OR (gp.all_groups = 0 AND gp.customer_group_id = cg.customer_group_id)',
+            array('customer_group_id')
+        )->join(
+            array('cw' => $this->_getTable('core_website')),
+            'gp.website_id = 0 OR gp.website_id = cw.website_id',
+            array('website_id')
+        )->join(
+            array('cwd' => $this->_getTable('catalog_product_index_website')),
+            'cw.website_id = cwd.website_id',
+            array()
+        )->where(
+            'cw.website_id != 0'
+        )->columns(
+            new \Zend_Db_Expr("MIN({$websiteExpression})")
+        )->group(
+            array('gp.entity_id', 'cg.customer_group_id', 'cw.website_id')
+        );
 
         if (!empty($entityIds)) {
             $select->where('gp.entity_id IN(?)', $entityIds);
@@ -346,14 +346,18 @@ abstract class AbstractAction
             $this->_indexers = array();
             $types = $this->_catalogProductType->getTypesByPriority();
             foreach ($types as $typeId => $typeInfo) {
-                $modelName = isset($typeInfo['price_indexer'])
-                    ? $typeInfo['price_indexer']
-                    : $this->_defaultPriceIndexer;
+                $modelName = isset(
+                    $typeInfo['price_indexer']
+                ) ? $typeInfo['price_indexer'] : $this->_defaultPriceIndexer;
 
                 $isComposite = !empty($typeInfo['composite']);
-                $indexer = $this->_indexerPriceFactory->create($modelName)
-                    ->setTypeId($typeId)
-                    ->setIsComposite($isComposite);
+                $indexer = $this->_indexerPriceFactory->create(
+                    $modelName
+                )->setTypeId(
+                    $typeId
+                )->setIsComposite(
+                    $isComposite
+                );
                 $this->_indexers[$typeId] = $indexer;
             }
         }
@@ -394,8 +398,12 @@ abstract class AbstractAction
         if ($where) {
             $select->where($where);
         }
-        $query = $connection->insertFromSelect($select, $destTable, $targetColumns,
-            \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE);
+        $query = $connection->insertFromSelect(
+            $select,
+            $destTable,
+            $targetColumns,
+            \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+        );
         $connection->query($query);
     }
 
@@ -448,16 +456,20 @@ abstract class AbstractAction
         $this->_emptyTable($this->_getIdxTable());
         $this->_prepareWebsiteDateTable();
 
-        $select = $this->_connection->select()
-            ->from($this->_getTable('catalog_product_entity'), array('entity_id', 'type_id'))
-            ->where('entity_id IN(?)', $changedIds);
-        $pairs  = $this->_connection->fetchPairs($select);
+        $select = $this->_connection->select()->from(
+            $this->_getTable('catalog_product_entity'),
+            array('entity_id', 'type_id')
+        )->where(
+            'entity_id IN(?)',
+            $changedIds
+        );
+        $pairs = $this->_connection->fetchPairs($select);
         $byType = array();
         foreach ($pairs as $productId => $productType) {
             $byType[$productType][$productId] = $productId;
         }
 
-        $compositeIds    = array();
+        $compositeIds = array();
         $notCompositeIds = array();
 
         foreach ($byType as $productType => $entityIds) {
@@ -470,18 +482,18 @@ abstract class AbstractAction
         }
 
         if (!empty($notCompositeIds)) {
-            $select = $this->_connection->select()
-                ->from(
-                    array('l' => $this->_getTable('catalog_product_relation')),
-                    'parent_id'
-                )
-                ->join(
-                    array('e' => $this->_getTable('catalog_product_entity')),
-                    'e.entity_id = l.parent_id',
-                    array('type_id')
-                )
-                ->where('l.child_id IN(?)', $notCompositeIds);
-            $pairs  = $this->_connection->fetchPairs($select);
+            $select = $this->_connection->select()->from(
+                array('l' => $this->_getTable('catalog_product_relation')),
+                'parent_id'
+            )->join(
+                array('e' => $this->_getTable('catalog_product_entity')),
+                'e.entity_id = l.parent_id',
+                array('type_id')
+            )->where(
+                'l.child_id IN(?)',
+                $notCompositeIds
+            );
+            $pairs = $this->_connection->fetchPairs($select);
             foreach ($pairs as $productId => $productType) {
                 if (!in_array($productId, $changedIds)) {
                     $changedIds[] = $productId;
@@ -517,10 +529,14 @@ abstract class AbstractAction
      */
     protected function _copyRelationIndexData($parentIds, $excludeIds = null)
     {
-        $write  = $this->_connection;
-        $select = $write->select()
-            ->from($this->_getTable('catalog_product_relation'), array('child_id'))
-            ->where('parent_id IN(?)', $parentIds);
+        $write = $this->_connection;
+        $select = $write->select()->from(
+            $this->_getTable('catalog_product_relation'),
+            array('child_id')
+        )->where(
+            'parent_id IN(?)',
+            $parentIds
+        );
         if (!empty($excludeIds)) {
             $select->where('child_id NOT IN(?)', $excludeIds);
         }
@@ -528,10 +544,13 @@ abstract class AbstractAction
         $children = $write->fetchCol($select);
 
         if ($children) {
-            $select = $write->select()
-                ->from($this->_getTable('catalog_product_index_price'))
-                ->where('entity_id IN(?)', $children);
-            $query  = $select->insertFromSelect($this->_getIdxTable(), array(), false);
+            $select = $write->select()->from(
+                $this->_getTable('catalog_product_index_price')
+            )->where(
+                'entity_id IN(?)',
+                $children
+            );
+            $query = $select->insertFromSelect($this->_getIdxTable(), array(), false);
             $write->query($query);
         }
 

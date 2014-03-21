@@ -19,12 +19,15 @@ namespace Magento\Invitation\Model;
 class Config
 {
     const XML_PATH_ENABLED = 'magento_invitation/general/enabled';
+
     const XML_PATH_ENABLED_ON_FRONT = 'magento_invitation/general/enabled_on_front';
 
     const XML_PATH_USE_INVITATION_MESSAGE = 'magento_invitation/general/allow_customer_message';
+
     const XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND = 'magento_invitation/general/max_invitation_amount_per_send';
 
     const XML_PATH_REGISTRATION_REQUIRED_INVITATION = 'magento_invitation/general/registration_required_invitation';
+
     const XML_PATH_REGISTRATION_USE_INVITER_GROUP = 'magento_invitation/general/registration_use_inviter_group';
 
     /**
@@ -37,9 +40,8 @@ class Config
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
-    public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig
-    ) {
+    public function __construct(\Magento\Core\Model\Store\Config $coreStoreConfig)
+    {
         $this->_coreStoreConfig = $coreStoreConfig;
     }
 
@@ -52,7 +54,7 @@ class Config
     public function getMaxInvitationsPerSend($storeId = null)
     {
         $max = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, $storeId);
-        return ($max < 1 ? 1 : $max);
+        return $max < 1 ? 1 : $max;
     }
 
     /**
@@ -85,7 +87,7 @@ class Config
      */
     public function isInvitationMessageAllowed($storeId = null)
     {
-        return (bool) $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
+        return (bool)$this->_coreStoreConfig->getConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE, $storeId);
     }
 
     /**

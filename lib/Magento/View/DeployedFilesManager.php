@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View;
 
 /**
@@ -56,8 +55,7 @@ class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
      */
     public static function buildDeployedFilePath($area, $themePath, $file, $module = null)
     {
-        return $area . '/' . $themePath . '/'
-            . ($module ? $module . '/' : '') . $file;
+        return $area . '/' . $themePath . '/' . ($module ? $module . '/' : '') . $file;
     }
 
     /**
@@ -76,9 +74,7 @@ class DeployedFilesManager implements \Magento\View\PublicFilesManagerInterface
             $themePath = $themeModel->getThemePath();
             $themeModel = $themeModel->getParentTheme();
         }
-        $subPath = self::buildDeployedFilePath(
-            $params['area'], $themePath, $filePath, $params['module']
-        );
+        $subPath = self::buildDeployedFilePath($params['area'], $themePath, $filePath, $params['module']);
         $deployedFilePath = $this->_viewService->getPublicDir() . '/' . $subPath;
 
         return $deployedFilePath;

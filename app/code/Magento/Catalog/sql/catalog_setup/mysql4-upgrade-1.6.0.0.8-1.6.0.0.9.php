@@ -35,7 +35,7 @@ $memoryTables = array(
     'catalog_product_index_price_final_tmp',
     'catalog_product_index_price_opt_agr_tmp',
     'catalog_product_index_price_opt_tmp',
-    'catalog_product_index_price_tmp',
+    'catalog_product_index_price_tmp'
 );
 
 foreach ($memoryTables as $table) {

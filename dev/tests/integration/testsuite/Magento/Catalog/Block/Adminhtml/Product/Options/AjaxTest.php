@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Adminhtml\Product\Options;
 
 /**
@@ -24,8 +23,11 @@ class AjaxTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Options\Ajax');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\Catalog\Block\Adminhtml\Product\Options\Ajax'
+        );
     }
 
     public function testToHtmlWithoutProducts()

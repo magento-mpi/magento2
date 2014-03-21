@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Helper;
 
 use Magento\App\Helper\Context;
-use \Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\Customer\Model\Session;
 
 /**
@@ -36,11 +35,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param Session $customerSession
      * @param ConfigInterface $config
      */
-    public function __construct(
-        Context $context,
-        Session $customerSession,
-        ConfigInterface $config
-    ) {
+    public function __construct(Context $context, Session $customerSession, ConfigInterface $config)
+    {
         $this->customerSession = $customerSession;
         $this->config = $config;
         parent::__construct($context);
@@ -93,7 +89,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $customerGroupId
         );
     }
-
 
     /**
      * Retrieve config value for catalog search availability

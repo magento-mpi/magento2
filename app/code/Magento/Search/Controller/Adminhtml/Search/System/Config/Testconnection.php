@@ -9,15 +9,15 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
- /**
+/**
  * Admin search test connection controller
  *
  * @category    Magento
  * @package     Magento_Search
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-use Magento\Backend\App\Action,
-    Magento\App\Filesystem;
+use Magento\Backend\App\Action;
+use Magento\App\Filesystem;
 
 class Testconnection extends \Magento\Backend\App\Action
 {
@@ -43,12 +43,16 @@ class Testconnection extends \Magento\Backend\App\Action
      */
     public function pingAction()
     {
-        if (!isset($_REQUEST['host']) || !($host = $_REQUEST['host'])
-            || !isset($_REQUEST['port']) || !($port = (int)$_REQUEST['port'])
-            || !isset($_REQUEST['path']) || !($path = $_REQUEST['path'])
+        if (!isset(
+            $_REQUEST['host']
+        ) || !($host = $_REQUEST['host']) || !isset(
+            $_REQUEST['port']
+        ) || !($port = (int)$_REQUEST['port']) || !isset(
+            $_REQUEST['path']
+        ) || !($path = $_REQUEST['path'])
         ) {
             echo 0;
-            die;
+            exit;
         }
 
         $path = $host . ':' . $port . '/' . $path . '/admin/ping';
@@ -63,17 +67,10 @@ class Testconnection extends \Magento\Backend\App\Action
             $timeout = 0;
         }
 
-        $context = stream_context_create(
-            array(
-                'http' => array(
-                    'method' => 'HEAD',
-                    'timeout' => $timeout
-                )
-            )
-        );
+        $context = stream_context_create(array('http' => array('method' => 'HEAD', 'timeout' => $timeout)));
 
         // attempt a HEAD request to the solr ping page
-        $ping = $httpResource->readFile($path, null, $context);
+        $ping = $httpResource->readAll();
 
         // result is false if there was a timeout
         // or if the HTTP status was not 200

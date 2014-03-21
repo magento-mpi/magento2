@@ -33,8 +33,9 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
             return $orphanCurrency;
         }
         if (!isset($this->_websiteBaseCurrencyCodes[$websiteId])) {
-            $this->_websiteBaseCurrencyCodes[$websiteId] = $this->_storeManager->getWebsite($websiteId)
-                ->getBaseCurrencyCode();
+            $this->_websiteBaseCurrencyCodes[$websiteId] = $this->_storeManager->getWebsite(
+                $websiteId
+            )->getBaseCurrencyCode();
         }
         return $this->_websiteBaseCurrencyCodes[$websiteId];
     }

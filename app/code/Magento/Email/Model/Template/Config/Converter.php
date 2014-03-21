@@ -31,7 +31,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 'label' => $templateLabel,
                 'file' => $templateFile,
                 'type' => $templateType,
-                'module' => $templateModule,
+                'module' => $templateModule
             );
         }
         return $result;

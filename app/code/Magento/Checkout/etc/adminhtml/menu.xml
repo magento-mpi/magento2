@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
     <menu>
         <add id="Magento_Checkout::sales_checkoutagreement" title="Terms and Conditions" module="Magento_Checkout" sortOrder="30" parent="Magento_Backend::stores_settings" action="checkout/agreement/" resource="Magento_Checkout::checkoutagreement"/>
     </menu>

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/product_options.xsd">
     <option name="text" label="Text" renderer="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Text">
         <inputType name="field" label="Field" />
         <inputType name="area"  label="Area" />

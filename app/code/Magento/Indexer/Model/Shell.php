@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model;
 
 class Shell extends \Magento\App\AbstractShell
@@ -139,7 +138,7 @@ class Shell extends \Magento\App\AbstractShell
 
         foreach ($indexers as $indexer) {
             try {
-                $indexer->$method();
+                $indexer->{$method}();
                 echo $indexer->getTitle() . " indexer was successfully changed index mode" . PHP_EOL;
             } catch (\Magento\Core\Exception $e) {
                 echo $e->getMessage() . PHP_EOL;

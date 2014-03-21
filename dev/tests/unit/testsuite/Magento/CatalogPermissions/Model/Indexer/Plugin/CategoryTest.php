@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use \Magento\CatalogPermissions\Model\Permission;
-use \Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row as PermissionsRow;
+use Magento\CatalogPermissions\Model\Permission;
+use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row as PermissionsRow;
 
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,15 +58,21 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->appConfigMock = $this->getMock(
-            'Magento\CatalogPermissions\App\Backend\Config', array('isEnabled'), array(), '', false
+            'Magento\CatalogPermissions\App\Backend\Config',
+            array('isEnabled'),
+            array(),
+            '',
+            false
         );
 
-        $this->authorizationMock = $this->getMock(
-            'Magento\Authorization', array('isAllowed'), array(), '', false
-        );
+        $this->authorizationMock = $this->getMock('Magento\Authorization', array('isAllowed'), array(), '', false);
 
         $this->permissionFactoryMock = $this->getMock(
-            'Magento\CatalogPermissions\Model\PermissionFactory', array('create'), array(), '', false
+            'Magento\CatalogPermissions\Model\PermissionFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
 
         $this->permissionMock = $this->getMock(
@@ -87,26 +93,31 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterSaveNotAllowed()
     {
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
-        $this->authorizationMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
-            ->will($this->returnValue(false));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
+        $this->authorizationMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'Magento_CatalogPermissions::catalog_magento_catalogpermissions'
+        )->will(
+            $this->returnValue(false)
+        );
 
         $categoryMock = $this->getCategory();
-        $categoryMock->expects($this->never())
-            ->method('hasData');
+        $categoryMock->expects($this->never())->method('hasData');
         $this->prepareIndexer();
-        $this->indexerMock->expects($this->once())
-            ->method('isScheduled')
-            ->will($this->returnValue(false));
+        $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
 
-        $this->indexerMock->expects($this->once())
-            ->method('reindexRow')
-            ->with($this->categoryId)
-            ->will($this->returnSelf());
+        $this->indexerMock->expects(
+            $this->once()
+        )->method(
+            'reindexRow'
+        )->with(
+            $this->categoryId
+        )->will(
+            $this->returnSelf()
+        );
 
         $this->category->afterSave($categoryMock);
     }
@@ -114,41 +125,41 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testAfterSaveAllowed()
     {
         $categoryMock = $this->getCategory();
-        $categoryMock->expects($this->once())
-            ->method('hasData')
-            ->with('permissions')
-            ->will($this->returnValue(true));
+        $categoryMock->expects($this->once())->method('hasData')->with('permissions')->will($this->returnValue(true));
 
-        $categoryMock->expects($this->exactly(2))
-            ->method('getData')
-            ->with('permissions')
-            ->will($this->returnValue($this->getPermissionData(0)));
+        $categoryMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getData'
+        )->with(
+            'permissions'
+        )->will(
+            $this->returnValue($this->getPermissionData(0))
+        );
 
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
-        $this->authorizationMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
-            ->will($this->returnValue(true));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
+        $this->authorizationMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'Magento_CatalogPermissions::catalog_magento_catalogpermissions'
+        )->will(
+            $this->returnValue(true)
+        );
 
-        $this->permissionMock->expects($this->once())
-            ->method('load')
-            ->with(1)
-            ->will($this->returnSelf());
-        $this->permissionMock->expects($this->once())
-            ->method('addData')
-            ->will($this->returnSelf());
-        $this->permissionMock->expects($this->once())
-            ->method('setCategoryId')
-            ->will($this->returnSelf());
-        $this->permissionMock->expects($this->once())
-            ->method('save')
-            ->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('load')->with(1)->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('addData')->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('setCategoryId')->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('save')->will($this->returnSelf());
 
-        $this->permissionFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->permissionMock));
+        $this->permissionFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->permissionMock)
+        );
 
         $this->category->afterSave($categoryMock);
     }
@@ -156,39 +167,41 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testAfterSaveAllowedWithoutLoad()
     {
         $categoryMock = $this->getCategory();
-        $categoryMock->expects($this->once())
-            ->method('hasData')
-            ->with('permissions')
-            ->will($this->returnValue(true));
+        $categoryMock->expects($this->once())->method('hasData')->with('permissions')->will($this->returnValue(true));
 
-        $categoryMock->expects($this->exactly(2))
-            ->method('getData')
-            ->with('permissions')
-            ->will($this->returnValue($this->getPermissionData(1)));
+        $categoryMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getData'
+        )->with(
+            'permissions'
+        )->will(
+            $this->returnValue($this->getPermissionData(1))
+        );
 
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
-        $this->authorizationMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
-            ->will($this->returnValue(true));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
+        $this->authorizationMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'Magento_CatalogPermissions::catalog_magento_catalogpermissions'
+        )->will(
+            $this->returnValue(true)
+        );
 
-        $this->permissionMock->expects($this->never())
-            ->method('load');
-        $this->permissionMock->expects($this->once())
-            ->method('addData')
-            ->will($this->returnSelf());
-        $this->permissionMock->expects($this->once())
-            ->method('setCategoryId')
-            ->will($this->returnSelf());
-        $this->permissionMock->expects($this->once())
-            ->method('save')
-            ->will($this->returnSelf());
+        $this->permissionMock->expects($this->never())->method('load');
+        $this->permissionMock->expects($this->once())->method('addData')->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('setCategoryId')->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('save')->will($this->returnSelf());
 
-        $this->permissionFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->permissionMock));
+        $this->permissionFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->permissionMock)
+        );
 
         $this->category->afterSave($categoryMock);
     }
@@ -196,62 +209,58 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     public function testAfterSaveAllowedDeletePermission()
     {
         $categoryMock = $this->getCategory();
-        $categoryMock->expects($this->once())
-            ->method('hasData')
-            ->with('permissions')
-            ->will($this->returnValue(true));
+        $categoryMock->expects($this->once())->method('hasData')->with('permissions')->will($this->returnValue(true));
 
-        $categoryMock->expects($this->exactly(2))
-            ->method('getData')
-            ->with('permissions')
-            ->will($this->returnValue($this->getPermissionData(2)));
+        $categoryMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getData'
+        )->with(
+            'permissions'
+        )->will(
+            $this->returnValue($this->getPermissionData(2))
+        );
 
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
-        $this->authorizationMock->expects($this->once())
-            ->method('isAllowed')
-            ->with('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
-            ->will($this->returnValue(true));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
+        $this->authorizationMock->expects(
+            $this->once()
+        )->method(
+            'isAllowed'
+        )->with(
+            'Magento_CatalogPermissions::catalog_magento_catalogpermissions'
+        )->will(
+            $this->returnValue(true)
+        );
 
-        $this->permissionMock->expects($this->once())
-            ->method('load')
-            ->with(1)
-            ->will($this->returnSelf());
-        $this->permissionMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->permissionMock->expects($this->once())
-            ->method('delete');
+        $this->permissionMock->expects($this->once())->method('load')->with(1)->will($this->returnSelf());
+        $this->permissionMock->expects($this->once())->method('getId')->will($this->returnValue(1));
+        $this->permissionMock->expects($this->once())->method('delete');
 
-        $this->permissionMock->expects($this->never())
-            ->method('addData')
-            ->will($this->returnSelf());
+        $this->permissionMock->expects($this->never())->method('addData')->will($this->returnSelf());
 
-        $this->permissionFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->permissionMock));
+        $this->permissionFactoryMock->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->will(
+            $this->returnValue($this->permissionMock)
+        );
 
         $this->category->afterSave($categoryMock);
     }
 
-
     protected function getPermissionData($index)
     {
         $data = array(
-            array(array(
-                'id' => 1,
-                'website_id' => PermissionsRow::FORM_SELECT_ALL_VALUES,
-                'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES,
-            )),
-            array(array(
-                'website_id' => 1,
-                'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES,
-            )),
-            array(array(
-                'id' => 1,
-                '_deleted' => true,
-            )),
+            array(
+                array(
+                    'id' => 1,
+                    'website_id' => PermissionsRow::FORM_SELECT_ALL_VALUES,
+                    'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES
+                )
+            ),
+            array(array('website_id' => 1, 'customer_group_id' => PermissionsRow::FORM_SELECT_ALL_VALUES)),
+            array(array('id' => 1, '_deleted' => true))
         );
 
         return $data[$index];
@@ -261,35 +270,30 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $parentId = 15;
         $categoryMock = $this->getCategory();
-        $categoryMock->expects($this->once())
-            ->method('getParentId')
-            ->will($this->returnValue($parentId));
+        $categoryMock->expects($this->once())->method('getParentId')->will($this->returnValue($parentId));
         $closure = function () {
             return 'Expected';
         };
-        $this->appConfigMock->expects($this->once())
-            ->method('isEnabled')
-            ->will($this->returnValue(true));
+        $this->appConfigMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
         $this->prepareIndexer();
-        $this->indexerMock->expects($this->once())
-            ->method('isScheduled')
-            ->will($this->returnValue(false));
-        $this->indexerMock->expects($this->once())
-            ->method('reindexList')
-            ->with(array($this->categoryId, $parentId));
+        $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
+        $this->indexerMock->expects($this->once())->method('reindexList')->with(array($this->categoryId, $parentId));
 
         $this->category->aroundMove($categoryMock, $closure, 0, 0);
     }
 
     protected function prepareIndexer()
     {
-        $this->indexerMock->expects($this->exactly(2))
-            ->method('getId')
-            ->will($this->returnValue(0));
-        $this->indexerMock->expects($this->exactly(2))
-            ->method('load')
-            ->with(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID)
-            ->will($this->returnSelf());
+        $this->indexerMock->expects($this->exactly(2))->method('getId')->will($this->returnValue(0));
+        $this->indexerMock->expects(
+            $this->exactly(2)
+        )->method(
+            'load'
+        )->with(
+            \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID
+        )->will(
+            $this->returnSelf()
+        );
     }
 
     /**
@@ -304,9 +308,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $categoryMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($this->categoryId));
+        $categoryMock->expects($this->any())->method('getId')->will($this->returnValue($this->categoryId));
         return $categoryMock;
     }
 }

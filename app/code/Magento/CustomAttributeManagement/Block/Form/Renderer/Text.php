@@ -36,8 +36,8 @@ class Text extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      */
     protected function _getValidateClasses($withRequired = true)
     {
-        $classes    = parent::_getValidateClasses($withRequired);
-        $rules      = $this->getAttributeObject()->getValidateRules();
+        $classes = parent::_getValidateClasses($withRequired);
+        $rules = $this->getAttributeObject()->getValidateRules();
         if (!empty($rules['min_text_length'])) {
             $classes[] = 'validate-length';
             $classes[] = 'minimum-length-' . $rules['min_text_length'];

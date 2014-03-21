@@ -43,19 +43,9 @@ class IndexerConfigData
 
         if (!$this->config->isEnabled()) {
             // Process Category indexer data
-            $this->processData(
-                \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
-                $path,
-                $default,
-                $data
-            );
+            $this->processData(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID, $path, $default, $data);
             // Process Product indexer data
-            $this->processData(
-                \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID,
-                $path,
-                $default,
-                $data
-            );
+            $this->processData(\Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID, $path, $default, $data);
         }
 
         return $data;

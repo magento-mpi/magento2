@@ -38,7 +38,6 @@ class View extends \Magento\App\View
         parent::__construct($layout, $request, $response, $configScope, $eventManager, $translateInline, $actionFlag);
     }
 
-
     /**
      * {@inheritdoc}
      */

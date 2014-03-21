@@ -41,14 +41,20 @@ class LogTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->reportEventMock = $this->getMock(
-            'Magento\Reports\Model\Event', array(), array(), '', false
-        );
+        $this->reportEventMock = $this->getMock('Magento\Reports\Model\Event', array(), array(), '', false);
         $this->cmpProductIdxMock = $this->getMock(
-            'Magento\Reports\Model\Product\Index\Compared', array(), array(), '', false
+            'Magento\Reports\Model\Product\Index\Compared',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->viewProductIdxMock = $this->getMock(
-            'Magento\Reports\Model\Product\Index\Viewed', array(), array(), '', false
+            'Magento\Reports\Model\Product\Index\Viewed',
+            array(),
+            array(),
+            '',
+            false
         );
 
         $this->logResourceMock = $this->getMock('Magento\Log\Model\Resource\Log', array(), array(), '', false);
@@ -66,16 +72,15 @@ class LogTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterClean()
     {
-        $this->reportEventMock->expects($this->once())
-            ->method('clean');
+        $this->reportEventMock->expects($this->once())->method('clean');
 
-        $this->cmpProductIdxMock->expects($this->once())
-            ->method('clean');
+        $this->cmpProductIdxMock->expects($this->once())->method('clean');
 
-        $this->viewProductIdxMock->expects($this->once())
-            ->method('clean');
+        $this->viewProductIdxMock->expects($this->once())->method('clean');
 
-        $this->assertEquals($this->logResourceMock,
-            $this->model->afterClean($this->subjectMock, $this->logResourceMock));
+        $this->assertEquals(
+            $this->logResourceMock,
+            $this->model->afterClean($this->subjectMock, $this->logResourceMock)
+        );
     }
 }

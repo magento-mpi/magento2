@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Stdlib;
 
 /**
@@ -20,10 +19,13 @@ class DateTime
      * Date format, used as default. Compatible with \Zend_Date
      */
     const DATETIME_INTERNAL_FORMAT = 'yyyy-MM-dd HH:mm:ss';
-    const DATE_INTERNAL_FORMAT     = 'yyyy-MM-dd';
 
-    const DATETIME_PHP_FORMAT       = 'Y-m-d H:i:s';
-    const DATE_PHP_FORMAT           = 'Y-m-d';
+    const DATE_INTERNAL_FORMAT = 'yyyy-MM-dd';
+
+    const DATETIME_PHP_FORMAT = 'Y-m-d H:i:s';
+
+    const DATE_PHP_FORMAT = 'Y-m-d';
+
     /**#@-*/
 
     /**

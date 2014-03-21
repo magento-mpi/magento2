@@ -12,7 +12,6 @@
  * System cache model
  * support id and tags prefix support,
  */
-
 namespace Magento\App;
 
 class Cache implements CacheInterface

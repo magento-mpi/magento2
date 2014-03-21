@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Create;
 
 /**
@@ -27,8 +26,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $layout->getUpdate()->addHandle('adminhtml_rma_chooseorder')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('rma_create_order');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea('adminhtml');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setArea(
+            'adminhtml'
+        );
         $this->assertContains('<div id="magento_rma_rma_create_order_grid">', $layout->getOutput());
     }
 }

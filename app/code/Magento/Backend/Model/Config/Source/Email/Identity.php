@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Model\Config\Source\Email;
 
 class Identity implements \Magento\Option\ArrayInterface

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action;
 
 class UrlBuilder

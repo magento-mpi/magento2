@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Config\Structure\Search;
 
-class Proxy
-    implements \Magento\Backend\Model\Config\Structure\SearchInterface
+class Proxy implements \Magento\Backend\Model\Config\Structure\SearchInterface
 {
     /**
      * Object manager

@@ -26,7 +26,7 @@ class Status
     public function getOptions()
     {
         return array(
-            \Magento\Invitation\Model\Invitation::STATUS_NEW  => __('Not Sent'),
+            \Magento\Invitation\Model\Invitation::STATUS_NEW => __('Not Sent'),
             \Magento\Invitation\Model\Invitation::STATUS_SENT => __('Sent'),
             \Magento\Invitation\Model\Invitation::STATUS_ACCEPTED => __('Accepted'),
             \Magento\Invitation\Model\Invitation::STATUS_CANCELED => __('Discarded')
@@ -47,7 +47,7 @@ class Status
         if ($useEmpty) {
             $result[] = array('value' => '', 'label' => '');
         }
-        foreach ($this->getOptions() as $value=>$label) {
+        foreach ($this->getOptions() as $value => $label) {
             $result[] = array('value' => $value, 'label' => $label);
         }
 

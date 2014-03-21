@@ -28,9 +28,8 @@ class Builder
     /**
      * @param \Magento\Backend\Model\Menu\Item\Factory $menuItemFactory
      */
-    public function __construct(
-        \Magento\Backend\Model\Menu\Item\Factory $menuItemFactory
-    ) {
+    public function __construct(\Magento\Backend\Model\Menu\Item\Factory $menuItemFactory)
+    {
         $this->_itemFactory = $menuItemFactory;
     }
 

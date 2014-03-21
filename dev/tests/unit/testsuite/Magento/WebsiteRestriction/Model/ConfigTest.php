@@ -38,7 +38,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock(
             'Magento\WebsiteRestriction\Model\Config\Reader',
-            array(), array(), '', false
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_configScopeMock = $this->getMock('Magento\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Config\CacheInterface');
@@ -68,7 +71,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'generic_key_exist' => array(array('generic' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' =>'value'), array()),
+            'return_default_value' => array(array('key_one' => 'value'), array())
         );
     }
 
@@ -86,44 +89,80 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'register_key_exist' => array(array('register' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' =>'value'), array()),
+            'return_default_value' => array(array('key_one' => 'value'), array())
         );
     }
 
     public function testIsRestrictionEnabled()
     {
         $store = null;
-        $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/is_active', $store)->will($this->returnValue(false));
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'getConfig'
+        )->with(
+            'general/restriction/is_active',
+            $store
+        )->will(
+            $this->returnValue(false)
+        );
 
         $this->assertEquals(false, $this->_model->isRestrictionEnabled($store));
     }
 
     public function testGetMode()
     {
-        $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/mode')->will($this->returnValue(false));
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'getConfig'
+        )->with(
+            'general/restriction/mode'
+        )->will(
+            $this->returnValue(false)
+        );
         $this->assertEquals(0, $this->_model->getMode());
     }
 
     public function testGetHTTPStatusCode()
     {
-        $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/http_status')->will($this->returnValue(false));
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'getConfig'
+        )->with(
+            'general/restriction/http_status'
+        )->will(
+            $this->returnValue(false)
+        );
         $this->assertEquals(0, $this->_model->getHTTPStatusCode());
     }
 
     public function testGetHTTPRedirectCode()
     {
-        $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/http_redirect')->will($this->returnValue(true));
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'getConfig'
+        )->with(
+            'general/restriction/http_redirect'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertEquals(1, $this->_model->getHTTPRedirectCode());
     }
 
     public function testGetLandingPageCode()
     {
-        $this->_storeConfigMock->expects($this->once())
-            ->method('getConfig')->with('general/restriction/cms_page')->will($this->returnValue('config'));
+        $this->_storeConfigMock->expects(
+            $this->once()
+        )->method(
+            'getConfig'
+        )->with(
+            'general/restriction/cms_page'
+        )->will(
+            $this->returnValue('config')
+        );
         $this->assertEquals('config', $this->_model->getLandingPageCode());
     }
 }

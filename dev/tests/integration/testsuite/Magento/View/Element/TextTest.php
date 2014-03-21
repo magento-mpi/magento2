@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 class TextTest extends \PHPUnit_Framework_TestCase
@@ -18,8 +17,11 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Text');
+        $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        )->createBlock(
+            'Magento\View\Element\Text'
+        );
     }
 
     public function testSetGetText()

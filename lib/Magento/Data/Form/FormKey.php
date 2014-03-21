@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Data\Form;
 
 class FormKey
@@ -31,10 +30,8 @@ class FormKey
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Session\SessionManagerInterface $session
      */
-    public function __construct(
-        \Magento\Math\Random $mathRandom,
-        \Magento\Session\SessionManagerInterface $session
-    ) {
+    public function __construct(\Magento\Math\Random $mathRandom, \Magento\Session\SessionManagerInterface $session)
+    {
         $this->mathRandom = $mathRandom;
         $this->session = $session;
     }

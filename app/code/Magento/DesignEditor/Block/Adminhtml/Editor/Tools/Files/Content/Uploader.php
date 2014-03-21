@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
 
 /**
@@ -15,8 +14,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Uploader
-    extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Uploader
+class Uploader extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Uploader
 {
     /**
      * Path to uploader template

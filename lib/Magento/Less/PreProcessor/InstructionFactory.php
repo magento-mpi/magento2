@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Less\PreProcessor;
 
 /**
@@ -38,7 +37,7 @@ class InstructionFactory
      * @return \Magento\Less\PreProcessorInterface
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $data = [])
+    public function create($className, array $data = array())
     {
         $preProcessor = $this->objectManager->create($className, $data);
         if (!$preProcessor instanceof \Magento\Less\PreProcessorInterface) {

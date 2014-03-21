@@ -10,4 +10,4 @@
  */
 
 $scope = 'stores';
-include(__DIR__ . '/role_websites_login.php');
+include __DIR__ . '/role_websites_login.php';

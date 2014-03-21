@@ -72,7 +72,7 @@ class Stub extends \Magento\Cms\Block\Page
         $page = $this->getPage();
 
         if ($root = $this->getLayout()->getBlock('root')) {
-            $root->addBodyClass('cms-'.$page->getIdentifier());
+            $root->addBodyClass('cms-' . $page->getIdentifier());
         }
 
         if ($head = $this->getLayout()->getBlock('head')) {
@@ -84,7 +84,7 @@ class Stub extends \Magento\Cms\Block\Page
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {
             // Setting empty page title if content heading is absent
-            $cmsTitle = $page->getContentHeading() ? : ' ';
+            $cmsTitle = $page->getContentHeading() ?: ' ';
             $pageMainTitle->setPageTitle($this->escapeHtml($cmsTitle));
         }
     }

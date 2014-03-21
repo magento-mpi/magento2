@@ -11,8 +11,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Logging\Model;
 
 class Config
@@ -119,9 +117,14 @@ class Config
      */
     public function getActionLabel($action)
     {
-        if (isset($this->_xmlConfig['actions'])
-            && array_key_exists($action, $this->_xmlConfig['actions'])
-            && isset($this->_xmlConfig['actions'][$action]['label'])
+        if (isset(
+            $this->_xmlConfig['actions']
+        ) && array_key_exists(
+            $action,
+            $this->_xmlConfig['actions']
+        ) && isset(
+            $this->_xmlConfig['actions'][$action]['label']
+        )
         ) {
             return __($this->_xmlConfig['actions'][$action]['label']);
         }
@@ -158,7 +161,6 @@ class Config
         }
         return $this->_xmlConfig[$groupName];
     }
-
 
     /**
      * Load values from System Configuration

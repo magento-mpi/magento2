@@ -14,8 +14,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Grid\Renderer;
 
-class Details
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Details extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value
@@ -31,8 +30,7 @@ class Details
             $dataArray = unserialize($columnData);
             if (is_bool($dataArray)) {
                 $html = $dataArray ? 'true' : 'false';
-            }
-            elseif (is_array($dataArray)) {
+            } elseif (is_array($dataArray)) {
                 if (isset($dataArray['general'])) {
                     if (!is_array($dataArray['general'])) {
                         $dataArray['general'] = array($dataArray['general']);

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -17,10 +16,8 @@ class Notices extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\View\Element\Template\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
     }
 
@@ -32,6 +29,16 @@ class Notices extends \Magento\View\Element\Template
     public function displayNoscriptNotice()
     {
         return $this->_storeConfig->getConfig('web/browser_capabilities/javascript');
+    }
+
+    /**
+     * Check if no local storage notice should be displayed
+     *
+     * @return boolean
+     */
+    public function displayNoLocalStorageNotice()
+    {
+        return $this->_storeConfig->getConfig('web/browser_capabilities/local_storage');
     }
 
     /**

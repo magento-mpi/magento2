@@ -82,7 +82,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getAmountSettingsJson($product)
     {
-        $result = array('min'=>0, 'max'=>0);
+        $result = array('min' => 0, 'max' => 0);
         if ($product->getAllowOpenAmount()) {
             if ($v = $product->getOpenAmountMin()) {
                 $result['min'] = $v;
@@ -161,7 +161,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         if ($product->getUseConfigAllowMessage()) {
             return $this->_storeConfig->getConfigFlag(\Magento\GiftCard\Model\Giftcard::XML_PATH_ALLOW_MESSAGE);
         } else {
-            return (int) $product->getAllowMessage();
+            return (int)$product->getAllowMessage();
         }
     }
 
@@ -183,7 +183,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     public function getCustomerName()
     {
         $firstName = (string)$this->_customerSession->getCustomer()->getFirstname();
-        $lastName  = (string)$this->_customerSession->getCustomer()->getLastname();
+        $lastName = (string)$this->_customerSession->getCustomer()->getLastname();
 
         if ($firstName && $lastName) {
             return $firstName . ' ' . $lastName;
@@ -205,7 +205,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getMessageMaxLength()
     {
-        return (int) $this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
+        return (int)$this->_storeConfig->getConfig(\Magento\GiftCard\Model\Giftcard::XML_PATH_MESSAGE_MAX_LENGTH);
     }
 
     /**
@@ -216,7 +216,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getDefaultValue($key)
     {
-        return (string) $this->getProduct()->getPreconfiguredValues()->getData($key);
+        return (string)$this->getProduct()->getPreconfiguredValues()->getData($key);
     }
 
     /**

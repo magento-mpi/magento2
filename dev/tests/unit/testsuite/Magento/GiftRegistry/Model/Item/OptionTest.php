@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftRegistry\Model\Item;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
@@ -43,12 +42,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $product->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(3));
-        return array(
-            array($product, $product, 3),
-            array(null, null, null),
-        );
+        $product->expects($this->any())->method('getId')->will($this->returnValue(3));
+        return array(array($product, $product, 3), array(null, null, null));
     }
 }

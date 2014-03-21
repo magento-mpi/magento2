@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi;
 
 /**
@@ -99,7 +98,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     protected function _checkTypesDeclaration($wsdlContent)
     {
         // @codingStandardsIgnoreStart
-        $typesSectionDeclaration = <<< TYPES_SECTION_DECLARATION
+        $typesSectionDeclaration = <<<TYPES_SECTION_DECLARATION
 <types>
     <xsd:schema targetNamespace="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
 TYPES_SECTION_DECLARATION;
@@ -118,7 +117,7 @@ TYPES_SECTION_DECLARATION;
      */
     protected function _checkElementsDeclaration($wsdlContent)
     {
-        $requestElement = <<< REQUEST_ELEMENT
+        $requestElement = <<<REQUEST_ELEMENT
 <xsd:element name="testModule5AllSoapAndRestV1ItemRequest" type="tns:TestModule5AllSoapAndRestV1ItemRequest"/>
 REQUEST_ELEMENT;
         $this->assertContains(
@@ -126,7 +125,7 @@ REQUEST_ELEMENT;
             $wsdlContent,
             'Request element declaration in types section is invalid'
         );
-        $responseElement = <<< RESPONSE_ELEMENT
+        $responseElement = <<<RESPONSE_ELEMENT
 <xsd:element name="testModule5AllSoapAndRestV1ItemResponse" type="tns:TestModule5AllSoapAndRestV1ItemResponse"/>
 RESPONSE_ELEMENT;
         $this->assertContains(
@@ -142,7 +141,7 @@ RESPONSE_ELEMENT;
     protected function _checkComplexTypesDeclaration($wsdlContent)
     {
         // @codingStandardsIgnoreStart
-        $requestType = <<< REQUEST_TYPE
+        $requestType = <<<REQUEST_TYPE
 <xsd:complexType name="TestModule5AllSoapAndRestV1ItemRequest">
     <xsd:annotation>
         <xsd:documentation>Retrieve an item.</xsd:documentation>
@@ -172,7 +171,7 @@ REQUEST_TYPE;
             'Request type declaration in types section is invalid'
         );
         // @codingStandardsIgnoreStart
-        $responseType = <<< RESPONSE_TYPE
+        $responseType = <<<RESPONSE_TYPE
 <xsd:complexType name="TestModule5AllSoapAndRestV1ItemResponse">
     <xsd:annotation>
         <xsd:documentation>
@@ -212,7 +211,7 @@ RESPONSE_TYPE;
     protected function _checkReferencedTypeDeclaration($wsdlContent)
     {
         // @codingStandardsIgnoreStart
-        $referencedType = <<< RESPONSE_TYPE
+        $referencedType = <<<RESPONSE_TYPE
 <xsd:complexType name="TestModule5V1EntityAllSoapAndRest">
     <xsd:annotation>
         <xsd:documentation>Some Data Object short description. Data Object long multi line description.</xsd:documentation>
@@ -314,7 +313,7 @@ RESPONSE_TYPE;
      */
     protected function _checkPortTypeDeclaration($wsdlContent)
     {
-        $firstPortType = <<< FIRST_PORT_TYPE
+        $firstPortType = <<<FIRST_PORT_TYPE
 <portType name="testModule5AllSoapAndRestV1PortType">
 FIRST_PORT_TYPE;
         $this->assertContains(
@@ -322,7 +321,7 @@ FIRST_PORT_TYPE;
             $wsdlContent,
             'Port type declaration is missing or invalid'
         );
-        $secondPortType = <<< SECOND_PORT_TYPE
+        $secondPortType = <<<SECOND_PORT_TYPE
 <portType name="testModule5AllSoapAndRestV2PortType">
 SECOND_PORT_TYPE;
         $this->assertContains(
@@ -330,7 +329,7 @@ SECOND_PORT_TYPE;
             $wsdlContent,
             'Port type declaration is missing or invalid'
         );
-        $operationDeclaration = <<< OPERATION_DECLARATION
+        $operationDeclaration = <<<OPERATION_DECLARATION
 <operation name="testModule5AllSoapAndRestV2Item">
     <input message="tns:testModule5AllSoapAndRestV2ItemRequest"/>
     <output message="tns:testModule5AllSoapAndRestV2ItemResponse"/>
@@ -356,7 +355,7 @@ OPERATION_DECLARATION;
      */
     protected function _checkBindingDeclaration($wsdlContent)
     {
-        $firstBinding = <<< FIRST_BINDING
+        $firstBinding = <<<FIRST_BINDING
 <binding name="testModule5AllSoapAndRestV1Binding" type="tns:testModule5AllSoapAndRestV1PortType">
     <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 FIRST_BINDING;
@@ -365,7 +364,7 @@ FIRST_BINDING;
             $wsdlContent,
             'Binding declaration is missing or invalid'
         );
-        $secondBinding = <<< SECOND_BINDING
+        $secondBinding = <<<SECOND_BINDING
 <binding name="testModule5AllSoapAndRestV2Binding" type="tns:testModule5AllSoapAndRestV2PortType">
     <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 SECOND_BINDING;
@@ -374,7 +373,7 @@ SECOND_BINDING;
             $wsdlContent,
             'Binding declaration is missing or invalid'
         );
-        $operationDeclaration = <<< OPERATION_DECLARATION
+        $operationDeclaration = <<<OPERATION_DECLARATION
 <operation name="testModule5AllSoapAndRestV1Item">
     <soap:operation soapAction="testModule5AllSoapAndRestV1Item"/>
     <input>
@@ -415,7 +414,7 @@ OPERATION_DECLARATION;
     protected function _checkServiceDeclaration($wsdlContent)
     {
         // @codingStandardsIgnoreStart
-        $firstServiceDeclaration = <<< FIRST_SERVICE_DECLARATION
+        $firstServiceDeclaration = <<<FIRST_SERVICE_DECLARATION
 <service name="testModule5AllSoapAndRestV1Service">
     <port name="testModule5AllSoapAndRestV1Port" binding="tns:testModule5AllSoapAndRestV1Binding">
         <soap:address location="{$this->_baseUrl}/soap?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
@@ -430,7 +429,7 @@ FIRST_SERVICE_DECLARATION;
         );
 
         // @codingStandardsIgnoreStart
-        $secondServiceDeclaration = <<< SECOND_SERVICE_DECLARATION
+        $secondServiceDeclaration = <<<SECOND_SERVICE_DECLARATION
 <service name="testModule5AllSoapAndRestV2Service">
     <port name="testModule5AllSoapAndRestV2Port" binding="tns:testModule5AllSoapAndRestV2Binding">
         <soap:address location="{$this->_baseUrl}/soap?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
@@ -452,7 +451,7 @@ SECOND_SERVICE_DECLARATION;
      */
     protected function _checkMessagesDeclaration($wsdlContent)
     {
-        $itemMessagesDeclaration = <<< MESSAGES_DECLARATION
+        $itemMessagesDeclaration = <<<MESSAGES_DECLARATION
 <message name="testModule5AllSoapAndRestV2ItemRequest">
     <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemRequest"/>
 </message>
@@ -465,7 +464,7 @@ MESSAGES_DECLARATION;
             $wsdlContent,
             'Messages section for "item" operation is invalid'
         );
-        $itemsMessagesDeclaration = <<< MESSAGES_DECLARATION
+        $itemsMessagesDeclaration = <<<MESSAGES_DECLARATION
 <message name="testModule5AllSoapAndRestV2ItemsRequest">
     <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemsRequest"/>
 </message>
@@ -498,7 +497,7 @@ MESSAGES_DECLARATION;
      */
     protected function _checkFaultsPortTypeSection($wsdlContent)
     {
-        $faultsInPortType = <<< FAULT_IN_PORT_TYPE
+        $faultsInPortType = <<<FAULT_IN_PORT_TYPE
 <fault name="GenericFault" message="tns:GenericFault"/>
 FAULT_IN_PORT_TYPE;
         $this->assertContains(
@@ -513,7 +512,7 @@ FAULT_IN_PORT_TYPE;
      */
     protected function _checkFaultsBindingSection($wsdlContent)
     {
-        $faultsInBinding = <<< FAULT_IN_BINDING
+        $faultsInBinding = <<<FAULT_IN_BINDING
 <fault name="GenericFault">
     <soap12:fault use="literal" name="GenericFault"/>
 </fault>
@@ -530,7 +529,7 @@ FAULT_IN_BINDING;
      */
     protected function _checkFaultsMessagesSection($wsdlContent)
     {
-        $genericFaultMessage = <<< GENERIC_FAULT_IN_MESSAGES
+        $genericFaultMessage = <<<GENERIC_FAULT_IN_MESSAGES
 <message name="GenericFault">
     <part name="messageParameters" element="tns:GenericFault"/>
 </message>
@@ -554,7 +553,7 @@ GENERIC_FAULT_IN_MESSAGES;
         );
 
         // @codingStandardsIgnoreStart
-        $genericFaultType = <<< GENERIC_FAULT_COMPLEX_TYPE
+        $genericFaultType = <<<GENERIC_FAULT_COMPLEX_TYPE
 <xsd:complexType name="GenericFault">
     <xsd:sequence>
         <xsd:element name="Code" minOccurs="1" maxOccurs="1" type="xsd:int">
@@ -593,7 +592,7 @@ GENERIC_FAULT_COMPLEX_TYPE;
             'Default SOAP Fault complex types declaration is invalid'
         );
 
-        $detailsParameterType = <<< PARAM_COMPLEX_TYPE
+        $detailsParameterType = <<<PARAM_COMPLEX_TYPE
 <xsd:complexType name="GenericFaultParameter">
     <xsd:sequence>
         <xsd:element name="key" minOccurs="1" maxOccurs="1" type="xsd:string">
@@ -621,7 +620,7 @@ PARAM_COMPLEX_TYPE;
             'Details parameter complex types declaration is invalid.'
         );
 
-        $detailsParametersType = <<< PARAMETERS_COMPLEX_TYPE
+        $detailsParametersType = <<<PARAMETERS_COMPLEX_TYPE
 <xsd:complexType name="ArrayOfGenericFaultParameter">
     <xsd:annotation>
         <xsd:documentation>An array of GenericFaultParameter items.</xsd:documentation>

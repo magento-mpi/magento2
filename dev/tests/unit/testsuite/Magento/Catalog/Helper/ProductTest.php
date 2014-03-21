@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Catalog\Helper\Product
      */
@@ -18,10 +16,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $arguments = array('reindexPriceIndexerData' => array(
-            'byDataResult' => array('attribute'),
-            'byDataChange' => array('attribute')
-        ));
+        $arguments = array(
+            'reindexPriceIndexerData' => array(
+                'byDataResult' => array('attribute'),
+                'byDataChange' => array('attribute')
+            )
+        );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_productHelper = $objectManager->getObject('Magento\Catalog\Helper\Product', $arguments);
@@ -46,16 +46,26 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product1 = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()->getMock();
 
         $product2 = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()->getMock();
-        $product2->expects($this->once())
-            ->method('getData')
-            ->with($this->equalTo('attribute'))
-            ->will($this->returnValue(true));
+        $product2->expects(
+            $this->once()
+        )->method(
+            'getData'
+        )->with(
+            $this->equalTo('attribute')
+        )->will(
+            $this->returnValue(true)
+        );
 
         $product3 = $this->getMockBuilder('Magento\Catalog\Model\Product')->disableOriginalConstructor()->getMock();
-        $product3->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with($this->equalTo('attribute'))
-            ->will($this->returnValue(true));
+        $product3->expects(
+            $this->once()
+        )->method(
+            'dataHasChangedFor'
+        )->with(
+            $this->equalTo('attribute')
+        )->will(
+            $this->returnValue(true)
+        );
 
         return array(
             array($product1, false),

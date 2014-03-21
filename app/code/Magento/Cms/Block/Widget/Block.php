@@ -28,7 +28,7 @@ class Block extends \Magento\View\Element\Template implements \Magento\Widget\Bl
      *
      * @var array
      */
-    static protected $_widgetUsageMap = array();
+    protected static $_widgetUsageMap = array();
 
     /**
      * Block factory
@@ -75,8 +75,7 @@ class Block extends \Magento\View\Element\Template implements \Magento\Widget\Bl
             $storeId = $this->_storeManager->getStore()->getId();
             /** @var \Magento\Cms\Model\Block $block */
             $block = $this->_blockFactory->create();
-            $block->setStoreId($storeId)
-                ->load($blockId);
+            $block->setStoreId($storeId)->load($blockId);
             if ($block->getIsActive()) {
                 $this->setText(
                     $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent())

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
 class Js extends \Magento\Backend\Block\Template
@@ -53,9 +52,10 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadAttributesUrl()
     {
-        return $this->getUrl('adminhtml/*/loadAttributes', array(
-            'id' => $this->_coreRegistry->registry('current_rma')->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/loadAttributes',
+            array('id' => $this->_coreRegistry->registry('current_rma')->getId())
+        );
     }
 
     /**
@@ -65,9 +65,10 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadSplitLineUrl()
     {
-        return $this->getUrl('adminhtml/*/loadSplitLine', array(
-            'id' => $this->_coreRegistry->registry('current_rma')->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/loadSplitLine',
+            array('id' => $this->_coreRegistry->registry('current_rma')->getId())
+        );
     }
 
     /**
@@ -77,9 +78,10 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadShippingMethodsUrl()
     {
-        return $this->getUrl('adminhtml/*/showShippingMethods', array(
-            'id' => $this->_coreRegistry->registry('current_rma')->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/showShippingMethods',
+            array('id' => $this->_coreRegistry->registry('current_rma')->getId())
+        );
     }
 
     /**
@@ -89,8 +91,6 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadPslUrl()
     {
-        return $this->getUrl('adminhtml/*/psl', array(
-            'id' => $this->_coreRegistry->registry('current_rma')->getId()
-        ));
+        return $this->getUrl('adminhtml/*/psl', array('id' => $this->_coreRegistry->registry('current_rma')->getId()));
     }
 }

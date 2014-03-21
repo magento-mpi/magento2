@@ -17,8 +17,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Psigate;
 
-class Basic
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Basic extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Psigate payment code

@@ -23,7 +23,9 @@ class Search implements \Magento\Option\ArrayInterface
      * Quick search form types
      */
     const WISHLIST_SEARCH_DISPLAY_ALL_FORMS = 'all';
+
     const WISHLIST_SEARCH_DISPLAY_NAME_FORM = 'name';
+
     const WISHLIST_SEARCH_DISPLAY_EMAIL_FORM = 'email';
 
     /**

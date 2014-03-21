@@ -69,9 +69,13 @@ class Plugin
         if ($variationProducts) {
             $validationResult = $this->_validateProductVariations($product, $variationProducts, $request);
             if (!empty($validationResult)) {
-                $response->setError(true)
-                    ->setMessage(__('Some product variations fields are not valid.'))
-                    ->setAttributes($validationResult);
+                $response->setError(
+                    true
+                )->setMessage(
+                    __('Some product variations fields are not valid.')
+                )->setAttributes(
+                    $validationResult
+                );
             }
         }
         return $result;
@@ -103,7 +107,7 @@ class Plugin
             $product->setAttributeSetId($parentProduct->getAttributeSetId());
             $product->addData($productData);
             $product->setCollectExceptionMessages(true);
-            $configurableAttribute = $this->coreHelper ->jsonDecode($productData['configurable_attribute']);
+            $configurableAttribute = $this->coreHelper->jsonDecode($productData['configurable_attribute']);
             $configurableAttribute = implode('-', $configurableAttribute);
 
             $errorAttributes = $product->validate();

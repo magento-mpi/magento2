@@ -88,8 +88,12 @@ class Session extends \Magento\Downloader\Model
         }
 
         try {
-            if ( (isset($_POST['username']) && empty($_POST['username']))
-                || (isset($_POST['password']) && empty($_POST['password']))) {
+            if (isset(
+                $_POST['username']
+            ) && empty($_POST['username']) || isset(
+                $_POST['password']
+            ) && empty($_POST['password'])
+            ) {
                 $this->addMessage('error', 'Invalid user name or password');
             }
             if (empty($_POST['username']) || empty($_POST['password'])) {
@@ -105,11 +109,7 @@ class Session extends \Magento\Downloader\Model
             $this->addMessage('error', $e->getMessage());
         }
 
-        $this->controller()
-            ->redirect(
-                $this->controller()->url('loggedin'),
-                true
-        );
+        $this->controller()->redirect($this->controller()->url('loggedin'), true);
     }
 
     /**
@@ -123,7 +123,7 @@ class Session extends \Magento\Downloader\Model
         if ($user && !$user->getId()) {
             $this->addMessage('error', 'Invalid user name or password');
             $this->controller()->setAction('login');
-        } elseif ($this->getUserId() || ($user && $user->getId())) {
+        } elseif ($this->getUserId() || $user && $user->getId()) {
             if (\Mage::getSingleton('Magento\AuthorizationInterface')->isAllowed('Magento_Adminhtml::all')) {
                 return true;
             } else {

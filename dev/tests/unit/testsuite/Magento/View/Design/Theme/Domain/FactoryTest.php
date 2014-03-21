@@ -22,17 +22,27 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup', 'getType'), array(), '', false);
-        $themeMock->expects($this->any())
-            ->method('getType')
-            ->will($this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL));
+        $themeMock->expects(
+            $this->any()
+        )->method(
+            'getType'
+        )->will(
+            $this->returnValue(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
+        );
 
         $newThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
 
         $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
-        $objectManager->expects($this->once())
-            ->method('create')
-            ->with('Magento\View\Design\Theme\Domain\VirtualInterface', array('theme' => $themeMock))
-            ->will($this->returnValue($newThemeMock));
+        $objectManager->expects(
+            $this->once()
+        )->method(
+            'create'
+        )->with(
+            'Magento\View\Design\Theme\Domain\VirtualInterface',
+            array('theme' => $themeMock)
+        )->will(
+            $this->returnValue($newThemeMock)
+        );
 
         $themeDomainFactory = new \Magento\View\Design\Theme\Domain\Factory($objectManager);
         $this->assertEquals($newThemeMock, $themeDomainFactory->create($themeMock));
@@ -45,9 +55,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $wrongThemeType = 'wrong_theme_type';
         $themeMock = $this->getMock('Magento\Core\Model\Theme', array('__wakeup', 'getType'), array(), '', false);
-        $themeMock->expects($this->any())
-            ->method('getType')
-            ->will($this->returnValue($wrongThemeType));
+        $themeMock->expects($this->any())->method('getType')->will($this->returnValue($wrongThemeType));
 
         $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
 

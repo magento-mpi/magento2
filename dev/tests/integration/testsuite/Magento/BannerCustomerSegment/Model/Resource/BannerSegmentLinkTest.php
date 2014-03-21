@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\BannerCustomerSegment\Model\Resource;
 
 class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
@@ -50,13 +49,13 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
     {
         $bannerForSegment = 'Get 40% Off on Graphic Editors';
         return array(
-            'initial add single'        => array('Test Banner', array('Designers')),
-            'initial add multiple'      => array('Test Banner', array('Developers', 'Designers')),
-            'override all'              => array($bannerForSegment, array('Developers')),
-            'add missing'               => array($bannerForSegment, array('Designers', 'Developers')),
-            'remove all - empty array'  => array($bannerForSegment, array()),
+            'initial add single' => array('Test Banner', array('Designers')),
+            'initial add multiple' => array('Test Banner', array('Developers', 'Designers')),
+            'override all' => array($bannerForSegment, array('Developers')),
+            'add missing' => array($bannerForSegment, array('Designers', 'Developers')),
+            'remove all - empty array' => array($bannerForSegment, array()),
             'remove all - empty string' => array($bannerForSegment, ''),
-            'remove all - null'         => array($bannerForSegment, null),
+            'remove all - null' => array($bannerForSegment, null)
         );
     }
 
@@ -77,8 +76,9 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
         }
 
         /** @var \Magento\Banner\Model\Resource\Salesrule\Collection $collection */
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Banner\Model\Resource\Salesrule\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Banner\Model\Resource\Salesrule\Collection'
+        );
         $select = $collection->getSelect();
         $initialSql = (string)$select;
 
@@ -92,25 +92,19 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
     public function addBannerSegmentFilterDataProvider()
     {
         return array(
-            'only banners for everybody'  => array(
-                array(),
-                array('Get from 40% to 50% Off on Large Orders'),
-            ),
+            'only banners for everybody' => array(array(), array('Get from 40% to 50% Off on Large Orders')),
             'banners for everybody + for specific segment' => array(
                 array('Developers'),
-                array(
-                    'Get from 40% to 50% Off on Large Orders',
-                    'Get 50% Off on Development IDEs',
-                )
+                array('Get from 40% to 50% Off on Large Orders', 'Get 50% Off on Development IDEs')
             ),
             'banners for everybody + for specific segments' => array(
                 array('Developers', 'Designers'),
                 array(
                     'Get from 40% to 50% Off on Large Orders',
                     'Get 50% Off on Development IDEs',
-                    'Get 40% Off on Graphic Editors',
+                    'Get 40% Off on Graphic Editors'
                 )
-            ),
+            )
         );
     }
 
@@ -123,8 +117,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
     protected function _getBannerId($bannerName)
     {
         /** @var \Magento\Banner\Model\Banner $banner */
-        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Banner\Model\Banner');
+        $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Banner\Model\Banner');
         $banner->load($bannerName, 'name');
         return $banner->getId();
     }
@@ -140,8 +133,9 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
         $result = array();
         foreach ($segmentNames as $segmentName) {
             /** @var $segment \Magento\CustomerSegment\Model\Segment */
-            $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\CustomerSegment\Model\Segment');
+            $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\CustomerSegment\Model\Segment'
+            );
             $segment->load($segmentName, 'name');
             $result[] = $segment->getId();
         }

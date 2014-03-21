@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reports\Model\Resource;
 
 class HelperFactory extends \Magento\Core\Model\Resource\HelperFactory

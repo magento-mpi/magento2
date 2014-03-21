@@ -6,14 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\App\Action\Plugin;
 
-use Magento\App\Filesystem,
-    Magento\Filesystem\FilesystemException,
-    Magento\Filesystem\Directory\Write,
-    Magento\App\State,
-    Magento\Logger;
+use Magento\App\Filesystem;
+use Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\Directory\Write;
+use Magento\App\State;
+use Magento\Logger;
 
 class Dir
 {
@@ -73,4 +72,4 @@ class Dir
             }
         }
     }
-} 
+}

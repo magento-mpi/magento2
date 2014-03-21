@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Url;
 
 class QueryParamsResolver extends \Magento\Object implements QueryParamsResolverInterface
@@ -39,7 +38,6 @@ class QueryParamsResolver extends \Magento\Object implements QueryParamsResolver
         $this->setData('query', $data);
         return $this;
     }
-
 
     /**
      * {@inheritdoc}

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Condition;
 
 use Magento\DB\Adapter\AdapterInterface;

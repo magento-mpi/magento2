@@ -29,10 +29,10 @@ class Collection extends \Magento\Reports\Model\Resource\Order\Collection
      */
     protected function _joinFields($fromDate = '', $toDate = '')
     {
-        $this->joinCustomerName()
-            ->groupByCustomer()
-            ->addOrdersCount()
-            ->addAttributeToFilter('created_at', array('from' => $fromDate, 'to' => $toDate, 'datetime' => true));
+        $this->joinCustomerName()->groupByCustomer()->addOrdersCount()->addAttributeToFilter(
+            'created_at',
+            array('from' => $fromDate, 'to' => $toDate, 'datetime' => true)
+        );
         return $this;
     }
 
@@ -45,8 +45,7 @@ class Collection extends \Magento\Reports\Model\Resource\Order\Collection
      */
     public function setDateRange($fromDate, $toDate)
     {
-        $this->_reset()
-            ->_joinFields($fromDate, $toDate);
+        $this->_reset()->_joinFields($fromDate, $toDate);
         return $this;
     }
 
@@ -60,11 +59,9 @@ class Collection extends \Magento\Reports\Model\Resource\Order\Collection
     {
         if ($storeIds) {
             $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds));
-            $this->addSumAvgTotals(1)
-                ->orderByTotalAmount();
+            $this->addSumAvgTotals(1)->orderByTotalAmount();
         } else {
-            $this->addSumAvgTotals()
-                ->orderByTotalAmount();
+            $this->addSumAvgTotals()->orderByTotalAmount();
         }
 
         return $this;

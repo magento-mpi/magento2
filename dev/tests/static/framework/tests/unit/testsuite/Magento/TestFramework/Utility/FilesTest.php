@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Utility;
 
 class FilesTest extends \PHPUnit_Framework_TestCase

@@ -26,7 +26,7 @@ class Status implements \Magento\Option\ArrayInterface
         \Magento\Sales\Model\Order::STATE_COMPLETE,
         \Magento\Sales\Model\Order::STATE_CLOSED,
         \Magento\Sales\Model\Order::STATE_CANCELED,
-        \Magento\Sales\Model\Order::STATE_HOLDED,
+        \Magento\Sales\Model\Order::STATE_HOLDED
     );
 
     /**

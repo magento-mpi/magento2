@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
 
 /**
@@ -19,8 +18,7 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Tips
-    extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
+class Tips extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\QuickStyles\AbstractTab
 {
     /**
      * Tab form HTML identifier

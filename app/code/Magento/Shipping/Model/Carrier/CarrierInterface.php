@@ -7,13 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model\Carrier;
 
 interface CarrierInterface
 {
-
     /**
      * Check if carrier has shipping tracking option available
      *
@@ -27,5 +24,4 @@ interface CarrierInterface
      * @return array
      */
     public function getAllowedMethods();
-
 }

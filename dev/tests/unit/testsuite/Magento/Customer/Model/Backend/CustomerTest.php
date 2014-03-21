@@ -28,9 +28,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $helper->getObject('Magento\Customer\Model\Backend\Customer', array(
-            'storeManager' => $this->_storeManager
-            )
+        $this->_model = $helper->getObject(
+            'Magento\Customer\Model\Backend\Customer',
+            array('storeManager' => $this->_storeManager)
         );
     }
 
@@ -60,9 +60,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function getStoreDataProvider()
     {
-        return array(
-            array(1, 10, 5, 10),
-            array(0, 10, 5, 5)
-        );
+        return array(array(1, 10, 5, 10), array(0, 10, 5, 5));
     }
 }

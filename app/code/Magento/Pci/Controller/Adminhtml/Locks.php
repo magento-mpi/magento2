@@ -39,7 +39,6 @@ class Locks extends \Magento\Backend\App\Action
     {
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
-
     }
 
     /**
@@ -56,8 +55,7 @@ class Locks extends \Magento\Backend\App\Action
                 $affectedUsers = $this->_objectManager->get('Magento\Pci\Model\Resource\Admin\User')->unlock($userIds);
                 $this->getMessageManager()->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('adminhtml/*/');

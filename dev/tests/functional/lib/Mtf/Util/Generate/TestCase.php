@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Mtf\Util\Generate;
 
 use Mtf\Util\Protocol\CurlInterface;
@@ -126,7 +125,7 @@ class TestCase extends AbstractGenerate
 
         // Get ticket components
         if (isset($issue['fields']['components'])) {
-            foreach($issue['fields']['components'] as $component) {
+            foreach ($issue['fields']['components'] as $component) {
                 $ticketData['components'][] = $component['name'];
             }
         }
@@ -144,6 +143,8 @@ class TestCase extends AbstractGenerate
 
     /**
      * Generate Test Cases Classes
+     *
+     * @return void
      */
     public function generateClasses()
     {
@@ -162,6 +163,7 @@ class TestCase extends AbstractGenerate
      * Generate test case class from XML source
      *
      * @param \SimpleXMLElement $item
+     * @return void
      */
     private function generateTestCaseClass(\SimpleXMLElement $item)
     {

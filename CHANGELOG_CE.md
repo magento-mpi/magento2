@@ -3,9 +3,6 @@
   * Content invalidation
   * Added Edge side includes(ESI) supporting
   * Added Built-in caching application
-* Themes update:
-  * LESS styles library added in pub/lib/css/
-  * New Blank theme set as default
 * GitHub requests:
   * [#491](https://github.com/magento/magento2/pull/491) -- Fixed bug, incorrect auto-generation Category URL for some groups of symbols (idish, cirrilic, é, ä, and other).
   * [#480](https://github.com/magento/magento2/pull/480) -- Fixing a bug for loading config from local.xml
@@ -17,7 +14,7 @@
 * Fixed bugs:
   * Fixed fatal error with dependency in pub/errors/report.php (MAGETWO-21840)
   * Fixed transaction rollback in fetchNewIncrementId on exception
-  * Fixed category saveing when it has more than 1000 products
+  * Fixed category saving when it has more than 1000 products
   * Fixed error messages displayed during installation when required extensions are not installed
   * Fixed synopsis of install.php script
   * Fixed absence of payment scheduled in shopping cart for products with recurring profile
@@ -39,6 +36,9 @@
   * Fixed JS/CSS merging functionality (MAGETWO-21924)
   * Fixed static view files publication tool used for 'production' mode (MAGETWO-19619)
   * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
+  * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
+  * Fixed ability to check Solr connection (MAGETWO-19110)
+  * Fixed ability to use of custom module front name (MAGETWO-16160)
 * Modularity improvements:
   * Deprecated GoogleCheckout functionality has been removed (MAGETWO-18110)
   * All dependencies on Recurring Payment Module has been removed (MAGETWO-18695)
@@ -48,10 +48,19 @@
   * Core module lib-only depended components moved to library
   * CSS url resolving logic moved from publisher to separate css pre-processor
   * View publisher re-factored
+  * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Framework Improvements:
   * Added restrictions on the data populated to the Service Data Object
   * Renamed Data Transfer Object to the Service Data Object
   * Updated View Files Population Tool for LESS Support (MAGETWO-21779)
+  * Covered Magento library components with unit tests: (MAGETWO-21137)
+    * Magento/Interception
+    * Magento/ObjectManager
+    * Magento/Message
+    * Magento/Module
+    * Magento/Mail
+    * Magento/Object
+    * Magento/Math
 * Customer Service usage:
   * Tax module refactoring to use customer service layer
   * Refactored Customer module Adminhtml internal controllers and helper to use customer services
@@ -60,6 +69,8 @@
 * Indexer implementation:
   * Implemented a new optimized Product Price Indexer
 * Updated various PHPDoc with the parameter and return types
+* Updated XML files to include relative path reference to schema file (MAGETWO-15527)
+* Updated code to be PSR-2 compliant
 
 2.0.0.0-dev68
 =============

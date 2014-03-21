@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\CatalogPermissions\App\ConfigInterface" type="Magento\CatalogPermissions\App\Config" />
     <type name="Magento\CatalogPermissions\Helper\Data">
         <arguments>

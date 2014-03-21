@@ -9,7 +9,6 @@
 /**
  * Event manager stub
  */
-
 namespace Magento\Event;
 
 class ManagerStub extends \Magento\Event\ManagerInterface
@@ -24,7 +23,7 @@ class ManagerStub extends \Magento\Event\ManagerInterface
     public function dispatch($eventName, array $params = array())
     {
         switch ($eventName) {
-            case 'cms_controller_router_match_before' :
+            case 'cms_controller_router_match_before':
                 $params['condition']->setRedirectUrl('http://www.example.com/');
                 break;
         }

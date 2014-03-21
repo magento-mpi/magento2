@@ -7,7 +7,6 @@
  */
 namespace Magento\DesignEditor\Model\Plugin;
 
-
 class ThemeCopyService
 {
     /**
@@ -46,7 +45,7 @@ class ThemeCopyService
             $sourceChange = $this->_themeChangeFactory->create();
             $sourceChange->loadByThemeId($source->getId());
             /** @var $targetChange \Magento\DesignEditor\Model\Theme\Change */
-            $targetChange = $this->_themeChangeFactory->create();;
+            $targetChange = $this->_themeChangeFactory->create();
             $targetChange->loadByThemeId($target->getId());
 
             if ($sourceChange->getId()) {

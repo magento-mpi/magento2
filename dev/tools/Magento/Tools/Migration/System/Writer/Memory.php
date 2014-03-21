@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Writer;
 
 class Memory implements \Magento\Tools\Migration\System\WriterInterface
@@ -19,7 +18,6 @@ class Memory implements \Magento\Tools\Migration\System\WriterInterface
      */
     public function write($fileName, $contents)
     {
-
     }
 
     /**
@@ -30,6 +28,5 @@ class Memory implements \Magento\Tools\Migration\System\WriterInterface
      */
     public function remove($fileName)
     {
-
     }
 }

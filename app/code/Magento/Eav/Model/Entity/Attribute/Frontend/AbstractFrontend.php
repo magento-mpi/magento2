@@ -18,10 +18,8 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute\Frontend;
 
-abstract class AbstractFrontend
-    implements \Magento\Eav\Model\Entity\Attribute\Frontend\FrontendInterface
+abstract class AbstractFrontend implements \Magento\Eav\Model\Entity\Attribute\Frontend\FrontendInterface
 {
-
     /**
      * Reference to the attribute instance
      *
@@ -37,7 +35,7 @@ abstract class AbstractFrontend
     /**
      * @param \Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory
      */
-    function __construct(\Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory)
+    public function __construct(\Magento\Eav\Model\Entity\Attribute\Source\BooleanFactory $attrBooleanFactory)
     {
         $this->_attrBooleanFactory = $attrBooleanFactory;
     }
@@ -82,7 +80,7 @@ abstract class AbstractFrontend
     public function getLabel()
     {
         $label = $this->getAttribute()->getFrontendLabel();
-        if (($label === null) || $label == '') {
+        if ($label === null || $label == '') {
             $label = $this->getAttribute()->getAttributeCode();
         }
 
@@ -98,10 +96,10 @@ abstract class AbstractFrontend
     public function getValue(\Magento\Object $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
-        if (in_array($this->getConfigField('input'), array('select','boolean'))) {
+        if (in_array($this->getConfigField('input'), array('select', 'boolean'))) {
             $valueOption = $this->getOption($value);
             if (!$valueOption) {
-                $opt     = $this->_attrBooleanFactory->create();
+                $opt = $this->_attrBooleanFactory->create();
                 $options = $opt->getAllOptions();
                 if ($options) {
                     foreach ($options as $option) {
@@ -139,15 +137,15 @@ abstract class AbstractFrontend
      */
     public function getClass()
     {
-        $out    = array();
-        $out[]  = $this->getAttribute()->getFrontendClass();
+        $out = array();
+        $out[] = $this->getAttribute()->getFrontendClass();
         if ($this->getAttribute()->getIsRequired()) {
-            $out[]  = 'required-entry';
+            $out[] = 'required-entry';
         }
 
         $inputRuleClass = $this->_getInputValidateClass();
         if ($inputRuleClass) {
-             $out[] = $inputRuleClass;
+            $out[] = $inputRuleClass;
         }
         if (!empty($out)) {
             $out = implode(' ', $out);
@@ -157,15 +155,15 @@ abstract class AbstractFrontend
         return $out;
     }
 
-     /**
+    /**
      * Return validate class by attribute input validation rule
      *
      * @return string|false
      */
     protected function _getInputValidateClass()
     {
-        $class          = false;
-        $validateRules  = $this->getAttribute()->getValidateRules();
+        $class = false;
+        $validateRules = $this->getAttribute()->getValidateRules();
         if (!empty($validateRules['input_validation'])) {
             switch ($validateRules['input_validation']) {
                 case 'alphanumeric':

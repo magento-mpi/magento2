@@ -18,9 +18,8 @@ use Magento\Backend\Block\Widget\Grid\Column;
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractRenderer
-    extends \Magento\Backend\Block\AbstractBlock
-    implements \Magento\Backend\Block\Widget\Grid\Column\Renderer\RendererInterface
+abstract class AbstractRenderer extends \Magento\Backend\Block\AbstractBlock implements
+    \Magento\Backend\Block\Widget\Grid\Column\Renderer\RendererInterface
 {
     /**
      * @var int
@@ -60,9 +59,10 @@ abstract class AbstractRenderer
     {
         if ($this->getColumn()->getEditable()) {
             $value = $this->_getValue($row);
-            return $value
-                   . ($this->getColumn()->getEditOnly() ? '' : ($value != '' ? '' : '&nbsp;'))
-                   . $this->_getInputValueElement($row);
+            return $value . ($this->getColumn()->getEditOnly() ? '' : ($value !=
+                '' ? '' : '&nbsp;')) . $this->_getInputValueElement(
+                    $row
+                );
         }
         return $this->_getValue($row);
     }
@@ -86,7 +86,7 @@ abstract class AbstractRenderer
     {
         if ($getter = $this->getColumn()->getGetter()) {
             if (is_string($getter)) {
-                return $row->$getter();
+                return $row->{$getter}();
             } elseif (is_callable($getter)) {
                 return call_user_func($getter, $row);
             }
@@ -101,10 +101,14 @@ abstract class AbstractRenderer
      */
     public function _getInputValueElement(\Magento\Object $row)
     {
-        return  '<input type="text" class="input-text '
-                . $this->getColumn()->getValidateClass()
-                . '" name="' . $this->getColumn()->getId()
-                . '" value="' . $this->_getInputValue($row) . '"/>';
+        return '<input type="text" class="input-text ' .
+            $this->getColumn()->getValidateClass() .
+            '" name="' .
+            $this->getColumn()->getId() .
+            '" value="' .
+            $this->_getInputValue(
+                $row
+            ) . '"/>';
     }
 
     /**
@@ -124,18 +128,28 @@ abstract class AbstractRenderer
         if (false !== $this->getColumn()->getSortable()) {
             $className = 'not-sort';
             $dir = strtolower($this->getColumn()->getDir());
-            $nDir= ($dir=='asc') ? 'desc' : 'asc';
+            $nDir = $dir == 'asc' ? 'desc' : 'asc';
             if ($this->getColumn()->getDir()) {
                 $className = 'sort-arrow-' . $dir;
             }
-            $out = '<a href="#" name="' . $this->getColumn()->getId() . '" title="' . $nDir
-                . '" class="' . $className . '">'.'<label class="sort-title" for='.$this->getColumn()->getHtmlId()
-                .'>'
-                . $this->getColumn()->getHeader().'</label></a>';
+            $out = '<a href="#" name="' .
+                $this->getColumn()->getId() .
+                '" title="' .
+                $nDir .
+                '" class="' .
+                $className .
+                '">' .
+                '<label class="sort-title" for=' .
+                $this->getColumn()->getHtmlId() .
+                '>' .
+                $this->getColumn()->getHeader() .
+                '</label></a>';
         } else {
-            $out = '<label for='.$this->getColumn()->getHtmlId().'>'
-                .$this->getColumn()->getHeader()
-                .'</label>';
+            $out = '<label for=' .
+                $this->getColumn()->getHtmlId() .
+                '>' .
+                $this->getColumn()->getHeader() .
+                '</label>';
         }
         return $out;
     }
@@ -150,7 +164,7 @@ abstract class AbstractRenderer
 
         if ($this->getColumn()->hasData('width')) {
             $customWidth = $this->getColumn()->getData('width');
-            if ((null === $customWidth) || (preg_match('/^[0-9]+%?$/', $customWidth))) {
+            if (null === $customWidth || preg_match('/^[0-9]+%?$/', $customWidth)) {
                 $width = $customWidth;
             } elseif (preg_match('/^([0-9]+)px$/', $customWidth, $matches)) {
                 $width = (int)$matches[1];
@@ -171,5 +185,4 @@ abstract class AbstractRenderer
     {
         return $this->getColumn()->getCssClass();
     }
-
 }

@@ -18,8 +18,7 @@ use Magento\Data\Form\Element\AbstractElement;
  * @package    Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Fieldset extends \Magento\Backend\Block\Template
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+class Fieldset extends \Magento\Backend\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
      * @var AbstractElement

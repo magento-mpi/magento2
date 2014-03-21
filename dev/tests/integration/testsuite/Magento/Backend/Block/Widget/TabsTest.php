@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Widget;
 
 /**
@@ -22,8 +21,9 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     public function testAddTab()
     {
         /** @var $widgetInstance \Magento\Widget\Model\Widget\Instance */
-        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Widget\Model\Widget\Instance');
+        $widgetInstance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Widget\Model\Widget\Instance'
+        );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_widget_instance', $widgetInstance);

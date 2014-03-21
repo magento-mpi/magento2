@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Tax\Model\Sales\Pdf;
 
 class Tax extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
@@ -56,7 +55,7 @@ class Tax extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         $totals = array();
 
         if ($this->_taxConfig->displaySalesFullSummary($store)) {
-           $totals = $this->getFullTaxInfo();
+            $totals = $this->getFullTaxInfo();
         }
 
         $totals = array_merge($totals, parent::getTotalsForDisplay());

@@ -8,15 +8,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Helper;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetHelper()
     {
-        $helper = \Magento\TestFramework\Helper\Factory
-            ::getHelper('Magento\TestFramework\Helper\Config');
+        $helper = \Magento\TestFramework\Helper\Factory::getHelper('Magento\TestFramework\Helper\Config');
         $this->assertNotEmpty($helper);
 
         $helperNew = \Magento\TestFramework\Helper\Factory::getHelper('Magento\TestFramework\Helper\Config');
@@ -36,5 +34,3 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($helperNew, $helperGot, 'The helper must be changed upon new setHelper() method');
     }
 }
-
-

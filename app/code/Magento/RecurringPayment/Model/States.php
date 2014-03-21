@@ -13,10 +13,15 @@ class States implements \Magento\Option\ArrayInterface
      * @var string
      */
     const UNKNOWN = 'unknown';
+
     const PENDING = 'pending';
+
     const ACTIVE = 'active';
+
     const SUSPENDED = 'suspended';
+
     const CANCELED = 'canceled';
+
     const EXPIRED = 'expired';
 
     /**
@@ -30,7 +35,7 @@ class States implements \Magento\Option\ArrayInterface
             self::ACTIVE => __('Active'),
             self::SUSPENDED => __('Suspended'),
             self::CANCELED => __('Canceled'),
-            self::EXPIRED => __('Expired'),
+            self::EXPIRED => __('Expired')
         );
     }
 }

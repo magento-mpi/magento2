@@ -11,7 +11,6 @@ namespace Magento\GiftCardAccount\Model;
 
 class Cron
 {
-
     /**
      * @var \Magento\GiftCardAccount\Model\GiftcardaccountFactory
      */
@@ -46,10 +45,16 @@ class Cron
 
         $now = $this->_coreDate->date('Y-m-d');
 
-        $collection = $model->getCollection()
-            ->addFieldToFilter('state', \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE)
-            ->addFieldToFilter('date_expires', array('notnull'=>true))
-            ->addFieldToFilter('date_expires', array('lt'=>$now));
+        $collection = $model->getCollection()->addFieldToFilter(
+            'state',
+            \Magento\GiftCardAccount\Model\Giftcardaccount::STATE_AVAILABLE
+        )->addFieldToFilter(
+            'date_expires',
+            array('notnull' => true)
+        )->addFieldToFilter(
+            'date_expires',
+            array('lt' => $now)
+        );
 
         $ids = $collection->getAllIds();
         if ($ids) {

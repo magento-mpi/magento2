@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/Event/etc/events.xsd">
     <event name="adminhtml_block_salesrule_actions_prepareform">
         <observer name="offlineshipping_salesrule" instance="Magento\OfflineShipping\Model\Observer\SalesRule\ActionsTab" method="prepareForm" />
     </event>

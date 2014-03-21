@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
 use Zend\Soap\Wsdl;
@@ -29,14 +28,16 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_typeProcessor = $this->getMockBuilder('Magento\Webapi\Model\Config\ClassReflector\TypeProcessor')
-            ->setMethods(array('getTypeData'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_wsdl = $this->getMockBuilder('Magento\Webapi\Model\Soap\Wsdl')
-            ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_typeProcessor = $this->getMockBuilder(
+            'Magento\Webapi\Model\Config\ClassReflector\TypeProcessor'
+        )->setMethods(
+            array('getTypeData')
+        )->disableOriginalConstructor()->getMock();
+        $this->_wsdl = $this->getMockBuilder(
+            'Magento\Webapi\Model\Soap\Wsdl'
+        )->setMethods(
+            array('toDomDocument', 'getTypes', 'getSchema')
+        )->disableOriginalConstructor()->getMock();
         $this->_strategy = new ComplexTypeStrategy($this->_typeProcessor);
         $this->_strategy->setContext($this->_wsdl);
         parent::setUp();
@@ -62,12 +63,8 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
     {
         $testType = 'testComplexTypeName';
         $testTypeWsdlName = 'tns:' . $testType;
-        $includedTypes = array(
-            $testType => $testTypeWsdlName,
-        );
-        $this->_wsdl->expects($this->exactly(2))
-            ->method('getTypes')
-            ->will($this->returnValue($includedTypes));
+        $includedTypes = array($testType => $testTypeWsdlName);
+        $this->_wsdl->expects($this->exactly(2))->method('getTypes')->will($this->returnValue($includedTypes));
 
         $this->assertEquals($testTypeWsdlName, $this->_strategy->addComplexType($testType));
     }
@@ -81,25 +78,23 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddComplexTypeSimpleParameters($type, $data)
     {
-        $this->_wsdl->expects($this->any())
-            ->method('getTypes')
-            ->will($this->returnValue(array()));
+        $this->_wsdl->expects($this->any())->method('getTypes')->will($this->returnValue(array()));
 
-        $this->_wsdl->expects($this->any())
-            ->method('toDomDocument')
-            ->will($this->returnValue(new \DOMDocument()));
+        $this->_wsdl->expects($this->any())->method('toDomDocument')->will($this->returnValue(new \DOMDocument()));
 
         $schemaMock = $this->_getDomElementMock();
-        $schemaMock->expects($this->any())
-            ->method('appendChild');
-        $this->_wsdl->expects($this->any())
-            ->method('getSchema')
-            ->will($this->returnValue($schemaMock));
+        $schemaMock->expects($this->any())->method('appendChild');
+        $this->_wsdl->expects($this->any())->method('getSchema')->will($this->returnValue($schemaMock));
 
-        $this->_typeProcessor->expects($this->at(0))
-            ->method('getTypeData')
-            ->with($type)
-            ->will($this->returnValue($data));
+        $this->_typeProcessor->expects(
+            $this->at(0)
+        )->method(
+            'getTypeData'
+        )->with(
+            $type
+        )->will(
+            $this->returnValue($data)
+        );
 
         $this->assertEquals(Wsdl::TYPES_NS . ':' . $type, $this->_strategy->addComplexType($type));
     }
@@ -131,9 +126,9 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                             'type' => 'boolean',
                             'required' => false,
                             'documentation' => 'Optional complex type param.{annotation:test}'
-                        ),
-                    ),
-                ),
+                        )
+                    )
+                )
             ),
             'type with call info' => array(
                 'VendorModuleADataStructure',
@@ -143,22 +138,14 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                         'string_param' => array(
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}',
-                        ),
-                    ),
-                    'callInfo' => array(
-                        'requiredInput' => array(
-                            'yes' => array(
-                                'calls' => array('VendorModuleACreate')
-                            )
-                        ),
-                        'returned' => array(
-                            'always' => array(
-                                'calls' => array('VendorModuleAGet')
-                            )
+                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}'
                         )
                     ),
-                ),
+                    'callInfo' => array(
+                        'requiredInput' => array('yes' => array('calls' => array('VendorModuleACreate'))),
+                        'returned' => array('always' => array('calls' => array('VendorModuleAGet')))
+                    )
+                )
             ),
             'parameter with call info' => array(
                 'VendorModuleADataStructure',
@@ -168,11 +155,11 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                         'string_param' => array(
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}'
-                                . '{callInfo:allCallsExcept(VendorModuleAGet):returned:always}',
-                        ),
-                    ),
-                ),
+                            'documentation' => '{callInfo:VendorModuleACreate:requiredInput:conditionally}' .
+                            '{callInfo:allCallsExcept(VendorModuleAGet):returned:always}'
+                        )
+                    )
+                )
             ),
             'parameter with see link' => array(
                 'VendorModuleADataStructure',
@@ -182,10 +169,10 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                         'string_param' => array(
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{seeLink:http://google.com/:title:for}',
-                        ),
-                    ),
-                ),
+                            'documentation' => '{seeLink:http://google.com/:title:for}'
+                        )
+                    )
+                )
             ),
             'parameter with doc instructions' => array(
                 'VendorModuleADataStructure',
@@ -195,11 +182,11 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                         'string_param' => array(
                             'type' => 'string',
                             'required' => false,
-                            'documentation' => '{docInstructions:output:noDoc}',
-                        ),
-                    ),
-                ),
-            ),
+                            'documentation' => '{docInstructions:output:noDoc}'
+                        )
+                    )
+                )
+            )
         );
     }
 
@@ -217,8 +204,8 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                     'type' => $parameterType,
                     'required' => true,
                     'documentation' => 'complex type param.'
-                ),
-            ),
+                )
+            )
         );
         $parameterData = array(
             'documentation' => 'test',
@@ -227,34 +214,41 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
                     'type' => 'ComplexTypeB[]',
                     'required' => true,
                     'documentation' => 'string param.'
-                ),
-            ),
+                )
+            )
         );
 
-        $this->_wsdl->expects($this->at(0))
-            ->method('getTypes')
-            ->will($this->returnValue(array()));
-        $this->_wsdl->expects($this->any())
-            ->method('getTypes')
-            ->will($this->returnValue(array($type => Wsdl::TYPES_NS . ':' . $type)));
+        $this->_wsdl->expects($this->at(0))->method('getTypes')->will($this->returnValue(array()));
+        $this->_wsdl->expects(
+            $this->any()
+        )->method(
+            'getTypes'
+        )->will(
+            $this->returnValue(array($type => Wsdl::TYPES_NS . ':' . $type))
+        );
 
-        $this->_wsdl->expects($this->any())
-            ->method('toDomDocument')
-            ->will($this->returnValue(new \DOMDocument()));
+        $this->_wsdl->expects($this->any())->method('toDomDocument')->will($this->returnValue(new \DOMDocument()));
         $schemaMock = $this->_getDomElementMock();
-        $schemaMock->expects($this->any())
-            ->method('appendChild');
-        $this->_wsdl->expects($this->any())
-            ->method('getSchema')
-            ->will($this->returnValue($schemaMock));
-        $this->_typeProcessor->expects($this->at(0))
-            ->method('getTypeData')
-            ->with($type)
-            ->will($this->returnValue($typeData));
-        $this->_typeProcessor->expects($this->at(1))
-            ->method('getTypeData')
-            ->with($parameterType)
-            ->will($this->returnValue($parameterData));
+        $schemaMock->expects($this->any())->method('appendChild');
+        $this->_wsdl->expects($this->any())->method('getSchema')->will($this->returnValue($schemaMock));
+        $this->_typeProcessor->expects(
+            $this->at(0)
+        )->method(
+            'getTypeData'
+        )->with(
+            $type
+        )->will(
+            $this->returnValue($typeData)
+        );
+        $this->_typeProcessor->expects(
+            $this->at(1)
+        )->method(
+            'getTypeData'
+        )->with(
+            $parameterType
+        )->will(
+            $this->returnValue($parameterData)
+        );
 
         $this->assertEquals(Wsdl::TYPES_NS . ':' . $type, $this->_strategy->addComplexType($type));
     }
@@ -265,9 +259,7 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
     public function testAddAnnotationToComplexType()
     {
         $dom = new \DOMDocument();
-        $this->_wsdl->expects($this->any())
-            ->method('toDomDocument')
-            ->will($this->returnValue($dom));
+        $this->_wsdl->expects($this->any())->method('toDomDocument')->will($this->returnValue($dom));
         $annotationDoc = "test doc";
         $complexType = $dom->createElement(Wsdl::XSD_NS . ':complexType');
         $complexType->setAttribute('name', 'testRequest');
@@ -285,8 +277,6 @@ class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getDomElementMock()
     {
-        return $this->getMockBuilder('DOMElement')
-            ->disableOriginalConstructor()
-            ->getMock();
+        return $this->getMockBuilder('DOMElement')->disableOriginalConstructor()->getMock();
     }
 }

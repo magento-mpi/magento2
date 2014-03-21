@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework;
 
 /**
@@ -72,9 +71,9 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      */
     public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
     {
-        $directories = isset($arguments[\Magento\App\Filesystem::PARAM_APP_DIRS])
-            ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
-            : array();
+        $directories = isset(
+            $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
+        ) ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS] : array();
         $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
@@ -88,9 +87,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $objectManager->addSharedInstance($appArguments, 'Magento\App\Arguments');
 
         $objectManager->get('Magento\Interception\PluginList')->reset();
-        $objectManager->configure(
-            $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
-        );
+        $objectManager->configure($objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global'));
 
         return $objectManager;
     }
@@ -114,12 +111,10 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                             'canSaveMap' => array(
                                 \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
                                 'value' => false
-                            ),
+                            )
                         )
                     ),
-                    'default_setup' => array(
-                        'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
-                    ),
+                    'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
                 )
             );
             $this->_primaryConfigData['preferences'] = array_replace(
@@ -132,6 +127,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                     'Magento\App\Response\Http' => 'Magento\TestFramework\Response',
                     'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
                     'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
                 )
             );
         }

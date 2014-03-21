@@ -45,7 +45,7 @@ class Reward extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
                 $invoice->setBaseGrandTotal(0);
             }
             $pointValue = $order->getRewardPointsBalance() / $order->getBaseRewardCurrencyAmount();
-            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft*ceil($pointValue);
+            $rewardPointsBalance = $baseRewardCurrecnyAmountLeft * ceil($pointValue);
             $rewardPointsBalanceLeft = $order->getRewardPointsBalance() - $order->getRewardPointsBalanceInvoiced();
             if ($rewardPointsBalance > $rewardPointsBalanceLeft) {
                 $rewardPointsBalance = $rewardPointsBalanceLeft;

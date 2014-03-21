@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -41,8 +40,8 @@ class PreProcessorFactory
     public function create($instanceName, array $data = array())
     {
         $processorInstance = $this->objectManager->create($instanceName, $data);
-        if (!($processorInstance instanceof PreProcessor\PreProcessorInterface)) {
-            throw new \UnexpectedValueException("$instanceName has to implement the pre-processor interface.");
+        if (!$processorInstance instanceof PreProcessor\PreProcessorInterface) {
+            throw new \UnexpectedValueException("{$instanceName} has to implement the pre-processor interface.");
         }
         return $processorInstance;
     }

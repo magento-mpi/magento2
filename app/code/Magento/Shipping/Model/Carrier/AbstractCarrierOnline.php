@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model\Carrier;
 
 use Magento\Core\Exception;
@@ -19,8 +18,11 @@ use Magento\Shipping\Model\Shipment\Request;
 abstract class AbstractCarrierOnline extends AbstractCarrier
 {
     const USA_COUNTRY_ID = 'US';
+
     const PUERTORICO_COUNTRY_ID = 'PR';
+
     const GUAM_COUNTRY_ID = 'GU';
+
     const GUAM_REGION_CODE = 'GU';
 
     /**
@@ -58,7 +60,6 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
      * @var \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory
      */
     protected $_rateMethodFactory;
-
 
     /**
      * @var \Magento\Shipping\Model\Tracking\ResultFactory
@@ -273,17 +274,17 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             return $this;
         }
 
-        $maxAllowedWeight   = (float) $this->getConfigData('max_package_weight');
-        $errorMsg           = '';
-        $configErrorMsg     = $this->getConfigData('specificerrmsg');
-        $defaultErrorMsg    = __('The shipping module is not available.');
-        $showMethod         = $this->getConfigData('showmethod');
+        $maxAllowedWeight = (double)$this->getConfigData('max_package_weight');
+        $errorMsg = '';
+        $configErrorMsg = $this->getConfigData('specificerrmsg');
+        $defaultErrorMsg = __('The shipping module is not available.');
+        $showMethod = $this->getConfigData('showmethod');
 
         foreach ($this->getAllItems($request) as $item) {
             if ($item->getProduct() && $item->getProduct()->getId()) {
-                $weight         = $item->getProduct()->getWeight();
-                $stockItem      = $item->getProduct()->getStockItem();
-                $doValidation   = true;
+                $weight = $item->getProduct()->getWeight();
+                $stockItem = $item->getProduct()->getStockItem();
+                $doValidation = true;
 
                 if ($stockItem->getIsQtyDecimal() && $stockItem->getIsDecimalDivided()) {
                     if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements()) {
@@ -296,7 +297,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
                 }
 
                 if ($doValidation && $weight > $maxAllowedWeight) {
-                    $errorMsg = ($configErrorMsg) ? $configErrorMsg : $defaultErrorMsg;
+                    $errorMsg = $configErrorMsg ? $configErrorMsg : $defaultErrorMsg;
                     break;
                 }
             }
@@ -327,10 +328,9 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected function _getQuotesCacheKey($requestParams)
     {
         if (is_array($requestParams)) {
-            $requestParams = implode(',', array_merge(
-                array($this->getCarrierCode()),
-                array_keys($requestParams),
-                $requestParams)
+            $requestParams = implode(
+                ',',
+                array_merge(array($this->getCarrierCode()), array_keys($requestParams), $requestParams)
             );
         }
         return crc32($requestParams);
@@ -427,7 +427,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             } else {
                 $data[] = array(
                     'tracking_number' => $result->getTrackingNumber(),
-                    'label_content'   => $result->getShippingLabelContent()
+                    'label_content' => $result->getShippingLabelContent()
                 );
             }
             if (!isset($isFirstRequest)) {
@@ -436,9 +436,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             }
         }
 
-        $response = new \Magento\Object(array(
-            'info'   => $data
-        ));
+        $response = new \Magento\Object(array('info' => $data));
         if ($result->getErrors()) {
             $response->setErrors($result->getErrors());
         }
@@ -477,7 +475,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             } else {
                 $data[] = array(
                     'tracking_number' => $result->getTrackingNumber(),
-                    'label_content'   => $result->getShippingLabelContent()
+                    'label_content' => $result->getShippingLabelContent()
                 );
             }
             if (!isset($isFirstRequest)) {
@@ -486,9 +484,7 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
             }
         }
 
-        $response = new \Magento\Object(array(
-            'info'   => $data
-        ));
+        $response = new \Magento\Object(array('info' => $data));
         if ($result->getErrors()) {
             $response->setErrors($result->getErrors());
         }
@@ -526,13 +522,20 @@ abstract class AbstractCarrierOnline extends AbstractCarrier
     protected function _isUSCountry($countyId)
     {
         switch ($countyId) {
-            case 'AS': // Samoa American
-            case 'GU': // Guam
-            case 'MP': // Northern Mariana Islands
-            case 'PW': // Palau
-            case 'PR': // Puerto Rico
-            case 'VI': // Virgin Islands US
-            case 'US'; // United States
+            case 'AS':
+                // Samoa American
+            case 'GU':
+                // Guam
+            case 'MP':
+                // Northern Mariana Islands
+            case 'PW':
+                // Palau
+            case 'PR':
+                // Puerto Rico
+            case 'VI':
+                // Virgin Islands US
+            case 'US':
+                // United States
                 return true;
         }
 
