@@ -29,20 +29,7 @@ $product->setTypeId('simple')
     ->save();
 $product->load(1);
 
-$addressData = array(
-    'region' => 'CA',
-    'postcode' => '11111',
-    'lastname' => 'lastname',
-    'firstname' => 'firstname',
-    'street' => 'street',
-    'city' => 'Los Angeles',
-    'email' => 'admin@example.com',
-    'telephone' => '11111111',
-    'country_id' => 'US',
-);
-
 $billingData = array(
-    'address_id' => '',
     'firstname' => 'testname',
     'lastname' => 'lastname',
     'company' => '',
@@ -98,5 +85,4 @@ $service->submitAll();
 
 $order = $service->getOrder();
 $order->save();
-
 

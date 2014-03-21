@@ -222,6 +222,16 @@ class Checkout
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     */
+    protected $_customerAccountService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
+     */
+    protected $_addressBuilder;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Logger $logger
@@ -242,6 +252,8 @@ class Checkout
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
      * @param array $params
      * @throws \Exception
      */
@@ -264,6 +276,8 @@ class Checkout
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -284,6 +298,8 @@ class Checkout
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
+        $this->_customerAccountService = $customerAccountService;
+        $this->_addressBuilder = $addressBuilder;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -1062,7 +1078,7 @@ class Checkout
     /**
      * Prepare quote for customer order submit
      *
-     * @return $this
+     * @return void
      */
     protected function _prepareCustomerQuote()
     {
@@ -1070,30 +1086,42 @@ class Checkout
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $this->getCustomerSession()->getCustomer();
+        $customer = $this->_customerAccountService->getCustomer($this->getCustomerSession()->getCustomerId());
         if (!$billing->getCustomerId() || $billing->getSaveInAddressBook()) {
-            $customerBilling = $billing->exportCustomerAddress();
-            $customer->addAddress($customerBilling);
-            $billing->setCustomerAddress($customerBilling);
+            $billingAddress = $billing->exportCustomerAddressData();
+            $billing->setCustomerAddressData($billingAddress);
         }
-        if ($shipping && ((!$shipping->getCustomerId() && !$shipping->getSameAsBilling())
-            || (!$shipping->getSameAsBilling() && $shipping->getSaveInAddressBook()))) {
-            $customerShipping = $shipping->exportCustomerAddress();
-            $customer->addAddress($customerShipping);
-            $shipping->setCustomerAddress($customerShipping);
+        if ($shipping && !$shipping->getSameAsBilling() &&
+            (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())) {
+            $shippingAddress = $shipping->exportCustomerAddressData();
+            $shipping->setCustomerAddressData($shippingAddress);
         }
 
-        if (isset($customerBilling) && !$customer->getDefaultBilling()) {
-            $customerBilling->setIsDefaultBilling(true);
+        $isBillingAddressDefaultBilling = false;
+        $isBillingAddressDefaultShipping = false;
+        if (!$customer->getDefaultBilling()) {
+            $isBillingAddressDefaultBilling = true;
         }
-        if ($shipping && isset($customerBilling) && !$customer->getDefaultShipping() && $shipping->getSameAsBilling()) {
-            $customerBilling->setIsDefaultShipping(true);
-        } elseif ($shipping && isset($customerShipping) && !$customer->getDefaultShipping()) {
-            $customerShipping->setIsDefaultShipping(true);
-        }
-        $quote->setCustomer($customer);
 
-        return $this;
+        if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
+            $shippingAddress = $this->_addressBuilder->populate($shippingAddress)
+                ->setDefaultBilling(false)
+                ->setDefaultShipping(true)
+                ->create();
+            $quote->addCustomerAddressData($shippingAddress);
+        } else if (!$customer->getDefaultShipping()) {
+            $isBillingAddressDefaultShipping = true;
+        }
+
+        if (isset($billingAddress)) {
+            $billingAddress = $this->_addressBuilder
+                ->populate($billingAddress)
+                ->setDefaultBilling($isBillingAddressDefaultBilling)
+                ->setDefaultShipping($isBillingAddressDefaultShipping)
+                ->create();
+            $quote->addCustomerAddressData($billingAddress);
+        }
+        $quote->setCustomerData($customer);
     }
 
     /**
