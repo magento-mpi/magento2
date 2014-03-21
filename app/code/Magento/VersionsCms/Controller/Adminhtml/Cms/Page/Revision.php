@@ -290,7 +290,7 @@ class Revision
      */
     public function dropAction()
     {
-        $this->_objectManager->get('Magento\Translate\InlineInterface')->disable();
+        $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
         $this->_objectManager->get('Magento\App\State')
             ->emulateAreaCode('frontend', array($this, 'previewFrontendPage'));
     }
