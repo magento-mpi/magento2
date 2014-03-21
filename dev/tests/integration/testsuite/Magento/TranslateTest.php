@@ -33,24 +33,12 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $pathChunks = array(
-            __DIR__,
-            'Core',
-            'Model',
-            '_files',
-            'design',
-            'frontend',
-            'test_default',
-            'i18n',
-            'en_US.csv'
-        );
-
         $this->_viewFileSystem = $this->getMock('Magento\View\FileSystem',
             array('getFilename', 'getDesignTheme'), array(), '', false);
 
         $this->_viewFileSystem->expects($this->any())
             ->method('getFilename')
-            ->will($this->returnValue(implode('/', $pathChunks)));
+            ->will($this->returnValue(__DIR__ . '/Core/Model/_files/design/frontend/test_default/i18n/en_US.csv'));
 
         $theme = $this->getMock('\Magento\View\Design\ThemeInterface', array());
         $theme->expects($this->any())
@@ -93,7 +81,11 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Translate');
-        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $objectManager->addSharedInstance($this->_model, 'Magento\Translate');
+        $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Composite');
+        $objectManager->removeSharedInstance('Magento\Phrase\Renderer\Translate');
+        \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\RendererInterface'));
+        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
     }
 
     /**
@@ -102,27 +94,18 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      * @covers \Magento\Backend\Model\Resource\Translate::_getStoreId
      * @covers \Magento\Backend\Model\Resource\Translate\String::_getStoreId
      */
-    public function testInitCaching()
+    public function testLoadDataCaching()
     {
-        // ensure string translation is cached
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
-
         /** @var \Magento\Translation\Model\Resource\String $translateString */
         $translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Translation\Model\Resource\String');
         $translateString->saveTranslate('Fixture String', 'New Db Translation');
 
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, null);
-        $this->assertEquals(
-            'Fixture Db Translation', $this->_model->translate(array('Fixture String')),
-            'Translation is expected to be cached'
-        );
+        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND);
+        $this->assertEquals('Fixture Db Translation', __('Fixture String'), 'Translation is expected to be cached');
 
-        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, null, true);
-        $this->assertEquals(
-            'New Db Translation', $this->_model->translate(array('Fixture String')),
-            'Forced load should not use cache'
-        );
+        $this->_model->loadData(\Magento\Core\Model\App\Area::AREA_FRONTEND, true);
+        $this->assertEquals('New Db Translation', __('Fixture String'), 'Forced load should not use cache');
     }
 
     /**
@@ -131,11 +114,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranslate($inputText, $expectedTranslation)
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate');
-        $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-
-        $actualTranslation = $this->_model->translate(array($inputText));
+        $actualTranslation = __($inputText);
         $this->assertEquals($expectedTranslation, $actualTranslation);
     }
 
@@ -159,12 +138,5 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 'Design translated value'
             )
         );
-    }
-
-    public function testGetSetTranslateInline()
-    {
-        $this->assertEquals(true, $this->_model->getTranslateInline());
-        $this->_model->setTranslateInline(false);
-        $this->assertEquals(false, $this->_model->getTranslateInline());
     }
 }

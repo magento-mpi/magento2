@@ -9,6 +9,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Translate\InlineInterface" type="Magento\Translate\Inline" />
+    <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Translation\Model\Inline\Config" />
     <preference for="Magento\Translate\Inline\ProviderInterface" type="Magento\Translate\Inline\Provider" />
     <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />

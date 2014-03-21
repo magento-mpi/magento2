@@ -68,12 +68,12 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
     {
         /** @var \Magento\Translation\Model\Resource\String $string */
         $string = $this->_objectManager->create('Magento\Translation\Model\Resource\String');
-        $this->assertEquals($this->_translate('string to translate'), 'predefined string translation');
+        $this->assertEquals('predefined string translation', $this->_translate('string to translate'));
         $string->saveTranslate('string to translate', 'new string translation');
         $postData = $this->_getAttributeData() + array('attribute_id' => 1);
         $this->getRequest()->setPost($postData);
         $this->dispatch('backend/catalog/product_attribute/save');
-        $this->assertEquals($this->_translate('string to translate'), 'new string translation');
+        $this->assertEquals('new string translation', $this->_translate('string to translate'));
     }
 
     /**
@@ -88,9 +88,9 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDesignTheme(1);
         /** @var \Magento\TranslateInterface $translate */
-        $translate = $this->_objectManager->create('Magento\TranslateInterface');
-        $translate->loadData(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, null, true);
-        return $translate->translate(array($string));
+        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        $translate->loadData(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE, true);
+        return __($string);
     }
 
     /**
