@@ -58,13 +58,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_countFilterPart    = array();
 
     /**
-     * Customer factory
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * Customer Eav data
      *
      * @var   \Magento\Eav\Helper\Data
@@ -76,8 +69,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * \Magento\Eav\Helper\Data $customerHelperData
+     * @param \Magento\Eav\Helper\Data $customerHelperData
      * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -86,7 +78,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Eav\Helper\Data $customerHelperData,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
