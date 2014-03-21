@@ -157,6 +157,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('"code":"test_configurable","label":"Test Configurable"', $body);
         $this->assertContains('"label":"Option 1","price":"5","oldPrice":"5","products":[', $body);
         $this->assertContains('"label":"Option 2","price":"5","oldPrice":"5","products":[', $body);
-        $this->assertContains('"basePrice":"100","oldPrice":"100","productId":"1","chooseText":"Choose an Option..."', $body);
+        $this->assertContains('"basePrice":"100","oldPrice":"100","productId":"1","chooseText":"Choose an Option..."',
+            $body);
     }
 }
