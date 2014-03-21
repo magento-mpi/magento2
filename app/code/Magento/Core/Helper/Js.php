@@ -79,7 +79,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
      *
      * @return array
      */
-    protected function getTranslateData()
+    public function getTranslateData()
     {
         if (!$this->_translateData) {
             $this->_populateTranslateData();
