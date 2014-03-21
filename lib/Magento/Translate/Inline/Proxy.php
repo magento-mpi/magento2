@@ -18,32 +18,30 @@ class Proxy extends \Magento\Translate\Inline
      *
      * @var \Magento\ObjectManager
      */
-    protected $_objectManager = null;
+    protected $objectManager;
 
     /**
      * Proxied instance name
      *
      * @var string
      */
-    protected $_instanceName = null;
+    protected $instanceName;
 
     /**
      * Proxied instance
      *
      * @var \Magento\DesignEditor\Model\Translate\Inline
      */
-    protected $_subject = null;
+    protected $subject;
 
     /**
      * Instance shareability flag
      *
      * @var bool
      */
-    protected $_isShared = null;
+    protected $isShared;
 
     /**
-     * Proxy constructor
-     *
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      * @param bool $shared
@@ -53,9 +51,9 @@ class Proxy extends \Magento\Translate\Inline
         $instanceName = 'Magento\Translate\Inline',
         $shared = true
     ) {
-        $this->_objectManager = $objectManager;
-        $this->_instanceName = $instanceName;
-        $this->_isShared = $shared;
+        $this->objectManager = $objectManager;
+        $this->instanceName = $instanceName;
+        $this->isShared = $shared;
     }
 
     /**
@@ -71,7 +69,7 @@ class Proxy extends \Magento\Translate\Inline
      */
     public function __wakeup()
     {
-        $this->_objectManager = \Magento\App\ObjectManager::getInstance();
+        $this->objectManager = \Magento\App\ObjectManager::getInstance();
     }
 
     /**
@@ -79,7 +77,7 @@ class Proxy extends \Magento\Translate\Inline
      */
     public function __clone()
     {
-        $this->_subject = clone $this->_getSubject();
+        $this->subject = clone $this->_getSubject();
     }
 
     /**
@@ -89,16 +87,18 @@ class Proxy extends \Magento\Translate\Inline
      */
     protected function _getSubject()
     {
-        if (!$this->_subject) {
-            $this->_subject = true === $this->_isShared
-                ? $this->_objectManager->get($this->_instanceName)
-                : $this->_objectManager->create($this->_instanceName);
+        if (!$this->subject) {
+            $this->subject = true === $this->isShared
+                ? $this->objectManager->get($this->instanceName)
+                : $this->objectManager->create($this->instanceName);
         }
-        return $this->_subject;
+        return $this->subject;
     }
 
     /**
-     * {@inheritdoc}
+     * Check if Inline Translates is allowed
+     *
+     * @return bool
      */
     public function isAllowed()
     {
@@ -106,7 +106,9 @@ class Proxy extends \Magento\Translate\Inline
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve Inline Parser instance
+     *
+     * @return \Magento\Translate\Inline\ParserInterface
      */
     public function getParser()
     {
@@ -114,7 +116,11 @@ class Proxy extends \Magento\Translate\Inline
     }
 
     /**
-     * {@inheritdoc}
+     * Replace translation templates with HTML fragments
+     *
+     * @param array|string &$body
+     * @param bool $isJson
+     * @return $this
      */
     public function processResponseBody(&$body, $isJson = false)
     {
@@ -122,7 +128,10 @@ class Proxy extends \Magento\Translate\Inline
     }
 
     /**
-     * {@inheritdoc}
+     * Additional translation mode html attribute is not needed for base inline translation.
+     *
+     * @param mixed|string|null $tagName
+     * @return null
      */
     public function getAdditionalHtmlAttribute($tagName = null)
     {
