@@ -107,4 +107,25 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         return $this->_translationMode !== null;
     }
+
+    /**
+     * This method returns an indicator of whether or not the current request is for vde
+     *
+     * @param RequestInterface $request
+     * @return bool
+     */
+    public function isVdeRequest(RequestInterface $request = null)
+    {
+        $result = false;
+        if (null !== $request) {
+            $splitPath = explode('/', trim($request->getOriginalPathInfo(), '/'));
+            if (count($splitPath) >= 3) {
+                list($frontName, $currentMode, $themeId) = $splitPath;
+                $result = ($frontName === $this->_frontName)
+                    && in_array($currentMode, [\Magento\DesignEditor\Model\State::MODE_NAVIGATION])
+                    && is_numeric($themeId);
+            }
+        }
+        return $result;
+    }
 }

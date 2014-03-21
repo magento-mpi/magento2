@@ -29,7 +29,6 @@
         <arguments>
             <argument name="vdeInlineTranslate" xsi:type="object">Magento\DesignEditor\Model\Translate\Inline\Proxy</argument>
             <argument name="inlineTranslate" xsi:type="object">\Magento\Translate\Inline\Proxy</argument>
-            <argument name="frontName" xsi:type="string">vde</argument>
         </arguments>
     </type>
     <type name="Magento\Phrase\Renderer\Inline">

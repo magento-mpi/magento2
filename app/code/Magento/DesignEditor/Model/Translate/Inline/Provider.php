@@ -8,17 +8,8 @@
 
 namespace Magento\DesignEditor\Model\Translate\Inline;
 
-use Magento\App\RequestInterface;
-
 class Provider extends \Magento\Translate\Inline\Provider
 {
-    /**
-     * XML path to VDE front name setting
-     *
-     * @var string
-     */
-    protected $frontName;
-
     /**
      * @var \Magento\Translate\InlineInterface
      */
@@ -30,18 +21,31 @@ class Provider extends \Magento\Translate\Inline\Provider
     protected $inlineTranslate;
 
     /**
+     * @var \Magento\App\RequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var \Magento\DesignEditor\Helper\Data
+     */
+    protected $helper;
+
+    /**
      * @param \Magento\Translate\InlineInterface $vdeInlineTranslate
      * @param \Magento\Translate\InlineInterface $inlineTranslate
-     * @param string $frontName
+     * @param \Magento\DesignEditor\Helper\Data $helper
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Translate\InlineInterface $vdeInlineTranslate,
         \Magento\Translate\InlineInterface $inlineTranslate,
-        $frontName
+        \Magento\DesignEditor\Helper\Data $helper,
+        \Magento\App\RequestInterface $request
     ) {
         $this->vdeInlineTranslate = $vdeInlineTranslate;
         $this->inlineTranslate = $inlineTranslate;
-        $this->frontName = $frontName;
+        $this->request = $request;
+        $this->helper = $helper;
     }
 
     /**
@@ -51,29 +55,8 @@ class Provider extends \Magento\Translate\Inline\Provider
      */
     public function get()
     {
-        return $this->isVdeRequest()
+        return $this->helper->isVdeRequest($this->request)
             ? $this->vdeInlineTranslate
             : $this->inlineTranslate;
-    }
-
-    /**
-     * This method returns an indicator of whether or not the current request is for vde
-     *
-     * @param RequestInterface $request
-     * @return bool
-     */
-    protected function isVdeRequest(RequestInterface $request = null)
-    {
-        $result = false;
-        if (null !== $request) {
-            $splitPath = explode('/', trim($request->getOriginalPathInfo(), '/'));
-            if (count($splitPath) >= 3) {
-                list($frontName, $currentMode, $themeId) = $splitPath;
-                $result = ($frontName === $this->frontName)
-                    && in_array($currentMode, [\Magento\DesignEditor\Model\State::MODE_NAVIGATION])
-                    && is_numeric($themeId);
-            }
-        }
-        return $result;
     }
 }

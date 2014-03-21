@@ -1455,6 +1455,6 @@ return array(
     ['translate', 'Magento\Translate'],
     ['_getStoreId', 'Magento\Translation\Model\Resource\Translate', 'getScope'],
     ['_getStoreId', 'Magento\Translation\Model\Resource\String', 'getScope'],
-    ['isVdeRequest', 'Magento\DesignEditor\Helper\Data'],
     ['getAvailableModes', 'Magento\DesignEditor\Helper\Data'],
+    ['initializeTranslation', 'Magento\DesignEditor\Model\Observer'],
 );
