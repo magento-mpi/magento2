@@ -84,7 +84,9 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
 
             if (!empty($dup[$key1])) {
-                throw new Exception(__('We found a duplicate website, country, and state tax.'));
+                throw new Exception(
+                    __('We found a duplicate of website, country and state fields for a fixed product tax')
+                );
             }
             $dup[$key1] = 1;
         }

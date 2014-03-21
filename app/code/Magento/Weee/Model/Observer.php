@@ -244,7 +244,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $options['plusDisposition'] = $helper->getAmount($_product);
 
         // Exclude Weee amount from excluding tax amount
-        if (!$helper->typeOfDisplay($_product, array(Tax::DISPLAY_INCL, Tax::DISPLAY_INCL_DESCR))) {
+        if (!$helper->typeOfDisplay(array(Tax::DISPLAY_INCL, Tax::DISPLAY_INCL_DESCR))) {
             $options['exclDisposition'] = true;
         }
 
@@ -285,7 +285,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $options['plusDisposition'] = $amount;
         $options['plusDispositionTax'] = $taxes < 0 ? 0 : $taxes;
         // Exclude Weee amount from excluding tax amount
-        if (!$weeeHelper->typeOfDisplay($_product, array(0, 1, 4))) {
+        if (!$weeeHelper->typeOfDisplay(array(0, 1, 4))) {
             $options['exclDisposition'] = true;
         }
 
