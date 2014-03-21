@@ -7,8 +7,8 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Convert;
+
 use Magento\Convert\Container\AbstractContainer;
 use Magento\Exception;
 
@@ -18,8 +18,11 @@ use Magento\Exception;
 class ConvertException extends Exception
 {
     const NOTICE = 'NOTICE';
+
     const WARNING = 'WARNING';
+
     const ERROR = 'ERROR';
+
     const FATAL = 'FATAL';
 
     /**

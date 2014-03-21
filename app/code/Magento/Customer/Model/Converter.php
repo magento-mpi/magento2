@@ -55,7 +55,6 @@ class Converter
         return $customerBuilder->create();
     }
 
-
     /**
      * Retrieve customer model by his ID.
      *
@@ -174,7 +173,7 @@ class Converter
      */
     protected function _populateBuilderWithAttributes(Customer $customerModel)
     {
-        $attributes = [];
+        $attributes = array();
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $customerModel->getDataUsingMethod($attrCode);
@@ -190,5 +189,4 @@ class Converter
 
         return $this->_customerBuilder->populateWithArray($attributes);
     }
-
 }

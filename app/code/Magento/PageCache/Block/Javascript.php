@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Block;
 
 /**
@@ -36,7 +35,6 @@ class Javascript extends \Magento\View\Element\Template
         $this->helper = $helper;
         parent::__construct($context, $data);
     }
-
 
     /**
      * Retrieve script options encoded to json

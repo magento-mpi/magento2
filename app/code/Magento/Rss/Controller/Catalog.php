@@ -23,10 +23,8 @@ class Catalog extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Store\Config $storeConfig
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Core\Model\Store\Config $storeConfig)
+    {
         $this->_storeConfig = $storeConfig;
         parent::__construct($context);
     }
@@ -60,7 +58,7 @@ class Catalog extends \Magento\App\Action\Action
      */
     public function categoryAction()
     {
-         $this->_genericAction('category');
+        $this->_genericAction('category');
     }
 
     /**

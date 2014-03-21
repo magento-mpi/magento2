@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Edit;
 
 /**
@@ -21,8 +20,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToHtml()
     {
-        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Rma\Model\Rma');
+        $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rma\Model\Rma');
         $rma->load(1, 'increment_id');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -36,8 +34,11 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
         $layout->getUpdate()->addHandle('adminhtml_rma_edit')->load();
         $layout->generateXml()->generateElements();
         $layout->addOutputElement('magento_rma_edit_tab_items');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea('adminhtml');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setArea(
+            'adminhtml'
+        );
         $this->assertContains('<div id="magento_rma_item_edit_grid">', $layout->getOutput());
     }
 }

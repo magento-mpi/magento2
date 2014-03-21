@@ -81,9 +81,8 @@ class Observer
         $messages = $this->messageManager->getMessages();
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(\Magento\Message\MessageInterface::TYPE_NOTICE);
-        $status = (empty($errors) && empty($notices))
-            ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
-        return $eventModel->setStatus($status)
-            ->setInfo($this->_request->getParam('invitations'));
+        $status = empty($errors) &&
+            empty($notices) ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
+        return $eventModel->setStatus($status)->setInfo($this->_request->getParam('invitations'));
     }
 }

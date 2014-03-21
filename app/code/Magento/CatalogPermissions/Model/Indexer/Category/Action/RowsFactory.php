@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogPermissions\Model\Indexer\Category\Action;
 
 /**
@@ -52,9 +51,10 @@ class RowsFactory
     {
         /** @var \Magento\CatalogPermissions\Model\Indexer\AbstractAction $instance */
         $instance = $this->objectManager->create($this->instanceName, $data);
-        if (!($instance instanceof \Magento\CatalogPermissions\Model\Indexer\AbstractAction)) {
-            throw new \InvalidArgumentException($this->instanceName
-                . ' is not instance of \Magento\CatalogPermissions\Model\Indexer\AbstractAction');
+        if (!$instance instanceof \Magento\CatalogPermissions\Model\Indexer\AbstractAction) {
+            throw new \InvalidArgumentException(
+                $this->instanceName . ' is not instance of \Magento\CatalogPermissions\Model\Indexer\AbstractAction'
+            );
         }
         return $instance;
     }

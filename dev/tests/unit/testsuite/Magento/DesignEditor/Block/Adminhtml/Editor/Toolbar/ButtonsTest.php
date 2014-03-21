@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
 
 class ButtonsTest extends \PHPUnit_Framework_TestCase
@@ -31,9 +30,7 @@ class ButtonsTest extends \PHPUnit_Framework_TestCase
 
         $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array('getUrl'), array(), '', false);
 
-        $arguments = array(
-            'urlBuilder' => $this->_urlBuilder
-        );
+        $arguments = array('urlBuilder' => $this->_urlBuilder);
 
         $this->_block = $helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons', $arguments);
     }

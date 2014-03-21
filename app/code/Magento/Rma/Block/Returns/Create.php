@@ -136,9 +136,7 @@ class Create extends \Magento\Rma\Block\Form
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
         $itemForm = $this->_itemFormFactory->create();
-        $itemForm->setFormCode('default')
-            ->setStore($this->getStore())
-            ->setEntity($itemModel);
+        $itemForm->setFormCode('default')->setStore($this->getStore())->setEntity($itemModel);
 
         // prepare item attributes to show
         $attributes = array();
@@ -171,8 +169,8 @@ class Create extends \Magento\Rma\Block\Form
      */
     public function getContactEmail()
     {
-        $data   = $this->getFormData();
-        $email  = '';
+        $data = $this->getFormData();
+        $email = '';
 
         if ($data) {
             $email = $this->escapeHtml($data->getCustomerCustomEmail());
@@ -192,6 +190,6 @@ class Create extends \Magento\Rma\Block\Form
     protected function _compareSortOrder(Attribute $a, Attribute $b)
     {
         $diff = $a->getSortOrder() - $b->getSortOrder();
-        return $diff ? ($diff > 0 ? 1 : -1) : 0;
+        return $diff ? $diff > 0 ? 1 : -1 : 0;
     }
 }

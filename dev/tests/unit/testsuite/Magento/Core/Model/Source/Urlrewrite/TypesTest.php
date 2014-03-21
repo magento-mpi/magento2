@@ -24,10 +24,7 @@ class TypesTest extends \PHPUnit_Framework_TestCase
         $model = new \Magento\Core\Model\Source\Urlrewrite\Types();
         $options = $model->getAllOptions();
         $this->assertInternalType('array', $options);
-        $expectedOptions = array(
-            1 => 'System',
-            0 => 'Custom'
-        );
+        $expectedOptions = array(1 => 'System', 0 => 'Custom');
         $this->assertEquals($expectedOptions, $options);
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Css\PreProcessor\Cache\Import;
 
 use Magento\Less\PreProcessor\File\Less;

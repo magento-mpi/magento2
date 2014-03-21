@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Test\Fixture;
 
 use Mtf\Fixture\DataFixture;
@@ -63,7 +62,9 @@ class Resource extends DataFixture
     /**
      * {@inheritdoc}
      */
-    protected function _initData() {}
+    protected function _initData()
+    {
+    }
 
     /**
      * Just a stub of inherited method

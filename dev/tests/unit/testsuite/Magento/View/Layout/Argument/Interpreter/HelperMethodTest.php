@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument\Interpreter;
 
 class HelperMethodTest extends \PHPUnit_Framework_TestCase
@@ -29,28 +28,31 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_interpreter = $this->getMock(
-            'Magento\View\Layout\Argument\Interpreter\NamedParams', array(), array(), '', false
+            'Magento\View\Layout\Argument\Interpreter\NamedParams',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->_model = new HelperMethod($this->_objectManager, $this->_interpreter);
     }
 
     public function testEvaluate()
     {
-        $input = array(
-            'value' => 'some text',
-            'helper' => __CLASS__ . '::help'
-        );
+        $input = array('value' => 'some text', 'helper' => __CLASS__ . '::help');
 
         $evaluatedValue = array('value' => 'some text (evaluated)');
-        $this->_interpreter->expects($this->once())
-            ->method('evaluate')
-            ->with($input)
-            ->will($this->returnValue($evaluatedValue));
+        $this->_interpreter->expects(
+            $this->once()
+        )->method(
+            'evaluate'
+        )->with(
+            $input
+        )->will(
+            $this->returnValue($evaluatedValue)
+        );
 
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with(__CLASS__)
-            ->will($this->returnValue($this));
+        $this->_objectManager->expects($this->once())->method('get')->with(__CLASS__)->will($this->returnValue($this));
 
         $expected = 'some text (evaluated) (updated)';
         $actual = $this->_model->evaluate($input);
@@ -72,10 +74,7 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
     public function testEvaluateException($helperMethod, $expectedExceptionMessage)
     {
         $this->setExpectedException('\InvalidArgumentException', $expectedExceptionMessage);
-        $input = array(
-            'value' => 'some text',
-            'helper' => $helperMethod
-        );
+        $input = array('value' => 'some text', 'helper' => $helperMethod);
         $this->_model->evaluate($input);
     }
 
@@ -84,11 +83,10 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
         $nonExistingHelper = __CLASS__ . '::non_existing';
         return array(
             'wrong method format' => array(
-                'help', 'Helper method name in format "\Class\Name::methodName" is expected'
+                'help',
+                'Helper method name in format "\Class\Name::methodName" is expected'
             ),
-            'non-existing method' => array(
-                $nonExistingHelper, "Helper method '$nonExistingHelper' does not exist"
-            ),
+            'non-existing method' => array($nonExistingHelper, "Helper method '{$nonExistingHelper}' does not exist")
         );
     }
 }

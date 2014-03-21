@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GiftCardAccount\Controller;
 
 class CartTest extends \Magento\TestFramework\TestCase\AbstractController

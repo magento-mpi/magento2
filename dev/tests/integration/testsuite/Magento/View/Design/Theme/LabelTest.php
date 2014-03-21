@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Theme;
 
 class LabelTest extends \PHPUnit_Framework_TestCase
@@ -18,8 +17,9 @@ class LabelTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\Theme\Label');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\View\Design\Theme\Label'
+        );
     }
 
     /**
@@ -28,8 +28,9 @@ class LabelTest extends \PHPUnit_Framework_TestCase
     public function testGetLabelsCollection()
     {
         /** @var $expectedCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $expectedCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Design\Theme\Label\ListInterface');
+        $expectedCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\View\Design\Theme\Label\ListInterface'
+        );
 
         $expectedItemsCount = count($expectedCollection->getLabels());
 

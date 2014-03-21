@@ -18,8 +18,7 @@
  */
 namespace Magento\Invitation\Model\Resource\Report\Invitation\Customer;
 
-class Collection
-    extends \Magento\Reports\Model\Resource\Customer\Collection
+class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
 {
     /**
      * Joins Invitation report data, and filter by date
@@ -31,16 +30,18 @@ class Collection
     public function setDateRange($fromDate, $toDate)
     {
         $this->_reset();
-        $this->getSelect()
-            ->join(array('invitation' => $this->getTable('magento_invitation')),
-                'invitation.customer_id = e.entity_id',
-                array(
-                    'sent' => new \Zend_Db_Expr('COUNT(invitation.invitation_id)'),
-                    'accepted' => new \Zend_Db_Expr('COUNT(invitation.referral_id) ')
-                )
-            )->group('e.entity_id');
+        $this->getSelect()->join(
+            array('invitation' => $this->getTable('magento_invitation')),
+            'invitation.customer_id = e.entity_id',
+            array(
+                'sent' => new \Zend_Db_Expr('COUNT(invitation.invitation_id)'),
+                'accepted' => new \Zend_Db_Expr('COUNT(invitation.referral_id) ')
+            )
+        )->group(
+            'e.entity_id'
+        );
 
-        $this->_joinFields['invitation_store_id'] = array('table' =>'invitation', 'field' => 'store_id');
+        $this->_joinFields['invitation_store_id'] = array('table' => 'invitation', 'field' => 'store_id');
         $this->_joinFields['invitation_date'] = array('table' => 'invitation', 'field' => 'invitation_date');
 
         // Filter by date range

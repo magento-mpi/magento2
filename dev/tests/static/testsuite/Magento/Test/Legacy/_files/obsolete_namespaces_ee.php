@@ -9,6 +9,4 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    array('/app/code/core/Enterprise', '/app/code/Magento'),
-);
+return array(array('/app/code/core/Enterprise', '/app/code/Magento'));

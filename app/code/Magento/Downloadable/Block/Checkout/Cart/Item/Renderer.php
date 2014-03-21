@@ -19,7 +19,6 @@ namespace Magento\Downloadable\Block\Checkout\Cart\Item;
 
 class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
-
     /**
      * Downloadable catalog product configuration
      *
@@ -49,7 +48,13 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
         parent::__construct(
-            $context, $productConfig, $checkoutSession, $imageHelper, $urlHelper, $messageManager, $data
+            $context,
+            $productConfig,
+            $checkoutSession,
+            $imageHelper,
+            $urlHelper,
+            $messageManager,
+            $data
         );
     }
 

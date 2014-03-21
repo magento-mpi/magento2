@@ -16,8 +16,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Design
-    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
+class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
 {
     /**
      * Cms data

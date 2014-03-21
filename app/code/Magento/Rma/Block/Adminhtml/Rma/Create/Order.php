@@ -15,7 +15,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Create;
 
 class Order extends \Magento\Rma\Block\Adminhtml\Rma\Create\AbstractCreate

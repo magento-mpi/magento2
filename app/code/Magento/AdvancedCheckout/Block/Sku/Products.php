@@ -34,6 +34,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
      * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
@@ -48,6 +49,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\App\Http\Context $httpContext,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
@@ -63,6 +65,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $checkoutSession,
             $catalogUrlBuilder,
             $cartHelper,
+            $httpContext,
             $data
         );
         $this->_isScopePrivate = true;
@@ -121,16 +124,16 @@ class Products extends \Magento\Checkout\Block\Cart
             if ($item->getProductType() == 'undefined') {
                 continue;
             }
-            $product    = $item->getProduct();
-            $option     = $item->getOptionByCode('product_type');
+            $product = $item->getProduct();
+            $option = $item->getOptionByCode('product_type');
             if ($option) {
                 $product = $option->getProduct();
             }
 
-            if ($item->getStoreId() != $this->_storeManager->getStore()->getId()
-                && !$item->getRedirectUrl()
-                && !$product->isVisibleInSiteVisibility())
-            {
+            if ($item->getStoreId() != $this->_storeManager->getStore()->getId() &&
+                !$item->getRedirectUrl() &&
+                !$product->isVisibleInSiteVisibility()
+            ) {
                 $products[$product->getId()] = $item->getStoreId();
             }
         }
@@ -141,8 +144,8 @@ class Products extends \Magento\Checkout\Block\Cart
                 if ($item->getProductType() == 'undefined') {
                     continue;
                 }
-                $product    = $item->getProduct();
-                $option     = $item->getOptionByCode('product_type');
+                $product = $item->getProduct();
+                $option = $item->getOptionByCode('product_type');
                 if ($option) {
                     $product = $option->getProduct();
                 }
@@ -169,9 +172,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
-            $this->getUrl('checkout/cart/removeFailed', array(
-                'sku' => $this->_coreUrl->urlEncode($item->getSku())
-            ))
+            $this->getUrl('checkout/cart/removeFailed', array('sku' => $this->_coreUrl->urlEncode($item->getSku())))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));
 
@@ -193,8 +194,9 @@ class Products extends \Magento\Checkout\Block\Cart
             $productsByGroups = $product->getTypeInstance()->getProductsToPurchaseByReqGroups($product);
             foreach ($productsByGroups as $productsInGroup) {
                 foreach ($productsInGroup as $childProduct) {
-                    if (($childProduct->hasStockItem() && $childProduct->getStockItem()->getIsInStock())
-                        && !$childProduct->isDisabled()
+                    if ($childProduct->hasStockItem() &&
+                        $childProduct->getStockItem()->getIsInStock() &&
+                        !$childProduct->isDisabled()
                     ) {
                         return true;
                     }

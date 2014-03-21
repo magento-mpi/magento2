@@ -41,17 +41,22 @@ class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
     {
         $read = $this->_getReadAdapter();
 
-        $select = $read->select()->from($this->getMainTable())
-            ->forUpdate(true)
-            ->where(implode(' AND ', array(
-                'increment_type  = :increment_type',
-                'increment_node  = :increment_node',
-                'increment_level = :increment_level'
-             )));
+        $select = $read->select()->from(
+            $this->getMainTable()
+        )->forUpdate(
+            true
+        )->where(
+            implode(
+                ' AND ',
+                array(
+                    'increment_type  = :increment_type',
+                    'increment_node  = :increment_node',
+                    'increment_level = :increment_level'
+                )
+            )
+        );
 
-        $bind = array(':increment_type'  => $type,
-                      ':increment_node'  => $node,
-                      ':increment_level' => $level);
+        $bind = array(':increment_type' => $type, ':increment_node' => $node, ':increment_level' => $level);
 
         $data = $read->fetchRow($select, $bind);
 
@@ -76,10 +81,10 @@ class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function cleanIncrementRecord($type, $node, $level)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(),
-            array('increment_type = ?'  => $type,
-                  'increment_node = ?'  => $node,
-                  'increment_level = ?' => $level));
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(),
+            array('increment_type = ?' => $type, 'increment_node = ?' => $node, 'increment_level = ?' => $level)
+        );
 
         return $this;
     }

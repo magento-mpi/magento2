@@ -18,7 +18,7 @@ class Customer extends \Magento\Customer\Model\Customer
      */
     public function getStoreId()
     {
-        if (($this->getWebsiteId() * 1)) {
+        if ($this->getWebsiteId() * 1) {
             return $this->_getWebsiteStoreId();
         }
         return parent::getStoreId();

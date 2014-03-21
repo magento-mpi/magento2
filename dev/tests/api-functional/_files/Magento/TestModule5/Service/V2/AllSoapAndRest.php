@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V2;
 
 use Magento\TestModule5\Service\V2\Entity\AllSoapAndRestBuilder;
@@ -28,7 +27,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
     {
         $allSoapAndRest1 = (new AllSoapAndRestBuilder())->setPrice(1)->setId(1)->setName('testProduct1')->create();
         $allSoapAndRest2 = (new AllSoapAndRestBuilder())->setPrice(1)->setId(2)->setName('testProduct2')->create();
-        return [$allSoapAndRest1, $allSoapAndRest2];
+        return array($allSoapAndRest1, $allSoapAndRest2);
     }
 
     /**

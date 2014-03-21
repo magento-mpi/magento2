@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 
 class Js extends \Magento\Backend\Block\Template
@@ -50,9 +49,10 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getLoadAttributesUrl()
     {
-        return $this->getUrl('adminhtml/*/loadNewAttributes', array(
-            'order_id' => $this->_coreRegistry->registry('current_order')->getId()
-        ));
+        return $this->getUrl(
+            'adminhtml/*/loadNewAttributes',
+            array('order_id' => $this->_coreRegistry->registry('current_order')->getId())
+        );
     }
 
     /**

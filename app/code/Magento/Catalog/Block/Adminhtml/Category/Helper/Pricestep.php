@@ -28,8 +28,8 @@ class Pricestep extends \Magento\Data\Form\Element\Text
     public function getToggleCode()
     {
         $htmlId = 'use_config_' . $this->getHtmlId();
-        return "toggleValueElements(this, this.parentNode.parentNode);"
-            . "if (!this.checked) toggleValueElements($('$htmlId'), $('$htmlId').parentNode);";
+        return "toggleValueElements(this, this.parentNode.parentNode);" .
+            "if (!this.checked) toggleValueElements(\$('{$htmlId}'), \$('{$htmlId}').parentNode);";
     }
 
     /**
@@ -50,8 +50,8 @@ class Pricestep extends \Magento\Data\Form\Element\Text
         parent::addClass('validate-number validate-number-range number-range-0.01-1000000000');
         $html = parent::getElementHtml();
         $htmlId = 'use_config_' . $this->getHtmlId();
-        $html .= '<br/><input id="'.$htmlId.'" name="use_config[]" value="' . $this->getId() . '"';
-        $html .= ($disabled ? ' checked="checked"' : '');
+        $html .= '<br/><input id="' . $htmlId . '" name="use_config[]" value="' . $this->getId() . '"';
+        $html .= $disabled ? ' checked="checked"' : '';
 
         if ($this->getReadonly() || $elementDisabled) {
             $html .= ' disabled="disabled"';
@@ -59,10 +59,14 @@ class Pricestep extends \Magento\Data\Form\Element\Text
 
         $html .= ' onclick="toggleValueElements(this, this.parentNode);" class="checkbox" type="checkbox" />';
 
-        $html .= ' <label for="' . $htmlId . '" class="normal">'
-            . __('Use Config Settings') .'</label>';
-        $html .= '<script type="text/javascript">' . 'toggleValueElements($(\'' . $htmlId . '\'), $(\'' . $htmlId
-            . '\').parentNode);' . '</script>';
+        $html .= ' <label for="' . $htmlId . '" class="normal">' . __('Use Config Settings') . '</label>';
+        $html .= '<script type="text/javascript">' .
+            'toggleValueElements($(\'' .
+            $htmlId .
+            '\'), $(\'' .
+            $htmlId .
+            '\').parentNode);' .
+            '</script>';
 
         return $html;
     }

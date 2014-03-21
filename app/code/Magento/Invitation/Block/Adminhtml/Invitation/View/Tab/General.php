@@ -15,8 +15,7 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
  * @category   Magento
  * @package    Magento_Invitation
  */
-class General extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class General extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var string
@@ -170,9 +169,7 @@ class General extends \Magento\Backend\Block\Template
     {
         if (!$this->hasData('referral')) {
             if ($this->getInvitation()->getReferralId()) {
-                $referral = $this->_customerFactory->create()->load(
-                    $this->getInvitation()->getReferralId()
-                );
+                $referral = $this->_customerFactory->create()->load($this->getInvitation()->getReferralId());
             } else {
                 $referral = false;
             }
@@ -192,9 +189,7 @@ class General extends \Magento\Backend\Block\Template
     {
         if (!$this->hasData('customer')) {
             if ($this->getInvitation()->getCustomerId()) {
-                $customer = $this->_customerFactory->create()->load(
-                    $this->getInvitation()->getCustomerId()
-                );
+                $customer = $this->_customerFactory->create()->load($this->getInvitation()->getCustomerId());
             } else {
                 $customer = false;
             }
@@ -213,9 +208,10 @@ class General extends \Magento\Backend\Block\Template
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_groups_collection')) {
-            $groups = $this->_groupFactory->create()->getCollection()
-                ->addFieldToFilter('customer_group_id', array('gt'=> 0))
-                ->load();
+            $groups = $this->_groupFactory->create()->getCollection()->addFieldToFilter(
+                'customer_group_id',
+                array('gt' => 0)
+            )->load();
             $this->setData('customer_groups_collection', $groups);
         }
 
@@ -252,8 +248,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getWebsiteName()
     {
-        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
-            ->getWebsite()->getName();
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsite()->getName();
     }
 
     /**
@@ -263,8 +258,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function getStoreName()
     {
-        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())
-            ->getName();
+        return $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getName();
     }
 
     /**
@@ -275,8 +269,10 @@ class General extends \Magento\Backend\Block\Template
     public function getInvitationUrl()
     {
         if (!$this->getInvitation()->canBeAccepted(
-            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
-                return false;
+            $this->_storeManager->getStore($this->getInvitation()->getStoreId())->getWebsiteId()
+        )
+        ) {
+            return false;
         }
         return $this->_invitationData->getInvitationUrl($this->getInvitation());
     }
@@ -288,7 +284,7 @@ class General extends \Magento\Backend\Block\Template
      */
     public function isInvitedByAdmin()
     {
-        $invitedByAdmin = ($this->getInvitation()->getCustomerId() == null);
+        $invitedByAdmin = $this->getInvitation()->getCustomerId() == null;
         return $invitedByAdmin;
     }
 

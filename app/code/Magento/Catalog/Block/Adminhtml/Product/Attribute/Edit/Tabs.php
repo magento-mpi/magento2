@@ -38,10 +38,10 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->addTab(
             'main',
             array(
-                'label'     => __('Properties'),
-                'title'     => __('Properties'),
-                'content'   => $this->getChildHtml('main'),
-                'active'    => true
+                'label' => __('Properties'),
+                'title' => __('Properties'),
+                'content' => $this->getChildHtml('main'),
+                'active' => true
             )
         );
         $this->addTab(
@@ -49,7 +49,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             array(
                 'label' => __('Manage Labels'),
                 'title' => __('Manage Labels'),
-                'content' => $this->getChildHtml('labels'),
+                'content' => $this->getChildHtml('labels')
             )
         );
         $this->addTab(
@@ -57,7 +57,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             array(
                 'label' => __('Frontend Properties'),
                 'title' => __('Frontend Properties'),
-                'content' => $this->getChildHtml('front'),
+                'content' => $this->getChildHtml('front')
             )
         );
 

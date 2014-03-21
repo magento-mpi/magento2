@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Integrity\Modular;
 
 class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
@@ -29,8 +28,11 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-            ->getPath(\Magento\App\Filesystem::LIB_DIR) . '/Magento/Mview/etc/mview.xsd';
+        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\App\Filesystem'
+        )->getPath(
+            \Magento\App\Filesystem::LIB_DIR
+        ) . '/Magento/Mview/etc/mview.xsd';
     }
 
     /**
@@ -44,7 +46,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
         $result = $domConfig->validate($this->schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
         foreach ($errors as $error) {
-            $message .= "$error\n";
+            $message .= "{$error}\n";
         }
         $this->assertTrue($result, $message);
     }
@@ -55,8 +57,11 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function mviewConfigFileDataProvider()
     {
         $fileList = glob(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::APP_DIR) . '/*/*/*/etc/mview.xml'
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\App\Filesystem'
+            )->getPath(
+                \Magento\App\Filesystem::APP_DIR
+            ) . '/*/*/*/etc/mview.xml'
         );
         $dataProviderResult = array();
         foreach ($fileList as $file) {

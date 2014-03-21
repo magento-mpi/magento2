@@ -50,8 +50,7 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->_imageHelper->init($product, 'thumbnail')
-            ->resize($this->getThumbnailSize());
+        return (string)$this->_imageHelper->init($product, 'thumbnail')->resize($this->getThumbnailSize());
     }
 
     /**

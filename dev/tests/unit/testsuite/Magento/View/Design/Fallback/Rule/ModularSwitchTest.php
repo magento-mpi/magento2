@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
@@ -48,15 +47,17 @@ class ModularSwitchTest extends \PHPUnit_Framework_TestCase
     {
         $inputParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
         $expectedResult = new \stdClass();
-        $this->ruleNonModular
-            ->expects($this->once())
-            ->method('getPatternDirs')
-            ->with($inputParams)
-            ->will($this->returnValue($expectedResult));
+        $this->ruleNonModular->expects(
+            $this->once()
+        )->method(
+            'getPatternDirs'
+        )->with(
+            $inputParams
+        )->will(
+            $this->returnValue($expectedResult)
+        );
 
-        $this->ruleModular
-            ->expects($this->never())
-            ->method('getPatternDirs');
+        $this->ruleModular->expects($this->never())->method('getPatternDirs');
 
         $this->assertSame($expectedResult, $this->object->getPatternDirs($inputParams));
     }
@@ -65,15 +66,17 @@ class ModularSwitchTest extends \PHPUnit_Framework_TestCase
     {
         $inputParams = array('param' => 'value', 'namespace' => 'Magento', 'module' => 'Core');
         $expectedResult = new \stdClass();
-        $this->ruleNonModular
-            ->expects($this->never())
-            ->method('getPatternDirs');
+        $this->ruleNonModular->expects($this->never())->method('getPatternDirs');
 
-        $this->ruleModular
-            ->expects($this->once())
-            ->method('getPatternDirs')
-            ->with($inputParams)
-            ->will($this->returnValue($expectedResult));
+        $this->ruleModular->expects(
+            $this->once()
+        )->method(
+            'getPatternDirs'
+        )->with(
+            $inputParams
+        )->will(
+            $this->returnValue($expectedResult)
+        );
 
         $this->assertSame($expectedResult, $this->object->getPatternDirs($inputParams));
     }
@@ -95,8 +98,8 @@ class ModularSwitchTest extends \PHPUnit_Framework_TestCase
     public function getPatternDirsExceptionDataProvider()
     {
         return array(
-            'no namespace'  => array(array('module' => 'Core')),
-            'no module'     => array(array('namespace' => 'Magento')),
+            'no namespace' => array(array('module' => 'Core')),
+            'no module' => array(array('namespace' => 'Magento'))
         );
     }
 }

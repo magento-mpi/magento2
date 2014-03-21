@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Item;
 
 /**
@@ -43,10 +42,8 @@ class Status extends \Magento\Object
      * @param \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus
      * @param array $data
      */
-    public function __construct(
-        \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus, array $data = array())
+    {
         $this->_sourceStatus = $sourceStatus;
         parent::__construct($data);
     }
@@ -81,16 +78,10 @@ class Status extends \Magento\Object
             ),
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => array(
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
-            ),
+            )
         );
-        $boundingArray = isset($statusesAllowed[$this->getStatus()])
-            ? $statusesAllowed[$this->getStatus()]
-            : array();
-        return
-            array_intersect_key(
-                $this->_sourceStatus->getAllOptionsForGrid(),
-                array_flip($boundingArray)
-            );
+        $boundingArray = isset($statusesAllowed[$this->getStatus()]) ? $statusesAllowed[$this->getStatus()] : array();
+        return array_intersect_key($this->_sourceStatus->getAllOptionsForGrid(), array_flip($boundingArray));
     }
 
     /**
@@ -108,7 +99,7 @@ class Status extends \Magento\Object
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
-            self::STATUS_ORDER_IS_CLOSED,
+            self::STATUS_ORDER_IS_CLOSED
         );
     }
 
@@ -171,7 +162,7 @@ class Status extends \Magento\Object
             return false;
         }
 
-        if (array_search($this->getBorderStatus($attribute), $typeSequence) > $itemStateKey){
+        if (array_search($this->getBorderStatus($attribute), $typeSequence) > $itemStateKey) {
             return true;
         } else {
             return false;
@@ -186,7 +177,7 @@ class Status extends \Magento\Object
      */
     public function getAttributeIsDisabled($attribute)
     {
-        if($this->getSequenceStatus() == self::STATUS_ALL_ARE_EDITABLE) {
+        if ($this->getSequenceStatus() == self::STATUS_ALL_ARE_EDITABLE) {
             return false;
         }
 
@@ -205,7 +196,7 @@ class Status extends \Magento\Object
                 break;
         }
 
-        if ($enabledStatus == $this->getSequenceStatus()){
+        if ($enabledStatus == $this->getSequenceStatus()) {
             return false;
         } else {
             return true;
@@ -252,5 +243,4 @@ class Status extends \Magento\Object
         }
         return parent::setStatus($status);
     }
-
 }

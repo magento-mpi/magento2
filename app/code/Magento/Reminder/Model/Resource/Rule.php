@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Reminder\Model\Resource;
 
 use Magento\Core\Model\AbstractModel;
@@ -27,8 +26,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_associatedEntitiesMap = array(
         'website' => array(
             'associations_table' => 'magento_reminder_rule_website',
-            'rule_id_field'      => 'rule_id',
-            'entity_id_field'    => 'website_id'
+            'rule_id_field' => 'rule_id',
+            'entity_id_field' => 'website_id'
         )
     );
 
@@ -121,12 +120,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     protected function _saveStoreData($rule)
     {
-        $adapter       = $this->_getWriteAdapter();
+        $adapter = $this->_getWriteAdapter();
         $templateTable = $this->getTable('magento_reminder_template');
-        $labels        = (array)$rule->getStoreLabels();
-        $descriptions  = (array)$rule->getStoreDescriptions();
-        $templates     = (array)$rule->getStoreTemplates();
-        $ruleId        = $rule->getId();
+        $labels = (array)$rule->getStoreLabels();
+        $descriptions = (array)$rule->getStoreDescriptions();
+        $templates = (array)$rule->getStoreTemplates();
+        $ruleId = $rule->getId();
 
         $data = array();
         foreach ($templates as $storeId => $templateId) {
@@ -137,10 +136,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                 $templateId = null;
             }
             $data[] = array(
-                'rule_id'     => $ruleId,
-                'store_id'    => $storeId,
+                'rule_id' => $ruleId,
+                'store_id' => $storeId,
                 'template_id' => $templateId,
-                'label'       => isset($labels[$storeId]) ? $labels[$storeId] : '',
+                'label' => isset($labels[$storeId]) ? $labels[$storeId] : '',
                 'description' => isset($descriptions[$storeId]) ? $descriptions[$storeId] : ''
             );
         }
@@ -170,9 +169,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $templateTable = $this->getTable('magento_reminder_template');
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from($templateTable, array('store_id', 'template_id', 'label', 'description'))
-            ->where('rule_id = :rule_id');
+        $select = $adapter->select()->from(
+            $templateTable,
+            array('store_id', 'template_id', 'label', 'description')
+        )->where(
+            'rule_id = :rule_id'
+        );
         return $adapter->fetchAll($select, array('rule_id' => $ruleId));
     }
 
@@ -191,22 +193,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $ruleTable = $this->getTable('magento_reminder_rule');
         $adapter = $this->_getReadAdapter();
 
-        $select = $adapter->select()
-            ->from(
-                array('t' => $templateTable),
-                array(
-                    'template_id',
-                    'label' =>
-                        $adapter->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
-                    'description' =>
-                        $adapter->getCheckSql('t.description IS NOT NULL', 't.description', 'r.default_description')
+        $select = $adapter->select()->from(
+            array('t' => $templateTable),
+            array(
+                'template_id',
+                'label' => $adapter->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
+                'description' => $adapter->getCheckSql(
+                    't.description IS NOT NULL',
+                    't.description',
+                    'r.default_description'
                 )
             )
-            ->join(
-                array('r' => $ruleTable),
-                'r.rule_id = t.rule_id',
-                array()
-            );
+        )->join(
+            array('r' => $ruleTable),
+            'r.rule_id = t.rule_id',
+            array()
+        );
 
         $select->where('t.rule_id = :rule_id');
         $select->where('t.store_id = :store_id');
@@ -271,21 +273,21 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             while (true == ($row = $stmt->fetch())) {
                 if (empty($row['coupon_id']) && $salesRule) {
                     $coupon = $salesRule->acquireCoupon();
-                    $couponId = ($coupon !== null) ? $coupon->getId() : null;
+                    $couponId = $coupon !== null ? $coupon->getId() : null;
                 } else {
                     $couponId = $row['coupon_id'];
                 }
 
                 $dataToInsert[] = array(
-                    'rule_id'       => $ruleId,
-                    'coupon_id'     => $couponId,
-                    'customer_id'   => $row['entity_id'],
+                    'rule_id' => $ruleId,
+                    'coupon_id' => $couponId,
+                    'customer_id' => $row['entity_id'],
                     'associated_at' => $currentDate,
-                    'is_active'     => '1'
+                    'is_active' => '1'
                 );
                 $i++;
 
-                if (($i % 1000) == 0) {
+                if ($i % 1000 == 0) {
                     $adapter->insertOnDuplicate($couponsTable, $dataToInsert, array('is_active'));
                     $dataToInsert = array();
                 }
@@ -313,26 +315,23 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function getCustomersForNotification($limit = null, $ruleId = null)
     {
         $couponTable = $this->getTable('magento_reminder_rule_coupon');
-        $ruleTable   = $this->getTable('magento_reminder_rule');
-        $logTable    = $this->getTable('magento_reminder_rule_log');
-        $adapter     = $this->_getReadAdapter();
+        $ruleTable = $this->getTable('magento_reminder_rule');
+        $logTable = $this->getTable('magento_reminder_rule_log');
+        $adapter = $this->_getReadAdapter();
         $currentDate = $this->dateTime->formatDate(time());
 
-        $select = $adapter->select()
-            ->from(
-                array('c' => $couponTable),
-                array('customer_id', 'coupon_id', 'rule_id')
-            )
-            ->join(
-                array('r' => $ruleTable),
-                'c.rule_id = r.rule_id AND r.is_active = 1',
-                array('schedule' => 'schedule')
-            )
-            ->joinLeft(
-                array('l' => $logTable),
-                'c.rule_id = l.rule_id AND c.customer_id = l.customer_id',
-                array()
-            );
+        $select = $adapter->select()->from(
+            array('c' => $couponTable),
+            array('customer_id', 'coupon_id', 'rule_id')
+        )->join(
+            array('r' => $ruleTable),
+            'c.rule_id = r.rule_id AND r.is_active = 1',
+            array('schedule' => 'schedule')
+        )->joinLeft(
+            array('l' => $logTable),
+            'c.rule_id = l.rule_id AND c.customer_id = l.customer_id',
+            array()
+        );
 
         if ($ruleId) {
             $select->where('c.rule_id = ?', $ruleId);
@@ -340,16 +339,20 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $select->where('c.is_active = 1');
         $select->group(array('c.customer_id', 'c.rule_id'));
-        $select->columns(array(
-            'log_sent_at_max' => 'MAX(l.sent_at)',
-            'log_sent_at_min' => 'MIN(l.sent_at)'
-        ));
+        $select->columns(array('log_sent_at_max' => 'MAX(l.sent_at)', 'log_sent_at_min' => 'MIN(l.sent_at)'));
 
-        $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
-            'finset' => $this->_resourceHelper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
-        ));
-        $select->having('log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND '
-            . $this->_resourceHelper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
+        $findInSetSql = $adapter->prepareSqlCondition(
+            'schedule',
+            array(
+                'finset' => $this->_resourceHelper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
+            )
+        );
+        $select->having(
+            'log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND ' . $this->_resourceHelper->getDateDiff(
+                'log_sent_at_max',
+                $adapter->formatDate($currentDate)
+            ) . ' = 0)'
+        );
 
         if ($limit) {
             $select->limit($limit);
@@ -367,9 +370,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function addNotificationLog($ruleId, $customerId)
     {
         $data = array(
-            'rule_id'     => $ruleId,
+            'rule_id' => $ruleId,
             'customer_id' => $customerId,
-            'sent_at'     => $this->dateTime->formatDate(time())
+            'sent_at' => $this->dateTime->formatDate(time())
         );
 
         $this->_getWriteAdapter()->insert($this->getTable('magento_reminder_rule_log'), $data);
@@ -386,9 +389,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function updateFailedEmailsCounter($ruleId, $customerId)
     {
-        $this->_getWriteAdapter()->update($this->getTable('magento_reminder_rule_coupon'),
+        $this->_getWriteAdapter()->update(
+            $this->getTable('magento_reminder_rule_coupon'),
             array('emails_failed' => new \Zend_Db_Expr('emails_failed + 1')),
-            array('rule_id = ?'   => $ruleId, 'customer_id = ?' => $customerId)
+            array('rule_id = ?' => $ruleId, 'customer_id = ?' => $customerId)
         );
         return $this;
     }
@@ -477,16 +481,19 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             case '!{}':
                 if (is_array($value)) {
                     if (!empty($value)) {
-                        $sqlOperator = ($operator == '{}') ? 'IN' : 'NOT IN';
+                        $sqlOperator = $operator == '{}' ? 'IN' : 'NOT IN';
                         $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' (?)', $value);
                     }
                 } else {
-                    $condition = $adapter->quoteInto($field. ' ' . $sqlOperator . ' ?', '%' . $value . '%');
+                    $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' ?', '%' . $value . '%');
                 }
                 break;
             case 'between':
-                $condition = $field . ' ' . sprintf($sqlOperator,
-                    $adapter->quote($value['start']), $adapter->quote($value['end']));
+                $condition = $field . ' ' . sprintf(
+                    $sqlOperator,
+                    $adapter->quote($value['start']),
+                    $adapter->quote($value['end'])
+                );
                 break;
             default:
                 $condition = $adapter->quoteInto($field . ' ' . $sqlOperator . ' ?', $value);

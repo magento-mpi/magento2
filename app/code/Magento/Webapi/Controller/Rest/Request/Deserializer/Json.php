@@ -9,8 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Rest\Request\Deserializer;
 
-class Json implements
-    \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
+class Json implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterface
 {
     /** @var \Magento\Core\Helper\Data */
     protected $_helper;
@@ -41,10 +40,9 @@ class Json implements
     public function deserialize($encodedBody)
     {
         if (!is_string($encodedBody)) {
-            throw new \InvalidArgumentException(sprintf(
-                '"%s" data type is invalid. String is expected.',
-                gettype($encodedBody)
-            ));
+            throw new \InvalidArgumentException(
+                sprintf('"%s" data type is invalid. String is expected.', gettype($encodedBody))
+            );
         }
         try {
             $decodedBody = $this->_helper->jsonDecode($encodedBody);

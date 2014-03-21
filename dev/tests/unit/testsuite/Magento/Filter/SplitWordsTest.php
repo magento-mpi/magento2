@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Filter;
 
 class SplitWordsTest extends \PHPUnit_Framework_TestCase

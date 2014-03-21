@@ -7,8 +7,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer\Select;
 
-class Extended
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Select
+class Extended extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Select
 {
     /**
      * Prepare data for renderer

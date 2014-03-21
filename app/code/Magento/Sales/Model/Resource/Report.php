@@ -25,7 +25,6 @@ class Report extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected function _construct()
     {
-        
     }
 
     /**

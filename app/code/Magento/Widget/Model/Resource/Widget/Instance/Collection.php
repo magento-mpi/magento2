@@ -27,7 +27,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected $_map = array('fields' => array('type' => 'instance_type'));
 
-
     /**
      * Constructor
      *

@@ -24,7 +24,6 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
      */
     public function render(\Magento\Object $row)
     {
-        return ($row->getCustomerId() > 0 ) ? __('Customer') : __('Visitor') ;
+        return $row->getCustomerId() > 0 ? __('Customer') : __('Visitor');
     }
-
 }

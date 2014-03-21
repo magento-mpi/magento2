@@ -9,8 +9,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Utility;
+
 
 require_once __DIR__ . '/Files.php';
 class Classes
@@ -38,9 +38,12 @@ class Classes
         foreach ($matches as $row) {
             $result = array_merge($result, $row);
         }
-        $result = array_filter(array_unique($result), function ($value) {
-            return !empty($value);
-        });
+        $result = array_filter(
+            array_unique($result),
+            function ($value) {
+                return !empty($value);
+            }
+        );
         return $result;
     }
 
@@ -122,23 +125,32 @@ class Classes
     public static function collectClassesInConfig(\SimpleXMLElement $xml)
     {
         // @todo this method must be refactored after implementation of MAGETWO-7689 (valid configuration)
-        $classes = self::getXmlNodeValues($xml, '
+        $classes = self::getXmlNodeValues(
+            $xml,
+            '
             /config//resource_adapter | /config/*[not(name()="sections")]//class[not(ancestor::observers)]
                 | //model[not(parent::connection)] | //backend_model | //source_model | //price_model
                 | //model_token | //writer_model | //clone_model | //frontend_model | //working_model
                 | //admin_renderer | //renderer | /config/*/di/preferences/*'
         );
         $classes = array_merge($classes, self::getXmlAttributeValues($xml, '//@backend_model', 'backend_model'));
-        $classes = array_merge($classes, self::getXmlNodeNames($xml,
-            '/logging/*/expected_models/* | /logging/*/actions/*/expected_models/* | /config/*/di/preferences/*'
-        ));
+        $classes = array_merge(
+            $classes,
+            self::getXmlNodeNames(
+                $xml,
+                '/logging/*/expected_models/* | /logging/*/actions/*/expected_models/* | /config/*/di/preferences/*'
+            )
+        );
 
         $classes = array_map(array('Magento\TestFramework\Utility\Classes', 'getCallbackClass'), $classes);
         $classes = array_map('trim', $classes);
         $classes = array_unique($classes);
-        $classes = array_filter($classes, function ($value) {
-            return !empty($value);
-        });
+        $classes = array_filter(
+            $classes,
+            function ($value) {
+                return !empty($value);
+            }
+        );
 
         return $classes;
     }
@@ -152,14 +164,18 @@ class Classes
     public static function collectLayoutClasses(\SimpleXMLElement $xml)
     {
         $classes = self::getXmlAttributeValues($xml, '/layout//block[@type]', 'type');
-        $classes = array_merge($classes, self::getXmlNodeValues($xml,
-            '/layout//action/attributeType | /layout//action[@method="addTab"]/content
+        $classes = array_merge(
+            $classes,
+            self::getXmlNodeValues(
+                $xml,
+                '/layout//action/attributeType | /layout//action[@method="addTab"]/content
                 | /layout//action[@method="addPriceBlockType" or @method="addMergeSettingsBlockType"
                     or @method="addInformationRenderer"
                     or @method="addDatabaseBlock"]/*[2]
                 | /layout//action[@method="setMassactionBlockName"]/name
                 | /layout//action[@method="setEntityModelClass"]/code'
-        ));
+            )
+        );
         return array_unique($classes);
     }
 
@@ -174,14 +190,19 @@ class Classes
      */
     public static function collectModuleClasses($subTypePattern = '[A-Za-z]+')
     {
-        $pattern = '/^' . preg_quote(\Magento\TestFramework\Utility\Files::init()->getPathToSource(), '/')
-            . '\/app\/code\/([A-Za-z]+)\/([A-Za-z]+)\/(' . $subTypePattern . '\/.+)\.php$/';
+        $pattern = '/^' . preg_quote(
+            \Magento\TestFramework\Utility\Files::init()->getPathToSource(),
+            '/'
+        ) . '\/app\/code\/([A-Za-z]+)\/([A-Za-z]+)\/(' . $subTypePattern . '\/.+)\.php$/';
         $result = array();
         foreach (\Magento\TestFramework\Utility\Files::init()->getPhpFiles(true, false, false, false) as $file) {
             if (preg_match($pattern, $file, $matches)) {
                 $module = "{$matches[1]}_{$matches[2]}";
-                $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR .
-                    str_replace('/', '\\', $matches[3]);
+                $class = "{$module}" . \Magento\Autoload\IncludePath::NS_SEPARATOR . str_replace(
+                    '/',
+                    '\\',
+                    $matches[3]
+                );
                 $key = str_replace('_', '\\', $class);
                 $result[$key] = $module;
             }
@@ -249,8 +270,6 @@ class Classes
         return self::resolveVirtualType($resolvedName);
     }
 
-
-
     /**
      * Check class is auto-generated
      *
@@ -275,7 +294,9 @@ class Classes
      */
     public static function collectPhpCodeClasses($contents, &$classes = array())
     {
-        self::getAllMatches($contents, '/
+        self::getAllMatches(
+            $contents,
+            '/
             # ::getModel ::getSingleton ::getResourceModel ::getResourceSingleton
             \:\:get(?:Resource)?(?:Model | Singleton)\(\s*[\'"]([^\'"]+)[\'"]\s*[\),]
 
@@ -306,15 +327,27 @@ class Classes
         );
 
         // check ->_init | parent::_init
-        $skipForInit = implode('|',
+        $skipForInit = implode(
+            '|',
             array(
-                'id', '[\w\d_]+_id', 'pk', 'code', 'status', 'serial_number',
-                'entity_pk_value', 'currency_code', 'unique_key',
+                'id',
+                '[\w\d_]+_id',
+                'pk',
+                'code',
+                'status',
+                'serial_number',
+                'entity_pk_value',
+                'currency_code',
+                'unique_key'
             )
         );
-        self::getAllMatches($contents, '/
+        self::getAllMatches(
+            $contents,
+            '/
             (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*\)
-            | (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]((?!(' . $skipForInit . '))[^\'"]+)[\'"]\s*\)
+            | (?:parent\:\: | \->)_init\(\s*[\'"]([^\'"]+)[\'"]\s*,\s*[\'"]((?!(' .
+            $skipForInit .
+            '))[^\'"]+)[\'"]\s*\)
             /Uix',
             $classes
         );

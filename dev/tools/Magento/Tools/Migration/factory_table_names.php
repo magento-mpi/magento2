@@ -8,7 +8,9 @@
  * @license    {license_link}
  */
 
-define('USAGE', <<<USAGE
+define(
+    'USAGE',
+<<<USAGE
 $>./FactoryTableNames.php -- [-dseh]
     additional parameters:
     -d          replacement in dry-run mode
@@ -59,7 +61,7 @@ function getFilesCombinedArray($dirPath, $filePattern)
 {
     $result = array();
     foreach (glob($dirPath . '/' . $filePattern, GLOB_NOSORT | GLOB_BRACE) as $filePath) {
-        $arrayFromFile = include_once($filePath);
+        $arrayFromFile = include_once $filePath;
         $result = array_merge($result, $arrayFromFile);
     }
     return $result;
@@ -131,7 +133,8 @@ function replaceTableNamesInFile($filePath, $search, $replace, $isDryRunMode)
     $newContent = str_replace($search, $replace, $content);
     if ($newContent != $content) {
         echo "{$filePath}\n";
-        echo 'Replaced tables: '; print_r($search);
+        echo 'Replaced tables: ';
+        print_r($search);
         if (!$isDryRunMode) {
             file_put_contents($filePath, $newContent);
         }

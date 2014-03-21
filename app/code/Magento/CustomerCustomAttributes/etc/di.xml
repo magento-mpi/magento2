@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\CustomerCustomAttributes\Helper\Data">
         <arguments>
             <argument name="customerAddress" xsi:type="object">Magento\CustomerCustomAttributes\Helper\Address\Proxy</argument>

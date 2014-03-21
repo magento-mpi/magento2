@@ -76,6 +76,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
 }

@@ -207,11 +207,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $currentDisplayType = $this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY);
 
         $storedDisplayOutOfStockProducts = $this->_customerSession->getDisplayOutOfStockProducts();
-        $currentDisplayOutOfStockProducts = $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK);
-        if (!$this->_customerSession->hasWishlistItemCount()
-                || ($currentDisplayType != $storedDisplayType)
-                || $this->_customerSession->hasDisplayOutOfStockProducts()
-                || ($currentDisplayOutOfStockProducts != $storedDisplayOutOfStockProducts)) {
+        $currentDisplayOutOfStockProducts = $this->_coreStoreConfig->getConfig(
+            self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK
+        );
+        if (!$this->_customerSession->hasWishlistItemCount() ||
+            $currentDisplayType != $storedDisplayType ||
+            $this->_customerSession->hasDisplayOutOfStockProducts() ||
+            $currentDisplayOutOfStockProducts != $storedDisplayOutOfStockProducts
+        ) {
             $this->calculate();
         }
 
@@ -287,9 +290,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConfigureUrl($item)
     {
-        return $this->_getUrl('wishlist/index/configure', array(
-            'id' => $item->getWishlistItemId()
-        ));
+        return $this->_getUrl('wishlist/index/configure', array('id' => $item->getWishlistItemId()));
     }
 
     /**
@@ -352,10 +353,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         $url = $this->_getUrl('wishlist/index/updateItemOptions');
         if ($itemId) {
-            $params = array(
-                'id' => $itemId,
-                'product' => $productId
-            );
+            $params = array('id' => $itemId, 'product' => $productId);
             return $this->_postDataHelper->getPostData($url, $params);
         }
 
@@ -370,12 +368,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAddToCartUrl($item)
     {
-        $continueUrl  = $this->_coreData->urlEncode(
-            $this->_getUrl('*/*/*', array(
-                '_current'      => true,
-                '_use_rewrite'  => true,
-                '_scope_to_url' => true,
-            ))
+        $continueUrl = $this->_coreData->urlEncode(
+            $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
         );
 
         $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
@@ -394,11 +388,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getSharedAddToCartUrl($item)
     {
-        $continueUrl  = $this->_coreData->urlEncode($this->_getUrl('*/*/*', array(
-            '_current'      => true,
-            '_use_rewrite'  => true,
-            '_scope_to_url' => true,
-        )));
+        $continueUrl = $this->_coreData->urlEncode(
+            $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
+        );
 
         $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
@@ -470,18 +462,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $customer = $this->_getCurrentCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = array(
-                'data' => $this->_coreData->urlEncode($key),
-                '_secure' => false,
-            );
+            $params = array('data' => $this->_coreData->urlEncode($key), '_secure' => false);
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;
         }
-        return $this->_getUrl(
-            'rss/index/wishlist',
-            $params
-        );
+        return $this->_getUrl('rss/index/wishlist', $params);
     }
 
     /**
@@ -531,8 +517,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
             } else {
                 $count = $collection->getSize();
             }
-            $this->_customerSession
-                ->setWishlistDisplayType($this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY));
+            $this->_customerSession->setWishlistDisplayType(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_WISHLIST_LINK_USE_QTY)
+            );
             $this->_customerSession->setDisplayOutOfStockProducts(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK)
             );

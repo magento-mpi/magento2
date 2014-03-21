@@ -17,8 +17,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class Dibs
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Dibs extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Dibs payment code

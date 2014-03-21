@@ -47,5 +47,4 @@ class Image extends \Magento\Data\Form\Element\Image
         }
         return $name;
     }
-
 }

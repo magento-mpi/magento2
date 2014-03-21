@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Legacy;
 
 class PhtmlTemplateTest extends \PHPUnit_Framework_TestCase
@@ -30,10 +29,12 @@ class PhtmlTemplateTest extends \PHPUnit_Framework_TestCase
              * @param string $file
              */
             function ($file) {
-                $this->assertNotRegexp('/this->_[^_]+\S*\(/iS',
+                $this->assertNotRegexp(
+                    '/this->_[^_]+\S*\(/iS',
                     file_get_contents($file),
                     'Access to protected and private members of Block class is ' .
-                    'obsolete in phtml templates. Use only public members.');
+                    'obsolete in phtml templates. Use only public members.'
+                );
             },
             \Magento\TestFramework\Utility\Files::init()->getPhtmlFiles()
         );

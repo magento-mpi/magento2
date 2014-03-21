@@ -12,9 +12,7 @@ namespace Magento\Rma\Block\Adminhtml\Order\View\Tab;
 /**
  * Order RMA Grid
  */
-class Rma
-    extends \Magento\Rma\Block\Adminhtml\Rma\Grid
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -71,8 +69,7 @@ class Rma
         }
         if ($orderId) {
             /** @var $collection \Magento\Rma\Model\Resource\Rma\Grid\Collection */
-            $collection = $this->_collectionFactory->create()
-                ->addFieldToFilter('order_id', $orderId);
+            $collection = $this->_collectionFactory->create()->addFieldToFilter('order_id', $orderId);
             $this->setCollection($collection);
         }
         return $this;

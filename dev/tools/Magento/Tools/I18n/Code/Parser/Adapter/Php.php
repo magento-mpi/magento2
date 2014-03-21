@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Tools\I18n\Code\Parser\Adapter;
 
 use Magento\Tools\I18n\Code\Parser\Adapter\Php\Tokenizer\PhraseCollector;

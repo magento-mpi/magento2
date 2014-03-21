@@ -37,13 +37,13 @@ class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
      * Representation value of disabled banner
      *
      */
-    const STATUS_DISABLED  = 0;
+    const STATUS_DISABLED = 0;
 
     /**
      * Representation value of disabled banner
      *
      */
-    const CACHE_TAG  = 'banner';
+    const CACHE_TAG = 'banner';
 
     /**
      * Prefix of model events names
@@ -166,20 +166,17 @@ class Banner extends \Magento\Core\Model\AbstractModel implements \Magento\Objec
     protected function _afterSave()
     {
         if ($this->hasStoreContents()) {
-            $this->_getResource()
-                ->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
+            $this->_getResource()->saveStoreContents(
+                $this->getId(),
+                $this->getStoreContents(),
+                $this->getStoreContentsNotUse()
+            );
         }
         if ($this->hasBannerCatalogRules()) {
-            $this->_getResource()->saveCatalogRules(
-                $this->getId(),
-                $this->getBannerCatalogRules()
-            );
+            $this->_getResource()->saveCatalogRules($this->getId(), $this->getBannerCatalogRules());
         }
         if ($this->hasBannerSalesRules()) {
-            $this->_getResource()->saveSalesRules(
-                $this->getId(),
-                $this->getBannerSalesRules()
-            );
+            $this->_getResource()->saveSalesRules($this->getId(), $this->getBannerSalesRules());
         }
         return parent::_afterSave();
     }

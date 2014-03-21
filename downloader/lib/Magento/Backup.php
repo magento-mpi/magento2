@@ -24,7 +24,7 @@ class Backup
      *
      * @var array
      */
-    static protected $_allowedBackupTypes = array('db', 'snapshot', 'filesystem', 'media', 'nomedia');
+    protected static $_allowedBackupTypes = array('db', 'snapshot', 'filesystem', 'media', 'nomedia');
 
     /**
      * get Backup Instance By File Name
@@ -32,11 +32,11 @@ class Backup
      * @param  string $type
      * @return \Magento\Backup\BackupInterface
      */
-    static public function getBackupInstance($type)
+    public static function getBackupInstance($type)
     {
         $class = 'Magento\Backup\\' . ucfirst($type);
 
-        if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)){
+        if (!in_array($type, self::$_allowedBackupTypes) || !class_exists($class, true)) {
             throw new \Magento\Exception('Current implementation not supported this type (' . $type . ') of backup.');
         }
 

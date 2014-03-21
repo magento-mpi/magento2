@@ -12,8 +12,7 @@ namespace Magento\CustomerSegment\Model\Segment\Condition\Sales;
 use Magento\Customer\Model\Customer;
 use Zend_Db_Expr;
 
-class Purchasedquantity
-    extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
+class Purchasedquantity extends \Magento\CustomerSegment\Model\Segment\Condition\Sales\Combine
 {
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -68,9 +67,13 @@ class Purchasedquantity
      */
     public function asHtml()
     {
-        return $this->getTypeElementHtml()
-            . __('%1 Purchased Quantity %2 %3 while %4 of these Conditions match:', $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return $this->getTypeElementHtml() . __(
+            '%1 Purchased Quantity %2 %3 while %4 of these Conditions match:',
+            $this->getAttributeElementHtml(),
+            $this->getOperatorElementHtml(),
+            $this->getValueElementHtml(),
+            $this->getAggregatorElement()->getHtml()
+        ) . $this->getRemoveLinkHtml();
     }
 
     /**
@@ -85,9 +88,9 @@ class Purchasedquantity
         $select = $this->getResource()->createSelect();
 
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
-        $aggrFunc = ($this->getAttribute() == 'total') ? 'SUM' : 'AVG';
+        $aggrFunc = $this->getAttribute() == 'total' ? 'SUM' : 'AVG';
         $adapter = $this->getResource()->getReadConnection();
-        $value = (int) $this->getValue();
+        $value = (int)$this->getValue();
         $result = $adapter->getCheckSql("{$aggrFunc}(sales_order.total_qty_ordered) {$operator} {$value}", 1, 0);
 
         $select->from(

@@ -38,18 +38,24 @@ class Giftcardaccount extends \Magento\Sales\Model\Order\Creditmemo\Total\Abstra
                 $baseUsed = $order->getBaseGiftCardsInvoiced() - $order->getBaseGiftCardsRefunded();
                 $used = $order->getGiftCardsInvoiced() - $order->getGiftCardsRefunded();
 
-                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()-$baseUsed);
-                $creditmemo->setGrandTotal($creditmemo->getGrandTotal()-$used);
+                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal() - $baseUsed);
+                $creditmemo->setGrandTotal($creditmemo->getGrandTotal() - $used);
             }
 
             $creditmemo->setBaseGiftCardsAmount($baseUsed);
             $creditmemo->setGiftCardsAmount($used);
         }
 
-        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGiftCardsAmount());
+        $creditmemo->setBaseCustomerBalanceReturnMax(
+            $creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGiftCardsAmount()
+        );
 
-        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getGiftCardsAmount());
-        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getGrandTotal());
+        $creditmemo->setCustomerBalanceReturnMax(
+            $creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getGiftCardsAmount()
+        );
+        $creditmemo->setCustomerBalanceReturnMax(
+            $creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getGrandTotal()
+        );
 
         return $this;
     }

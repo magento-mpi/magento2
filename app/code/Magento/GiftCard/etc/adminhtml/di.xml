@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <type name="Magento\GiftCard\Model\Observer">
         <arguments>
             <argument name="urlModel" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>

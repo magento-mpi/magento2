@@ -17,8 +17,7 @@
  */
 namespace Magento\TargetRule\Model\Catalog\Product\Attribute\Backend;
 
-class Rule
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Rule extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
      * Before attribute save prepare data
@@ -28,8 +27,8 @@ class Rule
      */
     public function beforeSave($object)
     {
-        $attributeName  = $this->getAttribute()->getName();
-        $useDefault     = $object->getData($attributeName . '_default');
+        $attributeName = $this->getAttribute()->getName();
+        $useDefault = $object->getData($attributeName . '_default');
 
         if ($useDefault == 1) {
             $object->setData($attributeName, null);

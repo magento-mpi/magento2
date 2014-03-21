@@ -5,10 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
-class ProductLinks 
+class ProductLinks
 {
     /**
      * @var \Magento\App\RequestInterface
@@ -54,4 +53,4 @@ class ProductLinks
 
         return $product;
     }
-} 
+}

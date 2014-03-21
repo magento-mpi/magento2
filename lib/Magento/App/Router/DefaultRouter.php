@@ -9,8 +9,8 @@
  */
 namespace Magento\App\Router;
 
-use \Magento\App\ActionFactory,
-    \Magento\App\RequestInterface;
+use Magento\App\ActionFactory;
+use Magento\App\RequestInterface;
 
 class DefaultRouter extends AbstractRouter
 {
@@ -23,10 +23,8 @@ class DefaultRouter extends AbstractRouter
      * @param ActionFactory $actionFactory
      * @param NoRouteHandlerList $noRouteHandlerList
      */
-    public function __construct(
-        ActionFactory $actionFactory,
-        NoRouteHandlerList $noRouteHandlerList
-    ) {
+    public function __construct(ActionFactory $actionFactory, NoRouteHandlerList $noRouteHandlerList)
+    {
         parent::__construct($actionFactory);
         $this->_noRouteHandlerList = $noRouteHandlerList;
     }
@@ -45,8 +43,6 @@ class DefaultRouter extends AbstractRouter
             }
         }
 
-        return $this->_actionFactory->createController('Magento\App\Action\Forward',
-            array('request' => $request)
-        );
+        return $this->_actionFactory->createController('Magento\App\Action\Forward', array('request' => $request));
     }
 }

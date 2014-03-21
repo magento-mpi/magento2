@@ -88,9 +88,11 @@ class Additional extends \Magento\View\Element\Template
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
-            $this->_balanceModel = $this->_balanceFactory->create()
-                ->setCustomer($this->_getCustomer())
-                ->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
+            $this->_balanceModel = $this->_balanceFactory->create()->setCustomer(
+                $this->_getCustomer()
+            )->setWebsiteId(
+                $this->_storeManager->getStore()->getWebsiteId()
+            );
 
             //load customer balance for customer in case we have
             //registered customer and this is not guest checkout

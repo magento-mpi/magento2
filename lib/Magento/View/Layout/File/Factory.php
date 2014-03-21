@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File;
 
 use Magento\ObjectManager;
@@ -45,11 +44,7 @@ class Factory
     {
         return $this->objectManager->create(
             'Magento\View\Layout\File',
-            array(
-                'filename' => $filename,
-                'module' => $module,
-                'theme' => $theme,
-            )
+            array('filename' => $filename, 'module' => $module, 'theme' => $theme)
         );
     }
 }

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Asset;
 
 /**
@@ -38,15 +37,22 @@ class MergedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
-                \Magento\App\Filesystem::PUB_DIR => array('path' => BP),
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
+            array(
+                \Magento\App\Filesystem::PARAM_APP_DIRS => array(
+                    \Magento\App\Filesystem::THEMES_DIR => array(
+                        'path' => dirname(dirname(__DIR__)) . '/_files/design'
+                    ),
+                    \Magento\App\Filesystem::PUB_DIR => array('path' => BP)
+                )
             )
-        ));
+        );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setDesignTheme('vendor_default');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setDesignTheme(
+            'vendor_default'
+        );
     }
 
     protected function tearDown()
@@ -66,12 +72,15 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         $assets = array();
         foreach ($files as $file) {
-            $assets[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Asset\ViewFile',
-                array('file' => $file, 'contentType' => $contentType));
+            $assets[] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\View\Asset\ViewFile',
+                array('file' => $file, 'contentType' => $contentType)
+            );
         }
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Asset\Merged', array('assets' => $assets));
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\View\Asset\Merged',
+            array('assets' => $assets)
+        );
         return $model;
     }
 
@@ -142,10 +151,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 \Magento\View\Publisher::CONTENT_TYPE_CSS,
-                array(
-                    'mage/calendar.css',
-                    'css/file.css',
-                ),
+                array('mage/calendar.css', 'css/file.css'),
                 'e6ae894165d22b7d57a0f5644b6ef160.css',
                 array(
                     'css/file.css',
@@ -159,16 +165,13 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                     'images/h2.gif',
                     'Namespace_Module/absolute_valid_module.gif',
                     'Magento_Theme/favicon.ico', // non-fixture file from real module
-                ),
+                )
             ),
             array(
                 \Magento\View\Publisher::CONTENT_TYPE_JS,
-                array(
-                    'mage/calendar.js',
-                    'scripts.js',
-                ),
-                'e81061cbad0d8b6fe328225d0df7dace.js',
-            ),
+                array('mage/calendar.js', 'scripts.js'),
+                'e81061cbad0d8b6fe328225d0df7dace.js'
+            )
         );
     }
 }

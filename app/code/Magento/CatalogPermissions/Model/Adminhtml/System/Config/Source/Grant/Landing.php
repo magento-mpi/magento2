@@ -11,8 +11,8 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Grant;
 
-use \Magento\CatalogPermissions\App\ConfigInterface;
-use \Magento\Option\ArrayInterface;
+use Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\Option\ArrayInterface;
 
 class Landing implements ArrayInterface
 {

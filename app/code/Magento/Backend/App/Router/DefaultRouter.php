@@ -33,12 +33,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      *
      * @var string[]
      */
-    protected $_requiredParams = array(
-        'areaFrontName',
-        'moduleFrontName',
-        'controllerName',
-        'actionName',
-    );
+    protected $_requiredParams = array('areaFrontName', 'moduleFrontName', 'controllerName', 'actionName');
 
     /**
      * @param \Magento\App\ActionFactory $actionFactory
@@ -119,9 +114,17 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      */
     protected function _shouldBeSecure($path)
     {
-        return substr((string)$this->_coreConfig->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || $this->_backendConfig->isSetFlag('web/secure/use_in_adminhtml')
-            && substr((string)$this->_coreConfig->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
+        return substr(
+            (string)$this->_coreConfig->getValue('web/unsecure/base_url', 'default'),
+            0,
+            5
+        ) === 'https' || $this->_backendConfig->isSetFlag(
+            'web/secure/use_in_adminhtml'
+        ) && substr(
+            (string)$this->_coreConfig->getValue('web/secure/base_url', 'default'),
+            0,
+            5
+        ) === 'https';
     }
 
     /**

@@ -12,14 +12,12 @@ namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 /**
  * Manage version controller
  */
-class Version
-    extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
+class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
      * @var \Magento\VersionsCms\Model\Page\VersionFactory
      */
     protected $_pageVersionFactory;
-
 
     /**
      * @var \Magento\VersionsCms\Model\Page\Revision
@@ -70,9 +68,15 @@ class Version
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Cms::cms_page')
-            ->_addBreadcrumb(__('CMS'), __('CMS'))
-            ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
+        $this->_setActiveMenu(
+            'Magento_Cms::cms_page'
+        )->_addBreadcrumb(
+            __('CMS'),
+            __('CMS')
+        )->_addBreadcrumb(
+            __('Manage Pages'),
+            __('Manage Pages')
+        );
         return $this;
     }
 
@@ -126,9 +130,7 @@ class Version
             $version->setData($_data);
         }
 
-        $this->_initAction()
-            ->_addBreadcrumb(__('Edit Version'),
-                __('Edit Version'));
+        $this->_initAction()->_addBreadcrumb(__('Edit Version'), __('Edit Version'));
 
         $this->_view->renderLayout();
     }
@@ -163,27 +165,28 @@ class Version
                 $this->_session->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'),
-                        array(
-                            'page_id' => $version->getPageId(),
-                            'version_id' => $version->getId()
-                        ));
+                    $this->_redirect(
+                        'adminhtml/*/' . $this->getRequest()->getParam('back'),
+                        array('page_id' => $version->getPageId(), 'version_id' => $version->getId())
+                    );
                     return;
                 }
                 // go to grid
                 $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
-
             } catch (\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // save data in session
                 $this->_session->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array(
-                    'page_id' => $this->getRequest()->getParam('page_id'),
-                    'version_id' => $this->getRequest()->getParam('version_id'),
-                ));
+                $this->_redirect(
+                    'adminhtml/*/edit',
+                    array(
+                        'page_id' => $this->getRequest()->getParam('page_id'),
+                        'version_id' => $this->getRequest()->getParam('version_id')
+                    )
+                );
                 return;
             }
         }
@@ -225,9 +228,7 @@ class Version
                         $revision->delete();
                     }
                 }
-                $this->messageManager->addSuccess(
-                    __('A total of %1 record(s) have been deleted.', count($ids))
-                );
+                $this->messageManager->addSuccess(__('A total of %1 record(s) have been deleted.', count($ids)));
             } catch (\Magento\Core\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
@@ -248,7 +249,7 @@ class Version
         // check if we know what should be deleted
         $id = $this->getRequest()->getParam('version_id');
         if ($id) {
-             // init model
+            // init model
             $version = $this->_initVersion();
             $error = false;
             try {
@@ -312,15 +313,18 @@ class Version
                 // clear previously saved data from session
                 $this->_session->setFormData(false);
                 if (isset($data['revision_id'])) {
-                    $this->_redirect('adminhtml/cms_page_revision/edit', array(
-                        'page_id' => $version->getPageId(),
-                        'revision_id' => $version->getLastRevision()->getId()
-                    ));
+                    $this->_redirect(
+                        'adminhtml/cms_page_revision/edit',
+                        array(
+                            'page_id' => $version->getPageId(),
+                            'revision_id' => $version->getLastRevision()->getId()
+                        )
+                    );
                 } else {
-                    $this->_redirect('adminhtml/cms_page_version/edit', array(
-                        'page_id' => $version->getPageId(),
-                        'version_id' => $version->getId()
-                    ));
+                    $this->_redirect(
+                        'adminhtml/cms_page_version/edit',
+                        array('page_id' => $version->getPageId(), 'version_id' => $version->getId())
+                    );
                 }
                 return;
             } catch (\Exception $e) {
@@ -331,8 +335,10 @@ class Version
                     $this->_session->setFormData($data);
                 }
                 // redirect to edit form
-                $editUrl = $this->getUrl('adminhtml/cms_page/edit',
-                    array('page_id' => $this->getRequest()->getParam('page_id')));
+                $editUrl = $this->getUrl(
+                    'adminhtml/cms_page/edit',
+                    array('page_id' => $this->getRequest()->getParam('page_id'))
+                );
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($editUrl));
                 return;
             }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\TestAsset;
 
 class InterfaceImplementation implements \Magento\ObjectManager\TestAsset\TestAssetInterface

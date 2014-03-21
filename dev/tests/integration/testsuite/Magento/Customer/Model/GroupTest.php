@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model;
 
 class GroupTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model= \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Group');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Model\Group'
+        );
     }
 
     public function testCRUD()

@@ -19,7 +19,7 @@ class SearchResults extends \Magento\Service\Data\AbstractObject
      */
     public function getItems()
     {
-        return is_null($this->_get('items')) ? [] : $this->_get('items');
+        return is_null($this->_get('items')) ? array() : $this->_get('items');
     }
 
     /**

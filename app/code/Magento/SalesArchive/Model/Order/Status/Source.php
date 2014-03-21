@@ -24,7 +24,8 @@ class Source extends \Magento\Sales\Model\Config\Source\Order\Status
     public function toOptionArray()
     {
         $options = parent::toOptionArray();
-        array_shift($options); // Remove '--please select--' option
+        array_shift($options);
+        // Remove '--please select--' option
         return $options;
     }
 }

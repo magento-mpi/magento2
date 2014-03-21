@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\RecurringPayment\Block\Payment\View;
 
 /**
@@ -52,19 +51,23 @@ class Fees extends \Magento\RecurringPayment\Block\Payment\View
         parent::_prepareLayout();
 
         $this->_shouldRenderInfo = true;
-        $this->_addInfo(array(
-            'label' => $this->_fields->getFieldLabel('currency_code'),
-            'value' => $this->_recurringPayment->getCurrencyCode()
-        ));
+        $this->_addInfo(
+            array(
+                'label' => $this->_fields->getFieldLabel('currency_code'),
+                'value' => $this->_recurringPayment->getCurrencyCode()
+            )
+        );
         $params = array('init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount');
         foreach ($params as $key) {
             $value = $this->_recurringPayment->getData($key);
             if ($value) {
-                $this->_addInfo(array(
-                    'label' => $this->_fields->getFieldLabel($key),
-                    'value' => $this->_coreHelper->formatCurrency($value, false),
-                    'is_amount' => true,
-                ));
+                $this->_addInfo(
+                    array(
+                        'label' => $this->_fields->getFieldLabel($key),
+                        'value' => $this->_coreHelper->formatCurrency($value, false),
+                        'is_amount' => true
+                    )
+                );
             }
         }
     }

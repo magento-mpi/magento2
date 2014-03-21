@@ -5,11 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\TestFramework\ObjectManager;
 
-class Configurator
-    implements \Magento\ObjectManager\DynamicConfigInterface
+class Configurator implements \Magento\ObjectManager\DynamicConfigInterface
 {
     /**
      * Map application initialization params to Object Manager configuration format
@@ -18,10 +16,6 @@ class Configurator
      */
     public function getConfiguration()
     {
-        return array(
-            'preferences' => array(
-                'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie'
-            )
-        );
+        return array('preferences' => array('Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie'));
     }
 }

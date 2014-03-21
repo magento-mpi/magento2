@@ -23,11 +23,17 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock(
-            'Magento\Module\Dir\Reader', array(), array(), '', false
+        $this->_moduleReaderMock = $this->getMock('Magento\Module\Dir\Reader', array(), array(), '', false);
+        $this->_moduleReaderMock->expects(
+            $this->once()
+        )->method(
+            'getModuleDir'
+        )->with(
+            'etc',
+            'Magento_GiftRegistry'
+        )->will(
+            $this->returnValue('schema_dir')
         );
-        $this->_moduleReaderMock->expects($this->once())
-            ->method('getModuleDir')->with('etc', 'Magento_GiftRegistry')->will($this->returnValue('schema_dir'));
         $this->_model = new \Magento\GiftRegistry\Model\Config\SchemaLocator($this->_moduleReaderMock);
     }
 

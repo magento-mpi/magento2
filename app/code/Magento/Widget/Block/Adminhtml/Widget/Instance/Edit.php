@@ -75,13 +75,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
             $this->_addButton(
                 'save_and_edit_button',
                 array(
-                    'label'     => __('Save and Continue Edit'),
-                    'class'     => 'save',
-                    'data_attribute'  => array(
+                    'label' => __('Save and Continue Edit'),
+                    'class' => 'save',
+                    'data_attribute' => array(
                         'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
-                        ),
-                    ),
+                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
+                        )
+                    )
                 ),
                 100
             );
@@ -112,7 +112,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current'=>true));
+        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
     }
 
     /**
@@ -122,6 +122,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('_current'=>true, 'back'=>null));
+        return $this->getUrl('adminhtml/*/save', array('_current' => true, 'back' => null));
     }
 }

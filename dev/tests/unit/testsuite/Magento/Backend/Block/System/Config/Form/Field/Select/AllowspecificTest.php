@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Config\Form\Field\Select;
 
 class AllowspecificTest extends \PHPUnit_Framework_TestCase
@@ -28,18 +27,32 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $testHelper->getObject('Magento\Backend\Block\System\Config\Form\Field\Select\Allowspecific');
         $this->_object->setData('html_id', 'spec_element');
-        $this->_formMock = $this->getMock('Magento\Data\Form',
+        $this->_formMock = $this->getMock(
+            'Magento\Data\Form',
             array('getHtmlIdPrefix', 'getHtmlIdSuffix', 'getElement'),
-            array(), '', false, false
+            array(),
+            '',
+            false,
+            false
         );
     }
 
     public function testGetAfterElementHtml()
     {
-        $this->_formMock->expects($this->exactly(2))
-            ->method('getHtmlIdPrefix')->will($this->returnValue('test_prefix_'));
-        $this->_formMock->expects($this->exactly(2))
-            ->method('getHtmlIdSuffix')->will($this->returnValue('_test_suffix'));
+        $this->_formMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getHtmlIdPrefix'
+        )->will(
+            $this->returnValue('test_prefix_')
+        );
+        $this->_formMock->expects(
+            $this->exactly(2)
+        )->method(
+            'getHtmlIdSuffix'
+        )->will(
+            $this->returnValue('_test_suffix')
+        );
 
         $afterHtmlCode = 'after html';
         $this->_object->setData('after_element_html', $afterHtmlCode);
@@ -60,15 +73,27 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->setForm($this->_formMock);
 
-        $elementMock = $this->getMock('Magento\Data\Form\Element\Select',
-            array('setDisabled'), array(), '', false, false
+        $elementMock = $this->getMock(
+            'Magento\Data\Form\Element\Select',
+            array('setDisabled'),
+            array(),
+            '',
+            false,
+            false
         );
 
         $elementMock->expects($this->once())->method('setDisabled')->with('disabled');
         $countryId = 'tetst_county_specificcountry';
         $this->_object->setId('tetst_county_allowspecific');
-        $this->_formMock->expects($this->once())->method('getElement')->with($countryId)
-            ->will($this->returnValue($elementMock));
+        $this->_formMock->expects(
+            $this->once()
+        )->method(
+            'getElement'
+        )->with(
+            $countryId
+        )->will(
+            $this->returnValue($elementMock)
+        );
 
         $this->_object->setValue($value);
         $this->assertNotEmpty($this->_object->getHtml());
@@ -80,8 +105,7 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
             'zero' => array('1' => 0),
             'null' => array('1' => null),
             'false' => array('1' => false),
-            'negative' => array('1' => -1),
+            'negative' => array('1' => -1)
         );
     }
-
 }

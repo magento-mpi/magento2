@@ -105,9 +105,7 @@ class Customerbalance extends \Magento\Backend\App\Action
      */
     public function deleteOrphanBalancesAction()
     {
-        $this->_balance->deleteBalancesByCustomerId(
-            (int)$this->getRequest()->getParam('id')
-        );
+        $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
         $this->_redirect('customer/index/edit/', array('_current' => true));
     }
 

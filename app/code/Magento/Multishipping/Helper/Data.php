@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Multishipping\Helper;
 
 /**
@@ -17,7 +16,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Xml paths for multishipping checkout
      **/
     const XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE = 'multishipping/options/checkout_multiple';
+
     const XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY = 'multishipping/options/checkout_multiple_maximum_qty';
+
     /**#@-*/
 
     /**
@@ -84,11 +85,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$quote || !$quote->hasItems()) {
             return $isMultiShipping;
         }
-        return $isMultiShipping
-            && !$quote->hasItemsWithDecimalQty()
-            && $quote->validateMinimumAmount(true)
-            && ($quote->getItemsSummaryQty() - $quote->getItemVirtualQty() > 0)
-            && ($quote->getItemsSummaryQty() <= $this->getMaximumQty())
-            && !$quote->hasNominalItems();
+        return $isMultiShipping && !$quote->hasItemsWithDecimalQty() && $quote->validateMinimumAmount(
+            true
+        ) &&
+            $quote->getItemsSummaryQty() - $quote->getItemVirtualQty() > 0 &&
+            $quote->getItemsSummaryQty() <= $this->getMaximumQty() &&
+            !$quote->hasNominalItems();
     }
 }

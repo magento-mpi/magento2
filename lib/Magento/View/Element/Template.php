@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element;
 
 use Magento\App\Filesystem;
@@ -118,10 +117,8 @@ class Template extends AbstractBlock
      * @param Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(Template\Context $context, array $data = array())
+    {
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->templateEnginePool = $context->getEnginePool();
@@ -365,11 +362,15 @@ class Template extends AbstractBlock
 
         $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::THEMES_DIR));
         $appDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::APP_DIR));
-        return (
-            $this->isPathInDirectory($fileName, $appDir)
-            || $this->isPathInDirectory($fileName, $themesDir)
-            || $this->isAllowSymlinks()
-        ) && $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
+        return ($this->isPathInDirectory(
+            $fileName,
+            $appDir
+        ) || $this->isPathInDirectory(
+            $fileName,
+            $themesDir
+        ) || $this->isAllowSymlinks()) && $this->getRootDirectory()->isFile(
+            $this->getRootDirectory()->getRelativePath($fileName)
+        );
     }
 
     /**

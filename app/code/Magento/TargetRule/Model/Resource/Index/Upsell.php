@@ -25,7 +25,7 @@ class Upsell extends \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      *
      * @var int
      */
-    protected $_listType     = \Magento\TargetRule\Model\Rule::UP_SELLS;
+    protected $_listType = \Magento\TargetRule\Model\Rule::UP_SELLS;
 
     /**
      * Initialize connection and define main table
