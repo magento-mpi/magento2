@@ -107,7 +107,7 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
             $params = $this->_coreData->urlDecode($this->_getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $cId    = abs(intval($data[0]));
-            if ($cId && ($cId == $this->_customerSession->getCustomerId()) ) {
+            if ($cId && ($cId == $this->_customerSession->getCustomerId())) {
                 $this->_customer = $this->_customerSession->getCustomerDataObject();
             }
         }
@@ -139,5 +139,4 @@ class WishlistRss extends \Magento\Wishlist\Helper\Data
             ? $this->_customerViewHelper->getCustomerName($this->getCustomer())
             : null;
     }
-
-} 
+}

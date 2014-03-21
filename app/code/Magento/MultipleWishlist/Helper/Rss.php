@@ -72,4 +72,4 @@ class Rss extends \Magento\Rss\Helper\WishlistRss
     {
         return $this->_multiplewishlistHelperData->isWishlistDefault($wishlist);
     }
-} 
+}
