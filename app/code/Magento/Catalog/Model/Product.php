@@ -9,11 +9,11 @@
  */
 namespace Magento\Catalog\Model;
 
+use Magento\Pricing\Object\SaleableInterface;
+
 /**
  * Catalog product model
  *
- * @method Resource\Product getResource()
- * @method Resource\Product _getResource()
  * @method \Magento\Catalog\Model\Product setHasError(bool $value)
  * @method null|bool getHasError()
  * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
@@ -21,10 +21,9 @@ namespace Magento\Catalog\Model;
  * @method array getAssociatedProductIds()
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
- *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Product extends \Magento\Catalog\Model\AbstractModel
+    implements \Magento\Object\IdentityInterface, SaleableInterface
 {
     /**
      * Entity code.
@@ -32,6 +31,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
      */
     const ENTITY = 'catalog_product';
 
+    /**
+     * Product cache tag
+     */
     const CACHE_TAG = 'catalog_product';
 
     const CACHE_CATEGORY_TAG = 'catalog_category_product';
@@ -548,7 +550,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
             }
         }
 
-        return (array)$this->_getData('category_ids');
+        return (array) $this->_getData('category_ids');
     }
 
     /**
@@ -695,7 +697,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function canAffectOptions($value = null)
     {
         if (null !== $value) {
-            $this->_canAffectOptions = (bool)$value;
+            $this->_canAffectOptions = (bool) $value;
         }
         return $this->_canAffectOptions;
     }
@@ -819,6 +821,16 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
+     * Get product Price Info object
+     *
+     * @return \Magento\Pricing\PriceInfoInterface
+     */
+    public function getPriceInfo()
+    {
+        return $this->_catalogProductType->getPriceInfo($this);
+    }
+
+    /**
      * Get product group price
      *
      * @return float
@@ -850,7 +862,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Get formated by currency tier price
+     * Get formatted by currency tier price
      *
      * @param   float $qty
      * @return  array || double
@@ -861,7 +873,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     }
 
     /**
-     * Get formated by currency product price
+     * Get formatted by currency product price
      *
      * @return  array || double
      */
@@ -1470,7 +1482,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
     public function toArray(array $arrAttributes = array())
     {
         $data = parent::toArray($arrAttributes);
-        if ($stock = $this->getStockItem()) {
+        $stock = $this->getStockItem();
+        if ($stock) {
             $data['stock_item'] = $stock->toArray();
         }
         unset($data['stock_item']['product']);
@@ -1955,7 +1968,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\O
          * unload product options
          */
         if (!empty($this->_options)) {
-            foreach ($this->_options as $key => $option) {
+            foreach ($this->_options as $option) {
                 $option->setProduct();
                 $option->clearInstance();
             }

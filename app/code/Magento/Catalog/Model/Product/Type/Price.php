@@ -8,20 +8,19 @@
  * @license     {license_link}
  */
 
-/**
- * Product type price model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model\Product\Type;
 
 use Magento\Catalog\Model\Product;
 use Magento\Core\Model\Store;
 
+/**
+ * Product type price model
+ */
 class Price
 {
+    /**
+     * Product price cache tag
+     */
     const CACHE_TAG = 'PRODUCT_PRICE';
 
     /**
@@ -34,7 +33,7 @@ class Price
      *
      * @var \Magento\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Customer session
@@ -106,7 +105,7 @@ class Price
      */
     public function getBasePrice($product, $qty = null)
     {
-        $price = (double)$product->getPrice();
+        $price = (float) $product->getPrice();
         return min(
             $this->_applyGroupPrice($product, $price),
             $this->_applyTierPrice($product, $qty, $price),
@@ -292,19 +291,19 @@ class Price
             return $prevPrice;
         } else {
             $qtyCache = array();
-            foreach ($prices as $i => $price) {
+            foreach ($prices as $priceKey => $price) {
                 if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroups) {
-                    unset($prices[$i]);
-                } else if (isset($qtyCache[$price['price_qty']])) {
-                    $j = $qtyCache[$price['price_qty']];
-                    if ($prices[$j]['website_price'] > $price['website_price']) {
-                        unset($prices[$j]);
-                        $qtyCache[$price['price_qty']] = $i;
+                    unset($prices[$priceKey]);
+                } elseif (isset($qtyCache[$price['price_qty']])) {
+                    $priceQty = $qtyCache[$price['price_qty']];
+                    if ($prices[$priceQty]['website_price'] > $price['website_price']) {
+                        unset($prices[$priceQty]);
+                        $qtyCache[$price['price_qty']] = $priceKey;
                     } else {
-                        unset($prices[$i]);
+                        unset($prices[$priceKey]);
                     }
                 } else {
-                    $qtyCache[$price['price_qty']] = $i;
+                    $qtyCache[$price['price_qty']] = $priceKey;
                 }
             }
         }
@@ -365,7 +364,7 @@ class Price
     {
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {
-            foreach ($price as $index => $value) {
+            foreach (array_keys($price) as $index) {
                 $price[$index]['formated_price'] = $this->_storeManager->getStore()->convertPrice(
                     $price[$index]['website_price'],
                     true
@@ -399,19 +398,16 @@ class Price
      */
     protected function _applyOptionsPrice($product, $qty, $finalPrice)
     {
-        if ($optionIds = $product->getCustomOption('option_ids')) {
+        $optionIds = $product->getCustomOption('option_ids');
+        if ($optionIds) {
             $basePrice = $finalPrice;
             foreach (explode(',', $optionIds->getValue()) as $optionId) {
                 if ($option = $product->getOptionById($optionId)) {
                     $confItemOption = $product->getCustomOption('option_' . $option->getId());
 
-                    $group = $option->groupFactory(
-                        $option->getType()
-                    )->setOption(
-                        $option
-                    )->setConfigurationItemOption(
-                        $confItemOption
-                    );
+                    $group = $option->groupFactory($option->getType())
+                        ->setOption($option)
+                        ->setConfigurationItemOption($confItemOption);
                     $finalPrice += $group->getOptionPrice($confItemOption->getValue(), $basePrice);
                 }
             }
@@ -427,7 +423,7 @@ class Price
      * @param   float $specialPrice
      * @param   string $specialPriceFrom
      * @param   string $specialPriceTo
-     * @param   float|null|false $rulePrice
+     * @param   bool|float|null $rulePrice
      * @param   mixed|null $wId
      * @param   mixed|null $gId
      * @param   int|null $productId
