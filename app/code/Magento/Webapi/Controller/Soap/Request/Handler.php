@@ -121,7 +121,7 @@ class Handler
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $arguments = $this->_dataObjectConverter->toArray($arguments);
+        $arguments = $this->_dataObjectConverter->convertStdObjectToArray($arguments);
         return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 

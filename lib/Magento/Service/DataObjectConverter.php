@@ -82,7 +82,7 @@ class DataObjectConverter
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function toArray($input)
+    public function convertStdObjectToArray($input)
     {
         if (!is_object($input) && !is_array($input)) {
             throw new \InvalidArgumentException("Input argument must be an array or object");
@@ -90,7 +90,7 @@ class DataObjectConverter
         $result = array();
         foreach ((array)$input as $key => $value) {
             if (is_object($value) || is_array($value)) {
-                $result[$key] = $this->toArray($value);
+                $result[$key] = $this->convertStdObjectToArray($value);
             } else {
                 $result[$key] = $value;
             }
