@@ -15,6 +15,7 @@
     * Magento/Mail
     * Magento/Object
     * Magento/Math
+  * LauncherInterface renamed to AppInterface (MAGETWO-21593)
 * Updated XML files to include relative path reference to schema file (MAGETWO-15527)
 * Updated code to be PSR-2 compliant
 

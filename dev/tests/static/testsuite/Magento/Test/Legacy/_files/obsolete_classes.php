@@ -2123,4 +2123,8 @@ return array(
         '\Magento\Review\Block\Helper',
         'Magento\Review\Block\Product\ReviewRenderer'
     ),
+    array(
+        'Magento\LauncherInterface',
+        'Magento\AppInterface',
+    )
 );
