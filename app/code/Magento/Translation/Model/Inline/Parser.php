@@ -20,13 +20,6 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     const DATA_TRANSLATE = 'data-translate';
 
     /**
-     * Regular Expression for detected and replace translate
-     *
-     * @var string
-     */
-    protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
-
-    /**
      * Response body or JSON content string
      *
      * @var string
@@ -38,7 +31,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
      *
      * @var bool
      */
-    protected $_isJson = \Magento\Translate\Inline\ParserInterface::JSON_FLAG_DEFAULT_STATE;
+    protected $_isJson = false;
 
     /**
      * Get max translate block in same tag
@@ -397,11 +390,11 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
         $quoteHtml = $this->_getHtmlQuote();
         $tagMatch   = array();
         $nextTag    = 0;
-        $tagRegExp = '#<([a-z]+)\s*?[^>]+?((' . $this->_tokenRegex . ')[^>]*?)+\\\\?/?>#iS';
+        $tagRegExp = '#<([a-z]+)\s*?[^>]+?((' . self::REGEXP_TOKEN . ')[^>]*?)+\\\\?/?>#iS';
         while (preg_match($tagRegExp, $content, $tagMatch, PREG_OFFSET_CAPTURE, $nextTag)) {
             $tagHtml = $tagMatch[0][0];
             $matches = array();
-            $attrRegExp = '#' . $this->_tokenRegex . '#S';
+            $attrRegExp = '#' . self::REGEXP_TOKEN . '#S';
             $trArr = $this->_getTranslateData($attrRegExp, $tagHtml, array($this, '_getAttributeLocation'));
             if ($trArr) {
                 $transRegExp = '# ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
@@ -513,7 +506,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
             $tagClosurePos = $tagMatch[0][1] + strlen($tagHtml);
 
             $trArr = $this->_getTranslateData(
-                '#' . $this->_tokenRegex . '#iS',
+                '#' . self::REGEXP_TOKEN . '#iS',
                 $tagHtml,
                 array($this, '_getTagLocation'),
                 array(
@@ -570,7 +563,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     {
         $next = 0;
         $matches = array();
-        while (preg_match('#' . $this->_tokenRegex . '#', $this->_content, $matches, PREG_OFFSET_CAPTURE, $next)) {
+        while (preg_match('#' . self::REGEXP_TOKEN . '#', $this->_content, $matches, PREG_OFFSET_CAPTURE, $next)) {
             $translateProperties = json_encode(array(
                 'shown' => $matches[1][0],
                 'translated' => $matches[2][0],

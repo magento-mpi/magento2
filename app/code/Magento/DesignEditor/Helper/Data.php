@@ -18,6 +18,11 @@ use Magento\App\RequestInterface;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
+     * Parameter to indicate the translation mode (null, text, script, or alt).
+     */
+    const TRANSLATION_MODE = "translation_mode";
+
+    /**
      * XML path to VDE front name setting
      *
      * @var string
@@ -30,16 +35,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @var array
      */
     protected $_disabledCacheTypes;
-
-    /**
-     * Parameter to indicate the translation mode (null, text, script, or alt).
-     */
-    const TRANSLATION_MODE = "translation_mode";
-
-    /**
-     * @var bool
-     */
-    protected $_isVdeRequest = false;
 
     /**
      * @var string
@@ -79,37 +74,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getDisabledCacheTypes()
     {
         return $this->_disabledCacheTypes;
-    }
-
-    /**
-     * This method returns an indicator of whether or not the current request is for vde
-     *
-     * @param RequestInterface $request
-     * @return bool
-     */
-    public function isVdeRequest(RequestInterface $request = null)
-    {
-        if (null !== $request) {
-            $result = false;
-            $splitPath = explode('/', trim($request->getOriginalPathInfo(), '/'));
-            if (count($splitPath) >= 3) {
-                list($frontName, $currentMode, $themeId) = $splitPath;
-                $result = $frontName === $this->getFrontName() && in_array($currentMode, $this->getAvailableModes())
-                    && is_numeric($themeId);
-            }
-            $this->_isVdeRequest = $result;
-        }
-        return $this->_isVdeRequest;
-    }
-
-    /**
-     * Get available modes for Design Editor
-     *
-     * @return string[]
-     */
-    public function getAvailableModes()
-    {
-        return array(\Magento\DesignEditor\Model\State::MODE_NAVIGATION);
     }
 
     /**

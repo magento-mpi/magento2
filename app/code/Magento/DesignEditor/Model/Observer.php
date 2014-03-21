@@ -130,7 +130,7 @@ class Observer
     {
         if ($this->_helper->isVdeRequest()) {
             // Request is for vde.  Override the translation class.
-            $observer->getResult()->setInlineType('Magento\DesignEditor\Model\Translate\InlineVde');
+            $observer->getResult()->setInlineType('Magento\DesignEditor\Model\Translate\Inline');
         }
         return $this;
     }

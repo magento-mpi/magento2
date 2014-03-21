@@ -12,14 +12,16 @@ namespace Magento\Phrase\Renderer;
 class Placeholder implements \Magento\Phrase\RendererInterface
 {
     /**
-     * {@inheritdoc}
+     * Render source text
      *
-     * @param string $text
-     * @param array $arguments
+     * @param [] $source
+     * @param [] $arguments
      * @return string
      */
-    public function render($text, array $arguments)
+    public function render(array $source, array $arguments)
     {
+        $text = end($source);
+
         if ($arguments) {
             $placeholders = [];
             foreach (array_keys($arguments) as $key) {
@@ -27,6 +29,7 @@ class Placeholder implements \Magento\Phrase\RendererInterface
             }
             $text = str_replace($placeholders, $arguments, $text);
         }
+
         return $text;
     }
 }

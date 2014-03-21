@@ -12,37 +12,27 @@ namespace Magento\DesignEditor\Model\Translate;
 /**
  * Inline translation specific to Vde.
  */
-class InlineVde implements \Magento\Translate\InlineInterface
+class Inline implements \Magento\Translate\InlineInterface
 {
     /**
      * data-translate-mode attribute name
      */
     const TRANSLATE_MODE = 'data-translate-mode';
 
-    /**
-     * text translate mode
+    /**#@+
+     * Translate modes
      */
     const MODE_TEXT = 'text';
-
-    /**
-     * img element name
-     */
-    const ELEMENT_IMG = 'img';
-
-    /**
-     * alt translate mode
-     */
     const MODE_ALT = 'alt';
-
-    /**
-     * script translate mode
-     */
     const MODE_SCRIPT = 'script';
+    /**#@-*/
 
-    /**
-     * script element name
+    /**#@+
+     * Html tags
      */
-    const ELEMENT_SCRIPT = self::MODE_SCRIPT;
+    const TAG_IMG = 'img';
+    const TAG_SCRIPT = 'script';
+    /**#@-*/
 
     /**
      * @var \Magento\DesignEditor\Helper\Data
@@ -53,6 +43,11 @@ class InlineVde implements \Magento\Translate\InlineInterface
      * @var \Magento\Translate\Inline\ParserInterface
      */
     protected $_parser;
+
+    /**
+     * @var \Magento\Translate\Inline\ParserFactory
+     */
+    protected $parserFactory;
 
     /**
      * @var \Magento\UrlInterface
@@ -101,13 +96,15 @@ class InlineVde implements \Magento\Translate\InlineInterface
     ) {
         $this->_design = $design;
         $this->_scopeResolver = $scopeResolver;
-        $this->_parser = $parserFactory->create(array('translateInline' => $this));
+        $this->parserFactory = $parserFactory;
         $this->_helper = $helper;
         $this->_url = $url;
         $this->_objectManager = $objectManager;
     }
 
     /**
+     * Check if Inline Translates is allowed
+     *
      * Translation within the vde will be enabled by the client when the 'Edit' button is enabled.
      *
      * @return bool
@@ -115,6 +112,19 @@ class InlineVde implements \Magento\Translate\InlineInterface
     public function isAllowed()
     {
         return $this->_helper->isAllowed();
+    }
+
+    /**
+     * Retrieve Inline Parser instance
+     *
+     * @return \Magento\Translate\Inline\ParserInterface
+     */
+    public function getParser()
+    {
+        if (!$this->_parser) {
+            $this->_parser = $this->parserFactory->create(['translateInline' => $this]);
+        }
+        return $this->_parser;
     }
 
     /**
@@ -126,15 +136,24 @@ class InlineVde implements \Magento\Translate\InlineInterface
      */
     public function processResponseBody(&$body, $isJson = false)
     {
+        if (!$this->isAllowed()) {
+            return $this;
+        }
+
+        $this->getParser()->setIsJson($isJson);
+
         if (is_array($body)) {
             foreach ($body as &$part) {
                 $this->processResponseBody($part, $isJson);
             }
         } elseif (is_string($body)) {
-            $content = $this->_parser->processResponseBodyString($body, $this);
-            $this->_insertInlineScriptsHtml($content);
-            $body = $this->_parser->getContent();
+            $this->getParser()->processResponseBodyString($body);
+            $this->addInlineScript();
+            $body = $this->getParser()->getContent();
         }
+
+        $this->getParser()->setIsJson(false);
+
         return $this;
     }
 
@@ -151,38 +170,63 @@ class InlineVde implements \Magento\Translate\InlineInterface
     }
 
     /**
-     * Create block to render script and html with added inline translation content specific for vde.
+     * Add inline script code
      *
-     * @param string $content
+     * Insert script and html with
+     * added inline translation content specific for vde.
+     *
      * @return void
      */
-    private function _insertInlineScriptsHtml($content)
+    private function addInlineScript()
     {
-        if ($this->_isScriptInserted || stripos($content, '</body>') === false) {
+        $content = $this->getParser()->getContent();
+        if (stripos($content, '</body>') === false) {
             return;
         }
+        if (!$this->_isScriptInserted) {
+            $this->getParser()->setContent(str_ireplace('</body>', $this->getInlineScript() . '</body>', $content));
+            $this->_isScriptInserted = true;
+        }
+    }
 
-        $scope = $this->_scopeResolver->getScope();
-        $ajaxUrl = $this->_url->getUrl('translation/ajax/index', array(
-            '_secure' => $scope->isCurrentlySecure(),
-            \Magento\DesignEditor\Helper\Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
-        ));
-
+    /**
+     * Retrieve inline script code
+     *
+     * Create block to render script and html with
+     * added inline translation content specific for vde.
+     *
+     * @return string
+     */
+    protected function getInlineScript()
+    {
         /** @var $block \Magento\View\Element\Template */
         $block = $this->_objectManager->create('Magento\View\Element\Template');
 
         $block->setArea($this->_design->getArea());
-        $block->setAjaxUrl($ajaxUrl);
-
+        $block->setAjaxUrl($this->_getAjaxUrl());
         $block->setFrameUrl($this->_getFrameUrl());
         $block->setRefreshCanvas($this->isAllowed());
 
         $block->setTemplate('Magento_DesignEditor::translate_inline.phtml');
         $block->setTranslateMode($this->_helper->getTranslationMode());
 
-        $this->_parser->setContent(str_ireplace('</body>', $block->toHtml() . '</body>', $content));
+        return $block->toHtml();
+    }
 
-        $this->_isScriptInserted = true;
+    /**
+     * Return URL for ajax requests
+     *
+     * @return string
+     */
+    protected function _getAjaxUrl()
+    {
+        return $this->_url->getUrl(
+            'translation/ajax/index',
+            [
+                '_secure' => $this->_scopeResolver->getScope()->isCurrentlySecure(),
+                \Magento\DesignEditor\Helper\Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
+            ]
+        );
     }
 
     /**
@@ -205,17 +249,21 @@ class InlineVde implements \Magento\Translate\InlineInterface
     /**
      * Get inline vde translate mode
      *
-     * @param string  $tagName
+     * @param string $tagName
      * @return string
      */
     private function _getTranslateMode($tagName)
     {
-        $mode = self::MODE_TEXT;
-        if (self::ELEMENT_SCRIPT == $tagName) {
-            $mode = self::MODE_SCRIPT;
-        } elseif (self::ELEMENT_IMG == $tagName) {
-            $mode = self::MODE_ALT;
+        switch ($tagName) {
+            case self::TAG_SCRIPT:
+                $result = self::MODE_SCRIPT;
+                break;
+            case self::TAG_IMG:
+                $result = self::MODE_ALT;
+                break;
+            default:
+                $result = self::MODE_TEXT;
         }
-        return $mode;
+        return $result;
     }
 }

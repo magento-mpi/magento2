@@ -6,20 +6,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Translation\Model\Inline;
 
 /**
  * Inline Translation config
  */
-namespace Magento\Translation\Model\Inline;
-
 class Config implements \Magento\Translate\Inline\ConfigInterface
 {
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Core\Model\Store\ConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $config;
 
     /**
      * @var \Magento\Core\Helper\Data
@@ -27,14 +24,14 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     protected $_helper;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $config
      * @param \Magento\Core\Helper\Data $helper
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Store\ConfigInterface $config,
         \Magento\Core\Helper\Data $helper
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->config = $config;
         $this->_helper = $helper;
     }
 
@@ -43,7 +40,7 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
      */
     public function isActive($scope = null)
     {
-        return $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $scope);
+        return $this->config->getConfigFlag('dev/translate_inline/active', $scope);
     }
 
     /**

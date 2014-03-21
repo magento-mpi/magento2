@@ -37,7 +37,6 @@
     <preference for="Magento\View\Asset\ConfigInterface" type="Magento\Core\Model\Asset\Config" />
     <preference for="Magento\View\Asset\MergeStrategyInterface" type="Magento\View\Asset\MergeStrategy\Direct" />
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
-    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
@@ -219,6 +218,8 @@
         <arguments>
             <argument name="renderers" xsi:type="array">
                 <item name="translation" xsi:type="object">Magento\Phrase\Renderer\Translate</item>
+                <item name="placeholder" xsi:type="object">Magento\Phrase\Renderer\Placeholder</item>
+                <item name="inline" xsi:type="object">Magento\Phrase\Renderer\Inline</item>
             </argument>
         </arguments>
     </type>

@@ -15,25 +15,32 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\BaseScopeResolverInterface
      */
-    protected $_storeManager;
+    protected $scopeResolver;
+
+    /**
+     * @var null|string
+     */
+    protected $scope;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param null|string $scope
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\BaseScopeResolverInterface $scopeResolver,
+        $scope = null
     ) {
         parent::__construct($resource);
         $this->_appState = $appState;
-        $this->_storeManager = $storeManager;
+        $this->scopeResolver = $scopeResolver;
+        $this->scope = $scope;
     }
-
 
     /**
      * Define main table
@@ -59,7 +66,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
         }
 
         if (is_null($storeId)) {
-            $storeId = $this->_getStoreId();
+            $storeId = $this->getStoreId();
         }
 
         $adapter = $this->_getReadAdapter();
@@ -95,7 +102,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
         }
 
         if (is_null($storeId)) {
-            $this->_getStoreId();
+            $storeId = $this->getStoreId();
         }
 
         $adapter = $this->_getReadAdapter();
@@ -129,12 +136,12 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
     }
 
     /**
-     * Get store id for translations
+     * Retrieve current store identifier
      *
-     * @return int
+     * @return \Magento\BaseScopeInterface
      */
-    protected function _getStoreId()
+    protected function getStoreId()
     {
-        return $this->_storeManager->getStore()->getId();
+        return $this->scopeResolver->getScope($this->scope)->getId();
     }
 }

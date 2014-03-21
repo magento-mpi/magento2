@@ -37,11 +37,6 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rmaConfig;
 
     /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
-
-    /**
      * Mail transport builder
      *
      * @var \Magento\Mail\Template\TransportBuilder
@@ -56,14 +51,19 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_date;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
      * @param \Magento\Stdlib\DateTime\DateTime $date
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -74,9 +74,9 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
-        \Magento\TranslateInterface $translate,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Stdlib\DateTime\DateTime $date,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -84,9 +84,9 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_rmaFactory = $rmaFactory;
         $this->_rmaConfig = $rmaConfig;
-        $this->_translate = $translate;
         $this->_transportBuilder = $transportBuilder;
         $this->_date = $date;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -186,7 +186,8 @@ class History extends \Magento\Core\Model\AbstractModel
         $order = $this->getRma()->getOrder();
         $comment = $this->getComment();
 
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
+
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
 
@@ -230,7 +231,8 @@ class History extends \Magento\Core\Model\AbstractModel
             $transport->sendMessage();
         }
         $this->setEmailSent(true);
-        $this->_translate->setTranslateInline(true);
+
+        $this->inlineTranslation->resume();
 
         return $this;
     }

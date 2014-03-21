@@ -60,11 +60,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_transportBuilder;
 
     /**
-     * Translator model
-     *
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Translate\Inline\StateInterface
      */
-    protected $_translator;
+    protected $inlineTranslation;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -74,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -84,7 +82,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\TranslateInterface $translator
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
@@ -92,7 +90,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_localeDate = $localeDate;
         $this->_agreementCollectionFactory = $agreementCollectionFactory;
         $this->_transportBuilder = $transportBuilder;
-        $this->_translator = $translator;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context);
     }
 
@@ -227,7 +225,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        $this->_translator->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
@@ -300,7 +298,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     'items' => nl2br($items),
                     'total' => $total
                 ))
-                ->setFrom($this->_coreStoreConfig->getConfig('checkout/payment_failed/identity', $checkout->getStoreId()))
+                ->setFrom($this->_coreStoreConfig->getConfig(
+                    'checkout/payment_failed/identity',
+                    $checkout->getStoreId()
+                ))
                 ->addTo($recipient['email'], $recipient['name'])
                 ->addBcc($bcc)
                 ->getTransport();
@@ -308,7 +309,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $transport->sendMessage();
         }
 
-        $this->_translator->setTranslateInline(true);
+        $this->inlineTranslation->resume();
 
         return $this;
     }

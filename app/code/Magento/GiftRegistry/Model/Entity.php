@@ -106,13 +106,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_resource;
 
     /**
-     * Translate instance
-     *
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
-
-    /**
      * @var \Magento\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
@@ -185,11 +178,15 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -207,6 +204,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
@@ -216,7 +214,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\TranslateInterface $translate,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
@@ -234,13 +231,13 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\App\RequestInterface $request,
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->_store = $storeManager->getStore();
-        $this->_translate = $translate;
         $this->_transportBuilder = $transportBuilder;
         $this->_type = $type;
         $this->attributeConfig = $attributeConfig;
@@ -260,6 +257,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -406,8 +404,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function sendShareRegistryEmail($recipient, $storeId, $message, $sender = null)
     {
-        $translate = $this->_translate;
-        $translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         if (is_null($storeId)) {
             $storeId = $this->getStoreId();
@@ -454,7 +451,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             $result = false;
         }
 
-        $translate->setTranslateInline(true);
+        $this->inlineTranslation->resume();
 
         return $result;
     }
@@ -535,8 +532,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function sendUpdateRegistryEmail($updatedQty)
     {
-        $translate = $this->_translate;
-        $translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $owner = $this->customerFactory->create()
             ->load($this->getCustomerId());
@@ -569,7 +565,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
         catch (\Magento\Mail\Exception $e) {
             $result = false;
         }
-        $translate->setTranslateInline(true);
+
+        $this->inlineTranslation->resume();
 
         return $result;
     }
@@ -581,8 +578,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function sendNewRegistryEmail()
     {
-        $translate = $this->_translate;
-        $translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $owner = $this->customerFactory->create()
             ->load($this->getCustomerId());
@@ -614,7 +610,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             $result = false;
         }
 
-        $translate->setTranslateInline(true);
+        $this->inlineTranslation->resume();
 
         return $result;
     }

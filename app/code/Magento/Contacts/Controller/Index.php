@@ -33,15 +33,23 @@ class Index extends \Magento\App\Action\Action
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Mail\Template\TransportBuilder $transportBuilder
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         parent::__construct($context);
         $this->_transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
 
@@ -89,20 +97,18 @@ class Index extends \Magento\App\Action\Action
         }
         $post = $this->getRequest()->getPost();
         if ($post) {
-            $translate = $this->_objectManager->get('Magento\TranslateInterface');
-            /* @var $translate \Magento\TranslateInterface */
-            $translate->setTranslateInline(false);
+            $this->inlineTranslation->suspend();
             try {
                 $postObject = new \Magento\Object();
                 $postObject->setData($post);
 
                 $error = false;
 
-                if (!\Zend_Validate::is(trim($post['name']) , 'NotEmpty')) {
+                if (!\Zend_Validate::is(trim($post['name']), 'NotEmpty')) {
                     $error = true;
                 }
 
-                if (!\Zend_Validate::is(trim($post['comment']) , 'NotEmpty')) {
+                if (!\Zend_Validate::is(trim($post['comment']), 'NotEmpty')) {
                     $error = true;
                 }
 
@@ -134,7 +140,7 @@ class Index extends \Magento\App\Action\Action
 
                 $transport->sendMessage();
 
-                $translate->setTranslateInline(true);
+                $this->inlineTranslation->resume();
 
                 $this->messageManager->addSuccess(
                     __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
@@ -143,8 +149,10 @@ class Index extends \Magento\App\Action\Action
 
                 return;
             } catch (\Exception $e) {
-                $translate->setTranslateInline(true);
-                $this->messageManager->addError(__('We can\'t process your request right now. Sorry, that\'s all we know.'));
+                $this->inlineTranslation->resume();
+                $this->messageManager->addError(
+                    __('We can\'t process your request right now. Sorry, that\'s all we know.')
+                );
                 $this->_redirect('*/*/');
                 return;
             }

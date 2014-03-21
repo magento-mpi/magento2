@@ -15,23 +15,31 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_localeResolver;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\BaseScopeResolverInterface
      */
-    protected $_storeManager;
+    protected $scopeResolver;
+
+    /**
+     * @var null|string
+     */
+    protected $scope;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param null $scope
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Locale\ResolverInterface $localeResolver,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\BaseScopeResolverInterface $scopeResolver,
+        $scope = null
     ) {
         parent::__construct($resource);
         $this->_localeResolver = $localeResolver;
-        $this->_storeManager = $storeManager;
+        $this->scopeResolver = $scopeResolver;
+        $this->scope = $scope;
     }
 
     /**
@@ -216,7 +224,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (is_null($storeId)) {
-            $storeId = $this->_getStoreId();
+            $storeId = $this->getStoreId();
         }
 
         $select = $write->select()
@@ -235,7 +243,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         if ($row = $write->fetchRow($select, $bind)) {
             $original = $string;
             if (strpos($original, '::') !== false) {
-                list($scope, $original) = explode('::', $original);
+                list( , $original) = explode('::', $original);
             }
             if ($original == $translate) {
                 $write->delete($table, array('key_id=?' => $row['key_id']));
@@ -256,12 +264,12 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Get current store id
+     * Retrieve current store identifier
      *
-     * @return int
+     * @return \Magento\BaseScopeInterface
      */
-    protected function _getStoreId()
+    protected function getStoreId()
     {
-        return $this->_storeManager->getStore()->getId();
+        return $this->scopeResolver->getScope($this->scope)->getId();
     }
 }
