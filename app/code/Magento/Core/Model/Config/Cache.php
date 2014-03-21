@@ -77,7 +77,7 @@ class Cache
     }
 
     /**
-     * @return \Magento\App\ConfigInterface|bool
+     * @return \Magento\App\Config\ScopeConfigInterface|bool
      */
     public function load()
     {

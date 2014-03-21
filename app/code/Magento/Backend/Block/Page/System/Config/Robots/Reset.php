@@ -32,12 +32,12 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         array $data = array()
     ) {
         $this->coreConfig = $coreConfig;

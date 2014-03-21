@@ -52,7 +52,7 @@ class Observer
     /**
      * @var \Magento\Store\Model\Config
      */
-    protected $_storeConfig;
+    protected $_storesConfig;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\CollectionFactory
@@ -121,7 +121,7 @@ class Observer
         $this->_customerData = $customerData;
         $this->_customerAddressHelper = $customerAddressHelper;
         $this->_catalogData = $catalogData;
-        $this->_storeConfig = $storeConfig;
+        $this->_storesConfig = $storesConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
         $this->_localeDate = $localeDate;
         $this->_orderFactory = $orderFactory;
@@ -141,7 +141,7 @@ class Observer
     {
         $this->_eventManager->dispatch('clear_expired_quotes_before', array('sales_observer' => $this));
 
-        $lifetimes = $this->_storeConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
+        $lifetimes = $this->_storesConfig->getStoresConfigByPath('checkout/cart/delete_quote_after');
         foreach ($lifetimes as $storeId=>$lifetime) {
             $lifetime *= 86400;
 

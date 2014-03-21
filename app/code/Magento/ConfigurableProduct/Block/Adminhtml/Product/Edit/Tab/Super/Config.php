@@ -54,7 +54,7 @@ class Config extends Widget implements TabInterface
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -64,7 +64,7 @@ class Config extends Widget implements TabInterface
      * @param Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Locale\CurrencyInterface $localeCurrency
      * @param array $data
      */
@@ -74,7 +74,7 @@ class Config extends Widget implements TabInterface
         Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $coreRegistry,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Locale\CurrencyInterface $localeCurrency,
         array $data = array()
     ) {

@@ -60,7 +60,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Store\Model\Config
      */
-    protected $_storeConfig;
+    protected $_storesConfig;
 
     /**
      * @var \Magento\Index\Model\Indexer
@@ -87,7 +87,7 @@ class Group extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_storeConfig = $storeConfig;
+        $this->_storesConfig = $storesConfig;
         $this->_indexer = $indexer;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -142,7 +142,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     public function usesAsDefault()
     {
-        $data = $this->_storeConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
+        $data = $this->_storesConfig->getStoresConfigByPath(self::XML_PATH_DEFAULT_ID);
         if (in_array($this->getId(), $data)) {
             return true;
         }

@@ -168,7 +168,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Store\Model\StoreFactory $storeFactory
      * @param \Magento\Store\Model\GroupFactory $storeGroupFactory
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
@@ -183,7 +183,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,

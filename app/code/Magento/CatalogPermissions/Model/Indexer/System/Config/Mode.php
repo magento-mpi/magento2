@@ -26,7 +26,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Indexer\Model\Indexer\State $indexerState
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -36,7 +36,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Indexer\Model\IndexerInterface $indexer,
         \Magento\Indexer\Model\Indexer\State $indexerState,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

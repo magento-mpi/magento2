@@ -412,8 +412,8 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if (null === $this->_appCache) {
             //set application path
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            /** @var \Magento\App\ConfigInterface $config */
-            $config = $objectManager->get('Magento\App\ConfigInterface');
+            /** @var \Magento\App\Config\ScopeConfigInterface $config */
+            $config = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
@@ -477,14 +477,14 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             ->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\App\ConfigInterface')
+            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\App\Config\ScopeConfigInterface')
                 ->getNode($path, 'default');
         }
 
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento\App\ReinitableConfigInterface')->reinit();
+                $objectManager->get('Magento\App\Config\ReinitableConfigInterface')->reinit();
                 $objectManager->get('Magento\Store\Model\StoreManagerInterface')->reinitStores();
             }
 

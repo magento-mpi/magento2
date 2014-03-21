@@ -436,12 +436,12 @@ class Tools extends \Magento\Backend\App\Action
     /**
      * Re-init system configuration
      *
-     * @return \Magento\App\ReinitableConfigInterface
+     * @return \Magento\App\Config\ReinitableConfigInterface
      */
     protected function _reinitSystemConfiguration()
     {
-        /** @var $configModel \Magento\App\ReinitableConfigInterface */
-        $configModel = $this->_objectManager->get('Magento\App\ReinitableConfigInterface');
+        /** @var $configModel \Magento\App\Config\ReinitableConfigInterface */
+        $configModel = $this->_objectManager->get('Magento\App\Config\ReinitableConfigInterface');
         return $configModel->reinit();
     }
 }

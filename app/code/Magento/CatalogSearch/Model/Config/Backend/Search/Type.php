@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogSearch\Model\Config\Backend\Search;
 
-use Magento\App\ConfigInterface;
+use Magento\App\Config\ScopeConfigInterface;
 use Magento\CatalogSearch\Model\Fulltext;
 use Magento\Core\Model\Config\Value;
 use Magento\Model\Context;
@@ -38,7 +38,7 @@ class Type extends Value
     /**
      * @param Context $context
      * @param Registry $registry
-     * @param ConfigInterface $config
+     * @param ScopeConfigInterface $config
      * @param Fulltext $catalogSearchFulltext
      * @param AbstractResource $resource
      * @param Db $resourceCollection
@@ -47,7 +47,7 @@ class Type extends Value
     public function __construct(
         Context $context,
         Registry $registry,
-        ConfigInterface $config,
+        ScopeConfigInterface $config,
         Fulltext $catalogSearchFulltext,
         AbstractResource $resource = null,
         Db $resourceCollection = null,

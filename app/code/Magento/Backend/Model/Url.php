@@ -71,7 +71,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     protected $_storeFactory;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -101,7 +101,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Store\Model\Config $coreStoreConfig
      * @param array $data
@@ -124,7 +124,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Backend\App\ConfigInterface $config,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\App\ConfigInterface $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
         \Magento\Store\Model\Config $coreStoreConfig,
         array $data = array()

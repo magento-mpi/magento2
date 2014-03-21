@@ -9,7 +9,7 @@
  */
 namespace Magento\PageCache\Block\System\Config\Form\Field;
 
-use Magento\App\ConfigInterface;
+use \Magento\App\Config\ScopeConfigInterface;
 use Magento\Backend\Block\Template\Context;
 
 /**
@@ -18,18 +18,18 @@ use Magento\Backend\Block\Template\Context;
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @var ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $config;
 
     /**
      * @param Context $context
-     * @param ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param array $data
      */
     public function __construct(
         Context $context,
-        ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         array $data = array()
     ) {
         $this->config = $config;

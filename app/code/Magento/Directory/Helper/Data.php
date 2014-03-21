@@ -91,7 +91,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -103,7 +103,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -113,7 +113,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\App\ConfigInterface $config
+        \Magento\App\Config\ScopeConfigInterface $config
     ) {
         parent::__construct($context);
         $this->_configCacheType = $configCacheType;

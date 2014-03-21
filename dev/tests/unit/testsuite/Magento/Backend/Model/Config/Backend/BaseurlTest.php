@@ -29,7 +29,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $resourceCollection = $this->getMock('Magento\Data\Collection\Db', array(), array(), '', false);
         $mergeService = $this->getMock('Magento\View\Asset\MergeService', array(), array(), '', false);
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
 
         $model = $this->getMock(
             'Magento\Backend\Model\Config\Backend\Baseurl',

@@ -71,7 +71,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     /**
      * Config model
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -131,7 +131,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      * @param StoreFactory $storeFactory
      * @param WebsiteFactory $websiteFactory
      * @param Factory $groupFactory
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
      * @param \Magento\Backend\Model\UrlInterface $url
@@ -143,7 +143,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         StoreFactory $storeFactory,
         WebsiteFactory $websiteFactory,
         Factory $groupFactory,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Stdlib\Cookie $cookie,
         State $appState,
         \Magento\Backend\Model\UrlInterface $url,

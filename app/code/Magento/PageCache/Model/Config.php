@@ -53,7 +53,7 @@ class Config
     protected $_coreStoreConfig;
 
     /**
-     * @var ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -75,7 +75,7 @@ class Config
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         StoreConfig $coreStoreConfig,
-        ConfigInterface $config
+        \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_coreStoreConfig = $coreStoreConfig;

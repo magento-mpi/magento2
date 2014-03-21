@@ -38,7 +38,7 @@ class Installer extends \Magento\Object
     /**
      * Application config model
      *
-     * @var \Magento\App\ReinitableConfigInterface
+     * @var \Magento\App\Config\ReinitableConfigInterface
      */
     protected $_config;
 
@@ -175,7 +175,7 @@ class Installer extends \Magento\Object
     protected $_localeResolver;
 
     /**
-     * @param \Magento\App\ReinitableConfigInterface $config
+     * @param \Magento\App\Config\ReinitableConfigInterface $config
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
@@ -202,7 +202,7 @@ class Installer extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\App\ReinitableConfigInterface $config,
+        \Magento\App\Config\ReinitableConfigInterface $config,
         \Magento\Module\UpdaterInterface $dbUpdater,
         \Magento\App\CacheInterface $cache,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,

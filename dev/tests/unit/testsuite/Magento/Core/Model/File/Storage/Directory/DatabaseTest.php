@@ -57,7 +57,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     protected $directoryFactoryMock;
 
     /**
-     * @var \Magento\App\ConfigInterface |\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopeConfigInterface |\PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
@@ -81,22 +81,22 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->contextMock          = $this->getMock('Magento\Model\Context', array(), array(), '', false);
-        $this->registryMock         = $this->getMock('Magento\Registry', array(), array(), '', false);
+        $this->contextMock = $this->getMock('Magento\Model\Context', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Registry', array(), array(), '', false);
         $this->helperStorageDatabase = $this->getMock('Magento\Core\Helper\File\Storage\Database',
             array(), array(), '', false);
-        $this->dateModelMock        = $this->getMock('Magento\Stdlib\DateTime\DateTime',
+        $this->dateModelMock = $this->getMock('Magento\Stdlib\DateTime\DateTime',
             array(), array(), '', false);
-        $this->applicationMock      = $this->getMock('Magento\Core\Model\App',
+        $this->applicationMock = $this->getMock('Magento\Core\Model\App',
             array(), array(), '', false);
-        $this->directoryMock        = $this->getMock('Magento\Core\Model\File\Storage\Directory\Database',
+        $this->directoryMock = $this->getMock('Magento\Core\Model\File\Storage\Directory\Database',
             array('setPath', 'setName', '__wakeup', 'save', 'getParentId'), array(), '', false);
         $this->directoryFactoryMock = $this->getMock('Magento\Core\Model\File\Storage\Directory\DatabaseFactory',
             array('create'), array(), '', false);
-        $this->configMock           = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        $this->configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
         $this->resourceDirectoryDatabaseMock =
             $this->getMock('Magento\Core\Model\Resource\File\Storage\Directory\Database', array(), array(), '', false);
-        $this->loggerMock           = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Logger', array(), array(), '', false);
 
         $this->directoryFactoryMock->expects($this->any())
             ->method('create')

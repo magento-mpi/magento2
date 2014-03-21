@@ -56,7 +56,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**#@-*/
 
     /**
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -72,13 +72,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\ConfigInterface $storeConfig
      * @param \Magento\Registry $registry
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\ConfigInterface $storeConfig,
         \Magento\Registry $registry
     ) {

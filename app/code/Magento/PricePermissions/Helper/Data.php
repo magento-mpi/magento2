@@ -52,7 +52,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Configuration interface
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_coreConfig;
 
@@ -61,12 +61,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\App\ConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\App\ConfigInterface $coreConfig
+        \Magento\App\Config\ScopeConfigInterface $coreConfig
     ) {
         parent::__construct($context);
         $this->_authorization = $authorization;

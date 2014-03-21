@@ -23,7 +23,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $filesystemMock = $this->getMock('Magento\App\Filesystem', ['getDirectoryRead'], [], '', false);
         $coreStoreConfigMock = $this->getMock('Magento\Store\Model\Config', ['getConfig'], [], '', false);
         $appConfigMock = $this->getMockForAbstractClass(
-            'Magento\App\ConfigInterface',
+            'Magento\App\Config\ScopeConfigInterface',
             [],
             '',
             true,

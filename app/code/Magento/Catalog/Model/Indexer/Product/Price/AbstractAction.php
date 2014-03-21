@@ -39,7 +39,7 @@ abstract class AbstractAction
     /**
      * Core config model
      *
-     * @var \Magento\App\ConfigInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
     protected $_config;
 
@@ -91,7 +91,7 @@ abstract class AbstractAction
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -102,7 +102,7 @@ abstract class AbstractAction
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\App\ConfigInterface $config,
+        \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,

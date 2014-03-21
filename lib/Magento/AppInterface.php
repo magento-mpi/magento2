@@ -80,7 +80,7 @@ interface AppInterface
     /**
      * Retrieve configuration object
      *
-     * @return \Magento\App\ConfigInterface
+     * @return \Magento\App\Config\ScopeConfigInterface
      */
     public function getConfig();
 

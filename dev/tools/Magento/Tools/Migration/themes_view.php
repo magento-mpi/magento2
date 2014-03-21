@@ -13,8 +13,8 @@ try {
     $entryPoint = new \Magento\App\EntryPoint\EntryPoint($rootDir, array());
 
     $objectManager = new \Magento\App\ObjectManager();
-    /** @var $configModel \Magento\App\ReinitableConfigInterface */
-    $configModel = $objectManager->get('Magento\App\ReinitableConfigInterface');
+    /** @var $configModel \Magento\App\Config\ReinitableConfigInterface */
+    $configModel = $objectManager->get('Magento\App\Config\ReinitableConfigInterface');
     $configModel->reinit();
     $config = array();
 

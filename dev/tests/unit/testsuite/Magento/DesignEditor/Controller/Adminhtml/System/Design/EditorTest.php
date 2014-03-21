@@ -178,7 +178,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
-        $configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
+        $configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
         $authMock = $this->getMock('Magento\AuthorizationInterface');
         $authMock->expects($this->any())->method('filterAclNodes')->will($this->returnSelf());
         $backendSession = $this->getMock('Magento\Backend\Model\Session', array('getMessages', 'getEscapeMessages'),
@@ -196,7 +196,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
                 $this->_getThemeCollectionFactory($countCustomization)
             ),
             array('Magento\TranslateInterface', $translate),
-            array('Magento\App\ConfigInterface', $configMock),
+            array('Magento\App\Config\ScopeConfigInterface', $configMock),
             array('Magento\Event\ManagerInterface', $eventManager),
             array('Magento\Store\Model\StoreManager', $storeManager),
             array('Magento\AuthorizationInterface', $authMock),
