@@ -139,25 +139,6 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     }
 
     /**
-     * @param float $amount
-     * @return float
-     */
-    public function convertToDisplayCurrency($amount)
-    {
-        // @todo move to abstract pricing block
-        return $amount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDisplayCurrencySymbol()
-    {
-        // @todo move to abstract pricing block
-        return '';
-    }
-
-    /**
      * @return Amount|\Magento\View\Element\BlockInterface
      */
     protected function getAmountRender()

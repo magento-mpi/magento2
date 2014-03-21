@@ -36,19 +36,4 @@ interface PriceBoxRenderInterface
      * @return PriceInterface
      */
     public function getPrice();
-
-    /**
-     * (to use in templates only)
-     *
-     * @param float $amount
-     * @return float
-     */
-    public function convertToDisplayCurrency($amount);
-
-    /**
-     * (to use in templates only)
-     *
-     * @return string
-     */
-    public function getDisplayCurrencySymbol();
 }

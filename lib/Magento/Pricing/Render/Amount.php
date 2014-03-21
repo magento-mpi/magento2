@@ -142,25 +142,6 @@ class Amount extends Template implements AmountRenderInterface
     }
 
     /**
-     * @param float $amount
-     * @return float
-     */
-    public function convertToDisplayCurrency($amount)
-    {
-        // @todo move to abstract pricing block
-        return $amount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDisplayCurrencySymbol()
-    {
-        // @todo move to abstract pricing block
-        return '';
-    }
-
-    /**
      * @return AdjustmentRenderInterface[]
      */
     protected function getAdjustmentRenders()
