@@ -40,7 +40,7 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
             )
         );
         $second  = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Store\Model\Groups');
+            ->create('Magento\Store\Model\Group');
         $second->setData(
             array(
                 'website_id'        => 1,
