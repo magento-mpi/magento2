@@ -166,6 +166,6 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $result = $this->object->render('final_price', $this->product, []);
 
         //assert price wrapper
-        $this->assertEquals('test', $result);
+        $this->assertEquals('<div class="price-box price-final_price">test</div>', $result);
     }
 }
