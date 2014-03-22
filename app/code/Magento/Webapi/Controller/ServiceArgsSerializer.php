@@ -69,28 +69,13 @@ class ServiceArgsSerializer
             if (isset($inputArray[$paramName])) {
                 if ($this->_isArrayParam($param)) {
                     $paramType = "{$param->getType()}[]";
-                    if (isset($inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME])) {
-                        /** Eliminate 'item' node if present. It is wrapping all data, declared in WSDL as array */
-                        $item = $inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME];
-                        if (is_array($item)) {
-                            $isAssociative = array_keys($item) !== range(0, count($item) - 1);
-                            /**
-                             * In case when only one filter is passed, it will not be wrapped into a subarray
-                             * within item node. If several filters are passed, they will be wrapped into
-                             * an indexed array within item node.
-                             */
-                            $paramValue = $isAssociative ? [$item] : $item;
-                        }
-                    } else {
-                        $paramValue = $inputArray[$paramName];
-                    }
                 } else {
                     $paramType = $param->getType();
-                    $paramValue = $inputArray[$paramName];
                 }
+                $paramValue = $inputArray[$paramName];
                 $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
-                $inputData[] = $param->getDefaultValue();                   // not set, so use default
+                $inputData[] = $param->getDefaultValue(); // not set, so use default
             }
         }
 
@@ -135,6 +120,7 @@ class ServiceArgsSerializer
         $class = new ClassReflection($className);
         foreach ($data as $propertyName => $value) {
             // Converts snake_case to uppercase CamelCase to help form getter/setter method names
+            // This use case is for REST only. SOAP request data is already camel cased
             $camelCaseProperty = str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
             $methodName = $this->_processGetterMethod($class, $camelCaseProperty);
             $methodReflection = $class->getMethod($methodName);

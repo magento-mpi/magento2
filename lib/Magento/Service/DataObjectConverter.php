@@ -27,34 +27,20 @@ class DataObjectConverter
     }
 
     /**
-     * Create new object and initialize its public fields with data retrieved from Data Object.
-     *
-     * This method processes all nested Data Objects recursively.
-     *
-     * @param AbstractObject $dataObject
-     * @return \stdClass
-     * @throws \InvalidArgumentException
-     */
-    public function toStdObject(AbstractObject $dataObject)
-    {
-        return $this->convertArrayToStdObject($dataObject->__toArray());
-    }
-
-    /**
-     * Unpack as an array and convert keys to camelCase
+     * Convert keys to camelCase
      *
      * @param array $dataArray
      * @return \stdClass
      */
-    public function convertArrayToStdObject(array $dataArray)
+    public function convertKeysToCamelCase(array $dataArray)
     {
-        $response = new \stdClass();
+        $response = [];
         foreach ($dataArray as $fieldName => $fieldValue) {
             if (is_array($fieldValue) && !$this->_isSimpleSequentialArray($fieldValue)) {
-                $fieldValue = $this->convertArrayToStdObject($fieldValue);
+                $fieldValue = $this->convertKeysToCamelCase($fieldValue);
             }
             $fieldName = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $fieldName))));
-            $response->$fieldName = $fieldValue;
+            $response[$fieldName] = $fieldValue;
         }
         return $response;
     }
@@ -82,15 +68,23 @@ class DataObjectConverter
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function convertStdObjectToArray($input)
+    public function convertSoapStdObjectToArray($input)
     {
         if (!is_object($input) && !is_array($input)) {
             throw new \InvalidArgumentException("Input argument must be an array or object");
         }
+        if (isset($input->item)) {
+            /**
+             * In case when only one Data object value is passed, it will not be wrapped into a subarray
+             * within item node. If several Data object values are passed, they will be wrapped into
+             * an indexed array within item node.
+             */
+            $input = is_object($input->item) ? [$input->item] : $input->item;
+        }
         $result = array();
         foreach ((array)$input as $key => $value) {
             if (is_object($value) || is_array($value)) {
-                $result[$key] = $this->convertStdObjectToArray($value);
+                $result[$key] = $this->convertSoapStdObjectToArray($value);
             } else {
                 $result[$key] = $value;
             }

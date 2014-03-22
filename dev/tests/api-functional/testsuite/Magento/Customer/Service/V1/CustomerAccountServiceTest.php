@@ -108,8 +108,13 @@ class CustomerAccountServiceTest extends WebapiAbstract
 
     public function testGetCustomerDetails()
     {
+        //Create a customer
         $customerData = $this->_createSampleCustomer();
 
+        //Get expected details from the Service directly
+        $expectedCustomerDetails = $this->customerAccountService->getCustomerDetails($customerData['id'])->__toArray();
+
+        //Test GetDetails
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $customerData['id'],
@@ -122,11 +127,16 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ]
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $customerDetailsData = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
+            $customerDetailsResponse = $this->_webApiCall($serviceInfo, ['customerId' => $customerData['id']]);
         } else {
-            $customerDetailsData = $this->_webApiCall($serviceInfo);
+            $customerDetailsResponse = $this->_webApiCall($serviceInfo);
         }
-        $this->assertNotNull($customerData, $customerDetailsData['customer']);
+        // TODO: Reset custom_attributes to empty array for now since webapi does not support it. Need to fix this.
+        unset($expectedCustomerDetails['customer']['custom_attributes']);
+        unset($customerDetailsResponse['customer']['customAttributes']); //For SOAP
+        unset($customerDetailsResponse['customer']['custom_attributes']); //for REST
+
+        $this->assertEquals($expectedCustomerDetails, $customerDetailsResponse);
     }
 
     public function testGetCustomer()
@@ -149,7 +159,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
         } else {
             $customerResponseData = $this->_webApiCall($serviceInfo);
         }
-        $this->assertNotNull($customerData, $customerResponseData);
+        $this->assertEquals($customerData, $customerResponseData);
     }
 
     public function testGetCustomerActivateCustomer()
@@ -750,7 +760,7 @@ class CustomerAccountServiceTest extends WebapiAbstract
             ->setDefaultShipping(false)
             ->setPostcode('47676')
             ->setRegion((new RegionBuilder())->setRegionCode('AL')->setRegion('Alabama')->setRegionId(1)->create())
-            ->setStreet(['Black str, 48'])
+            ->setStreet(['Black str, 48', 'Building D'])
             ->setCity('CityX')
             ->setTelephone('3234676')
             ->setFirstname('John')

@@ -71,43 +71,10 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
         //TODO : FIX toFlatArray since it has issues in converting Street array correctly as it overwrites the data.
     }
 
-    public function testToStdObject()
-    {
-        //Unpack Data Object as an array and convert keys to camelCase to match property names in WSDL
-        $response = $this->dataObjectConverter->toStdObject($this->getCustomerDetails());
-        //Check if keys are correctly converted to camel case wherever necessary
-        $this->assertEquals(self::FIRSTNAME, $response->customer->firstname);
-        $this->assertEquals(self::GROUP_ID, $response->customer->groupId);
-        foreach ($response->addresses as $key => $address) {
-            $region = $address->region;
-            $this->assertEquals(self::REGION, $region->region);
-            $this->assertEquals(self::REGION_CODE, $region->regionCode);
-            $this->assertEquals(self::REGION_ID, $region->regionId);
-            $this->assertEquals($this->expectedStreet[intval($key)], $address->street);
-        }
-    }
-
-    public function testConvertArrayToStdObject()
+    public function testConvertKeysToCamelCase()
     {
         //Unpack as an array and convert keys to camelCase to match property names in WSDL
-        $response = $this->dataObjectConverter->convertArrayToStdObject($this->getCustomerDetails()->__toArray());
-        //Check if keys are correctly converted to camel case wherever necessary
-        $this->assertEquals(self::FIRSTNAME, $response->customer->firstname);
-        $this->assertEquals(self::GROUP_ID, $response->customer->groupId);
-        foreach ($response->addresses as $key => $address) {
-            $region = $address->region;
-            $this->assertEquals(self::REGION, $region->region);
-            $this->assertEquals(self::REGION_CODE, $region->regionCode);
-            $this->assertEquals(self::REGION_ID, $region->regionId);
-            $this->assertEquals($this->expectedStreet[intval($key)], $address->street);
-        }
-    }
-
-    public function testConvertStdObjectToArray()
-    {
-        //Unpack as an array and convert keys to camelCase to match property names in WSDL
-        $stdObj = $this->dataObjectConverter->convertArrayToStdObject($this->getCustomerDetails()->__toArray());
-        $response = $this->dataObjectConverter->convertStdObjectToArray($stdObj);
+        $response = $this->dataObjectConverter->convertKeysToCamelCase($this->getCustomerDetails()->__toArray());
         //Check if keys are correctly converted to camel case wherever necessary
         $this->assertEquals(self::FIRSTNAME, $response['customer']['firstname']);
         $this->assertEquals(self::GROUP_ID, $response['customer']['groupId']);
@@ -116,6 +83,35 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(self::REGION, $region['region']);
             $this->assertEquals(self::REGION_CODE, $region['regionCode']);
             $this->assertEquals(self::REGION_ID, $region['regionId']);
+            $this->assertEquals($this->expectedStreet[$key], $address['street']);
+        }
+    }
+
+    public function testConvertSoapStdObjectToArray()
+    {
+        $stdObject = json_decode(json_encode($this->getCustomerDetails()->__toArray()), FALSE);
+        $addresses = $stdObject->addresses;
+        unset($stdObject->addresses);
+        $stdObject->addresses = new \stdClass();
+        $stdObject->addresses->item = $addresses;
+        $response = $this->dataObjectConverter->convertSoapStdObjectToArray($stdObject);
+
+        //Check array conversion
+        $this->assertTrue(is_array($response['customer']));
+        $this->assertTrue(is_array($response['addresses']));
+
+        //Check if item node is removed
+        $this->assertFalse(isset($response['addresses']['item']));
+        $this->assertEquals(2, count($response['addresses']));
+
+        //Check if data is correct
+        $this->assertEquals(self::FIRSTNAME, $response['customer']['firstname']);
+        $this->assertEquals(self::GROUP_ID, $response['customer']['group_id']);
+        foreach ($response['addresses'] as $key => $address) {
+            $region = $address['region'];
+            $this->assertEquals(self::REGION, $region['region']);
+            $this->assertEquals(self::REGION_CODE, $region['region_code']);
+            $this->assertEquals(self::REGION_ID, $region['region_id']);
             $this->assertEquals($this->expectedStreet[$key], $address['street']);
         }
     }

@@ -59,14 +59,12 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     public function call($serviceInfo, $arguments = array())
     {
         $soapOperation = $this->_getSoapOperation($serviceInfo);
-        $arguments = $this->_converter->convertArrayToStdObject($arguments);
+        $arguments = $this->_converter->convertKeysToCamelCase($arguments);
         $soapResponse = $this->_getSoapClient($serviceInfo)->$soapOperation($arguments);
-
-        // TODO: Check if code below is necessary (when some tests are implemented)
+        //Convert to snake case for tests to use same assertion data for both SOAP and REST tests
         $result = (is_array($soapResponse) || is_object($soapResponse))
-            ? $this->_normalizeResponse($soapResponse)
+            ? $this->toSnakeCase($this->_converter->convertSoapStdObjectToArray($soapResponse))
             : $soapResponse;
-
         /** Remove result wrappers */
         $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
         return $result;
@@ -207,78 +205,6 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             throw new \LogicException("Service name cannot be identified.");
         }
         return $serviceName;
-    }
-
-    /**
-     * Convert object to array recursively
-     *
-     * @param object $soapResult
-     * @return array
-     */
-    protected function _normalizeResponse($soapResult)
-    {
-        $result = $this->_replaceComplexObjectArray($this->_soapResultToArray($soapResult));
-        return $this->toSnakeCase($result);
-    }
-
-    /**
-     * Replace "complexObjectArray" keys from array
-     *
-     * @param array $arg
-     * @return array
-     */
-    protected function _replaceComplexObjectArray(array $arg)
-    {
-        $data = array();
-
-        foreach ($arg as $key => $value) {
-            if (is_array($value)) {
-                $value = $this->_replaceComplexObjectArray($value);
-            }
-            if ('complexObjectArray' == $key) {
-                $data[] = $value;
-            } else if ($key == WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME) {
-                if (is_array($value) && array_keys($value) === range(0, count($value) - 1)) {
-                    foreach ($value as $item) {
-                        $data[] = $item;
-                    }
-                } else {
-                    $data[] = $value;
-                }
-            } else {
-                $data[$key] = $value;
-            }
-        }
-        return isset($arg['complexObjectArray']) ? reset($data) : $data;
-    }
-
-    /**
-     * Convert object to array recursively
-     *
-     * @param object $soapResult
-     * @return array
-     */
-    protected function _soapResultToArray($soapResult)
-    {
-        if (is_object($soapResult) && null !== ($_data = get_object_vars($soapResult))) {
-            array_walk($_data, function ($value, $key) use (&$_data) {
-                if (is_object($value) || is_array($value)) {
-                    $_data[$key] = $this->_soapResultToArray($value);
-                }
-            });
-            return $_data;
-        } else if (is_array($soapResult)) {
-            $_data = array();
-            array_walk($soapResult, function ($value, $key) use (&$_data) {
-                if (is_object($value) || is_array($value)) {
-                    $_data[$key] = $this->_soapResultToArray($value);
-                } else {
-                    $_data[$key] = $value;
-                }
-            });
-            return $_data;
-        }
-        return array();
     }
 
     /**
