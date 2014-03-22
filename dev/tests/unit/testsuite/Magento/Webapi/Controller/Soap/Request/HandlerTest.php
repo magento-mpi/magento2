@@ -46,7 +46,13 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
         $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
-        $this->_dataObjectConverter = $this->getMock('Magento\Service\DataObjectConverter', ['convertStdObjectToArray'], [], '', false);
+        $this->_dataObjectConverter = $this->getMock(
+            'Magento\Service\DataObjectConverter',
+            ['convertSoapStdObjectToArray'],
+            [],
+            '',
+            false
+        );
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
@@ -67,7 +73,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->method('getRequestedServices')
             ->will($this->returnValue($requestedServices));
         $this->_dataObjectConverter->expects($this->once())
-            ->method('convertStdObjectToArray')
+            ->method('convertSoapStdObjectToArray')
             ->will($this->returnValue(['field' => 1]));
         $operationName = 'soapOperation';
         $className = 'Magento\Object';
