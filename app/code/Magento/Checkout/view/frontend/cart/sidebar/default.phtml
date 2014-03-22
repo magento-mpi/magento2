@@ -76,7 +76,7 @@
                     <?php else: ?>
                         <span class="label display"><?php echo __('Price'); ?></span>
                     <?php endif; ?>
-                    <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay($_item, array(0, 1, 4), 'sales')): ?>
+                    <?php if ($this->helper('Magento\Weee\Helper\Data')->typeOfDisplay(array(0, 1, 4), 'sales')): ?>
                         <span class="value excl tax">
                         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($_item->getCalculationPrice()+$_item->getWeeeTaxAppliedAmount()+$_item->getWeeeTaxDisposition()); ?>
                         </span>
