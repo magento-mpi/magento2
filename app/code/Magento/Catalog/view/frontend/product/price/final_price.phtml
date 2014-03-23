@@ -26,14 +26,14 @@ $displayFinalPrice = $finalPriceModel->getDisplayValue();
 
 <?php if ($displayFinalPrice >= $displayRegularPrice): ?>
     <?php echo $this->renderAmount($finalPriceModel, [
-        'price_id' => 'regular-price-' . $id,
+        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'regular-price-' . $id,
         'include_container' => true
     ]); ?>
 <?php else: ?>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel, [
             'display_label' => __('Regular Price:'),
-            'price_id' => 'old-price-' . $id,
+            'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
             'include_container' => true,
             'skip_adjustments' => true
         ]); ?>
@@ -41,7 +41,7 @@ $displayFinalPrice = $finalPriceModel->getDisplayValue();
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel, [
             'display_label' => __('Special Price:'),
-            'id' => 'old-price-' . $id,
+            'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
             'include_container' => false
         ]); ?>
     </p>
@@ -57,7 +57,7 @@ $displayFinalPrice = $finalPriceModel->getDisplayValue();
         <?php endif?>
                 <?php echo $this->renderAmount($minimalPrice, [
                         'display_label' => __('As low as:'),
-                        'id' => 'product-minimal-price-' . $id,
+                        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $id,
                         'include_container' => false
                     ]); ?>
         <?php if ($this->getUseLinkForAsLowAs()):?>

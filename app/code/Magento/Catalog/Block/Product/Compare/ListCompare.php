@@ -290,4 +290,20 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         $this->_customerId = $id;
         return $this;
     }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return mixed
+     */
+    public function getProductPrice(\Magento\Catalog\Model\Product $product)
+    {
+        return $this->getLayout()->getBlock('product.price.render.default')->render(
+            'final_price',
+            $product,
+            [
+                'price_id' => 'product-price-' . $product->getId() . '-compare-list-top',
+                'display_minimal_price' => true
+            ]
+        );
+    }
 }
