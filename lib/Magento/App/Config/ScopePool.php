@@ -63,7 +63,7 @@ class ScopePool
      */
     public function getScope($scopeType, $scopeCode = null)
     {
-        if ($scopeCode instanceof \Magento\Object) {
+        if ($scopeCode instanceof \Magento\BaseScopeInterface) {
             $scopeCode = $scopeCode->getCode();
         }
 
