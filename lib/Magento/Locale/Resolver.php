@@ -18,6 +18,13 @@ class Resolver implements \Magento\Locale\ResolverInterface
     protected $_defaultLocale;
 
     /**
+     * Scope type
+     *
+     * @var string
+     */
+    protected $_scopeType;
+
+    /**
      * Locale object
      *
      * @var \Magento\LocaleInterface
@@ -58,6 +65,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
      * @param \Magento\AppInterface $app
      * @param \Magento\LocaleFactory $localeFactory
      * @param string $defaultLocalePath
+     * @param string $scopeType
      * @param mixed $locale
      */
     public function __construct(
@@ -65,12 +73,14 @@ class Resolver implements \Magento\Locale\ResolverInterface
         \Magento\AppInterface $app,
         \Magento\LocaleFactory $localeFactory,
         $defaultLocalePath,
+        $scopeType,
         $locale = null
     ) {
         $this->_app = $app;
         $this->_scopeConfig = $scopeConfig;
         $this->_localeFactory = $localeFactory;
         $this->_defaultLocalePath = $defaultLocalePath;
+        $this->_scopeType = $scopeType;
         $this->setLocale($locale);
     }
 
@@ -97,7 +107,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = $this->_scopeConfig->getValue($this->getDefaultLocalePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $locale = $this->_scopeConfig->getValue($this->getDefaultLocalePath(), $this->_scopeType);
             if (!$locale) {
                 $locale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
             }
@@ -164,7 +174,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
         if ($scopeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
             $this->_locale = $this->_localeFactory->create(array(
-                'locale' => $this->_scopeConfig->getValue($this->getDefaultLocalePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $scopeId)
+                'locale' => $this->_scopeConfig->getValue($this->getDefaultLocalePath(), $this->_scopeType, $scopeId)
             ));
             $this->_localeCode = $this->_locale->toString();
             $result = $this->_localeCode;

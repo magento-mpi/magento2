@@ -16,11 +16,6 @@ namespace Magento\Email\Model;
 class BackendTemplate extends Template
 {
     /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_coreConfig;
-
-    /**
      * @var \Magento\Backend\Model\Config\Structure
      */
     private $_structure;
@@ -34,8 +29,7 @@ class BackendTemplate extends Template
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\App\Config\ScopeConfigInterface $coreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Email\Model\Template\FilterFactory $emailFilterFactory
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param \Magento\Backend\Model\Config\Structure $structure
@@ -52,8 +46,7 @@ class BackendTemplate extends Template
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\App\Config\ScopeConfigInterface $coreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         \Magento\Backend\Model\Config\Structure $structure,
@@ -68,8 +61,7 @@ class BackendTemplate extends Template
             $filesystem,
             $viewUrl,
             $viewFileSystem,
-            $coreStoreConfig,
-            $coreConfig,
+            $scopeConfig,
             $emailFilterFactory,
             $emailConfig,
             $data
@@ -89,7 +81,7 @@ class BackendTemplate extends Template
             return array();
         }
 
-        $configData = $this->_coreConfig->getValue(null, 'default');
+        $configData = $this->_scopeConfig->getValue(null, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
         $paths = $this->_findEmailTemplateUsages($templateCode, $configData, '');
         return $paths;
     }

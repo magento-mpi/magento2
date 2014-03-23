@@ -66,23 +66,29 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Order\Status $status */
         $status = $this->_objectManager->get('Magento\Sales\Model\Order\Status')->load($statusCode);
 
-        /** @var $storeConfig \Magento\Store\Model\Config */
-        $storeConfig = $this->_objectManager->get('Magento\Store\Model\Config');
-        $defaultStatus = (string)$storeConfig->getConfig('payment/checkmo/order_status');
+        /** @var $scopeConfig \Magento\App\Config\ScopeConfigInterface */
+        $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+        $defaultStatus = (string)$scopeConfig->getValue(
+            'payment/checkmo/order_status',
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
 
         /** @var \Magento\Core\Model\Resource\Config $config */
         $config = $this->_objectManager->get('Magento\Core\Model\Resource\Config');
-        $config->saveConfig('payment/checkmo/order_status', $statusCode, 'default', 0);
+        $config->saveConfig('payment/checkmo/order_status', $statusCode, \Magento\BaseScopeInterface::SCOPE_DEFAULT, 0);
 
         $this->_resetConfig();
 
-        $newStatus = $storeConfig->getConfig('payment/checkmo/order_status');
+        $newStatus = (string)$scopeConfig->getValue(
+            'payment/checkmo/order_status',
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
 
         $status->unassignState(\Magento\Sales\Model\Order::STATE_NEW);
 
         $this->_resetConfig();
 
-        $unassignedStatus = $storeConfig->getConfig('payment/checkmo/order_status');
+        $unassignedStatus = $scopeConfig->getConfig('payment/checkmo/order_status');
 
         $this->assertEquals('pending', $defaultStatus);
         $this->assertEquals($statusCode, $newStatus);
@@ -108,9 +114,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        /** @var \Magento\Store\Model\Config $storeConfig */
-        $storeConfig = $this->_objectManager->get('Magento\Store\Model\Config');
-        $unassignedStatus = $storeConfig->getConfig('payment/checkmo/order_status');
+        /** @var $scopeConfig \Magento\App\Config\ScopeConfigInterface */
+        $scopeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
+        $unassignedStatus = (string)$scopeConfig->getValue(
+            'payment/checkmo/order_status',
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
         $this->assertEquals('pending', $unassignedStatus);
     }
 

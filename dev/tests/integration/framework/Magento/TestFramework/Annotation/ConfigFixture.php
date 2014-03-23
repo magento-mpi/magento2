@@ -41,17 +41,21 @@ class ConfigFixture
      * Retrieve configuration node value
      *
      * @param string $configPath
-     * @param string|bool|null $storeCode
+     * @param string|bool|null $scopeCode
      * @return string
      */
-    protected function _getConfigValue($configPath, $storeCode = false)
+    protected function _getConfigValue($configPath, $scopeCode = false)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $result = null;
-        if ($storeCode !== false) {
-            /** @var \Magento\Store\Model\Config $storeConfig */
-            $storeConfig = $objectManager->get('Magento\Store\Model\Config');
-            $result = $storeConfig->getConfig($configPath, $storeCode);
+        if ($scopeCode !== false) {
+            /** @var \Magento\App\Config\ScopeConfigInterface $scopeConfig */
+            $scopeConfig = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
+            $result = $scopeConfig->getValue(
+                $configPath,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                $scopeCode
+            );
         }
         return $result;
     }

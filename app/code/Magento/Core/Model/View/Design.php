@@ -57,12 +57,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_config;
-
-    /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    private $_storeConfig;
+    private $_scopeConfig;
 
     /**
      * @var \Magento\Locale\ResolverInterface
@@ -77,8 +72,7 @@ class Design implements \Magento\View\DesignInterface
     /**
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory
-     * @param \Magento\App\Config\ScopeConfigInterface $config
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Core\Model\ThemeFactory $themeFactory
      * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
@@ -87,8 +81,7 @@ class Design implements \Magento\View\DesignInterface
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\View\Design\Theme\FlyweightFactory $flyweightFactory,
-        \Magento\App\Config\ScopeConfigInterface $config,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\ThemeFactory $themeFactory,
         \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,
@@ -97,8 +90,7 @@ class Design implements \Magento\View\DesignInterface
         $this->_storeManager = $storeManager;
         $this->_flyweightFactory = $flyweightFactory;
         $this->_themeFactory = $themeFactory;
-        $this->_config = $config;
-        $this->_storeConfig = $storeConfig;
+        $this->_scopeConfig = $scopeConfig;
         $this->_appState = $appState;
         $this->_themes = $themes;
         $this->_locale = $locale;
@@ -172,8 +164,12 @@ class Design implements \Magento\View\DesignInterface
 
         if ($this->_isThemePerStoveView($area)) {
             $theme = $this->_storeManager->isSingleStoreMode()
-                ? $this->_config->getValue(self::XML_PATH_THEME_ID, 'default')
-                : (string)$this->_storeConfig->getValue(self::XML_PATH_THEME_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+                ? $this->_scopeConfig->getValue(self::XML_PATH_THEME_ID, \Magento\BaseScopeInterface::SCOPE_DEFAULT)
+                : (string)$this->_scopeConfig->getValue(
+                    self::XML_PATH_THEME_ID,
+                    \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    $store
+                );
         }
 
         if (!$theme && isset($this->_themes[$area])) {

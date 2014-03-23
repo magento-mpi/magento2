@@ -4,19 +4,17 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Store;
+namespace Magento\Store\Model;
 
 class StoresConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Store\StoresConfig
+     * @var \Magento\Store\Model\StoresConfig
      */
     protected $_model;
 
@@ -47,7 +45,7 @@ class StoresConfigTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
-        $this->_model = new \Magento\Core\Model\Store\StoresConfig(
+        $this->_model = new \Magento\Store\Model\StoresConfig(
             $this->_storeManager,
             $this->_config
         );

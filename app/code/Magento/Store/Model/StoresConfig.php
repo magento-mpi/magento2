@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Store;
+namespace Magento\Store\Model;
+
+use Magento\Store\Model\StoreManagerInterface;
 
 class StoresConfig
 {
@@ -23,11 +23,11 @@ class StoresConfig
     protected $_config;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      * @param \Magento\App\Config\ScopeConfigInterface $config
      */
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
         \Magento\App\Config\ScopeConfigInterface $config
     ) {
         $this->_storeManager = $storeManager;
@@ -48,7 +48,7 @@ class StoresConfig
         $storeValues = array();
         /** @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
-            $value = $this->_config->getValue($path, 'store', $store->getCode());
+            $value = $this->_config->getValue($path, StoreManagerInterface::SCOPE_TYPE_STORE, $store->getCode());
             $storeValues[$store->getId()] = $value;
         }
         return $storeValues;

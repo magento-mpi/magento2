@@ -106,7 +106,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param \Magento\Search\Model\Resource\Index $searchResourceIndex
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Search\Model\Resource\Advanced $searchResource
-     * @param \Magento\Store\Model\ConfigInterface $coreStoreConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Factory\Factory $searchFactory
      */
@@ -116,7 +116,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Search\Model\Resource\Advanced $searchResource,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
@@ -126,7 +126,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_adapter = $searchFactory->getFactory()->createAdapter();
         $this->_searchResource = $searchResource;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
         $this->_initAdapter();
     }
@@ -139,8 +139,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     protected function _canHoldCommit()
     {
         $commitMode = $this->_storeConfig->getValue(
-            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
             || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE;
@@ -154,8 +155,9 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     protected function _canAllowCommit()
     {
         $commitMode = $this->_storeConfig->getValue(
-            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
             || $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL;

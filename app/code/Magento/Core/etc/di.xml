@@ -456,6 +456,7 @@
         <plugin name="initLocale" type="Magento\Translate\Locale\Resolver\Plugin" sortOrder="10"/>
         <arguments>
             <argument name="defaultLocalePath" xsi:type="string">general/locale/code</argument>
+            <argument name="scopeType" xsi:type="string">store</argument>
         </arguments>
     </type>
 </config>

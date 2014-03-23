@@ -1,24 +1,5 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_CatalogSearch
- * @copyright   {copyright}
- * @license     {license_link}
- */
-namespace Magento\CatalogSearch\Model;
-
-use Magento\CatalogSearch\Helper\Data;
-use Magento\CatalogSearch\Model\Query;
-use Magento\Core\Model\AbstractModel;
-use Magento\Model\Context;
-use Magento\Registry;
-use Magento\Core\Model\Resource\AbstractResource;
-use Magento\Store\Model\Config;
-use Magento\Data\Collection\Db;
-
-/**
  * Catalog advanced search model
  *
  * @method \Magento\CatalogSearch\Model\Resource\Fulltext _getResource()

@@ -249,13 +249,8 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * Store config
+     * Store Config
      *
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_storeConfig;
-
-    /**
      * @var \Magento\App\Config\ReinitableConfigInterface
      */
     protected $_config;
@@ -280,15 +275,14 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
+     * @param \Magento\Store\Model\Resource\Store $resource
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Store\Model\Config $storeConfig
-     * @param \Magento\App\Config\ReinitableConfigInterface $coreConfig
-     * @param Resource\Store $resource
+     * @param \Magento\App\Config\ReinitableConfigInterface $config
      * @param StoreManagerInterface $storeManager
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
@@ -300,15 +294,14 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
+        \Magento\Store\Model\Resource\Store $resource,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\UrlInterface $url,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\Filesystem $filesystem,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\App\Config\ReinitableConfigInterface $coreConfig,
-        \Magento\Store\Model\Resource\Store $resource,
+        \Magento\App\Config\ReinitableConfigInterface $config,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
@@ -318,14 +311,13 @@ class Store extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
-        $this->_storeConfig = $coreStoreConfig;
+        $this->_config = $config;
         $this->_url = $url;
         $this->_configCacheType = $configCacheType;
         $this->_request = $request;
         $this->_configDataResource = $configDataResource;
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->filesystem = $filesystem;
-        $this->_config = $coreConfig;
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
@@ -341,7 +333,6 @@ class Store extends \Magento\Core\Model\AbstractModel
         $properties = parent::__sleep();
         $properties = array_diff($properties, array(
             '_coreFileStorageDatabase',
-            '_storeConfig',
             '_config'
         ));
         return $properties;
@@ -357,8 +348,6 @@ class Store extends \Magento\Core\Model\AbstractModel
         parent::__wakeup();
         $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Helper\File\Storage\Database');
-        $this->_storeConfig = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\App\Config\ScopeConfigInterface');
         $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\App\Config\ReinitableConfigInterface');
         $this->_cookie = \Magento\App\ObjectManager::getInstance()
@@ -450,9 +439,9 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function getConfig($path)
     {
-        $data = $this->_config->getValue($path, 'store', $this->getCode());
+        $data = $this->_config->getValue($path, StoreManagerInterface::SCOPE_TYPE_STORE, $this->getCode());
         if (!$data && !$this->_appState->isInstalled()) {
-            $data = $this->_config->getValue($path, 'default');
+            $data = $this->_config->getValue($path, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
         }
         return ($data === false) ? null : $data;
     }
@@ -468,7 +457,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function setConfig($path, $value)
     {
-        $this->_config->setValue($path, $value, 'store', $this->getCode());
+        $this->_config->setValue($path, $value, StoreManagerInterface::SCOPE_TYPE_STORE, $this->getCode());
         return $this;
     }
 
@@ -697,7 +686,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isFrontUrlSecure()
     {
         if ($this->_isFrontSecure === null) {
-            $this->_isFrontSecure = $this->_storeConfig->isSetFlag(
+            $this->_isFrontSecure = $this->_config->isSetFlag(
                 self::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
                 $this->getId()
             );
@@ -721,14 +710,20 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isCurrentlySecure()
     {
         $standardRule = !empty($_SERVER['HTTPS']) && ('off' != $_SERVER['HTTPS']);
-        $offloaderHeader = trim((string) $this->_config->getValue(self::XML_PATH_OFFLOADER_HEADER, 'default'));
+        $offloaderHeader = trim((string)$this->_config->getValue(
+            self::XML_PATH_OFFLOADER_HEADER,
+            \Magento\BaseScopeInterface::SCOPE_DEFAULT
+        ));
 
         if ((!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader])) || $standardRule) {
             return true;
         }
 
         if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = $this->_storeConfig->getValue(self::XML_PATH_SECURE_BASE_URL, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $secureBaseUrl = $this->_config->getValue(
+                self::XML_PATH_SECURE_BASE_URL,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            );
 
             if (!$secureBaseUrl) {
                 return false;
@@ -1242,7 +1237,11 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function getFrontendName()
     {
         if (null === $this->_frontendName) {
-            $storeGroupName = (string) $this->_storeConfig->getValue('general/store_information/name', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this);
+            $storeGroupName = (string) $this->_config->getValue(
+                'general/store_information/name',
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                $this
+            );
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;

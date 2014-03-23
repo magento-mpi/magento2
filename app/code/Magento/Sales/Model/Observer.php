@@ -50,7 +50,7 @@ class Observer
     protected $_eventManager;
 
     /**
-     * @var \Magento\Store\Model\Config
+     * @var \Magento\Store\Model\StoresConfig
      */
     protected $_storesConfig;
 
@@ -94,7 +94,7 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Customer\Helper\Address $customerAddressHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Store\Model\Config $storeConfig
+     * @param \Magento\Store\Model\StoresConfig $storesConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param Resource\Report\OrderFactory $orderFactory
@@ -108,7 +108,7 @@ class Observer
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Helper\Address $customerAddressHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Store\Model\Config $storeConfig,
+        \Magento\Store\Model\StoresConfig $storesConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,

@@ -9,9 +9,7 @@
  */
 namespace Magento\PageCache\Model;
 
-use Magento\App\ConfigInterface;
 use Magento\App\Filesystem;
-use Magento\Store\Model\Config as StoreConfig;
 
 /**
  * Model is responsible for replacing default vcl template
@@ -50,12 +48,7 @@ class Config
     /**
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
-
-    /**
-     * @var \Magento\App\Config\ScopeConfigInterface
-     */
-    protected $_config;
+    protected $_scopeConfig;
 
     /**
      * XML path to value for saving temporary .vcl configuration
@@ -69,17 +62,14 @@ class Config
 
     /**
      * @param Filesystem $filesystem
-     * @param StoreConfig $coreStoreConfig
-     * @param ConfigInterface $config
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
-        \Magento\App\Config\ScopeConfigInterface $config
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
-        $this->_storeConfig = $coreStoreConfig;
-        $this->_config = $config;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -89,7 +79,7 @@ class Config
      */
     public function getType()
     {
-        return $this->_config->getValue(self::XML_PAGECACHE_TYPE);
+        return $this->_scopeConfig->getValue(self::XML_PAGECACHE_TYPE);
     }
 
     /**
@@ -100,7 +90,7 @@ class Config
     public function getVclFile()
     {
         $data = $this->_modulesDirectory->readFile(
-            $this->_config->getValue(self::VARNISH_CONFIGURATION_PATH)
+            $this->_scopeConfig->getValue(self::VARNISH_CONFIGURATION_PATH)
         );
         return strtr($data, $this->_getReplacements());
     }
@@ -113,8 +103,14 @@ class Config
     protected function _getReplacements()
     {
         return array(
-            '{{ host }}' => $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_BACKEND_HOST, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
-            '{{ port }}' => $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_BACKEND_PORT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+            '{{ host }}' => $this->_scopeConfig->getValue(
+                self::XML_VARNISH_PAGECACHE_BACKEND_HOST,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            ),
+            '{{ port }}' => $this->_scopeConfig->getValue(
+                self::XML_VARNISH_PAGECACHE_BACKEND_PORT,
+                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            ),
             '{{ ips }}' => $this->_getAccessList(),
             '{{ design_exceptions_code }}' => $this->_getDesignExceptions()
         );
@@ -134,7 +130,10 @@ class Config
     {
         $result = '';
         $tpl = "    \"%s\";";
-        $accessList = $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_ACCESS_LIST, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $accessList = $this->_scopeConfig->getValue(
+            self::XML_VARNISH_PAGECACHE_ACCESS_LIST,
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
         if (!empty($accessList)) {
             $ips = explode(', ', $accessList);
             foreach ($ips as $ip) {
@@ -160,7 +159,10 @@ class Config
              . "        hash_data(\"%s\");\n"
              . "    }";
 
-        $expressions = $this->_storeConfig->getValue(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $expressions = $this->_scopeConfig->getValue(
+            self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,
+            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+        );
         if ($expressions) {
             $rules = array_values(unserialize($expressions));
             foreach ($rules as $i => $rule) {
