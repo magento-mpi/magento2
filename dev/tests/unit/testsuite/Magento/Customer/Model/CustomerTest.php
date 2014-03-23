@@ -48,7 +48,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_attribute = $this->getMock('Magento\Eav\Model\Attribute', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_storetMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
+        $this->_storetMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $this->_transportBuilderMock = $this->getMock(
             '\Magento\Mail\Template\TransportBuilder',

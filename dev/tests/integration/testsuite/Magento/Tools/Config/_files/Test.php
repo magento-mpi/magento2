@@ -12,10 +12,10 @@ namespace Magento\Tools\Config;
 class Test
 {
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Store\Model\Store\Config $storeConfig
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\Store\Model\Store\Config $storeConfig
     ) {
         $this->storeConfig = $storeConfig;
     }
