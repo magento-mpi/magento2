@@ -87,10 +87,13 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
                 $store->load($code);
             }
 
-            $websiteConfig = $this->_scopePool->getScope('website', $store->getWebsite()->getCode())->getSource();
+            $websiteConfig = $this->_scopePool->getScope(
+                \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE,
+                $store->getWebsite()->getCode()
+            )->getSource();
             $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
 
-            $collection = $this->_collectionFactory->create(array('scope' => 'stores', 'scopeId' => $store->getId()));
+            $collection = $this->_collectionFactory->create(array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_STORES, 'scopeId' => $store->getId()));
             $dbStoreConfig = array();
             foreach ($collection as $item) {
                 $dbStoreConfig[$item->getPath()] = $item->getValue();
@@ -98,7 +101,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
             $config = $this->_converter->convert($dbStoreConfig, $config);
         } else {
             $websiteConfig = $this->_scopePool
-                ->getScope('website', \Magento\BaseScopeInterface::SCOPE_DEFAULT)
+                ->getScope(\Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, \Magento\BaseScopeInterface::SCOPE_DEFAULT)
                 ->getSource();
             $config = $this->_converter->convert($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
         }

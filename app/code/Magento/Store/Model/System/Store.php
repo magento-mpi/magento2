@@ -437,13 +437,13 @@ class Store extends \Magento\Object
         }
         else {
             switch ($type) {
-                case 'website':
+                case \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE:
                     $this->_loadWebsiteCollection();
                     break;
-                case 'group':
+                case \Magento\Store\Model\ScopeInterface::SCOPE_GROUP:
                     $this->_loadGroupCollection();
                     break;
-                case 'store':
+                case \Magento\Store\Model\ScopeInterface::SCOPE_STORE:
                     $this->_loadStoreCollection();
                     break;
                 default:

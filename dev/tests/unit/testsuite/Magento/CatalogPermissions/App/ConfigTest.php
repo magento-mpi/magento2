@@ -25,7 +25,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $storeConfigMock->expects($this->once())
             ->method($configMethod)
-            ->with($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null)
+            ->with($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null)
             ->will($this->returnValue($configValue));
         $model = new Config($storeConfigMock);
         $this->assertEquals($value, $model->$method());

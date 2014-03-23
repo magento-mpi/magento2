@@ -119,7 +119,7 @@ class Cart
             'index' => 'price',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
         ));
 
         $this->addColumn('qty', array(
@@ -134,7 +134,7 @@ class Cart
             'index' => 'row_total',
             'type'  => 'currency',
             'width' => '120px',
-            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+            'currency_code' => (string) $this->_storeConfig->getValue(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
         ));
 
         return parent::_prepareColumns();

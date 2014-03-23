@@ -79,7 +79,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = $this->_storeConfig->getValue('design/footer/copyright', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $this->_copyright = $this->_storeConfig->getValue('design/footer/copyright', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         return $this->_copyright;
     }

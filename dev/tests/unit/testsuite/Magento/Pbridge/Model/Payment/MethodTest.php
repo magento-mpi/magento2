@@ -36,7 +36,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $config->expects($this->any())
             ->method('getValue')
-            ->with('payment/code/currency', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, 0)
+            ->with('payment/code/currency', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 0)
             ->will($this->returnValue('BTN'));
 
         $paymentHelper = $this->getMockBuilder('Magento\Payment\Helper\Data')

@@ -313,7 +313,7 @@ class Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = $this->_storeConfig->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $countryShipper = $this->_storeConfig->getValue(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(
                 'method'            => $carrier->getMethod(),

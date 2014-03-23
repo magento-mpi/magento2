@@ -122,7 +122,7 @@ class Observer
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             if (
                 $this->_request->getParam('group') === null
-                && $this->_storeConfig->getValue('system/cron/' . $groupId . '/use_separate_process', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) == 1
+                && $this->_storeConfig->getValue('system/cron/' . $groupId . '/use_separate_process', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == 1
             ) {
                 $this->_shell->executeInBackground(
                     '"' . PHP_BINARY . '" -f ' . BP . DIRECTORY_SEPARATOR
@@ -174,7 +174,7 @@ class Observer
     {
         $scheduleLifetime = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
         if ($scheduledTime < $currentTime - $scheduleLifetime) {
             $schedule->setStatus(Schedule::STATUS_MISSED);
@@ -239,7 +239,7 @@ class Observer
         $lastRun = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
         $rawSchedulePeriod = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $schedulePeriod = $rawSchedulePeriod * self::SECONDS_IN_MINUTE;
         if ($lastRun > time() - $schedulePeriod) {
             return $this;
@@ -278,7 +278,7 @@ class Observer
     {
         $scheduleAheadFor = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
         /**
          * @var Schedule $schedule
@@ -288,7 +288,7 @@ class Observer
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['config_path'])) {
-                $cronExpr = $this->_storeConfig->getValue($jobConfig['config_path'], \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                $cronExpr = $this->_storeConfig->getValue($jobConfig['config_path'], \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
             } elseif (empty($cronExpr) && isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
             }
@@ -331,7 +331,7 @@ class Observer
         $lastCleanup = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
         $historyCleanUp = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($lastCleanup > time() - $historyCleanUp * self::SECONDS_IN_MINUTE) {
             return $this;
         }
@@ -348,10 +348,10 @@ class Observer
 
         $historySuccess = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $historyFailure = (int)$this->_storeConfig->getValue(
             'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $historyLifetimes = array(
             Schedule::STATUS_SUCCESS => $historySuccess * self::SECONDS_IN_MINUTE,
             Schedule::STATUS_MISSED => $historyFailure * self::SECONDS_IN_MINUTE,

@@ -93,7 +93,7 @@ class Subscriber extends \Magento\App\Action\Action
                 }
 
                 if ($this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')
-                        ->getValue(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) != 1
+                        ->getValue(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) != 1
                     && !$this->_customerSession->isLoggedIn()) {
                     throw new \Magento\Core\Exception(__('Sorry, but the administrator denied subscription for guests. '
                         . 'Please <a href="%1">register</a>.',

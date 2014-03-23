@@ -72,7 +72,7 @@ class Config extends \Magento\Object
     public function getConfigData($key, $storeId = null)
     {
         if (!isset($this->_config[$key][$storeId])) {
-            $value = $this->_storeConfig->getValue('google/googleshopping/' . $key, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            $value = $this->_storeConfig->getValue('google/googleshopping/' . $key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
             $this->_config[$key][$storeId] = $value;
         }
         return $this->_config[$key][$storeId];

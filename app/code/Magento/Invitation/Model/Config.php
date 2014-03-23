@@ -51,7 +51,7 @@ class Config
      */
     public function getMaxInvitationsPerSend($storeId = null)
     {
-        $max = (int)$this->_storeConfig->getValue(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $max = (int)$this->_storeConfig->getValue(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         return ($max < 1 ? 1 : $max);
     }
 
@@ -63,7 +63,7 @@ class Config
      */
     public function getInvitationRequired($storeId = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->getValue(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -74,7 +74,7 @@ class Config
      */
     public function getUseInviterGroup($storeId = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -85,7 +85,7 @@ class Config
      */
     public function isInvitationMessageAllowed($storeId = null)
     {
-        return (bool) $this->_storeConfig->isSetFlag(self::XML_PATH_USE_INVITATION_MESSAGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return (bool) $this->_storeConfig->isSetFlag(self::XML_PATH_USE_INVITATION_MESSAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -97,7 +97,7 @@ class Config
      */
     public function isEnabled($storeId = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
     }
 
     /**
@@ -110,7 +110,7 @@ class Config
     public function isEnabledOnFront($storeId = null)
     {
         if ($this->isEnabled($storeId)) {
-            return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED_ON_FRONT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            return $this->_storeConfig->isSetFlag(self::XML_PATH_ENABLED_ON_FRONT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         }
 
         return false;

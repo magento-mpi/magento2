@@ -31,19 +31,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $storeConfig = $this->getMock('\Magento\App\Config\ScopeConfigInterface');
         $storeConfig->expects($this->any())->method('getValue')->will($this->returnValueMap(array(
-            array('checkout/payment_failed/template',\Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('checkout/payment_failed/template',\Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 8, 'fixture_email_template_payment_failed'),
-            array('checkout/payment_failed/receiver', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('checkout/payment_failed/receiver', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 8, 'sysadmin'),
-            array('trans_email/ident_sysadmin/email', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('trans_email/ident_sysadmin/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 8, 'sysadmin@example.com'),
-            array('trans_email/ident_sysadmin/name', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('trans_email/ident_sysadmin/name', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 8, 'System Administrator'),
-            array('checkout/payment_failed/identity', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('checkout/payment_failed/identity', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 8, 'noreply@example.com'),
-            array('carriers/ground/title', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('carriers/ground/title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 null, 'Ground Shipping'),
-            array('payment/fixture-payment-method/title', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            array('payment/fixture-payment-method/title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 null, 'Check Money Order'),
         )));
 

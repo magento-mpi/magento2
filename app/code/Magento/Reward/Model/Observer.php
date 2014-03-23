@@ -539,7 +539,7 @@ class Observer
                 ->setWebsiteId($quote->getStore()->getWebsiteId())
                 ->loadByCustomer();
             $minPointsBalance = (int)$this->_storeConfig->getValue(
-                \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Reward\Model\Reward::XML_PATH_MIN_POINTS_BALANCE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $quote->getStoreId()
             );
 

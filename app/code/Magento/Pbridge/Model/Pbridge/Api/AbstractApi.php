@@ -202,7 +202,7 @@ class AbstractApi extends \Magento\Object
      */
     protected function _debug($debugData)
     {
-        $this->_debugFlag = (bool)$this->_storeConfig->isSetFlag('payment/pbridge/debug', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $this->_debugFlag = (bool)$this->_storeConfig->isSetFlag('payment/pbridge/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($this->_debugFlag) {
             $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))
                ->log($debugData);

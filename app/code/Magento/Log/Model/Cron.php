@@ -101,21 +101,21 @@ class Cron extends \Magento\Core\Model\AbstractModel
         if (!$this->_errors) {
             return $this;
         }
-        if (!$this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if (!$this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return $this;
         }
 
         $this->_translate->setTranslateInline(false);
 
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+            ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->_storeManager->getStore()->getId()
             ))
             ->setTemplateVars(array('warnings' => join("\n", $this->_errors)))
-            ->setFrom($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
-            ->addTo($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+            ->setFrom($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
+            ->addTo($this->_storeConfig->getValue(self::XML_PATH_EMAIL_LOG_CLEAN_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
             ->getTransport();
 
         $transport->sendMessage();
@@ -131,7 +131,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
      */
     public function logClean()
     {
-        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_LOG_CLEAN_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if (!$this->_storeConfig->isSetFlag(self::XML_PATH_LOG_CLEAN_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             return $this;
         }
 

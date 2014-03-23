@@ -398,15 +398,15 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     {
         $request = new \Magento\Object();
         $request->setCountryId($this->_storeConfig->getValue(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
             ))
             ->setRegionId($this->_storeConfig->getValue(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_REGION_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
             ))
             ->setPostcode($this->_storeConfig->getValue(
-                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Shipping\Model\Config::XML_PATH_ORIGIN_POSTCODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $store
             ))
             ->setCustomerClassId($this->getDefaultCustomerTaxClass($store))
@@ -441,7 +441,7 @@ class Calculation extends \Magento\Core\Model\AbstractModel
         }
         $address    = new \Magento\Object();
         $customerData   = $this->getCustomerData();
-        $basedOn    = $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        $basedOn    = $this->_storeConfig->getValue(\Magento\Tax\Model\Config::CONFIG_XML_PATH_BASED_ON, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
 
         if (($shippingAddress === false && $basedOn == 'shipping')
             || ($billingAddress === false && $basedOn == 'billing')) {
@@ -495,13 +495,13 @@ class Calculation extends \Magento\Core\Model\AbstractModel
             case 'default':
                 $address
                     ->setCountryId($this->_storeConfig->getValue(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_COUNTRY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store))
                     ->setRegionId($this->_storeConfig->getValue(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_REGION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store))
                     ->setPostcode($this->_storeConfig->getValue(
-                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                        \Magento\Tax\Model\Config::CONFIG_XML_PATH_DEFAULT_POSTCODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $store));
                 break;
             default:

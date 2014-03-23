@@ -241,7 +241,7 @@ class Website extends \Magento\Core\Model\AbstractModel implements \Magento\Obje
     {
         if (!isset($this->_configCache[$path])) {
 
-            $config = $this->_coreConfig->getValue($path, 'website', $this->getCode());
+            $config = $this->_coreConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE, $this->getCode());
             if (!$config) {
                 return false;
             }

@@ -45,7 +45,7 @@ class Datetime
 
             //calculate end date considering timezone specification
             $datetimeTo->setTimezone(
-                $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             );
             $datetimeTo->addDay(1)->subSecond(1);
             $datetimeTo->setTimezone(\Magento\Stdlib\DateTime\TimezoneInterface::DEFAULT_TIMEZONE);
@@ -68,7 +68,7 @@ class Datetime
 
                 //set default timezone for store (admin)
                 $dateObj->setTimezone(
-                    $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                    $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
                 );
 
                 //set date with applying timezone of store

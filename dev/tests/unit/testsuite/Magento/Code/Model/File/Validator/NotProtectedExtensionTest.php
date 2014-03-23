@@ -31,7 +31,7 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfig->expects($this->atLeastOnce())->method('getValue')->with($this->equalTo(
                 \Magento\Core\Model\File\Validator\NotProtectedExtension::XML_PATH_PROTECTED_FILE_EXTENSIONS
             ),
-            $this->equalTo(\Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+            $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE),
             $this->equalTo(null))->will($this->returnValue($this->_protectedList));
         $this->_model = new \Magento\Core\Model\File\Validator\NotProtectedExtension($this->_storeConfig);
     }

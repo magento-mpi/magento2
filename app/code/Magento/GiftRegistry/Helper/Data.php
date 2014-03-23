@@ -117,7 +117,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (bool)$this->_storeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -127,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRecipientsLimit()
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -148,7 +148,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getMaxRegistrant($store = null)
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_MAX_REGISTRANT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return (int)$this->_storeConfig->getValue(self::XML_PATH_MAX_REGISTRANT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**

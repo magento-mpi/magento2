@@ -43,6 +43,6 @@ class Config implements \Magento\Module\Output\ConfigInterface
      */
     public function isSetFlag($path)
     {
-        return $this->_storeConfig->isSetFlag($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

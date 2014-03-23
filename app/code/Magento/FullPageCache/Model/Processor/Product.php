@@ -84,7 +84,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
     {
         $countLimit = $this->_storeConfig->getValue(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         // save recently viewed product count limit
         $cacheId = $this->_fpcProcessor->getRecentlyViewedCountCacheId();
         if (!$this->_fpcCache->getFrontend()->test($cacheId)) {

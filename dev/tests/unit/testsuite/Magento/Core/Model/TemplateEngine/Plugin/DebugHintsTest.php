@@ -107,9 +107,9 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeConfig->expects($this->atLeastOnce())->method('getValue')->will($this->returnValueMap(array(
             array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS,
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $showTemplateHints),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $showTemplateHints),
             array(DebugHints::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS,
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $showBlockHints),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $showBlockHints),
         )));
     }
 }

@@ -56,7 +56,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     public function getOnlineCarrierCodes($store = null)
     {
         $carriersCodes = array();
-        foreach ($this->storeConfig->getValue(self::XML_PATH_CARRIERS_ROOT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) as $carrierCode => $carrier) {
+        foreach ($this->storeConfig->getValue(self::XML_PATH_CARRIERS_ROOT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store) as $carrierCode => $carrier) {
             if (isset($carrier['is_online']) && $carrier['is_online']) {
                 $carriersCodes[] = $carrierCode;
             }
@@ -76,7 +76,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     {
         return $this->storeConfig->getValue(
             sprintf('%s/%s/%s', self::XML_PATH_CARRIERS_ROOT, $carrierCode , $configPath),
-            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
     }

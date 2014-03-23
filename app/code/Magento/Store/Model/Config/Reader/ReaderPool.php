@@ -27,11 +27,11 @@ class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
         \Magento\App\Config\Scope\ReaderInterface $store
     ) {
         $this->_readers = array(
-            'default' => $default,
-            'website' => $website,
-            'websites' => $website,
-            'store' => $store,
-            'stores' => $store
+            \Magento\BaseScopeInterface::SCOPE_DEFAULT => $default,
+            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE => $website,
+            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES => $website,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE => $store,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORES => $store
         );
     }
 

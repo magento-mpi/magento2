@@ -156,7 +156,7 @@ class DefaultStock
      */
     protected function _isManageStock()
     {
-        return $this->_storeConfig->isSetFlag(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**

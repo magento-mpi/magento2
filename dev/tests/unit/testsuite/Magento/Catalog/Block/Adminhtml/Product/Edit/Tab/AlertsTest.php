@@ -43,9 +43,9 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
     {
         $valueMap = array(
             array('catalog/productalert/allow_price',
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $priceAllow),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $priceAllow),
             array('catalog/productalert/allow_stock',
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, $stockAllow)
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $stockAllow)
         );
         $this->storeConfigMock->expects($this->any())->method('getValue')->will($this->returnValueMap($valueMap));
         $this->assertEquals($canShowTab, $this->alerts->canShowTab());

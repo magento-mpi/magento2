@@ -52,7 +52,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        if ($this->_storeConfig->getValue('rss/config/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue('rss/config/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->_view->loadLayout();
             $this->_view->renderLayout();
         } else {
@@ -82,7 +82,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function wishlistAction()
     {
-        if ($this->_storeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue('rss/wishlist/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $wishlist = $this->_getWishlist();
             if ($wishlist && ($wishlist->getVisibility()
                 || $this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)

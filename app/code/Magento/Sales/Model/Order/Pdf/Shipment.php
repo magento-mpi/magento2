@@ -145,7 +145,7 @@ class Shipment extends AbstractPdf
                 $page,
                 $shipment,
                 $this->_storeConfig->isSetFlag(
-                    self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    self::XML_PATH_SALES_PDF_SHIPMENT_PUT_ORDER_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $order->getStoreId()
             ));
             /* Add document text and number */

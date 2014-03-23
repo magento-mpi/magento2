@@ -167,7 +167,7 @@ class Design implements \Magento\View\DesignInterface
                 ? $this->_scopeConfig->getValue(self::XML_PATH_THEME_ID, \Magento\BaseScopeInterface::SCOPE_DEFAULT)
                 : (string)$this->_scopeConfig->getValue(
                     self::XML_PATH_THEME_ID,
-                    \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
                 );
         }

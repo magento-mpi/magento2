@@ -85,7 +85,7 @@ class NotifyStock extends \Magento\Backend\Block\AbstractBlock
 
         $globalNotifyStockQty = (float)$this->_storeConfig->getValue(
             \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_NOTIFY_STOCK_QTY
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->_productFactory->create();
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */

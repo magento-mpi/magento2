@@ -127,12 +127,12 @@ return array(
     array('RULE_PERM_ALLOW', '\Magento\Math\Random'),
     array('RULE_PERM_DENY', '\Magento\Math\Random'),
     array('RULE_PERM_INHERIT', '\Magento\Math\Random'),
-    array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_GROUP'),
-    array('SCOPE_TYPE_STORE', 'Magento\Core\Model\App', 'Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE'),
+    array('SCOPE_TYPE_GROUP', 'Magento\Core\Model\App', 'Magento\Store\Model\ScopeInterface::SCOPE_GROUP'),
+    array('SCOPE_TYPE_STORE', 'Magento\Core\Model\App', 'Magento\Store\Model\ScopeInterface::SCOPE_STORE'),
     array(
         'SCOPE_TYPE_WEBSITE',
         'Magento\Core\Model\App',
-        'Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_WEBSITE'
+        'Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE'
     ),
     array('SEESION_MAX_COOKIE_LIFETIME'),
     array('TYPE_BINARY', null, 'Magento_DB_Ddl_Table::TYPE_BLOB'),

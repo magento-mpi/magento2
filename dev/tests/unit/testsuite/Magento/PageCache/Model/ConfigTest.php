@@ -36,14 +36,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValueMap([
                 [\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_HOST,
-                    \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, 'example.com'],
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, 'example.com'],
                 [\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_PORT,
-                    \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, '8080'],
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, '8080'],
                 [\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_ACCESS_LIST,
-                    \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null, '127.0.0.1, 192.168.0.1'],
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, '127.0.0.1, 192.168.0.1'],
                 [
                     \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,
-                    \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     null,
                     serialize([
                         [

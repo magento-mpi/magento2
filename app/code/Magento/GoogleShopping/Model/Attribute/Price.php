@@ -111,7 +111,7 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     {
         $product->setWebsiteId($this->_storeManager->getStore($product->getStoreId())->getWebsiteId());
         $product->setCustomerGroupId(
-            $this->_storeConfig->getValue(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $product->getStoreId())
+            $this->_storeConfig->getValue(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $product->getStoreId())
         );
 
         $store = $this->_storeManager->getStore($product->getStoreId());

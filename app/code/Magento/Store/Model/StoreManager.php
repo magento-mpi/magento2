@@ -75,7 +75,7 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
         \Magento\App\RequestInterface $request,
         \Magento\Core\Helper\Data $helper,
         $scopeCode = '',
-        $scopeType = self::SCOPE_TYPE_STORE
+        $scopeType = ScopeInterface::SCOPE_STORE
     ) {
         $this->_factory = $factory;
         $this->_request = $request;

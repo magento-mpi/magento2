@@ -155,7 +155,7 @@ class Observer
                 $linkSectionTitle = (
                     $product->getLinksTitle()
                         ? $product->getLinksTitle()
-                        : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                        : $this->_storeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
                 );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)
                     ->save();
@@ -239,7 +239,7 @@ class Observer
 
         $downloadableItemsStatuses = array();
         $orderItemStatusToEnable = $this->_storeConfig->getValue(
-            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $order->getStoreId()
+            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $order->getStoreId()
         );
 
         if ($order->getState() == \Magento\Sales\Model\Order::STATE_HOLDED) {
@@ -334,7 +334,7 @@ class Observer
             }
         }
 
-        if ($isContain && $this->_storeConfig->isSetFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)) {
+        if ($isContain && $this->_storeConfig->isSetFlag(self::XML_PATH_DISABLE_GUEST_CHECKOUT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)) {
             $result->setIsAllowed(false);
         }
 

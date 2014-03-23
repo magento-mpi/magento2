@@ -183,7 +183,7 @@ class Currencysymbol
 
         $allowedCurrencies = explode(
             self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
-            $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, null)
+            $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null)
         );
 
         /* @var $storeModel \Magento\Store\Model\System\Store */
@@ -206,7 +206,7 @@ class Currencysymbol
                             $websiteSymbols
                         ));
                     }
-                    $storeSymbols = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+                    $storeSymbols = $this->_storeConfig->getValue(self::XML_PATH_ALLOWED_CURRENCIES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
                     $allowedCurrencies = array_merge($allowedCurrencies, explode(
                         self::ALLOWED_CURRENCIES_CONFIG_SEPARATOR,
                         $storeSymbols
@@ -330,7 +330,7 @@ class Currencysymbol
     protected function _unserializeStoreConfig($configPath, $storeId = null)
     {
         $result = array();
-        $configData = (string)$this->_storeConfig->getValue($configPath, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $configData = (string)$this->_storeConfig->getValue($configPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         if ($configData) {
             $result = unserialize($configData);
         }

@@ -54,7 +54,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
                 $shareable = (bool) $link->getIsShareable();
                 break;
             case \Magento\Downloadable\Model\Link::LINK_SHAREABLE_CONFIG:
-                $shareable = (bool) $this->_storeConfig->isSetFlag(\Magento\Downloadable\Model\Link::XML_PATH_CONFIG_IS_SHAREABLE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+                $shareable = (bool) $this->_storeConfig->isSetFlag(\Magento\Downloadable\Model\Link::XML_PATH_CONFIG_IS_SHAREABLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         return $shareable;
     }

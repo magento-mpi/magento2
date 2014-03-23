@@ -196,6 +196,6 @@ class Config
      */
     public function getDefaultVersioningStatus()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_CONTENT_VERSIONING, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

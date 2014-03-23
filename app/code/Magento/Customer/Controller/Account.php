@@ -325,7 +325,7 @@ class Account extends \Magento\App\Action\Action
             if ($this->_getSession()->isLoggedIn()) {
                 if (!$this->_storeConfig->isSetFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-                , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+                , \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
                         $referer = $this->coreHelperData->urlDecode($referer);
@@ -556,7 +556,7 @@ class Account extends \Magento\App\Action\Action
         $successUrl = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
         if (!$this->_storeConfig->isSetFlag(
                 \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
-            , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            , \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             && $this->_getSession()->getBeforeAuthUrl()
         ) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);

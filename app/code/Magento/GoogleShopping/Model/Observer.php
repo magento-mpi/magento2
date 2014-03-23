@@ -133,7 +133,7 @@ class Observer
         }
 
         foreach ($items as $item) {
-            if (!$this->_storeConfig->isSetFlag('google/googleshopping/observed', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $item->getStoreId())) {
+            if (!$this->_storeConfig->isSetFlag('google/googleshopping/observed', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $item->getStoreId())) {
                 $items->removeItemByKey($item->getId());
             }
         }

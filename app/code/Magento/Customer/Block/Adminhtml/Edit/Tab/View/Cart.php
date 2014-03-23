@@ -149,7 +149,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
-                'currency_code' => (string)$this->_storeConfig->getValue(Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+                'currency_code' => (string)$this->_storeConfig->getValue(Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
             ]
         );
 
@@ -159,7 +159,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 'header' => __('Total'),
                 'index' => 'row_total',
                 'type' => 'currency',
-                'currency_code' => (string)$this->_storeConfig->getValue(Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE),
+                'currency_code' => (string)$this->_storeConfig->getValue(Currency::XML_PATH_CURRENCY_BASE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE),
             ]
         );
 

@@ -48,7 +48,7 @@ class StoresConfig
         $storeValues = array();
         /** @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
-            $value = $this->_config->getValue($path, StoreManagerInterface::SCOPE_TYPE_STORE, $store->getCode());
+            $value = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $store->getCode());
             $storeValues[$store->getId()] = $value;
         }
         return $storeValues;

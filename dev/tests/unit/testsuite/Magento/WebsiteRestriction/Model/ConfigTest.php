@@ -95,7 +95,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $store = null;
         $this->_storeConfigMock->expects($this->once())
             ->method('getValue')->with(
-                'general/restriction/is_active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
+                'general/restriction/is_active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)
             ->will($this->returnValue(false));
 
         $this->assertEquals(false, $this->_model->isRestrictionEnabled($store));
@@ -105,7 +105,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeConfigMock->expects($this->once())
             ->method('getValue')
-            ->with('general/restriction/mode', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->with('general/restriction/mode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue(false));
         $this->assertEquals(0, $this->_model->getMode());
     }
@@ -121,7 +121,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeConfigMock->expects($this->once())
             ->method('getValue')
-            ->with('general/restriction/http_redirect', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->with('general/restriction/http_redirect', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue(true));
         $this->assertEquals(1, $this->_model->getHTTPRedirectCode());
     }
@@ -130,7 +130,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeConfigMock->expects($this->once())
             ->method('getValue')
-            ->with('general/restriction/cms_page', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->with('general/restriction/cms_page', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue('config'));
         $this->assertEquals('config', $this->_model->getLandingPageCode());
     }

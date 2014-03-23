@@ -169,7 +169,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled($store = null)
     {
-        return $this->_storeConfig->isSetFlag('payment/pbridge/active', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) && $this->isAvailable($store);
+        return $this->_storeConfig->isSetFlag('payment/pbridge/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store) && $this->isAvailable($store);
     }
 
     /**
@@ -180,7 +180,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function arePaymentProfilesEnables($store = null)
     {
-        return $this->_storeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store)
+        return $this->_storeConfig->isSetFlag('payment/pbridge/profilestatus', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store)
             &&
             $this->isEnabled($store);
     }
@@ -193,9 +193,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAvailable($store = null)
     {
-        return (bool)$this->_storeConfig->getValue('payment/pbridge/gatewayurl', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) &&
-            (bool)$this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store) &&
-            (bool)$this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return (bool)$this->_storeConfig->getValue('payment/pbridge/gatewayurl', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store) &&
+            (bool)$this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store) &&
+            (bool)$this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -225,8 +225,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $storeId = $this->_storeManager->getStore()->getId();
         }
 
-        $merchantCode = $this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
-        $uniqueId = $this->_storeConfig->getValue('payment/pbridge/uniquekey', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $merchantCode = $this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        $uniqueId = $this->_storeConfig->getValue('payment/pbridge/uniquekey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($uniqueId) {
             $uniqueId .= '@';
         }
@@ -253,7 +253,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             }
         }
 
-        $params['merchant_code'] = trim($this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId));
+        $params['merchant_code'] = trim($this->_storeConfig->getValue('payment/pbridge/merchantcode', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId));
 
         $sourceUrl .= '?' . http_build_query($params);
 
@@ -273,7 +273,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             'locale' => $this->_localeResolver->getLocaleCode(),
         ), $params);
 
-        $params['merchant_key']  = trim($this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+        $params['merchant_key']  = trim($this->_storeConfig->getValue('payment/pbridge/merchantkey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId));
 
         $params['scope'] = $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
             ? 'backend' : 'frontend';
@@ -351,7 +351,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getEncryptor()
     {
         if ($this->_encryptor === null) {
-            $key = trim((string)$this->_storeConfig->getValue('payment/pbridge/transferkey', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+            $key = trim((string)$this->_storeConfig->getValue('payment/pbridge/transferkey', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId));
             $this->_encryptor = $this->_encryptionFactory->create(array('key' => $key));
         }
         return $this->_encryptor;
@@ -434,7 +434,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getBridgeBaseUrl()
     {
-        return trim($this->_storeConfig->getValue('payment/pbridge/gatewayurl', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+        return trim($this->_storeConfig->getValue('payment/pbridge/gatewayurl', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId));
     }
 
     /**

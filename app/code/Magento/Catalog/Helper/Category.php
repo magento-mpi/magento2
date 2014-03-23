@@ -178,7 +178,7 @@ class Category extends AbstractHelper
 
         if (!isset($this->_categoryUrlSuffix[$storeId])) {
             $this->_categoryUrlSuffix[$storeId] = $this->_storeConfig->getValue(
-                self::XML_PATH_CATEGORY_URL_SUFFIX, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
+                self::XML_PATH_CATEGORY_URL_SUFFIX, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
             );
         }
         return $this->_categoryUrlSuffix[$storeId];
@@ -218,6 +218,6 @@ class Category extends AbstractHelper
      */
     public function canUseCanonicalTag($store = null)
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->getValue(self::XML_PATH_USE_CATEGORY_CANONICAL_TAG, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

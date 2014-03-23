@@ -44,7 +44,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
     public function testGetOnlineCarrierCodes($result, $carriers)
     {
         $this->storeConfig->expects($this->once())->method('getValue')
-            ->with('carriers', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+            ->with('carriers', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue($carriers));
         $this->assertEquals($result, $this->helper->getOnlineCarrierCodes());
     }
@@ -70,7 +70,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         $configValue = 'some title';
         $this->storeConfig->expects($this->once())->method('getValue')
             ->with(sprintf('carriers/%s/%s', $carrierCode, $configPath),
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue($configValue));
         $this->assertEquals($configValue, $this->helper->getCarrierConfigValue($carrierCode, $configPath));
     }

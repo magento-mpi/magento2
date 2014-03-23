@@ -323,7 +323,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isSkuEnabled()
     {
-        $storeData = $this->_storeConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $storeData = $this->_storeConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::NO_VALUE != $storeData;
     }
 
@@ -335,7 +335,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isSkuApplied()
     {
         $result = false;
-        $data = $this->_storeConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $data = $this->_storeConfig->getValue(self::XML_PATH_SKU_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         switch ($data) {
             case \Magento\AdvancedCheckout\Model\Cart\Sku\Source\Settings::YES_VALUE:
                 $result = true;
@@ -361,7 +361,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         if ($this->_allowedGroups === null) {
             $this->_allowedGroups = explode(
-                ',', trim($this->_storeConfig->getValue(self::XML_PATH_SKU_ALLOWED_GROUPS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                ',', trim($this->_storeConfig->getValue(self::XML_PATH_SKU_ALLOWED_GROUPS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
             );
         }
         return $this->_allowedGroups;

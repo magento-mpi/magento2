@@ -132,7 +132,7 @@ abstract class AbstractEvent extends \Magento\View\Element\Template
         $dateString = $event->getData('date_' . $type);
         $date->set($dateString, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT);
 
-        $timezone = $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $timezone = $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($timezone) {
             // changing timezone to default store timezone
             $date->setTimezone($timezone);

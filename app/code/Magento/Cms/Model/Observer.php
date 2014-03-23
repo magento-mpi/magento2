@@ -67,7 +67,7 @@ class Observer
     {
         $redirect = $observer->getEvent()->getRedirect();
 
-        $pageId  = $this->_storeConfig->getValue(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $pageId  = $this->_storeConfig->getValue(\Magento\Cms\Helper\Page::XML_PATH_NO_COOKIES_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $pageUrl = $this->_cmsPage->getPageUrl($pageId);
 
         if ($pageUrl) {

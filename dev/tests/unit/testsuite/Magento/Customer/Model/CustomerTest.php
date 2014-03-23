@@ -114,13 +114,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->at(0))
             ->method('getValue')
             ->with(\Magento\Customer\Model\Customer::XML_PATH_RESET_PASSWORD_TEMPLATE,
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
             ->will($this->returnValue('templateId'));
         $this->_storeConfigMock
             ->expects($this->at(1))
             ->method('getValue')
             ->with(\Magento\Customer\Model\Customer::XML_PATH_FORGOT_EMAIL_IDENTITY,
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId)
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
             ->will($this->returnValue('sender'));
         $this->_transportBuilderMock
             ->expects($this->once())

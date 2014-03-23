@@ -169,19 +169,19 @@ class StorageFactory
         Profiler::stop('init_stores');
 
         $scopeCode = $arguments['scopeCode'];
-        $scopeType = $arguments['scopeType']  ?: StoreManagerInterface::SCOPE_TYPE_STORE;
+        $scopeType = $arguments['scopeType']  ?: ScopeInterface::SCOPE_STORE;
         if (empty($scopeCode) && false == is_null($storage->getWebsite(true))) {
             $scopeCode = $storage->getWebsite(true)->getCode();
-            $scopeType = StoreManagerInterface::SCOPE_TYPE_WEBSITE;
+            $scopeType = ScopeInterface::SCOPE_WEBSITE;
         }
         switch ($scopeType) {
-            case StoreManagerInterface::SCOPE_TYPE_STORE:
+            case ScopeInterface::SCOPE_STORE:
                 $storage->setCurrentStore($scopeCode);
                 break;
-            case StoreManagerInterface::SCOPE_TYPE_GROUP:
+            case ScopeInterface::SCOPE_GROUP:
                 $storage->setCurrentStore($this->_getStoreByGroup($storage, $scopeCode));
                 break;
-            case StoreManagerInterface::SCOPE_TYPE_WEBSITE:
+            case ScopeInterface::SCOPE_WEBSITE:
                 $storage->setCurrentStore($this->_getStoreByWebsite($storage, $scopeCode));
                 break;
             default:
@@ -247,17 +247,17 @@ class StorageFactory
             && $stores[$store]->getId()
             && $stores[$store]->getIsActive()
         ) {
-            if ($scopeType == 'website'
+            if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
                 && $stores[$store]->getWebsiteId() == $stores[$storage->getCurrentStore()]->getWebsiteId()
             ) {
                 $storage->setCurrentStore($store);
             }
-            if ($scopeType == 'group'
+            if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_GROUP
                 && $stores[$store]->getGroupId() == $stores[$storage->getCurrentStore()]->getGroupId()
             ) {
                 $storage->setCurrentStore($store);
             }
-            if ($scopeType == 'store') {
+            if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_STORE) {
                 $storage->setCurrentStore($store);
             }
         }
@@ -294,11 +294,13 @@ class StorageFactory
          * if website or store group was specified explicitly
          */
         $curStoreObj = $stores[$storage->getCurrentStore()];
-        if ($scopeType == 'website' && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
+        if ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
+            && $storeObj->getWebsiteId() == $curStoreObj->getWebsiteId()) {
             $storage->setCurrentStore($store);
-        } elseif ($scopeType == 'group' && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
+        } elseif ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_GROUP
+            && $storeObj->getGroupId() == $curStoreObj->getGroupId()) {
             $storage->setCurrentStore($store);
-        } elseif ($scopeType == 'store') {
+        } elseif ($scopeType == \Magento\Store\Model\ScopeInterface::SCOPE_STORE) {
             $storage->setCurrentStore($store);
         }
 

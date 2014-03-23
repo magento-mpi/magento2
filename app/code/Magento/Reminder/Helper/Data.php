@@ -45,7 +45,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (bool)$this->_storeConfig->getValue(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -55,7 +55,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getOneRunLimit()
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int)$this->_storeConfig->getValue(self::XML_PATH_SEND_LIMIT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -65,7 +65,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getEmailIdentity()
     {
-        return (string)$this->_storeConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (string)$this->_storeConfig->getValue(self::XML_PATH_EMAIL_IDENTITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -75,6 +75,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getSendFailureThreshold()
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_EMAIL_THRESHOLD, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return (int)$this->_storeConfig->getValue(self::XML_PATH_EMAIL_THRESHOLD, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

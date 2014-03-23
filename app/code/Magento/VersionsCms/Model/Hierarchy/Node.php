@@ -769,7 +769,7 @@ class Node extends \Magento\Core\Model\AbstractModel
         }
         $layoutName = $rootParams['menu_layout'];
         if (!$layoutName) {
-            $layoutName = $this->_storeConfig->getValue('cms/hierarchy/menu_layout', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $layoutName = $this->_storeConfig->getValue('cms/hierarchy/menu_layout', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         }
         if (!$layoutName) {
             return null;

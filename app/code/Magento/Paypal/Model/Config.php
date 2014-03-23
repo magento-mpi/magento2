@@ -336,7 +336,7 @@ class Config
     public function isMethodActive($method)
     {
         return $this->isMethodSupportedForCountry($method)
-            && $this->_storeConfig->isSetFlag("payment/{$method}/active", \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+            && $this->_storeConfig->isSetFlag("payment/{$method}/active", \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId);
     }
 
     /**
@@ -416,7 +416,7 @@ class Config
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
         $path = $this->_getSpecificConfigPath($underscored);
         if ($path !== null) {
-            $value = $this->_storeConfig->getValue($path, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+            $value = $this->_storeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId);
             $value = $this->_prepareValue($underscored, $value);
             $this->$key = $value;
             $this->$underscored = $value;
@@ -471,7 +471,7 @@ class Config
      */
     public function getMerchantCountry()
     {
-        $countryCode = $this->_storeConfig->getValue($this->_mapGeneralFieldset('merchant_country', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId));
+        $countryCode = $this->_storeConfig->getValue($this->_mapGeneralFieldset('merchant_country', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId));
         if (!$countryCode) {
             $countryCode = $this->_coreData->getDefaultCountry($this->_storeId);
         }
@@ -837,7 +837,7 @@ class Config
      */
     public function getAdditionalOptionsLogoUrl($localeCode, $type = false)
     {
-        $configType = $this->_storeConfig->getValue($this->_mapGenericStyleFieldset('logo'), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->_storeId);
+        $configType = $this->_storeConfig->getValue($this->_mapGenericStyleFieldset('logo'), \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->_storeId);
         if (!$configType) {
             return false;
         }

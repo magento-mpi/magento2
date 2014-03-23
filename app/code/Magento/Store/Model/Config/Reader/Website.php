@@ -80,7 +80,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
             $website = $this->_websiteFactory->create();
             $website->load($code);
             $collection = $this->_collectionFactory->create(array(
-                'scope' => 'websites',
+                'scope' => \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES,
                 'scopeId' => $website->getId())
             );
             $dbWebsiteConfig = array();

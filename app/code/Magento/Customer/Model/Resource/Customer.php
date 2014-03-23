@@ -355,7 +355,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     public function setNewIncrementId(\Magento\Object $object)
     {
-        if ($this->_storeConfig->getValue(\Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue(\Magento\Customer\Model\Customer::XML_PATH_GENERATE_HUMAN_FRIENDLY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             parent::setNewIncrementId($object);
         }
         return $this;

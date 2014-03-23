@@ -293,7 +293,7 @@ class Observer
         $cacheId = \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY;
         $exception = $this->_fpcCache->load($cacheId);
         if (!$exception) {
-            $exception = $this->_storeConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+            $exception = $this->_storeConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
             $this->_fpcCache->save($exception, $cacheId);
             $this->_requestIdentifier->refreshRequestIds();
         }
@@ -566,7 +566,7 @@ class Observer
         // renew customer viewed product ids cookie
         $countLimit = $this->_storeConfig->getValue(
             \Magento\Reports\Block\Product\Viewed::XML_PATH_RECENTLY_VIEWED_COUNT
-        , \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $collection = $this->_reportsFactory
             ->create()
             ->addIndexFilter()

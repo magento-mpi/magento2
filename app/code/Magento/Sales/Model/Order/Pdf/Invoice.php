@@ -165,7 +165,7 @@ class Invoice extends AbstractPdf
                 $page,
                 $order,
                 $this->_storeConfig->isSetFlag(
-                    self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                    self::XML_PATH_SALES_PDF_INVOICE_PUT_ORDER_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $order->getStoreId()
             ));
             /* Add document text and number */

@@ -439,7 +439,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function getConfig($path)
     {
-        $data = $this->_config->getValue($path, StoreManagerInterface::SCOPE_TYPE_STORE, $this->getCode());
+        $data = $this->_config->getValue($path, ScopeInterface::SCOPE_STORE, $this->getCode());
         if (!$data && !$this->_appState->isInstalled()) {
             $data = $this->_config->getValue($path, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
         }
@@ -457,7 +457,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function setConfig($path, $value)
     {
-        $this->_config->setValue($path, $value, StoreManagerInterface::SCOPE_TYPE_STORE, $this->getCode());
+        $this->_config->setValue($path, $value, ScopeInterface::SCOPE_STORE, $this->getCode());
         return $this;
     }
 
@@ -687,7 +687,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         if ($this->_isFrontSecure === null) {
             $this->_isFrontSecure = $this->_config->isSetFlag(
-                self::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                self::XML_PATH_SECURE_IN_FRONTEND, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->getId()
             );
         }
@@ -722,7 +722,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         if ($this->_appState->isInstalled()) {
             $secureBaseUrl = $this->_config->getValue(
                 self::XML_PATH_SECURE_BASE_URL,
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
 
             if (!$secureBaseUrl) {
@@ -1239,7 +1239,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         if (null === $this->_frontendName) {
             $storeGroupName = (string) $this->_config->getValue(
                 'general/store_information/name',
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this
             );
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();

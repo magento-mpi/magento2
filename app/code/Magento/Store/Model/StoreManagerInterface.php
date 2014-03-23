@@ -9,14 +9,6 @@ namespace Magento\Store\Model;
 
 interface StoreManagerInterface
 {
-    /**#@+
-     * Available scope types
-     */
-    const SCOPE_TYPE_STORE   = 'store';
-    const SCOPE_TYPE_GROUP   = 'group';
-    const SCOPE_TYPE_WEBSITE = 'website';
-    /**#@-*/
-
     /**
      * Allow or disallow single store mode
      *

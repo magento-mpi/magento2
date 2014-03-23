@@ -113,7 +113,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      */
     public function checkIsLive($range)
     {
-        $this->_isLive = (bool)!$this->_storeConfig->getValue('sales/dashboard/use_aggregated_data', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $this->_isLive = (bool)!$this->_storeConfig->getValue('sales/dashboard/use_aggregated_data', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         return $this;
     }
 
@@ -406,7 +406,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
                 break;
 
             case '1m':
-                $dateStart->setDay($this->_storeConfig->getValue('reports/dashboard/mtd_start', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
+                $dateStart->setDay($this->_storeConfig->getValue('reports/dashboard/mtd_start', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
                 break;
 
             case 'custom':
@@ -416,7 +416,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
             case '1y':
             case '2y':
-                $startMonthDay = explode(',', $this->_storeConfig->getValue('reports/dashboard/ytd_start', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
+                $startMonthDay = explode(',', $this->_storeConfig->getValue('reports/dashboard/ytd_start', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
                 $startMonth = isset($startMonthDay[0]) ? (int)$startMonthDay[0] : 1;
                 $startDay = isset($startMonthDay[1]) ? (int)$startMonthDay[1] : 1;
                 $dateStart->setMonth($startMonth);
@@ -561,7 +561,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
         }
         $adapter = $this->getConnection();
 
-        if ($this->_storeConfig->getValue('sales/dashboard/use_aggregated_data', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if ($this->_storeConfig->getValue('sales/dashboard/use_aggregated_data', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             $this->setMainTable('sales_order_aggregated_created');
             $this->removeAllFieldsFromSelect();
             $averageExpr = $adapter->getCheckSql(

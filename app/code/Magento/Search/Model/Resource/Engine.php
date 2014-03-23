@@ -140,7 +140,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     {
         $commitMode = $this->_storeConfig->getValue(
             \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
-            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL
@@ -156,7 +156,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
     {
         $commitMode = $this->_storeConfig->getValue(
             \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_XML_PATH,
-            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         return $commitMode == \Magento\Search\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL

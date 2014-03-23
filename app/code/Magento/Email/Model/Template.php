@@ -21,7 +21,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * // Loading of template
  * \Magento\Email\Model\TemplateFactory $templateFactory
- * $templateFactory->create()->load($this->_scopeConfig->getValue('path_to_email_template_id_config', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
+ * $templateFactory->create()->load($this->_scopeConfig->getValue('path_to_email_template_id_config', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
  * $variables = array(
  *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'
@@ -359,7 +359,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     public function isValidForSend()
     {
-        return !$this->_scopeConfig->isSetFlag('system/smtp/disable', StoreManagerInterface::SCOPE_TYPE_STORE)
+        return !$this->_scopeConfig->isSetFlag('system/smtp/disable', ScopeInterface::SCOPE_STORE)
             && $this->getSenderName()
             && $this->getSenderEmail()
             && $this->getTemplateSubject();

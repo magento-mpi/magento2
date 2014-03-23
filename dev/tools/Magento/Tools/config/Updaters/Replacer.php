@@ -83,7 +83,7 @@ class Replacer
             function ($matches) {
                 $subject = $matches['start']
                     . $matches['first']
-                    . ', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE';
+                    . ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE';
                 $subject = str_replace('getConfigFlag', 'isSetFlag', $subject);
                 $subject = str_replace('getConfig', 'getValue', $subject);
                 return $subject;
@@ -100,30 +100,30 @@ class Replacer
     protected function fixResult($content)
     {
         $content = str_replace(
-            '), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE;',
-            ', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);',
+            '), \Magento\Store\Model\ScopeInterface::SCOPE_STORE;',
+            ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);',
             $content
         );
 
         $content = preg_replace_callback(
-            '/' . preg_quote('), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE') . '\n/s',
+            '/' . preg_quote('), \Magento\Store\Model\ScopeInterface::SCOPE_STORE') . '\n/s',
             function ($matches) {
                 return str_replace(
-                    '), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE',
-                    ', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)',
+                    '), \Magento\Store\Model\ScopeInterface::SCOPE_STORE',
+                    ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)',
                     $matches[0]
                 );
             },
             $content
         );
         $content = str_replace(
-            '), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE ',
-            ', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) ',
+            '), \Magento\Store\Model\ScopeInterface::SCOPE_STORE ',
+            ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ',
             $content
         );
         $content = str_replace(
-            '), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) {',
-            ', \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {',
+            '), \Magento\Store\Model\ScopeInterface::SCOPE_STORE) {',
+            ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {',
             $content
         );
 

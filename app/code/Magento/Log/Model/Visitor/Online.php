@@ -125,7 +125,7 @@ class Online extends \Magento\Core\Model\AbstractModel
      */
     public function getUpdateFrequency()
     {
-        return $this->_storeConfig->getValue(self::XML_PATH_UPDATE_FREQUENCY, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->getValue(self::XML_PATH_UPDATE_FREQUENCY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -135,7 +135,7 @@ class Online extends \Magento\Core\Model\AbstractModel
      */
     public function getOnlineInterval()
     {
-        $value = intval($this->_storeConfig->getValue(self::XML_PATH_ONLINE_INTERVAL, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE));
+        $value = intval($this->_storeConfig->getValue(self::XML_PATH_ONLINE_INTERVAL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
         if (!$value) {
             $value = \Magento\Log\Model\Visitor::DEFAULT_ONLINE_MINUTES_INTERVAL;
         }

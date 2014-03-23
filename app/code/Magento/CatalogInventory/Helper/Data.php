@@ -131,7 +131,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isShowOutOfStock()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_SHOW_OUT_OF_STOCK, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_SHOW_OUT_OF_STOCK, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -141,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isAutoReturnEnabled()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_ITEM_AUTO_RETURN, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_ITEM_AUTO_RETURN, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 
     /**
@@ -152,6 +152,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisplayProductStockStatus()
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_DISPLAY_PRODUCT_STOCK_STATUS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 }

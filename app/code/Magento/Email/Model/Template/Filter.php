@@ -544,7 +544,7 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = $this->_storeConfig->getValue($params['path'], \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            $configValue = $this->_storeConfig->getValue($params['path'], \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         }
         return $configValue;
     }

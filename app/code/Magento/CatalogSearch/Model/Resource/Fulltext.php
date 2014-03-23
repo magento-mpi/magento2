@@ -899,9 +899,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getStoreDate($storeId, $date = null)
     {
         if (!isset($this->_dates[$storeId])) {
-            $timezone = $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+            $timezone = $this->_storeConfig->getValue($this->_localeDate->getDefaultTimezonePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
             $locale   = $this->_storeConfig->getValue(
-                $this->_localeResolver->getDefaultLocalePath(), \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId
+                $this->_localeResolver->getDefaultLocalePath(), \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
             );
             $locale   = new \Zend_Locale($locale);
 

@@ -53,7 +53,7 @@ class ConfigFixture
             $scopeConfig = $objectManager->get('Magento\App\Config\ScopeConfigInterface');
             $result = $scopeConfig->getValue(
                 $configPath,
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $scopeCode
             );
         }

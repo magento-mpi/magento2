@@ -81,7 +81,7 @@ class Inventory
      */
     public function getDefaultConfigValue($field)
     {
-        return $this->_storeConfig->getValue(Item::XML_PATH_ITEM . $field, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $this->getStoreId());
+        return $this->_storeConfig->getValue(Item::XML_PATH_ITEM . $field, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $this->getStoreId());
     }
 
     /**

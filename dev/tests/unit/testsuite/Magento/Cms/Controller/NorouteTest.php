@@ -41,7 +41,7 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
         $this->_cmsHelperMock = $this->getMock('Magento\Cms\Helper\Page', array(), array(), '', false);
         $valueMap = array(
             array('Magento\App\Config\ScopeConfigInterface',
-                \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeConfigMock),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeConfigMock),
             array('Magento\Cms\Helper\Page', $this->_cmsHelperMock),
         );
         $objectManagerMock->expects($this->any())

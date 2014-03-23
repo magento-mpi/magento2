@@ -86,7 +86,7 @@ class Share extends \Magento\Core\Model\Config\Value
     {
         return $this->_config->getValue(
             self::XML_PATH_CUSTOMER_ACCOUNT_SHARE,
-            \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         ) == self::SHARE_WEBSITE;
     }
 

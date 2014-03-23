@@ -72,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isWishlistPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_WISHLIST, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_WISHLIST, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -83,7 +83,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isOrderedItemsPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_ORDERED_ITEMS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -94,7 +94,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isCompareProductsPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_COMPARE_PRODUCTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -105,7 +105,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isComparedProductsPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_COMPARED_PRODUCTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -116,7 +116,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isViewedProductsPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_VIEWED_PRODUCTS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 
     /**
@@ -127,6 +127,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isCustomerAndSegmentsPersist($store = null)
     {
-        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $store);
+        return $this->_storeConfig->isSetFlag(self::XML_PATH_PERSIST_CUSTOMER_AND_SEGM, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
     }
 }

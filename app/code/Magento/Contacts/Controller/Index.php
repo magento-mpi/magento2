@@ -54,7 +54,7 @@ class Index extends \Magento\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)) {
+        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->isSetFlag(self::XML_PATH_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
@@ -121,14 +121,14 @@ class Index extends \Magento\App\Action\Action
                 $storeConfig = $this->_objectManager->get('Magento\App\Config\ScopeConfigInterface');
                 $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
                 $transport = $this->_transportBuilder
-                    ->setTemplateIdentifier($storeConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                    ->setTemplateIdentifier($storeConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
                     ->setTemplateOptions(array(
                         'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                         'store' => $storeManager->getStore()->getId()
                     ))
                     ->setTemplateVars(array('data' => $postObject))
-                    ->setFrom($storeConfig->getValue(self::XML_PATH_EMAIL_SENDER, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
-                    ->addTo($storeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+                    ->setFrom($storeConfig->getValue(self::XML_PATH_EMAIL_SENDER, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
+                    ->addTo($storeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
                     ->setReplyTo($post['email'])
                     ->getTransport();
 

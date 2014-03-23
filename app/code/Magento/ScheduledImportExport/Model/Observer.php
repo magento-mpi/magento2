@@ -108,8 +108,8 @@ class Observer
     public function scheduledLogClean($schedule, $forceRun = false)
     {
         $result = false;
-        if (!$this->_storeConfig->getValue(self::CRON_STRING_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE)
-            && (!$forceRun || !$this->_storeConfig->getValue(self::LOG_CLEANING_ENABLE_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE))
+        if (!$this->_storeConfig->getValue(self::CRON_STRING_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
+            && (!$forceRun || !$this->_storeConfig->getValue(self::LOG_CLEANING_ENABLE_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE))
         ) {
             return;
         }
@@ -126,7 +126,7 @@ class Observer
             if (!$this->_logDirectory->isWritable($logPath)) {
                 throw new \Magento\Core\Exception(__('The directory "%1" is not writable.', $logPath));
             }
-            $saveTime = (int) $this->_storeConfig->getValue(self::SAVE_LOG_TIME_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE) + 1;
+            $saveTime = (int) $this->_storeConfig->getValue(self::SAVE_LOG_TIME_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) + 1;
             $dateCompass = new \DateTime('-' . $saveTime . ' days');
 
             foreach ($this->_getDirectoryList($logPath) as $directory) {
@@ -209,7 +209,7 @@ class Observer
     protected function _sendEmailNotification($vars)
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $receiverEmail = $this->_storeConfig->getValue(self::XML_RECEIVER_EMAIL_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId);
+        $receiverEmail = $this->_storeConfig->getValue(self::XML_RECEIVER_EMAIL_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         if (!$receiverEmail) {
             return $this;
         }
@@ -217,13 +217,13 @@ class Observer
         // Set all required params and send emails
         /** @var \Magento\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_TEMPLATE_EMAIL_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
+            ->setTemplateIdentifier($this->_storeConfig->getValue(self::XML_TEMPLATE_EMAIL_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $storeId
             ))
             ->setTemplateVars($vars)
-            ->setFrom($this->_storeConfig->getValue(self::XML_SENDER_EMAIL_PATH, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE, $storeId))
+            ->setFrom($this->_storeConfig->getValue(self::XML_SENDER_EMAIL_PATH, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId))
             ->addTo($receiverEmail)
             ->getTransport();
         $transport->sendMessage();

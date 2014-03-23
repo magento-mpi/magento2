@@ -288,7 +288,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             $origCountry = $request->getOrigCountry();
         } else {
             $origCountry = $this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
             );
         }
@@ -298,7 +298,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
             $r->setOrigPostal($this->_storeConfig->getValue(
-                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $request->getStoreId()
             ));
         }
@@ -1342,7 +1342,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                     'Payor' => array(
                         'AccountNumber' => $this->getConfigData('account'),
                         'CountryCode'   => $this->_storeConfig->getValue(
-                            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                             $request->getStoreId()
                         )
                     )
@@ -1386,7 +1386,7 @@ class Carrier extends AbstractCarrierOnline implements \Magento\Shipping\Model\C
                         'Payor' => array(
                             'AccountNumber' => $this->getConfigData('account'),
                             'CountryCode'   => $this->_storeConfig->getValue(
-                                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE,
+                                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                                 $request->getStoreId()
                             )
                         )

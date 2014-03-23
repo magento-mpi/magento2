@@ -48,7 +48,7 @@ class DesignExceptions
         if (empty($userAgent)) {
             return false;
         }
-        $expressions = $this->coreStoreConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Store\Model\StoreManagerInterface::SCOPE_TYPE_STORE);
+        $expressions = $this->coreStoreConfig->getValue(self::XML_PATH_DESIGN_EXCEPTION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if (!$expressions) {
             return false;
         }
