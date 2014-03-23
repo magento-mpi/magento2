@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config;
 
-class ScopeDefiner implements \Magento\BaseScopeResolverInterface
+class ScopeDefiner
 {
     /**
      * Request object

@@ -385,8 +385,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $region = $this->_regionFactory->create()->load($data['region_id']);
         $data['region_id'] = $region->getCode();
         $data['region'] = $region->getName();
-        $data['company'] = $this->_storeConfig->getValue(\Magento\Core\Model\Store::XML_PATH_STORE_STORE_NAME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
-        $data['telephone']  = $this->_storeConfig->getValue(\Magento\Core\Model\Store::XML_PATH_STORE_STORE_PHONE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $data['company'] = $this->_storeConfig->getValue(\Magento\Store\Model\Store::XML_PATH_STORE_STORE_NAME, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        $data['telephone']  = $this->_storeConfig->getValue(\Magento\Store\Model\Store::XML_PATH_STORE_STORE_PHONE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
 
         return $data;
     }
