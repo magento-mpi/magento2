@@ -14,6 +14,7 @@ use Magento\View\Element\Template\Context;
 use Magento\Pricing\Render\AmountRenderFactory;
 use Magento\Core\Helper\Data;
 use Magento\Math\Random;
+
 /**
  * Default catalog price box render
  */
