@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Helper;
+namespace Magento\Service;
+
 use Magento\Customer\Service\V1\Data\Customer;
 use Magento\Customer\Service\V1\Data\RegionBuilder;
-use Magento\Service\DataObjectConverter;
 
 /**
  * Class implements tests for DataObjectConverterTest class.
