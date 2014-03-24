@@ -55,13 +55,7 @@ if ($exist = ($this->getProductCollection() && $this->getProductCollection()->ge
                                     </a>
                                 </strong>
                                 <?php
-                                echo $this->getProductPrice($_item,
-                                    [
-                                        'price_id' => 'old-price-' . $_item->getEntityId() . '-' . $type,
-                                        'display_minimal_price' => true,
-                                        'include_container' => true
-                                    ]
-                                );
+                                echo $this->getProductPrice($_item, $type);
                                 echo $this->getPriceHtml($_item, true, '-' . $type) ?>
 
                                 <?php if ($_item->getRatingSummary() && $rating): ?>
