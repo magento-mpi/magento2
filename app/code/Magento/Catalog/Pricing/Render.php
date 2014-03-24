@@ -21,7 +21,7 @@ use Magento\Pricing\Render as PricingRender;
 class Render extends Template
 {
     /**
-     * @var \Magento\Registry $registry
+     * @var \Magento\Registry
      */
     protected $registry;
 
@@ -48,19 +48,29 @@ class Render extends Template
      */
     protected function _toHtml()
     {
-        $parentBlock = $this->getParentBlock();
-        $product = $parentBlock && $parentBlock->getProductItem()
-            ? $parentBlock->getProductItem()
-            : $this->registry->registry('product');
-
         /** @var PricingRender $priceRender */
         $priceRender = $this->getLayout()->getBlock($this->getPriceRender());
         if ($priceRender instanceof PricingRender) {
-            /** @var SaleableInterface $product */
+            $product = $this->getProduct();
             if ($product instanceof SaleableInterface) {
                 return $priceRender->render($this->getPriceTypeCode(), $product, $this->getData());
             }
         }
         return parent::_toHtml();
+    }
+
+    /**
+     * Returns saleable item instance
+     *
+     * @return SaleableInterface
+     */
+    protected function getProduct()
+    {
+        $parentBlock = $this->getParentBlock();
+
+        $product = $parentBlock && $parentBlock->getProductItem()
+            ? $parentBlock->getProductItem()
+            : $this->registry->registry('product');
+        return $product;
     }
 }
