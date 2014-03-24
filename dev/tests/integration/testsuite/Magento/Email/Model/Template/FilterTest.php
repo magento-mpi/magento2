@@ -113,13 +113,12 @@ class FilterTest extends \PHPUnit_Framework_TestCase
 
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        $objectManager->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->setConfig(
+        $objectManager->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
                 \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $themeId
+                $themeId,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
-
-
 
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $objectManager->create('Magento\Core\Model\Layout');

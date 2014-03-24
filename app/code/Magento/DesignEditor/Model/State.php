@@ -69,11 +69,11 @@ class State
     protected $_application;
 
     /**
-     * Store list manager
+     * Mutable Config
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\App\Config\MutableScopeConfigInterface
      */
-    protected $_storeManager;
+    protected $_mutableConfig;
 
     /**
      * @param \Magento\Backend\Model\Session $backendSession
@@ -84,7 +84,7 @@ class State
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\App $application
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\MutableScopeConfigInterface $mutableConfig
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
@@ -95,7 +95,7 @@ class State
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\App $application,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\App\Config\MutableScopeConfigInterface $mutableConfig
     ) {
         $this->_backendSession  = $backendSession;
         $this->_areaEmulator    = $areaEmulator;
@@ -105,7 +105,7 @@ class State
         $this->_objectManager   = $objectManager;
         $this->_application     = $application;
         $this->_themeContext    = $themeContext;
-        $this->_storeManager    = $storeManager;
+        $this->_mutableConfig = $mutableConfig;
     }
 
     /**
@@ -185,9 +185,10 @@ class State
     {
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
-            $this->_storeManager->getStore()->setConfig(
+            $this->_mutableConfig->setValue(
                 \Magento\View\DesignInterface::XML_PATH_THEME_ID,
-                $themeId
+                $themeId,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             $this->_application->getConfig()->setValue(
                 \Magento\View\DesignInterface::XML_PATH_THEME_ID,

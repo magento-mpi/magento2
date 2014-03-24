@@ -123,12 +123,13 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $this->_application = $this->getMock('Magento\Core\Model\App', array('getStore', 'getValue'),
             array(), '', false);
 
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array('setConfig'), array(), '', false);
-        $storeManager->expects($this->any())
-            ->method('setConfig')
+        $mutableConfig = $this->getMockForAbstractClass('\Magento\App\Config\MutableScopeConfigInterface');
+        $mutableConfig->expects($this->any())
+            ->method('setValue')
             ->with(
                 $this->equalTo(\Magento\View\DesignInterface::XML_PATH_THEME_ID),
-                $this->equalTo(self::THEME_ID)
+                $this->equalTo(self::THEME_ID),
+                $this->equalTo(\Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             )
             ->will($this->returnSelf());
 
@@ -165,7 +166,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             $this->_objectManager,
             $this->_application,
             $this->_themeContext,
-            $storeManager
+            $mutableConfig
         );
     }
 

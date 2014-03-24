@@ -34,8 +34,14 @@ class InlineTest extends \PHPUnit_Framework_TestCase
         /* Called getConfig as workaround for setConfig bug */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                'dev/translate_inline/active',
+                true,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $this->_storeId
+            );
     }
 
     public function testIsAllowed()

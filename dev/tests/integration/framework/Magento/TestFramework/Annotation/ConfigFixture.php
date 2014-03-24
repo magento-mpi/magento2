@@ -77,8 +77,9 @@ class ConfigFixture
                     ->setValue($configPath, $value, \Magento\App\ScopeInterface::SCOPE_DEFAULT);
             }
         } else {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore($storeCode)->setConfig($configPath, $value);
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+                ->get('Magento\App\Config\MutableScopeConfigInterface')
+                ->setValue($configPath, $value, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeCode);
         }
     }
 
@@ -98,10 +99,8 @@ class ConfigFixture
                 /* Store-scoped config value */
                 $storeCode = ($matches[0] != 'current' ? $matches[0] : null);
                 list(, $configPath, $requiredValue) = preg_split('/\s+/', $configPathAndValue, 3);
-
                 $originalValue = $this->_getConfigValue($configPath, $storeCode);
                 $this->_storeConfigValues[$storeCode][$configPath] = $originalValue;
-
                 $this->_setConfigValue($configPath, $requiredValue, $storeCode);
             } else {
                 /* Global config value */
@@ -130,6 +129,9 @@ class ConfigFixture
         /* Restore store-scoped values */
         foreach ($this->_storeConfigValues as $storeCode => $originalData) {
             foreach ($originalData as $configPath => $originalValue) {
+                if(empty($storeCode)) {
+                    $storeCode = null;
+                }
                 $this->_setConfigValue($configPath, $originalValue, $storeCode);
             }
         }

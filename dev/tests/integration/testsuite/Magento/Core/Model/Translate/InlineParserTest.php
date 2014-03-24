@@ -34,11 +34,17 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Translate\Inline');
         $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Translate\Inline\Parser', array('translateInline' => $inline));
-        /* Called getConfig as workaround for setConfig bug */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore($this->_storeId)->setConfig('dev/translate_inline/active', true);
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                'dev/translate_inline/active',
+                true,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $this->_storeId
+            );
     }
 
     /**

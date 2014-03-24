@@ -447,21 +447,6 @@ class Store extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Set config value for CURRENT model
-     *
-     * This value don't save in config
-     *
-     * @param string $path
-     * @param mixed $value
-     * @return $this
-     */
-    public function setConfig($path, $value)
-    {
-        $this->_config->setValue($path, $value, ScopeInterface::SCOPE_STORE, $this->getCode());
-        return $this;
-    }
-
-    /**
      * Set relation to the website
      *
      * @param Website $website

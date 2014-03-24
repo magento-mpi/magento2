@@ -39,12 +39,20 @@ class CategoryImageTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->setConfig('dev/log/active', $this->_oldLogActive);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue('dev/log/active', $this->_oldLogActive, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
         $this->_oldLogActive = null;
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-            ->getStore()->setConfig('dev/log/exception_file', $this->_oldExceptionFile);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                'dev/log/exception_file',
+                $this->_oldExceptionFile,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+
         $this->_oldExceptionFile = null;
 
         $this->_oldWriterModel = null;

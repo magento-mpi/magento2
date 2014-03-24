@@ -86,14 +86,38 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         /* config operations require store to be loaded */
         $this->_model->load('default');
         $value = $this->_model->getConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL);
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL, 'test');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+                'test',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         $this->assertEquals('test', $this->_model->getConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL));
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL, $value);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+                $value,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
 
         /* Call set before get */
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES, 1);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
+                1,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         $this->assertEquals(1, $this->_model->getConfig(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES));
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES, 0);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
+                0,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
     }
 
     public function testSetGetWebsite()
@@ -130,8 +154,20 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES, $useRewrites);
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL, $useStoreCode);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
+                $useRewrites,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+                $useStoreCode,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
 
         $actual = $this->_model->getBaseUrl($type);
         $this->assertEquals($expected, $actual);
@@ -213,8 +249,20 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         /* config operations require store to be loaded */
         $this->_model->load('default');
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES, false);
-        $this->_model->setConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL, $useStoreCode);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
+                false,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Config\MutableScopeConfigInterface')
+            ->setValue(
+                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
+                $useStoreCode,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
 
         // emulate custom entry point
         $_SERVER['SCRIPT_FILENAME'] = 'custom_entry.php';
