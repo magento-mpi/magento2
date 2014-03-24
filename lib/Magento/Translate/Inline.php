@@ -18,29 +18,29 @@ class Inline implements \Magento\Translate\InlineInterface
      *
      * @var bool
      */
-    protected $_isAllowed;
+    protected $isAllowed;
 
     /**
-     * @var \Magento\Translate\Inline\ParserFactory
+     * @var \Magento\Translate\Inline\ParserInterface
      */
-    protected $_parserFactory;
+    protected $parser;
 
     /**
      * Flag about inserted styles and scripts for inline translates
      *
      * @var bool
      */
-    protected $_isScriptInserted = false;
+    protected $isScriptInserted = false;
 
     /**
      * @var \Magento\UrlInterface
      */
-    protected $_url;
+    protected $url;
 
     /**
      * @var \Magento\View\LayoutInterface
      */
-    protected $_layout;
+    protected $layout;
 
     /**
      * @var \Magento\Translate\Inline\ConfigInterface
@@ -50,17 +50,17 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * @var \Magento\BaseScopeResolverInterface
      */
-    protected $_scopeResolver;
+    protected $scopeResolver;
 
     /**
      * @var string
      */
-    protected $_templateFileName;
+    protected $templateFileName;
 
     /**
      * @var string
      */
-    protected $_translatorRoute;
+    protected $translatorRoute;
 
     /**
      * @var null|string
@@ -77,7 +77,7 @@ class Inline implements \Magento\Translate\InlineInterface
      * @param \Magento\UrlInterface $url
      * @param \Magento\View\LayoutInterface $layout
      * @param Inline\ConfigInterface $config
-     * @param Inline\ParserFactory $parserFactory
+     * @param Inline\ParserInterface $parser
      * @param Inline\StateInterface $state
      * @param string $templateFileName
      * @param string $translatorRoute
@@ -88,20 +88,20 @@ class Inline implements \Magento\Translate\InlineInterface
         \Magento\UrlInterface $url,
         \Magento\View\LayoutInterface $layout,
         \Magento\Translate\Inline\ConfigInterface $config,
-        \Magento\Translate\Inline\ParserFactory $parserFactory,
+        \Magento\Translate\Inline\ParserInterface $parser,
         \Magento\Translate\Inline\StateInterface $state,
         $templateFileName = '',
         $translatorRoute = '',
         $scope = null
     ) {
-        $this->_scopeResolver = $scopeResolver;
-        $this->_url = $url;
-        $this->_layout = $layout;
+        $this->scopeResolver = $scopeResolver;
+        $this->url = $url;
+        $this->layout = $layout;
         $this->config = $config;
-        $this->_parserFactory = $parserFactory;
+        $this->parser = $parser;
         $this->state = $state;
-        $this->_templateFileName = $templateFileName;
-        $this->_translatorRoute = $translatorRoute;
+        $this->templateFileName = $templateFileName;
+        $this->translatorRoute = $translatorRoute;
         $this->scope = $scope;
     }
 
@@ -112,14 +112,14 @@ class Inline implements \Magento\Translate\InlineInterface
      */
     public function isAllowed()
     {
-        if ($this->_isAllowed === null) {
+        if ($this->isAllowed === null) {
             if (!$this->scope instanceof BaseScopeInterface) {
-                $scope = $this->_scopeResolver->getScope($this->scope);
+                $scope = $this->scopeResolver->getScope($this->scope);
             }
-            $this->_isAllowed = $this->config->isActive($scope)
+            $this->isAllowed = $this->config->isActive($scope)
                 && $this->config->isDevAllowed($scope);
         }
-        return $this->state->isEnabled() && $this->_isAllowed;
+        return $this->state->isEnabled() && $this->isAllowed;
     }
 
     /**
@@ -129,7 +129,7 @@ class Inline implements \Magento\Translate\InlineInterface
      */
     public function getParser()
     {
-        return $this->_parserFactory->get();
+        return $this->parser;
     }
 
     /**
@@ -188,9 +188,9 @@ class Inline implements \Magento\Translate\InlineInterface
         if (stripos($content, '</body>') === false) {
             return;
         }
-        if (!$this->_isScriptInserted) {
+        if (!$this->isScriptInserted) {
             $this->getParser()->setContent(str_ireplace('</body>', $this->getInlineScript() . '</body>', $content));
-            $this->_isScriptInserted = true;
+            $this->isScriptInserted = true;
         }
     }
 
@@ -205,10 +205,10 @@ class Inline implements \Magento\Translate\InlineInterface
     protected function getInlineScript()
     {
         /** @var $block \Magento\View\Element\Template */
-        $block = $this->_layout->createBlock('Magento\View\Element\Template');
+        $block = $this->layout->createBlock('Magento\View\Element\Template');
 
         $block->setAjaxUrl($this->getAjaxUrl());
-        $block->setTemplate($this->_templateFileName);
+        $block->setTemplate($this->templateFileName);
 
         return $block->toHtml();
     }
@@ -220,9 +220,9 @@ class Inline implements \Magento\Translate\InlineInterface
      */
     protected function getAjaxUrl()
     {
-        return $this->_url->getUrl(
-            $this->_translatorRoute,
-            ['_secure' => $this->_scopeResolver->getScope()->isCurrentlySecure()]
+        return $this->url->getUrl(
+            $this->translatorRoute,
+            ['_secure' => $this->scopeResolver->getScope()->isCurrentlySecure()]
         );
     }
 
