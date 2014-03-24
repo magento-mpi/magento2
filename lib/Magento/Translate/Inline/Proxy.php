@@ -66,6 +66,8 @@ class Proxy extends \Magento\Translate\Inline
 
     /**
      * Retrieve ObjectManager from global scope
+     *
+     * @return void
      */
     public function __wakeup()
     {
@@ -74,6 +76,8 @@ class Proxy extends \Magento\Translate\Inline
 
     /**
      * Clone proxied instance
+     *
+     * @return void
      */
     public function __clone()
     {
@@ -131,7 +135,7 @@ class Proxy extends \Magento\Translate\Inline
      * Additional translation mode html attribute is not needed for base inline translation.
      *
      * @param mixed|string|null $tagName
-     * @return null
+     * @return mixed
      */
     public function getAdditionalHtmlAttribute($tagName = null)
     {
