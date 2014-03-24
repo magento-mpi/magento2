@@ -58,7 +58,7 @@ class Render extends Template
         if ($priceRender instanceof PricingRender) {
             /** @var SaleableInterface $product */
             if ($product instanceof SaleableInterface) {
-                return $priceRender->render($this->getPriceTypeCode(), $product, []);
+                return $priceRender->render($this->getPriceTypeCode(), $product, $this->getData());
             }
         }
         return parent::_toHtml();

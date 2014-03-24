@@ -27,7 +27,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 <?php if ($_product->getMsrp()): ?>
     <?php $_msrpPrice = $this->renderAmount($priceType, [
 //        'display_label' => __('Regular Price:'),
-        'price_id' => $this->getPriceId() ? $this->getPriceId() :'old-price-' . $_id,
+        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $_id,
         'include_container' => false,
         'skip_adjustments' => true
     ]); ?>
@@ -45,8 +45,10 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
     </span>
 <?php endif; ?>
 
+<?php if ($this->getDisplayMsrpHelpMessage()): ?>
 <?php $helpLinkId = 'msrp-help-' . $_id . $this->getRandomString(20); ?>
 <a href="#" id="<?php echo $helpLinkId;?>" class="action show map"><span><?php echo __("What's this?"); ?></span></a>
+<?php endif; ?>
 
 <script type="text/javascript">
     //<![CDATA[
