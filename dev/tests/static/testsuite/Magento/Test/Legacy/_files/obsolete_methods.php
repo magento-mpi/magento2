@@ -174,6 +174,16 @@ return array(
     array('_sort', 'Magento\Backend\Model\Config\Structure\Converter'),
     array('_submitRecurringPaymentProfiles', 'Magento\Sales\Model\Service\Quote',
         '\Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver::submitRecurringPaymentProfiles'),
+    array(
+        'submitOrder',
+        'Magento\Sales\Model\Service\Quote',
+        'Magento\Sales\Model\Service\Quote::submitOrderWithDataObject'
+    ),
+    array(
+        'submitAll',
+        'Magento\Sales\Model\Service\Quote',
+        'Magento\Sales\Model\Service\Quote::submitAllWithDataObject'
+    ),
     array('_toHtml', 'Magento\Backend\Block\Widget\Container'),
     array('_unhookQueries', 'Magento\Core\Model\Resource\Setup'),
     array('_updateMediaPathUseRewrites', 'Magento\Core\Model\Store', '_getMediaScriptUrl'),

@@ -10,7 +10,6 @@
 namespace Magento\Paypal\Model\Express;
 
 use Magento\Sales\Model\Quote\Address;
-use Magento\Customer\Model\Customer;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 
 /**
@@ -126,7 +125,7 @@ class Checkout
     /**
      * Order
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -232,6 +231,26 @@ class Checkout
     protected $_addressBuilder;
 
     /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_customerConverter;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
+     */
+    protected $_customerBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder
+     */
+    protected $_customerDetailsBuilder;
+
+    /**
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Logger $logger
@@ -254,6 +273,10 @@ class Checkout
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Model\Converter $customerConverter
+     * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param array $params
      * @throws \Exception
      */
@@ -278,6 +301,10 @@ class Checkout
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Model\Converter $customerConverter,
+        \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
+        \Magento\Encryption\EncryptorInterface $encryptor,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -300,6 +327,10 @@ class Checkout
         $this->_checkoutSession = $checkoutSession;
         $this->_customerAccountService = $customerAccountService;
         $this->_addressBuilder = $addressBuilder;
+        $this->_customerConverter = $customerConverter;
+        $this->_customerBuilder = $customerBuilder;
+        $this->_customerDetailsBuilder = $customerDetailsBuilder;
+        $this->_encryptor = $encryptor;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -713,7 +744,7 @@ class Checkout
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
         $service = $this->_serviceQuoteFactory->create($parameters);
-        $service->submitAll();
+        $service->submitAllWithDataObject();
         $this->_quote->save();
 
         if ($isNewCustomer) {
@@ -1023,7 +1054,7 @@ class Checkout
      * Prepare quote for customer registration and customer order submit
      * and restore magento customer data from quote
      *
-     * @return $this
+     * @return void
      */
     protected function _prepareNewCustomerQuote()
     {
@@ -1031,20 +1062,21 @@ class Checkout
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customer = $quote->getCustomer();
-        /** @var $customer Customer */
-        $customerBilling = $billing->exportCustomerAddress();
-        $customer->addAddress($customerBilling);
-        $billing->setCustomerAddress($customerBilling);
-        $customerBilling->setIsDefaultBilling(true);
+        $customerBilling = $this->_addressBuilder
+            ->populate($billing->exportCustomerAddressData())
+            ->setDefaultBilling(true);
+
         if ($shipping && !$shipping->getSameAsBilling()) {
-            $customerShipping = $shipping->exportCustomerAddress();
-            $customer->addAddress($customerShipping);
-            $shipping->setCustomerAddress($customerShipping);
-            $customerShipping->setIsDefaultShipping(true);
+            $customerShipping = $this->_addressBuilder
+                ->populate($shipping->exportCustomerAddressData())
+                ->setDefaultShipping(true)
+                ->create();
+            $shipping->setCustomerAddressData($customerShipping);
         } elseif ($shipping) {
-            $customerBilling->setIsDefaultShipping(true);
+            $customerBilling->setDefaultShipping(true);
         }
+        $customerBilling = $customerBilling->create();
+        $billing->setCustomerAddressData($customerBilling);
         /**
          * @todo integration with dynamic attributes customer_dob, customer_taxvat, customer_gender
          */
@@ -1060,19 +1092,31 @@ class Checkout
             $billing->setCustomerGender($quote->getCustomerGender());
         }
 
-        $this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_billing', 'to_customer', $billing, $customer);
+        $customerData = $this->_objectCopyService->getDataFromFieldset(
+            'checkout_onepage_billing',
+            'to_customer',
+            $billing
+        );
+
+        $customer = $this->_customerBuilder->populateWithArray($customerData);
+
         $customer->setEmail($quote->getCustomerEmail());
         $customer->setPrefix($quote->getCustomerPrefix());
         $customer->setFirstname($quote->getCustomerFirstname());
         $customer->setMiddlename($quote->getCustomerMiddlename());
         $customer->setLastname($quote->getCustomerLastname());
         $customer->setSuffix($quote->getCustomerSuffix());
-        $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
-        $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
-        $customer->save();
-        $quote->setCustomer($customer);
 
-        return $this;
+        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customer->create())->setAddresses(
+            isset($customerShipping) ? [$customerBilling, $customerShipping] : [$customerBilling]
+        )->create();
+
+        $customer = $this->_customerAccountService->createAccount(
+            $customerDetails,
+            $this->_encryptor->decrypt($quote->getPasswordHash())
+        );
+
+        $quote->setCustomerData($customer);
     }
 
     /**
