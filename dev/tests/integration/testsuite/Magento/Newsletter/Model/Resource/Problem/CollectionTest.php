@@ -25,7 +25,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Newsletter/_files/problems.php
      */
     public function testAddCustomersData()
-
     {
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
         $customerAccountService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
