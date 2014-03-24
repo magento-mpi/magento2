@@ -77,7 +77,8 @@ return array(
                 ),
             ),
             'Product Prices Indexer' => array(
-                'file' => '/../../shell/indexer.php',
+                // TODO: replace with indexer.php once Magento\Index module is completely removed (MAGETWO-18168)
+                'file' => '/../../shell/newindexer.php',
                 'fixtures' => array(
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                 ),
