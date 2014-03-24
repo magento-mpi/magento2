@@ -27,6 +27,6 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
     public function testShowCustomerInfo()
     {
         $result = $this->_collectionModel->showCustomerInfo();
-        $this->assertInstanceOf('Magento\Newsletter\Model\Resource\Subscriber\Collection',$result);
+        $this->assertInstanceOf('Magento\Newsletter\Model\Resource\Subscriber\Collection', $result);
     }
 }
