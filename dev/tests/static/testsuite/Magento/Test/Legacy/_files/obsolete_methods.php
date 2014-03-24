@@ -1586,4 +1586,5 @@ return array(
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
+    array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
 );
