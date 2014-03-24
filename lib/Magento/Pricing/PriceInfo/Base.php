@@ -113,7 +113,7 @@ class Base implements PriceInfoInterface
         } elseif (isset($this->priceInstances[$priceCode]) && $quantity === null) {
             return $this->priceInstances[$priceCode];
         } else {
-            return  $this->prices->createPriceObject(
+            return $this->prices->createPriceObject(
                 $this->product,
                 $priceCode,
                 $quantity

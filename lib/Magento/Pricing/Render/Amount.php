@@ -17,14 +17,16 @@ use Magento\Pricing\PriceCurrencyInterface;
 
 /**
  * Price amount renderer
+ *
+ * @method string getAdjustmentCssClasses()
+ * @method string getDisplayLabel()
+ * @method string getPriceId()
+ * @method bool getIncludeContainer()
+ * @method bool getSkipAdjustments()
+ * @method \Magento\Pricing\Render\Amount setAdjustmentCssClasses($cssClasses)
  */
 class Amount extends Template implements AmountRenderInterface
 {
-    /**
-     * @var float
-     */
-    protected $amount;
-
     /**
      * @var SaleableInterface
      */
@@ -70,18 +72,17 @@ class Amount extends Template implements AmountRenderInterface
      */
     public function render(PriceInterface $price, SaleableInterface $saleableItem, array $arguments = [])
     {
-        $origArguments = $this->_data;
+        $origArguments = $this->getData();
         // @todo probably use block vars instead
-        $this->_data = array_replace($origArguments, $arguments);
+        $this->setData(array_replace($origArguments, $arguments));
 
-        $this->amount = $price->getDisplayValue();
         $this->price = $price;
         $this->saleableItem = $saleableItem;
 
         // collect correspondent Price Adjustment Renders
         /** @var AdjustmentRenderInterface[] $adjustmentRenders */
         $adjustmentRenders = [];
-        $cssClasses = isset($this->_data['css_classes']) ? $this->_data['css_classes'] : [];
+        $cssClasses = $this->hasData('css_classes') ? $this->getData('css_classes') : [];
 
         if (!$this->getSkipAdjustments()) {
             foreach ($this->getAdjustmentRenders() as $adjustmentRender) {
@@ -93,6 +94,7 @@ class Amount extends Template implements AmountRenderInterface
                 //}
             }
         }
+        $this->setAdjustmentCssClasses($cssClasses);
 
         $html = $this->toHtml();
 
@@ -103,9 +105,8 @@ class Amount extends Template implements AmountRenderInterface
         }
 
         // restore original block arguments
-        $this->_data = $origArguments;
+        $this->setData($origArguments);
 
-        // return result
         return $html;
     }
 
@@ -116,7 +117,7 @@ class Amount extends Template implements AmountRenderInterface
      */
     public function getAmount()
     {
-        return $this->amount;
+        return $this->price->getDisplayValue();
     }
 
     /**

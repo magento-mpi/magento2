@@ -13,8 +13,12 @@ namespace Magento\Pricing;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Render\Layout;
 use Magento\View\Element\Template;
+use Magento\View\Element\AbstractBlock;
 
-class Render extends Template
+/**
+ * @method string getPriceRenderHandle()
+ */
+class Render extends AbstractBlock
 {
     protected $defaultTypeRender = 'default';
 
