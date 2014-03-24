@@ -77,7 +77,7 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($storeMock));
 
-        $this->_context->getStoreConfig()
+        $this->_context->getScopeConfig()
             ->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue('storeConfig'));

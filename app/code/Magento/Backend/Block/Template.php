@@ -84,7 +84,11 @@ class Template extends \Magento\View\Element\Template
         if ($moduleName === null) {
             $moduleName = $this->getModuleName();
         }
-        return !$this->_storeConfig->isSetFlag('advanced/modules_disable_output/' . $moduleName, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        return !$this->_storeConfig->isSetFlag(
+            'advanced/modules_disable_output/' . $moduleName,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

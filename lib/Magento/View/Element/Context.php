@@ -271,11 +271,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * Get store config
+     * Get scope config
      *
      * @return \Magento\App\Config\ScopeConfigInterface
      */
-    public function getStoreConfig()
+    public function getScopeConfig()
     {
         return $this->_storeConfig;
     }

@@ -1449,5 +1449,7 @@ return array(
     ['getMeasureDimensionName', 'Magento\Usa\Helper\Data', 'Magento\Shipping\Helper\Carrier::getMeasureDimensionName'],
     ['displayGirthValue', 'Magento\Usa\Helper\Data', 'Magento\Usps\Helper\Data::displayGirthValue'],
     array('reindexProductPrices', '\Magento\Catalog\Model\Observer'),
-    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage')
+    array('getCustomer', 'Magento\Checkout\Block\Onepage\AbstractOnepage'),
+    array('getStoreConfig', 'Magento\View\Context', '\Magento\View\Context::getScopeConfig'),
+    array('getStoreConfig', 'Magento\View\Element\Context', '\Magento\View\Element\Context::getScopeConfig'),
 );
