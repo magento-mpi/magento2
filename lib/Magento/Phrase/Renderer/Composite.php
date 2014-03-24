@@ -22,7 +22,8 @@ class Composite implements RendererInterface
      * @param RendererInterface[] $renderers
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $renderers) {
+    public function __construct(array $renderers)
+    {
         foreach ($renderers as $renderer) {
             if (!$renderer instanceof RendererInterface) {
                 throw new \InvalidArgumentException(
