@@ -55,7 +55,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
             function () {
                 <?php if ($priceType->isShowPriceOnGesture()): ?>
                 $('#<?php echo($popupId);?>').addToCart({
-                    cartForm: "#product_addtocart_form",
+                    cartForm: "#product_addtocart_form_from_popup",
                     popupId: "#<?php echo $popupId;?>",
                     productName: '<?php echo $_product->getName() ?>',
                     realPrice: <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,

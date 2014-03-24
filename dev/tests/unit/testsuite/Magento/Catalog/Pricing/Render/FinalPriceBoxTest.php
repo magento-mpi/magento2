@@ -125,7 +125,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $result = $this->object->render('final_price', $this->product, []);
 
         //assert price wrapper
-        $this->assertRegExp('/[<div]/', $result);
+        $this->assertStringStartsWith('<div', $result);
         //assert css_selector
         $this->assertRegExp('/[final_price]/', $result);
     }
