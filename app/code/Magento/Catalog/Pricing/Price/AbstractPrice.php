@@ -61,10 +61,10 @@ class AbstractPrice implements PriceInterface
     protected $quantity;
 
     /**
-     * @param Product $salableItem
-     * @param float $quantity
+     * @param \Magento\Pricing\Object\SaleableInterface $salableItem
+     * @param $quantity
      */
-    public function __construct(Product $salableItem, $quantity)
+    public function __construct(\Magento\Pricing\Object\SaleableInterface $salableItem, $quantity)
     {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
