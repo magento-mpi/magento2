@@ -79,7 +79,7 @@ class AbstractPrice implements PriceInterface
                 $adjustments[$code] = $adjustment;
                 $adjustedAmount = $adjustment->extractAdjustment($this->baseAmount, $this->salableItem);
                 $this->baseAmount = $this->baseAmount - $adjustedAmount;
-                $this->adjustedAmount = + $adjustedAmount;
+                $this->adjustedAmount += $adjustedAmount;
                 $this->adjustedAmounts[$code] = $adjustedAmount;
             }
         }
