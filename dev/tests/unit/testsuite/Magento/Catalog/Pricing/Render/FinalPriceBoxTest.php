@@ -8,8 +8,6 @@
 
 namespace Magento\Catalog\Pricing\Render;
 
-use \Magento\Pricing\PriceInfo\Base;
-
 /**
  * Class FinalPriceBoxTest
  */
@@ -53,7 +51,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->product = $this->getMock(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             ['getPriceInfo', '__wakeup'],
             [],
             '',
@@ -62,15 +60,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
 
         $this->priceType = $this->getMock(
-            '\Magento\Catalog\Pricing\Price\MsrpPrice',
-            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled'],
+            'Magento\Catalog\Pricing\Price\MsrpPrice',
+            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'canApplyMsrp'],
             [],
             '',
             false
         );
 
         $this->priceInfo = $this->getMock(
-            '\Magento\Pricing\PriceInfo',
+            'Magento\Pricing\PriceInfo',
             ['getPrice'],
             [],
             '',
@@ -118,7 +116,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $this->object = $objectManager->getObject(
             'Magento\Catalog\Pricing\Render\FinalPriceBox',
             [
-                'context' => $context
+                'context' => $context,
+                'data' => array('css_classes' => 'price-final_price')
             ]
         );
     }
@@ -126,7 +125,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderMsrpDisabled()
     {
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(false));
 
         $this->priceInfo->expects($this->at(1))
@@ -145,7 +145,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderMsrpEnabledChildBlockFalse()
     {
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(true));
 
         $this->priceInfo->expects($this->at(1))
@@ -164,7 +165,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderMsrpEnabledChildBlockEnabled()
     {
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(true));
 
         $this->priceInfo->expects($this->at(1))
@@ -197,7 +199,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('logException');
 
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(false));
 
         $this->priceInfo->expects($this->at(1))

@@ -38,7 +38,7 @@ class FinalPriceBox extends PriceBox
                 /** @var PriceBox $msrpBlock */
                 $msrpBlock = $this->getChildBlock('default.msrp');
                 if ($msrpBlock instanceof PriceBox) {
-                    $arguments['real_price_html'] = $result;
+                    $arguments['real_price_html'] = $this->wrapResult($result);
                     $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
                 }
             }
