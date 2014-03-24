@@ -118,11 +118,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Backend\Model\UrlInterface
-     */
-    protected $_url;
-
-    /**
      * @var \Magento\Core\Helper\Data
      */
     protected $_helper;
@@ -146,7 +141,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         \Magento\App\Config\ScopeConfigInterface $config,
         \Magento\Stdlib\Cookie $cookie,
         State $appState,
-        \Magento\Backend\Model\UrlInterface $url,
         \Magento\Core\Helper\Data $helper,
         $isSingleStoreAllowed,
         $currentStore = null
@@ -158,7 +152,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         $this->_isSingleStoreAllowed = $isSingleStoreAllowed;
         $this->_appState = $appState;
         $this->_cookie = $cookie;
-        $this->_url = $url;
         $this->_helper = $helper;
         if ($currentStore) {
             $this->_currentStore = $currentStore;
@@ -227,10 +220,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
 
             if (is_null($this->_store) && $store->getCode() === \Magento\Store\Model\Store::DEFAULT_CODE) {
                 $this->_store = $store;
-            }
-
-            if (0 == $store->getId()) {
-                $store->setUrlModel($this->_url);
             }
         }
 
