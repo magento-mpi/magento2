@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Module/etc/module.xsd">
     <module name="Magento_Enterprise" version="1.11.0.3" active="false">
         <sequence>
             <module name="Magento_Cms"/>
@@ -32,7 +32,6 @@
             <module name="Magento_GiftRegistry"/>
             <module name="Magento_GiftWrapping"/>
             <module name="Magento_ScheduledImportExport"/>
-            <module name="Magento_FullPageCache"/>
             <module name="Magento_PricePermissions"/>
             <module name="Magento_PromotionPermissions"/>
             <module name="Magento_SalesArchive"/>

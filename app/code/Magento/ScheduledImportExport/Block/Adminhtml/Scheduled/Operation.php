@@ -17,8 +17,7 @@
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled;
 
-class Operation
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Operation extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize block
@@ -30,11 +29,14 @@ class Operation
         $this->_addButtonLabel = __('Add Scheduled Export');
         parent::_construct();
 
-        $this->_addButton('add_new_import', array(
-            'label'   => __('Add Scheduled Import'),
-            'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/new', array('type' => 'import')) . "')",
-            'class'   => 'add'
-        ));
+        $this->_addButton(
+            'add_new_import',
+            array(
+                'label' => __('Add Scheduled Import'),
+                'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/new', array('type' => 'import')) . "')",
+                'class' => 'add'
+            )
+        );
 
         $this->_blockGroup = 'Magento_ScheduledImportExport';
         $this->_controller = 'adminhtml_scheduled_operation';

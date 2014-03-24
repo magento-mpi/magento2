@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
 use Magento\Webapi\Model\Soap\Wsdl;
@@ -18,7 +17,9 @@ use Magento\Webapi\Model\Soap\Fault;
 class Generator
 {
     const WSDL_NAME = 'MagentoWSDL';
+
     const WSDL_CACHE_ID = 'WSDL';
+
     /**
      * WSDL factory instance.
      *
@@ -116,8 +117,7 @@ class Generator
             $wsdl->addSoapBinding($binding, 'document', 'http://schemas.xmlsoap.org/soap/http', SOAP_1_2);
             $portName = $this->getPortName($serviceClass);
             $serviceName = $this->getServiceName($serviceClass);
-            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS
-                . ':' . $bindingName, $endPointUrl, SOAP_1_2);
+            $wsdl->addService($serviceName, $portName, Wsdl::TYPES_NS . ':' . $bindingName, $endPointUrl, SOAP_1_2);
 
             foreach ($serviceData['methods'] as $methodName => $methodData) {
                 $operationName = $this->getOperationName($serviceClass, $methodName);
@@ -167,10 +167,7 @@ class Generator
         $inputMessageName = $this->getInputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
         $inputParameters = array();
-        $elementData = array(
-            'name' => $inputMessageName,
-            'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
-        );
+        $elementData = array('name' => $inputMessageName, 'type' => Wsdl::TYPES_NS . ':' . $complexTypeName);
         if (isset($methodData['interface']['in']['parameters'])) {
             $inputParameters = $methodData['interface']['in']['parameters'];
         } else {
@@ -182,17 +179,13 @@ class Generator
         $typeData = array(
             'documentation' => $methodData['documentation'],
             'parameters' => $inputParameters,
-            'callInfo' => $callInfo,
+            'callInfo' => $callInfo
         );
         $this->_typeProcessor->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $inputMessageName,
-            array(
-                'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
-                )
-            )
+            array('messageParameters' => array('element' => Wsdl::TYPES_NS . ':' . $inputMessageName))
         );
         return Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
@@ -209,28 +202,19 @@ class Generator
     {
         $outputMessageName = $this->getOutputMessageName($operationName);
         $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
-        $wsdl->addElement(
-            array(
-                'name' => $outputMessageName,
-                'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
-            )
-        );
+        $wsdl->addElement(array('name' => $outputMessageName, 'type' => Wsdl::TYPES_NS . ':' . $complexTypeName));
         $callInfo = array();
         $callInfo['returned']['always']['calls'] = array($operationName);
         $typeData = array(
             'documentation' => sprintf('Response container for the %s call.', $operationName),
             'parameters' => $methodData['interface']['out']['parameters'],
-            'callInfo' => $callInfo,
+            'callInfo' => $callInfo
         );
         $this->_typeProcessor->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $outputMessageName,
-            array(
-                'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
-                )
-            )
+            array('messageParameters' => array('element' => Wsdl::TYPES_NS . ':' . $outputMessageName))
         );
         return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
@@ -352,15 +336,15 @@ class Generator
     protected function _processInterfaceCallInfo($interface, $serviceName, $methodName)
     {
         foreach ($interface as $direction => $interfaceData) {
-            $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
+            $direction = $direction == 'in' ? 'requiredInput' : 'returned';
             foreach ($interfaceData['parameters'] as $parameterData) {
                 $parameterType = $parameterData['type'];
                 if (!$this->_typeProcessor->isTypeSimple($parameterType)) {
                     $operation = $this->getOperationName($serviceName, $methodName);
                     if ($parameterData['required']) {
-                        $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
+                        $condition = $direction == 'requiredInput' ? 'yes' : 'always';
                     } else {
-                        $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
+                        $condition = $direction == 'requiredInput' ? 'no' : 'conditionally';
                     }
                     $callInfo = array();
                     $callInfo[$direction][$condition]['calls'][] = $operation;
@@ -380,24 +364,19 @@ class Generator
     {
         $faultMessageName = Fault::NODE_DETAIL_WRAPPER;
         $complexTypeName = $this->getElementComplexTypeName($faultMessageName);
-        $wsdl->addElement(
-            array(
-                'name' => $faultMessageName,
-                'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
-            )
-        );
+        $wsdl->addElement(array('name' => $faultMessageName, 'type' => Wsdl::TYPES_NS . ':' . $complexTypeName));
         $faultParamsComplexType = Fault::NODE_DETAIL_PARAMETER;
         $faultParamsData = array(
             'parameters' => array(
                 Fault::NODE_DETAIL_PARAMETER_KEY => array(
                     'type' => 'string',
                     'required' => true,
-                    'documentation' => '',
+                    'documentation' => ''
                 ),
                 Fault::NODE_DETAIL_PARAMETER_VALUE => array(
                     'type' => 'string',
                     'required' => true,
-                    'documentation' => '',
+                    'documentation' => ''
                 )
             )
         );
@@ -406,17 +385,17 @@ class Generator
                 Fault::NODE_DETAIL_CODE => array(
                     'type' => 'int',
                     'required' => true,
-                    'documentation' => 'SOAP fault code, unique for each type of exceptions.',
+                    'documentation' => 'SOAP fault code, unique for each type of exceptions.'
                 ),
                 Fault::NODE_DETAIL_TRACE => array(
                     'type' => 'string',
                     'required' => false,
-                    'documentation' => 'Exception calls stack trace.',
+                    'documentation' => 'Exception calls stack trace.'
                 ),
                 Fault::NODE_DETAIL_PARAMETERS => array(
                     'type' => "{$faultParamsComplexType}[]",
                     'required' => false,
-                    'documentation' => 'Additional exception parameters.',
+                    'documentation' => 'Additional exception parameters.'
                 )
             )
         );
@@ -425,11 +404,7 @@ class Generator
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $faultMessageName,
-            array(
-                'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $faultMessageName
-                )
-            )
+            array('messageParameters' => array('element' => Wsdl::TYPES_NS . ':' . $faultMessageName))
         );
 
         return Wsdl::TYPES_NS . ':' . $faultMessageName;

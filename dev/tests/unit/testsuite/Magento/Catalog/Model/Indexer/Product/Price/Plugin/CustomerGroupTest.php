@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
 class CustomerGroupTest extends \PHPUnit_Framework_TestCase
@@ -37,7 +36,11 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
         );
 
         $indexerMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer', array('getId', 'invalidate'), array(), '', false
+            'Magento\Indexer\Model\Indexer',
+            array('getId', 'invalidate'),
+            array(),
+            '',
+            false
         );
         $indexerMock->expects($this->any())->method('getId')->will($this->returnValue(1));
         $indexerMock->expects($this->once())->method('invalidate');

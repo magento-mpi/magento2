@@ -12,8 +12,7 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 /**
  * Backend grid item renderer currency
  */
-class Price
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var int
@@ -45,7 +44,6 @@ class Price
         parent::__construct($context, $data);
         $this->_localeCurrency = $localeCurrency;
     }
-
 
     /**
      * Renders grid column

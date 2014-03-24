@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Pci\Model\Resource\Admin;
 
 use Magento\User\Model\User as ModelUser;
@@ -28,11 +27,11 @@ class User extends \Magento\User\Model\Resource\User
         if (!is_array($userIds)) {
             $userIds = array($userIds);
         }
-        return $this->_getWriteAdapter()->update($this->getMainTable(), array(
-            'failures_num'  => 0,
-            'first_failure' => null,
-            'lock_expires'  => null,
-        ), $this->getIdFieldName() . ' IN (' . $this->_getWriteAdapter()->quote($userIds) . ')');
+        return $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            array('failures_num' => 0, 'first_failure' => null, 'lock_expires' => null),
+            $this->getIdFieldName() . ' IN (' . $this->_getWriteAdapter()->quote($userIds) . ')'
+        );
     }
 
     /**
@@ -49,10 +48,12 @@ class User extends \Magento\User\Model\Resource\User
             $userIds = array($userIds);
         }
         $exceptId = (int)$exceptId;
-        return $this->_getWriteAdapter()->update($this->getMainTable(),
-            array('lock_expires'  => $this->dateTime->formatDate(time() + $lifetime),),
-            "{$this->getIdFieldName()} IN (" . $this->_getWriteAdapter()->quote($userIds) . ")
-            AND {$this->getIdFieldName()} <> {$exceptId}"
+        return $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            array('lock_expires' => $this->dateTime->formatDate(time() + $lifetime)),
+            "{$this->getIdFieldName()} IN (" . $this->_getWriteAdapter()->quote(
+                $userIds
+            ) . ")\n            AND {$this->getIdFieldName()} <> {$exceptId}"
         );
     }
 
@@ -69,12 +70,14 @@ class User extends \Magento\User\Model\Resource\User
         $update = array('failures_num' => new \Zend_Db_Expr('failures_num + 1'));
         if (false !== $setFirstFailure) {
             $update['first_failure'] = $this->dateTime->formatDate($setFirstFailure);
-            $update['failures_num']  = 1;
+            $update['failures_num'] = 1;
         }
         if (false !== $setLockExpires) {
             $update['lock_expires'] = $this->dateTime->formatDate($setLockExpires);
         }
-        $this->_getWriteAdapter()->update($this->getMainTable(), $update,
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            $update,
             $this->_getWriteAdapter()->quoteInto("{$this->getIdFieldName()} = ?", $user->getId())
         );
     }
@@ -89,16 +92,22 @@ class User extends \Magento\User\Model\Resource\User
     public function getOldPasswords($user, $retainLimit = 4)
     {
         $userId = (int)$user->getId();
-        $table  = $this->getTable('enterprise_admin_passwords');
+        $table = $this->getTable('enterprise_admin_passwords');
 
         // purge expired passwords, except that should retain
         $retainPasswordIds = $this->_getWriteAdapter()->fetchCol(
-            $this->_getWriteAdapter()->select()
-                ->from($table, 'password_id')
-                ->where('user_id = :user_id')
-                ->order('expires ' . \Magento\DB\Select::SQL_DESC)
-                ->order('password_id ' . \Magento\DB\Select::SQL_DESC)
-                ->limit($retainLimit),
+            $this->_getWriteAdapter()->select()->from(
+                $table,
+                'password_id'
+            )->where(
+                'user_id = :user_id'
+            )->order(
+                'expires ' . \Magento\DB\Select::SQL_DESC
+            )->order(
+                'password_id ' . \Magento\DB\Select::SQL_DESC
+            )->limit(
+                $retainLimit
+            ),
             array(':user_id' => $userId)
         );
         $where = array('user_id = ?' => $userId, 'expires <= ?' => time());
@@ -109,9 +118,7 @@ class User extends \Magento\User\Model\Resource\User
 
         // now get all remained passwords
         return $this->_getReadAdapter()->fetchCol(
-            $this->_getReadAdapter()->select()
-                ->from($table, 'password_hash')
-                ->where('user_id = :user_id'),
+            $this->_getReadAdapter()->select()->from($table, 'password_hash')->where('user_id = :user_id'),
             array(':user_id' => $userId)
         );
     }
@@ -127,12 +134,15 @@ class User extends \Magento\User\Model\Resource\User
     public function trackPassword($user, $passwordHash, $lifetime)
     {
         $now = time();
-        $this->_getWriteAdapter()->insert($this->getTable('enterprise_admin_passwords'), array(
-            'user_id'       => $user->getId(),
-            'password_hash' => $passwordHash,
-            'expires'       => $now + $lifetime,
-            'last_updated'  => $now,
-        ));
+        $this->_getWriteAdapter()->insert(
+            $this->getTable('enterprise_admin_passwords'),
+            array(
+                'user_id' => $user->getId(),
+                'password_hash' => $passwordHash,
+                'expires' => $now + $lifetime,
+                'last_updated' => $now
+            )
+        );
     }
 
     /**
@@ -145,11 +155,15 @@ class User extends \Magento\User\Model\Resource\User
     public function getLatestPassword($userId)
     {
         return $this->_getReadAdapter()->fetchRow(
-            $this->_getReadAdapter()->select()
-                ->from($this->getTable('enterprise_admin_passwords'))
-                ->where('user_id = :user_id')
-                ->order('password_id ' . \Magento\DB\Select::SQL_DESC)
-                ->limit(1),
+            $this->_getReadAdapter()->select()->from(
+                $this->getTable('enterprise_admin_passwords')
+            )->where(
+                'user_id = :user_id'
+            )->order(
+                'password_id ' . \Magento\DB\Select::SQL_DESC
+            )->limit(
+                1
+            ),
             array(':user_id' => $userId)
         );
     }

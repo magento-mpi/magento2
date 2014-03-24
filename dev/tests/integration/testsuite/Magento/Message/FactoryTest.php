@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Message;
 
 /**
@@ -44,7 +43,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             array(MessageInterface::TYPE_SUCCESS),
             array(MessageInterface::TYPE_NOTICE),
             array(MessageInterface::TYPE_WARNING),
-            array(MessageInterface::TYPE_ERROR),
+            array(MessageInterface::TYPE_ERROR)
         );
     }
 

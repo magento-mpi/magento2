@@ -91,9 +91,7 @@ class Attributes extends AbstractCondition
      */
     public function loadAttributeOptions()
     {
-        $productAttributes = $this->_resourceCustomer
-            ->loadAllAttributes()
-            ->getAttributesByCode();
+        $productAttributes = $this->_resourceCustomer->loadAllAttributes()->getAttributesByCode();
 
         $attributes = array();
 
@@ -272,14 +270,8 @@ class Attributes extends AbstractCondition
     protected function _getOptionsForAttributeDefaultAddress()
     {
         return array(
-            array(
-                'value' => 'is_exists',
-                'label' => __('exists')
-            ),
-            array(
-                'value' => 'is_not_exists',
-                'label' => __('does not exist')
-            ),
+            array('value' => 'is_exists', 'label' => __('exists')),
+            array('value' => 'is_not_exists', 'label' => __('does not exist'))
         );
     }
 
@@ -301,9 +293,18 @@ class Attributes extends AbstractCondition
     public function getDateValue()
     {
         if ($this->getOperator() == '==') {
-            $dateObj = $this->_localeDate
-                ->date($this->getValue(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT, null, false)
-                ->setHour(0)->setMinute(0)->setSecond(0);
+            $dateObj = $this->_localeDate->date(
+                $this->getValue(),
+                \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
+                null,
+                false
+            )->setHour(
+                0
+            )->setMinute(
+                0
+            )->setSecond(
+                0
+            );
             $value = array(
                 'start' => $dateObj->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT),
                 'end' => $dateObj->addDay(1)->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
@@ -338,12 +339,12 @@ class Attributes extends AbstractCondition
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
         $select = $this->getResource()->createSelect();
-        $select->from(array('main'=>$table), array(new \Zend_Db_Expr(1)));
+        $select->from(array('main' => $table), array(new \Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
         $select->limit(1);
 
-        if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
-            $value    = $this->getValue();
+        if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping'))) {
+            $value = $this->getValue();
             $operator = $this->getOperator();
             if ($attribute->isStatic()) {
                 $field = "main.{$attribute->getAttributeCode()}";
@@ -354,7 +355,7 @@ class Attributes extends AbstractCondition
             $field = $select->getAdapter()->quoteColumnAs($field, null);
 
             if ($attribute->getFrontendInput() == 'date') {
-                $value    = $this->getDateValue();
+                $value = $this->getDateValue();
                 $operator = $this->getDateOperator();
             }
             $condition = $this->getResource()->createConditionSql($field, $operator, $value);

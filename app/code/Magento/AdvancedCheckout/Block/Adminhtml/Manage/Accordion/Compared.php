@@ -9,7 +9,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
-use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 
 /**
  * Accordion grid for products in compared list
@@ -84,9 +84,7 @@ class Compared extends AbstractAccordion
         parent::_construct();
         $this->setId('source_compared');
         if ($this->_getStore()) {
-            $this->setHeaderText(
-                __('Products in the Comparison List (%1)', $this->getItemsCount())
-            );
+            $this->setHeaderText(__('Products in the Comparison List (%1)', $this->getItemsCount()));
         }
     }
 
@@ -99,14 +97,20 @@ class Compared extends AbstractAccordion
     {
         if (!$this->hasData('items_collection')) {
             $attributes = $this->_catalogConfig->getProductAttributes();
-            $collection = $this->_compareListFactory->create()
-                ->getItemCollection()
-                ->useProductItem(true)
-                ->setStoreId($this->_getStore()->getId())
-                ->addStoreFilter($this->_getStore()->getId())
-                ->setCustomerId($this->_getCustomer()->getId())
-                ->addAttributeToSelect($attributes)
-                ->addAttributeToFilter('status', ProductStatus::STATUS_ENABLED);
+            $collection = $this->_compareListFactory->create()->getItemCollection()->useProductItem(
+                true
+            )->setStoreId(
+                $this->_getStore()->getId()
+            )->addStoreFilter(
+                $this->_getStore()->getId()
+            )->setCustomerId(
+                $this->_getCustomer()->getId()
+            )->addAttributeToSelect(
+                $attributes
+            )->addAttributeToFilter(
+                'status',
+                ProductStatus::STATUS_ENABLED
+            );
             $this->_catalogStockStatus->addIsInStockFilterToCollection($collection);
             $collection = $this->_adminhtmlSales->applySalableProductTypesFilter($collection);
             $collection->addOptionsToResult();
@@ -122,6 +126,6 @@ class Compared extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewCompared', array('_current'=>true));
+        return $this->getUrl('checkout/*/viewCompared', array('_current' => true));
     }
 }

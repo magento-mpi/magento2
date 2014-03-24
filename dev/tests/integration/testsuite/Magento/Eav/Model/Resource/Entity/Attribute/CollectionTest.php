@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Resource\Entity\Attribute;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Eav\Model\Resource\Entity\Attribute\Collection'
+        );
     }
 
     /**
@@ -45,8 +45,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testSetAttributeGroupFilter()
     {
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Eav\Model\Resource\Entity\Attribute\Collection');
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Eav\Model\Resource\Entity\Attribute\Collection'
+        );
         $groupsPresent = $this->_getGroups($collection);
         $includeGroupId = current($groupsPresent);
 

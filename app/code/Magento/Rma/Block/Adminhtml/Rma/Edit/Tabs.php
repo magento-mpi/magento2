@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
 class Tabs extends \Magento\Backend\Block\Widget\Tabs

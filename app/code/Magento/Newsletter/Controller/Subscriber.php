@@ -90,7 +90,7 @@ class Subscriber extends \Magento\App\Action\Action
     public function newAction()
     {
         if ($this->getRequest()->isPost() && $this->getRequest()->getPost('email')) {
-            $email = (string) $this->getRequest()->getPost('email');
+            $email = (string)$this->getRequest()->getPost('email');
 
             try {
                 $this->validateEmailFormat($email);
@@ -104,8 +104,10 @@ class Subscriber extends \Magento\App\Action\Action
                     $this->messageManager->addSuccess(__('Thank you for your subscription.'));
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->messageManager->addException($e, __('There was a problem with the subscription: %1',
-                    $e->getMessage()));
+                $this->messageManager->addException(
+                    $e,
+                    __('There was a problem with the subscription: %1', $e->getMessage())
+                );
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong with the subscription.'));
             }
@@ -119,8 +121,8 @@ class Subscriber extends \Magento\App\Action\Action
      */
     public function confirmAction()
     {
-        $id    = (int) $this->getRequest()->getParam('id');
-        $code  = (string) $this->getRequest()->getParam('code');
+        $id = (int)$this->getRequest()->getParam('id');
+        $code = (string)$this->getRequest()->getParam('code');
 
         if ($id && $code) {
             /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
@@ -146,14 +148,12 @@ class Subscriber extends \Magento\App\Action\Action
      */
     public function unsubscribeAction()
     {
-        $id    = (int) $this->getRequest()->getParam('id');
-        $code  = (string) $this->getRequest()->getParam('code');
+        $id = (int)$this->getRequest()->getParam('id');
+        $code = (string)$this->getRequest()->getParam('code');
 
         if ($id && $code) {
             try {
-                $this->_subscriberFactory->create()->load($id)
-                    ->setCheckCode($code)
-                    ->unsubscribe();
+                $this->_subscriberFactory->create()->load($id)->setCheckCode($code)->unsubscribe();
                 $this->messageManager->addSuccess(__('You have been unsubscribed.'));
             } catch (\Magento\Core\Exception $e) {
                 $this->messageManager->addException($e, $e->getMessage());

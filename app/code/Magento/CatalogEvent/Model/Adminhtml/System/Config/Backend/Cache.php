@@ -26,9 +26,7 @@ class Cache extends BackendCache implements \Magento\Object\IdentityInterface
      *
      * @var string[]
      */
-    protected $_cacheTags = array(
-        Menu::CACHE_TAGS
-    );
+    protected $_cacheTags = array(Menu::CACHE_TAGS);
 
     /**
      * Get identities

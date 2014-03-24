@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model\Simplexml;
 
 class ElementTest extends \PHPUnit_Framework_TestCase

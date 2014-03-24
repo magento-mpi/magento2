@@ -11,11 +11,7 @@
 /** @var $installer \Magento\Sales\Model\Resource\Setup */
 $installer = $this;
 
-$defaultTypes = array(
-    '1' => 'Birthday',
-    '2' => 'Baby Registry',
-    '3' => 'Wedding'
-);
+$defaultTypes = array('1' => 'Birthday', '2' => 'Baby Registry', '3' => 'Wedding');
 foreach ($defaultTypes as $typeId => $label) {
     $installer->getConnection()->update(
         $this->getTable('magento_giftregistry_type_info'),

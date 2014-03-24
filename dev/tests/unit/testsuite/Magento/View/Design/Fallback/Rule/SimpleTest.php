@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
@@ -30,16 +29,10 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPatternDirs($pattern, $optionalParameter = null, $expectedResult = null)
     {
-        $params = array(
-            'optional_parameter' => $optionalParameter,
-            'required_parameter' => 'required_parameter',
-        );
+        $params = array('optional_parameter' => $optionalParameter, 'required_parameter' => 'required_parameter');
         $model = new Simple($pattern, array('optional_parameter'));
 
-        $this->assertEquals(
-            $expectedResult,
-            $model->getPatternDirs($params)
-        );
+        $this->assertEquals($expectedResult, $model->getPatternDirs($params));
     }
 
     /**
@@ -51,11 +44,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
         $patternNoOptional = '<required_parameter> other text';
 
         return array(
-            'no optional param passed' => array(
-                $patternOptional,
-                null,
-                array()
-            ),
+            'no optional param passed' => array($patternOptional, null, array()),
             'no optional param in pattern' => array(
                 $patternNoOptional,
                 'optional_parameter',
@@ -65,7 +54,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                 $patternOptional,
                 'optional_parameter',
                 array('optional_parameter required_parameter other text')
-            ),
+            )
         );
     }
 }

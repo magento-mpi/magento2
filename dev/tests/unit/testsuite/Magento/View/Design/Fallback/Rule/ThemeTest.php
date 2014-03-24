@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
@@ -55,7 +54,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             'package/current_theme/path/one',
             'package/current_theme/path/two',
             'package/parent_theme/path/one',
-            'package/parent_theme/path/two',
+            'package/parent_theme/path/two'
         );
         $this->assertEquals($expectedResult, $object->getPatternDirs(array('theme' => $theme)));
     }

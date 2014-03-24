@@ -3,7 +3,7 @@
  * Interception config. Responsible for providing list of plugins configured for instance
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -61,7 +61,7 @@ class Config implements \Magento\Interception\Config
     protected $_intercepted = array();
 
     /**
-     * Service class types
+     * List of class types that can not be pluginized
      *
      * @var array
      */

@@ -210,18 +210,39 @@ class Routine
     }
 
     /**
+     * Prepare license notice for specific file types.
+     *
+     * @static
+     * @param string $licenseNotice
+     * @param string $fileType
+     * @return string
+     */
+    public static function prepareLicenseNotice($licenseNotice, $fileType)
+    {
+        if ($fileType == 'less') {
+            $lines = explode("\n", $licenseNotice);
+            foreach ($lines as $k => $v) {
+                $lines[$k] = '// ' . $v;
+            }
+            return implode("\n", $lines);
+        }
+        return $licenseNotice;
+    }
+
+    /**
      * Updates files in passed directory using license rules.
      * Could be run as validation process for files in dry run case.
      *
      * @static
      * @param string|array $directories
-     * @param string|array $fileMasks
-     * @param AbstractLicense $license
+     * @param string $fileType
+     * @param LicenseAbstract $license
      * @param bool $recursive
      * @return null
      */
-    public static function updateLicense($directories, $fileMasks, $license, $recursive = true)
+    public static function updateLicense($directories, $fileType, $license, $recursive = true)
     {
+        $fileMasks = self::$fileTypes[$fileType];
         $foundFiles = array();
         self::globSearch($directories, $fileMasks, $foundFiles, $recursive);
 
@@ -234,8 +255,6 @@ class Routine
                 self::$_errorsCount += 1;
                 continue;
             }
-
-
             $placeholders = array(
                 ' * {license_notice}',
                 '{copyright}',
@@ -243,7 +262,7 @@ class Routine
             );
 
             $changeset = array(
-                $license->getNotice(),
+                self::prepareLicenseNotice($license->getNotice(), $fileType),
                 $license->getCopyright(),
                 $license->getLink()
             );
@@ -251,7 +270,6 @@ class Routine
             $docBlock = str_replace($placeholders, $changeset, $matches[1]);
 
             $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1'. $docBlock . '$2', $contents, 1);
-            
             if ($contents !== $newContents) {
                 if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);
@@ -348,7 +366,7 @@ class Routine
                 }
                 Routine::updateLicense(
                     array($workingDir . ($path ? '/' . $path : '')),
-                    Routine::$fileTypes[$fileType],
+                    $fileType,
                     $licenseInstances[$licenseType],
                     $recursive
                 );

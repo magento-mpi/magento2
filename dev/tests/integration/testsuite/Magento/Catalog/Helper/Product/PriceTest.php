@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,6 +11,9 @@ namespace Magento\Catalog\Helper\Product;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 
+/**
+ * Test class for Magento\Catalog\Helper\Product\Price
+ */
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**

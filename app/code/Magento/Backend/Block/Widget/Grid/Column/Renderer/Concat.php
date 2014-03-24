@@ -15,13 +15,10 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Concat
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Concat extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
-
     /**
      * Renders grid column
      *
@@ -40,5 +37,4 @@ class Concat
         // TODO run column type renderer
         return $data;
     }
-
 }

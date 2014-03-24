@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Model\Config\Source;
 
 /**
@@ -28,7 +27,7 @@ class OriginShipment extends \Magento\Ups\Model\Config\Source\Generic
         $orShipArr = $this->carrierConfig->getCode($this->_code);
         $returnArr = array();
         foreach ($orShipArr as $key => $val) {
-            $returnArr[] = array('value' => $key,'label' => $key);
+            $returnArr[] = array('value' => $key, 'label' => $key);
         }
         return $returnArr;
     }

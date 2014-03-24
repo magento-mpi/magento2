@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Layout;
 
 class UpdateTest extends \PHPUnit_Framework_TestCase
@@ -20,14 +19,16 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout\Update');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout\Update'
+        );
     }
 
     public function testConstructor()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Layout\Update');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Core\Model\Layout\Update'
+        );
         $this->assertInstanceOf('Magento\Core\Model\Resource\Layout\Update', $this->_model->getResource());
     }
 
@@ -36,16 +37,11 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testCrud()
     {
-        $this->_model->setData(array(
-            'handle' => 'default',
-            'xml' => '<layout/>',
-            'sort_order' => 123,
-        ));
-        $entityHelper = new \Magento\TestFramework\Entity($this->_model, array(
-            'handle' => 'custom',
-            'xml' => '<layout version="0.1.0"/>',
-            'sort_order' => 456,
-        ));
+        $this->_model->setData(array('handle' => 'default', 'xml' => '<layout/>', 'sort_order' => 123));
+        $entityHelper = new \Magento\TestFramework\Entity(
+            $this->_model,
+            array('handle' => 'custom', 'xml' => '<layout version="0.1.0"/>', 'sort_order' => 456)
+        );
         $entityHelper->testCrud();
     }
 }

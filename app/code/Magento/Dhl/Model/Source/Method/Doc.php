@@ -10,8 +10,7 @@ namespace Magento\Dhl\Model\Source\Method;
 /**
  * Source model for DHL shipping methods for documentation
  */
-class Doc
-    extends \Magento\Dhl\Model\Source\Method\AbstractMethod
+class Doc extends \Magento\Dhl\Model\Source\Method\AbstractMethod
 {
     /**
      * Carrier Product Type Indicator

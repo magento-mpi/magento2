@@ -17,8 +17,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Sagepay;
 
-class Direct
-    extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
+class Direct extends \Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\AbstractCreate
 {
     /**
      * Authorize payment code

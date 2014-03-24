@@ -109,13 +109,9 @@ class Observer
         $object->setIsArchived(!empty($ids));
 
         if ($object->getIsArchived()) {
-            $object->setBackUrl(
-                $this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's')
-            );
+            $object->setBackUrl($this->_backendData->getUrl('adminhtml/sales_archive/' . $archiveEntity . 's'));
         } elseif ($object->getIsMoveable() !== false) {
-            $object->setIsMoveable(
-                in_array($object->getStatus(), $this->_config->getArchiveOrderStatuses())
-            );
+            $object->setIsMoveable(in_array($object->getStatus(), $this->_config->getArchiveOrderStatuses()));
         }
         return $this;
     }
@@ -170,8 +166,9 @@ class Observer
     public function appendGridCollection(EventObserver $observer)
     {
         $collection = $observer->getEvent()->getOrderGridCollection();
-        if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection
-            || !$collection->getIsCustomerMode()) {
+        if ($collection instanceof \Magento\SalesArchive\Model\Resource\Order\Collection ||
+            !$collection->getIsCustomerMode()
+        ) {
             return $this;
         }
 

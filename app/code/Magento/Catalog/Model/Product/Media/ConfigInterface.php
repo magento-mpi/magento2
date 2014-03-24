@@ -18,14 +18,14 @@ interface ConfigInterface
      *
      * @return string
      */
-    function getBaseMediaUrl();
+    public function getBaseMediaUrl();
 
     /**
      * Retrieve base path for media files
      *
      * @return string
      */
-    function getBaseMediaPath();
+    public function getBaseMediaPath();
 
     /**
      * Retrieve url for media file
@@ -33,7 +33,7 @@ interface ConfigInterface
      * @param string $file
      * @return string
      */
-    function getMediaUrl($file);
+    public function getMediaUrl($file);
 
     /**
      * Retrieve file system path for media file
@@ -41,5 +41,5 @@ interface ConfigInterface
      * @param string $file
      * @return string
      */
-    function getMediaPath($file);
+    public function getMediaPath($file);
 }

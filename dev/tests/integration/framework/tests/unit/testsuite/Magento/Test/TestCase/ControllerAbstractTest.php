@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\TestCase;
 
 /**
@@ -34,7 +33,11 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         );
 
         $this->_objectManager = $this->getMock(
-            'Magento\TestFramework\ObjectManager', array('get', 'create'), array(), '', false
+            'Magento\TestFramework\ObjectManager',
+            array('get', 'create'),
+            array(),
+            '',
+            false
         );
         $this->_objectManager->expects($this->any())
             ->method('get')
@@ -55,7 +58,12 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     {
         if (!$this->_bootstrap) {
             $this->_bootstrap = $this->getMock(
-                'Magento\TestFramework\Bootstrap', array('getAllOptions'), array(), '', false);
+                'Magento\TestFramework\Bootstrap',
+                array('getAllOptions'),
+                array(),
+                '',
+                false
+            );
         }
         return $this->_bootstrap;
     }
@@ -126,12 +134,15 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         $this->addSessionMessages();
         /** @var \PHPUnit_Framework_MockObject_MockObject|\PHPUnit_Framework_Constraint $constraint */
         $constraint = $this->getMock('PHPUnit_Framework_Constraint', array('toString', 'matches'));
-        $constraint
-            ->expects($this->once())
-            ->method('matches')
-            ->with($expectedMessages)
-            ->will($this->returnValue(true))
-        ;
+        $constraint->expects(
+            $this->once()
+        )->method(
+            'matches'
+        )->with(
+            $expectedMessages
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertSessionMessages($constraint, $messageTypeFilter);
     }
 
@@ -142,7 +153,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
                 array('some_warning'),
                 \Magento\Message\MessageInterface::TYPE_WARNING
             ),
-            'message error type filtering'    => array(
+            'message error type filtering' => array(
                 array('error_one', 'error_two'),
                 \Magento\Message\MessageInterface::TYPE_ERROR
             ),

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
-    <action path="path_one" type="type_one" />
-    <action path="path_two" type="type_two" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../app/code/Magento/WebsiteRestriction/etc/webrestrictions.xsd">
+    <action path="path_one" type="generic" />
+    <action path="path_two" type="register" />
 </config>

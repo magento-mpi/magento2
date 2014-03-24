@@ -133,7 +133,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
                 $newResultData = array('__was_deleted' => true);
                 $difference = $origData;
             } elseif ($origData && $resultData) {
-                $newParams  = array_diff_key($resultData, $origData);
+                $newParams = array_diff_key($resultData, $origData);
                 $sameParams = array_intersect_key($origData, $resultData);
                 foreach ($sameParams as $key => $value) {
                     if ($origData[$key] != $resultData[$key]) {
@@ -187,7 +187,18 @@ class Changes extends \Magento\Core\Model\AbstractModel
         }
         $clearedData = array();
         foreach ($data as $key => $value) {
-            if (!in_array($key, $this->_globalSkipFields) && !in_array($key, $skipFields) && !is_array($value) && !is_object($value)) {
+            if (!in_array(
+                $key,
+                $this->_globalSkipFields
+            ) && !in_array(
+                $key,
+                $skipFields
+            ) && !is_array(
+                $value
+            ) && !is_object(
+                $value
+            )
+            ) {
                 $clearedData[$key] = $value;
             }
         }

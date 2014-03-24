@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory\Model\Currency;
 
 class DefaultLocator
@@ -32,10 +31,8 @@ class DefaultLocator
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(
-        \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
-    ) {
+    public function __construct(\Magento\Core\Model\App $app, \Magento\Core\Model\StoreManagerInterface $storeManager)
+    {
         $this->_app = $app;
         $this->_storeManager = $storeManager;
     }
@@ -56,7 +53,7 @@ class DefaultLocator
             $currencyCode = $this->_storeManager->getWebsite($website)->getBaseCurrencyCode();
         } else if ($request->getParam('group')) {
             $group = $request->getParam('group');
-            $currencyCode =  $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
+            $currencyCode = $this->_storeManager->getGroup($group)->getWebsite()->getBaseCurrencyCode();
         } else {
             $currencyCode = $this->_app->getBaseCurrencyCode();
         }

@@ -90,7 +90,6 @@ class Register extends \Magento\Customer\Block\Form\Register
         return $data;
     }
 
-
     /**
      * Retrieve form posting url
      *

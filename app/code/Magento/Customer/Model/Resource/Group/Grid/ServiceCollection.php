@@ -24,7 +24,6 @@ class ServiceCollection extends AbstractServiceCollection
      */
     protected $groupService;
 
-
     /**
      * @param EntityFactory $entityFactory
      * @param FilterBuilder $filterBuilder

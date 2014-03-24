@@ -19,7 +19,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * XML configuration paths
      */
-    const XML_PATH_ENABLED     = 'customer/magento_customerbalance/is_enabled';
+    const XML_PATH_ENABLED = 'customer/magento_customerbalance/is_enabled';
+
     const XML_PATH_AUTO_REFUND = 'customer/magento_customerbalance/refund_automatically';
 
     /**

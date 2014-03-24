@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer;
 
 /**
@@ -28,17 +27,23 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL           = '_email';
-    const COLUMN_WEBSITE         = '_website';
+    const COLUMN_EMAIL = '_email';
+
+    const COLUMN_WEBSITE = '_website';
+
     const COLUMN_FINANCE_WEBSITE = '_finance_website';
+
     /**#@-*/
 
     /**#@+
      * Error codes
      */
     const ERROR_FINANCE_WEBSITE_IS_EMPTY = 'financeWebsiteIsEmpty';
-    const ERROR_INVALID_FINANCE_WEBSITE  = 'invalidFinanceWebsite';
-    const ERROR_DUPLICATE_PK             = 'duplicateEmailSiteFinanceSite';
+
+    const ERROR_INVALID_FINANCE_WEBSITE = 'invalidFinanceWebsite';
+
+    const ERROR_DUPLICATE_PK = 'duplicateEmailSiteFinanceSite';
+
     /**#@-*/
 
     /**
@@ -57,7 +62,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         self::COLUMN_ACTION,
         self::COLUMN_WEBSITE,
         self::COLUMN_EMAIL,
-        self::COLUMN_FINANCE_WEBSITE,
+        self::COLUMN_FINANCE_WEBSITE
     );
 
     /**
@@ -149,24 +154,37 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
-        parent::__construct($coreData, $string, $coreStoreConfig, $importFactory, $resourceHelper, $resource,
-            $storeManager, $collectionFactory, $eavConfig, $storageFactory, $data);
+        parent::__construct(
+            $coreData,
+            $string,
+            $coreStoreConfig,
+            $importFactory,
+            $resourceHelper,
+            $resource,
+            $storeManager,
+            $collectionFactory,
+            $eavConfig,
+            $storageFactory,
+            $data
+        );
 
         $this->_rewardFactory = $rewardFactory;
         $this->_customerFactory = $customerFactory;
         $this->_balanceFactory = $balanceFactory;
         $this->_importExportData = $importExportData;
 
-        $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
-            : $authSession->getUser();
+        $this->_adminUser = isset($data['admin_user']) ? $data['admin_user'] : $authSession->getUser();
 
-        $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
+        $this->addMessageTemplate(
+            self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
             __('Finance information website is not specified')
         );
-        $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
+        $this->addMessageTemplate(
+            self::ERROR_INVALID_FINANCE_WEBSITE,
             __('Invalid value in Finance information website column')
         );
-        $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
+        $this->addMessageTemplate(
+            self::ERROR_DUPLICATE_PK,
             __('Row with such email, website, finance website combination was already found.')
         );
         $this->_initAttributes();
@@ -182,10 +200,10 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
         /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
-                'id'          => $attribute->getId(),
-                'code'        => $attribute->getAttributeCode(),
+                'id' => $attribute->getId(),
+                'code' => $attribute->getAttributeCode(),
                 'is_required' => $attribute->getIsRequired(),
-                'type'        => $attribute->getBackendType(),
+                'type' => $attribute->getBackendType()
             );
         }
         return $this;
@@ -198,17 +216,15 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      */
     protected function _importData()
     {
-        if (!$this->_importExportData->isRewardPointsEnabled()
-            && !$this->_importExportData->isCustomerBalanceEnabled()) {
+        if (!$this->_importExportData->isRewardPointsEnabled() && !$this->_importExportData->isCustomerBalanceEnabled()
+        ) {
             return false;
         }
 
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_customerFactory->create();
-        $rewardPointsKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
-        $customerBalanceKey =
-            \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
+        $rewardPointsKey = \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_REWARD_POINTS;
+        $customerBalanceKey = \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection::COLUMN_CUSTOMER_BALANCE;
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             foreach ($bunch as $rowNumber => $rowData) {
@@ -217,10 +233,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
                     continue;
                 }
                 // load customer object
-                $customerId = $this->_getCustomerId(
-                    $rowData[self::COLUMN_EMAIL],
-                    $rowData[self::COLUMN_WEBSITE]
-                );
+                $customerId = $this->_getCustomerId($rowData[self::COLUMN_EMAIL], $rowData[self::COLUMN_WEBSITE]);
                 if ($customer->getId() != $customerId) {
                     $customer->reset();
                     $customer->load($customerId);
@@ -235,15 +248,16 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
                         } elseif ($attributeCode == $customerBalanceKey) {
                             $this->_deleteCustomerBalance($customer, $websiteId);
                         }
-                    } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE) {
+                    } elseif ($this->getBehavior($rowData) == \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE
+                    ) {
                         if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                             if ($attributeCode == $rewardPointsKey) {
-                                $this->_updateRewardPointsForCustomer(
-                                    $customer, $websiteId, $rowData[$attributeCode]
-                                );
+                                $this->_updateRewardPointsForCustomer($customer, $websiteId, $rowData[$attributeCode]);
                             } elseif ($attributeCode == $customerBalanceKey) {
                                 $this->_updateCustomerBalanceForCustomer(
-                                    $customer, $websiteId, $rowData[$attributeCode]
+                                    $customer,
+                                    $websiteId,
+                                    $rowData[$attributeCode]
                                 );
                             }
                         }
@@ -267,9 +281,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     {
         /** @var $rewardModel \Magento\Reward\Model\Reward */
         $rewardModel = $this->_rewardFactory->create();
-        $rewardModel->setCustomer($customer)
-            ->setWebsiteId($websiteId)
-            ->loadByCustomer();
+        $rewardModel->setCustomer($customer)->setWebsiteId($websiteId)->loadByCustomer();
 
         return $this->_updateRewardValue($rewardModel, $value);
     }
@@ -285,10 +297,13 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     {
         $pointsDelta = $value - $rewardModel->getPointsBalance();
         if ($pointsDelta != 0) {
-            $rewardModel->setPointsDelta($pointsDelta)
-                ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN)
-                ->setComment($this->_getComment())
-                ->updateRewardPoints();
+            $rewardModel->setPointsDelta(
+                $pointsDelta
+            )->setAction(
+                \Magento\Reward\Model\Reward::REWARD_ACTION_ADMIN
+            )->setComment(
+                $this->_getComment()
+            )->updateRewardPoints();
         }
 
         return $rewardModel;
@@ -302,13 +317,14 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      * @param float $value store credit balance
      * @return \Magento\CustomerBalance\Model\Balance
      */
-    protected function _updateCustomerBalanceForCustomer(\Magento\Customer\Model\Customer $customer, $websiteId, $value)
-    {
+    protected function _updateCustomerBalanceForCustomer(
+        \Magento\Customer\Model\Customer $customer,
+        $websiteId,
+        $value
+    ) {
         /** @var $balanceModel \Magento\CustomerBalance\Model\Balance */
         $balanceModel = $this->_balanceFactory->create();
-        $balanceModel->setCustomer($customer)
-            ->setWebsiteId($websiteId)
-            ->loadByCustomer();
+        $balanceModel->setCustomer($customer)->setWebsiteId($websiteId)->loadByCustomer();
 
         return $this->_updateCustomerBalanceValue($balanceModel, $value);
     }
@@ -324,9 +340,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     {
         $amountDelta = $value - $balanceModel->getAmount();
         if ($amountDelta != 0) {
-            $balanceModel->setAmountDelta($amountDelta)
-                ->setComment($this->_getComment())
-                ->save();
+            $balanceModel->setAmountDelta($amountDelta)->setComment($this->_getComment())->save();
         }
 
         return $balanceModel;
@@ -364,9 +378,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     protected function _getComment()
     {
         if (!$this->_comment) {
-            $this->_comment = __('Data was imported by %1',
-                $this->_adminUser->getUsername()
-            );
+            $this->_comment = __('Data was imported by %1', $this->_adminUser->getUsername());
         }
 
         return $this->_comment;
@@ -395,14 +407,15 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
             if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
                 $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } else {
-                $email          = strtolower($rowData[self::COLUMN_EMAIL]);
-                $website        = $rowData[self::COLUMN_WEBSITE];
+                $email = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website = $rowData[self::COLUMN_WEBSITE];
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
-                $customerId     = $this->_getCustomerId($email, $website);
+                $customerId = $this->_getCustomerId($email, $website);
 
                 $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
-                if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
+                if (!isset(
+                    $this->_websiteCodeToId[$financeWebsite]
+                ) || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif ($customerId === false) {
@@ -439,13 +452,14 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
             if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
                 $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } else {
-                $email          = strtolower($rowData[self::COLUMN_EMAIL]);
-                $website        = $rowData[self::COLUMN_WEBSITE];
+                $email = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website = $rowData[self::COLUMN_WEBSITE];
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
                 $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
-                if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
+                if (!isset(
+                    $this->_websiteCodeToId[$financeWebsite]
+                ) || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif (!$this->_getCustomerId($email, $website)) {

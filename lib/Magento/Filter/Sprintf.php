@@ -7,7 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Filter;
 
 class Sprintf implements \Zend_Filter_Interface

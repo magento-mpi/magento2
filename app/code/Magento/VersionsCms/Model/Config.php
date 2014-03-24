@@ -32,7 +32,8 @@ class Config
             'custom_layout_update_xml',
             'custom_theme_from',
             'custom_theme_to'
-        ));
+        )
+    );
 
     /**
      * @var \Magento\AuthorizationInterface

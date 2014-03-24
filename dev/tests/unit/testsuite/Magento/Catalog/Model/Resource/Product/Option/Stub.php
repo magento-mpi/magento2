@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product\Option;
 
 class Stub extends \Magento\Core\Model\AbstractModel

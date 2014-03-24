@@ -12,6 +12,7 @@
 namespace Magento\RecurringPayment\Controller;
 
 use Magento\App\RequestInterface;
+use Magento\Customer\Controller\RegistryConstants;
 
 class RecurringPayment extends \Magento\App\Action\Action
 {
@@ -63,7 +64,9 @@ class RecurringPayment extends \Magento\App\Action\Action
         if (!$this->_session->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
         }
-        $this->_coreRegistry->register('current_customer', $this->_session->getCustomer());
+        $customer = $this->_session->getCustomer();
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return parent::dispatch($request);
     }
 
@@ -199,8 +202,11 @@ class RecurringPayment extends \Magento\App\Action\Action
      */
     protected function _initPayment()
     {
-        $payment = $this->_objectManager->create('Magento\RecurringPayment\Model\Payment')
-            ->load($this->getRequest()->getParam('payment'));
+        $payment = $this->_objectManager->create(
+            'Magento\RecurringPayment\Model\Payment'
+        )->load(
+            $this->getRequest()->getParam('payment')
+        );
         if (!$payment->getId()) {
             throw new \Magento\Core\Exception(__('We can\'t find the payment you specified.'));
         }

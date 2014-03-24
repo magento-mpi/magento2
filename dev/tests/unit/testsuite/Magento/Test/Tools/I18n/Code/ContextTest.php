@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code;
 
 use Magento\Tools\I18n\Code\Context;
@@ -41,7 +40,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         return array(
             array(array(Context::CONTEXT_TYPE_MODULE, 'Magento_Module'), '/app/code/Magento/Module/Block/Test.php'),
             array(array(Context::CONTEXT_TYPE_THEME, 'theme/test.phtml'), '/app/design/theme/test.phtml'),
-            array(array(Context::CONTEXT_TYPE_PUB, 'pub/lib/module/test.phtml'), '/pub/lib/module/test.phtml'),
+            array(array(Context::CONTEXT_TYPE_PUB, 'pub/lib/module/test.phtml'), '/pub/lib/module/test.phtml')
         );
     }
 
@@ -61,8 +60,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildPathToLocaleDirectoryByContext($path, $context)
     {
-        $this->assertEquals($path,
-            $this->_context->buildPathToLocaleDirectoryByContext($context[0], $context[1]));
+        $this->assertEquals($path, $this->_context->buildPathToLocaleDirectoryByContext($context[0], $context[1]));
     }
 
     /**
@@ -73,7 +71,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         return array(
             array('app/code/Magento/Module/i18n/', array(Context::CONTEXT_TYPE_MODULE, 'Magento_Module')),
             array('app/design/theme/test.phtml/i18n/', array(Context::CONTEXT_TYPE_THEME, 'theme/test.phtml')),
-            array('pub/lib/i18n/', array(Context::CONTEXT_TYPE_PUB, 'pub/lib/module/test.phtml')),
+            array('pub/lib/i18n/', array(Context::CONTEXT_TYPE_PUB, 'pub/lib/module/test.phtml'))
         );
     }
 

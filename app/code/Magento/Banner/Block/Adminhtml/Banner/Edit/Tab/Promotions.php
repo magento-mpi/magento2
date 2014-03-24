@@ -17,8 +17,7 @@
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
-class Promotions extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Promotions extends \Magento\Backend\Block\Template implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Prepare label for tab

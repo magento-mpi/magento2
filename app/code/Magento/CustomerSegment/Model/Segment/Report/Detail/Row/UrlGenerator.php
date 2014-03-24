@@ -9,8 +9,7 @@
  */
 namespace Magento\CustomerSegment\Model\Segment\Report\Detail\Row;
 
-class UrlGenerator
-    implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
+class UrlGenerator implements \Magento\Backend\Model\Widget\Grid\Row\GeneratorInterface
 {
     /**
      * Create url for passed item using passed url model
@@ -19,6 +18,6 @@ class UrlGenerator
      */
     public function getUrl($item)
     {
-       return null;
+        return null;
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Model;
 
 use Magento\Cron\Model\Schedule;
@@ -81,10 +80,7 @@ class Observer
 
         /** @var \Magento\Newsletter\Model\Resource\Queue\Collection $collection */
         $collection = $this->_queueCollectionFactory->create();
-        $collection->setPageSize($countOfQueue)
-            ->setCurPage(1)
-            ->addOnlyForSendingFilter()
-            ->load();
+        $collection->setPageSize($countOfQueue)->setCurPage(1)->addOnlyForSendingFilter()->load();
 
          $collection->walk('sendPerSubscriber', array($countOfSubscriptions));
     }

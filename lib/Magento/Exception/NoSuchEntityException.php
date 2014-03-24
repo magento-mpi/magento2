@@ -19,7 +19,7 @@ class NoSuchEntityException extends \Magento\Exception\Exception
      */
     public function __construct($fieldName, $value)
     {
-        $message = "No such entity with $fieldName = $value";
+        $message = "No such entity with {$fieldName} = {$value}";
         $this->_params[$fieldName] = $value;
         parent::__construct($message, self::NO_SUCH_ENTITY);
     }
@@ -31,7 +31,7 @@ class NoSuchEntityException extends \Magento\Exception\Exception
      */
     public function addField($fieldName, $value)
     {
-        $this->message .= "\n $fieldName = $value";
+        $this->message .= "\n {$fieldName} = {$value}";
         $this->_params[$fieldName] = $value;
         return $this;
     }

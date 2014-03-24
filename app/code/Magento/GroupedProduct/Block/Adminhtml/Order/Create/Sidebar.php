@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Adminhtml\Order\Create;
 
 class Sidebar
@@ -51,4 +50,4 @@ class Sidebar
         }
         return $proceed($productType);
     }
-} 
+}

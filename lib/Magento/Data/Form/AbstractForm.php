@@ -54,11 +54,8 @@ class AbstractForm extends \Magento\Object
      * @param CollectionFactory $factoryCollection
      * @param array $data
      */
-    public function __construct(
-        Factory $factoryElement,
-        CollectionFactory $factoryCollection,
-        $data = array()
-    ) {
+    public function __construct(Factory $factoryElement, CollectionFactory $factoryCollection, $data = array())
+    {
         $this->_factoryElement = $factoryElement;
         $this->_factoryCollection = $factoryCollection;
         parent::__construct($data);
@@ -202,8 +199,7 @@ class AbstractForm extends \Magento\Object
     public function addColumn($elementId, $config)
     {
         $element = $this->_factoryElement->create('column', array('data' => $config));
-        $element->setForm($this)
-            ->setId($elementId);
+        $element->setForm($this)->setId($elementId);
         $this->addElement($element);
         return $element;
     }
@@ -217,12 +213,11 @@ class AbstractForm extends \Magento\Object
     public function convertToArray(array $arrAttributes = array())
     {
         $res = array();
-        $res['config']  = $this->getData();
-        $res['formElements']= array();
+        $res['config'] = $this->getData();
+        $res['formElements'] = array();
         foreach ($this->getElements() as $element) {
             $res['formElements'][] = $element->toArray();
         }
         return $res;
     }
-
 }

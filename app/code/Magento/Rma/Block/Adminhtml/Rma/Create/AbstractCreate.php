@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Adminhtml\Rma\Create;
 
 /**
@@ -121,5 +120,4 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     {
         return $this->getCreateRmaModel()->setOrderId($id);
     }
-
 }

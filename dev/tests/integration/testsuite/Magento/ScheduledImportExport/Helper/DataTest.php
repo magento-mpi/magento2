@@ -27,10 +27,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_moduleManagerMock = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Helper\Context', array('moduleManager' => $this->_moduleManagerMock));
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\App\Helper\Context',
+            array('moduleManager' => $this->_moduleManagerMock)
+        );
         $this->_importExportHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\ScheduledImportExport\Helper\Data', array('context' => $context)
+            'Magento\ScheduledImportExport\Helper\Data',
+            array('context' => $context)
         );
     }
 
@@ -41,8 +44,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledActiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
-            ->will($this->returnValue(true));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_Reward'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertTrue($this->_importExportHelper->isRewardPointsEnabled());
     }
 
@@ -53,8 +63,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledActiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
-            ->will($this->returnValue(true));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_Reward'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
 
@@ -65,8 +82,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledInactiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
-            ->will($this->returnValue(null));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_Reward'
+        )->will(
+            $this->returnValue(null)
+        );
         $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
 
@@ -77,8 +101,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRewardPointsEnabledInactiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_Reward')
-            ->will($this->returnValue(null));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_Reward'
+        )->will(
+            $this->returnValue(null)
+        );
         $this->assertFalse($this->_importExportHelper->isRewardPointsEnabled());
     }
 
@@ -89,8 +120,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledActiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
-            ->will($this->returnValue(true));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_CustomerBalance'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertTrue($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 
@@ -101,8 +139,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledActiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
-            ->will($this->returnValue(true));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_CustomerBalance'
+        )->will(
+            $this->returnValue(true)
+        );
         $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 
@@ -113,8 +158,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledInactiveEnabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
-            ->will($this->returnValue(null));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_CustomerBalance'
+        )->will(
+            $this->returnValue(null)
+        );
         $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 
@@ -125,8 +177,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testisCustomerBalanceEnabledInactiveDisabled()
     {
-        $this->_moduleManagerMock->expects($this->any())->method('isEnabled')->with('Magento_CustomerBalance')
-            ->will($this->returnValue(null));
+        $this->_moduleManagerMock->expects(
+            $this->any()
+        )->method(
+            'isEnabled'
+        )->with(
+            'Magento_CustomerBalance'
+        )->will(
+            $this->returnValue(null)
+        );
         $this->assertFalse($this->_importExportHelper->isCustomerBalanceEnabled());
     }
 }

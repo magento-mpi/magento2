@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Tools\I18n\Code\Pack;
 
 use Magento\Tools\I18n\Code\ServiceLocator;
@@ -50,14 +49,14 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_testDir = realpath(__DIR__ . '/_files');
-        $this->_expectedDir  = $this->_testDir . '/expected';
+        $this->_expectedDir = $this->_testDir . '/expected';
         $this->_dictionaryPath = $this->_testDir . '/source.csv';
         $this->_pathPath = $this->_testDir . '/pack';
         $this->_locale = 'de_DE';
         $this->_expectedFiles = array(
             "/app/code/Magento/FirstModule/i18n/{$this->_locale}.csv",
             "/app/code/Magento/SecondModule/i18n/{$this->_locale}.csv",
-            "/app/design/adminhtml/default/i18n/{$this->_locale}.csv",
+            "/app/design/adminhtml/default/i18n/{$this->_locale}.csv"
         );
 
         $this->_generator = ServiceLocator::getPackGenerator();

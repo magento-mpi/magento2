@@ -62,7 +62,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditCatalogRules()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
     }
 
     /**
@@ -72,7 +72,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditSalesRules()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
     }
 
     /**
@@ -82,6 +82,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getCanAdminEditReminderRules()
     {
-        return (boolean) $this->_authorization->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
+        return (bool)$this->_authorization->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
     }
 }

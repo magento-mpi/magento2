@@ -5,11 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Filesystem\DirectoryList;
 
-use Magento\App\Filesystem,
-    Magento\Filesystem\DirectoryList;
+use Magento\App\Filesystem;
+use Magento\Filesystem\DirectoryList;
 
 /**
  * Class Configuration

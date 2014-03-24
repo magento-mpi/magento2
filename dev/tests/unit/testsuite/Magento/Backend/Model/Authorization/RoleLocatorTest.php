@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Authorization;
 
 class RoleLocatorTest extends \PHPUnit_Framework_TestCase

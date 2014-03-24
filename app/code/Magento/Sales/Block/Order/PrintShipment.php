@@ -56,10 +56,7 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
         if ($headBlock = $this->getLayout()->getBlock('head')) {
             $headBlock->setTitle(__('Print Order # %1', $this->getOrder()->getRealOrderId()));
         }
-        $this->setChild(
-            'payment_info',
-            $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment())
-        );
+        $this->setChild('payment_info', $this->_paymentHelper->getInfoBlock($this->getOrder()->getPayment()));
     }
 
     /**
@@ -88,6 +85,4 @@ class PrintShipment extends \Magento\Sales\Block\Items\AbstractItems
 
         return parent::_prepareItem($renderer);
     }
-
 }
-

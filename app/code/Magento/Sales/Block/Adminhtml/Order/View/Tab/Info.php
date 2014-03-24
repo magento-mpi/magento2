@@ -16,9 +16,8 @@ namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Info
-    extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Retrieve order model instance
@@ -48,9 +47,9 @@ class Info
     public function getOrderTotalData()
     {
         return array(
-            'can_display_total_due'      => true,
-            'can_display_total_paid'     => true,
-            'can_display_total_refunded' => true,
+            'can_display_total_due' => true,
+            'can_display_total_paid' => true,
+            'can_display_total_refunded' => true
         );
     }
 
@@ -61,9 +60,7 @@ class Info
      */
     public function getOrderInfoData()
     {
-        return array(
-            'no_use_order_link' => true,
-        );
+        return array('no_use_order_link' => true);
     }
 
     /**
@@ -114,7 +111,7 @@ class Info
      */
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('sales/*/*', array('order_id'=>$orderId));
+        return $this->getUrl('sales/*/*', array('order_id' => $orderId));
     }
 
     /**

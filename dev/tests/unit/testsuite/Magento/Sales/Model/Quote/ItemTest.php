@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Model\Quote;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
@@ -20,13 +19,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = $this->getMock(
-            'Magento\Sales\Model\Quote\Item',
-            array('__wakeup'),
-            array(),
-            '',
-            false
-        );
+        $this->_model = $this->getMock('Magento\Sales\Model\Quote\Item', array('__wakeup'), array(), '', false);
     }
 
     public function testGetAddress()
@@ -38,12 +31,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $quote->expects($this->once())
-            ->method('getShippingAddress')
-            ->will($this->returnValue('shipping'));
-        $quote->expects($this->once())
-            ->method('getBillingAddress')
-            ->will($this->returnValue('billing'));
+        $quote->expects($this->once())->method('getShippingAddress')->will($this->returnValue('shipping'));
+        $quote->expects($this->once())->method('getBillingAddress')->will($this->returnValue('billing'));
 
         $this->_model->setQuote($quote);
 

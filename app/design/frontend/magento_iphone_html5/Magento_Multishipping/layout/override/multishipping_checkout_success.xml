@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <update handle="multishipping_checkout"/>
     <referenceContainer name="content">
         <block class="Magento\Multishipping\Block\Checkout\Success" name="checkout_success" template="multishipping/success.phtml" cacheable="false"/>

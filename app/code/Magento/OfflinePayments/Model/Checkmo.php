@@ -12,7 +12,7 @@ class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * @var string
      */
-    protected $_code  = 'checkmo';
+    protected $_code = 'checkmo';
 
     /**
      * @var string
@@ -60,5 +60,4 @@ class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
     {
         return $this->getConfigData('mailing_address');
     }
-
 }

@@ -7,11 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Form\Element;
 
 use Magento\ObjectManager;
-
 
 class CollectionFactory
 {
@@ -19,7 +17,6 @@ class CollectionFactory
      * @var ObjectManager
      */
     protected $_objectManager;
-
 
     /**
      * @param ObjectManager $objectManager

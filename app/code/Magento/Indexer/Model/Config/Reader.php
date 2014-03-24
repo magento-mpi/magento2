@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Model\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
@@ -15,9 +14,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/indexer' => 'id',
-    );
+    protected $_idAttributes = array('/config/indexer' => 'id');
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver

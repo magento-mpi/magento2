@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/Magento/Cache/etc/cache.xsd">
     <type name="config_webservice" translate="label,description" instance="Magento\Webapi\Model\Cache\Type">
         <label>Web Services Configuration</label>
         <description>REST and SOAP configurations, generated WSDL file.</description>

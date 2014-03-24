@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Helper;
 
 /**
@@ -36,7 +35,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
-    */
+     */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Locale\ResolverInterface $localeResolver,
@@ -75,7 +74,7 @@ class Carrier extends \Magento\App\Helper\AbstractHelper
     public function getCarrierConfigValue($carrierCode, $configPath, $store = null)
     {
         return $this->storeConfig->getConfig(
-            sprintf('%s/%s/%s', self::XML_PATH_CARRIERS_ROOT, $carrierCode , $configPath),
+            sprintf('%s/%s/%s', self::XML_PATH_CARRIERS_ROOT, $carrierCode, $configPath),
             $store
         );
     }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\Dashboard\Searches\Renderer;
 
 /**
@@ -46,8 +45,11 @@ class Searchquery extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
     {
         $value = $row->getData($this->getColumn()->getIndex());
         if ($this->stringHelper->strlen($value) > 30) {
-            $value = '<span title="' . $this->escapeHtml($value) . '">'
-                . $this->escapeHtml($this->filterManager->truncate($value, array('length' => 30))) . '</span>';
+            $value = '<span title="' . $this->escapeHtml(
+                $value
+            ) . '">' . $this->escapeHtml(
+                $this->filterManager->truncate($value, array('length' => 30))
+            ) . '</span>';
         } else {
             $value = $this->escapeHtml($value);
         }

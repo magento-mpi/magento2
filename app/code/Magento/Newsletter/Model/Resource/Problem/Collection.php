@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Newsletter\Model\Resource\Problem;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
@@ -23,14 +22,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @var bool
      */
-    protected $_subscribersInfoJoinedFlag  = false;
+    protected $_subscribersInfoJoinedFlag = false;
 
     /**
      * True when grouped
      *
      * @var bool
      */
-    protected $_problemGrouped             = false;
+    protected $_problemGrouped = false;
 
     /**
      * Customer collection factory
@@ -100,9 +99,10 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addSubscriberInfo()
     {
-        $this->getSelect()->joinLeft(array('subscriber'=>$this->getTable('newsletter_subscriber')),
+        $this->getSelect()->joinLeft(
+            array('subscriber' => $this->getTable('newsletter_subscriber')),
             'main_table.subscriber_id = subscriber.subscriber_id',
-            array('subscriber_email','customer_id','subscriber_status')
+            array('subscriber_email', 'customer_id', 'subscriber_status')
         );
         $this->addFilterToMap('subscriber_id', 'main_table.subscriber_id');
         $this->_subscribersInfoJoinedFlag = true;
@@ -117,12 +117,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function addQueueInfo()
     {
-        $this->getSelect()->joinLeft(array('queue'=>$this->getTable('newsletter_queue')),
+        $this->getSelect()->joinLeft(
+            array('queue' => $this->getTable('newsletter_queue')),
             'main_table.queue_id = queue.queue_id',
             array('queue_start_at', 'queue_finish_at')
-        )
-        ->joinLeft(array('template'=>$this->getTable('newsletter_template')), 'queue.template_id = template.template_id',
-            array('template_subject','template_code','template_sender_name','template_sender_email')
+        )->joinLeft(
+            array('template' => $this->getTable('newsletter_template')),
+            'queue.template_id = template.template_id',
+            array('template_subject', 'template_code', 'template_sender_name', 'template_sender_email')
         );
         return $this;
     }

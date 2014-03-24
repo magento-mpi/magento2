@@ -16,6 +16,6 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_redirect('checkout/onepage', array('_secure'=>true));
+        $this->_redirect('checkout/onepage', array('_secure' => true));
     }
 }

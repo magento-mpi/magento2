@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Sales\Block\Reorder;
 
 class SidebarTest extends \PHPUnit_Framework_TestCase
@@ -30,9 +29,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         $productTags = array('catalog_product_1');
 
         $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $product->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue($productTags));
+        $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTags));
 
         $item = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Item',
@@ -41,17 +38,10 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $item->expects($this->once())
-            ->method('getProduct')
-            ->will($this->returnValue($product));
+        $item->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
-        $this->block->expects($this->once())
-            ->method('getItems')
-            ->will($this->returnValue(array($item)));
+        $this->block->expects($this->once())->method('getItems')->will($this->returnValue(array($item)));
 
-        $this->assertEquals(
-            $productTags,
-            $this->block->getIdentities()
-        );
+        $this->assertEquals($productTags, $this->block->getIdentities());
     }
 }

@@ -27,4 +27,4 @@ class PrivacyHeader
         }
         return $response;
     }
-} 
+}

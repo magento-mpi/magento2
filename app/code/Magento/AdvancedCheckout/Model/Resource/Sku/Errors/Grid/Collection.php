@@ -64,9 +64,7 @@ class Collection extends \Magento\Data\Collection
             foreach ($parentBlock->getFailedItems() as $affectedItem) {
                 // Escape user-submitted input
                 if (isset($affectedItem['item']['qty'])) {
-                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty'])
-                        ? ''
-                        : (float)$affectedItem['item']['qty'];
+                    $affectedItem['item']['qty'] = empty($affectedItem['item']['qty']) ? '' : (double)$affectedItem['item']['qty'];
                 }
                 $item = new \Magento\Object();
                 $item->setCode($affectedItem['code']);
@@ -105,4 +103,3 @@ class Collection extends \Magento\Data\Collection
         return $this->_cart->getStore()->getWebsiteId();
     }
 }
-

@@ -71,12 +71,11 @@ class Tier extends Group\AbstractGroup
      */
     protected function _prepareLayout()
     {
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
-                'label' => __('Add Tier'),
-                'onclick' => 'return tierPriceControl.addItem()',
-                'class' => 'add'
-            ));
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array('label' => __('Add Tier'), 'onclick' => 'return tierPriceControl.addItem()', 'class' => 'add')
+        );
         $button->setName('add_tier_price_item_button');
 
         $this->setChild('add_button', $button);

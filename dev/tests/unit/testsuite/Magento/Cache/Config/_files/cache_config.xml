@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../lib/Magento/Cache/etc/cache.xsd">
     <type name="config" translate="label,description" instance="Magento\App\Cache\Type\Config">
         <label>Configuration</label>
         <description>System(config.xml, local.xml) and modules configuration files(config.xml).</description>

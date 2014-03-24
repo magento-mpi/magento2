@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Mview\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
@@ -15,10 +14,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/view' => 'id',
-        '/config/view/subscriptions/table' => 'name',
-    );
+    protected $_idAttributes = array('/config/view' => 'id', '/config/view/subscriptions/table' => 'name');
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver

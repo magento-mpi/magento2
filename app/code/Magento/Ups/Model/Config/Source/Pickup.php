@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ups\Model\Config\Source;
 
 /**
@@ -28,7 +27,7 @@ class Pickup extends \Magento\Ups\Model\Config\Source\Generic
         $ups = $this->carrierConfig->getCode($this->_code);
         $arr = array();
         foreach ($ups as $k => $v) {
-            $arr[] = array('value'=>$k, 'label'=>__($v['label']));
+            $arr[] = array('value' => $k, 'label' => __($v['label']));
         }
         return $arr;
     }

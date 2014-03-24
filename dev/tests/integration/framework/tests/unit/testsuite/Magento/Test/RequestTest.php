@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
@@ -43,4 +42,3 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(null, $this->_model->getServer('null'));
     }
 }
-

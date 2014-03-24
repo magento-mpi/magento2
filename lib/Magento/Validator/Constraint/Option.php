@@ -9,7 +9,7 @@
  */
 namespace Magento\Validator\Constraint;
 
-class Option implements  \Magento\Validator\Constraint\OptionInterface
+class Option implements \Magento\Validator\Constraint\OptionInterface
 {
     /**
      * @var int|string|array

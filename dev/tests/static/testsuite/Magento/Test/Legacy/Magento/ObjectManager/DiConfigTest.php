@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Legacy\Magento\ObjectManager;
 
 class DiConfigTest extends \PHPUnit_Framework_TestCase
@@ -53,4 +52,4 @@ class DiConfigTest extends \PHPUnit_Framework_TestCase
             'The <value> node is obsolete. Instead, provide the actual value as a text literal.'
         );
     }
-} 
+}

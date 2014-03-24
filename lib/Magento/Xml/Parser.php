@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Xml;
 
 class Parser
@@ -32,7 +31,7 @@ class Parser
      */
     public function __construct()
     {
-        $this->_dom = new \DOMDocument;
+        $this->_dom = new \DOMDocument();
         $this->_currentDom = $this->_dom;
         return $this;
     }
@@ -76,7 +75,7 @@ class Parser
      * @param bool $currentNode
      * @return array
      */
-    protected function _xmlToArray($currentNode=false)
+    protected function _xmlToArray($currentNode = false)
     {
         if (!$currentNode) {
             $currentNode = $this->getDom();
@@ -92,10 +91,10 @@ class Parser
                     }
                     $attributes = array();
                     if ($node->hasAttributes()) {
-                        foreach($node->attributes as $attribute) {
-                            $attributes += array($attribute->name=>$attribute->value);
+                        foreach ($node->attributes as $attribute) {
+                            $attributes += array($attribute->name => $attribute->value);
                         }
-                        $value = array('_value'=>$value, '_attribute'=>$attributes);
+                        $value = array('_value' => $value, '_attribute' => $attributes);
                     }
                     if (isset($content[$node->nodeName])) {
                         if (!isset($content[$node->nodeName][0]) || !is_array($content[$node->nodeName][0])) {
@@ -137,5 +136,4 @@ class Parser
         $this->getDom()->loadXML($string);
         return $this;
     }
-
 }

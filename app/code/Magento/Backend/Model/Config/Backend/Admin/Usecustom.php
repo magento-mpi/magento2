@@ -44,15 +44,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
         array $data = array()
     ) {
         $this->_configWriter = $configWriter;
-        parent::__construct(
-            $context,
-            $registry,
-            $storeManager,
-            $config,
-            $resource,
-            $resourceCollection,
-            $data
-        );
+        parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -67,9 +59,7 @@ class Usecustom extends \Magento\Core\Model\Config\Value
         if ($value == 1) {
             $customUrl = $this->getData('groups/url/fields/custom/value');
             if (empty($customUrl)) {
-                throw new \Magento\Core\Exception(
-                    __('Please specify the admin custom URL.')
-                );
+                throw new \Magento\Core\Exception(__('Please specify the admin custom URL.'));
             }
         }
 

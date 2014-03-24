@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Compare;
 
 use Magento\Catalog\Model\Resource\Product\Compare\Item\Collection;
@@ -172,7 +171,6 @@ class ListCompare extends \Magento\Object
      */
     public function hasItems($customerId, $visitorId)
     {
-        return (bool)$this->_catalogProductCompareItem
-            ->getCount($customerId, $visitorId);
+        return (bool)$this->_catalogProductCompareItem->getCount($customerId, $visitorId);
     }
 }

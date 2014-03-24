@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App;
 
 class ActionFlag
@@ -59,9 +58,9 @@ class ActionFlag
             $action = $this->_request->getActionName();
         }
         if ('' === $flag) {
-            return isset($this->_flags[$this->_getControllerKey()])
-                ? $this->_flags[$this->_getControllerKey()]
-                : array();
+            return isset(
+                $this->_flags[$this->_getControllerKey()]
+            ) ? $this->_flags[$this->_getControllerKey()] : array();
         } elseif (isset($this->_flags[$this->_getControllerKey()][$action][$flag])) {
             return $this->_flags[$this->_getControllerKey()][$action][$flag];
         } else {
@@ -78,4 +77,4 @@ class ActionFlag
     {
         return $this->_request->getRequestedRouteName() . '_' . $this->_request->getRequestedControllerName();
     }
-} 
+}

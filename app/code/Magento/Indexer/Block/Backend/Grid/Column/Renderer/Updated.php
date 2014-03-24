@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Indexer\Block\Backend\Grid\Column\Renderer;
 
 class Updated extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Datetime

@@ -18,5 +18,4 @@ namespace Magento\Checkout\Block\Onepage\Shipping\Method;
  */
 class Additional extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 {
-
 }

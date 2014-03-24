@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Address\Config;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
@@ -38,24 +37,36 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
-        $this->_fileResolverMock
-            ->expects($this->once())
-            ->method('get')
-            ->with('address_formats.xml', 'scope')
-            ->will($this->returnValue(array(
-                file_get_contents(__DIR__ . '/_files/formats_one.xml'),
-                file_get_contents(__DIR__ . '/_files/formats_two.xml'),
-            )));
+        $this->_fileResolverMock->expects(
+            $this->once()
+        )->method(
+            'get'
+        )->with(
+            'address_formats.xml',
+            'scope'
+        )->will(
+            $this->returnValue(
+                array(
+                    file_get_contents(__DIR__ . '/_files/formats_one.xml'),
+                    file_get_contents(__DIR__ . '/_files/formats_two.xml')
+                )
+            )
+        );
 
         $this->_converter = $this->getMock('Magento\Customer\Model\Address\Config\Converter', array('convert'));
 
-        $moduleReader = $this->getMock(
-            'Magento\Module\Dir\Reader', array('getModuleDir'), array(), '', false
-        );
+        $moduleReader = $this->getMock('Magento\Module\Dir\Reader', array('getModuleDir'), array(), '', false);
 
-        $moduleReader->expects($this->once())
-            ->method('getModuleDir')->with('etc', 'Magento_Customer')
-            ->will($this->returnValue('stub'));
+        $moduleReader->expects(
+            $this->once()
+        )->method(
+            'getModuleDir'
+        )->with(
+            'etc',
+            'Magento_Customer'
+        )->will(
+            $this->returnValue('stub')
+        );
 
         $this->_schemaLocator = new \Magento\Customer\Model\Address\Config\SchemaLocator($moduleReader);
         $this->_validationState = $this->getMock('Magento\Config\ValidationStateInterface');
@@ -82,12 +93,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             }
         };
 
-        $this->_converter
-            ->expects($this->once())
-            ->method('convert')
-            ->with($this->callback($constraint))
-            ->will($this->returnValue($expectedResult))
-        ;
+        $this->_converter->expects(
+            $this->once()
+        )->method(
+            'convert'
+        )->with(
+            $this->callback($constraint)
+        )->will(
+            $this->returnValue($expectedResult)
+        );
 
         $this->assertSame($expectedResult, $this->_model->read('scope'));
     }

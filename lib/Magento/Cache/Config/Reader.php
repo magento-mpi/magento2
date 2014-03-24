@@ -14,9 +14,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/config/type' => 'name',
-    );
+    protected $_idAttributes = array('/config/type' => 'name');
 
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver

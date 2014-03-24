@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
 
 /**
@@ -24,17 +23,25 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
-            ->setDefaultDesignTheme();
-        $objectManager->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $objectManager->get('Magento\Registry')
-            ->register('cms_page', $objectManager->create('Magento\Cms\Model\Page'));
+        $objectManager->get(
+            'Magento\View\DesignInterface'
+        )->setArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        )->setDefaultDesignTheme();
+        $objectManager->get(
+            'Magento\Config\ScopeInterface'
+        )->setCurrentScope(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        );
+        $objectManager->get(
+            'Magento\Registry'
+        )->register(
+            'cms_page',
+            $objectManager->create('Magento\Cms\Model\Page')
+        );
 
         $block = $objectManager->create('Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design');
-        $prepareFormMethod = new \ReflectionMethod(
-            'Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design', '_prepareForm');
+        $prepareFormMethod = new \ReflectionMethod('Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design', '_prepareForm');
         $prepareFormMethod->setAccessible(true);
         $prepareFormMethod->invoke($block);
 

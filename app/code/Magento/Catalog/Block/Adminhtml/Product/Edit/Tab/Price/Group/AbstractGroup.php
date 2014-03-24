@@ -7,14 +7,14 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group;
 
+use Magento\Backend\Block\Widget;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Adminhtml group price item abstract renderer
  */
-abstract class AbstractGroup
-    extends \Magento\Backend\Block\Widget
-    implements \Magento\Data\Form\Element\Renderer\RendererInterface
+abstract class AbstractGroup extends Widget implements RendererInterface
 {
     /**
      * Form element instance
@@ -143,9 +143,9 @@ abstract class AbstractGroup
         }
 
         foreach ($values as &$value) {
-            $value['readonly'] = ($value['website_id'] == 0)
-                && $this->isShowWebsiteColumn()
-                && !$this->isAllowChangeWebsite();
+            $value['readonly'] = $value['website_id'] == 0 &&
+                $this->isShowWebsiteColumn() &&
+                !$this->isAllowChangeWebsite();
         }
 
         return $values;
@@ -231,10 +231,7 @@ abstract class AbstractGroup
         }
 
         $this->_websites = array(
-            0 => array(
-                'name' => __('All Websites'),
-                'currency' => $this->_directoryHelper->getBaseCurrencyCode()
-            )
+            0 => array('name' => __('All Websites'), 'currency' => $this->_directoryHelper->getBaseCurrencyCode())
         );
 
         if (!$this->isScopeGlobal() && $this->getProduct()->getStoreId()) {
@@ -247,7 +244,7 @@ abstract class AbstractGroup
             );
         } elseif (!$this->isScopeGlobal()) {
             $websites = $this->_storeManager->getWebsites(false);
-            $productWebsiteIds  = $this->getProduct()->getWebsiteIds();
+            $productWebsiteIds = $this->getProduct()->getWebsiteIds();
             foreach ($websites as $website) {
                 /** @var $website \Magento\Core\Model\Website */
                 if (!in_array($website->getId(), $productWebsiteIds)) {

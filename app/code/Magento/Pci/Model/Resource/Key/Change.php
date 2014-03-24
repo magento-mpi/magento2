@@ -89,8 +89,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
             if ($safe) {
                 $this->commit();
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             if ($safe) {
                 $this->rollBack();
             }
@@ -120,8 +119,10 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
             $key = md5(time());
         }
         $this->_encryptor->setNewKey($key);
-        $contents = preg_replace('/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s', 
-            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>', $contents
+        $contents = preg_replace(
+            '/<key><\!\[CDATA\[(.+?)\]\]><\/key>/s',
+            '<key><![CDATA[' . $this->_encryptor->exportKeys() . ']]></key>',
+            $contents
         );
 
         // update database and local.xml
@@ -132,8 +133,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
             $this->_directory->writeFile($file, $contents);
             $this->commit();
             return $key;
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->rollBack();
             throw $e;
         }
@@ -157,13 +157,21 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
         // walk through found data and re-encrypt it
         if ($paths) {
             $table = $this->getTable('core_config_data');
-            $values = $this->_getReadAdapter()->fetchPairs($this->_getReadAdapter()->select()
-                ->from($table, array('config_id', 'value'))
-                ->where('path IN (?)', $paths)
-                ->where('value NOT LIKE ?', '')
+            $values = $this->_getReadAdapter()->fetchPairs(
+                $this->_getReadAdapter()->select()->from(
+                    $table,
+                    array('config_id', 'value')
+                )->where(
+                    'path IN (?)',
+                    $paths
+                )->where(
+                    'value NOT LIKE ?',
+                    ''
+                )
             );
             foreach ($values as $configId => $value) {
-                $this->_getWriteAdapter()->update($table,
+                $this->_getWriteAdapter()->update(
+                    $table,
                     array('value' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
                     array('config_id = ?' => (int)$configId)
                 );
@@ -179,13 +187,13 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _reEncryptCreditCardNumbers()
     {
         $table = $this->getTable('sales_flat_order_payment');
-        $select = $this->_getWriteAdapter()->select()
-            ->from($table, array('entity_id', 'cc_number_enc'));
+        $select = $this->_getWriteAdapter()->select()->from($table, array('entity_id', 'cc_number_enc'));
 
         $attributeValues = $this->_getWriteAdapter()->fetchPairs($select);
         // save new values
         foreach ($attributeValues as $valueId => $value) {
-            $this->_getWriteAdapter()->update($table,
+            $this->_getWriteAdapter()->update(
+                $table,
                 array('cc_number_enc' => $this->_encryptor->encrypt($this->_encryptor->decrypt($value))),
                 array('entity_id = ?' => (int)$valueId)
             );

@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../app/code/Magento/Core/etc/layout_single.xsd">
     <update handle="sales_email_order_renderers" />
     <block class="Magento\Sales\Block\Order\Email\Items" name="items" template="email/items.phtml">
         <block class="Magento\View\Element\RendererList" name="sales.email.order.renderers" as="renderer.list" />

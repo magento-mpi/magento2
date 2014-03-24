@@ -18,8 +18,7 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Edit;
 
-class Js
-    extends \Magento\Backend\Block\Template
+class Js extends \Magento\Backend\Block\Template
 {
     /**
      * Customer data
@@ -57,9 +56,7 @@ class Js
      */
     public function getValidateFiltersJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_customerData->getAttributeValidateFilters()
-        );
+        return $this->_jsonEncoder->encode($this->_customerData->getAttributeValidateFilters());
     }
 
     /**
@@ -69,9 +66,7 @@ class Js
      */
     public function getFilteTypesJson()
     {
-        return $this->_jsonEncoder->encode(
-            $this->_customerData->getAttributeFilterTypes()
-        );
+        return $this->_jsonEncoder->encode($this->_customerData->getAttributeFilterTypes());
     }
 
     /**

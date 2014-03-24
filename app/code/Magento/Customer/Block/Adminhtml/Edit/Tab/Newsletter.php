@@ -67,12 +67,12 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $subscriber = $this->_subscriberFactory->create()->loadByCustomerId($customerId);
         $this->_coreRegistry->register('subscriber', $subscriber);
 
-        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Newsletter Information')]);
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Newsletter Information')));
 
-        $fieldset->addField('subscription', 'checkbox', [
-                'label' => __('Subscribed to Newsletter'),
-                'name'  => 'subscription'
-            ]
+        $fieldset->addField(
+            'subscription',
+            'checkbox',
+            array('label' => __('Subscribed to Newsletter'), 'name' => 'subscription')
         );
 
         if (!$this->_customerAccountService->canModify($customerId)) {
@@ -83,12 +83,14 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
 
         $changedDate = $this->getStatusChangedDate();
         if ($changedDate) {
-            $fieldset->addField('change_status_date', 'label', [
-                    'label' =>
-                        $subscriber->isSubscribed() ? __('Last Date Subscribed') : __('Last Date Unsubscribed'),
+            $fieldset->addField(
+                'change_status_date',
+                'label',
+                array(
+                    'label' => $subscriber->isSubscribed() ? __('Last Date Subscribed') : __('Last Date Unsubscribed'),
                     'value' => $changedDate,
-                    'bold'  => true
-                ]
+                    'bold' => true
+                )
             );
         }
 
@@ -106,7 +108,9 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $subscriber = $this->_coreRegistry->registry('subscriber');
         if ($subscriber->getChangeStatusAt()) {
             return $this->formatDate(
-                $subscriber->getChangeStatusAt(), \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM, true
+                $subscriber->getChangeStatusAt(),
+                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
+                true
             );
         }
 
@@ -120,9 +124,12 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareLayout()
     {
-        $this->setChild('grid',
-            $this->getLayout()
-                ->createBlock('Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid', 'newsletter.grid')
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock(
+                'Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid',
+                'newsletter.grid'
+            )
         );
         return parent::_prepareLayout();
     }

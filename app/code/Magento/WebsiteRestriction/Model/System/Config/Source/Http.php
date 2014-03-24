@@ -25,12 +25,9 @@ class Http extends \Magento\Object implements \Magento\Option\ArrayInterface
         return array(
             array(
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_503,
-                'label' => __('503 Service Unavailable'),
+                'label' => __('503 Service Unavailable')
             ),
-            array(
-                'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200,
-                'label' => __('200 OK'),
-            ),
+            array('value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200, 'label' => __('200 OK'))
         );
     }
 }

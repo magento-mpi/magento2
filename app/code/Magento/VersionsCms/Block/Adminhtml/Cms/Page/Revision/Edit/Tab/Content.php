@@ -12,8 +12,7 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Tab;
 /**
  * Main tab with cms page attributes and some modifications to CE version
  */
-class Content
-    extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
+class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
 {
     /**
      * Cms data
@@ -69,25 +68,15 @@ class Content
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {
-            $fieldset->addField('page_id', 'hidden', array(
-                'name' => 'page_id',
-            ));
+            $fieldset->addField('page_id', 'hidden', array('name' => 'page_id'));
 
-            $fieldset->addField('version_id', 'hidden', array(
-                'name' => 'version_id',
-            ));
+            $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));
 
-            $fieldset->addField('revision_id', 'hidden', array(
-                'name' => 'revision_id',
-            ));
+            $fieldset->addField('revision_id', 'hidden', array('name' => 'revision_id'));
 
-            $fieldset->addField('label', 'hidden', array(
-                'name' => 'label',
-            ));
+            $fieldset->addField('label', 'hidden', array('name' => 'label'));
 
-            $fieldset->addField('user_id', 'hidden', array(
-                'name' => 'user_id',
-            ));
+            $fieldset->addField('user_id', 'hidden', array('name' => 'user_id'));
         }
 
         $this->getForm()->setValues($model->getData());

@@ -7,10 +7,12 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
 
+use Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup;
+
 /**
  * Adminhtml group price item renderer
  */
-class Group extends Group\AbstractGroup
+class Group extends AbstractGroup
 {
     /**
      * @var string
@@ -56,12 +58,15 @@ class Group extends Group\AbstractGroup
      */
     protected function _prepareLayout()
     {
-        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
-            ->setData(array(
+        $button = $this->getLayout()->createBlock(
+            'Magento\Backend\Block\Widget\Button'
+        )->setData(
+            array(
                 'label' => __('Add Group Price'),
                 'onclick' => 'return groupPriceControl.addItem()',
                 'class' => 'add'
-            ));
+            )
+        );
         $button->setName('add_group_price_item_button');
 
         $this->setChild('add_button', $button);

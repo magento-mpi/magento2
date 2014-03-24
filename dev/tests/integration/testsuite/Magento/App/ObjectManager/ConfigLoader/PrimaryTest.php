@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\ObjectManager\ConfigLoader;
 
 use Magento\TestFramework\ObjectManager;
@@ -22,4 +21,4 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('preferences', $result);
         $this->assertArrayHasKey('Magento\App\State', $result);
     }
-} 
+}

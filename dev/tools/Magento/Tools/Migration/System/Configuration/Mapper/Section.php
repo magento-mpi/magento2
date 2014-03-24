@@ -7,11 +7,9 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
-class Section
-    extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
+class Section extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractMapper
 {
     /**
      * @var \Magento\Tools\Migration\System\Configuration\Mapper\Group
@@ -23,13 +21,7 @@ class Section
      *
      * @var array
      */
-    protected $_allowedFieldNames = array(
-        'label',
-        'class',
-        'resource',
-        'header_css',
-        'tab'
-    );
+    protected $_allowedFieldNames = array('label', 'class', 'resource', 'header_css', 'tab');
 
     /**
      * @param \Magento\Tools\Migration\System\Configuration\Mapper\Group $groupMapper
