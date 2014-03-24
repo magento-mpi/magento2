@@ -95,7 +95,7 @@ class Index
             }
             $customerSession->setBeforeWishlistRequest($request->getParams());
         }
-        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->getConfigFlag('wishlist/general/active')) {
+        if (!$this->_objectManager->get('Magento\App\Config\ScopeConfigInterface')->isSetFlag('wishlist/general/active')) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
