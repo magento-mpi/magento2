@@ -26,8 +26,8 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 
 <?php if ($_product->getMsrp()): ?>
     <?php $_msrpPrice = $this->renderAmount($priceType, [
-        'display_label' => __('Regular Price:'),
-        'price_id' => 'old-price-' . $_id,
+//        'display_label' => __('Regular Price:'),
+        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $_id,
         'include_container' => false,
         'skip_adjustments' => true
     ]); ?>
@@ -36,7 +36,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 
 <?php if ($priceType->isShowPriceOnGesture()): ?>
     <?php $priceElementId = $priceElementIdPrefix . $_id . $this->getIdSuffix(); ?>
-    <span id="<?php echo $priceElementId ?>" style="display:none"></span>
+    <span id="<?php echo $this->getPriceId() ? $this->getPriceId() : $priceElementId ?>" style="display:none"></span>
     <?php $popupId = 'msrp-popup-' . $_id . $this->getRandomString(20); ?>
     <a href="#" id="<?php echo($popupId);?>"><?php echo __('Click for price'); ?></a>
 <?php else: ?>
@@ -45,8 +45,10 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
     </span>
 <?php endif; ?>
 
+<?php if ($this->getDisplayMsrpHelpMessage()): ?>
 <?php $helpLinkId = 'msrp-help-' . $_id . $this->getRandomString(20); ?>
 <a href="#" id="<?php echo $helpLinkId;?>" class="action show map"><span><?php echo __("What's this?"); ?></span></a>
+<?php endif; ?>
 
 <script type="text/javascript">
     //<![CDATA[
@@ -55,7 +57,7 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
             function () {
                 <?php if ($priceType->isShowPriceOnGesture()): ?>
                 $('#<?php echo($popupId);?>').addToCart({
-                    cartForm: "#product_addtocart_form",
+                    cartForm: "#product_addtocart_form_from_popup",
                     popupId: "#<?php echo $popupId;?>",
                     productName: '<?php echo $_product->getName() ?>',
                     realPrice: <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,

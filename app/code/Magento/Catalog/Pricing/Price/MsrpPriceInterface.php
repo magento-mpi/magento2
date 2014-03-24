@@ -13,11 +13,13 @@ namespace Magento\Catalog\Pricing\Price;
 use Magento\Catalog\Model\Product;
 
 /**
- * MSRP price model
+ * MSRP price interface
  */
 interface MsrpPriceInterface
 {
     /**
+     * Check is product need gesture to show price
+     *
      * @return bool
      */
     public function isShowPriceOnGesture();

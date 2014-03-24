@@ -15,13 +15,13 @@
                template="Magento_Catalog::product/price/final_price.phtml">
             <arguments>
                 <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
-                <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/default/amount.phtml</argument>
+                <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
             </arguments>
-            <block class="Magento\Pricing\Render\PriceBox" name="msrp" as="price.render"
+            <block class="Magento\Catalog\Pricing\Render\PriceBox" name="product.default.price.msrp" as="default.msrp"
                    template="Magento_Catalog::product/price/msrp_item.phtml">
                 <arguments>
                     <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
-                    <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/default/amount.phtml</argument>
+                    <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
                 </arguments>
             </block>
         </block>
@@ -29,7 +29,7 @@
                template="Magento_Catalog::product/price/tier_prices.phtml">
             <arguments>
                 <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
-                <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/default/amount.phtml</argument>
+                <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
             </arguments>
        </block>
     </block>

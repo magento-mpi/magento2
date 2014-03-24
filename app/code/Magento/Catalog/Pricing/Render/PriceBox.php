@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Catalog
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Pricing\Render;
 
 use Magento\Pricing\Render\PriceBox as PriceBoxRender;

@@ -9,7 +9,7 @@
 namespace Magento\Catalog\Pricing\Render;
 
 /**
- * Class FinalPriceBoxTest
+ * Class PriceBoxTest
  */
 class PriceBoxTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
     protected $object;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $coreHelper;
 

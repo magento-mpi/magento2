@@ -7,7 +7,7 @@
  */
 /* @var $this \Magento\Catalog\Block\Product\Compare\ListCompare */
 ?>
-<?php $_total=$this->getItems()->getSize() ?>
+<?php $_total = $this->getItems()->getSize() ?>
 <?php if($_total): ?>
     <a href="#" class="action print" title="<?php echo __('Print This Page') ?>">
         <span><?php echo __('Print This Page') ?></span>
@@ -38,6 +38,7 @@
                 <tr>
                     <?php $_i = 0; ?>
                     <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+                    <?php /** @var $_item \Magento\Catalog\Model\Product */ ?>
                     <?php foreach($this->getItems() as $_item): ?>
                         <?php if($_i++==0): ?>
                             <th scope="row" class="cell label product"><?php echo __('Product') ?></th>
@@ -54,6 +55,7 @@
                             </strong>
                             <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                             <?php echo $this->getPriceHtml($_item, true, '-compare-list-top') ?>
+                            <?php echo $this->getProductPrice($_item) ?>
                             <div class="product actions">
                                 <div class="primary">
                                     <?php if($_item->isSaleable()): ?>
