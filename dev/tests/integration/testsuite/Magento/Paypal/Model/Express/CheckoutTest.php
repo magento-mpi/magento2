@@ -32,7 +32,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         /** @var Quote $quote */
-        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load(1);
+        $quote = $this->_getQuote();
         $quote->setCheckoutMethod(Onepage::METHOD_CUSTOMER); // to dive into _prepareCustomerQuote() on switch
         $quote->getShippingAddress()->setSameAsBilling(0);
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load(1);
@@ -60,8 +60,10 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
         $customerService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+
         /** @var Quote $quote */
-        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load(1);
+        $quote = $this->_getQuote();
+
         $quote->setCheckoutMethod(Onepage::METHOD_REGISTER); // to dive into _prepareNewCustomerQuote() on switch
         $quote->setCustomerEmail('user@example.com');
         $quote->setCustomerFirstname('Firstname');
@@ -89,5 +91,16 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         );
+    }
+
+    /**
+     * @return Quote
+     */
+    protected function _getQuote()
+    {
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
+        $quoteCollection = $this->_objectManager->create('Magento\Sales\Model\Resource\Quote\Collection');
+
+        return $quoteCollection->getLastItem();
     }
 }
