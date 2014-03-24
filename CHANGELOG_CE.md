@@ -4,6 +4,8 @@
   * Fixed ability to check Solr connection (MAGETWO-19110)
   * Fixed ability to use of custom module front name (MAGETWO-16160)
   * Fixed ability to use USPS and DHL on production (MAGETWO-22592)
+  * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
+  * Fixed applying catalog price rule on category level (MAGETWO-22143)
 * Modularity improvements:
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Framework Improvements:
