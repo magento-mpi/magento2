@@ -173,6 +173,8 @@
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-category-flat"
+                type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Price\AbstractAction">
         <arguments>
@@ -184,14 +186,12 @@
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Product\Flat\Processor">
-        <arguments>
-            <argument name="indexer" xsi:type="object" shared="true">Magento\Indexer\Model\Indexer</argument>
-        </arguments>
-    </type>
     <type name="Magento\ImportExport\Model\Import">
         <plugin name="catalogProductFlatIndexerImport" type="\Magento\Catalog\Model\Indexer\Product\Flat\Plugin\Import" />
         <plugin name="invalidatePriceIndexerOnImport" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\Import" />
+    </type>
+    <type name="Magento\CatalogRule\Model\Rule">
+        <plugin name="reindexPriceOnRuleApply" type="\Magento\Catalog\Model\Indexer\Product\Price\Plugin\CatalogRule" />
     </type>
     <type name="Magento\Catalog\Helper\Product\Flat\Indexer">
         <arguments>
@@ -204,11 +204,15 @@
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-category-product"
+                type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Product\Category">
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+        <plugin name="page-cache-indexer-reindex-product-category"
+                type="Magento\Catalog\Model\Indexer\Category\AffectCache" sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
         <arguments>
@@ -285,5 +289,9 @@
         <arguments>
             <argument name="indexer" xsi:type="object" shared="false">Magento\Indexer\Model\IndexerInterface</argument>
         </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Flat">
+        <plugin name="page-cache-indexer-reindex-product-flat"
+                type="Magento\Catalog\Model\Indexer\Product\AffectCache" sortOrder="10"/>
     </type>
 </config>

@@ -119,7 +119,7 @@ class Design extends Action
             }
             try {
                 $design->save();
-
+                $this->_eventManager->dispatch('theme_save_after');
                 $this->messageManager->addSuccess(__('You saved the design change.'));
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

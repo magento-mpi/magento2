@@ -2091,4 +2091,5 @@ return array(
     array('Magento\Convert\Container\AbstractContainer'),
     array('Magento\Convert\Mapper\Column'),
     array('Magento\Convert\Mapper\MapperInterface')
+    array('Magento\Indexer\Model\Processor\CacheInvalidate', 'Magento\Indexer\Model\Processor\InvalidateCache')
 );

@@ -283,7 +283,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      */
     protected function _getTargetLinkCollection()
     {
-        return $this->_getPreparedTargetLinkCollection($this->getPositionLimit());
+        return $this->_getPreparedTargetLinkCollection($this->_targetRuleData->getMaxProductsListResult());
     }
 
     /**
@@ -331,7 +331,7 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
      */
     protected function _getTargetRuleProducts()
     {
-        $limit = $this->getPositionLimit();
+        $limit = $this->_targetRuleData->getMaxProductsListResult();
 
         $productIds = $this->_getTargetRuleProductIds($limit);
 
@@ -414,8 +414,18 @@ abstract class AbstractProductList extends \Magento\TargetRule\Block\Product\Abs
     {
         $identities = array();
         foreach ($this->getItemCollection() as $item) {
-            $identities[] = $item->getIdentities();
+            $identities = array_merge($identities, $item->getIdentities());
         }
         return $identities;
+    }
+
+    /**
+     * Get all items
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        return $this->getItemCollection();
     }
 }

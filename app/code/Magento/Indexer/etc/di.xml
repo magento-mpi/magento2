@@ -30,4 +30,8 @@
             <argument name="viewCollection" xsi:type="object" shared="false">Magento\Mview\View\CollectionInterface</argument>
         </arguments>
     </type>
+    <type name="Magento\Indexer\Model\Processor">
+        <plugin name="page-cache-indexer-reindex-invalidate"
+                type="Magento\Indexer\Model\Processor\InvalidateCache" sortOrder="10"/>
+    </type>
 </config>

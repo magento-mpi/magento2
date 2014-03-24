@@ -65,13 +65,14 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         $checkoutSession->setQuoteId($quote->getId());
         $checkoutSession->setLoadInactive(true);
 
-        $this->_block = $objectManager->get(
-            'Magento\View\LayoutInterface'
-        )->createBlock(
-            'Magento\Checkout\Block\Onepage\Billing',
-            '',
-            array('customerSession' => $customerSession, 'checkoutSession' => $checkoutSession)
-        );
+        $objectManager->get('Magento\App\Http\Context')
+            ->setValue(\Magento\Customer\Helper\Data::CONTEXT_AUTH, true, false);
+        $this->_block = $objectManager->get('Magento\View\LayoutInterface')
+            ->createBlock(
+                'Magento\Checkout\Block\Onepage\Billing',
+                '',
+                ['customerSession' => $customerSession, 'checkoutSession' => $checkoutSession]
+            );
     }
 
     /**
