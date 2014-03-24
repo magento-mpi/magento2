@@ -71,11 +71,6 @@
             <argument name="helper" xsi:type="object">Magento\Core\Helper\Data\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Store\Model\Storage\Db">
-        <arguments>
-            <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface\Proxy</argument>
-        </arguments>
-    </type>
     <virtualType name="Magento\Store\Model\Resource\Group\Collection\FetchStrategy" type="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <arguments>
             <argument name="cache" xsi:type="object">Magento\App\Cache\Type\Collection</argument>

@@ -495,7 +495,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function getUrl($route = '', $params = array())
     {
         /** @var $url \Magento\UrlInterface */
-        $url = $this->getUrlModel()->setScope($this);
+        $url = $this->_url->setScope($this);
         if ($this->_storeManager->getStore()->getId() != $this->getId()) {
             $params['_scope_to_url'] = true;
         }
@@ -1093,7 +1093,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function getCurrentUrl($fromStore = true)
     {
         $sidQueryParam = $this->_sidResolver->getSessionIdQueryParam($this->_getSession());
-        $requestString = $this->getUrlModel()->escape(ltrim($this->_request->getRequestString(), '/'));
+        $requestString = $this->_url->escape(ltrim($this->_request->getRequestString(), '/'));
 
         $storeUrl = $this->_storeManager->getStore()->isCurrentlySecure()
             ? $this->getUrl('', array('_secure' => true))
@@ -1245,28 +1245,6 @@ class Store extends \Magento\Core\Model\AbstractModel
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;
-    }
-
-    /**
-     * Set url model for current store
-     *
-     * @param \Magento\UrlInterface $urlModel
-     * @return $this
-     */
-    public function setUrlModel($urlModel)
-    {
-        $this->_url = $urlModel;
-        return $this;
-    }
-
-    /**
-     * Get url model by class name for current store
-     *
-     * @return \Magento\UrlInterface
-     */
-    public function getUrlModel()
-    {
-        return $this->_url;
     }
 
     /**
