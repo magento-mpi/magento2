@@ -16,7 +16,7 @@ class Lists implements \Magento\Locale\ListsInterface
     protected $_appState;
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -42,7 +42,7 @@ class Lists implements \Magento\Locale\ListsInterface
 
     /**
      * @param \Magento\App\State $appState
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ConfigInterface $config
      * @param \Magento\AppInterface $app
      * @param \Magento\Locale\ResolverInterface $localeResolver
@@ -51,7 +51,7 @@ class Lists implements \Magento\Locale\ListsInterface
      */
     public function __construct(
         \Magento\App\State $appState,
-        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         \Magento\Locale\ConfigInterface $config,
         \Magento\AppInterface $app,
         \Magento\Locale\ResolverInterface $localeResolver,

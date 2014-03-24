@@ -8,7 +8,7 @@
 
 namespace Magento\Url;
 
-interface ScopeResolverInterface extends \Magento\BaseScopeResolverInterface
+interface ScopeResolverInterface extends \Magento\App\ScopeResolverInterface
 {
     /**
      * Retrieve scopes array

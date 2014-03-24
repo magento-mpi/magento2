@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model\Resolver;
 
-class Website implements \Magento\BaseScopeResolverInterface
+class Website implements \Magento\App\ScopeResolverInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface

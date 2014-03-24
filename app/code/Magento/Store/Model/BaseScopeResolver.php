@@ -8,7 +8,7 @@
 
 namespace Magento\Store\Model;
 
-class BaseScopeResolver implements \Magento\BaseScopeResolverInterface
+class BaseScopeResolver implements \Magento\App\ScopeResolverInterface
 {
     /**
      * @var \Magento\Store\Model\StoreManagerInterface

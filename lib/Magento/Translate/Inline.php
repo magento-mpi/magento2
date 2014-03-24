@@ -62,7 +62,7 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $_configFactory;
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -79,7 +79,7 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Initialize inline translation model
      *
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\UrlInterface $url
@@ -90,7 +90,7 @@ class Inline implements \Magento\Translate\InlineInterface
      * @param string $translatorRoute
      */
     public function __construct(
-        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         \Magento\Translate\Inline\ParserFactory $parserFactory,
         \Magento\TranslateInterface $translate,
         \Magento\UrlInterface $url,

@@ -16,7 +16,7 @@ class ScopeResolverPool
     protected $_scopeResolvers = array();
 
     /**
-     * @param \Magento\BaseScopeResolverInterface[] $scopeResolvers
+     * @param \Magento\App\ScopeResolverInterface[] $scopeResolvers
      */
     public function __construct(
         array $scopeResolvers
@@ -34,7 +34,7 @@ class ScopeResolverPool
     public function get($scopeType)
     {
         if (!isset($this->_scopeResolvers[$scopeType]) ||
-            !($this->_scopeResolvers[$scopeType] instanceof \Magento\BaseScopeResolverInterface)
+            !($this->_scopeResolvers[$scopeType] instanceof \Magento\App\ScopeResolverInterface)
         ) {
             throw new \InvalidArgumentException("Invalid scope type '{$scopeType}'");
         }
