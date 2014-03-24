@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Mview\View;
+namespace Magento\Indexer\Model\Mview\View;
 
 /**
  * @method \Magento\Indexer\Model\Indexer\State setViewId(string $value)
@@ -29,15 +29,15 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Resource\Mview\View\State $resource
-     * @param \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection
+     * @param \Magento\Indexer\Model\Resource\Mview\View\State $resource
+     * @param \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Resource\Mview\View\State $resource,
-        \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection,
+        \Magento\Indexer\Model\Resource\Mview\View\State $resource,
+        \Magento\Indexer\Model\Resource\Mview\View\State\Collection $resourceCollection,
         array $data = array()
     ) {
         if (!isset($data['mode'])) {

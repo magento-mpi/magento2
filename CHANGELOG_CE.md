@@ -8,6 +8,7 @@
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
 * Modularity improvements:
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
+  * Move indexers related logic from Core Module to Indexer Module (MAGETWO-21597)
 * Framework Improvements:
   * Covered Magento library components with unit tests: (MAGETWO-21137)
     * Magento/Interception

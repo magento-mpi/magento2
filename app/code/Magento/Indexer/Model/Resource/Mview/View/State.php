@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource\Mview\View;
+namespace Magento\Indexer\Model\Resource\Mview\View;
 
 class State extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
