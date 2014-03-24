@@ -74,7 +74,7 @@ class ConfigFixture
             if (strpos($configPath, 'default/') === 0) {
                 $configPath = substr($configPath, 8);
                 $objectManager->get('Magento\App\Config\MutableScopeConfigInterface')
-                    ->setValue($configPath, $value, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                    ->setValue($configPath, $value, \Magento\App\ScopeInterface::SCOPE_DEFAULT);
             }
         } else {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
