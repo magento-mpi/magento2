@@ -95,11 +95,11 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
-            $context, 
-            $formKeyValidator, 
-            $coreRegistry, 
-            $wishlistConfig, 
-            $fileResponseFactory, 
+            $context,
+            $formKeyValidator,
+            $coreRegistry,
+            $wishlistConfig,
+            $fileResponseFactory,
             $transportBuilder,
             $inlineTranslation
         );

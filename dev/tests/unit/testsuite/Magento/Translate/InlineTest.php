@@ -142,6 +142,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      * @param array|string $body
      * @param array|string $expected
      * @dataProvider processResponseBodyDataProvider
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function testProcessResponseBody($scope, $body, $expected)
     {
@@ -204,6 +205,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      * @param $body
      * @param $expected
      * @dataProvider processResponseBodyGetInlineScriptDataProvider
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function testProcessResponseBodyGetInlineScript($scope, $body, $expected)
     {

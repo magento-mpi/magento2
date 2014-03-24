@@ -303,7 +303,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
         $this->_objectManager->get(
             'Magento\App\State'
         )->emulateAreaCode(
-            'frontend', 
+            'frontend',
             array($this, 'previewFrontendPage')
         );
     }

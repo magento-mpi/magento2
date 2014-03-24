@@ -119,7 +119,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (count($splitPath) >= 3) {
                 list($frontName, $currentMode, $themeId) = $splitPath;
                 $result = $frontName === $this->_frontName && in_array(
-                    $currentMode, 
+                    $currentMode,
                     [\Magento\DesignEditor\Model\State::MODE_NAVIGATION]
                 ) && is_numeric(
                     $themeId
