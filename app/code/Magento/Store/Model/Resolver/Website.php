@@ -30,7 +30,7 @@ class Website implements \Magento\App\ScopeResolverInterface
     {
         $scope = $this->_storeManager->getWebsite($scopeId);
         if (!($scope instanceof \Magento\App\ScopeInterface)) {
-            throw new \Magento\Exception('Invalid scope object');
+            throw new \Magento\Store\Model\Exception('Invalid scope object');
         }
 
         return $scope;
