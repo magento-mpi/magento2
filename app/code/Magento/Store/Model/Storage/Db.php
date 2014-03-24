@@ -307,7 +307,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         }
 
         if ($storeId === true && $this->hasSingleStore()) {
-            return $this->_store;
+            return $this->_getDefaultStore();
         }
 
         if (!isset($storeId) || '' === $storeId || $storeId === true) {
