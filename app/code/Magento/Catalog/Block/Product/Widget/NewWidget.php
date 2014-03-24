@@ -210,16 +210,24 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
         return '';
     }
 
-
-
     /**
+     * Return HTML block with price
+     *
      * @param \Magento\Catalog\Model\Product $product
-     * @param array $arguments
+     * @param string $type
      * @return mixed
      */
-    public function getProductPrice(\Magento\Catalog\Model\Product $product, $arguments = array())
+    public function getProductPrice(\Magento\Catalog\Model\Product $product, $type)
     {
         return $this->getLayout()->getBlock('product.price.render.default')
-            ->render('final_price', $product, $arguments);
+            ->render(
+                'final_price',
+                $product,
+                [
+                    'price_id' => 'old-price-' . $product->getId() . '-' . $type,
+                    'display_minimal_price' => true,
+                    'include_container' => true
+                ]
+            );
     }
 }
