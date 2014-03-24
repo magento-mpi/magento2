@@ -94,20 +94,17 @@ class DataObjectConverterTest extends \PHPUnit_Framework_TestCase
         unset($stdObject->addresses);
         $stdObject->addresses = new \stdClass();
         $stdObject->addresses->item = $addresses;
-        $response = $this->dataObjectConverter->convertSoapStdObjectToArray($stdObject);
+        $response = $this->dataObjectConverter->convertStdObjectToArray($stdObject);
 
         //Check array conversion
         $this->assertTrue(is_array($response['customer']));
         $this->assertTrue(is_array($response['addresses']));
-
-        //Check if item node is removed
-        $this->assertFalse(isset($response['addresses']['item']));
-        $this->assertEquals(2, count($response['addresses']));
+        $this->assertEquals(2, count($response['addresses']['item']));
 
         //Check if data is correct
         $this->assertEquals(self::FIRSTNAME, $response['customer']['firstname']);
         $this->assertEquals(self::GROUP_ID, $response['customer']['group_id']);
-        foreach ($response['addresses'] as $key => $address) {
+        foreach ($response['addresses']['item'] as $key => $address) {
             $region = $address['region'];
             $this->assertEquals(self::REGION, $region['region']);
             $this->assertEquals(self::REGION_CODE, $region['region_code']);

@@ -68,23 +68,15 @@ class DataObjectConverter
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function convertSoapStdObjectToArray($input)
+    public function convertStdObjectToArray($input)
     {
         if (!is_object($input) && !is_array($input)) {
             throw new \InvalidArgumentException("Input argument must be an array or object");
         }
-        if (isset($input->item)) {
-            /**
-             * In case when only one Data object value is passed, it will not be wrapped into a subarray
-             * within item node. If several Data object values are passed, they will be wrapped into
-             * an indexed array within item node.
-             */
-            $input = is_object($input->item) ? [$input->item] : $input->item;
-        }
         $result = array();
         foreach ((array)$input as $key => $value) {
             if (is_object($value) || is_array($value)) {
-                $result[$key] = $this->convertSoapStdObjectToArray($value);
+                $result[$key] = $this->convertStdObjectToArray($value);
             } else {
                 $result[$key] = $value;
             }

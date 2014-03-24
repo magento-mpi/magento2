@@ -48,7 +48,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
         $this->_dataObjectConverter = $this->getMock(
             'Magento\Service\DataObjectConverter',
-            ['convertSoapStdObjectToArray'],
+            ['convertStdObjectToArray'],
             [],
             '',
             false
@@ -73,7 +73,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->method('getRequestedServices')
             ->will($this->returnValue($requestedServices));
         $this->_dataObjectConverter->expects($this->once())
-            ->method('convertSoapStdObjectToArray')
+            ->method('convertStdObjectToArray')
             ->will($this->returnValue(['field' => 1]));
         $operationName = 'soapOperation';
         $className = 'Magento\Object';
