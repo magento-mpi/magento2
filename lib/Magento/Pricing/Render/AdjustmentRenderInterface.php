@@ -12,6 +12,7 @@ namespace Magento\Pricing\Render;
 
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Object\SaleableInterface;
+use \Magento\View\Element\Template;
 
 interface AdjustmentRenderInterface
 {
@@ -53,4 +54,11 @@ interface AdjustmentRenderInterface
      * @return SaleableInterface
      */
     public function getSaleableItem();
+
+    /**
+     * (to use in templates only)
+     *
+     * @return \Magento\Pricing\Adjustment\AdjustmentInterface
+     */
+    public function getAdjustment();
 }

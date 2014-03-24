@@ -17,6 +17,8 @@ use \Magento\Weee\Helper\Data as WeeeHelper;
 
 class Adjustment implements AdjustmentInterface
 {
+    const CODE = 'weee';
+
     /**
      * @var WeeeHelper
      */
@@ -42,7 +44,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return 'weee';
+        return self::CODE;
     }
 
     /**

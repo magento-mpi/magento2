@@ -9,16 +9,7 @@
  */
 ?>
 
-<?php
-/** @var \Magento\Tax\Pricing\Render\Adjustment $this */
-
-$productId = $this->getSaleableItem()->getId();
-
-$displayAmountExclTax = $this->getPrice()->getDisplayValue('tax');
-$displayAmount = $this->getPrice()->getDisplayValue();
-?>
-
-<?php //echo $this->getOriginalPriceHtml(); ?>
+<?php /** @var \Magento\Tax\Pricing\Render\Adjustment $this */ ?>
 
 <?php if ($this->getDisplayLabel()): ?>
     <span class="price-label"><?php echo $this->getDisplayLabel(); ?></span>
@@ -26,18 +17,18 @@ $displayAmount = $this->getPrice()->getDisplayValue();
 <?php if ($this->displayBothPrices()): ?>
     <span class="price-excluding-tax">
         <span class="label"><?php echo __('Excl. Tax:') ?></span>
-        <span class="price" id="price-excluding-tax-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
-            <?php echo $this->convertAndFormatCurrency($displayAmountExclTax, false) ?>
+        <span class="price" id="<?php echo $this->buildIdWithPrefix('price-excluding-tax-') ?>">
+            <?php echo $this->getDisplayAmountExclTax() ?>
         </span>
     </span>
     <span class="price-including-tax">
         <span class="label"><?php echo __('Incl. Tax:') ?></span>
-        <span class="price" id="price-including-tax-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
-            <?php echo $this->convertAndFormatCurrency($displayAmount, false) ?>
+        <span class="price" id="<?php echo $this->buildIdWithPrefix('price-including-tax-') ?>">
+            <?php echo $this->getDisplayAmount(false) ?>
         </span>
     </span>
 <?php else: ?>
-    <span class="regular-price" id="product-price-<?php echo $productId ?><?php echo $this->getIdSuffix() ?>">
-        <?php echo $this->convertAndFormatCurrency($displayAmount) ?>
+    <span class="regular-price" id="<?php echo $this->buildIdWithPrefix('product-price-') ?>">
+        <?php echo $this->getDisplayAmount() ?>
     </span>
 <?php endif; ?>

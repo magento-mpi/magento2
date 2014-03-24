@@ -12,34 +12,23 @@
 <?php
 /** @var \Magento\Weee\Pricing\Render\Adjustment $this */
 
-/** @var \Magento\Pricing\Object\SaleableInterface $product */
-$product = $this->getSaleableItem();
 $weeeSeparator = '';
-
-$isDisplayFpt = $this->typeOfDisplay(
-    [
-        \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
-        \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
-    ]
-);
-$weeeTaxAmount = $isDisplayFpt ? $this->getAmount($product) : null;
-$weeeTaxAttributes = $isDisplayFpt ? $this->getProductWeeeAttributesForDisplay($product) : [];
 ?>
 
 <?php echo $this->getOriginalPriceHtml(); ?>
 
-<?php if ($weeeTaxAmount && $this->typeOfDisplay(\Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR)): // incl. + weee ?>
+<?php if ($this->showInclDescr()): // incl. + weee ?>
     <span class="weee">(
-        <?php foreach ($weeeTaxAttributes as $weeeTaxAttribute): ?>
+        <?php foreach ($this->getWeeeTaxAttributes() as $weeeTaxAttribute): ?>
             <?php echo $weeeSeparator; ?>
-            <?php echo $weeeTaxAttribute->getName(); ?>: <?php echo $this->convertAndFormatCurrency($weeeTaxAttribute->getAmount()); ?>
+            <?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?>
             <?php $weeeSeparator = ' + '; ?>
         <?php endforeach; ?>
     )</span>
-<?php elseif ($weeeTaxAmount && $this->typeOfDisplay(\Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL)): // excl. + weee + final ?>
-    <?php foreach ($weeeTaxAttributes as $weeeTaxAttribute): ?>
+<?php elseif ($this->showExclDescrIncl()): // excl. + weee + final ?>
+    <?php foreach ($this->getWeeeTaxAttributes() as $weeeTaxAttribute): ?>
         <span class="weee">
-            <?php echo $weeeTaxAttribute->getName(); ?>: <?php echo $this->convertAndFormatCurrency($weeeTaxAttribute->getAmount()); ?>
+            <?php echo $this->renderWeeeTaxAttribute($weeeTaxAttribute); ?>
         </span>
     <?php endforeach; ?>
 <?php endif; ?>

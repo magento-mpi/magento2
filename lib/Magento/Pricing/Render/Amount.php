@@ -23,7 +23,6 @@ use Magento\Pricing\PriceCurrencyInterface;
  * @method string getPriceId()
  * @method bool getIncludeContainer()
  * @method bool getSkipAdjustments()
- * @method \Magento\Pricing\Render\Amount setAdjustmentCssClasses($cssClasses)
  */
 class Amount extends Template implements AmountRenderInterface
 {
@@ -72,38 +71,17 @@ class Amount extends Template implements AmountRenderInterface
      */
     public function render(PriceInterface $price, SaleableInterface $saleableItem, array $arguments = [])
     {
-        $origArguments = $this->getData();
-        // @todo probably use block vars instead
-        $this->setData(array_replace($origArguments, $arguments));
-
         $this->price = $price;
         $this->saleableItem = $saleableItem;
 
-        // collect correspondent Price Adjustment Renders
-        /** @var AdjustmentRenderInterface[] $adjustmentRenders */
-        $adjustmentRenders = [];
-        $cssClasses = $this->hasData('css_classes') ? $this->getData('css_classes') : [];
+        // @todo probably use block vars instead
+        $origArguments = $this->getData();
+        $this->setData(array_replace($origArguments, $arguments));
 
-        if (!$this->getSkipAdjustments()) {
-            foreach ($this->getAdjustmentRenders() as $adjustmentRender) {
-                $adjustmentCode = $adjustmentRender->getAdjustmentCode();
-                //if ($this->price->hasAdjustment($adjustmentCode)) {
-                    $adjustmentRenders[] = $adjustmentRender;
-                    // update aggregated CSS classes list
-                    $cssClasses[] = 'adj-' . $adjustmentCode;
-                //}
-            }
-        }
-        $this->setAdjustmentCssClasses(join(' ', $cssClasses));
-
-        $html = $this->toHtml();
+        $adjustmentRenders = $this->getApplicableAdjustmentRenders();
 
         // render Price Adjustment Renders if available
-        // @todo resolve the key issue with decoration
-        // @TODO Tax adjustment renderer replaces content, not wrapping
-        foreach ($adjustmentRenders as $adjustmentRender) {
-            $html = $adjustmentRender->render($html, $this, $this->getData());
-        }
+        $html = $adjustmentRenders ? $this->applyAdjustments($adjustmentRenders) : $this->toHtml();
 
         // restore original block arguments
         $this->setData($origArguments);
@@ -180,5 +158,60 @@ class Amount extends Template implements AmountRenderInterface
         $currency = null
     ) {
         return $this->priceCurrency->convertAndFormat($amount, $includeContainer, $precision, $store, $currency);
+    }
+
+    /**
+     * Collect correspondent Price Adjustment Renders
+     *
+     * @return AdjustmentRenderInterface[]
+     */
+    protected function getApplicableAdjustmentRenders()
+    {
+        $adjustmentRenders = [];
+
+        if (!$this->getSkipAdjustments()) {
+            foreach ($this->getAdjustmentRenders() as $adjustmentRender) {
+                $adjustmentCode = $adjustmentRender->getAdjustmentCode();
+                //if ($this->price->hasAdjustment($adjustmentCode)) {
+                    $cssClass = 'adj-' . $adjustmentCode;
+                    $adjustmentRenders[$cssClass] = $adjustmentRender;
+                //}
+            }
+        }
+
+        return $adjustmentRenders;
+    }
+
+    /**
+     * @param AdjustmentRenderInterface[] $adjustmentRenders
+     * @return array
+     */
+    protected function setAdjustmentCssClasses($adjustmentRenders)
+    {
+        $cssClasses = $this->hasData('css_classes') ? $this->getData('css_classes') : [];
+        $cssClasses = array_merge($cssClasses, array_keys($adjustmentRenders));
+
+        $this->setData('adjustment_css_classes', join(' ', $cssClasses));
+
+        return $this;
+    }
+
+    /**
+     * @param AdjustmentRenderInterface[] $adjustmentRenders
+     * @return string
+     */
+    protected function applyAdjustments($adjustmentRenders)
+    {
+        // @todo resolve the key issue with decoration
+
+        $html = $this->toHtml();
+
+        $this->setAdjustmentCssClasses($adjustmentRenders);
+        $data = $this->getData();
+        foreach ($adjustmentRenders as $adjustmentRender) {
+            $html = $adjustmentRender->render($html, $this, $data);
+        }
+
+        return $html;
     }
 }
