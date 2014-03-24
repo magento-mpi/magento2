@@ -93,7 +93,7 @@ $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS);
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
 $service->setOrderData(array('increment_id' => '100000002'));
-$service->submitAll();
+$service->submitAllWithDataObject();
 
 $order = $service->getOrder();
 $order->save();
