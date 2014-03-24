@@ -165,9 +165,9 @@ class Translate implements \Magento\TranslateInterface
      */
     public function loadData($area = null, $forceReload = false)
     {
-        $this->setConfig([
-            'area' => isset($area) ? $area : $this->_appState->getAreaCode()
-        ]);
+        $this->setConfig(
+            ['area' => isset($area) ? $area : $this->_appState->getAreaCode()]
+        );
 
         if (!$forceReload) {
             $this->_data = $this->_loadCache();
@@ -285,7 +285,7 @@ class Translate implements \Magento\TranslateInterface
             $key = str_replace('""', '"', $key);
             $value  = str_replace('""', '"', $value);
 
-            if ($scope && isset($this->_dataScope[$key]) && !$forceReload ) {
+            if ($scope && isset($this->_dataScope[$key]) && !$forceReload) {
                 /**
                  * Checking previous value
                  */
