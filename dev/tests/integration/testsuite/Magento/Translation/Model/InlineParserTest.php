@@ -66,7 +66,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
         $this->_inlineParser->processAjaxPost($inputArray);
 
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Translate\String'
+            'Magento\Translation\Model\String'
         );
         $model->load($originalText);
         try {

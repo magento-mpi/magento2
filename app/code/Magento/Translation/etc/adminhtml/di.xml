@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\Translate\Inline\ConfigInterface" type="Magento\Backend\Model\Translate\Inline\Config" />
     <type name="Magento\Translation\Model\Resource\Translate">
         <arguments>
