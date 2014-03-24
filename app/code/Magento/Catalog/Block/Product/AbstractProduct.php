@@ -448,7 +448,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\Product $product
      * @return array
      *
-     * @deprecated use \Magento\Catalog\Pricing\Price\TierPrice::getApplicableTierPrices
+     * @deprecated see \Magento\Catalog\Pricing\Price\TierPrice
      */
     public function getTierPrices($product = null)
     {

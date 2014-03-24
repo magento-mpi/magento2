@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Catalog\Model\Product;
+use Magento\Pricing\Object\SaleableInterface;
 
 /**
  * MSRP price interface
@@ -41,8 +41,8 @@ interface MsrpPriceInterface
     /**
      * Check if can apply Minimum Advertise price to product in specific visibility
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param SaleableInterface $product
      * @return bool
      */
-    public function canApplyMsrp(Product $product);
+    public function canApplyMsrp(SaleableInterface $product);
 }

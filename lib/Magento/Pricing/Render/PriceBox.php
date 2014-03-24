@@ -87,7 +87,10 @@ class PriceBox extends Template implements PriceBoxRenderInterface
             $this->setTemplate($this->defaultTemplate);
         }
 
-        return $this->toHtml();
+        $result = $this->toHtml();
+        // restore original block arguments after toHtml
+        $this->setData($origArguments);
+        return $result;
     }
 
     /**

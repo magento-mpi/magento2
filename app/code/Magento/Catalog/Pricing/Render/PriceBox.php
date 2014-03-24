@@ -14,7 +14,9 @@ use Magento\View\Element\Template\Context;
 use Magento\Pricing\Render\AmountRenderFactory;
 use Magento\Core\Helper\Data;
 
-
+/**
+ * Default catalog price box render
+ */
 class PriceBox extends PriceBoxRender
 {
     /**

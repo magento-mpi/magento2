@@ -11,7 +11,6 @@
 namespace Magento\Catalog\Pricing\Render;
 
 use Magento\Pricing\Object\SaleableInterface;
-
 use Magento\Pricing\Render\PriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
@@ -25,17 +24,17 @@ class FinalPriceBox extends PriceBox
      * Renders MAP price in case it is enabled
      *
      * @param string $priceType
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
      */
-    public function render($priceType, SaleableInterface $object, array $arguments = [])
+    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
     {
-        $result = $this->wrapResult(parent::render($priceType, $object, $arguments));
+        $result = $this->wrapResult(parent::render($priceType, $saleableItem, $arguments));
 
         try {
             /** @var MsrpPrice $msrpPriceType */
-            $msrpPriceType = $object->getPriceInfo()->getPrice('msrp');
+            $msrpPriceType = $saleableItem->getPriceInfo()->getPrice('msrp');
         } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
             return $result;
@@ -45,7 +44,7 @@ class FinalPriceBox extends PriceBox
             $msrpBlock = $this->getChildBlock('default.msrp');
             if ($msrpBlock instanceof PriceBox) {
                 $arguments['real_price_html'] = $result;
-                $result = $msrpBlock->render('msrp', $object, $arguments);
+                $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
 
                 return $this->wrapResult($result);
             }

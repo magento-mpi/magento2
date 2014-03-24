@@ -12,8 +12,6 @@ use Magento\Core\Model\Store;
 
 /**
  * Catalog category helper
- *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Product extends \Magento\Core\Helper\Url
 {
@@ -168,7 +166,7 @@ class Product extends \Magento\Core\Helper\Url
      */
     public function isDataForPriceIndexerWasChanged($data)
     {
-        if ($data instanceof \Magento\Catalog\Model\Product) {
+        if ($data instanceof ModelProduct) {
             foreach ($this->_reindexPriceIndexerData['byDataResult'] as $param) {
                 if ($data->getData($param)) {
                     return true;

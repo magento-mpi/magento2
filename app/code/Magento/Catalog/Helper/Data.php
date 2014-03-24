@@ -9,6 +9,8 @@
  */
 namespace Magento\Catalog\Helper;
 
+use Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type;
+
 /**
  * Catalog data helper
  */
@@ -428,7 +430,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isMsrpApplyToAll()
     {
-        return (bool)$this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
+        return (bool) $this->_coreStoreConfig->getConfig(self::XML_PATH_MSRP_APPLY_TO_ALL, $this->_storeId);
     }
 
     /**
@@ -486,7 +488,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         $result = $product->getMsrpEnabled();
-        if ($result == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG) {
+        if ($result == Type\Enabled::MSRP_ENABLE_USE_CONFIG) {
             $result = $this->isMsrpApplyToAll();
         }
 
@@ -496,16 +498,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
         if ($result && $visibility !== null) {
             $productVisibility = $product->getMsrpDisplayActualPriceType();
-            if ($productVisibility == \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG
-            ) {
+            if ($productVisibility == Type\Price::TYPE_USE_CONFIG) {
                 $productVisibility = $this->getMsrpDisplayActualPriceType();
             }
             $result = $productVisibility == $visibility;
         }
 
-        if ($product->getTypeInstance()->isComposite(
-            $product
-        ) && $checkAssociatedItems && (!$result || $visibility !== null)
+        if ($product->getTypeInstance()->isComposite($product)
+            && $checkAssociatedItems
+            && (!$result || $visibility !== null)
         ) {
             $resultInOptions = $product->getTypeInstance()->isMapEnabledInOptions($product, $visibility);
             if ($resultInOptions !== null) {
@@ -544,13 +545,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getMsrpPriceMessage($product)
     {
         $message = "";
-        if ($this->canApplyMsrp($product, \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_IN_CART)) {
+        if ($this->canApplyMsrp($product, Type::TYPE_IN_CART)) {
             $message = __('To see product price, add this item to your cart. You can always remove it later.');
-        } elseif ($this->canApplyMsrp(
-            $product,
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_BEFORE_ORDER_CONFIRM
-        )
-        ) {
+        } elseif ($this->canApplyMsrp($product, Type::TYPE_BEFORE_ORDER_CONFIRM)) {
             $message = __('See price before order confirmation.');
         }
         return $message;
@@ -564,10 +561,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isShowPriceOnGesture($product)
     {
-        return $this->canApplyMsrp(
-            $product,
-            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type::TYPE_ON_GESTURE
-        );
+        return $this->canApplyMsrp($product, Type::TYPE_ON_GESTURE);
     }
 
     /**
