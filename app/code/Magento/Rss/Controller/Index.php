@@ -120,7 +120,7 @@ class Index extends \Magento\App\Action\Action
                 $this->_wishlist->load($wishlistId);
             } else {
                 if ($this->_getCustomer()->getId()) {
-                    $this->_wishlist->loadByCustomer($this->_getCustomer());
+                    $this->_wishlist->loadByCustomerId($this->_getCustomer());
                 }
             }
         }
