@@ -6,6 +6,7 @@
   * Fixed ability to use USPS and DHL on production (MAGETWO-22592)
   * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
+  * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
 * Modularity improvements:
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Framework Improvements:
@@ -19,6 +20,10 @@
     * Magento/Math
 * Updated XML files to include relative path reference to schema file (MAGETWO-15527)
 * Updated code to be PSR-2 compliant
+* GitHub requests:
+  * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
+  * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
+  * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 
 2.0.0.0-dev69
 =============
