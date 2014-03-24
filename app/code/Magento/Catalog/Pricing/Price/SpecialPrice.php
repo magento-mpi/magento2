@@ -10,13 +10,83 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Stdlib\DateTime\TimezoneInterface;
+
 /**
  * Special price model
  */
-class SpecialPrice extends Price
+class SpecialPrice extends Price implements SpecialPriceInterface
 {
     /**
      * @var string
      */
     protected $priceType = 'special_price';
+
+    /**
+     * @var TimezoneInterface
+     */
+    protected $localeDate;
+
+    /**
+     * @param SaleableInterface $salableItem
+     * @param TimezoneInterface $localeDate
+     * @param int $quantity
+     */
+    public function __construct(
+        SaleableInterface $salableItem,
+        TimezoneInterface $localeDate,
+        $quantity = 1
+    ) {
+        $this->localeDate = $localeDate;
+        parent::__construct($salableItem, $quantity);
+    }
+
+    /**
+     * @return bool|float|mixed
+     */
+    public function getValue()
+    {
+        $specialPrice = $this->getSpecialPrice();
+        if (!is_null($specialPrice) && $specialPrice != false) {
+            if ($this->localeDate->isScopeDateInInterval(
+                $this->salableItem->getStore(),
+                $this->getSpecialFromDate(),
+                $this->getSpecialToDate()
+            )) {
+                return $specialPrice;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns special price
+     *
+     * @return float
+     */
+    public function getSpecialPrice()
+    {
+        return $this->salableItem->getSpecialPrice();
+    }
+
+    /**
+     * Returns starting date of the special price
+     *
+     * @return mixed
+     */
+    public function getSpecialFromDate()
+    {
+        return $this->salableItem->getSpecialFromDate();
+    }
+
+    /**
+     * Returns end date of the special price
+     *
+     * @return mixed
+     */
+    public function getSpecialToDate()
+    {
+        return $this->salableItem->getSpecialToDate();
+    }
 }
