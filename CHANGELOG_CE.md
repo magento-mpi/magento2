@@ -9,6 +9,8 @@
   * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
 * Modularity improvements:
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
+* Improvements in code coverage calculation:
+  * Updated whitelist filter with library code for integration tests code coverage calculation
 * Framework Improvements:
   * Covered Magento library components with unit tests: (MAGETWO-21137)
     * Magento/Interception
