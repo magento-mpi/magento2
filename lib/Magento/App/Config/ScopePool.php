@@ -112,9 +112,11 @@ class ScopePool
      */
     protected function _getScopeCode($scopeType, $scopeCode)
     {
-        if (is_null($scopeCode) && $scopeType !== \Magento\App\ScopeInterface::SCOPE_DEFAULT) {
+        if ((is_null($scopeCode) || is_numeric($scopeCode))
+            && $scopeType !== \Magento\App\ScopeInterface::SCOPE_DEFAULT
+        ) {
             $scopeResolver = $this->_scopeResolverPool->get($scopeType);
-            $scopeCode = $scopeResolver->getScope();
+            $scopeCode = $scopeResolver->getScope($scopeCode);
         }
 
         if ($scopeCode instanceof \Magento\App\ScopeInterface) {

@@ -29,7 +29,7 @@ class ScopeResolverPool
      *
      * @param string $scopeType
      * @throws \InvalidArgumentException
-     * @return mixed
+     * @return \Magento\App\ScopeResolverInterface
      */
     public function get($scopeType)
     {

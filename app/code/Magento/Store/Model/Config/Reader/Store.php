@@ -80,7 +80,7 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
     public function read($code = null)
     {
         if ($this->_appState->isInstalled()) {
-            if (is_null($code)) {
+            if (empty($code)) {
                 $store = $this->_storeManager->getStore();
             } else {
                 $store = $this->_storeFactory->create();
