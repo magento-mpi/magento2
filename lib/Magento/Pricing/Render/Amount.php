@@ -94,12 +94,13 @@ class Amount extends Template implements AmountRenderInterface
                 //}
             }
         }
-        $this->setAdjustmentCssClasses($cssClasses);
+        $this->setAdjustmentCssClasses(join(' ', $cssClasses));
 
         $html = $this->toHtml();
 
         // render Price Adjustment Renders if available
         // @todo resolve the key issue with decoration
+        // @TODO Tax adjustment renderer replaces content, not wrapping
         foreach ($adjustmentRenders as $adjustmentRender) {
             $html = $adjustmentRender->render($html, $this, $this->getData());
         }
