@@ -93,7 +93,9 @@ class Store implements \Magento\App\Config\Scope\ReaderInterface
             )->getSource();
             $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
 
-            $collection = $this->_collectionFactory->create(array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_STORES, 'scopeId' => $store->getId()));
+            $collection = $this->_collectionFactory->create(
+                array('scope' => \Magento\Store\Model\ScopeInterface::SCOPE_STORES, 'scopeId' => $store->getId())
+            );
             $dbStoreConfig = array();
             foreach ($collection as $item) {
                 $dbStoreConfig[$item->getPath()] = $item->getValue();
