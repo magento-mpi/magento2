@@ -7,6 +7,7 @@
   * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
   * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
+  * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
 * Modularity improvements:
   * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Improvements in code coverage calculation:
