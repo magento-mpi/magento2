@@ -8,7 +8,7 @@
 
 namespace Magento\Newsletter\Model\Resource\Subscriber;
 
-class SubscriberTest extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Newsletter\Model\Resource\Subscriber\Collection
