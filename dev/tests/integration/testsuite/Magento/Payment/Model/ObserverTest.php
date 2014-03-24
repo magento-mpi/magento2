@@ -88,7 +88,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        $unassignedStatus = $scopeConfig->getValue('payment/checkmo/order_status');
+        $unassignedStatus = $scopeConfig->getValue(
+            'payment/checkmo/order_status',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         $this->assertEquals('pending', $defaultStatus);
         $this->assertEquals($statusCode, $newStatus);
