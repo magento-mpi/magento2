@@ -88,7 +88,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_resetConfig();
 
-        $unassignedStatus = $scopeConfig->getConfig('payment/checkmo/order_status');
+        $unassignedStatus = $scopeConfig->getValue('payment/checkmo/order_status');
 
         $this->assertEquals('pending', $defaultStatus);
         $this->assertEquals($statusCode, $newStatus);
