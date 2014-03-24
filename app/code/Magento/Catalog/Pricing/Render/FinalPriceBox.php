@@ -31,19 +31,21 @@ class FinalPriceBox extends PriceBox
     public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
     {
         $result = parent::render($priceType, $saleableItem, $arguments);
+
         try {
             /** @var MsrpPrice $msrpPriceType */
             $msrpPriceType = $saleableItem->getPriceInfo()->getPrice('msrp');
-            if ($msrpPriceType->canApplyMsrp($saleableItem)) {
-                /** @var PriceBox $msrpBlock */
-                $msrpBlock = $this->getChildBlock('default.msrp');
-                if ($msrpBlock instanceof PriceBox) {
-                    $arguments['real_price_html'] = $this->wrapResult($result);
-                    $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
-                }
-            }
         } catch (\InvalidArgumentException $e) {
             $this->_logger->logException($e);
+            return $this->wrapResult($result);
+        }
+        if ($msrpPriceType->canApplyMsrp($saleableItem)) {
+            /** @var PriceBox $msrpBlock */
+            $msrpBlock = $this->getChildBlock('default.msrp');
+            if ($msrpBlock instanceof PriceBox) {
+                $arguments['real_price_html'] = $this->wrapResult($result);
+                $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
+            }
         }
 
         return $this->wrapResult($result);

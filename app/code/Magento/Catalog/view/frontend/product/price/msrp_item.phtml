@@ -14,8 +14,8 @@
 ?>
 <?php
 
-/** @var Magento\Catalog\Pricing\Price\MsrpPrice $priceType */
-$priceType = $this->getPriceType('msrp');
+/** @var Magento\Catalog\Pricing\Price\MsrpPriceInterface $priceType */
+$priceType = $this->getPrice();
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = $this->getSaleableItem();
