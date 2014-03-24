@@ -452,7 +452,7 @@ class Config extends AbstractRepository
                                         'value' => 'INdxa6ug7qZ2KD7y'
                                     ),
                                     'password' => array( //Password
-                                        'value' => '4vaGsDBmeBCzvpl1S1DT1jXAB'
+                                        'value' => 'pTfh4K0nkHcHVginelU4HmJkA'
                                     ),
                                     'sandbox_mode' => array( //Sandbox Mode
                                         'value' => self::YES_VALUE
