@@ -25,7 +25,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             ->method('getAreaCode')
             ->will($this->returnValue($area));
         $scopeMock = $this->getMock('\Magento\App\ScopeInterface');
-        $scopeResolverMock = $this->getMock('\Magento\BaseScopeResolverInterface');
+        $scopeResolverMock = $this->getMock('\Magento\App\ScopeResolverInterface');
         $scopeResolverMock->expects($this->once())
             ->method('getScope')
             ->will($this->returnValue($scopeMock));

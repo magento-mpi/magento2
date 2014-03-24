@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento;
+namespace Magento\App;
 
-interface BaseScopeResolverInterface
+interface ScopeResolverInterface
 {
 
     /**

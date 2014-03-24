@@ -20,7 +20,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     );
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -40,14 +40,14 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     protected $_defaultTimezonePath;
 
     /**
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param DateFactory $dateFactory
      * @param string $defaultTimezonePath
      */
     function __construct(
-        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Stdlib\DateTime\DateFactory $dateFactory,

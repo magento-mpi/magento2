@@ -35,7 +35,7 @@
         </arguments>
     </type>
     <preference for="Magento\App\Config\Scope\ReaderPoolInterface" type="Magento\Store\Model\Config\Reader\ReaderPool"/>
-    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Store\Model\BaseScopeResolver" />
+    <preference for="Magento\App\ScopeResolverInterface" type="Magento\Store\Model\BaseScopeResolver" />
     <type name="Magento\App\Action\Action">
         <plugin name="storeCheck" type="Magento\Store\App\Action\Plugin\StoreCheck" sortOrder="10"/>
     </type>

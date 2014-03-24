@@ -142,7 +142,7 @@ class Translate implements \Magento\TranslateInterface
     protected $_modulesReader;
 
     /**
-     * @var \Magento\BaseScopeResolverInterface
+     * @var \Magento\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
 
@@ -187,7 +187,7 @@ class Translate implements \Magento\TranslateInterface
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\ResourceInterface $translate
      * @param \Magento\Locale\ResolverInterface $locale
      * @param \Magento\App\State $appState
@@ -205,7 +205,7 @@ class Translate implements \Magento\TranslateInterface
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
         \Magento\Module\ModuleList $moduleList,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\App\ScopeResolverInterface $scopeResolver,
         \Magento\Translate\ResourceInterface $translate,
         \Magento\Locale\ResolverInterface $locale,
         \Magento\App\State $appState,

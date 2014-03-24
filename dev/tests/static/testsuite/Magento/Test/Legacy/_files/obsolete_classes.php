@@ -2235,4 +2235,7 @@ return array(
     array('Magento\App\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
     array('Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
     array('Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface'),
+    array('Magento\App\Locale\ScopeConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
+    array('Magento\BaseScopeInterface', 'Magento\App\Config\ScopeInterface'),
+    array('Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'),
 );
