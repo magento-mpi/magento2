@@ -17,6 +17,9 @@ use Magento\Pricing\Render;
 
 /**
  * Class for final_price rendering
+ *
+ * @method bool getUseLinkForAsLowAs()
+ * @method float getDisplayMinimalPrice()
  */
 class FinalPriceBox extends PriceBox
 {
@@ -60,5 +63,34 @@ class FinalPriceBox extends PriceBox
     protected function wrapResult($html)
     {
         return '<div class="price-box ' . $this->getData('css_classes') . '">' . $html . '</div>';
+    }
+    
+    public function renderAmountMinimal()
+    {
+        //@TODO Implement 'minimal_price'
+
+        $price = $this->getPriceType('minimal_price');
+        $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
+        return $this->renderAmount($price, [
+            'display_label'     => __('As low as:'),
+            'price_id'          => $id,
+            'include_container' => false
+        ]);
+    }
+
+    public function showSpecialPrice()
+    {
+        $displayRegularPrice = $this->getPriceType('price')->getDisplayValue();
+        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
+
+        return $displayFinalPrice < $displayRegularPrice;
+    }
+
+    public function showMinimalPrice()
+    {
+        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
+        $minimalPrice = $this->getPriceType('final_price')->getMinimalPrice();
+
+        return $this->getDisplayMinimalPrice() && $minimalPrice && $minimalPrice < $displayFinalPrice;
     }
 }

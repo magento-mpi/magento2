@@ -16,6 +16,10 @@ use Magento\Core\Helper\Data;
 use Magento\Math\Random;
 /**
  * Default catalog price box render
+ *
+ * @method string getPriceElementIdPrefix()
+ * @method string getIdSuffix()
+ * @method string getDisplayMsrpHelpMessage()
  */
 class PriceBox extends PriceBoxRender
 {

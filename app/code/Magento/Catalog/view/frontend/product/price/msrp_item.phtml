@@ -7,7 +7,7 @@
  */
 
 /**
- * Template for displaying product price at product view page, gift registry and wishlist
+ * Template for displaying product price at product view page, gift registry and wish-list
  *
  * @var $this \Magento\Catalog\Pricing\Render\PriceBox
  */
@@ -27,9 +27,9 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 <?php if ($product->getMsrp()): ?>
     <?php $msrpPrice = $this->renderAmount($priceType, [
 //        'display_label' => __('Regular Price:'),
-        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
+        'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
         'include_container' => false,
-        'skip_adjustments' => true
+        'skip_adjustments'  => true
     ]); ?>
     <span class="old-price"><?php echo $msrpPrice ?></span>
 <?php endif; ?>
