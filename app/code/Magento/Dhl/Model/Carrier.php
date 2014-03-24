@@ -185,7 +185,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
     protected $_dateTime;
 
     /**
-     * @var \Zend_Http_ClientFactory
+     * @var \Magento\HTTP\ZendClientFactory
      */
     protected $_httpClientFactory;
 
@@ -211,7 +211,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Zend_Http_ClientFactory $httpClientFactory
+     * @param \Magento\HTTP\ZendClientFactory $httpClientFactory
      * @param array $data
      */
     public function __construct(
@@ -236,7 +236,7 @@ class Carrier extends \Magento\Dhl\Model\AbstractDhl implements \Magento\Shippin
         \Magento\Math\Division $mathDivision,
         \Magento\App\Filesystem $filesystem,
         \Magento\Stdlib\DateTime $dateTime,
-        \Zend_Http_ClientFactory $httpClientFactory,
+        \Magento\HTTP\ZendClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
