@@ -361,7 +361,7 @@
     </type>
     <type name="Magento\Translate\Inline">
         <arguments>
-            <argument name="parser" xsi:type="object">Magento\Translate\Inline\ParserInterface</argument>
+            <argument name="parser" xsi:type="object">Magento\Translate\Inline\ParserInterface\Proxy</argument>
         </arguments>
     </type>
 </config>
