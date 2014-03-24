@@ -39,7 +39,7 @@ class FinalPriceBox extends PriceBox
             $this->_logger->logException($e);
             return $result;
         }
-        if ($msrpPriceType->isMsrpEnabled()) {
+        if ($msrpPriceType->canApplyMsrp($saleableItem)) {
             /** @var PriceBox $msrpBlock */
             $msrpBlock = $this->getChildBlock('default.msrp');
             if ($msrpBlock instanceof PriceBox) {
