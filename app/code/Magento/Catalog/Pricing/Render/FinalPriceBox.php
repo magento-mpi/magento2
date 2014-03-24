@@ -33,8 +33,13 @@ class FinalPriceBox extends PriceBox
     {
         $result = $this->wrapResult(parent::render($priceType, $object, $arguments));
 
-        /** @var MsrpPrice $msrpPriceType */
-        $msrpPriceType = $object->getPriceInfo()->getPrice('msrp');
+        try {
+            /** @var MsrpPrice $msrpPriceType */
+            $msrpPriceType = $object->getPriceInfo()->getPrice('msrp');
+        } catch (\InvalidArgumentException $e) {
+            $this->_logger->logException($e);
+            return $result;
+        }
         if ($msrpPriceType->isMsrpEnabled()) {
             /** @var PriceBox $msrpBlock */
             $msrpBlock = $this->getChildBlock('default.msrp');
