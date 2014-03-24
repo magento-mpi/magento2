@@ -359,4 +359,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Translate\Inline">
+        <arguments>
+            <argument name="parser" xsi:type="object">Magento\Translate\Inline\ParserInterface</argument>
+        </arguments>
+    </type>
 </config>
