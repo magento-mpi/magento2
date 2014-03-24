@@ -22,7 +22,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $storeConfig = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeConfig->expects($this->any())
+        $storeConfig->expects($this->atLeastOnce())
             ->method('getValue')
             ->will($this->returnValueMap($configData));
 
@@ -62,7 +62,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Theme\Block\Html', array(
                 'storeManager'  => $storeManager,
                 'urlHelperMock' => $codeData,
-                'context'       => $context
+                'context'       => $context,
             ));
 
         $this->assertEquals($returnValue, $block->getPrintLogoUrl());
@@ -72,19 +72,23 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'sales_identity_logo_html' => array(
-                array(array('sales/identity/logo_html', null, 'image.gif')),
+                array(array('sales/identity/logo_html',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, 'image.gif')),
                 'http://localhost/pub/media/sales/store/logo_html/image.gif'
             ),
             'sales_identity_logo' => array(
-                array(array('sales/identity/logo', null, 'image.gif')),
+                array(array('sales/identity/logo',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, 'image.gif')),
                 'http://localhost/pub/media/sales/store/logo/image.gif'
             ),
             'sales_identity_logoTif' => array(
-                array(array('sales/identity/logo', null, 'image.tif')),
+                array(array('sales/identity/logo',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, 'image.tif')),
                 ''
             ),
             'sales_identity_logoTiff' => array(
-                array(array('sales/identity/logo', null, 'image.tiff')),
+                array(array('sales/identity/logo',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, 'image.tiff')),
                 ''
             ),
             'no_logo' => array(
