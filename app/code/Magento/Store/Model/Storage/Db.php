@@ -225,6 +225,10 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
             $websiteStores[$store->getWebsiteId()][$store->getId()] = $store;
             $groupStores[$store->getGroupId()][$store->getId()] = $store;
 
+            if (is_null($this->_store) && $store->getCode() === \Magento\Store\Model\Store::DEFAULT_CODE) {
+                $this->_store = $store;
+            }
+
             if (0 == $store->getId()) {
                 $store->setUrlModel($this->_url);
             }
@@ -307,7 +311,7 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
         }
 
         if ($storeId === true && $this->hasSingleStore()) {
-            return $this->_getDefaultStore();
+            return $this->_store;
         }
 
         if (!isset($storeId) || '' === $storeId || $storeId === true) {
