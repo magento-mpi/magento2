@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
 class Processor
@@ -18,7 +17,7 @@ class Processor
     const INDEXER_ID = 'catalog_product_flat';
 
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $_indexer;
 
@@ -28,14 +27,14 @@ class Processor
     protected $_state;
 
     /**
-     * @param \Magento\Indexer\Model\Indexer $indexer
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $state
      */
     public function __construct(
-        \Magento\Indexer\Model\Indexer $indexer,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $state
     ) {
-        $this->_indexer = $indexer;
+        $this->_indexer = $indexerFactory->create();
         $this->_state = $state;
     }
 

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Store\Edit\Form;
 
 /**
@@ -28,8 +27,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
         $registryData = array(
             'store_type' => 'group',
-            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Core\Model\Store\Group'),
+            'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Core\Model\Store\Group'
+            ),
             'store_action' => 'add'
         );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */

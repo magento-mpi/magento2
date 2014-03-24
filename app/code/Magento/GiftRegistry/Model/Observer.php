@@ -131,12 +131,9 @@ class Observer
         $object = $observer->getEvent()->getDataObject();
 
         if ($registryItemId = $object->getGiftregistryItemId()) {
-            $model = $this->entityFactory->create()
-                ->loadByEntityItem($registryItemId);
+            $model = $this->entityFactory->create()->loadByEntityItem($registryItemId);
             if ($model->getId()) {
-                $object->setId(
-                    $this->_giftRegistryData->getAddressIdPrefix() . $model->getId()
-                );
+                $object->setId($this->_giftRegistryData->getAddressIdPrefix() . $model->getId());
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
             }
@@ -280,7 +277,7 @@ class Observer
         /** @var $collection \Magento\GiftRegistry\Model\Resource\Item\Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
-        foreach($collection->getItems() as $item) {
+        foreach ($collection->getItems() as $item) {
             $item->delete();
         }
 
@@ -289,13 +286,13 @@ class Observer
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
         $itemsArray = array();
-        foreach($optionCollection->getItems() as $optionItem) {
-            $itemsArray[$optionItem->getItemId()]  = $optionItem->getItemId();
+        foreach ($optionCollection->getItems() as $optionItem) {
+            $itemsArray[$optionItem->getItemId()] = $optionItem->getItemId();
         }
 
         $collection = $grItem->getCollection()->addItemFilter(array_keys($itemsArray));
 
-        foreach($collection->getItems() as $item) {
+        foreach ($collection->getItems() as $item) {
             $item->delete();
         }
 

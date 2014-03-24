@@ -31,8 +31,8 @@ namespace Magento\GiftRegistry\Model;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel
-    implements \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
+class Item extends \Magento\Core\Model\AbstractModel implements
+    \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -135,7 +135,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $product = $this->_getProduct();
         $storeId = $this->getStoreId();
 
-        if ($this->getQty() < ($qty + $this->getQtyFulfilled())) {
+        if ($this->getQty() < $qty + $this->getQtyFulfilled()) {
             $qty = $this->getQty() - $this->getQtyFulfilled();
         }
 
@@ -159,8 +159,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$product->isSalable()) {
-            throw new \Magento\Core\Exception(
-                __('This product(s) is out of stock.'));
+            throw new \Magento\Core\Exception(__('This product(s) is out of stock.'));
         }
 
         $product->setGiftregistryItemId($this->getId());
@@ -212,15 +211,15 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     protected function _compareOptions($options1, $options2)
     {
-        $skipOptions = array('qty','info_buyRequest');
+        $skipOptions = array('qty', 'info_buyRequest');
         foreach ($options1 as $option) {
             $code = $option->getCode();
             if (in_array($code, $skipOptions)) {
                 continue;
             }
-            if ( !isset($options2[$code])
-                || ($options2[$code]->getValue() === null)
-                || $options2[$code]->getValue() != $option->getValue()
+            if (!isset(
+                $options2[$code]
+            ) || $options2[$code]->getValue() === null || $options2[$code]->getValue() != $option->getValue()
             ) {
                 return false;
             }
@@ -262,8 +261,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         if (!$this->_getData('product')) {
             $product = $this->productFactory->create()->load($this->getProductId());
             if (!$product->getId()) {
-                throw new \Magento\Core\Exception(
-                    __('Please correct the product for adding the item to the quote.'));
+                throw new \Magento\Core\Exception(__('Please correct the product for adding the item to the quote.'));
             }
             $this->setProduct($product);
         }
@@ -322,7 +320,8 @@ class Item extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $this->_flagOptionsSaved = true; // Report to watchers that options were saved
+        $this->_flagOptionsSaved = true;
+        // Report to watchers that options were saved
 
         return $this;
     }
@@ -404,20 +403,26 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function addOption($option)
     {
         if (is_array($option)) {
-            $option = $this->optionFactory->create()->setData($option)
-                ->setItem($this);
+            $option = $this->optionFactory->create()->setData($option)->setItem($this);
         } elseif ($option instanceof \Magento\Sales\Model\Quote\Item\Option) {
             // import data from existing quote item option
-            $option = $this->optionFactory->create()->setProduct($option->getProduct())
-               ->setCode($option->getCode())
-               ->setValue($option->getValue())
-               ->setItem($this);
-        } elseif (($option instanceof \Magento\Object)
-            && !($option instanceof \Magento\GiftRegistry\Model\Item\Option)
-        ) {
-            $option = $this->optionFactory->create()->setData($option->getData())
-               ->setProduct($option->getProduct())
-               ->setItem($this);
+            $option = $this->optionFactory->create()->setProduct(
+                $option->getProduct()
+            )->setCode(
+                $option->getCode()
+            )->setValue(
+                $option->getValue()
+            )->setItem(
+                $this
+            );
+        } elseif ($option instanceof \Magento\Object && !$option instanceof \Magento\GiftRegistry\Model\Item\Option) {
+            $option = $this->optionFactory->create()->setData(
+                $option->getData()
+            )->setProduct(
+                $option->getProduct()
+            )->setItem(
+                $this
+            );
         } elseif ($option instanceof \Magento\GiftRegistry\Model\Item\Option) {
             $option->setItem($this);
         } else {
@@ -475,8 +480,8 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $option = $this->getOptionByCode('info_buyRequest');
         $buyRequest = new \Magento\Object($option ? unserialize($option->getValue()) : null);
-        $buyRequest->setOriginalQty($buyRequest->getQty())
-            ->setQty($this->getQty() * 1); // Qty value that is stored in buyRequest can be out-of-date
+        $buyRequest->setOriginalQty($buyRequest->getQty())->setQty($this->getQty() * 1);
+        // Qty value that is stored in buyRequest can be out-of-date
         return $buyRequest;
     }
 
@@ -516,7 +521,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function setQty($quantity)
     {
-        $quantity = (float)$quantity;
+        $quantity = (double)$quantity;
 
         if (!$this->_getProduct()->getTypeInstance()->canUseQtyDecimals()) {
             $quantity = round($quantity);

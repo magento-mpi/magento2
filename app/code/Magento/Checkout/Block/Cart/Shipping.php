@@ -124,7 +124,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCarrierName($carrierCode)
     {
-        if ($name = $this->_storeConfig->getConfig('carriers/'.$carrierCode.'/title')) {
+        if ($name = $this->_storeConfig->getConfig('carriers/' . $carrierCode . '/title')) {
             return $name;
         }
         return $carrierCode;
@@ -230,12 +230,14 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getShippingPrice($price, $flag)
     {
-        return $this->formatPrice($this->_taxHelper->getShippingPrice(
-            $price,
-            $flag,
-            $this->getAddress(),
-            $this->getQuote()->getCustomerTaxClassId()
-        ));
+        return $this->formatPrice(
+            $this->_taxHelper->getShippingPrice(
+                $price,
+                $flag,
+                $this->getAddress(),
+                $this->getQuote()->getCustomerTaxClassId()
+            )
+        );
     }
 
     /**

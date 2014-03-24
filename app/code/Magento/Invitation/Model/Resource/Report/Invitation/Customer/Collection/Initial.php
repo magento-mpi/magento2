@@ -16,11 +16,9 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 namespace Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection;
 
-class Initial
-        extends \Magento\Reports\Model\Resource\Report\Collection
+class Initial extends \Magento\Reports\Model\Resource\Report\Collection
 {
     /**
      *  Report sub-collection class name

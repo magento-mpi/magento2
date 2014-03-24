@@ -6,9 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Interception\Fixture;
-
 
 class InterceptedParent implements InterceptedParentInterface
 {
@@ -21,4 +19,4 @@ class InterceptedParent implements InterceptedParentInterface
     {
         return $param1 . $param2 . $this->A($param1);
     }
-} 
+}

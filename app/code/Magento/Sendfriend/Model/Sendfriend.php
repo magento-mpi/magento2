@@ -32,21 +32,21 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      *
      * @var array
      */
-    protected $_names   = array();
+    protected $_names = array();
 
     /**
      * Recipient Emails
      *
      * @var array
      */
-    protected $_emails  = array();
+    protected $_emails = array();
 
     /**
      * Sender data array
      *
      * @var \Magento\Object|array
      */
-    protected $_sender  = array();
+    protected $_sender = array();
 
     /**
      * Product Instance
@@ -163,31 +163,37 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         $this->inlineTranslation->suspend();
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
-        $sender  = array(
-            'name'  => $this->_escaper->escapeHtml($this->getSender()->getName()),
+        $sender = array(
+            'name' => $this->_escaper->escapeHtml($this->getSender()->getName()),
             'email' => $this->_escaper->escapeHtml($this->getSender()->getEmail())
         );
 
         foreach ($this->getRecipients()->getEmails() as $k => $email) {
             $name = $this->getRecipients()->getNames($k);
-            $this->_transportBuilder
-                ->setTemplateIdentifier($this->_sendfriendData->getEmailTemplate())
-                ->setTemplateOptions(array(
-                    'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $this->_storeManager->getStore()->getId(),
-                ))
-                ->setFrom($sender)
-                ->setTemplateVars(array(
-                    'name'          => $name,
-                    'email'         => $email,
-                    'product_name'  => $this->getProduct()->getName(),
-                    'product_url'   => $this->getProduct()->getUrlInStore(),
-                    'message'       => $message,
-                    'sender_name'   => $sender['name'],
-                    'sender_email'  => $sender['email'],
-                    'product_image' => $this->_catalogImage->init($this->getProduct(), 'small_image')->resize(75),
-                ))
-                ->addTo($email, $name);
+            $this->_transportBuilder->setTemplateIdentifier(
+                $this->_sendfriendData->getEmailTemplate()
+            )->setTemplateOptions(
+                array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId()
+                )
+            )->setFrom(
+                $sender
+            )->setTemplateVars(
+                array(
+                    'name' => $name,
+                    'email' => $email,
+                    'product_name' => $this->getProduct()->getName(),
+                    'product_url' => $this->getProduct()->getUrlInStore(),
+                    'message' => $message,
+                    'sender_name' => $sender['name'],
+                    'sender_email' => $sender['email'],
+                    'product_image' => $this->_catalogImage->init($this->getProduct(), 'small_image')->resize(75)
+                )
+            )->addTo(
+                $email,
+                $name
+            );
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
@@ -214,7 +220,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         }
 
         $email = $this->getSender()->getEmail();
-        if (empty($email) OR !\Zend_Validate::is($email, 'EmailAddress')) {
+        if (empty($email) or !\Zend_Validate::is($email, 'EmailAddress')) {
             $errors[] = __('Invalid Sender Email');
         }
 
@@ -326,14 +332,23 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     public function setRecipients($recipients)
     {
         // validate array
-        if (!is_array($recipients) OR !isset($recipients['email'])
-            OR !isset($recipients['name']) OR !is_array($recipients['email'])
-            OR !is_array($recipients['name'])) {
+        if (!is_array(
+            $recipients
+        ) or !isset(
+            $recipients['email']
+        ) or !isset(
+            $recipients['name']
+        ) or !is_array(
+            $recipients['email']
+        ) or !is_array(
+            $recipients['name']
+        )
+        ) {
             return $this;
         }
 
         $emails = array();
-        $names  = array();
+        $names = array();
         foreach ($recipients['email'] as $k => $email) {
             if (!isset($emails[$email]) && isset($recipients['name'][$k])) {
                 $emails[$email] = true;
@@ -345,10 +360,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
             $emails = array_keys($emails);
         }
 
-        return $this->setData('_recipients', new \Magento\Object(array(
-            'emails' => $emails,
-            'names'  => $names
-        )));
+        return $this->setData('_recipients', new \Magento\Object(array('emails' => $emails, 'names' => $names)));
     }
 
     /**
@@ -360,10 +372,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     {
         $recipients = $this->_getData('_recipients');
         if (!$recipients instanceof \Magento\Object) {
-            $recipients =  new \Magento\Object(array(
-                'emails' => array(),
-                'names'  => array()
-            ));
+            $recipients = new \Magento\Object(array('emails' => array(), 'names' => array()));
             $this->setData('_recipients', $recipients);
         }
         return $recipients;
@@ -512,8 +521,8 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      */
     protected function _sentCountByCookies($increment = false)
     {
-        $cookie   = $this->_sendfriendData->getCookieName();
-        $time     = time();
+        $cookie = $this->_sendfriendData->getCookieName();
+        $time = time();
         $newTimes = array();
 
         if (isset($this->_lastCookieValue[$cookie])) {
@@ -526,7 +535,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
             $oldTimes = explode(',', $oldTimes);
             foreach ($oldTimes as $oldTime) {
                 $periodTime = $time - $this->_sendfriendData->getPeriod();
-                if (is_numeric($oldTime) AND $oldTime >= $periodTime) {
+                if (is_numeric($oldTime) and $oldTime >= $periodTime) {
                     $newTimes[] = $oldTime;
                 }
             }
@@ -541,6 +550,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
 
         return count($newTimes);
     }
+
     /**
      * Return count of sent in last period by IP address
      *
@@ -549,7 +559,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      */
     protected function _sentCountByIp($increment = false)
     {
-        $time   = time();
+        $time = time();
         $period = $this->_sendfriendData->getPeriod();
         $websiteId = $this->getWebsiteId();
 
@@ -562,6 +572,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
 
         return $this->_getResource()->getSendCount($this, $this->getRemoteAddr(), time() - $period, $websiteId);
     }
+
     /**
      * Register self in global register with name send_to_friend_model
      *

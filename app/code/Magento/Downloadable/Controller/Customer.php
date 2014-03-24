@@ -29,10 +29,8 @@ class Customer extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
-    public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession
-    ) {
+    public function __construct(\Magento\App\Action\Context $context, \Magento\Customer\Model\Session $customerSession)
+    {
         $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
@@ -71,5 +69,4 @@ class Customer extends \Magento\App\Action\Action
         }
         $this->_view->renderLayout();
     }
-
 }

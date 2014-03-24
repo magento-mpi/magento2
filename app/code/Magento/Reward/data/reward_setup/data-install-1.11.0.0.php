@@ -11,13 +11,13 @@
 /** @var \Magento\Reward\Model\Resource\Setup $this */
 
 $cmsPage = array(
-    'title'           => 'Reward Points',
-    'root_template'   => 'one_column',
-    'identifier'      => 'reward-points',
+    'title' => 'Reward Points',
+    'root_template' => 'one_column',
+    'identifier' => 'reward-points',
     'content_heading' => 'Reward Points',
-    'is_active'       => 1,
-    'stores'          => array(0),
-    'content'         => '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>
+    'is_active' => 1,
+    'stores' => array(0),
+    'content' => '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>
 
 <h2>Benefits of Reward Points for Registered Customers</h2>
 <p>Once you register you will be able to earn and accrue reward points, which are then redeemable at time of purchase towards the cost of your order. Rewards are an added bonus to your shopping experience on the site and just one of the ways we thank you for being a loyal customer.</p>
@@ -52,7 +52,7 @@ $cmsPage = array(
 <h2>Reward Points Expiration</h2>
 <p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>
 <p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href="{{store url="reward/customer/info"}}">Reward Points section</a> of the My Account area.</p>
-',
+'
 );
 
 $this->getPage()->setData($cmsPage)->save();

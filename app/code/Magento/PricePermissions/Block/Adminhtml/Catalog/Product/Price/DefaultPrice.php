@@ -9,16 +9,15 @@
  */
 
 /**
- * Default Product Price field renderer
+* Default Product Price field renderer
 *
- * @category    Magento
- * @package     Magento_PricePermissions
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+* @category    Magento
+* @package     Magento_PricePermissions
+* @author      Magento Core Team <core@magentocommerce.com>
+*/
 namespace Magento\PricePermissions\Block\Adminhtml\Catalog\Product\Price;
 
-class DefaultPrice
-    extends \Magento\Backend\Block\System\Config\Form\Field
+class DefaultPrice extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
      * Price permissions data

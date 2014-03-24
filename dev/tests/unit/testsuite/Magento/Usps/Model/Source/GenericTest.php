@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Usps\Model\Source;
 
 class GenericTest extends \PHPUnit_Framework_TestCase
@@ -23,10 +22,11 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_uspsModel = $this->getMockBuilder('Magento\Usps\Model\Carrier')
-            ->setMethods(array('getCode'))
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_uspsModel = $this->getMockBuilder(
+            'Magento\Usps\Model\Carrier'
+        )->setMethods(
+            array('getCode')
+        )->disableOriginalConstructor()->getMock();
 
         $this->_generic = $helper->getObject(
             '\Magento\Usps\Model\Source\Generic',
@@ -41,9 +41,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
      */
     public function testToOptionArray($expected, $options)
     {
-        $this->_uspsModel->expects($this->any())
-            ->method('getCode')
-            ->will($this->returnValue($options));
+        $this->_uspsModel->expects($this->any())->method('getCode')->will($this->returnValue($options));
 
         $this->assertEquals($expected, $this->_generic->toOptionArray());
     }
@@ -55,7 +53,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array(array('value' => 'Val', 'label' => 'Label')), array('Val' => 'Label')),
-            array(array(), false),
+            array(array(), false)
         );
     }
 }

@@ -51,7 +51,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var bool
      */
-    protected $_hasLinkFilter  = false;
+    protected $_hasLinkFilter = false;
 
     /**
      * Declare link model and initialize type attributes join
@@ -194,7 +194,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     protected function _joinLinks()
     {
-        $select  = $this->getSelect();
+        $select = $this->getSelect();
         $adapter = $select->getAdapter();
 
         $joinCondition = array(
@@ -214,8 +214,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         } else if ($this->_isStrongMode) {
             $this->addFieldToFilter('entity_id', array('eq' => -1));
         }
-        if($this->_hasLinkFilter) {
-            $select->$joinType(
+        if ($this->_hasLinkFilter) {
+            $select->{$joinType}(
                 array('links' => $this->getTable('catalog_product_link')),
                 implode(' AND ', $joinCondition),
                 array('link_id')
@@ -247,13 +247,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setAttributeSetIdOrder($dir = self::SORT_ORDER_ASC)
     {
-        $this->getSelect()
-            ->joinLeft(
-                array('set' => $this->getTable('eav_attribute_set')),
-                'e.attribute_set_id = set.attribute_set_id',
-                array('attribute_set_name')
-            )
-            ->order('set.attribute_set_name ' . $dir);
+        $this->getSelect()->joinLeft(
+            array('set' => $this->getTable('eav_attribute_set')),
+            'e.attribute_set_id = set.attribute_set_id',
+            array('attribute_set_name')
+        )->order(
+            'set.attribute_set_name ' . $dir
+        );
         return $this;
     }
 

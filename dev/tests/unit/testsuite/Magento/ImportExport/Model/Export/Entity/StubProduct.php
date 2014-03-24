@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Export\Entity;
 
 class StubProduct extends \Magento\ImportExport\Model\Export\Entity\Product

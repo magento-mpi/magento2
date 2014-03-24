@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
 /**
@@ -19,7 +18,9 @@ class Factory
      * Group of types
      */
     const TYPE_QUICK_STYLES = 'quick-style';
+
     const TYPE_IMAGE_SIZING = 'image-sizing';
+
     /**#@-*/
 
     /**
@@ -83,10 +84,10 @@ class Factory
         if (!isset($this->_fileNames[$type])) {
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
-            'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
-            'themeModel' => $theme
-        ));
+        return $this->_viewFileSystem->getFilename(
+            $this->_fileNames[$type],
+            array('area' => \Magento\View\DesignInterface::DEFAULT_AREA, 'themeModel' => $theme)
+        );
     }
 
     /**
@@ -127,10 +128,8 @@ class Factory
         $config = $this->_objectManager->create($class, array('configFiles' => $fileIterator));
 
         return $this->_objectManager->create(
-            'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
-                'configuration' => $config,
-                'theme'         => $theme,
-                'parentTheme'   => $parentTheme
-        ));
+            'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration',
+            array('configuration' => $config, 'theme' => $theme, 'parentTheme' => $parentTheme)
+        );
     }
 }

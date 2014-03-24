@@ -47,10 +47,7 @@ abstract class AbstractContainer extends \Magento\View\Element\Template
     protected function _prepareLayout()
     {
         if ($info = $this->getPaymentInfo()) {
-            $this->setChild(
-                $this->_getInfoBlockName(),
-                $this->_paymentData->getInfoBlock($info)
-            );
+            $this->setChild($this->_getInfoBlockName(), $this->_paymentData->getInfoBlock($info));
         }
         return parent::_prepareLayout();
     }
@@ -63,7 +60,7 @@ abstract class AbstractContainer extends \Magento\View\Element\Template
     protected function _getInfoBlockName()
     {
         if ($info = $this->getPaymentInfo()) {
-            return 'payment.info.'.$info->getMethodInstance()->getCode();
+            return 'payment.info.' . $info->getMethodInstance()->getCode();
         }
         return false;
     }
@@ -82,7 +79,7 @@ abstract class AbstractContainer extends \Magento\View\Element\Template
      * @param string $template
      * @return $this
      */
-    public function setInfoTemplate($method='', $template='')
+    public function setInfoTemplate($method = '', $template = '')
     {
         if ($info = $this->getPaymentInfo()) {
             if ($info->getMethodInstance()->getCode() == $method) {

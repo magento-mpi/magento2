@@ -34,6 +34,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
+
     /**
      * Init layout, menu and breadcrumb
      *
@@ -42,9 +43,15 @@ class AbstractShipment extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_shipment')
-            ->_addBreadcrumb(__('Sales'), __('Sales'))
-            ->_addBreadcrumb(__('Shipments'), __('Shipments'));
+        $this->_setActiveMenu(
+            'Magento_Sales::sales_shipment'
+        )->_addBreadcrumb(
+            __('Sales'),
+            __('Sales')
+        )->_addBreadcrumb(
+            __('Shipments'),
+            __('Shipments')
+        );
         return $this;
     }
 
@@ -57,8 +64,9 @@ class AbstractShipment extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Shipments'));
 
-        $this->_initAction()
-            ->_addContent($this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'));
+        $this->_initAction()->_addContent(
+            $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment')
+        );
         $this->_view->renderLayout();
     }
 
@@ -70,7 +78,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
     public function viewAction()
     {
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
-            $this->_forward('view', 'order_shipment', 'admin', array('come_from'=>'shipment'));
+            $this->_forward('view', 'order_shipment', 'admin', array('come_from' => 'shipment'));
         } else {
             $this->_forward('noroute');
         }
@@ -83,10 +91,14 @@ class AbstractShipment extends \Magento\Backend\App\Action
     {
         $shipmentIds = $this->getRequest()->getPost('shipment_ids');
         if (!empty($shipmentIds)) {
-            $shipments = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
-                ->addAttributeToSelect('*')
-                ->addAttributeToFilter('entity_id', array('in' => $shipmentIds))
-                ->load();
+            $shipments = $this->_objectManager->create(
+                'Magento\Sales\Model\Resource\Order\Shipment\Collection'
+            )->addAttributeToSelect(
+                '*'
+            )->addAttributeToFilter(
+                'entity_id',
+                array('in' => $shipmentIds)
+            )->load();
             if (!isset($pdf)) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
             } else {
@@ -113,8 +125,11 @@ class AbstractShipment extends \Magento\Backend\App\Action
         if ($shipmentId) {
             $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             if ($shipment) {
-                $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')
-                    ->getPdf(array($shipment));
+                $pdf = $this->_objectManager->create(
+                    'Magento\Sales\Model\Order\Pdf\Shipment'
+                )->getPdf(
+                    array($shipment)
+                );
                 $date = $this->_objectManager->get('Magento\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
                 return $this->_fileFactory->create(
                     'packingslip' . $date . '.pdf',

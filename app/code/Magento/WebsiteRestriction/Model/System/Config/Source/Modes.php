@@ -23,18 +23,15 @@ class Modes extends \Magento\Object implements \Magento\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            array(
-                'value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE,
-                'label' => __('Website Closed'),
-            ),
+            array('value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE, 'label' => __('Website Closed')),
             array(
                 'value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN,
-                'label' => __('Private Sales: Login Only'),
+                'label' => __('Private Sales: Login Only')
             ),
             array(
                 'value' => \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
-                'label' => __('Private Sales: Login and Register'),
-            ),
+                'label' => __('Private Sales: Login and Register')
+            )
         );
     }
 }

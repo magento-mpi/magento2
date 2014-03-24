@@ -34,6 +34,6 @@ class Noquote extends \Magento\GiftCard\Block\Sales\Order\Item\Renderer
      */
     protected function _getNameEmailString($name, $email)
     {
-        return "$name <{$email}>";
+        return "{$name} <{$email}>";
     }
 }

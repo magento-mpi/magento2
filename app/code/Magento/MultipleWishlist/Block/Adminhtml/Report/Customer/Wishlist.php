@@ -16,8 +16,7 @@ namespace Magento\MultipleWishlist\Block\Adminhtml\Report\Customer;
  * @package     Magento_MultipleWishlist
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Wishlist
-    extends \Magento\Backend\Block\Widget\Grid\Container
+class Wishlist extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Constructor

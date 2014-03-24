@@ -22,10 +22,7 @@ class RequireCookie extends \Magento\View\Element\Template
      */
     public function getScriptOptions()
     {
-        $params = array(
-            'noCookieUrl' => $this->getUrl('core/index/noCookies/'),
-            'triggers' => $this->getTriggers()
-        );
+        $params = array('noCookieUrl' => $this->getUrl('core/index/noCookies/'), 'triggers' => $this->getTriggers());
         return json_encode($params);
     }
 }

@@ -74,16 +74,18 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
             return array();
         }
 
-        $select = $adapter->select()
-            ->from($this->getMainTable(), array('string', 'translate'))
-            ->where('store_id IN (0 , :store_id)')
-            ->where('locale = :locale')
-            ->order('store_id');
-
-        $bind = array(
-            ':locale'   => (string)$locale,
-            ':store_id' => $storeId
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            array('string', 'translate')
+        )->where(
+            'store_id IN (0 , :store_id)'
+        )->where(
+            'locale = :locale'
+        )->order(
+            'store_id'
         );
+
+        $bind = array(':locale' => (string)$locale, ':store_id' => $storeId);
 
         return $adapter->fetchPairs($select, $bind);
     }
@@ -114,13 +116,16 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
             return array();
         }
 
-        $bind = array(
-            ':store_id'   => $storeId
+        $bind = array(':store_id' => $storeId);
+        $select = $adapter->select()->from(
+            $this->getMainTable(),
+            array('string', 'translate')
+        )->where(
+            'string IN (?)',
+            $strings
+        )->where(
+            'store_id = :store_id'
         );
-        $select = $adapter->select()
-            ->from($this->getMainTable(), array('string', 'translate'))
-            ->where('string IN (?)', $strings)
-            ->where('store_id = :store_id');
 
         return $adapter->fetchPairs($select, $bind);
     }

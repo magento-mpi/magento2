@@ -32,8 +32,8 @@ class Sku extends \Magento\AdvancedCheckout\Block\Sku\AbstractSku
     ) {
         parent::__construct($context, $checkoutData, $mathRandom, $data);
         $this->_isScopePrivate = true;
-
     }
+
     /**
      * Retrieve form action URL
      *

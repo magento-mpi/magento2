@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../lib/Magento/ObjectManager/etc/config.xsd">
     <preference for="Magento\App\RequestInterface" type="Magento\App\Request\Http" />
     <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Core\App\Request\PathInfoProcessor" />
     <preference for="Magento\App\ResponseInterface" type="Magento\App\Response\Http" />
@@ -317,7 +317,7 @@
     </type>
     <type name="Magento\Mview\View">
         <arguments>
-            <argument name="state" xsi:type="object" shared="false">Magento\Core\Model\Mview\View\State</argument>
+            <argument name="state" xsi:type="object" shared="false">Magento\Indexer\Model\Mview\View\State</argument>
             <argument name="changelog" xsi:type="object" shared="false">Magento\Mview\View\Changelog</argument>
         </arguments>
     </type>
@@ -349,6 +349,13 @@
                         <item name="cache_dir" xsi:type="string">page_cache</item>
                     </item>
                 </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\App\Cache\Type\FrontendPool">
+        <arguments>
+            <argument name="typeFrontendMap" xsi:type="array">
+                <item name="full_page" xsi:type="string">page_cache</item>
             </argument>
         </arguments>
     </type>

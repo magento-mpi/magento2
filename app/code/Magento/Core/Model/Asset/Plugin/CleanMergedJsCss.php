@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Asset\Plugin;
 
 class CleanMergedJsCss
@@ -41,10 +40,8 @@ class CleanMergedJsCss
      * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundCleanMergedJsCss(
-        \Magento\View\Asset\MergeService $subject,
-        \Closure $proceed
-    ) {
+    public function aroundCleanMergedJsCss(\Magento\View\Asset\MergeService $subject, \Closure $proceed)
+    {
         $proceed();
 
         /** @var \Magento\Filesystem\Directory\ReadInterface $pubCacheDirectory */

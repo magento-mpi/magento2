@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Url');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Url');
     }
 
     public function testSetGetUseSession()
@@ -111,10 +109,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function getBaseUrlConfiguredDataProvider()
     {
         return array(
-            array(
-                array('_type' => \Magento\UrlInterface::URL_TYPE_WEB),
-                'http://sample.com/base_path/'
-            ),
+            array(array('_type' => \Magento\UrlInterface::URL_TYPE_WEB), 'http://sample.com/base_path/'),
             array(
                 array('_type' => \Magento\UrlInterface::URL_TYPE_LINK),
                 'http://sample.com/base_link_path/index.php/'
@@ -122,7 +117,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             array(
                 array('_type' => \Magento\UrlInterface::URL_TYPE_LINK, '_secure' => 1),
                 'https://sample.com/base_link_path/index.php/'
-            ),
+            )
         );
     }
 
@@ -157,10 +152,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function testGetRouteUrl()
     {
         $this->assertEquals('http://localhost/index.php/', $this->_model->getRouteUrl());
-        $this->assertEquals('http://localhost/index.php/catalog/product/view/id/50/',
+        $this->assertEquals(
+            'http://localhost/index.php/catalog/product/view/id/50/',
             $this->_model->getRouteUrl('catalog/product/view', array('id' => 50))
         );
-        $this->assertEquals('http://localhost/index.php/fancy_uri',
+        $this->assertEquals(
+            'http://localhost/index.php/fancy_uri',
             $this->_model->getRouteUrl('core/index/index', array('_direct' => 'fancy_uri'))
         );
     }
@@ -177,13 +174,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUrl()
     {
-        $result = $this->_model->getUrl('catalog/product/view', array(
-            '_fragment' => 'anchor',
-            '_escape' => 1,
-            '_query' => 'foo=bar',
-            '_nosid' => 1,
-            'id' => 100
-        ));
+        $result = $this->_model->getUrl(
+            'catalog/product/view',
+            array('_fragment' => 'anchor', '_escape' => 1, '_query' => 'foo=bar', '_nosid' => 1, 'id' => 100)
+        );
         $this->assertEquals('http://localhost/index.php/catalog/product/view/id/100/?foo=bar#anchor', $result);
     }
 
@@ -193,14 +187,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUrlDoesntAddQueryParamsOnConsequentCalls()
     {
-        $result = $this->_model->getUrl('catalog/product/view', array(
-            '_query' => 'foo=bar',
-            '_nosid' => 1,
-        ));
+        $result = $this->_model->getUrl('catalog/product/view', array('_query' => 'foo=bar', '_nosid' => 1));
         $this->assertEquals('http://localhost/index.php/catalog/product/view/?foo=bar', $result);
-        $result = $this->_model->getUrl('catalog/product/view', array(
-            '_nosid' => 1,
-        ));
+        $result = $this->_model->getUrl('catalog/product/view', array('_nosid' => 1));
         $this->assertEquals('http://localhost/index.php/catalog/product/view/', $result);
     }
 
@@ -211,14 +200,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUrlDoesntAddFragmentOnConsequentCalls()
     {
-        $result = $this->_model->getUrl('catalog/product/view', array(
-            '_nosid' => 1,
-            '_fragment' => 'section'
-        ));
+        $result = $this->_model->getUrl('catalog/product/view', array('_nosid' => 1, '_fragment' => 'section'));
         $this->assertEquals('http://localhost/index.php/catalog/product/view/#section', $result);
-        $result = $this->_model->getUrl('catalog/product/view', array(
-            '_nosid' => 1,
-        ));
+        $result = $this->_model->getUrl('catalog/product/view', array('_nosid' => 1));
         $this->assertEquals('http://localhost/index.php/catalog/product/view/', $result);
     }
 
@@ -236,8 +220,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      * @param string $secondExpectedUrl
      * @covers \Magento\Url::getUrl
      */
-    public function testGetUrlOnConsequentCalls($firstCallUrl, $secondCallUrl, $firstRouteParams, $secondRouteParams,
-        $firstExpectedUrl, $secondExpectedUrl
+    public function testGetUrlOnConsequentCalls(
+        $firstCallUrl,
+        $secondCallUrl,
+        $firstRouteParams,
+        $secondRouteParams,
+        $firstExpectedUrl,
+        $secondExpectedUrl
     ) {
         $result = $this->_model->getUrl($firstCallUrl, $firstRouteParams);
         $this->assertEquals($firstExpectedUrl, $result);
@@ -269,7 +258,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_1/a_1/p_1/v_2/',
+                'http://localhost/index.php/r_1/c_1/a_1/p_1/v_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -277,7 +266,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_1/a_1/',
+                'http://localhost/index.php/r_1/c_1/a_1/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -285,7 +274,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_1/a_1/p_2/v_2/',
+                'http://localhost/index.php/r_1/c_1/a_1/p_2/v_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -293,7 +282,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_1/a_1/',
+                'http://localhost/index.php/r_1/c_1/a_1/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -301,7 +290,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_1/a_2/',
+                'http://localhost/index.php/r_1/c_1/a_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -309,7 +298,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_1/',
+                'http://localhost/index.php/r_1/c_1/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -317,7 +306,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/c_2/',
+                'http://localhost/index.php/r_1/c_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -325,7 +314,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_1/',
+                'http://localhost/index.php/r_1/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -333,7 +322,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/r_2/',
+                'http://localhost/index.php/r_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -341,7 +330,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
-                'http://localhost/index.php/',
+                'http://localhost/index.php/'
             ),
             array(
                 'r_1/c_1/a_1',
@@ -349,7 +338,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/r_1/c_1/a_1/',
-                'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/',
+                'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/'
             ),
             array(
                 null,
@@ -357,7 +346,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 'http://localhost/index.php/',
-                'http://localhost/index.php/r_1/c_1/a_1/',
+                'http://localhost/index.php/r_1/c_1/a_1/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -365,7 +354,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 array('p_2' => 'v_2'),
                 array('p_2' => 'v_2'),
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/p_2/v_2/',
-                'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/p_2/v_2/',
+                'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/p_2/v_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -373,7 +362,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 array('p_2' => 'v_2'),
                 array('p_2' => 'v_2'),
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/p_2/v_2/',
-                'http://localhost/index.php/r_1/c_1/a_1/p_2/v_2/',
+                'http://localhost/index.php/r_1/c_1/a_1/p_2/v_2/'
             ),
             array(
                 'r_1/c_1/a_1/p_1/v_1',
@@ -381,8 +370,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 array('p_2' => 'v_2'),
                 array('p_1' => 'v_1', 'p_2' => 'v_2'),
                 'http://localhost/index.php/r_1/c_1/a_1/p_1/v_1/p_2/v_2/',
-                'http://localhost/index.php/p_1/v_1/p_2/v_2/',
-            ),
+                'http://localhost/index.php/p_1/v_1/p_2/v_2/'
+            )
         );
     }
 
@@ -410,12 +399,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testSessionUrlVar()
     {
-        $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
-            ->getSessionId();
+        $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\Session'
+        )->getSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
-        $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',
-            $sessionUrl
-        );
+        $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>', $sessionUrl);
     }
 
     public function testUseSessionIdForUrl()

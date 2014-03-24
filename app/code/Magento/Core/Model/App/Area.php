@@ -17,13 +17,17 @@ namespace Magento\Core\Model\App;
 
 class Area
 {
-    const AREA_GLOBAL   = 'global';
-    const AREA_FRONTEND = 'frontend';
-    const AREA_ADMIN    = 'admin';
+    const AREA_GLOBAL = 'global';
 
-    const PART_CONFIG   = 'config';
-    const PART_TRANSLATE= 'translate';
-    const PART_DESIGN   = 'design';
+    const AREA_FRONTEND = 'frontend';
+
+    const AREA_ADMIN = 'admin';
+
+    const PART_CONFIG = 'config';
+
+    const PART_TRANSLATE = 'translate';
+
+    const PART_DESIGN = 'design';
 
     /**
      * Area parameter.
@@ -151,12 +155,10 @@ class Area
      * @param   string|null $part
      * @return  $this
      */
-    public function load($part=null)
+    public function load($part = null)
     {
         if (is_null($part)) {
-            $this->_loadPart(self::PART_CONFIG)
-                ->_loadPart(self::PART_DESIGN)
-                ->_loadPart(self::PART_TRANSLATE);
+            $this->_loadPart(self::PART_CONFIG)->_loadPart(self::PART_DESIGN)->_loadPart(self::PART_TRANSLATE);
         } else {
             $this->_loadPart($part);
         }
@@ -172,11 +174,13 @@ class Area
     public function detectDesign($request = null)
     {
         if ($this->_code == self::AREA_FRONTEND) {
-            $isDesignException = ($request && $this->_applyUserAgentDesignException($request));
+            $isDesignException = $request && $this->_applyUserAgentDesignException($request);
             if (!$isDesignException) {
-                $this->_design
-                    ->loadChange($this->_storeManager->getStore()->getId())
-                    ->changeDesign($this->_getDesign());
+                $this->_design->loadChange(
+                    $this->_storeManager->getStore()->getId()
+                )->changeDesign(
+                    $this->_getDesign()
+                );
             }
         }
     }
@@ -220,8 +224,10 @@ class Area
         if (isset($this->_loadedParts[$part])) {
             return $this;
         }
-        \Magento\Profiler::start('load_area:' . $this->_code . '.' . $part,
-            array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part));
+        \Magento\Profiler::start(
+            'load_area:' . $this->_code . '.' . $part,
+            array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part)
+        );
         switch ($part) {
             case self::PART_CONFIG:
                 $this->_initConfig();

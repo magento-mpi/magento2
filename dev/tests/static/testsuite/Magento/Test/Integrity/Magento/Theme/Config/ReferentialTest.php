@@ -19,7 +19,6 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
     /** @var array all exsisting template files in the system */
     protected static $_templateFileNames = array();
 
-
     public static function setUpBeforeClass()
     {
         self::_populateTemplatesReferences();
@@ -34,7 +33,11 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
         /**
          * @var array string[] $configFiles
          */
-        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles('page_layouts.xml', array(), false);
+        $configFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
+            'page_layouts.xml',
+            array(),
+            false
+        );
         /**
          * @var string $file
          */

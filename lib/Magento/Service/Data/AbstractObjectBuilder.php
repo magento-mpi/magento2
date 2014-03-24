@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Service\Data;
 
 /**
@@ -49,7 +48,7 @@ abstract class AbstractObjectBuilder
      */
     public function getCustomAttributesCodes()
     {
-        return [];
+        return array();
     }
 
     /**
@@ -62,7 +61,7 @@ abstract class AbstractObjectBuilder
      */
     public function populateWithArray(array $data)
     {
-        $this->_data = [];
+        $this->_data = array();
         $this->_setDataValues($data);
         return $this;
     }
@@ -78,7 +77,10 @@ abstract class AbstractObjectBuilder
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
-            $possibleMethods = ['get' . $this->_snakeCaseToCamelCase($key), 'is' . $this->_snakeCaseToCamelCase($key)];
+            $possibleMethods = array(
+                'get' . $this->_snakeCaseToCamelCase($key),
+                'is' . $this->_snakeCaseToCamelCase($key)
+            );
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->_data[$key] = $value;
             }
@@ -98,7 +100,7 @@ abstract class AbstractObjectBuilder
     public function mergeDataObjects(AbstractObject $firstDataObject, AbstractObject $secondDataObject)
     {
         $objectType = $this->_getDataObjectType();
-        if ((get_class($firstDataObject) != $objectType) || (get_class($secondDataObject) != $objectType)) {
+        if (get_class($firstDataObject) != $objectType || get_class($secondDataObject) != $objectType) {
             throw new \LogicException('Wrong prototype object given. It can only be of "' . $objectType . '" type.');
         }
         $this->_setDataValues($firstDataObject->__toArray());

@@ -39,7 +39,7 @@ abstract class AbstractResource
      *
      * @var array
      */
-    static protected $_commitCallbacks = array();
+    protected static $_commitCallbacks = array();
 
     /**
      * Resource initialization
@@ -185,7 +185,7 @@ abstract class AbstractResource
                     $data[$field] = $fieldValue;
                 } else {
                     if (null !== $fieldValue) {
-                        $fieldValue   = $this->_prepareTableValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
+                        $fieldValue = $this->_prepareTableValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
                         $data[$field] = $this->_getWriteAdapter()->prepareColumnValue($fields[$field], $fieldValue);
                     } else if (!empty($fields[$field]['NULLABLE'])) {
                         $data[$field] = null;
@@ -207,8 +207,11 @@ abstract class AbstractResource
     {
         $type = strtolower($type);
         if ($type == 'decimal' || $type == 'numeric' || $type == 'float') {
-            $value = \Magento\App\ObjectManager::getInstance()->get('Magento\Locale\FormatInterface')
-                ->getNumber($value);
+            $value = \Magento\App\ObjectManager::getInstance()->get(
+                'Magento\Locale\FormatInterface'
+            )->getNumber(
+                $value
+            );
         }
         return $value;
     }

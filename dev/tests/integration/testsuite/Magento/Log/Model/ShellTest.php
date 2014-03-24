@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Log\Model;
 
 class ShellTest extends \PHPUnit_Framework_TestCase
@@ -21,8 +20,10 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModel($entryPoint = 'fake.php')
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Log\Model\Shell', array('entryPoint' => $entryPoint));
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Log\Model\Shell',
+            array('entryPoint' => $entryPoint)
+        );
     }
 
     /**

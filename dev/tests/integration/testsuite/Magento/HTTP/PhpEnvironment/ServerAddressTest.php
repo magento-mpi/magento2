@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\HTTP\PhpEnvironment;
 
 class ServerAddressTest extends \PHPUnit_Framework_TestCase

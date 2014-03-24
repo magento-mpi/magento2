@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestFramework\Interception;
 
 class PluginList extends \Magento\Interception\PluginList\PluginList
@@ -41,8 +40,17 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
         array $scopePriorityScheme,
         $cacheId = 'plugins'
     ) {
-        parent::__construct($reader, $configScope, $cache, $relations, $omConfig,
-            $definitions, $objectManager, $classDefinitions, $scopePriorityScheme, $cacheId
+        parent::__construct(
+            $reader,
+            $configScope,
+            $cache,
+            $relations,
+            $omConfig,
+            $definitions,
+            $objectManager,
+            $classDefinitions,
+            $scopePriorityScheme,
+            $cacheId
         );
         $this->_originScopeScheme = $this->_scopePriorityScheme;
     }
@@ -56,4 +64,4 @@ class PluginList extends \Magento\Interception\PluginList\PluginList
         $this->_data = array();
         $this->_loadedScopes = array();
     }
-} 
+}

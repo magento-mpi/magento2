@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\TestModule5\Service\V1\Entity;
 
 use Magento\Service\Data\AbstractObject;
@@ -20,8 +19,11 @@ use Magento\Service\Data\AbstractObjectBuilder;
 class AllSoapAndRestBuilder extends AbstractObjectBuilder
 {
     const ID = 'id';
+
     const NAME = 'name';
+
     const IS_ENABLED = 'isEnabled';
+
     const HAS_NAME = 'hasName';
 
     /**

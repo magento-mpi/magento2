@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Install\Controller;
 
 class Action extends \Magento\App\Action\Action

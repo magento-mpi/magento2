@@ -6,7 +6,6 @@
  * @license     {license_link}
  *
  */
-
 namespace Magento\Webapi\Model\Config;
 
 use Magento\Webapi\Model\Config\Reader as ConfigReader;
@@ -42,10 +41,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($configFiles));
 
         $expectedResult = require __DIR__ . '/_files/webapi.php';
-        $this->assertEquals(
-            $expectedResult,
-            $this->_configReader->read(),
-            'Error happened during config reading.'
-        );
+        $this->assertEquals($expectedResult, $this->_configReader->read(), 'Error happened during config reading.');
     }
 }

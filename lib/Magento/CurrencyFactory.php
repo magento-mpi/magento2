@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento;
 
 class CurrencyFactory
@@ -24,10 +23,8 @@ class CurrencyFactory
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(
-        \Magento\ObjectManager $objectManager,
-        $instanceName = 'Magento\CurrencyInterface'
-    ) {
+    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\CurrencyInterface')
+    {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }

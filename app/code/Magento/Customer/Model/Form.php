@@ -42,7 +42,6 @@ class Form extends \Magento\Eav\Model\Form
      */
     protected function _getFormAttributeCollection()
     {
-        return parent::_getFormAttributeCollection()
-            ->addFieldToFilter('attribute_code', array('neq' => 'created_at'));
+        return parent::_getFormAttributeCollection()->addFieldToFilter('attribute_code', array('neq' => 'created_at'));
     }
 }

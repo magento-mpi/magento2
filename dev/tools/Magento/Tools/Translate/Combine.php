@@ -9,11 +9,10 @@
  */
 namespace Magento\Tools\Translate;
 
-/*
 
+/*
 Usage:
  php -f combine.php -- --output <file> --locale <locale_NAME>
-
 */
 
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
@@ -24,11 +23,10 @@ define('MESSAGE_TYPE_ERROR', '2');
 
 define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/');
 
-include(BASE_PATH . '/lib/Magento/File/Csv.php');
-include(__DIR__ . '/ModuleTranslations.php');
+include BASE_PATH . '/lib/Magento/File/Csv.php';
+include __DIR__ . '/ModuleTranslations.php';
 
 global $argv;
-
 class Combine
 {
     /**
@@ -84,14 +82,14 @@ class Combine
         $localeName = null;
         $collectModules = false;
 
-        foreach ($argv as $k=>$arg) {
-            switch($arg) {
+        foreach ($argv as $k => $arg) {
+            switch ($arg) {
                 case '--output':
-                    $outputFileName = @$argv[$k+1];
+                    $outputFileName = @$argv[$k + 1];
                     break;
 
                 case '--locale':
-                    $localeName = @$argv[$k+1];
+                    $localeName = @$argv[$k + 1];
                     break;
 
                 case '--collectmodules':
@@ -101,9 +99,11 @@ class Combine
         }
 
         if (!$outputFileName || !$localeName) {
-            $this->_addMessage(MESSAGE_TYPE_ERROR,
+            $this->_addMessage(
+                MESSAGE_TYPE_ERROR,
                 "Use this script as follows:\n\t
-                .php --output <file> --locale <locale_NAME> [--collectmodules]");
+                .php --output <file> --locale <locale_NAME> [--collectmodules]"
+            );
             $this->_error = true;
             return;
         }
@@ -135,7 +135,6 @@ class Combine
         $this->_localeName = $localeName;
     }
 
-
     /**
      * Browses the given directory and returns full file names
      * which matches internal name patterns
@@ -146,12 +145,12 @@ class Combine
     private function _getFilesToProcess($path)
     {
         $result = array();
-        $prefix = (substr($path, -1) == '/' ? $path : $path . '/');
+        $prefix = substr($path, -1) == '/' ? $path : $path . '/';
 
         $directory = dir($path);
         while (false !== ($file = $directory->read())) {
-            foreach ($this->_namePatterns as $pattern){
-                if (preg_match($pattern, $file, $matches)){
+            foreach ($this->_namePatterns as $pattern) {
+                if (preg_match($pattern, $file, $matches)) {
                     $alias = $matches[1];
                     $result[$alias] = $prefix . $file;
                 }
@@ -176,9 +175,9 @@ class Combine
         $files = $this->_getFilesToProcess(sprintf($this->_localePath, $this->_localeName));
         $csv = new \Magento\File\Csv();
 
-        foreach ($files as $alias=>$file){
+        foreach ($files as $alias => $file) {
             $data = $csv->getData($file);
-            for ($i = 0; $i < count($data); $i++){
+            for ($i = 0; $i < count($data); $i++) {
                 $data[$i] = array_merge(array($alias), $data[$i]);
             }
             $resultData = array_merge($resultData, $data);
@@ -197,11 +196,11 @@ class Combine
     {
         $result = array();
 
-        foreach ($this->_messages as $message){
+        foreach ($this->_messages as $message) {
             $type = $message['type'];
             $text = $message['text'];
 
-            switch($type){
+            switch ($type) {
                 case MESSAGE_TYPE_ERROR:
                     $type = 'Error';
                     break;
@@ -229,7 +228,7 @@ class Combine
      */
     private function _addMessage($type, $message)
     {
-        $this->_messages[] = array('type'=>$type, 'text'=>$message);
+        $this->_messages[] = array('type' => $type, 'text' => $message);
     }
 }
 

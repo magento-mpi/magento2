@@ -62,12 +62,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
             $select = $this->_getReadAdapter()->select();
             $select->from(
                 $this->getTable('admin_role'),
-                array(
-                    'role_id',
-                    'gws_is_all',
-                    'gws_websites',
-                    'gws_store_groups'
-                )
+                array('role_id', 'gws_is_all', 'gws_websites', 'gws_store_groups')
             );
             $select->where('parent_id = ?', 0);
             $roles = $this->_getReadAdapter()->fetchAll($select);
@@ -76,7 +71,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $roleStoreGroups = $this->_adminGwsData->explodeIds($role['gws_store_groups']);
                 $roleWebsites = $this->_adminGwsData->explodeIds($role['gws_websites']);
 
-                $hasAllPermissions = ($role['gws_is_all'] == 1);
+                $hasAllPermissions = $role['gws_is_all'] == 1;
 
                 if ($hasAllPermissions) {
                     $result[] = $role['role_id'];
@@ -127,8 +122,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
         $limitedRoles = $this->getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups);
         if ($limitedRoles) {
             $select = $this->_getReadAdapter()->select();
-            $select->from($this->getTable('admin_role'), array('user_id'))
-                ->where('parent_id IN (?)', $limitedRoles);
+            $select->from($this->getTable('admin_role'), array('user_id'))->where('parent_id IN (?)', $limitedRoles);
 
             $users = $this->_getReadAdapter()->fetchCol($select);
 

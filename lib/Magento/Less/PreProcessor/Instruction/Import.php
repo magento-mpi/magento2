@@ -5,7 +5,6 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-
 namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessorInterface;
@@ -20,8 +19,7 @@ class Import implements PreProcessorInterface
     /**
      * Pattern of @import less instruction
      */
-    const REPLACE_PATTERN =
-        '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
+    const REPLACE_PATTERN = '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
      * @var PreProcessor\File\FileList
@@ -101,7 +99,7 @@ class Import implements PreProcessorInterface
      */
     public function process(PreProcessor\File\Less $lessFile, $lessContent)
     {
-        $matches = [];
+        $matches = array();
         preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);
         $importPaths = $this->generatePaths($lessFile, $matches['path']);
         $replaceCallback = function ($matchContent) use ($importPaths) {

@@ -24,9 +24,8 @@ class Observer
     /**
      * @param \Magento\Backend\Model\Auth\Session $authSession
      */
-    public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession
-    ) {
+    public function __construct(\Magento\Backend\Model\Auth\Session $authSession)
+    {
         $this->_authSession = $authSession;
     }
 

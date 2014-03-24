@@ -41,5 +41,4 @@ class Button extends \Magento\View\Element\Template
     {
         return $this->_coreRegistry->registry('current_order');
     }
-
 }

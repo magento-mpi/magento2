@@ -13,7 +13,6 @@ namespace Magento\Outbound\Message;
 
 interface FactoryInterface
 {
-
     /** Topic header */
     const TOPIC_HEADER = 'Magento-Topic';
 

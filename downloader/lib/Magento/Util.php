@@ -20,5 +20,4 @@ class Util
     {
         return implode('.', array(PHP_MAJOR_VERSION, PHP_MINOR_VERSION, PHP_RELEASE_VERSION));
     }
-
 }

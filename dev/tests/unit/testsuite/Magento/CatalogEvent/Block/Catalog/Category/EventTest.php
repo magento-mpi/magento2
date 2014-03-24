@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogEvent\Block\Catalog\Category;
 
 class EventTest extends \PHPUnit_Framework_TestCase
@@ -40,16 +39,16 @@ class EventTest extends \PHPUnit_Framework_TestCase
     {
         $categoryTags = array('catalog_category_1');
         $category = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $category->expects($this->once())
-            ->method('getIdentities')
-            ->will($this->returnValue($categoryTags));
-        $this->registryMock->expects($this->once())
-            ->method('registry')
-            ->with('current_category')
-            ->will($this->returnValue($category));
-        $this->assertEquals(
-            $categoryTags,
-            $this->block->getIdentities()
+        $category->expects($this->once())->method('getIdentities')->will($this->returnValue($categoryTags));
+        $this->registryMock->expects(
+            $this->once()
+        )->method(
+            'registry'
+        )->with(
+            'current_category'
+        )->will(
+            $this->returnValue($category)
         );
+        $this->assertEquals($categoryTags, $this->block->getIdentities());
     }
 }

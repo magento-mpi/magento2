@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Product\Option;
 
 class ValueStub extends \Magento\Catalog\Model\Resource\Product\Option\Value
@@ -18,12 +17,7 @@ class ValueStub extends \Magento\Catalog\Model\Resource\Product\Option\Value
      */
     public function __construct()
     {
-        $this->_connections = array(
-            'read' =>
-            new MysqlStub(),
-            'write' =>
-            new MysqlStub(),
-        );
+        $this->_connections = array('read' => new MysqlStub(), 'write' => new MysqlStub());
     }
 
     /**

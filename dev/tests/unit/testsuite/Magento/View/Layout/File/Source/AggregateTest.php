@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\File\Source;
 
 class AggregateTest extends \PHPUnit_Framework_TestCase
@@ -47,8 +46,7 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         $this->_themeFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $this->_overridingBaseFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $this->_overridingThemeFiles = $this->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
-        $fileListFactory =
-            $this->getMock('Magento\View\Layout\File\FileList\Factory', array(), array(), '', false);
+        $fileListFactory = $this->getMock('Magento\View\Layout\File\FileList\Factory', array(), array(), '', false);
         $fileListFactory->expects($this->once())->method('create')->will($this->returnValue($this->_fileList));
         $this->_model = new \Magento\View\Layout\File\Source\Aggregated(
             $fileListFactory,
@@ -59,11 +57,19 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @return void
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function testGetFiles()
     {
         $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $theme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
-        $theme->expects($this->once())->method('getInheritedThemes')->will(
+        $theme->expects(
+            $this->once()
+        )->method(
+            'getInheritedThemes'
+        )->will(
             $this->returnValue(array($parentTheme, $parentTheme))
         );
 
@@ -74,25 +80,74 @@ class AggregateTest extends \PHPUnit_Framework_TestCase
             new \Magento\View\Layout\File('3.xml', 'Module_One', $parentTheme),
             new \Magento\View\Layout\File('4.xml', 'Module_One', $theme),
             new \Magento\View\Layout\File('5.xml', 'Module_One', $theme),
-            new \Magento\View\Layout\File('6.xml', 'Module_One', $theme),
+            new \Magento\View\Layout\File('6.xml', 'Module_One', $theme)
         );
 
-        $this->_baseFiles
-            ->expects($this->once())->method('getFiles')->with($theme)->will($this->returnValue(array($files[0])));
+        $this->_baseFiles->expects(
+            $this->once()
+        )->method(
+            'getFiles'
+        )->with(
+            $theme
+        )->will(
+            $this->returnValue(array($files[0]))
+        );
 
-        $this->_themeFiles
-            ->expects($this->at(0))->method('getFiles')->with($parentTheme)->will($this->returnValue(array($files[1])));
-        $this->_overridingBaseFiles
-            ->expects($this->at(0))->method('getFiles')->with($parentTheme)->will($this->returnValue(array($files[2])));
-        $this->_overridingThemeFiles
-            ->expects($this->at(0))->method('getFiles')->with($parentTheme)->will($this->returnValue(array($files[3])));
+        $this->_themeFiles->expects(
+            $this->at(0)
+        )->method(
+            'getFiles'
+        )->with(
+            $parentTheme
+        )->will(
+            $this->returnValue(array($files[1]))
+        );
+        $this->_overridingBaseFiles->expects(
+            $this->at(0)
+        )->method(
+            'getFiles'
+        )->with(
+            $parentTheme
+        )->will(
+            $this->returnValue(array($files[2]))
+        );
+        $this->_overridingThemeFiles->expects(
+            $this->at(0)
+        )->method(
+            'getFiles'
+        )->with(
+            $parentTheme
+        )->will(
+            $this->returnValue(array($files[3]))
+        );
 
-        $this->_themeFiles
-            ->expects($this->at(1))->method('getFiles')->with($theme)->will($this->returnValue(array($files[4])));
-        $this->_overridingBaseFiles
-            ->expects($this->at(1))->method('getFiles')->with($theme)->will($this->returnValue(array($files[5])));
-        $this->_overridingThemeFiles
-            ->expects($this->at(1))->method('getFiles')->with($theme)->will($this->returnValue(array($files[6])));
+        $this->_themeFiles->expects(
+            $this->at(1)
+        )->method(
+            'getFiles'
+        )->with(
+            $theme
+        )->will(
+            $this->returnValue(array($files[4]))
+        );
+        $this->_overridingBaseFiles->expects(
+            $this->at(1)
+        )->method(
+            'getFiles'
+        )->with(
+            $theme
+        )->will(
+            $this->returnValue(array($files[5]))
+        );
+        $this->_overridingThemeFiles->expects(
+            $this->at(1)
+        )->method(
+            'getFiles'
+        )->with(
+            $theme
+        )->will(
+            $this->returnValue(array($files[6]))
+        );
 
         $this->_fileList->expects($this->at(0))->method('add')->with(array($files[0]));
         $this->_fileList->expects($this->at(1))->method('add')->with(array($files[1]));

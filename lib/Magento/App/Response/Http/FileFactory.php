@@ -6,7 +6,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\App\Response\Http;
 
 class FileFactory
@@ -25,10 +24,8 @@ class FileFactory
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\App\ResponseInterface $response,
-        \Magento\App\Filesystem $filesystem
-    ) {
+    public function __construct(\Magento\App\ResponseInterface $response, \Magento\App\Filesystem $filesystem)
+    {
         $this->_response = $response;
         $this->_filesystem = $filesystem;
     }
@@ -71,13 +68,33 @@ class FileFactory
             }
         }
 
-        $this->_response->setHttpResponseCode(200)
-            ->setHeader('Pragma', 'public', true)
-            ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-            ->setHeader('Content-type', $contentType, true)
-            ->setHeader('Content-Length', is_null($contentLength) ? strlen($content) : $contentLength, true)
-            ->setHeader('Content-Disposition', 'attachment; filename="' . $fileName . '"', true)
-            ->setHeader('Last-Modified', date('r'), true);
+        $this->_response->setHttpResponseCode(
+            200
+        )->setHeader(
+            'Pragma',
+            'public',
+            true
+        )->setHeader(
+            'Cache-Control',
+            'must-revalidate, post-check=0, pre-check=0',
+            true
+        )->setHeader(
+            'Content-type',
+            $contentType,
+            true
+        )->setHeader(
+            'Content-Length',
+            is_null($contentLength) ? strlen($content) : $contentLength,
+            true
+        )->setHeader(
+            'Content-Disposition',
+            'attachment; filename="' . $fileName . '"',
+            true
+        )->setHeader(
+            'Last-Modified',
+            date('r'),
+            true
+        );
 
         if (!is_null($content)) {
             if ($isFile) {

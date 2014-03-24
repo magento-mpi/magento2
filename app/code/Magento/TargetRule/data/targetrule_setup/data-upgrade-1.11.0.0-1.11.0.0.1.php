@@ -11,8 +11,13 @@
 /** @var $installer \Magento\TargetRule\Model\Resource\Setup */
 $installer = $this;
 
-if ($installer->getAttributeId('catalog_product', 'related_targetrule_position_limit')
-    && !$installer->getAttributeId('catalog_product',  'related_tgtr_position_limit')
+if ($installer->getAttributeId(
+    'catalog_product',
+    'related_targetrule_position_limit'
+) && !$installer->getAttributeId(
+    'catalog_product',
+    'related_tgtr_position_limit'
+)
 ) {
     $installer->updateAttribute(
         \Magento\Catalog\Model\Product::ENTITY,
@@ -22,8 +27,13 @@ if ($installer->getAttributeId('catalog_product', 'related_targetrule_position_l
     );
 }
 
-if ($installer->getAttributeId('catalog_product', 'related_targetrule_position_behavior')
-    && !$installer->getAttributeId('catalog_product', 'related_tgtr_position_behavior')
+if ($installer->getAttributeId(
+    'catalog_product',
+    'related_targetrule_position_behavior'
+) && !$installer->getAttributeId(
+    'catalog_product',
+    'related_tgtr_position_behavior'
+)
 ) {
     $installer->updateAttribute(
         \Magento\Catalog\Model\Product::ENTITY,
@@ -33,8 +43,13 @@ if ($installer->getAttributeId('catalog_product', 'related_targetrule_position_b
     );
 }
 
-if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_limit')
-    && !$installer->getAttributeId('catalog_product', 'upsell_tgtr_position_limit')
+if ($installer->getAttributeId(
+    'catalog_product',
+    'upsell_targetrule_position_limit'
+) && !$installer->getAttributeId(
+    'catalog_product',
+    'upsell_tgtr_position_limit'
+)
 ) {
     $installer->updateAttribute(
         \Magento\Catalog\Model\Product::ENTITY,
@@ -44,8 +59,13 @@ if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_li
     );
 }
 
-if ($installer->getAttributeId('catalog_product', 'upsell_targetrule_position_behavior')
-    && !$installer->getAttributeId('catalog_product', 'upsell_tgtr_position_behavior')
+if ($installer->getAttributeId(
+    'catalog_product',
+    'upsell_targetrule_position_behavior'
+) && !$installer->getAttributeId(
+    'catalog_product',
+    'upsell_tgtr_position_behavior'
+)
 ) {
     $installer->updateAttribute(
         \Magento\Catalog\Model\Product::ENTITY,

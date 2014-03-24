@@ -19,10 +19,8 @@ class Customerbalance extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\View\Element\Template\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -52,14 +50,16 @@ class Customerbalance extends \Magento\View\Element\Template
      */
     public function initTotals()
     {
-        if ((float)$this->getSource()->getCustomerBalanceAmount() == 0) {
+        if ((double)$this->getSource()->getCustomerBalanceAmount() == 0) {
             return $this;
         }
-        $total = new \Magento\Object(array(
-            'code'      => $this->getNameInLayout(),
-            'block_name'=> $this->getNameInLayout(),
-            'area'      => $this->getArea()
-        ));
+        $total = new \Magento\Object(
+            array(
+                'code' => $this->getNameInLayout(),
+                'block_name' => $this->getNameInLayout(),
+                'area' => $this->getArea()
+            )
+        );
         $after = $this->getAfterTotal();
         if (!$after) {
             $after = 'giftcards';

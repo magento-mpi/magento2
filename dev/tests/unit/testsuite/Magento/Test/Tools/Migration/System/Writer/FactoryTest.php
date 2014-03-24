@@ -7,14 +7,15 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Test\Tools\Migration\System\Writer;
 
-require_once realpath(__DIR__ . '/../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Writer/Factory.php';
-require_once realpath(__DIR__ . '/../../../../../../../../../')
-    . '/tools/Magento/Tools/Migration/System/Writer/FileSystem.php';
 
+require_once realpath(
+    __DIR__ . '/../../../../../../../../../'
+) . '/tools/Magento/Tools/Migration/System/Writer/Factory.php';
+require_once realpath(
+    __DIR__ . '/../../../../../../../../../'
+) . '/tools/Magento/Tools/Migration/System/Writer/FileSystem.php';
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,6 +31,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetWriterReturnsProperWriter()
     {
         $this->assertInstanceOf('Magento\Tools\Migration\System\Writer\FileSystem', $this->_model->getWriter('write'));
-        $this->assertInstanceOf('Magento\Tools\Migration\System\Writer\Memory', $this->_model->getWriter('someWriter'));
+        $this->assertInstanceOf(
+            'Magento\Tools\Migration\System\Writer\Memory',
+            $this->_model->getWriter('someWriter')
+        );
     }
 }

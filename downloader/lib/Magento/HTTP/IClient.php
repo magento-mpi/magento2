@@ -24,17 +24,16 @@ interface IClient
      * @param int $value
      * @return void
      */
-    function setTimeout($value);
-    
-    
+    public function setTimeout($value);
+
     /**
      * Set request headers from hash
      *
      * @param array $headers
      * @return void
      */
-    function setHeaders($headers);
-    
+    public function setHeaders($headers);
+
     /**
      * Add header to request
      *
@@ -42,17 +41,15 @@ interface IClient
      * @param string $value
      * @return void
      */
-    function addHeader($name, $value);
-    
-    
+    public function addHeader($name, $value);
+
     /**
      * Remove header from request
      *
      * @param string $name
      * @return void
      */
-    function removeHeader($name);
-
+    public function removeHeader($name);
 
     /**
      * Set login credentials
@@ -62,8 +59,8 @@ interface IClient
      * @param string $pass
      * @return void
      */
-    function setCredentials($login, $pass);
-    
+    public function setCredentials($login, $pass);
+
     /**
      * Add cookie to request
      *
@@ -71,7 +68,7 @@ interface IClient
      * @param string $value
      * @return void
      */
-    function addCookie($name, $value);
+    public function addCookie($name, $value);
 
     /**
      * Remove cookie from request
@@ -79,22 +76,22 @@ interface IClient
      * @param string $name
      * @return void
      */
-    function removeCookie($name);
-    
+    public function removeCookie($name);
+
     /**
      * Set request cookies from hash
      *
      * @param array $cookies
      * @return void
-     */ 
-    function setCookies($cookies);
+     */
+    public function setCookies($cookies);
 
     /**
      * Remove cookies from request
      *
      * @return void
      */
-    function removeCookies();
+    public function removeCookies();
 
     /**
      * Make GET request
@@ -102,7 +99,7 @@ interface IClient
      * @param string full uri
      * @return void
      */
-    function get($uri);
+    public function get($uri);
 
     /**
      * Make POST request
@@ -110,37 +107,37 @@ interface IClient
      * @param string $uri full uri
      * @param array $params POST fields array
      * @return void
-     */ 
-    function post($uri, $params);
-    
+     */
+    public function post($uri, $params);
+
     /**
      * Get response headers
      *
      * @return array
-     */ 
-    function getHeaders();
-    
+     */
+    public function getHeaders();
+
     /**
      * Get response body
      *
      * @return string
      */
-    function getBody(); 
-    
+    public function getBody();
+
     /**
      * Get response status code
      *
      * @return int
      */
-    function getStatus();
-    
+    public function getStatus();
+
     /**
      * Get response cookies (k=>v)
      *
      * @return array
      */
-    function getCookies();
-    
+    public function getCookies();
+
     /**
      * Set additional option
      *
@@ -148,7 +145,7 @@ interface IClient
      * @param string $value
      * @return void
      */
-    function setOption($key, $value);
+    public function setOption($key, $value);
 
     /**
      * Set additional options
@@ -156,5 +153,5 @@ interface IClient
      * @param array $arr
      * @return void
      */
-    function setOptions($arr);
+    public function setOptions($arr);
 }

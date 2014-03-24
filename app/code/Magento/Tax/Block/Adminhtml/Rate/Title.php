@@ -82,10 +82,7 @@ class Title extends \Magento\View\Element\Template
     {
         $stores = $this->getData('stores');
         if (is_null($stores)) {
-            $stores = $this->_storeFactory->create()
-                ->getResourceCollection()
-                ->setLoadDefault(false)
-                ->load();
+            $stores = $this->_storeFactory->create()->getResourceCollection()->setLoadDefault(false)->load();
             $this->setData('stores', $stores);
         }
         return $stores;

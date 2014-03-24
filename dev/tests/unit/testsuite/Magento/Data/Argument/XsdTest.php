@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Data\Argument;
 
 class XsdTest extends \PHPUnit_Framework_TestCase
@@ -45,7 +44,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function schemaCorrectlyIdentifiesInvalidTypesXmlDataProvider()
     {
-        return include(__DIR__ . '/_files/typesInvalidArray.php');
+        return include __DIR__ . '/_files/typesInvalidArray.php';
     }
 
     public function testSchemaCorrectlyIdentifiesValidXml()

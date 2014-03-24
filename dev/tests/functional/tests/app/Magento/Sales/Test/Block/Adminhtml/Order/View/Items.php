@@ -47,8 +47,7 @@ class Items extends Block
 
             $productDisplay = $productName . ' SKU: ' . $product->getVariationSku($checkoutOption);
             $productDisplay .= ' ' . key($productOptions) . ' ' . $checkoutOption;
-        }
-        else {
+        } else {
             $productDisplay = $productName . ' SKU: ' . $product->getProductSku();
         }
         $selector = '//tr[normalize-space(td)="' . $productDisplay .'"]' . $this->priceSelector;

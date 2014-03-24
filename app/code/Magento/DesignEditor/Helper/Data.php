@@ -46,11 +46,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param string $frontName
      * @param array $disabledCacheTypes
      */
-    public function __construct(
-        Context $context,
-        $frontName,
-        array $disabledCacheTypes = array()
-    ) {
+    public function __construct(Context $context, $frontName, array $disabledCacheTypes = array())
+    {
         parent::__construct($context);
         $this->_frontName = $frontName;
         $this->_disabledCacheTypes = $disabledCacheTypes;
@@ -121,9 +118,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $splitPath = explode('/', trim($request->getOriginalPathInfo(), '/'));
             if (count($splitPath) >= 3) {
                 list($frontName, $currentMode, $themeId) = $splitPath;
-                $result = ($frontName === $this->_frontName)
-                    && in_array($currentMode, [\Magento\DesignEditor\Model\State::MODE_NAVIGATION])
-                    && is_numeric($themeId);
+                $result = $frontName === $this->_frontName && in_array(
+                    $currentMode, 
+                    [\Magento\DesignEditor\Model\State::MODE_NAVIGATION]
+                ) && is_numeric(
+                    $themeId
+                );
             }
         }
         return $result;

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Helper;
 
 use Magento\TestFramework\Helper\Bootstrap;
@@ -59,4 +58,3 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_dataHelper->isConfirmationRequired());
     }
 }
- 

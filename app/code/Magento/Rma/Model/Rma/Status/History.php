@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Model\Rma\Status;
 
 /**
@@ -142,12 +141,7 @@ class History extends \Magento\Core\Model\AbstractModel
         } else {
             $customerName = $order->getCustomerName();
         }
-        $sendTo = array(
-            array(
-                'email' => $order->getCustomerEmail(),
-                'name'  => $customerName
-            )
-        );
+        $sendTo = array(array('email' => $order->getCustomerEmail(), 'name' => $customerName));
 
         return $this->_sendCommentEmail($this->_rmaConfig->getRootCommentEmail(), $sendTo, true);
     }
@@ -160,10 +154,7 @@ class History extends \Magento\Core\Model\AbstractModel
     public function sendCustomerCommentEmail()
     {
         $sendTo = array(
-            array(
-                'email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getStoreId()),
-                'name'  => null
-            )
+            array('email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getStoreId()), 'name' => null)
         );
         return $this->_sendCommentEmail($this->_rmaConfig->getRootCustomerCommentEmail(), $sendTo, false);
     }
@@ -199,10 +190,7 @@ class History extends \Magento\Core\Model\AbstractModel
 
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $sendTo[] = array(
-                    'email' => $email,
-                    'name'  => null
-                );
+                $sendTo[] = array('email' => $email, 'name' => null);
             }
         }
 
@@ -212,21 +200,20 @@ class History extends \Magento\Core\Model\AbstractModel
         }
 
         foreach ($sendTo as $recipient) {
-            $transport = $this->_transportBuilder
-                ->setTemplateIdentifier($template)
-                ->setTemplateOptions(array(
-                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                    'store' => $this->getStoreId()
-                ))
-                ->setTemplateVars(array(
-                    'rma'       => $this->getRma(),
-                    'order'     => $this->getRma()->getOrder(),
-                    'comment'   => $comment
-                ))
-                ->setFrom($this->_rmaConfig->getIdentity())
-                ->addTo($recipient['email'], $recipient['name'])
-                ->addBcc($bcc)
-                ->getTransport();
+            $transport = $this->_transportBuilder->setTemplateIdentifier(
+                $template
+            )->setTemplateOptions(
+                array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+            )->setTemplateVars(
+                array('rma' => $this->getRma(), 'order' => $this->getRma()->getOrder(), 'comment' => $comment)
+            )->setFrom(
+                $this->_rmaConfig->getIdentity()
+            )->addTo(
+                $recipient['email'],
+                $recipient['name']
+            )->addBcc(
+                $bcc
+            )->getTransport();
 
             $transport->sendMessage();
         }
@@ -245,39 +232,46 @@ class History extends \Magento\Core\Model\AbstractModel
     public function saveSystemComment()
     {
         $systemComments = array(
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING =>
-                __('We placed your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED =>
-                __('We have authorized your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PARTIAL_AUTHORIZED =>
-                __('We partially authorized your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED =>
-                __('We received your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED_ON_ITEM =>
-                __('We partially received your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED_ON_ITEM =>
-                __('We partially approved your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED_ON_ITEM =>
-                __('We partially rejected your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED =>
-                __('We closed your Return request.'),
-            \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED =>
-                __('We processed and closed your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING => __('We placed your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_AUTHORIZED => __('We have authorized your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PARTIAL_AUTHORIZED => __(
+                'We partially authorized your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED => __('We received your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_RECEIVED_ON_ITEM => __(
+                'We partially received your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_APPROVED_ON_ITEM => __(
+                'We partially approved your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_REJECTED_ON_ITEM => __(
+                'We partially rejected your Return request.'
+            ),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_CLOSED => __('We closed your Return request.'),
+            \Magento\Rma\Model\Rma\Source\Status::STATE_PROCESSED_CLOSED => __(
+                'We processed and closed your Return request.'
+            )
         );
 
         $rma = $this->getRma();
-        if (!($rma instanceof \Magento\Rma\Model\Rma)) {
+        if (!$rma instanceof \Magento\Rma\Model\Rma) {
             return;
         }
 
-        if (($rma->getStatus() !== $rma->getOrigData('status') && isset($systemComments[$rma->getStatus()]))) {
-            $this->setRmaEntityId($rma->getEntityId())
-                ->setComment($systemComments[$rma->getStatus()])
-                ->setIsVisibleOnFront(true)
-                ->setStatus($rma->getStatus())
-                ->setCreatedAt($this->_date->gmtDate())
-                ->setIsAdmin(1)
-                ->save();
+        if ($rma->getStatus() !== $rma->getOrigData('status') && isset($systemComments[$rma->getStatus()])) {
+            $this->setRmaEntityId(
+                $rma->getEntityId()
+            )->setComment(
+                $systemComments[$rma->getStatus()]
+            )->setIsVisibleOnFront(
+                true
+            )->setStatus(
+                $rma->getStatus()
+            )->setCreatedAt(
+                $this->_date->gmtDate()
+            )->setIsAdmin(
+                1
+            )->save();
         }
     }
 }

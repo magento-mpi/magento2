@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PricePermissions\Model;
 
 /**
@@ -22,10 +21,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Config\ScopeInterface')
-            ->setCurrentScope(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\LayoutInterface');
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Config\ScopeInterface'
+        )->setCurrentScope(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        );
+        $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\LayoutInterface'
+        );
     }
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
@@ -74,8 +77,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);
-        $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\PricePermissions\Model\Observer');
+        $observer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\PricePermissions\Model\Observer'
+        );
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }
@@ -85,11 +89,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initSession()
     {
-        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\User\Model\User');
+        $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');
         $user->setId(2)->setRole(true);
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Auth\Session');
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Backend\Model\Auth\Session'
+        );
         $session->setUpdatedAt(time())->setUser($user);
     }
 }

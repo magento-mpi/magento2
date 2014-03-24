@@ -37,14 +37,11 @@ class Layout implements \Magento\Option\ArrayInterface
     {
         $options = array();
         if ($withDefault) {
-           $options[] = array('label' => __('Use default'), 'value' => '');
+            $options[] = array('label' => __('Use default'), 'value' => '');
         }
 
         foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
-            $options[] = array(
-                'label' => $info['label'],
-                'value' => $name
-            );
+            $options[] = array('label' => $info['label'], 'value' => $name);
         }
 
         return $options;

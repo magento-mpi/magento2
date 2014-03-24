@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Catalog/etc/product_types.xsd">
     <type name="downloadable" label="Downloadable Product" modelInstance="Magento\Downloadable\Model\Product\Type" composite="false" isQty="true" canUseQtyDecimals="false">
         <priceModel instance="Magento\Downloadable\Model\Product\Price" />
         <indexerModel instance="Magento\Downloadable\Model\Resource\Indexer\Price" />

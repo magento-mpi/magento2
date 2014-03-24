@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Block\System\Store;
 
 /**
@@ -23,7 +22,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Backend\Block\System\Store\Delete */
         $block = $layout->createBlock('Magento\Backend\Block\System\Store\Delete', 'block');
 
-        $dataObject = new \Magento\Object;
+        $dataObject = new \Magento\Object();
         $form = $block->getChildBlock('form');
         $form->setDataObject($dataObject);
 

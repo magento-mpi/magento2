@@ -7,6 +7,7 @@
  */
 
 /** @var \Magento\Translation\Model\Resource\String $translateString */
-$translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Translation\Model\Resource\String');
+$translateString = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    'Magento\Translation\Model\Resource\String'
+);
 $translateString->saveTranslate('Fixture String', 'Fixture Db Translation');

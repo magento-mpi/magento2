@@ -26,12 +26,10 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filterManager->truncate($value, array(
-            'length' => $length,
-            'etc' => $etc,
-            'remainder' => $remainder,
-            'breakWords' => $breakWords
-        ));
+        return $this->filterManager->truncate(
+            $value,
+            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+        );
     }
 
     /**
@@ -44,10 +42,7 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
     {
         $remainder = '';
         $value = $this->truncateString($value, 55, '', $remainder);
-        $result = array(
-            'value' => nl2br($value),
-            'remainder' => nl2br($remainder)
-        );
+        $result = array('value' => nl2br($value), 'remainder' => nl2br($remainder));
 
         return $result;
     }

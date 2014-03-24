@@ -14,6 +14,7 @@
     <preference for="Magento\Translate\Inline\ParserInterface" type="Magento\Translation\Model\Inline\Parser" />
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Translation\Model\Resource\Translate" />
     <preference for="Magento\Translate\Inline\StateInterface" type="Magento\Translate\Inline\State" />
+    <preference for="Magento\Phrase\RendererInterface" type="Magento\Phrase\Renderer\Composite" />
     <type name="Magento\Translate\Inline">
         <arguments>
             <argument name="templateFileName" xsi:type="string">Magento_Translation::translate_inline.phtml</argument>
@@ -30,6 +31,20 @@
     <type name="Magento\Translate\Inline\Provider">
         <arguments>
             <argument name="inlineTranslate" xsi:type="object">Magento\Translate\Inline\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Phrase\Renderer\Composite">
+        <arguments>
+            <argument name="renderers" xsi:type="array">
+                <item name="translation" xsi:type="object">Magento\Phrase\Renderer\Translate</item>
+                <item name="placeholder" xsi:type="object">Magento\Phrase\Renderer\Placeholder</item>
+                <item name="inline" xsi:type="object">Magento\Phrase\Renderer\Inline</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Phrase\Renderer\Translate">
+        <arguments>
+            <argument name="translator" xsi:type="object">Magento\Translate</argument>
         </arguments>
     </type>
 </config>

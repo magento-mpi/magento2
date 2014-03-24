@@ -19,5 +19,4 @@ namespace Magento\Downloadable\Block\Catalog\Product\View;
 
 class Type extends \Magento\Catalog\Block\Product\View\Type\Virtual
 {
-
 }

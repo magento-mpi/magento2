@@ -47,15 +47,30 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         $resultAfterFirst = 'rendered text first';
         $resultAfterSecond = 'rendered text second';
 
-        $this->rendererOne->expects($this->once())
-            ->method('render')
-            ->with([$text], $arguments)
-            ->will($this->returnValue($resultAfterFirst));
+        $this->rendererOne->expects(
+            $this->once()
+        )->method(
+                'render'
+            )->with(
+                [$text],
+                $arguments
+            )->will(
+                $this->returnValue($resultAfterFirst)
+            );
 
-        $this->rendererTwo->expects($this->once())
-            ->method('render')
-            ->with([$text, $resultAfterFirst], $arguments)
-            ->will($this->returnValue($resultAfterSecond));
+        $this->rendererTwo->expects(
+            $this->once()
+        )->method(
+                'render'
+            )->with(
+                [
+                    $text, 
+                    $resultAfterFirst
+                ],
+                $arguments
+            )->will(
+                $this->returnValue($resultAfterSecond)
+            );
 
         $this->assertEquals($resultAfterSecond, $this->object->render([$text], $arguments));
     }

@@ -300,7 +300,7 @@ class Translate implements \Magento\TranslateInterface
                 $this->_data[$scopeKey] = $value;
             } else {
                 $this->_data[$key] = $value;
-                $this->_dataScope[$key]= $scope;
+                $this->_dataScope[$key] = $scope;
             }
         }
         return $this;

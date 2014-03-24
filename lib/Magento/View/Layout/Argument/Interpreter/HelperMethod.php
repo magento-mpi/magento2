@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\ObjectManager;
@@ -48,10 +47,11 @@ class HelperMethod implements InterpreterInterface
         $helperMethod = $data['helper'];
         list($helperClass, $methodName) = explode('::', $helperMethod, 2);
         if (!method_exists($helperClass, $methodName)) {
-            throw new \InvalidArgumentException("Helper method '$helperMethod' does not exist.");
+            throw new \InvalidArgumentException("Helper method '{$helperMethod}' does not exist.");
         }
         $methodParams = $this->paramsInterpreter->evaluate($data);
-        $methodParams = array_values($methodParams); // Use positional argument binding instead of named binding
+        $methodParams = array_values($methodParams);
+        // Use positional argument binding instead of named binding
         $helperInstance = $this->objectManager->get($helperClass);
         return call_user_func_array(array($helperInstance, $methodName), $methodParams);
     }

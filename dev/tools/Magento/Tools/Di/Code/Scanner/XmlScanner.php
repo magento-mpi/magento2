@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Di\Code\Scanner;
 
 class XmlScanner implements ScannerInterface
@@ -39,10 +38,10 @@ class XmlScanner implements ScannerInterface
             $xpath->registerNamespace("php", "http://php.net/xpath");
             $xpath->registerPhpFunctions('preg_match');
             $regex = '/^(.*)\\\(.*)Proxy$/';
-            $query = "/config/preference[ php:functionString('preg_match', '$regex', @type) > 0]/@type | "
-                . "//argument[@xsi:type='object' and php:functionString('preg_match', '$regex', text()) > 0] |"
-                . "//item[@xsi:type='object' and php:functionString('preg_match', '$regex', text()) > 0] |"
-                . "/config/virtualType[ php:functionString('preg_match', '$regex', @type) > 0]/@type";
+            $query = "/config/preference[ php:functionString('preg_match', '{$regex}', @type) > 0]/@type | " .
+                "//argument[@xsi:type='object' and php:functionString('preg_match', '{$regex}', text()) > 0] |" .
+                "//item[@xsi:type='object' and php:functionString('preg_match', '{$regex}', text()) > 0] |" .
+                "/config/virtualType[ php:functionString('preg_match', '{$regex}', @type) > 0]/@type";
             /** @var \DOMNode $node */
             foreach ($xpath->query($query) as $node) {
                 $output[] = $node->nodeValue;

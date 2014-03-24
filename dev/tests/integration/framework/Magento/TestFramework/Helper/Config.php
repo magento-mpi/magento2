@@ -24,8 +24,9 @@ class Config
     public function getEnabledModules()
     {
         $result = array();
-        $moduleList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Module\ModuleListInterface');
+        $moduleList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Module\ModuleListInterface'
+        );
         foreach ($moduleList->getModules() as $module) {
             $result[] = $module['name'];
         }

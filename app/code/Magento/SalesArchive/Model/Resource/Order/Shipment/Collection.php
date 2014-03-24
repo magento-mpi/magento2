@@ -16,8 +16,7 @@ namespace Magento\SalesArchive\Model\Resource\Order\Shipment;
  * @package     Magento_SalesArchive
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection
-    extends \Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection
+class Collection extends \Magento\Sales\Model\Resource\Order\Shipment\Grid\Collection
 {
     /**
      * Collection initialization

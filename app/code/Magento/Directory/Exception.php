@@ -7,10 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Directory;
 
 class Exception extends \Magento\Core\Exception
 {
-    
 }

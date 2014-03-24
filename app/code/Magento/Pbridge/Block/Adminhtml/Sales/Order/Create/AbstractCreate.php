@@ -7,8 +7,7 @@
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
-class AbstractCreate
-    extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
+class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
     /**
      * Payment code
@@ -65,6 +64,7 @@ class AbstractCreate
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
@@ -77,6 +77,7 @@ class AbstractCreate
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        \Magento\App\Http\Context $httpContext,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
@@ -92,6 +93,7 @@ class AbstractCreate
             $pbridgeSession,
             $regionFactory,
             $pbridgeData,
+            $httpContext,
             $checkoutSession,
             $data
         );
@@ -104,7 +106,8 @@ class AbstractCreate
      */
     public function getRedirectUrl()
     {
-        return $this->_backendUrl->getUrl('adminhtml/pbridge/result',
+        return $this->_backendUrl->getUrl(
+            'adminhtml/pbridge/result',
             array('store' => $this->getQuote()->getStoreId())
         );
     }
@@ -126,8 +129,10 @@ class AbstractCreate
      */
     protected function _getVariation()
     {
-        return $this->_config->getValue('payment/pbridge/merchantcode', 'default')
-            . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
+        return $this->_config->getValue(
+            'payment/pbridge/merchantcode',
+            'default'
+        ) . '_' . $this->getQuote()->getStore()->getWebsite()->getCode();
     }
 
     /**

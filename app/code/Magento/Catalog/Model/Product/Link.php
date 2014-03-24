@@ -30,9 +30,11 @@ use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCol
  */
 class Link extends \Magento\Core\Model\AbstractModel
 {
-    const LINK_TYPE_RELATED     = 1;
-    const LINK_TYPE_UPSELL      = 4;
-    const LINK_TYPE_CROSSSELL   = 5;
+    const LINK_TYPE_RELATED = 1;
+
+    const LINK_TYPE_UPSELL = 4;
+
+    const LINK_TYPE_CROSSSELL = 5;
 
     /**
      * @var mixed
@@ -131,8 +133,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getProductCollection()
     {
-        $collection = $this->_productCollectionFactory->create()
-            ->setLinkModel($this);
+        $collection = $this->_productCollectionFactory->create()->setLinkModel($this);
         return $collection;
     }
 
@@ -143,8 +144,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getLinkCollection()
     {
-        $collection = $this->_linkCollectionFactory->create()
-            ->setLinkModel($this);
+        $collection = $this->_linkCollectionFactory->create()->setLinkModel($this);
         return $collection;
     }
 
@@ -152,7 +152,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      * @param int $type
      * @return array
      */
-    public function getAttributes($type=null)
+    public function getAttributes($type = null)
     {
         if (is_null($type)) {
             $type = $this->getLinkTypeId();

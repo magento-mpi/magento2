@@ -9,8 +9,8 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source;
 
-use \Magento\CatalogPermissions\App\ConfigInterface;
-use \Magento\Option\ArrayInterface;
+use Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\Option\ArrayInterface;
 
 class Grant implements ArrayInterface
 {

@@ -8,11 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\TestAsset;
 
-class ConstructorTwoArguments
-    extends \Magento\ObjectManager\TestAsset\ConstructorOneArgument
+class ConstructorTwoArguments extends \Magento\ObjectManager\TestAsset\ConstructorOneArgument
 {
     /**
      * @var \Magento\ObjectManager\TestAsset\Basic

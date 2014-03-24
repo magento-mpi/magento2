@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authz\Model\UserLocator;
 
 use Magento\Authz\Model\UserIdentifier;

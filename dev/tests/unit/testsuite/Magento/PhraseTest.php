@@ -32,10 +32,16 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
         $arguments = ['arg1', 'arg2'];
         $result = 'rendered text';
 
-        $this->_renderer->expects($this->once())
-            ->method('render')
-            ->with([$text], $arguments)
-            ->will($this->returnValue($result));
+        $this->_renderer->expects(
+            $this->once()
+        )->method(
+            'render'
+        )->with(
+            [$text],
+            $arguments
+        )->will(
+            $this->returnValue($result)
+        );
 
         $phrase = new \Magento\Phrase($text, $arguments);
         $this->assertEquals($result, $phrase->render());
@@ -64,10 +70,16 @@ class PhraseTest extends \PHPUnit_Framework_TestCase
         $arguments = ['arg1', 'arg2'];
         $result = 'rendered text';
 
-        $this->_renderer->expects($this->once())
-            ->method('render')
-            ->with([$text], $arguments)
-            ->will($this->returnValue($result));
+        $this->_renderer->expects(
+            $this->once()
+        )->method(
+            'render'
+        )->with(
+            [$text],
+            $arguments
+        )->will(
+            $this->returnValue($result)
+        );
 
         $phrase = new \Magento\Phrase($text, $arguments);
         $this->assertEquals($result, (string)$phrase);

@@ -81,4 +81,3 @@ class Indexer implements LauncherInterface
         return $this->_response;
     }
 }
-

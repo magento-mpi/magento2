@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\AdminNotification\Model\System\Message\Media\Synchronization;
 
 class ErrorTest extends \PHPUnit_Framework_TestCase
@@ -33,16 +32,14 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         $this->_syncFlagMock = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
 
         $this->_fileStorage = $this->getMock('Magento\Core\Model\File\Storage\Flag', array(), array(), '', false);
-        $this->_fileStorage->expects($this->any())->method('loadSelf')
-            ->will($this->returnValue($this->_syncFlagMock));
+        $this->_fileStorage->expects($this->any())->method('loadSelf')->will($this->returnValue($this->_syncFlagMock));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array(
-            'fileStorage' => $this->_fileStorage,
+        $arguments = array('fileStorage' => $this->_fileStorage);
+        $this->_model = $objectManagerHelper->getObject(
+            'Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error',
+            $arguments
         );
-        $this->_model = $objectManagerHelper
-            ->getObject('Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error', $arguments);
-
     }
 
     public function testGetText()
@@ -59,14 +56,14 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDisplayed($expectedFirstRun, $data)
     {
-        $arguments = array(
-            'fileStorage' => $this->_fileStorage,
-        );
+        $arguments = array('fileStorage' => $this->_fileStorage);
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         // create new instance to ensure that it hasn't been displayed yet (var $this->_isDisplayed is unset)
         /** @var $model \Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error */
-        $model = $objectManagerHelper
-            ->getObject('Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error', $arguments);
+        $model = $objectManagerHelper->getObject(
+            'Magento\AdminNotification\Model\System\Message\Media\Synchronization\Error',
+            $arguments
+        );
 
         $this->_syncFlagMock->expects($this->any())->method('setState');
         $this->_syncFlagMock->expects($this->any())->method('save');
@@ -76,7 +73,6 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         //check second call(another branch of if operator)
         $this->assertEquals($expectedFirstRun, $model->isDisplayed());
     }
-
 
     public function isDisplayedDataProvider()
     {

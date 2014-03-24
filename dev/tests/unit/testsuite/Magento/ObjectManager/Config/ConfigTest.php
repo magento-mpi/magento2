@@ -5,20 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ObjectManager\Config;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetArgumentsEmpty()
     {
-        $config = new Config;
+        $config = new Config();
         $this->assertSame(array(), $config->getArguments('An invalid type'));
     }
 
     public function testExtendMergeConfiguration()
     {
-        $this->_assertFooTypeArguments(new Config);
+        $this->_assertFooTypeArguments(new Config());
     }
 
     /**

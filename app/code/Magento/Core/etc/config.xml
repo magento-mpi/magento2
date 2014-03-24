@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
     <default>
         <design>
             <pagination>
@@ -181,6 +181,7 @@
             <browser_capabilities>
                 <cookies>1</cookies>
                 <javascript>1</javascript>
+                <local_storage>0</local_storage>
             </browser_capabilities>
         </web>
         <admin>

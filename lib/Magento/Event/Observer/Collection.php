@@ -26,7 +26,7 @@ class Collection
      * @var array
      */
     protected $_observers;
-    
+
     /**
      * Initializes observers
      */
@@ -34,7 +34,7 @@ class Collection
     {
         $this->_observers = array();
     }
-    
+
     /**
      * Returns all observers in the collection
      *
@@ -44,7 +44,7 @@ class Collection
     {
         return $this->_observers;
     }
-    
+
     /**
      * Returns observer by its name
      *
@@ -55,7 +55,7 @@ class Collection
     {
         return $this->_observers[$observerName];
     }
-    
+
     /**
      * Adds an observer to the collection
      *
@@ -67,7 +67,7 @@ class Collection
         $this->_observers[$observer->getName()] = $observer;
         return $this;
     }
-    
+
     /**
      * Removes an observer from the collection by its name
      *
@@ -79,7 +79,7 @@ class Collection
         unset($this->_observers[$observerName]);
         return $this;
     }
-    
+
     /**
      * Dispatches an event to all observers in the collection
      *

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Persistent\Model;
 
 /**
@@ -30,7 +29,14 @@ class Session extends \Magento\Core\Model\AbstractModel
      *
      * @var string[]
      */
-    protected $_unserializableFields = array('persistent_id', 'key', 'customer_id', 'website_id', 'info', 'updated_at');
+    protected $_unserializableFields = array(
+        'persistent_id',
+        'key',
+        'customer_id',
+        'website_id',
+        'info',
+        'updated_at'
+    );
 
     /**
      * If model loads expired sessions

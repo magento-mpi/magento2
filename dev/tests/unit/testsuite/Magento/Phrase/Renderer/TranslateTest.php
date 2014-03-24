@@ -24,9 +24,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $this->_translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_renderer = $objectManagerHelper->getObject('Magento\Phrase\Renderer\Translate', array(
-            'translator' => $this->_translator,
-        ));
+        $this->_renderer = $objectManagerHelper->getObject(
+            'Magento\Phrase\Renderer\Translate',
+            array('translator' => $this->_translator)
+        );
     }
 
     public function testRenderByCode()
@@ -34,12 +35,20 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $text = 'original text';
         $result = 'rendered text';
 
-        $this->_translator->expects($this->once())
-            ->method('getTheme')
-            ->will($this->returnValue('theme'));
-        $this->_translator->expects($this->once())
-            ->method('getData')
-            ->will($this->returnValue(['theme::' . $text => $result]));
+        $this->_translator->expects(
+            $this->once()
+        )->method(
+            'getTheme'
+        )->will(
+            $this->returnValue('theme')
+        );
+        $this->_translator->expects(
+            $this->once()
+        )->method(
+            'getData'
+        )->will(
+            $this->returnValue(['theme::' . $text => $result])
+        );
 
         $this->assertEquals($result, $this->_renderer->render([$text], []));
     }

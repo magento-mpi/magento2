@@ -177,7 +177,7 @@ class Inline implements \Magento\Translate\InlineInterface
      *
      * @return void
      */
-    private function addInlineScript()
+    protected function addInlineScript()
     {
         $content = $this->getParser()->getContent();
         if (stripos($content, '</body>') === false) {

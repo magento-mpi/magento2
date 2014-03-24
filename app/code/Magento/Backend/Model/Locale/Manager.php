@@ -60,12 +60,9 @@ class Manager
     {
         $this->_session->setSessionLocale(null);
 
-        $this->_authSession->getUser()
-            ->setInterfaceLocale($localeCode);
+        $this->_authSession->getUser()->setInterfaceLocale($localeCode);
 
-        $this->_translator
-            ->setLocale($localeCode)
-            ->loadData(null, true);
+        $this->_translator->setLocale($localeCode)->loadData(null, true);
 
         return $this;
     }

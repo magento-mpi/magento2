@@ -8,10 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Code\GeneratorTest;
 
-use \Zend\Code\Generator\ClassGenerator;
+use Zend\Code\Generator\ClassGenerator;
 
 class SourceClassWithNamespace extends ParentClassWithNamespace
 {

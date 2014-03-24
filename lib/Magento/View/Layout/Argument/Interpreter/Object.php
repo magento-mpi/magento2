@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\ObjectManager;
@@ -49,10 +48,10 @@ class Object implements InterpreterInterface
         }
         $className = $data['value'];
         $result = $this->objectManager->create($className);
-        if ($this->expectedClass && !($result instanceof $this->expectedClass)) {
-            throw new \UnexpectedValueException(sprintf(
-                "Instance of %s is expected, got %s instead.", $this->expectedClass, get_class($result)
-            ));
+        if ($this->expectedClass && !$result instanceof $this->expectedClass) {
+            throw new \UnexpectedValueException(
+                sprintf("Instance of %s is expected, got %s instead.", $this->expectedClass, get_class($result))
+            );
         }
         return $result;
     }

@@ -42,5 +42,4 @@ class Rma extends \Magento\Backend\Block\Widget\Grid\Container
     {
         return $this->getUrl('adminhtml/*/new');
     }
-
 }

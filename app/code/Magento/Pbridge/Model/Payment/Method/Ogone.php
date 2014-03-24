@@ -29,27 +29,27 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Availability options
      */
-    protected $_isGateway               = true;
+    protected $_isGateway = true;
 
     /**
      * @var bool
      */
-    protected $_canAuthorize            = true;
+    protected $_canAuthorize = true;
 
     /**
      * @var bool
      */
-    protected $_canCapture              = true;
+    protected $_canCapture = true;
 
     /**
      * @var bool
      */
-    protected $_canCapturePartial       = true;
+    protected $_canCapturePartial = true;
 
     /**
      * @var bool
      */
-    protected $_canRefund               = true;
+    protected $_canRefund = true;
 
     /**
      * @var bool
@@ -59,17 +59,17 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canVoid                 = true;
+    protected $_canVoid = true;
 
     /**
      * @var bool
      */
-    protected $_canUseInternal          = true;
+    protected $_canUseInternal = true;
 
     /**
      * @var bool
      */
-    protected $_canUseCheckout          = true;
+    protected $_canUseCheckout = true;
 
     /**
      * @var bool
@@ -84,7 +84,7 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canReviewPayment        = true;
+    protected $_canReviewPayment = true;
 
     /**
      * Authorization method being executed via Payment Bridge

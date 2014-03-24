@@ -37,7 +37,7 @@ class DataFixture
     public function __construct($fixtureBaseDir)
     {
         if (!is_dir($fixtureBaseDir)) {
-            throw new \Magento\Exception("Fixture base directory '$fixtureBaseDir' does not exist.");
+            throw new \Magento\Exception("Fixture base directory '{$fixtureBaseDir}' does not exist.");
         }
         $this->_fixtureBaseDir = realpath($fixtureBaseDir);
     }
@@ -49,7 +49,8 @@ class DataFixture
      * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function startTestTransactionRequest(
-        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
+        \PHPUnit_Framework_TestCase $test,
+        \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         /* Start transaction before applying first fixture to be able to revert them all further */
         if ($this->_getFixtures('method', $test)) {
@@ -70,7 +71,8 @@ class DataFixture
      * @param \Magento\TestFramework\Event\Param\Transaction $param
      */
     public function endTestTransactionRequest(
-        \PHPUnit_Framework_TestCase $test, \Magento\TestFramework\Event\Param\Transaction $param
+        \PHPUnit_Framework_TestCase $test,
+        \Magento\TestFramework\Event\Param\Transaction $param
     ) {
         /* Isolate other tests from test-specific fixtures */
         if ($this->_appliedFixtures && $this->_getFixtures('method', $test)) {
@@ -136,11 +138,10 @@ class DataFixture
             if (is_callable($fixture)) {
                 call_user_func($fixture);
             } else {
-                require($fixture);
+                require $fixture;
             }
         } catch (\Exception $e) {
             echo 'Error in fixture: ', json_encode($fixture), PHP_EOL, $e;
-            //throw $e;
         }
     }
 

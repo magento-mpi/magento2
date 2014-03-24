@@ -28,7 +28,11 @@ class MagentoTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_eventManager = $this->getMock('Magento\TestFramework\EventManager', array('fireEvent'), array(array()));
+        $this->_eventManager = $this->getMock(
+            'Magento\TestFramework\EventManager',
+            array('fireEvent'),
+            array(array())
+        );
         $this->_object = new \Magento\TestFramework\Event\Magento($this->_eventManager);
     }
 
@@ -56,19 +60,12 @@ class MagentoTest extends \PHPUnit_Framework_TestCase
 
     public function constructorExceptionDataProvider()
     {
-        return array(
-            'no event manager'     => array(null),
-            'not an event manager' => array(new \stdClass()),
-        );
+        return array('no event manager' => array(null), 'not an event manager' => array(new \stdClass()));
     }
 
     public function testInitStoreAfter()
     {
-        $this->_eventManager
-            ->expects($this->once())
-            ->method('fireEvent')
-            ->with('initStoreAfter')
-        ;
+        $this->_eventManager->expects($this->once())->method('fireEvent')->with('initStoreAfter');
         $this->_object->initStoreAfter();
     }
 }

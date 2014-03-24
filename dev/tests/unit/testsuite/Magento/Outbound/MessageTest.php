@@ -10,14 +10,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Outbound;
 
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
-    public function test() 
+    public function test()
     {
-        $uut = new \Magento\Outbound\Message('http://localhost', array('key1'=>'val1', 'key2' => 'val2'), "Body");
+        $uut = new \Magento\Outbound\Message('http://localhost', array('key1' => 'val1', 'key2' => 'val2'), "Body");
         // check endpoint url
         $this->assertSame('http://localhost', $uut->getEndpointUrl());
         // check headers

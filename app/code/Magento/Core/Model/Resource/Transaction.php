@@ -99,7 +99,7 @@ class Transaction
      * @param string $alias
      * @return $this
      */
-    public function addObject(\Magento\Core\Model\AbstractModel $object, $alias='')
+    public function addObject(\Magento\Core\Model\AbstractModel $object, $alias = '')
     {
         $this->_objects[] = $object;
         if (!empty($alias)) {
@@ -129,7 +129,7 @@ class Transaction
     public function save()
     {
         $this->_startTransaction();
-        $error     = false;
+        $error = false;
 
         try {
             foreach ($this->_objects as $object) {
@@ -192,5 +192,4 @@ class Transaction
         }
         return $this;
     }
-
 }

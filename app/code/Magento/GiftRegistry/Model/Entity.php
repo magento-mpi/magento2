@@ -44,11 +44,16 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * XML configuration paths
      */
-    const XML_PATH_OWNER_EMAIL_IDENTITY  = 'magento_giftregistry/owner_email/identity';
-    const XML_PATH_OWNER_EMAIL_TEMPLATE  = 'magento_giftregistry/owner_email/template';
-    const XML_PATH_SHARE_EMAIL_IDENTITY  = 'magento_giftregistry/sharing_email/identity';
-    const XML_PATH_SHARE_EMAIL_TEMPLATE  = 'magento_giftregistry/sharing_email/template';
+    const XML_PATH_OWNER_EMAIL_IDENTITY = 'magento_giftregistry/owner_email/identity';
+
+    const XML_PATH_OWNER_EMAIL_TEMPLATE = 'magento_giftregistry/owner_email/template';
+
+    const XML_PATH_SHARE_EMAIL_IDENTITY = 'magento_giftregistry/sharing_email/identity';
+
+    const XML_PATH_SHARE_EMAIL_TEMPLATE = 'magento_giftregistry/sharing_email/template';
+
     const XML_PATH_UPDATE_EMAIL_IDENTITY = 'magento_giftregistry/update_email/identity';
+
     const XML_PATH_UPDATE_EMAIL_TEMPLATE = 'magento_giftregistry/update_email/template';
 
     /**
@@ -300,7 +305,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
 
             foreach ($quote->getAllVisibleItems() as $item) {
                 if (in_array($item->getId(), $itemsIds)) {
-                     if (!$this->_giftRegistryData->canAddToGiftRegistry($item)) {
+                    if (!$this->_giftRegistryData->canAddToGiftRegistry($item)) {
                         $skippedItems++;
                         continue;
                     }
@@ -326,12 +331,14 @@ class Entity extends \Magento\Core\Model\AbstractModel
             $qty = $itemToAdd->getQty();
         } else {
             $productId = $itemToAdd;
-            $qty = ($request && $request->getQty()) ? $request->getQty() : 1;
+            $qty = $request && $request->getQty() ? $request->getQty() : 1;
         }
         $product = $this->getProduct($productId);
 
-        if ($product->getTypeInstance()->hasRequiredOptions($product)
-            && (!$request && !($itemToAdd instanceof \Magento\Sales\Model\Quote\Item))) {
+        if ($product->getTypeInstance()->hasRequiredOptions(
+            $product
+        ) && (!$request && !$itemToAdd instanceof \Magento\Sales\Model\Quote\Item)
+        ) {
             throw new \Magento\Core\Exception(null, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
@@ -342,12 +349,14 @@ class Entity extends \Magento\Core\Model\AbstractModel
         } else {
             if (!$request) {
                 $request = new \Magento\Object();
-                $request->setBundleOption(array());//Bundle options mocking for compatibility
+                //Bundle options mocking for compatibility
+                $request->setBundleOption(array());
             }
             $cartCandidates = $product->getTypeInstance()->prepareForCart($request, $product);
         }
 
-        if (is_string($cartCandidates)) { //prepare process has error, seems like we have bundle
+        if (is_string($cartCandidates)) {
+            //prepare process has error, seems like we have bundle
             throw new \Magento\Core\Exception($cartCandidates, self::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS);
         }
 
@@ -375,18 +384,21 @@ class Entity extends \Magento\Core\Model\AbstractModel
             }
 
             if ($alreadyExists) {
-                $matchedItem->setQty($matchedItem->getQty() + $qty)
-                    ->save();
+                $matchedItem->setQty($matchedItem->getQty() + $qty)->save();
             } else {
                 $customOptions = $currentCandidate->getCustomOptions();
 
                 $item = $this->itemFactory->create();
 
-                $item->setEntityId($this->getId())
-                    ->setProductId($productId)
-                    ->setOptions($customOptions)
-                    ->setQty($qty)
-                    ->save();
+                $item->setEntityId(
+                    $this->getId()
+                )->setProductId(
+                    $productId
+                )->setOptions(
+                    $customOptions
+                )->setQty(
+                    $qty
+                )->save();
             }
         }
 
@@ -433,16 +445,18 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE))
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars($templateVars)
-            ->setFrom($identity)
-            ->addTo($recipientEmail, $recipientName)
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            $templateVars
+        )->setFrom(
+            $identity
+        )->addTo(
+            $recipientEmail,
+            $recipientName
+        )->getTransport();
 
         try {
             $transport->sendMessage();
@@ -469,31 +483,23 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $result = new \Magento\Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
-            return $result->setErrorMessage(
-                __('You need to enter sender data.')
-            );
+            return $result->setErrorMessage(__('You need to enter sender data.'));
         }
 
         if (!\Zend_Validate::is($senderEmail, 'EmailAddress')) {
-            return $result->setErrorMessage(
-                __('Please enter a valid sender email address.')
-            );
+            return $result->setErrorMessage(__('Please enter a valid sender email address.'));
         }
 
         $emails = array();
         foreach ($this->getRecipients() as $recipient) {
             $recipientEmail = trim($recipient['email']);
             if (!\Zend_Validate::is($recipientEmail, 'EmailAddress')) {
-                return $result->setErrorMessage(
-                    __('Please enter a valid recipient email address.')
-                );
+                return $result->setErrorMessage(__('Please enter a valid recipient email address.'));
             }
 
             $recipient['name'] = $this->_escaper->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
-                return $result->setErrorMessage(
-                    __('Please enter a recipient name.')
-                );
+                return $result->setErrorMessage(__('Please enter a recipient name.'));
             }
             $emails[] = $recipient;
         }
@@ -509,14 +515,13 @@ class Entity extends \Magento\Core\Model\AbstractModel
                 }
             }
             if ($count > 0) {
-                $result->setIsSuccess(true)
-                    ->setSuccessMessage(
-                        __('You shared the gift registry for %1 emails.', $count)
-                    );
-            } else {
-                $result->setErrorMessage(
-                    __("We couldn't share the registry.")
+                $result->setIsSuccess(
+                    true
+                )->setSuccessMessage(
+                    __('You shared the gift registry for %1 emails.', $count)
                 );
+            } else {
+                $result->setErrorMessage(__("We couldn't share the registry."));
             }
         }
 
@@ -534,35 +539,31 @@ class Entity extends \Magento\Core\Model\AbstractModel
     {
         $this->inlineTranslation->suspend();
 
-        $owner = $this->customerFactory->create()
-            ->load($this->getCustomerId());
+        $owner = $this->customerFactory->create()->load($this->getCustomerId());
 
         $store = $this->storeManager->getStore();
 
         $this->setUpdatedQty($updatedQty);
 
-        $templateVars = array(
-            'store' => $store,
-            'owner' => $owner,
-            'entity' => $this
-        );
+        $templateVars = array('store' => $store, 'owner' => $owner, 'entity' => $this);
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE))
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars($templateVars)
-            ->setFrom($store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY))
-            ->addTo($owner->getEmail(), $owner->getName())
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            $templateVars
+        )->setFrom(
+            $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY)
+        )->addTo(
+            $owner->getEmail(),
+            $owner->getName()
+        )->getTransport();
 
         try {
             $transport->sendMessage();
             $result = true;
-        }
-        catch (\Magento\Mail\Exception $e) {
+        } catch (\Magento\Mail\Exception $e) {
             $result = false;
         }
 
@@ -580,8 +581,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     {
         $this->inlineTranslation->suspend();
 
-        $owner = $this->customerFactory->create()
-            ->load($this->getCustomerId());
+        $owner = $this->customerFactory->create()->load($this->getCustomerId());
 
         $store = $this->storeManager->getStore();
 
@@ -592,16 +592,18 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE))
-            ->setTemplateOptions(array(
-                'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $store->getId()
-            ))
-            ->setTemplateVars($templateVars)
-            ->setFrom($store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY))
-            ->addTo($owner->getEmail(), $owner->getName())
-            ->getTransport();
+        $transport = $this->_transportBuilder->setTemplateIdentifier(
+            $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE)
+        )->setTemplateOptions(
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+        )->setTemplateVars(
+            $templateVars
+        )->setFrom(
+            $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY)
+        )->addTo(
+            $owner->getEmail(),
+            $owner->getName()
+        )->getTransport();
 
         try {
             $transport->sendMessage();
@@ -626,7 +628,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         if ($collection->getSize()) {
             $registrants = array();
             foreach ($collection as $item) {
-                $registrants[] =  $item->getFirstname().' '.$item->getLastname();
+                $registrants[] = $item->getFirstname() . ' ' . $item->getLastname();
             }
             return implode(', ', $registrants);
         }
@@ -657,8 +659,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function getRegistrantsCollection()
     {
-        $collection = $this->personFactory->create()->getCollection()
-            ->addRegistryFilter($this->getId());
+        $collection = $this->personFactory->create()->getCollection()->addRegistryFilter($this->getId());
 
         return $collection;
     }
@@ -670,8 +671,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function getItemsCollection()
     {
-        $collection = $this->itemFactory->create()->getCollection()
-            ->addRegistryFilter($this->getId());
+        $collection = $this->itemFactory->create()->getCollection()->addRegistryFilter($this->getId());
         return $collection;
     }
 
@@ -753,7 +753,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      */
     public function setTypeById($typeId)
     {
-        $this->_typeId = (int) $typeId;
+        $this->_typeId = (int)$typeId;
         $this->_type->setStoreId($this->storeManager->getStore()->getStoreId());
         $this->setData('type_id', $typeId);
         $this->_type->load($this->_typeId);
@@ -836,9 +836,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     public function getOptionsIsPublic()
     {
         if (!isset($this->_optionsIsPublic)) {
-            $this->_optionsIsPublic = array(
-                '0' => __('Private'),
-                '1' => __('Public'));
+            $this->_optionsIsPublic = array('0' => __('Private'), '1' => __('Public'));
         }
         return $this->_optionsIsPublic;
     }
@@ -851,9 +849,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     public function getOptionsStatus()
     {
         if (!isset($this->_optionsStatus)) {
-            $this->_optionsStatus = array(
-                '0' => __('Inactive'),
-                '1' => __('Active'));
+            $this->_optionsStatus = array('0' => __('Inactive'), '1' => __('Active'));
         }
         return $this->_optionsStatus;
     }
@@ -889,7 +885,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
         }
 
         $errorsCustom = $this->_giftRegistryData->validateCustomAttributes(
-            $allCustomValues, $this->getRegistryAttributes()
+            $allCustomValues,
+            $this->getRegistryAttributes()
         );
         if ($errorsCustom !== true) {
             $errors = empty($errors) ? $errorsCustom : array_merge($errors, $errorsCustom);
@@ -914,8 +911,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
                 throw new \Magento\Core\Exception(__('We cannot specify the product.'));
             }
 
-            $product = $this->productFactory->create()
-                ->load($productId);
+            $product = $this->productFactory->create()->load($productId);
 
             $this->setData('product', $product);
         }
@@ -937,22 +933,26 @@ class Entity extends \Magento\Core\Model\AbstractModel
             }
         }
 
-        $this->addData(array(
-                'is_public' => isset($data['is_public']) ? (int) $data['is_public'] : null,
+        $this->addData(
+            array(
+                'is_public' => isset($data['is_public']) ? (int)$data['is_public'] : null,
                 'title' => !empty($data['title']) ? $data['title'] : null,
                 'message' => !empty($data['message']) ? $data['message'] : null,
                 'custom_values' => !empty($data['registry']) ? $data['registry'] : null,
-                'is_active' => !empty($data['is_active']) ? $data['is_active'] : 0,
-            ));
+                'is_active' => !empty($data['is_active']) ? $data['is_active'] : 0
+            )
+        );
 
         if ($isAddAction) {
-            $this->addData(array(
-                'customer_id' => $this->customerSession->getCustomer()->getId(),
-                'website_id' => $this->storeManager->getStore()->getWebsiteId(),
-                'url_key' => $this->getGenerateKeyId(),
-                'created_at' => $this->dateFactory->create()->date(),
-                'is_add_action' => true
-            ));
+            $this->addData(
+                array(
+                    'customer_id' => $this->customerSession->getCustomer()->getId(),
+                    'website_id' => $this->storeManager->getStore()->getWebsiteId(),
+                    'url_key' => $this->getGenerateKeyId(),
+                    'created_at' => $this->dateFactory->create()->date(),
+                    'is_add_action' => true
+                )
+            );
         }
         return $this;
     }
@@ -995,7 +995,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
             $dateFields = array();
             $attributes = $this->getRegistryAttributes();
             foreach ($attributes as $id => $attribute) {
-                if (isset($attribute['type']) && ($attribute['type'] == 'date') && isset($attribute['date_format'])) {
+                if (isset($attribute['type']) && $attribute['type'] == 'date' && isset($attribute['date_format'])) {
                     $dateFields[$id] = $attribute['date_format'];
                 }
             }
@@ -1018,16 +1018,28 @@ class Entity extends \Magento\Core\Model\AbstractModel
 
         $emails = $this->request->getParam('emails', '');
         if ($emails) {
-            $processor->addEventChanges(clone $change->setSourceName('share')
-                ->setOriginalData(array())
-                ->setResultData(array('emails' => $emails)));
+            $processor->addEventChanges(
+                clone $change->setSourceName(
+                    'share'
+                )->setOriginalData(
+                    array()
+                )->setResultData(
+                    array('emails' => $emails)
+                )
+            );
         }
 
         $message = $this->request->getParam('message', '');
         if ($emails) {
-            $processor->addEventChanges(clone $change->setSourceName('share')
-                ->setOriginalData(array())
-                ->setResultData(array('message' => $message)));
+            $processor->addEventChanges(
+                clone $change->setSourceName(
+                    'share'
+                )->setOriginalData(
+                    array()
+                )->setResultData(
+                    array('message' => $message)
+                )
+            );
         }
 
         return $eventModel;
@@ -1068,9 +1080,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
                     }
                 }
             } else {
-                throw new \Magento\Core\Exception(
-                    __('Please correct the gift registry item ID.')
-                );
+                throw new \Magento\Core\Exception(__('Please correct the gift registry item ID.'));
             }
         }
     }

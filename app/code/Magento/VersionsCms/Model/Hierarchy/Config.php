@@ -9,8 +9,7 @@
  */
 namespace Magento\VersionsCms\Model\Hierarchy;
 
-class Config extends \Magento\Config\Data\Scoped
-    implements \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
+class Config extends \Magento\Config\Data\Scoped implements \Magento\VersionsCms\Model\Hierarchy\ConfigInterface
 {
     /**
      * Menu layouts configuration

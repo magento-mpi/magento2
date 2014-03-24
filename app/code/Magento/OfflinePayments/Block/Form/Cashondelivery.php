@@ -12,7 +12,6 @@ namespace Magento\OfflinePayments\Block\Form;
  */
 class Cashondelivery extends \Magento\Payment\Block\Form
 {
-
     /**
      * Instructions text
      *
@@ -39,5 +38,4 @@ class Cashondelivery extends \Magento\Payment\Block\Form
         }
         return $this->_instructions;
     }
-
 }

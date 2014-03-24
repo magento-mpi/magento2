@@ -18,14 +18,22 @@ class Scenario
     /**#@+
      * Common scenario arguments
      */
-    const ARG_USERS           = 'users';
-    const ARG_LOOPS           = 'loops';
-    const ARG_HOST            = 'host';
-    const ARG_PATH            = 'path';
-    const ARG_BASEDIR         = 'basedir';
-    const ARG_ADMIN_USERNAME  = 'admin_username';
-    const ARG_ADMIN_PASSWORD  = 'admin_password';
+    const ARG_USERS = 'users';
+
+    const ARG_LOOPS = 'loops';
+
+    const ARG_HOST = 'host';
+
+    const ARG_PATH = 'path';
+
+    const ARG_BASEDIR = 'basedir';
+
+    const ARG_ADMIN_USERNAME = 'admin_username';
+
+    const ARG_ADMIN_PASSWORD = 'admin_password';
+
     const ARG_ADMIN_FRONTNAME = 'admin_frontname';
+
     /**#@-*/
 
     /**
@@ -83,7 +91,7 @@ class Scenario
         foreach (array(self::ARG_USERS, self::ARG_LOOPS) as $argName) {
             if (!is_int($arguments[$argName]) || $arguments[$argName] < 1) {
                 throw new \InvalidArgumentException(
-                    "Scenario '$title' must have a positive integer argument '$argName'."
+                    "Scenario '{$title}' must have a positive integer argument '{$argName}'."
                 );
             }
         }

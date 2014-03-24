@@ -15,8 +15,7 @@ namespace Magento\CustomAttributeManagement\Block\Adminhtml\Form\Renderer\Fields
  * @category   Magento
  * @package    Magento_CustomAttributeManagement
  */
-class Element
-    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
+class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
      * Retrieve data object related with form
@@ -37,8 +36,12 @@ class Element
     {
         $element = $this->getElement();
         if ($element) {
-            if ($element->getScope() != 'global' && $element->getScope() != null && $this->getDataObject()
-                && $this->getDataObject()->getId() && $this->getDataObject()->getWebsite()->getId()) {
+            if ($element->getScope() != 'global' &&
+                $element->getScope() != null &&
+                $this->getDataObject() &&
+                $this->getDataObject()->getId() &&
+                $this->getDataObject()->getWebsite()->getId()
+            ) {
                 return true;
             }
         }
@@ -57,7 +60,7 @@ class Element
             $key = 'default_value';
         }
         $storeValue = $this->getDataObject()->getData('scope_' . $key);
-        return ($storeValue === null);
+        return $storeValue === null;
     }
 
     /**
