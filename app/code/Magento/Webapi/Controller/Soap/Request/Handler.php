@@ -21,6 +21,7 @@ use Magento\Webapi\Controller\ServiceArgsSerializer;
  *
  * The main responsibility is to instantiate proper action controller (service) and execute requested method on it.
  *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Handler
 {
