@@ -145,7 +145,7 @@ class ServiceArgsSerializer
         if ($this->_typeProcessor->isTypeSimple($type)) {
             $result = $this->_typeProcessor->processSimpleType($value, $type);
         } elseif ($this->_typeProcessor->isArrayType($type)) {
-            if(isset($value['item'])) {
+            if (isset($value['item'])) {
                 $value = $this->_removeSoapItemNode($value['item']);
             }
             // Initializing the result for array type else it will return null for empty array
