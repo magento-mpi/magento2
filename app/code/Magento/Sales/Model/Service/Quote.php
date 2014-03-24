@@ -394,10 +394,6 @@ class Quote
             );
             throw $e;
         }
-        $this->_eventManager->dispatch(
-            'sales_model_service_quote_submit_after',
-            array('order' => $order, 'quote' => $quote)
-        );
         $this->_order = $order;
         return $order;
     }
