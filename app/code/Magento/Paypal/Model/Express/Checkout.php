@@ -126,7 +126,7 @@ class Checkout
     /**
      * Order
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var \Magento\Sales\Model\Order
      */
     protected $_order;
 
@@ -713,7 +713,7 @@ class Checkout
         $this->_quote->collectTotals();
         $parameters = array('quote' => $this->_quote);
         $service = $this->_serviceQuoteFactory->create($parameters);
-        $service->submitAll();
+        $service->submitAllWithDataObject();
         $this->_quote->save();
 
         if ($isNewCustomer) {
