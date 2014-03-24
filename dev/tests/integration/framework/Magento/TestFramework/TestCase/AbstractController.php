@@ -194,7 +194,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     public function assertSessionMessages(
         \PHPUnit_Framework_Constraint $constraint,
         $messageType = null,
-        $messageManager = 'Magento\Message\Manager'
+        $messageManagerClass = 'Magento\Message\Manager'
     ) {
         $this->_assertSessionErrors = false;
         /** @var $messageManager \Magento\Message\ManagerInterface */
