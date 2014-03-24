@@ -129,7 +129,6 @@ class Db implements \Magento\Store\Model\StoreManagerInterface
      * @param \Magento\App\Config\ScopeConfigInterface $config
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
-     * @param \Magento\Backend\Model\UrlInterface $url
      * @param \Magento\Core\Helper\Data $helper
      * @param bool $isSingleStoreAllowed
      * @param null $currentStore
