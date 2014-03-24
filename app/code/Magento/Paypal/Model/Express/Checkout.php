@@ -1091,8 +1091,10 @@ class Checkout
             $billingAddress = $billing->exportCustomerAddressData();
             $billing->setCustomerAddressData($billingAddress);
         }
-        if ($shipping && !$shipping->getSameAsBilling() &&
-            (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())) {
+        if ($shipping
+            && !$shipping->getSameAsBilling()
+            && (!$shipping->getCustomerId() || $shipping->getSaveInAddressBook())
+        ) {
             $shippingAddress = $shipping->exportCustomerAddressData();
             $shipping->setCustomerAddressData($shippingAddress);
         }
