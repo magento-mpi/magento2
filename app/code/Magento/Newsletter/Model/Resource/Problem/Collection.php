@@ -11,6 +11,7 @@
 namespace Magento\Newsletter\Model\Resource\Problem;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 /**
  * Newsletter problems collection
  *
@@ -54,6 +55,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_customerView;
 
     /**
+     * checks if the customer data is set on problems
+     *
      * @var boolean
      */
     protected $_checkCustomersData = false;
@@ -64,7 +67,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Helper\View $customerView,
+     * @param CustomerAccountServiceInterface $customerAccountService,
+     * @param \Magento\Customer\Helper\View $customerView
      * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -135,28 +139,23 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _addCustomersData()
     {
         if (!$this->_checkCustomersData) {
-            $this->_checkCustomersData = true;
-            $customersIds = array();
-
-            foreach ($this->getItems() as $item) {
-                if ($item->getCustomerId()) {
-                    $customersIds[] = $item->getCustomerId();
+            try {
+                $this->_checkCustomersData = true;
+                foreach ($this->getItems() as $item) {
+                    if ($item->getCustomerId()) {
+                        $customerId = $item->getCustomerId();
+                        $customer = $this->_customerAccountService->getCustomer($customerId);
+                        $problems = $this->getItemsByColumnValue('customer_id', $customerId);
+                        $customerName = $this->_customerView->getCustomerName($customer);
+                        foreach ($problems as $problem) {
+                            $problem->setCustomerName($customerName)
+                                ->setCustomerFirstName($customer->getFirstName())
+                                ->setCustomerLastName($customer->getLastName());
+                        }
+                    }
                 }
-            }
-
-            if (count($customersIds) == 0) {
+            } catch (NoSuchEntityException $e) {
                 return;
-            }
-
-            foreach ($customersIds as $customerId) {
-                $customer = $this->_customerAccountService->getCustomer($customerId);
-                $problems = $this->getItemsByColumnValue('customer_id', $customerId);
-                $customerName = $this->_customerView->getCustomerName($customer);
-                foreach ($problems as $problem) {
-                    $problem->setCustomerName($customerName)
-                        ->setCustomerFirstName($customer->getFirstName())
-                        ->setCustomerLastName($customer->getLastName());
-                }
             }
         }
     }
