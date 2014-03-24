@@ -1,4 +1,11 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 require "queue.php";
 
 $problem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
