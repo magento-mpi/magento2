@@ -205,6 +205,7 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
 
         if ($allowedPriceInRss) {
             $description .= $this->getPriceHtml($product, true);
+            $description .= 'NEWPRICETEST: ' . $this->renderPriceHtml($product, true) . ' ENDNEWPRICETEST';
         }
 
         $description .= '</td>' . '</tr></table>';
