@@ -3,12 +3,17 @@
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
   * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
   * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
+  * Fixed problem with update failed registration message & provide resend confirmation email button for registrations failing to complete (MAGETWO-22021)
+  * Fixed problem with Magento Catalog module resource Setup Upgrade logic is broken (MAGETWO-22414)
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
   * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
+* Customer Service usage:
+  * Refactored the Catalog module to use Customer service layer
+  * Refactored the Downloadable module to use Customer service layer
 
 2.0.0.0-dev70
 =============
