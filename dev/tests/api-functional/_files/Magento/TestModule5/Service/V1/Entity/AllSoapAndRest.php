@@ -21,7 +21,7 @@ class AllSoapAndRest extends AbstractObject
     const ID = 'id';
     const NAME = 'name';
     const ENABLED = 'enabled';
-    const HAS_ORDERS = 'has_orders';
+    const HAS_ORDERS = 'orders';
 
     /**
      * Retrieve item ID.
