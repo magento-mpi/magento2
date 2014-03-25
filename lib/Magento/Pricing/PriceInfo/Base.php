@@ -144,4 +144,12 @@ class Base implements PriceInfoInterface
         }
         return $adjustments[$adjustmentCode];
     }
+
+    /**
+     * @return PriceComposite
+     */
+    public function getPriceComposite()
+    {
+        return $this->prices;
+    }
 }

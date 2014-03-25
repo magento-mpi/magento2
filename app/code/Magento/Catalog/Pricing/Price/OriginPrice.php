@@ -11,12 +11,9 @@
 namespace Magento\Catalog\Pricing\Price;
 
 /**
- * Special price model
+ * Interface OriginPrice
  */
-class SpecialPrice extends Price implements \Magento\Catalog\Pricing\Price\OriginPrice
+interface OriginPrice
 {
-    /**
-     * @var string
-     */
-    protected $priceType = 'special_price';
+    public function getValue();
 }

@@ -13,7 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Group price model
  */
-class GroupPrice extends Price
+class GroupPrice extends Price implements \Magento\Catalog\Pricing\Price\OriginPrice
 {
     /**
      * @var string

@@ -13,7 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Base price model
  */
-class Price extends AbstractPrice
+class Price extends AbstractPrice implements \Magento\Catalog\Pricing\Price\OriginPrice
 {
     /**
      * @var string

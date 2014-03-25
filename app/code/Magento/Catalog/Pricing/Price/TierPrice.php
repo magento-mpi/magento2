@@ -13,7 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice implements TierPriceInterface
+class TierPrice extends AbstractPrice implements TierPriceInterface, \Magento\Catalog\Pricing\Price\OriginPrice
 {
     /**
      * @var string
