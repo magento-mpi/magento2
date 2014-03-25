@@ -184,11 +184,13 @@ class Product extends \Magento\Backend\App\Action
         if ($this->getRequest()->getParam('popup')) {
             $this->_view->loadLayout('popup');
         } else {
-            $this->_view->loadLayout(array(
-                'default',
-                strtolower($this->_request->getFullActionName()),
-                'catalog_product_' . $product->getTypeId()
-            ));
+            $this->_view->loadLayout(
+                array(
+                    'default',
+                    strtolower($this->_request->getFullActionName()),
+                    'catalog_product_' . $product->getTypeId()
+                )
+            );
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
 

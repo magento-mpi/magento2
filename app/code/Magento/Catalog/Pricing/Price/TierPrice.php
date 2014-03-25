@@ -46,10 +46,10 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
+     * @param int $quantity
      * @param Session $customerSession
-     * @param $quantity
      */
-    public function __construct(SaleableInterface $salableItem, Session $customerSession, $quantity)
+    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
     {
         $this->customerSession = $customerSession;
         if ($salableItem->getCustomerGroupId()) {
