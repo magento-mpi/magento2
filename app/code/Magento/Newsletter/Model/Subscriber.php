@@ -616,14 +616,18 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             ->setTemplateIdentifier(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_TEMPLATE)
             )
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId(),
-            ))
-            ->setTemplateVars(array(
-                'subscriber' => $this,
-                'store' => $this->_storeManager->getStore(),
-            ))
+            ->setTemplateOptions(
+                array(
+                    'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId(),
+                )
+            )
+            ->setTemplateVars(
+                array(
+                    'subscriber' => $this,
+                    'store'      => $this->_storeManager->getStore(),
+                )
+            )
             ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_CONFIRM_EMAIL_IDENTITY))
             ->addTo($this->getEmail(), $this->getName());
         $transport = $this->_transportBuilder->getTransport();
@@ -653,10 +657,12 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             ->setTemplateIdentifier(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_TEMPLATE)
             )
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId(),
-            ))
+            ->setTemplateOptions(
+                array(
+                    'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId(),
+                )
+            )
             ->setTemplateVars(array('subscriber' => $this))
             ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_SUCCESS_EMAIL_IDENTITY))
             ->addTo($this->getEmail(), $this->getName());
@@ -684,13 +690,15 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $this->_translate->setTranslateInline(false);
 
         $this->_transportBuilder
-                ->setTemplateIdentifier(
+            ->setTemplateIdentifier(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_TEMPLATE)
             )
-            ->setTemplateOptions(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId(),
-            ))
+            ->setTemplateOptions(
+                array(
+                    'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId(),
+                )
+            )
             ->setTemplateVars(array('subscriber' => $this))
             ->setFrom(
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY)

@@ -41,11 +41,15 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         );
         $this->_objectManager->expects($this->any())
             ->method('get')
-            ->will($this->returnValueMap(array(
-                array('Magento\App\RequestInterface', $request),
-                array('Magento\App\ResponseInterface', $response),
-                array('Magento\Message\Manager', $this->messageManager),
-            )));
+            ->will(
+                $this->returnValueMap(
+                    array(
+                        array('Magento\App\RequestInterface', $request),
+                        array('Magento\App\ResponseInterface', $response),
+                        array('Magento\Message\Manager', $this->messageManager),
+                    )
+                )
+            );
     }
 
     /**
@@ -136,13 +140,9 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         $constraint = $this->getMock('PHPUnit_Framework_Constraint', array('toString', 'matches'));
         $constraint->expects(
             $this->once()
-        )->method(
-            'matches'
-        )->with(
-            $expectedMessages
-        )->will(
-            $this->returnValue(true)
-        );
+        )->method('matches')
+            ->with($expectedMessages)
+            ->will($this->returnValue(true));
         $this->assertSessionMessages($constraint, $messageTypeFilter);
     }
 
@@ -168,13 +168,17 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     {
         $this->addSessionMessages();
 
-        $this->assertSessionMessages($this->equalTo([
-            'some_warning',
-            'error_one',
-            'error_two',
-            'some_notice',
-            'success!',
-        ]));
+        $this->assertSessionMessages(
+            $this->equalTo(
+                [
+                    'some_warning',
+                    'error_one',
+                    'error_two',
+                    'some_notice',
+                    'success!',
+                ]
+            )
+        );
     }
 
     public function testAssertSessionMessagesEmpty()
@@ -195,8 +199,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             ->addMessage(new \Magento\Message\Error('error_one'))
             ->addMessage(new \Magento\Message\Error('error_two'))
             ->addMessage(new \Magento\Message\Notice('some_notice'))
-            ->addMessage(new \Magento\Message\Success('success!'))
-        ;
+            ->addMessage(new \Magento\Message\Success('success!'));
         $this->messageManager->expects($this->any())->method('getMessages')
             ->will($this->returnValue($messagesCollection));
     }

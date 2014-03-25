@@ -11,6 +11,7 @@ namespace Magento\Newsletter\Model\Resource\Problem;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Exception\NoSuchEntityException;
+
 /**
  * Newsletter problems collection
  *

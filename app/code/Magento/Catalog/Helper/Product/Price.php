@@ -10,7 +10,6 @@ namespace Magento\Catalog\Helper\Product;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Service\V1\Data\Customer;
 
-
 /**
  * Collection of tax module calls
  *
