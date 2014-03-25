@@ -31,9 +31,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Newsletter\Model\Subscriber[] $subscribers */
         $subscribers = $this->_collectionModel->getItems();
         $this->assertCount(2, $subscribers);
-        foreach ($subscribers as $subscriber) {
-            $this->assertEquals('Firstname', $subscriber->getCustomerFirstname(), $subscriber->getSubscriberEmail());
-            $this->assertEquals('Lastname', $subscriber->getCustomerLastname(), $subscriber->getSubscriberEmail());
-        }
+        $subscriber = array_shift($subscribers);
+        $this->assertEquals('Firstname', $subscriber->getCustomerFirstname(), $subscriber->getSubscriberEmail());
+        $this->assertEquals('Lastname', $subscriber->getCustomerLastname(), $subscriber->getSubscriberEmail());
+        $subscriber = array_shift($subscribers);
+        $this->assertNull($subscriber->getCustomerFirstname(), $subscriber->getSubscriberEmail());
+        $this->assertNull($subscriber->getCustomerLastname(), $subscriber->getSubscriberEmail());
     }
 }
