@@ -175,11 +175,7 @@ class Type
      */
     public function getPriceInfo(SaleableInterface $product)
     {
-        // @todo pricing: how to cache the object instance to avoid multiple instantiations?
-        if (null === $this->priceInfo) {
-            $this->priceInfo = $this->_priceInfoFactory->create($product);
-        }
-        return $this->priceInfo;
+            return $this->_priceInfoFactory->create($product);
     }
 
     /**
