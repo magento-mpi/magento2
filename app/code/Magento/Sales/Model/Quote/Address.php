@@ -29,8 +29,8 @@ use Magento\Customer\Service\V1\Data\AddressConverter;
  * @method Address setSaveInAddressBook(int $value)
  * @method int getCustomerAddressId()
  * @method Address setCustomerAddressId(int $value)
- * @method \Magento\Customer\Model\Address getCustomerAddress()
- * @method Address setCustomerAddress(\Magento\Customer\Model\Address $value)
+ * @method AddressDataObject|null getCustomerAddressData()
+ * @method Address setCustomerAddressData(AddressDataObject $value)
  * @method string getAddressType()
  * @method Address setAddressType(string $value)
  * @method string getEmail()
@@ -196,11 +196,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Customer\Model\AddressFactory
-     */
-    protected $_addressFactory;
-
-    /**
      * @var \Magento\Sales\Model\Quote\Address\ItemFactory
      */
     protected $_addressItemFactory;
@@ -241,11 +236,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerAdressService;
 
     /**
-     * @var \Magento\Customer\Model\Address\Converter
-     */
-    private $addressConverter;
-
-    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
@@ -254,7 +244,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory
      * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory
@@ -267,7 +256,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
-     * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -281,7 +269,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory,
@@ -294,13 +281,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         CustomerAddressBuilder $customerAddressBuilder,
         CustomerAddressServiceInterface $customerAddressService,
-        \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_addressFactory = $addressFactory;
         $this->_addressItemFactory = $addressItemFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_addressRateFactory = $addressRateFactory;
@@ -325,7 +310,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $resourceCollection,
             $data
         );
-        $this->addressConverter = $addressConverter;
     }
 
     /**
@@ -491,25 +475,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $this->setEmail($customer->getEmail());
         }
         return $this;
-    }
-
-    /**
-     * Export data to customer address object
-     *
-     * @return \Magento\Customer\Model\Address
-     * @deprecated Use \Magento\Sales\Model\Quote\Address::exportCustomerAddressData() instead
-     */
-    public function exportCustomerAddress()
-    {
-        /**
-         * TODO: Remove this method when all dependencies are refactored to use exportCustomerAddressData()
-         * _addressFactory variable should be removed in scope of MAGETWO-21105 as well
-         */
-        $address = $this->_addressFactory->create();
-        $this->_objectCopyService->copyFieldsetToTarget(
-            'sales_convert_quote_address', 'to_customer_address', $this, $address
-        );
-        return $address;
     }
 
     /**
@@ -1393,37 +1358,5 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getSubtotalWithDiscount()
     {
         return $this->getSubtotal() + $this->getDiscountAmount();
-    }
-
-    /**
-     * Keep customer address
-     *
-     * @param AddressDataObject $address
-     * @return $this
-     * @todo refactor in scope of MAGETWO-20857
-     */
-    public function setCustomerAddressData(AddressDataObject $address)
-    {
-        return $this->setCustomerAddress($this->addressConverter->createAddressModel($address));
-    }
-
-    /**
-     * Get previously set customer address
-     *
-     * @return AddressDataObject|null
-     */
-    public function getCustomerAddressData()
-    {
-        $address = $this->getCustomerAddress();
-
-        if ($address) {
-            return $this->addressConverter->createAddressFromModel(
-                $address,
-                $address->getIsDefaultBilling(),
-                $address->getIsDefaultShipping()
-            );
-        }
-
-        return null;
     }
 }
