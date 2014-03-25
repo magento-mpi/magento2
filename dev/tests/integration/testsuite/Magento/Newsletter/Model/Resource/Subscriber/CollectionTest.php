@@ -26,7 +26,14 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowCustomerInfo()
     {
-        $result = $this->_collectionModel->showCustomerInfo();
-        $this->assertInstanceOf('Magento\Newsletter\Model\Resource\Subscriber\Collection', $result);
+        $this->_collectionModel->showCustomerInfo()->load();
+
+        /** @var \Magento\Newsletter\Model\Subscriber[] $subscribers */
+        $subscribers = $this->_collectionModel->getItems();
+        $this->assertCount(2, $subscribers);
+        foreach ($subscribers as $subscriber) {
+            $this->assertEquals('Firstname', $subscriber->getCustomerFirstname(), $subscriber->getSubscriberEmail());
+            $this->assertEquals('Lastname', $subscriber->getCustomerLastname(), $subscriber->getSubscriberEmail());
+        }
     }
 }
