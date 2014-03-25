@@ -54,7 +54,7 @@ class BasePrice extends Price
         foreach ($this->getPriceTypes() as $priceCode) {
             $price = $this->getPriceInfo()->getPrice($priceCode);
             if ($price instanceof OriginPrice && false !== $price->getValue()) {
-                if (null === $this->baseAmount) {
+                if (0 == $this->baseAmount) {
                     $this->baseAmount = $price->getValue();
                 } else {
                     $this->baseAmount = min($price->getValue(), $this->baseAmount);
