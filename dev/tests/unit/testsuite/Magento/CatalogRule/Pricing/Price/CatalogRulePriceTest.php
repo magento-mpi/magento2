@@ -15,7 +15,6 @@ namespace Magento\CatalogRule\Pricing\Price;
  */
 class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var
      */
@@ -199,4 +198,4 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             ->method('create');
         $this->assertEquals($this->baseAmountMock, $this->catalogRulePrice->getValue());
     }
-} 
+}

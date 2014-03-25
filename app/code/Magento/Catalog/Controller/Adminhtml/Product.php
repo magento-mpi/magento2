@@ -583,9 +583,10 @@ class Product extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You saved the product.'));
                 if ($product->getSku() != $originalSku) {
                     $this->messageManager->addNotice(
-                        __('SKU for product %1 has been changed to %2.',
-                           $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
-                           $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku())
+                        __(
+                            'SKU for product %1 has been changed to %2.',
+                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()),
+                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getSku())
                         )
                     );
                 }
