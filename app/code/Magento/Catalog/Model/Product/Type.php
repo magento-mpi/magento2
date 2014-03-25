@@ -26,7 +26,6 @@ class Type
     const TYPE_BUNDLE = 'bundle';
 
     const TYPE_VIRTUAL = 'virtual';
-
     /**#@-*/
 
     /**
@@ -95,6 +94,11 @@ class Type
      * @var \Magento\Pricing\PriceInfo\Factory
      */
     protected $_priceInfoFactory;
+
+    /**
+     * @var \Magento\Pricing\PriceInfo
+     */
+    protected $priceInfo;
 
     /**
      * Construct
@@ -172,7 +176,10 @@ class Type
     public function getPriceInfo(SaleableInterface $product)
     {
         // @todo pricing: how to cache the object instance to avoid multiple instantiations?
-        return $this->_priceInfoFactory->create($product);
+        if (null === $this->priceInfo) {
+            $this->priceInfo = $this->_priceInfoFactory->create($product);
+        }
+        return $this->priceInfo;
     }
 
     /**

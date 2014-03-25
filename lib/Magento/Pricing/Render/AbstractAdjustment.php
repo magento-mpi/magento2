@@ -14,6 +14,7 @@ use Magento\View\Element\Template;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Catalog\Helper\Product\Price as PriceHelper;
 
 abstract class AbstractAdjustment extends Template implements AdjustmentRenderInterface
 {
@@ -33,19 +34,19 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
     protected $amountRender;
 
     /**
-     * @var string
+     * @var Template
      */
     protected $originalHtmlOutput;
 
     /**
      * @param Template\Context $context
-     * @param \Magento\Catalog\Helper\Product\Price $helper
+     * @param PriceHelper $helper
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Catalog\Helper\Product\Price $helper,
+        PriceHelper $helper,
         PriceCurrencyInterface $priceCurrency,
         array $data = []
     ) {
@@ -62,13 +63,13 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
      */
     public function render($html, AmountRenderInterface $amountRender, array $arguments = [])
     {
+        $this->originalHtmlOutput = $html;
+        $this->amountRender = $amountRender;
+
         //@todo probably use block vars instead
 
         $origArguments = $this->getData();
         $this->setData(array_replace($origArguments, $arguments));
-
-        $this->originalHtmlOutput = $html;
-        $this->amountRender = $amountRender;
 
         $html = $this->toHtml();
 
@@ -135,5 +136,13 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
         $currency = null
     ) {
         return $this->priceCurrency->convertAndFormat($amount, $includeContainer, $precision, $store, $currency);
+    }
+
+    /**
+     * @return \Magento\Pricing\Adjustment\AdjustmentInterface
+     */
+    public function getAdjustment()
+    {
+        return $this->getSaleableItem()->getPriceInfo()->getAdjustment($this->getAdjustmentCode());
     }
 }

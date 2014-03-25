@@ -8,8 +8,6 @@
 
 namespace Magento\Catalog\Pricing\Render;
 
-use \Magento\Pricing\PriceInfo\Base;
-
 /**
  * Class FinalPriceBoxTest
  */
@@ -45,10 +43,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     protected $product;
 
+    /**
+     * @var \Magento\Logger|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $logger;
+
     protected function setUp()
     {
         $this->product = $this->getMock(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             ['getPriceInfo', '__wakeup'],
             [],
             '',
@@ -57,15 +60,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
 
         $this->priceType = $this->getMock(
-            '\Magento\Catalog\Pricing\Price\MsrpPrice',
-            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'isMsrpEnabled'],
+            'Magento\Catalog\Pricing\Price\MsrpPrice',
+            ['isShowPriceOnGesture', 'getMsrpPriceMessage', 'canApplyMsrp'],
             [],
             '',
             false
         );
 
         $this->priceInfo = $this->getMock(
-            '\Magento\Pricing\PriceInfo',
+            'Magento\Pricing\PriceInfo',
             ['getPrice'],
             [],
             '',
@@ -77,10 +80,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('final_price'))
             ->will($this->returnValue($this->priceType));
 
-        $this->priceInfo->expects($this->at(1))
-            ->method('getPrice')
-            ->with($this->equalTo('msrp'))
-            ->will($this->returnValue($this->priceType));
+
 
         $this->product->expects($this->any())
             ->method('getPriceInfo')
@@ -91,6 +91,8 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
 
         $this->priceBox = $this->getMock('Magento\Pricing\Render\PriceBox', [], [], '', false);
+        $this->logger = $this->getMock('Magento\Logger', [], [], '', false);
+
 
         $this->layout->expects($this->any())
             ->method('getBlock')
@@ -106,12 +108,16 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
+        $context->expects($this->any())
+            ->method('getLogger')
+            ->will($this->returnValue($this->logger));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
             'Magento\Catalog\Pricing\Render\FinalPriceBox',
             [
-                'context' => $context
+                'context' => $context,
+                'data' => array('css_classes' => 'price-final_price')
             ]
         );
     }
@@ -119,8 +125,14 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderMsrpDisabled()
     {
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(false));
+
+        $this->priceInfo->expects($this->at(1))
+            ->method('getPrice')
+            ->with($this->equalTo('msrp'))
+            ->will($this->returnValue($this->priceType));
 
         $result = $this->object->render('final_price', $this->product, []);
 
@@ -133,13 +145,19 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderMsrpEnabledChildBlockFalse()
     {
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(true));
+
+        $this->priceInfo->expects($this->at(1))
+            ->method('getPrice')
+            ->with($this->equalTo('msrp'))
+            ->will($this->returnValue($this->priceType));
 
         $result = $this->object->render('final_price', $this->product, []);
 
         //assert price wrapper
-        $this->assertRegExp('/[<div]/', $result);
+        $this->assertStringStartsWith('<div', $result);
         //assert css_selector
         $this->assertRegExp('/[final_price]/', $result);
     }
@@ -147,8 +165,14 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
     public function testRenderMsrpEnabledChildBlockEnabled()
     {
         $this->priceType->expects($this->any())
-            ->method('isMsrpEnabled')
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
             ->will($this->returnValue(true));
+
+        $this->priceInfo->expects($this->at(1))
+            ->method('getPrice')
+            ->with($this->equalTo('msrp'))
+            ->will($this->returnValue($this->priceType));
 
         $this->layout->expects($this->any())
             ->method('getChildName')
@@ -167,5 +191,28 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
 
         //assert price wrapper
         $this->assertEquals('<div class="price-box price-final_price">test</div>', $result);
+    }
+
+    public function testRenderMsrpNotRegisteredException()
+    {
+        $this->logger->expects($this->once())
+            ->method('logException');
+
+        $this->priceType->expects($this->any())
+            ->method('canApplyMsrp')
+            ->with($this->equalTo($this->product))
+            ->will($this->returnValue(false));
+
+        $this->priceInfo->expects($this->at(1))
+            ->method('getPrice')
+            ->with($this->equalTo('msrp'))
+            ->will($this->throwException(new \InvalidArgumentException()));
+
+        $result = $this->object->render('final_price', $this->product, []);
+
+        //assert price wrapper
+        $this->assertStringStartsWith('<div', $result);
+        //assert css_selector
+        $this->assertRegExp('/[final_price]/', $result);
     }
 }

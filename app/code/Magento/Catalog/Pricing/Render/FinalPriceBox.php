@@ -11,13 +11,15 @@
 namespace Magento\Catalog\Pricing\Render;
 
 use Magento\Pricing\Object\SaleableInterface;
-
 use Magento\Pricing\Render\PriceBox;
 use Magento\Catalog\Pricing\Price\MsrpPrice;
 use Magento\Pricing\Render;
 
 /**
  * Class for final_price rendering
+ *
+ * @method bool getUseLinkForAsLowAs()
+ * @method float getDisplayMinimalPrice()
  */
 class FinalPriceBox extends PriceBox
 {
@@ -25,28 +27,31 @@ class FinalPriceBox extends PriceBox
      * Renders MAP price in case it is enabled
      *
      * @param string $priceType
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @param array $arguments
      * @return string
      */
-    public function render($priceType, SaleableInterface $object, array $arguments = [])
+    public function render($priceType, SaleableInterface $saleableItem, array $arguments = [])
     {
-        $result = $this->wrapResult(parent::render($priceType, $object, $arguments));
+        $result = parent::render($priceType, $saleableItem, $arguments);
 
-        /** @var MsrpPrice $msrpPriceType */
-        $msrpPriceType = $object->getPriceInfo()->getPrice('msrp');
-        if ($msrpPriceType->isMsrpEnabled()) {
+        try {
+            /** @var MsrpPrice $msrpPriceType */
+            $msrpPriceType = $saleableItem->getPriceInfo()->getPrice('msrp');
+        } catch (\InvalidArgumentException $e) {
+            $this->_logger->logException($e);
+            return $this->wrapResult($result);
+        }
+        if ($msrpPriceType->canApplyMsrp($saleableItem)) {
             /** @var PriceBox $msrpBlock */
             $msrpBlock = $this->getChildBlock('default.msrp');
             if ($msrpBlock instanceof PriceBox) {
-                $arguments['real_price_html'] = $result;
-                $result = $msrpBlock->render('msrp', $object, $arguments);
-
-                return $this->wrapResult($result);
+                $arguments['real_price_html'] = $this->wrapResult($result);
+                $result = $msrpBlock->render('msrp', $saleableItem, $arguments);
             }
         }
 
-        return $result;
+        return $this->wrapResult($result);
     }
 
     /**
@@ -58,5 +63,37 @@ class FinalPriceBox extends PriceBox
     protected function wrapResult($html)
     {
         return '<div class="price-box ' . $this->getData('css_classes') . '">' . $html . '</div>';
+    }
+    
+    public function renderAmountMinimal()
+    {
+        //@TODO Implement 'minimal_price'
+
+        $price = $this->getPriceType('minimal_price');
+        $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
+        return $this->renderAmount(
+            $price,
+            [
+                'display_label'     => __('As low as:'),
+                'price_id'          => $id,
+                'include_container' => false
+            ]
+        );
+    }
+
+    public function showSpecialPrice()
+    {
+        $displayRegularPrice = $this->getPriceType('price')->getDisplayValue();
+        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
+
+        return $displayFinalPrice < $displayRegularPrice;
+    }
+
+    public function showMinimalPrice()
+    {
+        $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
+        $minimalPrice = $this->getPriceType('final_price')->getMinimalPrice();
+
+        return $this->getDisplayMinimalPrice() && $minimalPrice && $minimalPrice < $displayFinalPrice;
     }
 }

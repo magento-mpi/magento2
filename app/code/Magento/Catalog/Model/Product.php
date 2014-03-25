@@ -22,8 +22,8 @@ use Magento\Pricing\Object\SaleableInterface;
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
  */
-class Product extends \Magento\Catalog\Model\AbstractModel
-    implements \Magento\Object\IdentityInterface, SaleableInterface
+class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface,
+    SaleableInterface
 {
     /**
      * Entity code.

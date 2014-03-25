@@ -13,8 +13,15 @@ use Magento\Pricing\Render\PriceBox as PriceBoxRender;
 use Magento\View\Element\Template\Context;
 use Magento\Pricing\Render\AmountRenderFactory;
 use Magento\Core\Helper\Data;
+use Magento\Math\Random;
 
-
+/**
+ * Default catalog price box render
+ *
+ * @method string getPriceElementIdPrefix()
+ * @method string getIdSuffix()
+ * @method string getDisplayMsrpHelpMessage()
+ */
 class PriceBox extends PriceBoxRender
 {
     /**
@@ -23,18 +30,26 @@ class PriceBox extends PriceBoxRender
     protected $coreDataHelper;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param Context $context
      * @param AmountRenderFactory $amountRenderFactory
      * @param Data $coreDataHelper
+     * @param Random $mathRandom
      * @param array $data
      */
     public function __construct(
         Context $context,
         AmountRenderFactory $amountRenderFactory,
         Data $coreDataHelper,
+        Random $mathRandom,
         array $data = array()
     ) {
         $this->coreDataHelper = $coreDataHelper;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $amountRenderFactory);
     }
 
@@ -49,5 +64,17 @@ class PriceBox extends PriceBoxRender
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = [])
     {
         return $this->coreDataHelper->jsonEncode($valueToEncode, $cycleCheck, $options);
+    }
+
+    /**
+     * Get random string
+     *
+     * @param int $length
+     * @param string|null $chars
+     * @return string
+     */
+    public function getRandomString($length, $chars = null)
+    {
+        return $this->mathRandom->getRandomString($length, $chars);
     }
 }

@@ -16,6 +16,11 @@ use Magento\View\Element\Template;
 
 /**
  * Default price box renderer
+ *
+ * @method bool hasListClass()
+ * @method bool getShowDetailedPrice()
+ * @method int getPriceId()
+ * @method string getListClass()
  */
 class PriceBox extends Template implements PriceBoxRenderInterface
 {
@@ -45,11 +50,6 @@ class PriceBox extends Template implements PriceBoxRenderInterface
     protected $amountRenderFactory;
 
     /**
-     * @var \Magento\Pricing\PriceInfoInterface
-     */
-    protected $priceInfo;
-
-    /**
      * @param Template\Context $context
      * @param AmountRenderFactory $amountRenderFactory
      * @param array $data
@@ -76,18 +76,20 @@ class PriceBox extends Template implements PriceBoxRenderInterface
         $this->setData(array_replace($origArguments, $arguments));
 
         $this->saleableItem = $saleableItem;
+        $this->price = $saleableItem->getPriceInfo()->getPrice($priceType);
 
-        $this->priceInfo = $saleableItem->getPriceInfo();
-        $this->price = $this->priceInfo->getPrice($priceType);
-
+        $cssClasses = explode(' ', $this->getData('css_classes'));
         $cssClasses[] = 'price-' . $priceType;
-        $this->_data['css_classes'] = implode(' ', $cssClasses);
+        $this->setData('css_classes', implode(' ', $cssClasses));
 
         if (!$this->getTemplate() && $this->defaultTemplate) {
             $this->setTemplate($this->defaultTemplate);
         }
 
-        return $this->toHtml();
+        $result = $this->toHtml();
+        // restore original block arguments after toHtml
+        $this->setData($origArguments);
+        return $result;
     }
 
     /**
@@ -131,7 +133,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
      */
     public function getPriceType($priceCode, $quantity = null)
     {
-        return $this->priceInfo->getPrice($priceCode, $quantity);
+        return $this->saleableItem->getPriceInfo()->getPrice($priceCode, $quantity);
     }
 
     /**
@@ -152,5 +154,18 @@ class PriceBox extends Template implements PriceBoxRenderInterface
             );
         }
         return $this->amountRender;
+    }
+
+    //@TODO move this method to TierPrice block
+    public function showSavePercent(\Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel)
+    {
+        $regularPrice = $this->getPriceType('price')->getValue();
+        $finalPrice = $this->getPriceType('final_price')->getValue();
+
+        return ($this->getShowDetailedPrice() !== false)
+        && (
+            ($regularPrice == $finalPrice && $regularPrice > $tierPriceModel->getValue())
+            || ($regularPrice != $finalPrice &&  $finalPrice > $tierPriceModel->getValue())
+        );
     }
 }

@@ -7,37 +7,37 @@
  */
 
 /**
- * Template for displaying product price at product view page, gift registry and wishlist
+ * Template for displaying product price at product view page, gift registry and wish-list
  *
  * @var $this \Magento\Catalog\Pricing\Render\PriceBox
  */
 ?>
 <?php
 
-/** @var Magento\Catalog\Pricing\Price\MsrpPrice $priceType */
-$priceType = $this->getPriceType('msrp');
+/** @var Magento\Catalog\Pricing\Price\MsrpPriceInterface $priceType */
+$priceType = $this->getPrice();
 
-/** @var $_product \Magento\Catalog\Model\Product */
-$_product = $this->getSaleableItem();
-$_id = $_product->getId();
-$_msrpPrice = '';
+/** @var $product \Magento\Catalog\Model\Product */
+$product = $this->getSaleableItem();
+$productId = $product->getId();
+$msrpPrice = '';
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
 ?>
 
-<?php if ($_product->getMsrp()): ?>
-    <?php $_msrpPrice = $this->renderAmount($priceType, [
+<?php if ($product->getMsrp()): ?>
+    <?php $msrpPrice = $this->renderAmount($priceType, [
 //        'display_label' => __('Regular Price:'),
-        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $_id,
+        'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $productId,
         'include_container' => false,
-        'skip_adjustments' => true
+        'skip_adjustments'  => true
     ]); ?>
-    <span class="old-price"><?php echo $_msrpPrice ?></span>
+    <span class="old-price"><?php echo $msrpPrice ?></span>
 <?php endif; ?>
 
 <?php if ($priceType->isShowPriceOnGesture()): ?>
-    <?php $priceElementId = $priceElementIdPrefix . $_id . $this->getIdSuffix(); ?>
+    <?php $priceElementId = $priceElementIdPrefix . $productId . $this->getIdSuffix(); ?>
     <span id="<?php echo $this->getPriceId() ? $this->getPriceId() : $priceElementId ?>" style="display:none"></span>
-    <?php $popupId = 'msrp-popup-' . $_id . $this->getRandomString(20); ?>
+    <?php $popupId = 'msrp-popup-' . $productId . $this->getRandomString(20); ?>
     <a href="#" id="<?php echo($popupId);?>"><?php echo __('Click for price'); ?></a>
 <?php else: ?>
     <span class="msrp message">
@@ -46,8 +46,10 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
 <?php endif; ?>
 
 <?php if ($this->getDisplayMsrpHelpMessage()): ?>
-<?php $helpLinkId = 'msrp-help-' . $_id . $this->getRandomString(20); ?>
-<a href="#" id="<?php echo $helpLinkId;?>" class="action show map"><span><?php echo __("What's this?"); ?></span></a>
+    <?php $helpLinkId = 'msrp-help-' . $productId . $this->getRandomString(20); ?>
+    <a href="#" id="<?php echo $helpLinkId;?>" class="action show map">
+        <span><?php echo __("What's this?"); ?></span>
+    </a>
 <?php endif; ?>
 
 <script type="text/javascript">
@@ -59,19 +61,21 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
                 $('#<?php echo($popupId);?>').addToCart({
                     cartForm: "#product_addtocart_form_from_popup",
                     popupId: "#<?php echo $popupId;?>",
-                    productName: '<?php echo $_product->getName() ?>',
+                    productName: '<?php echo $product->getName() ?>',
                     realPrice: <?php echo $this->jsonEncode($this->getRealPriceHtml()) ?>,
-                    msrpPrice: <?php echo $this->jsonEncode($_msrpPrice) ?>,
+                    msrpPrice: <?php echo $this->jsonEncode($msrpPrice) ?>,
                     priceElementId: '<?php echo $priceElementId ?>',
                     closeButtonId: '#map-popup-close',
                     popupCartButtonId: "#map-popup-button"
                 });
                 <?php endif; ?>
-                $("#<?php echo($helpLinkId);?>").addToCart({
-                    helpLinkId: "#<?php echo $helpLinkId ;?>",
-                    productName: '<?php echo $_product->getName() ?>',
+                <?php if ($this->getDisplayMsrpHelpMessage()): ?>
+                $("#<?php echo $helpLinkId;?>").addToCart({
+                    helpLinkId: "#<?php echo $helpLinkId;?>",
+                    productName: '<?php echo $product->getName() ?>',
                     closeButtonId: '#map-popup-close'
                 });
+                <?php endif; ?>
             });
     })(jQuery);
     //]]>

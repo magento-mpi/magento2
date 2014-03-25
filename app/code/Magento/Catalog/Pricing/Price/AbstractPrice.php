@@ -11,9 +11,9 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Adjustment\AdjustmentInterface;
-use Magento\Catalog\Model\Product;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceInfoInterface;
+use Magento\Pricing\Object\SaleableInterface;
 
 /**
  * Abstract catalog price model
@@ -26,7 +26,7 @@ class AbstractPrice implements PriceInterface
     protected $priceType;
 
     /**
-     * @var Product
+     * @var SaleableInterface
      */
     protected $salableItem;
 
@@ -61,10 +61,10 @@ class AbstractPrice implements PriceInterface
     protected $quantity;
 
     /**
-     * @param \Magento\Pricing\Object\SaleableInterface $salableItem
-     * @param $quantity
+     * @param SaleableInterface $salableItem
+     * @param float $quantity
      */
-    public function __construct(\Magento\Pricing\Object\SaleableInterface $salableItem, $quantity)
+    public function __construct(SaleableInterface $salableItem, $quantity)
     {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
@@ -79,7 +79,7 @@ class AbstractPrice implements PriceInterface
                 $adjustments[$code] = $adjustment;
                 $adjustedAmount = $adjustment->extractAdjustment($this->baseAmount, $this->salableItem);
                 $this->baseAmount = $this->baseAmount - $adjustedAmount;
-                $this->adjustedAmount = + $adjustedAmount;
+                $this->adjustedAmount += $adjustedAmount;
                 $this->adjustedAmounts[$code] = $adjustedAmount;
             }
         }

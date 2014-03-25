@@ -9,7 +9,6 @@
 
 <?php
 /** @var \Magento\Pricing\Render\PriceBox $this */
-$product = $this->getSaleableItem();
 
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
 $tierPriceModel = $this->getPrice();
@@ -38,21 +37,18 @@ $finalPrice = $finalPriceModel->getValue();
                     $this->renderAmount(
                         $tierPriceModel,
                         [
-                            'price_id' => $index,
+                            'price_id'          => $index,
                             'include_container' => true
                         ]
                     )
                 );
             ?>&nbsp;<?php echo __('each') ?>
-            <?php if ($this->getShowDetailedPrice() !== false): ?>
-                <?php if(($regularPrice == $finalPrice && $regularPrice > $tierPriceModel->getValue())
-                    || ($regularPrice != $finalPrice &&  $finalPrice > $tierPriceModel->getValue())): ?>
-                    <?php echo __('and') ?>&nbsp;<strong class="benefit">
-                        <?php echo __('save')?>
-                        <span class="percent tier-<?php echo $this->getPriceId() ?>"><?php echo $price['savePercent']?></span>%
-                    </strong>
-                <?php endif ?>
-            <?php endif; ?>
+            <?php if($this->showSavePercent($tierPriceModel)): ?>
+                <?php echo __('and') ?>&nbsp;<strong class="benefit">
+                    <?php echo __('save')?>
+                    <span class="percent tier-<?php echo $this->getPriceId() ?>"><?php echo $price['savePercent']?></span>%
+                </strong>
+            <?php endif ?>
         </li>
     <?php endforeach; ?>
     </ul>

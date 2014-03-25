@@ -10,10 +10,10 @@
 
 namespace Magento\Weee\Pricing\Render;
 
-use Magento\Pricing\Object\SaleableInterface;
 use Magento\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
 use Magento\Pricing\PriceCurrencyInterface;
+use Magento\Weee\Model\Tax;
 
 class Adjustment extends AbstractAdjustment
 {
@@ -45,7 +45,35 @@ class Adjustment extends AbstractAdjustment
      */
     public function getAdjustmentCode()
     {
-        return 'weee';
+        //@TODO We can build two model using DI, not code. What about passing it in constructor?
+        return \Magento\Weee\Pricing\Adjustment::CODE;
+    }
+
+    public function showInclDescr()
+    {
+        return $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
+    }
+
+    public function showExclDescrIncl()
+    {
+        return $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
+    }
+
+    /**
+     * @return array|\Magento\Object[]
+     */
+    public function getWeeeTaxAttributes()
+    {
+        return $this->isDisplayFpt() ? $this->getWeeeAttributesForDisplay() : [];
+    }
+
+    /**
+     * @param \Magento\Object $attribute
+     * @return string
+     */
+    public function renderWeeeTaxAttribute(\Magento\Object $attribute)
+    {
+        return $attribute->getData('name') . ': ' . $this->convertAndFormatCurrency($attribute->getData('amount'));
     }
 
     /**
@@ -54,26 +82,49 @@ class Adjustment extends AbstractAdjustment
      * @param \Magento\Core\Model\Store|null $store
      * @return bool|int
      */
-    public function typeOfDisplay($compareTo = null, $zone = null, $store = null)
+    protected function typeOfDisplay($compareTo = null, $zone = null, $store = null)
     {
         return $this->weeeHelper->typeOfDisplay($compareTo, $zone, $store);
     }
 
     /**
-     * @param SaleableInterface $product
      * @return float
      */
-    public function getAmount(SaleableInterface $product)
+    protected function getAmount()
     {
+        $product = $this->getSaleableItem();
         return $this->weeeHelper->getAmount($product);
     }
 
     /**
-     * @param SaleableInterface $product
      * @return \Magento\Object[]
      */
-    public function getProductWeeeAttributesForDisplay(SaleableInterface $product)
+    protected function getWeeeAttributesForDisplay()
     {
+        $product = $this->getSaleableItem();
         return $this->weeeHelper->getProductWeeeAttributesForDisplay($product);
+    }
+
+    /**
+     * @return float|null
+     */
+    protected function getWeeeTaxAmount()
+    {
+        return $this->isDisplayFpt() ? $this->getAmount() : null;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isDisplayFpt()
+    {
+        $isDisplayFpt = $this->typeOfDisplay(
+            [
+                Tax::DISPLAY_INCL_DESCR,
+                Tax::DISPLAY_EXCL_DESCR_INCL
+            ]
+        );
+
+        return $isDisplayFpt;
     }
 }

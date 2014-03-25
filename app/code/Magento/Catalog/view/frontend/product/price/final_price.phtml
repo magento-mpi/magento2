@@ -10,60 +10,48 @@
 ?>
 
 <?php
-/** @var \Magento\Pricing\Render\PriceBox $this */
+/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $this */
 
-$product = $this->getSaleableItem();
-$id = $product->getId();
+$id = $this->getSaleableItem()->getId();
 
 /** @var \Magento\Catalog\Pricing\Price\Price $priceModel */
 $priceModel = $this->getPriceType('price');
-$displayRegularPrice = $priceModel->getDisplayValue();
 
 /** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPriceType('final_price');
-$displayFinalPrice = $finalPriceModel->getDisplayValue();
 ?>
 
-<?php if ($displayFinalPrice >= $displayRegularPrice): ?>
-    <?php echo $this->renderAmount($finalPriceModel, [
-        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'regular-price-' . $id,
-        'include_container' => true
-    ]); ?>
-<?php else: ?>
+<?php if ($this->showSpecialPrice()): ?>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel, [
-            'display_label' => __('Regular Price:'),
-            'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
+            'display_label'     => __('Regular Price:'),
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
             'include_container' => true,
-            'skip_adjustments' => true
+            'skip_adjustments'  => true
         ]); ?>
     </p>
     <p class="special-price">
         <?php echo $this->renderAmount($finalPriceModel, [
-            'display_label' => __('Special Price:'),
-            'price_id' => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
+            'display_label'     => __('Special Price:'),
+            'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'old-price-' . $id,
             'include_container' => false
         ]); ?>
     </p>
+<?php else: ?>
+    <?php echo $this->renderAmount($finalPriceModel, [
+        'price_id'          => $this->getPriceId() ? $this->getPriceId() : 'regular-price-' . $id,
+        'include_container' => true
+    ]); ?>
 <?php endif; ?>
 
-<?php if ($this->getDisplayMinimalPrice()): ?>
-    <?php $minimalPrice = $finalPriceModel->getMinimalPrice(); ?>
-    <?php if ($minimalPrice && $minimalPrice < $displayFinalPrice): ?>
-        <?php if ($this->getUseLinkForAsLowAs()):?>
-            <a href="<?php echo $product->getProductUrl(); ?>" class="minimal-price-link">
-        <?php else:?>
-            <span class="minimal-price-link">
-        <?php endif?>
-                <?php echo $this->renderAmount($minimalPrice, [
-                        'display_label' => __('As low as:'),
-                        'price_id' => $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $id,
-                        'include_container' => false
-                    ]); ?>
-        <?php if ($this->getUseLinkForAsLowAs()):?>
-            </a>
-        <?php else:?>
-            </span>
-        <?php endif?>
+<?php if ($this->showMinimalPrice()): ?>
+    <?php if ($this->getUseLinkForAsLowAs()):?>
+        <a href="<?php echo $this->getSaleableItem()->getProductUrl(); ?>" class="minimal-price-link">
+            <?php echo $this->renderAmountMinimal(); ?>
+        </a>
+    <?php else:?>
+        <span class="minimal-price-link">
+            <?php echo $this->renderAmountMinimal(); ?>
+        </span>
     <?php endif?>
 <?php endif; ?>
