@@ -148,7 +148,7 @@ class PriceBox extends Template implements PriceBoxRenderInterface
                 $this->_layout,
                 $rendererClass,
                 $this->getData('amount_render_template'),
-                $this->hasData('amount_render_data') ? $this->getData('amount_render') : []
+                $this->hasData('amount_render_data') ? $this->getData('amount_render_data') : []
             );
         }
         return $this->amountRender;
