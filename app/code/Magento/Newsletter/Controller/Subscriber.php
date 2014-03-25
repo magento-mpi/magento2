@@ -193,11 +193,13 @@ class Subscriber extends \Magento\App\Action\Action
                 ->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
             && !$this->_customerSession->isLoggedIn()
         ) {
-            throw new \Magento\Core\Exception(__(
-                'Sorry, but the administrator denied subscription for guests. '
-                . 'Please <a href="%1">register</a>.',
-                $this->_customerHelper->getRegisterUrl()
-            ));
+            throw new \Magento\Core\Exception(
+                __(
+                    'Sorry, but the administrator denied subscription for guests. '
+                    . 'Please <a href="%1">register</a>.',
+                    $this->_customerHelper->getRegisterUrl()
+                )
+            );
         }
     }
 

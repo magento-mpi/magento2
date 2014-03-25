@@ -139,7 +139,7 @@ class Manage extends \Magento\App\Action\Action
 
                 if ((boolean)$this->getRequest()->getParam('is_subscribed', false)) {
                     $this->_subscriberFactory->create()->subscribeCustomerById($customerId);
-                    $this->messageManager->addSuccess( __('We saved the subscription.'));
+                    $this->messageManager->addSuccess(__('We saved the subscription.'));
                 } else {
                     $this->_subscriberFactory->create()->unsubscribeCustomerById($customerId);
                     $this->messageManager->addSuccess(__('We removed the subscription.'));
