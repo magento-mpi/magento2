@@ -60,11 +60,14 @@ class Adjustment implements AdjustmentInterface
     public function isIncludedInDisplayPrice(SaleableInterface $object)
     {
         $type = $this->weeeHelper->typeOfDisplay($object);
-        return in_array($type, [
-            \Magento\Weee\Model\Tax::DISPLAY_INCL,
-            \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
-            4
-        ]);
+        return in_array(
+            $type,
+            [
+                \Magento\Weee\Model\Tax::DISPLAY_INCL,
+                \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+                4
+            ]
+        );
     }
 
     /**

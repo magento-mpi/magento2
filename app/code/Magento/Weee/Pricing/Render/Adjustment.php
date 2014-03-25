@@ -118,10 +118,12 @@ class Adjustment extends AbstractAdjustment
      */
     protected function isDisplayFpt()
     {
-        $isDisplayFpt = $this->typeOfDisplay([
-            Tax::DISPLAY_INCL_DESCR,
-            Tax::DISPLAY_EXCL_DESCR_INCL
-        ]);
+        $isDisplayFpt = $this->typeOfDisplay(
+            [
+                Tax::DISPLAY_INCL_DESCR,
+                Tax::DISPLAY_EXCL_DESCR_INCL
+            ]
+        );
 
         return $isDisplayFpt;
     }

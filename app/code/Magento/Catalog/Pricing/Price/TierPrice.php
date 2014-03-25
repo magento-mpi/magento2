@@ -99,19 +99,6 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
 
                 // @TODO check msrp
                 /** @var \Magento\Catalog\Pricing\Price\MsrpPrice $msrpPrice */
-//                $msrpPrice = $this->priceInfo->getPrice('msrp');
-//                if ($msrpPrice->canApplyMsrp($this->salableItem)) {
-//                    $oldPrice = $finalPrice;
-//                    $this->salableItem->setPriceCalculation(false);
-//                    $this->salableItem->setPrice($price['website_price']);
-//                    $this->salableItem->setFinalPrice($price['website_price']);
-//
-//                    $this->getPriceHtml($this->salableItem);
-//                    $this->salableItem->setPriceCalculation(true);
-//
-//                    $price['real_price_html'] = $this->salableItem->getRealPriceHtml();
-//                    $this->salableItem->setFinalPrice($oldPrice);
-//                }
                 // @TODO check msrp
 
                 $applicablePrices[] = $this->applyAdjustment($price);
