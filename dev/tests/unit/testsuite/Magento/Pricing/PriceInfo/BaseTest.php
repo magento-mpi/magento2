@@ -113,7 +113,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covets Base::getAdjustments
+     * @covers Base::getAdjustments
      */
     public function testGetAdjustments()
     {
@@ -122,7 +122,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covets Base::getAdjustments
+     * @covers Base::getAdjustments
      * @expectedException \InvalidArgumentException
      */
     public function testGetAdjustment()
