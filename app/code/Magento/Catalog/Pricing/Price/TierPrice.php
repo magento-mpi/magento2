@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -40,9 +38,9 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     protected $value;
 
     /**
-     * @var null|array
+     * @var array
      */
-    protected $clearPriceList;
+    protected $priceList;
 
     /**
      * @param SaleableInterface $salableItem
@@ -97,19 +95,9 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
         $applicablePrices = [];
         foreach ($priceList as $price) {
             $price['price_qty'] = $price['price_qty'] * 1;
-
-            // @TODO replace logic with minimal price getter when base price model will be implemented
-            $productPrice = $this->priceInfo->getPrice('price')->getValue();
-            $finalPrice = $this->priceInfo->getPrice('final_price')->getValue();
-            if ($productPrice !== $finalPrice) {
-                $productPrice = $finalPrice;
-            }
-
-            // Group price must be used for percent calculation if it is lower
-            $groupPrice = $this->priceInfo->getPrice('group_price')->getValue();
-            if ($productPrice > $groupPrice) {
-                $productPrice = $groupPrice;
-            }
+            /** @var BasePrice $productPrice */
+            // $productPrice is a minimal available price
+            $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
 
             if ($price['price'] < $productPrice) {
                 $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
@@ -197,19 +185,19 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
      */
     protected function getStoredTierPrices()
     {
-        if (null === $this->clearPriceList) {
-            $this->clearPriceList = $this->salableItem->getData('tier_price');
-            if (null === $this->clearPriceList) {
+        if (null === $this->priceList) {
+            $this->priceList = $this->salableItem->getData('tier_price');
+            if (null === $this->priceList) {
                 $attribute = $this->salableItem->getResource()->getAttribute('tier_price');
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
-                    $this->clearPriceList = $this->salableItem->getData('tier_price');
+                    $this->priceList = $this->salableItem->getData('tier_price');
                 }
             }
-            if (null === $this->clearPriceList || !is_array($this->clearPriceList)) {
-                $this->clearPriceList = array();
+            if (null === $this->priceList || !is_array($this->priceList)) {
+                $this->priceList = array();
             }
         }
-        return $this->clearPriceList;
+        return $this->priceList;
     }
 }

@@ -37,4 +37,9 @@ interface PriceInfoInterface
      * @return AdjustmentInterface
      */
     public function getAdjustment($adjustmentCode);
+
+    /**
+     * @return PriceComposite
+     */
+    public function getPriceComposite();
 }
