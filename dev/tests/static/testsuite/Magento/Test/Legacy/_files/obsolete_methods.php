@@ -1582,6 +1582,7 @@ return array(
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
+    array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
     ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
     ['initializeTranslation', 'Magento\Backend\Model\Observer'],
     ['getTranslateJson', 'Magento\Core\Helper\Js'],
