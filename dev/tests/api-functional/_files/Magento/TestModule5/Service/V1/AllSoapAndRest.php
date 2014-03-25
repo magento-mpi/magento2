@@ -21,7 +21,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
             ->setId($id)
             ->setName('testItemName')
             ->setIsEnabled(true)
-            ->setHasName(true)
+            ->setHasOrders(true)
             ->create();
     }
 

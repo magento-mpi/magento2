@@ -21,7 +21,7 @@ class AllSoapAndRest extends AbstractObject
     const ID = 'id';
     const NAME = 'name';
     const ENABLED = 'enabled';
-    const HAS_NAME = 'has_name';
+    const HAS_ORDERS = 'has_orders';
 
     /**
      * Retrieve item ID.
@@ -54,13 +54,13 @@ class AllSoapAndRest extends AbstractObject
     }
 
     /**
-     * Check if current entity has name defined
+     * Check if current entity has a property defined
      *
      * @return bool
      */
-    public function hasName()
+    public function hasOrders()
     {
-        return $this->_get(self::HAS_NAME);
+        return $this->_get(self::HAS_ORDERS);
     }
 
     /**

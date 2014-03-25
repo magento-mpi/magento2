@@ -22,7 +22,7 @@ class AllSoapAndRestBuilder extends AbstractObjectBuilder
     const ID = 'id';
     const NAME = 'name';
     const ENABLED = 'enabled';
-    const HAS_NAME = 'has_name';
+    const HAS_ORDERS = 'orders';
 
     /**
      * @param int $id
@@ -54,13 +54,13 @@ class AllSoapAndRestBuilder extends AbstractObjectBuilder
     }
 
     /**
-     * Set flag if entity has name
+     * Set flag if entity has orders
      *
-     * @param bool $hasName
+     * @param bool $hasOrders
      * @return AllSoapAndRestBuilder
      */
-    public function setHasName($hasName)
+    public function setHasOrders($hasOrders)
     {
-        return $this->_set(self::HAS_NAME, $hasName);
+        return $this->_set(self::HAS_ORDERS, $hasOrders);
     }
 }

@@ -209,8 +209,10 @@ class TypeProcessor
         } elseif ((strpos($getterName, 'is') === 0)) {
             /** Remove 'is' prefix and make the first letter lower case */
             $fieldName = substr($getterName, strlen('is'));
+        } elseif ((strpos($getterName, 'has') === 0)) {
+            /** Remove 'has' prefix and make the first letter lower case */
+            $fieldName = substr($getterName, strlen('has'));
         } else {
-            /** If methods are with 'is' or 'has' prefix */
             $fieldName = $getterName;
         }
         return lcfirst($fieldName);
