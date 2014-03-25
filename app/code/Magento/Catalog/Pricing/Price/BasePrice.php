@@ -38,7 +38,17 @@ class BasePrice extends Price
      */
     protected $maxValue = false;
 
-    
+    public function __construct(SaleableInterface $salableItem, $quantity = Base::PRODUCT_QUANTITY_DEFAULT)
+    {
+        $this->salableItem = $salableItem;
+        parent::__construct($salableItem, $quantity);
+    }
+
+    /**
+     * Get Base Price Value
+     *
+     * @return float
+     */
     public function getValue()
     {
         foreach ($this->getPriceTypes() as $priceCode) {
@@ -76,6 +86,8 @@ class BasePrice extends Price
     }
 
     /**
+     * Get Max Value
+     *
      * @return bool|float
      */
     public function getMaxValue()
