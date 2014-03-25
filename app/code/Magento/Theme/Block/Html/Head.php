@@ -9,6 +9,7 @@ namespace Magento\Theme\Block\Html;
 
 /**
  * Html page head block
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Head extends \Magento\View\Element\Template
 {

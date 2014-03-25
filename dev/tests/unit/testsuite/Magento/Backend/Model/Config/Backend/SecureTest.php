@@ -30,7 +30,6 @@ class SecureTest extends \PHPUnit_Framework_TestCase
         $mergeService = $this->getMock('Magento\View\Asset\MergeService', array(), array(), '', false);
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
         $coreConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
 
         $model = $this->getMock(
             'Magento\Backend\Model\Config\Backend\Secure',

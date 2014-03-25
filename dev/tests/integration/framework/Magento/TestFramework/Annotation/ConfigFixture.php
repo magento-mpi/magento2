@@ -129,7 +129,7 @@ class ConfigFixture
         /* Restore store-scoped values */
         foreach ($this->_storeConfigValues as $storeCode => $originalData) {
             foreach ($originalData as $configPath => $originalValue) {
-                if(empty($storeCode)) {
+                if (empty($storeCode)) {
                     $storeCode = null;
                 }
                 $this->_setConfigValue($configPath, $originalValue, $storeCode);

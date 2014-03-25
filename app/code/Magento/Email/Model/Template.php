@@ -20,7 +20,10 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * // Loading of template
  * \Magento\Email\Model\TemplateFactory $templateFactory
- * $templateFactory->create()->load($this->_scopeConfig->getValue('path_to_email_template_id_config', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
+ * $templateFactory->create()->load($this->_scopeConfig->getValue(
+ *  'path_to_email_template_id_config',
+ *  \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+ *  ));
  * $variables = array(
  *    'someObject' => $this->_coreResourceEmailTemplate
  *    'someString' => 'Some string value'
