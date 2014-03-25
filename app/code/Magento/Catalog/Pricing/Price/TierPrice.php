@@ -197,12 +197,12 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     protected function getStoredTierPrices()
     {
         if (null === $this->rawPriceList) {
-            $this->rawPriceList = $this->salableItem->getData('tier_price');
+            $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
             if (null === $this->rawPriceList) {
-                $attribute = $this->salableItem->getResource()->getAttribute('tier_price');
+                $attribute = $this->salableItem->getResource()->getAttribute(self::PRICE_TYPE_TIER);
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
-                    $this->rawPriceList = $this->salableItem->getData('tier_price');
+                    $this->rawPriceList = $this->salableItem->getData(self::PRICE_TYPE_TIER);
                 }
             }
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {

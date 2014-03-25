@@ -24,7 +24,10 @@ $minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_
         <li class="item">
             <?php
                 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
-                $tierPriceModel = $this->getPriceType('tier_price', $price['price_qty']);
+                $tierPriceModel = $this->getPriceType(
+                    \Magento\Catalog\Pricing\Price\TierPriceInterface::PRICE_TYPE_TIER,
+                    $price['price_qty']
+                );
 
                 echo __(
                     'Buy %1 for %2',

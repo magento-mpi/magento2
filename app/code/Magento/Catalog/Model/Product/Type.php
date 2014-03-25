@@ -96,11 +96,6 @@ class Type
     protected $_priceInfoFactory;
 
     /**
-     * @var \Magento\Pricing\PriceInfo
-     */
-    protected $priceInfo;
-
-    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
@@ -175,7 +170,7 @@ class Type
      */
     public function getPriceInfo(SaleableInterface $product)
     {
-            return $this->_priceInfoFactory->create($product);
+        return $this->_priceInfoFactory->create($product);
     }
 
     /**
