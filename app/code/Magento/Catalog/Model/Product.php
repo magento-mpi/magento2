@@ -10,6 +10,7 @@
 namespace Magento\Catalog\Model;
 
 use Magento\Pricing\Object\SaleableInterface;
+use Magento\Object\IdentityInterface;
 
 /**
  * Catalog product model
@@ -22,8 +23,7 @@ use Magento\Pricing\Object\SaleableInterface;
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
  * @method int getNewVariationsAttributeSetId()
  */
-class Product extends \Magento\Catalog\Model\AbstractModel implements \Magento\Object\IdentityInterface,
-    SaleableInterface
+class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityInterface, SaleableInterface
 {
     /**
      * Entity code.
