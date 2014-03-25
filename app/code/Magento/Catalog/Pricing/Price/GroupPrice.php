@@ -29,11 +29,6 @@ class GroupPrice extends Price implements OriginPrice
     protected $customerSession;
 
     /**
-     * @var float|bool|null
-     */
-    protected $value;
-
-    /**
      * @param SaleableInterface $salableItem
      * @param Session $customerSession
      * @param int $quantity
@@ -49,23 +44,30 @@ class GroupPrice extends Price implements OriginPrice
      */
     public function getValue()
     {
-        if (null === $this->value) {
-            $this->value = false;
-            $groupPrices = $this->getStoredGroupPrice();
-            if (null === $groupPrices || !is_array($groupPrices)) {
-                return $this->value;
-            }
+        $groupPrices = $this->salableItem->getData('group_price');
+        $matchedPrice = false;
 
-            $customerGroup = $this->getCustomerGroupId();
-
-            foreach ($groupPrices as $groupPrice) {
-                if ($groupPrice['cust_group'] == $customerGroup) {
-                    $this->value = $groupPrice['website_price'];
-                    break;
-                }
+        if (null === $groupPrices) {
+            $attribute = $this->salableItem->getResource()->getAttribute('group_price');
+            if ($attribute) {
+                $attribute->getBackend()->afterLoad($this->salableItem);
+                $groupPrices = $this->salableItem->getData('group_price');
             }
         }
-        return $this->value;
+
+        if (null === $groupPrices || !is_array($groupPrices)) {
+            return $matchedPrice;
+        }
+
+        $customerGroup = $this->getCustomerGroupId();
+
+        foreach ($groupPrices as $groupPrice) {
+            if ($groupPrice['cust_group'] == $customerGroup) {
+                $matchedPrice = $groupPrice['website_price'];
+                break;
+            }
+        }
+        return $matchedPrice;
     }
 
     /**
@@ -77,23 +79,5 @@ class GroupPrice extends Price implements OriginPrice
             return (int) $this->salableItem->getCustomerGroupId();
         }
         return (int) $this->customerSession->getCustomerGroupId();
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getStoredGroupPrice()
-    {
-        $groupPrices = $this->salableItem->getData('group_price');
-
-        if (null === $groupPrices) {
-            $attribute = $this->salableItem->getResource()->getAttribute('group_price');
-            if ($attribute) {
-                $attribute->getBackend()->afterLoad($this->salableItem);
-                $groupPrices = $this->salableItem->getData('group_price');
-            }
-        }
-
-        return $groupPrices;
     }
 }
