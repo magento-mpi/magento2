@@ -20,6 +20,8 @@ use Magento\Pricing\Render\AbstractAdjustment;
 class Adjustment extends AbstractAdjustment
 {
     /**
+     * Obtain code of adjustment type
+     *
      * @return string
      */
     public function getAdjustmentCode()
@@ -29,6 +31,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Define if both prices should be displayed
+     *
      * @return bool
      */
     public function displayBothPrices()
@@ -37,6 +41,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Obtain display amount excluding tax
+     *
      * @return string
      */
     public function getDisplayAmountExclTax()
@@ -45,6 +51,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Obtain display amount
+     *
      * @param bool $includeContainer
      * @return string
      */

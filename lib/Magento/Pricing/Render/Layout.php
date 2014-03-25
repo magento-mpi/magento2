@@ -16,11 +16,15 @@ use Magento\View\LayoutInterface;
 class Layout
 {
     /**
+     * Layout Interface
+     *
      * @var LayoutInterface
      */
     protected $layout;
 
     /**
+     * Constructor
+     *
      * @param LayoutFactory $layoutFactory
      */
     public function __construct(LayoutFactory $layoutFactory)
@@ -28,11 +32,19 @@ class Layout
         $this->layout = $layoutFactory->create();
     }
 
+    /**
+     * Add handle for layout
+     *
+     * @param $handle
+     */
     public function addHandle($handle)
     {
         $this->layout->getUpdate()->addHandle($handle);
     }
 
+    /**
+     * Load layout
+     */
     public function loadLayout()
     {
         $this->layout->getUpdate()->load();
@@ -41,7 +53,9 @@ class Layout
     }
 
     /**
-     * @param $name
+     * Obtain block object
+     *
+     * @param string $name
      * @return \Magento\View\Element\AbstractBlock
      */
     public function getBlock($name)

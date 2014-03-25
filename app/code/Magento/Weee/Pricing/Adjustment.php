@@ -22,16 +22,22 @@ class Adjustment implements AdjustmentInterface
     const CODE = 'weee';
 
     /**
+     * Weee helper
+     *
      * @var WeeeHelper
      */
     protected $weeeHelper;
 
     /**
+     * Sort order
+     *
      * @var int|null
      */
     protected $sortOrder;
 
     /**
+     * Constructor
+     *
      * @param WeeeHelper $weeeHelper
      * @param int $sortOrder
      */
@@ -42,6 +48,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Get adjustment code
+     *
      * @return string
      */
     public function getAdjustmentCode()
@@ -50,6 +58,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Define if adjustment is included in base price
+     *
      * @return bool
      */
     public function isIncludedInBasePrice()
@@ -57,6 +67,12 @@ class Adjustment implements AdjustmentInterface
         return false;
     }
 
+    /**
+     * Define if adjustment is included in display price
+     *
+     * @param SaleableInterface $object
+     * @return bool
+     */
     public function isIncludedInDisplayPrice(SaleableInterface $object)
     {
         $type = $this->weeeHelper->typeOfDisplay($object);
@@ -71,6 +87,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Extract adjustment
+     *
      * @param float $amount
      * @param SaleableInterface $object
      * @return float
@@ -81,6 +99,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Apply adjustment
+     *
      * @param float $amount
      * @param SaleableInterface $object
      * @return float
@@ -91,6 +111,8 @@ class Adjustment implements AdjustmentInterface
     }
 
     /**
+     * Obtain amount
+     *
      * @param SaleableInterface $object
      * @return float
      */

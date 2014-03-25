@@ -22,14 +22,23 @@ use Magento\View\Element\AbstractBlock;
  */
 class Render extends AbstractBlock
 {
+    /**
+     * Default type renderer
+     *
+     * @var string
+     */
     protected $defaultTypeRender = 'default';
 
     /**
+     * Price layout
+     *
      * @var Layout
      */
     protected $priceLayout;
 
     /**
+     * Constructor
+     *
      * @param Template\Context $context
      * @param Layout $priceLayout
      * @param array $data
@@ -44,6 +53,8 @@ class Render extends AbstractBlock
     }
 
     /**
+     * Prepare layout
+     *
      * @return $this
      */
     protected function _prepareLayout()
@@ -54,6 +65,8 @@ class Render extends AbstractBlock
     }
 
     /**
+     * Render price
+     *
      * @param string $priceType
      * @param SaleableInterface $product
      * @param array $arguments
@@ -75,6 +88,8 @@ class Render extends AbstractBlock
     }
 
     /**
+     * Obtain price box renderer
+     *
      * @param string $objectType
      * @param string $priceType
      * @return \Magento\Pricing\Render\PriceBoxRenderInterface

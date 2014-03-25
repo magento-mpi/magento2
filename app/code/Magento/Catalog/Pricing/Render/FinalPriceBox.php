@@ -64,7 +64,12 @@ class FinalPriceBox extends PriceBox
     {
         return '<div class="price-box ' . $this->getData('css_classes') . '">' . $html . '</div>';
     }
-    
+
+    /**
+     * Render minimal amount
+     *
+     * @return string
+     */
     public function renderAmountMinimal()
     {
         //@TODO Implement 'minimal_price'
@@ -81,6 +86,11 @@ class FinalPriceBox extends PriceBox
         );
     }
 
+    /**
+     * Define if the special price should be shown
+     *
+     * @return bool
+     */
     public function showSpecialPrice()
     {
         $displayRegularPrice = $this->getPriceType('price')->getDisplayValue();
@@ -89,6 +99,11 @@ class FinalPriceBox extends PriceBox
         return $displayFinalPrice < $displayRegularPrice;
     }
 
+    /**
+     * Define if the minimal price should be shown
+     *
+     * @return bool
+     */
     public function showMinimalPrice()
     {
         $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();

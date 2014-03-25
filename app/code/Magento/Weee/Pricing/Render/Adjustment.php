@@ -18,11 +18,15 @@ use Magento\Weee\Model\Tax;
 class Adjustment extends AbstractAdjustment
 {
     /**
+     * Weee helper
+     *
      * @var \Magento\Weee\Helper\Data
      */
     protected $weeeHelper;
 
     /**
+     * Constructor
+     *
      * @param Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Price $helper
      * @param PriceCurrencyInterface $priceCurrency
@@ -41,6 +45,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Obtain adjustment code
+     *
      * @return string
      */
     public function getAdjustmentCode()
@@ -49,17 +55,29 @@ class Adjustment extends AbstractAdjustment
         return \Magento\Weee\Pricing\Adjustment::CODE;
     }
 
+    /**
+     * Define if adjustment should be shown with including tax, description
+     *
+     * @return bool
+     */
     public function showInclDescr()
     {
         return $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
     }
 
+    /**
+     * Define if adjustment should be shown with including tax, excluding tax, description
+     *
+     * @return bool
+     */
     public function showExclDescrIncl()
     {
         return $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
     }
 
     /**
+     * Obtain Weee tax attributes
+     *
      * @return array|\Magento\Object[]
      */
     public function getWeeeTaxAttributes()
@@ -68,6 +86,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Render Weee tax attributes
+     *
      * @param \Magento\Object $attribute
      * @return string
      */
@@ -77,6 +97,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Returns display type for price accordingly to current zone
+     *
      * @param int|int[]|null $compareTo
      * @param string|null $zone
      * @param \Magento\Core\Model\Store|null $store
@@ -88,6 +110,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Get amount
+     *
      * @return float
      */
     protected function getAmount()
@@ -97,6 +121,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Get Weee attributes for display
+     *
      * @return \Magento\Object[]
      */
     protected function getWeeeAttributesForDisplay()
@@ -106,6 +132,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Get Weee tax amount
+     *
      * @return float|null
      */
     protected function getWeeeTaxAmount()
@@ -114,6 +142,8 @@ class Adjustment extends AbstractAdjustment
     }
 
     /**
+     * Define if the FPT should be displayed
+     *
      * @return bool
      */
     protected function isDisplayFpt()
