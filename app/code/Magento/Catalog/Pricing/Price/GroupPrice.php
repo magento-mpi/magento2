@@ -43,11 +43,12 @@ class GroupPrice extends Price
     }
 
     /**
-     * @return float|mixed
+     * @return float|bool|mixed
      */
     public function getValue()
     {
         $groupPrices = $this->salableItem->getData('group_price');
+        $matchedPrice = false;
 
         if (is_null($groupPrices)) {
             $attribute = $this->salableItem->getResource()->getAttribute('group_price');
@@ -58,13 +59,13 @@ class GroupPrice extends Price
         }
 
         if (is_null($groupPrices) || !is_array($groupPrices)) {
-            return $this->salableItem->getPrice();
+            return $matchedPrice;
         }
 
         $customerGroup = $this->getCustomerGroupId();
-        $matchedPrice = $this->salableItem->getPrice();
+
         foreach ($groupPrices as $groupPrice) {
-            if ($groupPrice['cust_group'] == $customerGroup && $groupPrice['website_price'] < $matchedPrice) {
+            if ($groupPrice['cust_group'] == $customerGroup) {
                 $matchedPrice = $groupPrice['website_price'];
                 break;
             }
