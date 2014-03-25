@@ -13,33 +13,33 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Class BasePrice
  */
-class BasePrice extends \Magento\Catalog\Pricing\Price\Price
+class BasePrice extends Price
 {
     /**
      * Price type identifier string
      */
-    const PRICE_TYPE = 'base_price';
+    const PRICE_TYPE_BASE_PRICE = 'base_price';
 
     /**
      * @var string
      */
-    protected $priceType = self::PRICE_TYPE;
+    protected $priceType = self::PRICE_TYPE_BASE_PRICE;
 
     /**
-     * @var float|null
+     * @var float
      */
-    protected $baseAmount = null;
+    protected $baseAmount;
 
     /**
-     * @return float|null
+     * {@inheritdoc}
      */
     public function getValue()
     {
         $priceComposite = $this->salableItem->getPriceInfo()->getPriceComposite();
         foreach (array_diff($priceComposite->getPriceCodes(), array($this->priceType)) as $priceCode) {
             $price = $this->salableItem->getPriceInfo()->getPrice($priceCode);
-            if ($price instanceof \Magento\Catalog\Pricing\Price\OriginPrice && $price->getValue() !== false) {
-                if (is_null($this->baseAmount)) {
+            if ($price instanceof OriginPrice && $price->getValue() !== false) {
+                if (null === $this->baseAmount) {
                     $this->baseAmount = $price->getValue();
                 } else {
                     $this->baseAmount = min($price->getValue(), $this->baseAmount);

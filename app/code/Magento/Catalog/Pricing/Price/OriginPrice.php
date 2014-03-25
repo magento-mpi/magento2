@@ -15,5 +15,8 @@ namespace Magento\Catalog\Pricing\Price;
  */
 interface OriginPrice
 {
+    /**
+     * @return float|bool
+     */
     public function getValue();
 }

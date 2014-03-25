@@ -13,10 +13,15 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Base price model
  */
-class Price extends AbstractPrice implements \Magento\Catalog\Pricing\Price\OriginPrice
+class Price extends AbstractPrice implements OriginPrice
 {
+    /**
+     * Default price type
+     */
+    const PRICE_TYPE_PRICE_DEFAULT = 'price';
+
     /**
      * @var string
      */
-    protected $priceType = 'price';
+    protected $priceType = self::PRICE_TYPE_PRICE_DEFAULT;
 }

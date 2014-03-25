@@ -21,7 +21,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     /**
      * @var string
      */
-    protected $priceType = 'msrp';
+    protected $priceType = self::PRICE_TYPE_MSRP;
 
     /**
      * @var \Magento\Catalog\Helper\Data
@@ -30,10 +30,10 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param float $quantity
      * @param Data $catalogDataHelper
+     * @param float $quantity
      */
-    public function __construct(SaleableInterface $salableItem, $quantity, Data $catalogDataHelper)
+    public function __construct(SaleableInterface $salableItem, Data $catalogDataHelper, $quantity)
     {
         $this->catalogDataHelper = $catalogDataHelper;
         parent::__construct($salableItem, $quantity);

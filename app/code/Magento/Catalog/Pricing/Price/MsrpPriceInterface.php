@@ -18,6 +18,11 @@ use Magento\Pricing\Object\SaleableInterface;
 interface MsrpPriceInterface
 {
     /**
+     * Price type MSRP
+     */
+    const PRICE_TYPE_MSRP = 'msrp';
+
+    /**
      * Check is product need gesture to show price
      *
      * @return bool

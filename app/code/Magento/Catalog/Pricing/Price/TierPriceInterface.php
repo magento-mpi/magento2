@@ -8,13 +8,16 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Catalog\Model\Product;
-
 /**
- * MSRP price model
+ * Tier price interface
  */
 interface TierPriceInterface
 {
+    /**
+     * Price type tier
+     */
+    const PRICE_TYPE_TIER = 'tier_price';
+
     /**
      * @return array
      */

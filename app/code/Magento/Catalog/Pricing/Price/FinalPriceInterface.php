@@ -10,11 +10,13 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Price\PriceInterface;
-
-interface FinalPriceInterface extends PriceInterface
+/**
+ * Final price interface
+ */
+interface FinalPriceInterface
 {
-    public function hasDefaultFinalPrice();
-
-    public function hasMinMaxPrices();
+    /**
+     * Price type final
+     */
+    const PRICE_TYPE_FINAL = 'final_price';
 }
