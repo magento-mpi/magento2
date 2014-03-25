@@ -1,3 +1,9 @@
+* Modularity Improvements:
+  * Moved abstract Core models and related logic into Magento/Model library (MAGETWO-21588)
+  * Moved abstract DB logic and Core resource helpers into Magento/DB library (MAGETWO-21588)
+  * Eliminated Core\Model\App class (MAGETWO-21593)
+  * Moved Magento Flag functionality to the library (MAGETWO-21605)
+  * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
 * Framework Improvements:
   * LauncherInterface renamed to AppInterface (MAGETWO-21593)
 * Fixed bugs:
