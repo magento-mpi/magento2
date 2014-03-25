@@ -46,7 +46,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param int $quantity
+     * @param float $quantity
      * @param Session $customerSession
      */
     public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)

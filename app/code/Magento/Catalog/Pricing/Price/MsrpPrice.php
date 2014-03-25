@@ -30,10 +30,10 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param Data $catalogDataHelper
      * @param float $quantity
+     * @param Data $catalogDataHelper
      */
-    public function __construct(SaleableInterface $salableItem, Data $catalogDataHelper, $quantity)
+    public function __construct(SaleableInterface $salableItem, $quantity, Data $catalogDataHelper)
     {
         $this->catalogDataHelper = $catalogDataHelper;
         parent::__construct($salableItem, $quantity);
