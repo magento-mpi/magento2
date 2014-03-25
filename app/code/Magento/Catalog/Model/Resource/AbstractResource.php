@@ -103,7 +103,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     {
         $applyTo = $attribute->getApplyTo();
         return (count($applyTo) == 0 || in_array($object->getTypeId(), $applyTo))
-            && $attribute->isInSet($object->getAttributeSetId());
+        && $attribute->isInSet($object->getAttributeSetId());
     }
 
     /**
@@ -144,9 +144,9 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
          * to single store mode. We should load correct values
          */
         if ($this->_storeManager->hasSingleStore()) {
-            $storeId = (int) $this->_storeManager->getStore(true)->getId();
+            $storeId = (int)$this->_storeManager->getStore(true)->getId();
         } else {
-            $storeId = (int) $object->getStoreId();
+            $storeId = (int)$object->getStoreId();
         }
 
         $setId = $object->getAttributeSetId();
@@ -283,7 +283,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
              */
             $storeIds = $this->_storeManager->getStore($storeId)->getWebsite()->getStoreIds(true);
             foreach ($storeIds as $storeId) {
-                $bind['store_id'] = (int) $storeId;
+                $bind['store_id'] = (int)$storeId;
                 $this->_attributeValuesToSave[$table][] = $bind;
             }
         } else {
@@ -310,7 +310,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         /**
          * save required attributes in global scope every time if store id different from default
          */
-        $storeId = (int) $this->_storeManager->getStore($object->getStoreId())->getId();
+        $storeId = (int)$this->_storeManager->getStore($object->getStoreId())->getId();
         if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
             $table = $attribute->getBackend()->getTable();
 
@@ -323,16 +323,16 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             $row = $this->_getReadAdapter()->fetchOne($select);
 
             if (!$row) {
-                $data  = new \Magento\Object(
+                $data = new \Magento\Object(
                     array(
-                        'entity_type_id'    => $attribute->getEntityTypeId(),
-                        'attribute_id'      => $attribute->getAttributeId(),
-                        'store_id'          => $this->getDefaultStoreId(),
-                        'entity_id'         => $object->getEntityId(),
-                        'value'             => $this->_prepareValueForSave($value, $attribute)
+                        'entity_type_id' => $attribute->getEntityTypeId(),
+                        'attribute_id' => $attribute->getAttributeId(),
+                        'store_id' => $this->getDefaultStoreId(),
+                        'entity_id' => $object->getEntityId(),
+                        'value' => $this->_prepareValueForSave($value, $attribute)
                     )
                 );
-                $bind  = $this->_prepareDataForTable($data, $table);
+                $bind = $this->_prepareDataForTable($data, $table);
                 $this->_getWriteAdapter()->insertOnDuplicate($table, $bind, array('value'));
             }
         }
@@ -368,7 +368,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->_getWriteAdapter();
         $table = $attribute->getBackend()->getTable();
         $entityIdField = $attribute->getBackend()->getEntityIdField();
-        $select  = $adapter->select()
+        $select = $adapter->select()
             ->from($table, 'value_id')
             ->where('entity_type_id = :entity_type_id')
             ->where("$entityIdField = :entity_field_id")
@@ -430,7 +430,7 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             } elseif ($attribute->isScopeWebsite()) {
                 $websiteAttributes[] = (int)$itemData['attribute_id'];
             } elseif ($itemData['value_id'] !== null) {
-                $globalValues[] = (int) $itemData['value_id'];
+                $globalValues[] = (int)$itemData['value_id'];
             }
         }
 
@@ -520,11 +520,11 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
     ) {
         $result = parent::_canUpdateAttribute($attribute, $value, $origData);
         if ($result && ($attribute->isScopeStore() || $attribute->isScopeWebsite()) && !$this->_isAttributeValueEmpty(
-            $attribute,
-            $value
-        ) && $value == $origData[$attribute->getAttributeCode()] && isset(
+                $attribute,
+                $value
+            ) && $value == $origData[$attribute->getAttributeCode()] && isset(
             $origData['store_id']
-        ) && $origData['store_id'] != $this->getDefaultStoreId()
+            ) && $origData['store_id'] != $this->getDefaultStoreId()
         ) {
             return false;
         }
