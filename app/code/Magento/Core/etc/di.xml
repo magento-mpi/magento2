@@ -435,6 +435,12 @@
     <type name="Magento\Stdlib\DateTime\Timezone">
         <arguments>
             <argument name="defaultTimezonePath" xsi:type="string">general/locale/timezone</argument>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Url">
+        <arguments>
+            <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
     <type name="Magento\Locale\Resolver">

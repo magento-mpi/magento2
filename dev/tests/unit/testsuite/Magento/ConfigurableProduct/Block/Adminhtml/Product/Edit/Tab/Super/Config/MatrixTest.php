@@ -27,7 +27,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $this->_appConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $objectHelper->getObject('Magento\Backend\Block\Template\Context', array(
-            'storeConfig' => $this->_appConfig
+            'scopeConfig' => $this->_appConfig
         ));
         $this->_locale = $this->getMock('Magento\Locale\CurrencyInterface', array(), array(), '', false);
         $data = array(

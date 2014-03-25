@@ -37,7 +37,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfigMock;
+    protected $_scopeConfigMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -107,23 +107,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         );
 
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $helperMock->expects(
-            $this->any()
-        )->method(
-            'getAreaFrontName'
-        )->will(
-            $this->returnValue($this->_areaFrontName)
-        );
-        $this->_storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
-        $this->_storeConfigMock->expects(
-            $this->any()
-        )->method(
-            'getValue'
-        )->with(
-            \Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM
-        )->will(
-            $this->returnValue('Magento_Adminhtml::system_acl_roles')
-        );
+        $helperMock->expects($this->any())->method('getAreaFrontName')
+            ->will($this->returnValue($this->_areaFrontName));
+        $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $this->_scopeConfigMock->expects($this->any())
+            ->method('getValue')
+            ->with(\Magento\Backend\Model\Url::XML_PATH_STARTUP_MENU_ITEM)
+            ->will($this->returnValue('Magento_Adminhtml::system_acl_roles'));
 
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array('getHash'), array(), '', false);
         $this->_coreDataMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
@@ -167,6 +157,21 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 'routeParamsResolver' => $this->_paramsResolverMock
             )
         );
+        $this->_paramsResolverMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->getMock(
+                'Magento\Core\Model\Url\RouteParamsResolver', array(), array(), '', false
+            )));
+        $this->_model = $helper->getObject('Magento\Backend\Model\Url', array(
+            'scopeConfig' => $this->_scopeConfigMock,
+            'backendHelper' => $helperMock,
+            'formKey' => $this->_formKey,
+            'menuConfig' => $this->_menuConfigMock,
+            'coreData' => $this->_coreDataMock,
+            'authSession' => $this->_authSessionMock,
+            'encryptor' => $this->_encryptor,
+            'routeParamsResolver' => $this->_paramsResolverMock
+        ));
 
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_model->setRequest($this->_requestMock);

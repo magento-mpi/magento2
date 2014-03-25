@@ -42,6 +42,9 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 $this->getMock(
                     'Magento\App\Config\ScopeConfigInterface', array(), array(), '', false
                 ),
+                $this->getMock(
+                    'Magento\App\Config\ScopeConfigInterface', array(), array(), '', false
+                ),
                 array()
             )
         );

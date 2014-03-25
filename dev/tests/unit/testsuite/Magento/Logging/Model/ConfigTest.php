@@ -51,15 +51,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_storageMock->expects(
-            $this->once()
-        )->method(
-            'get'
-        )->with(
-            $this->equalTo('logging')
-        )->will(
-            $this->returnValue($loggingConfig)
-        );
+        $this->_storageMock->expects($this->once())
+            ->method('get')
+            ->with($this->equalTo('logging'))
+            ->will($this->returnValue($loggingConfig));
 
         $this->_scopeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 

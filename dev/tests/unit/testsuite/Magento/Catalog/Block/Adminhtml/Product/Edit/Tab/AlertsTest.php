@@ -24,9 +24,9 @@ class AlertsTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
-        $this->alerts = $helper->getObject(
-            'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts',
-            array('storeConfig' => $this->storeConfigMock)
+        $this->alerts = $helper->getObject('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts', array(
+                'scopeConfig' => $this->storeConfigMock
+            )
         );
     }
 

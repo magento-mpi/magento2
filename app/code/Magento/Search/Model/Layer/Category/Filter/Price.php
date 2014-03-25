@@ -61,6 +61,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
      * @param \Magento\Registry $coreRegistry
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
@@ -75,6 +76,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
         \Magento\Registry $coreRegistry,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
         \Magento\App\Config\ScopeConfigInterface $scopeConfig,
@@ -419,7 +421,6 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             self::XML_PATH_RANGE_CALCULATION,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $range = $this->_storeManager->getStore()->getConfig(\Magento\Catalog\Model\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION);
         if (\Magento\Catalog\Model\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED == $range) {
             return $this->_addCalculatedFacetCondition();
         }

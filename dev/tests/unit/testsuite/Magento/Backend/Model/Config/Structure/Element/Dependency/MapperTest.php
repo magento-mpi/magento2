@@ -44,11 +44,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_configStructureMock;
 
     /**
@@ -72,10 +67,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             'field_y' => array('id' => self::FIELD_ID2)
         );
 
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
-            ->setMethods(array('getStore'))
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_configStructureMock = $this->getMockBuilder('Magento\Backend\Model\Config\Structure')
             ->setMethods(array('getElement'))
             ->disableOriginalConstructor()
@@ -89,14 +80,16 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper(
-            $this->_storeManagerMock, $this->_configStructureMock, $this->_fieldFactoryMock, $this->_scopeConfigMock);
+           $this->_configStructureMock, 
+           $this->_fieldFactoryMock, 
+           $this->_scopeConfigMock
+        );
     }
 
     protected function tearDown()
     {
         unset($this->_model);
         unset($this->_configStructureMock);
-        unset($this->_storeManagerMock);
         unset($this->_fieldFactoryMock);
         unset($this->_testData);
     }
@@ -143,8 +136,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDependenciesIsVisible()
     {
-        $this->_storeManagerMock->expects($this->never())->method('getStore');
-
         $expected = array();
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {

@@ -52,8 +52,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             array(
                 'viewConfig' => $this->_configManager,
                 'imageHelper' => $this->_imageHelper,
-                'storeConfig' => $this->_storeConfig,
-                'productConfig' => $this->productConfigMock
+                'scopeConfig' => $this->_storeConfig,
+                'productConfig' =>$this->productConfigMock,
             )
         );
     }

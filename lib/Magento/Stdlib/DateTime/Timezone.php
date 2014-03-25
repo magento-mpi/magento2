@@ -20,6 +20,11 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     );
 
     /**
+     * @var string
+     */
+    protected $_scopeType;
+
+    /**
      * @var \Magento\App\ScopeResolverInterface
      */
     protected $_scopeResolver;
@@ -40,10 +45,17 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     protected $_defaultTimezonePath;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\App\ScopeResolverInterface $scopeResolver
      * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param DateFactory $dateFactory
+     * @param \Magento\Stdlib\DateTime\DateFactory $dateFactory
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
+     * @param string $scopeType
      * @param string $defaultTimezonePath
      */
     public function __construct(
@@ -51,6 +63,8 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Stdlib\DateTime\DateFactory $dateFactory,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
+        $scopeType,
         $defaultTimezonePath
     ) {
         $this->_scopeResolver = $scopeResolver;
@@ -58,6 +72,8 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         $this->_dateTime = $dateTime;
         $this->_dateFactory = $dateFactory;
         $this->_defaultTimezonePath = $defaultTimezonePath;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_scopeType = $scopeType;
     }
 
     /**
@@ -81,7 +97,10 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function getConfigTimezone()
     {
-        return $this->_scopeResolver->getScope()->getConfig('general/locale/timezone');
+        return $this->_scopeConfig->getValue(
+            'general/locale/timezone',
+            $this->_scopeType
+        );
     }
 
     /**
@@ -135,7 +154,10 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         }
         $date = $this->_dateFactory->create(array('date' => $date, 'part' => $part, 'locale' => $locale));
         if ($useTimezone) {
-            $timezone = $this->_scopeResolver->getScope()->getConfig($this->getDefaultTimezonePath());
+            $timezone = $this->_scopeConfig->getValue(
+                $this->getDefaultTimezonePath(),
+                $this->_scopeType
+            );
             if ($timezone) {
                 $date->setTimezone($timezone);
             }
@@ -149,10 +171,16 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function scopeDate($scope = null, $date = null, $includeTime = false)
     {
-        $timezone = $this->_scopeResolver->getScope($scope)->getConfig($this->getDefaultTimezonePath());
-        $date = $this->_dateFactory->create(
-            array('date' => $date, 'part' => null, 'locale' => $this->_localeResolver->getLocale())
+        $timezone = $this->_scopeConfig->getValue(
+            $this->getDefaultTimezonePath(),
+            $this->_scopeType,
+            $scope
         );
+        $date = $this->_dateFactory->create(array(
+            'date' => $date,
+            'part' => null,
+            'locale' => $this->_localeResolver->getLocale(),
+        ));
         $date->setTimezone($timezone);
         if (!$includeTime) {
             $date->setHour(0)->setMinute(0)->setSecond(0);
@@ -234,7 +262,11 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
      */
     public function scopeTimeStamp($scope = null)
     {
-        $timezone = $this->_scopeResolver->getScope($scope)->getConfig($this->getDefaultTimezonePath());
+        $timezone = $this->_scopeConfig->getValue(
+            $this->getDefaultTimezonePath(),
+            $this->_scopeType,
+            $scope
+        );
         $currentTimezone = @date_default_timezone_get();
         @date_default_timezone_set($timezone);
         $date = date('Y-m-d H:i:s');

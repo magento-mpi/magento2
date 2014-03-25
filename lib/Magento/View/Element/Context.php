@@ -82,11 +82,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_sidResolver;
 
     /**
-     * Store config
+     * Scope config
      *
      * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_storeConfig;
+    protected $_scopeConfig;
 
     /**
      * View URL
@@ -150,7 +150,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
@@ -172,7 +172,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\View\DesignInterface $design,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\App\Config\ScopeConfigInterface $storeConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
@@ -182,23 +182,23 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
-        $this->_request = $request;
-        $this->_layout = $layout;
-        $this->_eventManager = $eventManager;
-        $this->_urlBuilder = $urlBuilder;
-        $this->_translator = $translator;
-        $this->_cache = $cache;
-        $this->_design = $design;
-        $this->_session = $session;
-        $this->_sidResolver = $sidResolver;
-        $this->_storeConfig = $storeConfig;
-        $this->_viewUrl = $viewUrl;
-        $this->_viewConfig = $viewConfig;
-        $this->_cacheState = $cacheState;
-        $this->_logger = $logger;
-        $this->_escaper = $escaper;
-        $this->_filterManager = $filterManager;
-        $this->_localeDate = $localeDate;
+        $this->_request         = $request;
+        $this->_layout          = $layout;
+        $this->_eventManager    = $eventManager;
+        $this->_urlBuilder      = $urlBuilder;
+        $this->_translator      = $translator;
+        $this->_cache           = $cache;
+        $this->_design          = $design;
+        $this->_session         = $session;
+        $this->_sidResolver     = $sidResolver;
+        $this->_scopeConfig     = $scopeConfig;
+        $this->_viewUrl         = $viewUrl;
+        $this->_viewConfig      = $viewConfig;
+        $this->_cacheState      = $cacheState;
+        $this->_logger          = $logger;
+        $this->_escaper         = $escaper;
+        $this->_filterManager   = $filterManager;
+        $this->_localeDate      = $localeDate;
         $this->inlineTranslation = $inlineTranslation;
     }
 
@@ -279,7 +279,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function getScopeConfig()
     {
-        return $this->_storeConfig;
+        return $this->_scopeConfig;
     }
 
     /**

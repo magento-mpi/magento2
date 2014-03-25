@@ -44,7 +44,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $arguments = array(
-            'storeConfig' => $storeConfig,
+            'scopeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
             'fileStorageHelper' => $helper,
             'filesystem' => $filesystem

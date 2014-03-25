@@ -149,7 +149,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $context = $helper->getObject('Magento\Backend\Block\Template\Context', array(
-            'storeConfig' => $this->_coreConfigMock,
+            'scopeConfig' => $this->_coreConfigMock,
             'request' => $requestMock,
             'urlBuilder' => $this->_urlModelMock,
         ));
