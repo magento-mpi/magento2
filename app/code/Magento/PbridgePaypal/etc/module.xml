@@ -13,6 +13,7 @@
             <module name="Magento_Pbridge"/>
         </sequence>
         <depends>
+            <module name="Magento_Store"/>
             <module name="Magento_Pbridge"/>
             <module name="Magento_Paypal"/>
             <module name="Magento_Core"/>

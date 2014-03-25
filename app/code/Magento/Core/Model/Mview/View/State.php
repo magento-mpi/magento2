@@ -9,7 +9,7 @@
 namespace Magento\Core\Model\Mview\View;
 
 /**
- * @method \Magento\Indexer\Model\Indexer\State setViewId(string $value)
+ * @method \Magento\Core\Model\Mview\View\State setViewId(string $value)
  */
 class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\View\StateInterface
 {

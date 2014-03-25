@@ -11,10 +11,6 @@ namespace Magento\GoogleAnalytics\Block;
 
 /**
  * GoogleAnalitics Page Block
- *
- * @category   Magento
- * @package    Magento_GoogleAnalytics
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Ga extends \Magento\View\Element\Template
 {
