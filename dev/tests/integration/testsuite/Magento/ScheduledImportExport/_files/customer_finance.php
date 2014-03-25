@@ -46,7 +46,8 @@ $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Mage
 
 // increment to modify balance values
 $increment = 0;
-$websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
+$websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Store\Model\StoreManagerInterface')
     ->getWebsites();
 /** @var $website \Magento\Store\Model\Website */
 foreach ($websites as $website) {

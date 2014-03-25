@@ -82,41 +82,75 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_filterItemFactory = $this->getMock('\Magento\Catalog\Model\Layer\Filter\ItemFactory', array(), array(),
-            '', false);
+        $this->_filterItemFactory = $this->getMock(
+            '\Magento\Catalog\Model\Layer\Filter\ItemFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
+        $this->_storeManager =
+            $this->getMock('\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false);
         $this->_storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($this->_store));
 
-        $this->_productCollection = $this->getMock('\Magento\Search\Model\Resource\Collection', array(), array(), '',
-            false);
+        $this->_productCollection = $this->getMock(
+            '\Magento\Search\Model\Resource\Collection',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
         $this->_layer->expects($this->any())
             ->method('getProductCollection')
             ->will($this->returnValue($this->_productCollection));
 
-        $this->_priceFactory = $this->getMock('\Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory',
-            array('create'), array(), '', false);
-        $this->_priceFilterItem = $this->getMock('\Magento\Catalog\Model\Resource\Layer\Filter\Price', array(),
-            array(), '', false);
+        $this->_priceFactory = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $this->_priceFilterItem = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Layer\Filter\Price',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_priceFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_priceFilterItem));
 
         $this->_session = $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
-        $this->_algorithm = $this->getMock('\Magento\Catalog\Model\Layer\Filter\Price\Algorithm', array(), array(), '',
-            false);
+        $this->_algorithm = $this->getMock(
+            '\Magento\Catalog\Model\Layer\Filter\Price\Algorithm',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_registry = $this->getMock('\Magento\Registry', array(), array(), '', false);
         $this->_resourceEngine = $this->getMock('\Magento\Search\Model\Resource\Engine', array(), array(), '', false);
 
         $this->_cache = $this->getMock('\Magento\App\CacheInterface', array(), array(), '', false);
 
-        $this->_model = new \Magento\Search\Model\Catalog\Layer\Filter\Price($this->_filterItemFactory,
-            $this->_storeManager, $this->_layer, $this->_priceFactory, $this->_session, $this->_algorithm,
-            $this->_registry, $this->_resourceEngine, $this->_cache);
+        $this->_model = new \Magento\Search\Model\Catalog\Layer\Filter\Price(
+            $this->_filterItemFactory,
+            $this->_storeManager,
+            $this->_layer,
+            $this->_priceFactory,
+            $this->_session,
+            $this->_algorithm,
+            $this->_registry,
+            $this->_resourceEngine,
+            $this->_cache
+        );
     }
 
     public function testGetMaxPriceIntCached()

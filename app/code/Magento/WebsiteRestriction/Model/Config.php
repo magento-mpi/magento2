@@ -76,7 +76,11 @@ class Config
      */
     public function isRestrictionEnabled($store = null)
     {
-        return (bool)(int)$this->_storeConfig->getValue(self::XML_PATH_RESTRICTION_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (bool)(int)$this->_storeConfig->getValue(
+            self::XML_PATH_RESTRICTION_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -86,7 +90,10 @@ class Config
      */
     public function getMode()
     {
-        return (int)$this->_storeConfig->getValue(self::XML_PATH_RESTRICTION_MODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (int)$this->_storeConfig->getValue(
+            self::XML_PATH_RESTRICTION_MODE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -97,8 +104,9 @@ class Config
     public function getHTTPStatusCode()
     {
         return (int)$this->_storeConfig->getValue(
-            self::XML_PATH_RESTRICTION_HTTP_STATUS
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            self::XML_PATH_RESTRICTION_HTTP_STATUS,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -109,8 +117,9 @@ class Config
     public function getHTTPRedirectCode()
     {
         return (int)$this->_storeConfig->getValue(
-            self::XML_PATH_RESTRICTION_HTTP_REDIRECT
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            self::XML_PATH_RESTRICTION_HTTP_REDIRECT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -121,7 +130,8 @@ class Config
     public function getLandingPageCode()
     {
         return $this->_storeConfig->getValue(
-            self::XML_PATH_RESTRICTION_LANDING_PAGE
-        , \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            self::XML_PATH_RESTRICTION_LANDING_PAGE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }
