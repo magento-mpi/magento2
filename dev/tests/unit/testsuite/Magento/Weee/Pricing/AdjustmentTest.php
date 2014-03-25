@@ -77,6 +77,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function isIncludedInDisplayPriceDataProvider()
     {
         return [[false], [true]];
@@ -94,8 +97,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $weeeHelper = $this->getMockBuilder('Magento\Weee\Helper\Data')->disableOriginalConstructor()
             ->setMethods(array('getAmount'))
             ->getMock();
-        /** @var SaleableInterface|\PHPUnit_Framework_MockObject_MockObject $taxHelper */
-        $object = $this->getMockBuilder('Magento\Pricing\Object\SaleableInterface')->getMock();
+        /** @var SaleableInterface|\PHPUnit_Framework_MockObject_MockObject $saleableItem */
+        $saleableItem = $this->getMockBuilder('Magento\Pricing\Object\SaleableInterface')->getMock();
         $model = new Adjustment($weeeHelper);
 
         // Avoid execution of irrelevant functionality
@@ -104,13 +107,16 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($amount));
 
         // Run tested method
-        $result = $model->extractAdjustment('anything_here', $object);
+        $result = $model->extractAdjustment('anything_here', $saleableItem);
 
         // Check expectations
         $this->assertInternalType('float', $result);
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function extractAdjustmentDataProvider()
     {
         return [
@@ -149,6 +155,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
+    /**
+     * @return array
+     */
     public function applyAdjustmentDataProvider()
     {
         return [
