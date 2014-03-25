@@ -12,6 +12,8 @@ namespace Magento\Tax\Pricing\Render;
 
 use Magento\View\Element\Template;
 use Magento\Pricing\Render\AbstractAdjustment;
+use Magento\Catalog\Helper\Product\Price as PriceHelper;
+use Magento\Pricing\PriceCurrencyInterface;
 
 /**
  * @method string getIdSuffix()
@@ -19,6 +21,27 @@ use Magento\Pricing\Render\AbstractAdjustment;
  */
 class Adjustment extends AbstractAdjustment
 {
+    /**
+     * @var \Magento\Catalog\Helper\Product\Price
+     */
+    protected $priceHelper;
+
+    /**
+     * @param Template\Context $context
+     * @param PriceHelper $helper
+     * @param PriceCurrencyInterface $priceCurrency
+     * @param array $data
+     */
+    public function __construct(
+        Template\Context $context,
+        PriceCurrencyInterface $priceCurrency,
+        PriceHelper $helper,
+        array $data = []
+    ) {
+        $this->priceHelper = $helper;
+        parent::__construct($context, $priceCurrency, $data);
+    }
+
     /**
      * Obtain code of adjustment type
      *

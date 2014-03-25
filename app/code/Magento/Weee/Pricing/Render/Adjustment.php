@@ -28,20 +28,18 @@ class Adjustment extends AbstractAdjustment
      * Constructor
      *
      * @param Template\Context $context
-     * @param \Magento\Catalog\Helper\Product\Price $helper
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Weee\Helper\Data $weeeHelper
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Catalog\Helper\Product\Price $helper,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Weee\Helper\Data $weeeHelper,
         array $data = []
     ) {
         $this->weeeHelper = $weeeHelper;
-        parent::__construct($context, $helper, $priceCurrency, $data);
+        parent::__construct($context, $priceCurrency, $data);
     }
 
     /**

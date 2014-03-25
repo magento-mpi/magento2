@@ -14,15 +14,9 @@ use Magento\View\Element\Template;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceCurrencyInterface;
-use Magento\Catalog\Helper\Product\Price as PriceHelper;
 
 abstract class AbstractAdjustment extends Template implements AdjustmentRenderInterface
 {
-    /**
-     * @var \Magento\Catalog\Helper\Product\Price
-     */
-    protected $priceHelper;
-
     /**
      * @var PriceCurrencyInterface
      */
@@ -40,17 +34,14 @@ abstract class AbstractAdjustment extends Template implements AdjustmentRenderIn
 
     /**
      * @param Template\Context $context
-     * @param PriceHelper $helper
      * @param PriceCurrencyInterface $priceCurrency
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        PriceHelper $helper,
         PriceCurrencyInterface $priceCurrency,
         array $data = []
     ) {
-        $this->priceHelper = $helper;
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $data);
     }
