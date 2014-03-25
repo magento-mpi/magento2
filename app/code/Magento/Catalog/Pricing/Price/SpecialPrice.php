@@ -30,10 +30,10 @@ class SpecialPrice extends Price implements SpecialPriceInterface, OriginPrice
 
     /**
      * @param SaleableInterface $salableItem
-     * @param TimezoneInterface $localeDate
      * @param float $quantity
+     * @param TimezoneInterface $localeDate
      */
-    public function __construct(SaleableInterface $salableItem, TimezoneInterface $localeDate, $quantity)
+    public function __construct(SaleableInterface $salableItem, $quantity, TimezoneInterface $localeDate)
     {
         $this->localeDate = $localeDate;
         parent::__construct($salableItem, $quantity);

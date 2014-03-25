@@ -30,10 +30,10 @@ class GroupPrice extends Price implements GroupPriceInterface, OriginPrice
 
     /**
      * @param SaleableInterface $salableItem
+     * @param float $quantity
      * @param Session $customerSession
-     * @param int $quantity
      */
-    public function __construct(SaleableInterface $salableItem, Session $customerSession, $quantity)
+    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
     {
         $this->customerSession = $customerSession;
         parent::__construct($salableItem, $quantity);
