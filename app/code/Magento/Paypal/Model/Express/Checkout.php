@@ -9,6 +9,7 @@
  */
 namespace Magento\Paypal\Model\Express;
 
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Service\V1\Data\Customer as CustomerDataObject;
 
@@ -251,6 +252,11 @@ class Checkout
     protected $_encryptor;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $_messageManager;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Logger $logger
@@ -277,6 +283,7 @@ class Checkout
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $params
      * @throws \Exception
      */
@@ -305,6 +312,7 @@ class Checkout
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Message\ManagerInterface $messageManager,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -331,6 +339,7 @@ class Checkout
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_encryptor = $encryptor;
+        $this->_messageManager = $messageManager;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -1177,15 +1186,16 @@ class Checkout
      */
     protected function _involveNewCustomer()
     {
-        $customer = $this->_quote->getCustomer();
-        if ($customer->isConfirmationRequired()) {
-            $customer->sendNewAccountEmail('confirmation');
+        $customer = $this->_quote->getCustomerData();
+        $confirmationStatus = $this->_customerAccountService->getConfirmationStatus($customer->getId());
+        if ($confirmationStatus === CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION_REQUIRED) {
             $url = $this->_customerData->getEmailConfirmationUrl($customer->getEmail());
-            $this->getCustomerSession()->addSuccess(__('Account confirmation is required. '
-                . 'Please, check your e-mail for confirmation link. '
-                . 'To resend confirmation email please <a href="%1">click here</a>.', $url));
+            $this->_messageManager->addSuccess(
+            // @codingStandardsIgnoreStart
+                __('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%1">click here</a>.', $url)
+            // @codingStandardsIgnoreEnd
+            );
         } else {
-            $customer->sendNewAccountEmail();
             $this->getCustomerSession()->loginById($customer->getId());
         }
         return $this;

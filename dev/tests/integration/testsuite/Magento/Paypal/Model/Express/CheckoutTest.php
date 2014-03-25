@@ -8,6 +8,7 @@
 
 namespace Magento\Paypal\Model\Express;
 
+use Magento\Customer\Model\Customer;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Checkout\Model\Type\Onepage;
 use Magento\Sales\Model\Quote;
@@ -80,6 +81,47 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('user@example.com', $customer->getEmail());
         $this->assertEquals('11111111', $customerDetails->getAddresses()[0]->getTelephone());
     }
+
+    /**
+     * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
+     * @magentoAppIsolation enabled
+     */
+    public function testPrepareNewCustomerQuoteConfirmationRequired()
+    {
+        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
+        $customerService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+
+        /** @var Quote $quote */
+        $quote = $this->_getQuote();
+
+        $quote->setCheckoutMethod(Onepage::METHOD_REGISTER); // to dive into _prepareNewCustomerQuote() on switch
+        $quote->setCustomerEmail('user@example.com');
+        $quote->setCustomerFirstname('Firstname');
+        $quote->setCustomerLastname('Lastname');
+
+        /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
+        $storeManager = $this->_objectManager->get('\Magento\Core\Model\StoreManagerInterface');
+        $storeManager->getStore()->setConfig(Customer::XML_PATH_IS_CONFIRM, true);
+
+        $checkout = $this->_getCheckout($quote);
+        $checkout->place('token');
+        $customer = $customerService->getCustomer($quote->getCustomerId());
+        $customerDetails = $customerService->getCustomerDetails($customer->getId());
+        $this->assertEquals('user@example.com', $customer->getEmail());
+        $this->assertEquals('11111111', $customerDetails->getAddresses()[0]->getTelephone());
+
+        /** @var \Magento\Message\ManagerInterface $messageManager */
+        $messageManager = $this->_objectManager->get('\Magento\Message\ManagerInterface');
+        $confirmationText = sprintf(
+            'customer/account/confirmation/email/%s/key/',
+            $customerDetails->getCustomer()->getEmail()
+        );
+        $this->assertTrue(
+            strpos($messageManager->getMessages()->getLastAddedMessage()->getText(), $confirmationText) !== false
+        );
+
+    }
+
 
     /**
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
