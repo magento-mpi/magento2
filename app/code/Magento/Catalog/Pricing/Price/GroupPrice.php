@@ -16,12 +16,12 @@ use Magento\Customer\Model\Session;
 /**
  * Group price model
  */
-class GroupPrice extends Price implements OriginPrice
+class GroupPrice extends Price implements GroupPriceInterface, OriginPrice
 {
     /**
      * @var string
      */
-    protected $priceType = 'group_price';
+    protected $priceType = self::PRICE_TYPE_GROUP;
 
     /**
      * @var Session
