@@ -56,7 +56,7 @@ interface PriceCurrencyInterface
      * @param int $precision
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @param \Magento\Directory\Model\Currency|string|null $currency
-     * @return float
+     * @return string
      */
     public function convertAndFormat(
         $amount,

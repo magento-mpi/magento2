@@ -28,21 +28,37 @@ class Adjustment extends AbstractAdjustment
         return \Magento\Tax\Pricing\Adjustment::CODE;
     }
 
+    /**
+     * @return bool
+     */
     public function displayBothPrices()
     {
         return $this->priceHelper->displayBothPrices();
     }
 
+    /**
+     * @return string
+     */
     public function getDisplayAmountExclTax()
     {
         return $this->convertAndFormatCurrency($this->getPrice()->getDisplayValue('tax'), false);
     }
 
+    /**
+     * @param bool $includeContainer
+     * @return string
+     */
     public function getDisplayAmount($includeContainer = true)
     {
          return $this->convertAndFormatCurrency($this->getPrice()->getDisplayValue(), $includeContainer);
     }
 
+    /**
+     * Build identifier with prefix
+     *
+     * @param string $prefix
+     * @return string
+     */
     public function buildIdWithPrefix($prefix)
     {
         $productId = $this->getSaleableItem()->getId();

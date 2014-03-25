@@ -84,7 +84,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * @param int $precision
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @param \Magento\Directory\Model\Currency|string|null $currency
-     * @return float
+     * @return string
      */
     public function convertAndFormat(
         $amount,
@@ -127,7 +127,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
     protected function getStore($store = null)
     {
         try {
-            if (!($store instanceof \Magento\Core\Model\Store)) {
+            if (!$store instanceof \Magento\Core\Model\Store) {
                 $store = $this->storeManager->getStore($store);
             }
         } catch (\Exception $e) {
