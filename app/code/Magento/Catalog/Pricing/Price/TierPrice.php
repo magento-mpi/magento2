@@ -66,7 +66,23 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     public function getValue()
     {
         if (null === $this->value) {
-            $this->value = $this->getTierPrice();
+            $tierPrice = false;
+            $prices = $this->getStoredTierPrices();
+            $prevQty = 1.;
+            $prevPrice = $this->salableItem->getPriceInfo()->getPrice('price', $prevQty)->getValue();
+            $priceGroup = Group::CUST_GROUP_ALL;
+
+            foreach ($prices as $price) {
+                if (!$this->canApplyTierPrice($price, $priceGroup, $prevQty)) {
+                    continue;
+                }
+                if ($price['website_price'] < $prevPrice) {
+                    $tierPrice = $prevPrice = $price['website_price'];
+                    $prevQty = $price['price_qty'];
+                    $priceGroup = $price['cust_group'];
+                }
+            }
+            $this->value = $tierPrice;
         }
         return $this->value;
     }
@@ -82,6 +98,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
         foreach ($priceList as $price) {
             $price['price_qty'] = $price['price_qty'] * 1;
 
+            // @TODO replace logic with minimal price getter when base price model will be implemented
             $productPrice = $this->priceInfo->getPrice('price')->getValue();
             $finalPrice = $this->priceInfo->getPrice('final_price')->getValue();
             if ($productPrice !== $finalPrice) {
@@ -96,24 +113,6 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
 
             if ($price['price'] < $productPrice) {
                 $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-
-                // @TODO check msrp
-                /** @var \Magento\Catalog\Pricing\Price\MsrpPrice $msrpPrice */
-//                $msrpPrice = $this->priceInfo->getPrice('msrp');
-//                if ($msrpPrice->canApplyMsrp($this->salableItem)) {
-//                    $oldPrice = $finalPrice;
-//                    $this->salableItem->setPriceCalculation(false);
-//                    $this->salableItem->setPrice($price['website_price']);
-//                    $this->salableItem->setFinalPrice($price['website_price']);
-//
-//                    $this->getPriceHtml($this->salableItem);
-//                    $this->salableItem->setPriceCalculation(true);
-//
-//                    $price['real_price_html'] = $this->salableItem->getRealPriceHtml();
-//                    $this->salableItem->setFinalPrice($oldPrice);
-//                }
-                // @TODO check msrp
-
                 $applicablePrices[] = $this->applyAdjustment($price);
             }
         }
@@ -137,48 +136,33 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     }
 
     /**
-     * Get product tier price by qty
-     *
-     * @return  bool|float
+     * @param array $price
+     * @param int $currentPriceGroup
+     * @param float|string $currentQty
+     * @return bool
      */
-    protected function getTierPrice()
+    protected function canApplyTierPrice(array $price, $currentPriceGroup, $currentQty)
     {
-        $tierPrice = false;
-        $prices = $this->getStoredTierPrices();
-
-        if (null === $prices || !is_array($prices)) {
-            return $tierPrice;
+        if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
+            // tier not for current customer group nor is for all groups
+            return false;
         }
-
-        $prevQty = 1;
-        // @todo it should be minimal price instead
-        $prevPrice = $this->salableItem->getPriceInfo()->getPrice('price', $this->quantity);
-        $prevGroup = $allGroups = Group::CUST_GROUP_ALL;
-
-        foreach ($prices as $price) {
-            if ($price['cust_group'] != $this->customerGroup && $price['cust_group'] != $allGroups) {
-                // tier not for current customer group nor is for all groups
-                continue;
-            }
-            if ($this->quantity < $price['price_qty']) {
-                // tier is higher than product qty
-                continue;
-            }
-            if ($price['price_qty'] < $prevQty) {
-                // higher tier qty already found
-                continue;
-            }
-            if ($price['price_qty'] == $prevQty && $prevGroup != $allGroups && $price['cust_group'] == $allGroups) {
-                // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
-                continue;
-            }
-            if ($price['website_price'] < $prevPrice) {
-                $tierPrice = $prevPrice = $price['website_price'];
-                $prevQty = $price['price_qty'];
-                $prevGroup = $price['cust_group'];
-            }
+        if ($this->quantity < $price['price_qty']) {
+            // tier is higher than product qty
+            return false;
         }
-        return $tierPrice;
+        if ($price['price_qty'] < $currentQty) {
+            // higher tier qty already found
+            return false;
+        }
+        if ($price['price_qty'] == $currentQty
+            && $currentPriceGroup !== Group::CUST_GROUP_ALL
+            && $price['cust_group'] === Group::CUST_GROUP_ALL
+        ) {
+            // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -187,14 +171,9 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     public function getTierPriceList()
     {
         $prices = $this->getStoredTierPrices();
-
-        if (null === $prices || !is_array($prices)) {
-            return array();
-        }
-
         $qtyCache = array();
         foreach ($prices as $priceKey => $price) {
-            if ($price['cust_group'] != $this->customerGroup && $price['cust_group'] != Group::CUST_GROUP_ALL) {
+            if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
                 unset($prices[$priceKey]);
             } elseif (isset($qtyCache[$price['price_qty']])) {
                 $priceQty = $qtyCache[$price['price_qty']];
@@ -214,19 +193,21 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     /**
      * Get clear tier price list stored in DB
      *
-     * @return array|null
+     * @return array
      */
     protected function getStoredTierPrices()
     {
         if (null === $this->clearPriceList) {
             $this->clearPriceList = $this->salableItem->getData('tier_price');
-
             if (null === $this->clearPriceList) {
                 $attribute = $this->salableItem->getResource()->getAttribute('tier_price');
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
                     $this->clearPriceList = $this->salableItem->getData('tier_price');
                 }
+            }
+            if (null === $this->clearPriceList || !is_array($this->clearPriceList)) {
+                $this->clearPriceList = array();
             }
         }
         return $this->clearPriceList;
