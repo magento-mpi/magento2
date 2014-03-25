@@ -93,9 +93,8 @@ class BasePrice extends Price
     public function getMaxValue()
     {
         if (!$this->maxValue) {
-            $priceComposite = $this->salableItem->getPriceInfo()->getPriceComposite();
-            foreach (array_diff($priceComposite->getPriceCodes(), array($this->priceType)) as $priceCode) {
-                $price = $this->salableItem->getPriceInfo()->getPrice($priceCode);
+            foreach ($this->getPriceTypes() as $priceCode) {
+                $price = $this->getPriceInfo()->getPrice($priceCode);
                 if ($price instanceof OriginPrice && $price->getValue() !== false) {
                     if (null === $this->maxValue) {
                         $this->maxValue = $price->getValue();
