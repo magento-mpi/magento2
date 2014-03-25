@@ -40,7 +40,7 @@ class SpecialPrice extends Price implements SpecialPriceInterface, OriginPrice
     }
 
     /**
-     * @return bool|float|mixed
+     * @return bool|float
      */
     public function getValue()
     {
