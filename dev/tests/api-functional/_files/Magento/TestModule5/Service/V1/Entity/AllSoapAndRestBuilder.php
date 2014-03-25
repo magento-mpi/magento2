@@ -21,8 +21,8 @@ class AllSoapAndRestBuilder extends AbstractObjectBuilder
 {
     const ID = 'id';
     const NAME = 'name';
-    const IS_ENABLED = 'isEnabled';
-    const HAS_NAME = 'hasName';
+    const ENABLED = 'enabled';
+    const HAS_NAME = 'has_name';
 
     /**
      * @param int $id
@@ -50,7 +50,7 @@ class AllSoapAndRestBuilder extends AbstractObjectBuilder
      */
     public function setIsEnabled($isEnabled)
     {
-        return $this->_set(self::IS_ENABLED, $isEnabled);
+        return $this->_set(self::ENABLED, $isEnabled);
     }
 
     /**

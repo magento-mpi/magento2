@@ -20,8 +20,8 @@ class AllSoapAndRest extends AbstractObject
 {
     const ID = 'id';
     const NAME = 'name';
-    const IS_ENABLED = 'isEnabled';
-    const HAS_NAME = 'hasName';
+    const ENABLED = 'enabled';
+    const HAS_NAME = 'has_name';
 
     /**
      * Retrieve item ID.
@@ -50,7 +50,7 @@ class AllSoapAndRest extends AbstractObject
      */
     public function isEnabled()
     {
-        return $this->_get(self::IS_ENABLED);
+        return $this->_get(self::ENABLED);
     }
 
     /**
