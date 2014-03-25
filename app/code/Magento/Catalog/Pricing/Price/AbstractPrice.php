@@ -21,6 +21,11 @@ use Magento\Pricing\Object\SaleableInterface;
 class AbstractPrice implements PriceInterface
 {
     /**
+     * Default product quantity
+     */
+    const PRODUCT_QUANTITY_DEFAULT = 1.;
+
+    /**
      * @var string
      */
     protected $priceType;
@@ -43,12 +48,12 @@ class AbstractPrice implements PriceInterface
     /**
      * @var float
      */
-    protected $baseAmount;
+    protected $baseAmount = 0.00;
 
     /**
      * @var float
      */
-    protected $adjustedAmount;
+    protected $adjustedAmount = 0.00;
 
     /**
      * @var float[]
@@ -113,17 +118,17 @@ class AbstractPrice implements PriceInterface
     /**
      * {@inheritdoc}
      */
-    public function getDisplayValue($excludedCode = null)
+    public function getDisplayValue($baseAmount = null, $excludedCode = null)
     {
-        $amount = $this->baseAmount;
+        $amount = is_null($baseAmount) ? $this->baseAmount : $baseAmount;
         foreach ($this->priceInfo->getAdjustments() as $adjustment) {
             $code = $adjustment->getAdjustmentCode();
             $exclude = false;
             if ($excludedCode && $adjustment->isExcludedWith($excludedCode)) {
                 $exclude = true;
             }
-            if ($adjustment->isIncludedInDisplayPrice() && !$exclude) {
-                if (isset($this->adjustedAmounts[$code])) {
+            if ($adjustment->isIncludedInDisplayPrice($this->salableItem) && !$exclude) {
+                if (isset($this->adjustedAmounts[$code]) && is_null($baseAmount)) {
                     $amount = $amount + $this->adjustedAmounts[$code];
                 } else {
                     $amount = $adjustment->applyAdjustment($amount, $this->salableItem);

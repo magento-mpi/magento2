@@ -21,18 +21,64 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     protected $priceType = self::PRICE_TYPE_FINAL;
 
     /**
-     * @return float|int
+     * @var
      */
-    public function getMinimalPrice()
-    {
-        return 0;
+    protected $basePrice;
+
+    /**
+     * @param \Magento\Pricing\Object\SaleableInterface $salableItem
+     * @param float $quantity
+     */
+    public function __construct(
+        \Magento\Pricing\Object\SaleableInterface $salableItem,
+        $quantity = AbstractPrice::PRODUCT_QUANTITY_DEFAULT
+    ) {
+        $this->salableItem = $salableItem;
+        $this->quantity = $quantity;
+        $this->priceInfo = $salableItem->getPriceInfo();
+        $this->basePrice = $this->priceInfo->getPrice('base_price');
+        $this->baseAmount = $this->getValue();
     }
 
     /**
-     * @return float|int
+     * @return float
      */
-    public function getMaximalPrice()
+    public function getMaxValue()
     {
-        return 0;
+        return $this->basePrice->getDisplayValue($this->getMaxValue());
+    }
+
+    /**
+     * @return float
+     */
+    public function getValue()
+    {
+        return $this->basePrice->getDisplayValue();
+    }
+
+    /**
+     * @param float $baseAmount
+     * @param string|null $excludedCode
+     * @return float
+     */
+    public function getDisplayValue($baseAmount = null, $excludedCode = null)
+    {
+        return $this->basePrice->getDisplayValue($baseAmount, $excludedCode);
+    }
+
+    /**
+     * @return float
+     */
+    public function getMinimalPrice()
+    {
+        return $this->getValue();
+    }
+
+    /**
+     * @return float
+     */
+    public function getMaximumPrice()
+    {
+        return $this->getMaxValue();
     }
 }

@@ -20,7 +20,12 @@ $priceModel = $this->getPriceType('price');
 /** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPriceType('final_price');
 ?>
-
+<?php echo 'Price :' . $this->getPriceType('price')->getDisplayValue() . "<br />" ?>
+<?php echo 'Special Price :' . $this->getPriceType('special_price')->getDisplayValue(). "<br />" ?>
+<?php echo 'Group Price :' . $this->getPriceType('group_price')->getDisplayValue(). "<br />" ?>
+<?php echo 'Catalog Rule Price :' . $this->getPriceType('catalog_rule_price')->getDisplayValue(). "<br />" ?>
+<?php echo 'Base Price :' . $this->getPriceType('base_price')->getDisplayValue(). "<br />" ?>
+<?php echo 'Final Price :' . $this->getPriceType('final_price')->getDisplayValue(). "<br />" ?>
 <?php if ($this->showSpecialPrice()): ?>
     <p class="old-price">
         <?php echo $this->renderAmount($priceModel, [
@@ -44,6 +49,7 @@ $finalPriceModel = $this->getPriceType('final_price');
     ]); ?>
 <?php endif; ?>
 
+
 <?php if ($this->showMinimalPrice()): ?>
     <?php if ($this->getUseLinkForAsLowAs()):?>
         <a href="<?php echo $this->getSaleableItem()->getProductUrl(); ?>" class="minimal-price-link">
@@ -54,4 +60,5 @@ $finalPriceModel = $this->getPriceType('final_price');
             <?php echo $this->renderAmountMinimal(); ?>
         </span>
     <?php endif?>
+
 <?php endif; ?>

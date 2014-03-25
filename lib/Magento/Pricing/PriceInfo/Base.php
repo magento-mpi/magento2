@@ -103,7 +103,7 @@ class Base implements PriceInfoInterface
      */
     public function getPrice($priceCode, $quantity = null)
     {
-        if (!isset($this->priceInstances[$priceCode]) && $quantity === null) {
+         if (!isset($this->priceInstances[$priceCode]) && $quantity === null) {
             $this->priceInstances[$priceCode] = $this->prices->createPriceObject(
                 $this->product,
                 $priceCode,

@@ -35,10 +35,11 @@ interface PriceInterface
     public function getValue();
 
     /**
+     * @param float $baseAmount
      * @param string|null $excludedCode
      * @return float
      */
-    public function getDisplayValue($excludedCode = null);
+    public function getDisplayValue($baseAmount = null, $excludedCode = null);
 
     /**
      * @return string

@@ -70,7 +70,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmountExclTax()
     {
-        return $this->convertAndFormatCurrency($this->getPrice()->getDisplayValue('tax'), false);
+        return $this->convertAndFormatCurrency($this->getPrice()->getDisplayValue(null, 'tax'), false);
     }
 
     /**

@@ -72,9 +72,9 @@ class FinalPriceBox extends PriceBox
      */
     public function renderAmountMinimal()
     {
-        //@TODO Implement 'minimal_price'
+        //@TODO Implement 'minimal_price' final price is a minimum price
 
-        $price = $this->getPriceType('minimal_price');
+        $price = $this->getPriceType('final_price');
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
         return $this->renderAmount(
             $price,

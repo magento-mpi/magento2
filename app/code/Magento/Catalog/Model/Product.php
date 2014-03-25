@@ -827,6 +827,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      */
     public function getPriceInfo()
     {
+        // @todo pricing: how to cache the object instance to avoid multiple instantiations?
         return $this->_catalogProductType->getPriceInfo($this);
     }
 
