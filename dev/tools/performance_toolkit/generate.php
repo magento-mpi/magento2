@@ -19,7 +19,7 @@ $shell = new Zend_Console_Getopt(array(
 $args = $shell->getOptions();
 if (empty($args)) {
     echo $shell->getUsageMessage();
-    exit(1);
+    exit(0);
 }
 
 $config = \Magento\ToolkitFramework\Config::getInstance();
