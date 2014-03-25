@@ -722,8 +722,7 @@ class Checkout
     }
 
     /**
-     * Place the order when customer returned from paypal
-     * Until this moment all quote data must be valid
+     * Place the order when customer returned from PayPal until this moment all quote data must be valid.
      *
      * @param string $token
      * @param string|null $shippingMethodCode
