@@ -33,9 +33,10 @@ class Layout
     }
 
     /**
-     * Add handle for layout
+     * Add handle(s) to layout
      *
-     * @param $handle
+     * @param string|string[] $handle
+     * @return \Magento\View\Layout\ProcessorInterface
      */
     public function addHandle($handle)
     {

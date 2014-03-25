@@ -21,5 +21,10 @@ interface TierPriceInterface
     /**
      * @return array
      */
-    public function getApplicableTierPrices();
+    public function getTierPriceList();
+
+    /**
+     * @return int
+     */
+    public function getTierPriceCount();
 }

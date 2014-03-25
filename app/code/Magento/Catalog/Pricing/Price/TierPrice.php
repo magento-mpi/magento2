@@ -38,16 +38,25 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     protected $value;
 
     /**
+     * Raw price list stored in DB
+     *
+     * @var array
+     */
+    protected $rawPriceList;
+
+    /**
+     * Applicable price list
+     *
      * @var array
      */
     protected $priceList;
 
     /**
      * @param SaleableInterface $salableItem
+     * @param float $quantity
      * @param Session $customerSession
-     * @param $quantity
      */
-    public function __construct(SaleableInterface $salableItem, Session $customerSession, $quantity)
+    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
     {
         $this->customerSession = $customerSession;
         if ($salableItem->getCustomerGroupId()) {
@@ -86,25 +95,52 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     }
 
     /**
+     * @return int
+     */
+    public function getTierPriceCount()
+    {
+        return count($this->getTierPriceList());
+    }
+
+    /**
      * @return array
      */
-    public function getApplicableTierPrices()
+    public function getTierPriceList()
     {
-        $priceList = $this->getTierPriceList();
+        if (null === $this->priceList) {
+            $prices = $this->getStoredTierPrices();
+            $qtyCache = [];
+            /** @var BasePrice $productPrice s a minimal available price */
 
-        $applicablePrices = [];
-        foreach ($priceList as $price) {
-            $price['price_qty'] = $price['price_qty'] * 1;
-            /** @var BasePrice $productPrice */
-            // $productPrice is a minimal available price
             $productPrice = $this->priceInfo->getPrice(BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
-
-            if ($price['price'] < $productPrice) {
-                $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
-                $applicablePrices[] = $this->applyAdjustment($price);
+            foreach ($prices as $priceKey => $price) {
+                if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
+                    unset($prices[$priceKey]);
+                } elseif (isset($qtyCache[$price['price_qty']])) {
+                    $priceQty = $qtyCache[$price['price_qty']];
+                    if ($prices[$priceQty]['website_price'] > $price['website_price']) {
+                        unset($prices[$priceQty]);
+                        $qtyCache[$price['price_qty']] = $priceKey;
+                    } else {
+                        unset($prices[$priceKey]);
+                    }
+                } else {
+                    $qtyCache[$price['price_qty']] = $priceKey;
+                }
             }
+
+            $applicablePrices = [];
+            foreach ($prices as $price) {
+                $price['price_qty'] = $price['price_qty'] * 1;
+
+                if ($price['price'] < $productPrice) {
+                    $price['savePercent'] = ceil(100 - ((100 / $productPrice) * $price['price']));
+                    $applicablePrices[] = $this->applyAdjustment($price);
+                }
+            }
+            $this->priceList = $applicablePrices;
         }
-        return $applicablePrices;
+        return $this->priceList;
     }
 
     /**
@@ -154,50 +190,25 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     }
 
     /**
-     * @return array
-     */
-    public function getTierPriceList()
-    {
-        $prices = $this->getStoredTierPrices();
-        $qtyCache = array();
-        foreach ($prices as $priceKey => $price) {
-            if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
-                unset($prices[$priceKey]);
-            } elseif (isset($qtyCache[$price['price_qty']])) {
-                $priceQty = $qtyCache[$price['price_qty']];
-                if ($prices[$priceQty]['website_price'] > $price['website_price']) {
-                    unset($prices[$priceQty]);
-                    $qtyCache[$price['price_qty']] = $priceKey;
-                } else {
-                    unset($prices[$priceKey]);
-                }
-            } else {
-                $qtyCache[$price['price_qty']] = $priceKey;
-            }
-        }
-        return $prices ? $prices : array();
-    }
-
-    /**
      * Get clear tier price list stored in DB
      *
      * @return array
      */
     protected function getStoredTierPrices()
     {
-        if (null === $this->priceList) {
-            $this->priceList = $this->salableItem->getData('tier_price');
-            if (null === $this->priceList) {
+        if (null === $this->rawPriceList) {
+            $this->rawPriceList = $this->salableItem->getData('tier_price');
+            if (null === $this->rawPriceList) {
                 $attribute = $this->salableItem->getResource()->getAttribute('tier_price');
                 if ($attribute) {
                     $attribute->getBackend()->afterLoad($this->salableItem);
-                    $this->priceList = $this->salableItem->getData('tier_price');
+                    $this->rawPriceList = $this->salableItem->getData('tier_price');
                 }
             }
-            if (null === $this->priceList || !is_array($this->priceList)) {
-                $this->priceList = array();
+            if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
+                $this->rawPriceList = array();
             }
         }
-        return $this->priceList;
+        return $this->rawPriceList;
     }
 }

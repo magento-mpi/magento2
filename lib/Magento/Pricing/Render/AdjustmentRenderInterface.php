@@ -12,8 +12,10 @@ namespace Magento\Pricing\Render;
 
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Object\SaleableInterface;
-use \Magento\View\Element\Template;
 
+/**
+ * Adjustment render interface
+ */
 interface AdjustmentRenderInterface
 {
     /**

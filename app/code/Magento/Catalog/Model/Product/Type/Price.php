@@ -230,6 +230,7 @@ class Price
      * @param   float $qty
      * @param   Product $product
      * @return  float|array
+     * @deprecated
      */
     public function getTierPrice($qty, $product)
     {
@@ -346,6 +347,7 @@ class Price
      *
      * @param   Product $product
      * @return  int
+     * @deprecated
      */
     public function getTierPriceCount($product)
     {
@@ -359,6 +361,7 @@ class Price
      * @param   float $qty
      * @param   Product $product
      * @return  array|float
+     * @deprecated
      */
     public function getFormatedTierPrice($qty, $product)
     {

@@ -6,12 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Pricing\Adjustment;
+
 /**
  * Adjustment factory
  */
-namespace Magento\Pricing\Adjustment;
-
-
 class Factory
 {
     /**
@@ -42,7 +41,7 @@ class Factory
     public function create($className, array $arguments = [])
     {
         $price = $this->objectManager->create($className, $arguments);
-        if (!$price instanceof \Magento\Pricing\Adjustment\AdjustmentInterface) {
+        if (!$price instanceof AdjustmentInterface) {
             throw new \InvalidArgumentException(
                 $className . ' doesn\'t implement \Magento\Pricing\Adjustment\AdjustmentInterface'
             );

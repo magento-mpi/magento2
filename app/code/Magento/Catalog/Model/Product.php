@@ -845,6 +845,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @param   float $qty
      * @return  float|array
+     * @deprecated
      */
     public function getTierPrice($qty = null)
     {
@@ -855,6 +856,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Count how many tier prices we have for the product
      *
      * @return  int
+     * @deprecated
      */
     public function getTierPriceCount()
     {
@@ -866,6 +868,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      *
      * @param   float $qty
      * @return  array || double
+     * @deprecated
      */
     public function getFormatedTierPrice($qty = null)
     {

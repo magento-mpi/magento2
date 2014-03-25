@@ -12,7 +12,7 @@
 
 /** @var \Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel */
 $tierPriceModel = $this->getPrice();
-$tierPrices = $tierPriceModel->getApplicableTierPrices();
+$tierPrices = $tierPriceModel->getTierPriceList();
 
 /** @var BasePrice $minPrice is a minimal available price */
 $minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();

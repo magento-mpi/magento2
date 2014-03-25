@@ -7,8 +7,6 @@
  */
 namespace Magento\Pricing\Render;
 
-use Magento\Pricing\Price\PriceInterface;
-
 /**
  * Amount Renderer Factory
  */

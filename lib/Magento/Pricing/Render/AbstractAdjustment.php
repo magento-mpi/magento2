@@ -15,6 +15,9 @@ use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\PriceCurrencyInterface;
 
+/**
+ * Adjustment render abstract
+ */
 abstract class AbstractAdjustment extends Template implements AdjustmentRenderInterface
 {
     /**
