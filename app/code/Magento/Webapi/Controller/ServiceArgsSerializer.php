@@ -187,9 +187,9 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Remove item node added by the SOAP server for array  types
+     * Remove item node added by the SOAP server for array types
      *
-     * @param $value
+     * @param array|mixed $value
      * @return array
      */
     protected function _removeSoapItemNode($value)
