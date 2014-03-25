@@ -63,7 +63,7 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
             if ($specifyOptions) {
                 $product = $this->_initProduct();
                 if (!$product) {
-                $this->noProductRedirect();
+                    $this->noProductRedirect();
                 }
                 $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
                 $this->messageManager->addNotice($notice);
