@@ -41,7 +41,7 @@ $customerBillingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectMana
 $customerBillingAddress->load(1);
 $billingAddressDataObject = $addressConverter->createAddressFromModel($customerBillingAddress, false, false);
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Quote\Address', array('data' => $billingData));
+    ->create('Magento\Sales\Model\Quote\Address');
 $billingAddress->importCustomerAddressData($billingAddressDataObject);
 $billingAddress->setAddressType('billing');
 
