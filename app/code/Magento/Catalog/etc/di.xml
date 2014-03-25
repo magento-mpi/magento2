@@ -303,4 +303,17 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Catalog\Model\Product\ReservedAttributeList">
+        <arguments>
+            <argument name="productModel" xsi:type="string">\Magento\Catalog\Model\Product</argument>
+            <argument name="reservedAttributes" xsi:type="array">
+                <item name="position" xsi:type="string">position</item>
+            </argument>
+            <argument name="allowedAttributes" xsi:type="array">
+                <item name="type_id" xsi:type="string">type_id</item>
+                <item name="calculated_final_price" xsi:type="string">calculated_final_price</item>
+                <item name="request_path" xsi:type="string">request_path</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

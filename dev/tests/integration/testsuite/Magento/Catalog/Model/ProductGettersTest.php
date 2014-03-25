@@ -244,21 +244,6 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/^[0-9]+$/', $setId);
     }
 
-    public function testGetReservedAttributes()
-    {
-        $result = $this->_model->getReservedAttributes();
-        $this->assertInternalType('array', $result);
-        $this->assertContains('position', $result);
-        $this->assertContains('reserved_attributes', $result);
-        $this->assertContains('is_virtual', $result);
-        // and 84 more...
-
-        $this->assertNotContains('type_id', $result);
-        $this->assertNotContains('calculated_final_price', $result);
-        $this->assertNotContains('request_path', $result);
-        $this->assertNotContains('rating_summary', $result);
-    }
-
     public function testGetPreconfiguredValues()
     {
         $this->assertInstanceOf('Magento\Object', $this->_model->getPreconfiguredValues());

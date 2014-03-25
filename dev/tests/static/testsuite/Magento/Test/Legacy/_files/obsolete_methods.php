@@ -1553,5 +1553,11 @@ return array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Review\Controller\Adminhtml\Product\Reviews::gridAction'
-    )
+    ),
+    array('getReservedAttributes', 'Magento\Catalog\Model\Product'),
+    array(
+        'isReservedAttribute',
+        'Magento\Catalog\Model\Product',
+        'Magento\Catalog\Model\Product\ReservedAttributeList::isReservedAttribute'
+    ),
 );
