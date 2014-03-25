@@ -17,12 +17,12 @@ use Magento\Customer\Model\Session;
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice implements TierPriceInterface, \Magento\Catalog\Pricing\Price\OriginPrice
+class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
 {
     /**
      * @var string
      */
-    protected $priceType = 'tier_price';
+    protected $priceType = self::PRICE_TYPE_TIER;
 
     /**
      * @var Session

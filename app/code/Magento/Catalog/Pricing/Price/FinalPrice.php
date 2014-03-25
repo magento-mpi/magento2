@@ -13,12 +13,12 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice
+class FinalPrice extends AbstractPrice implements FinalPriceInterface
 {
     /**
      * @var string
      */
-    protected $priceType = 'final_price';
+    protected $priceType = self::PRICE_TYPE_FINAL;
 
     /**
      * @return float|int

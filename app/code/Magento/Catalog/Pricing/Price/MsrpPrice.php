@@ -21,7 +21,7 @@ class MsrpPrice extends FinalPrice implements MsrpPriceInterface
     /**
      * @var string
      */
-    protected $priceType = 'msrp';
+    protected $priceType = self::PRICE_TYPE_MSRP;
 
     /**
      * @var \Magento\Catalog\Helper\Data
