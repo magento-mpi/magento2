@@ -35,7 +35,7 @@ class Iframe extends \Magento\Paypal\Block\Payflow\Link\Iframe
         array $data = array()
     ) {
         parent::__construct($context, $orderFactory, $checkoutSession, $hssHelper, $paymentData, $data);
-        $this->isScopePrivate = false;
+        $this->_isScopePrivate = false;
     }
 
     /**
