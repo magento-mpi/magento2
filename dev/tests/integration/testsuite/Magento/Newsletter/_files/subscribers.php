@@ -28,7 +28,8 @@ $subscriber->setStoreId($currentStore)
 $subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Newsletter\Model\Subscriber');
 $subscriber->setStoreId($otherStore)
-    ->setCustomerId(2)
+    // Intentionally setting ID to 0 instead of 2 to test fallback mechanism in Subscriber model
+    ->setCustomerId(0)
     ->setSubscriberEmail('customer_two@example.com')
     ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
     ->save()
