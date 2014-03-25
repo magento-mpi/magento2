@@ -49,6 +49,11 @@ class CatalogRulePrice extends Price
     protected $customerSession;
 
     /**
+     * @var
+     */
+    protected $value;
+
+    /**
      * @var \Magento\CatalogRule\Model\Resource\RuleFactory
      */
     protected $resourceRuleFactory;
@@ -59,7 +64,7 @@ class CatalogRulePrice extends Price
      * @param StoreManager $storeManager
      * @param Session $customerSession
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleResourceFactory
-     * @param int $quantity
+     * @param float $quantity
      */
     public function __construct(
         SaleableInterface $salableItem,
@@ -83,8 +88,8 @@ class CatalogRulePrice extends Price
      */
     public function getValue()
     {
-        if (!$this->baseAmount) {
-            $this->baseAmount = $this->resourceRuleFactory->create()
+        if (!$this->value) {
+            $this->value = $this->resourceRuleFactory->create()
                 ->getRulePrice(
                     $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
                     $this->storeManager->getStore()->getWebsiteId(),
@@ -92,6 +97,6 @@ class CatalogRulePrice extends Price
                     $this->salableItem->getId()
                 );
         }
-        return $this->baseAmount ? floatval($this->baseAmount) : false;
+        return $this->value ? floatval($this->value) : false;
     }
 }
