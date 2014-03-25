@@ -58,8 +58,8 @@ class CatalogRulePrice extends Price
      * @param TimezoneInterface $dateTime
      * @param StoreManager $storeManager
      * @param Session $customerSession
-     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleResourceFactory
-     * @param int $quantity
+     * @param RuleFactory $catalogRuleResourceFactory
+     * @param float $quantity
      */
     public function __construct(
         SaleableInterface $salableItem,

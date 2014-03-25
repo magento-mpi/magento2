@@ -10,6 +10,9 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\PriceInfo\Base;
+
 /**
  * Class BasePrice
  */
@@ -35,27 +38,41 @@ class BasePrice extends Price
      */
     protected $maxValue = false;
 
-    /**
-     * {@inheritdoc}
-     */
+    
     public function getValue()
     {
-
-        if (!$this->value) {
-            $priceComposite = $this->salableItem->getPriceInfo()->getPriceComposite();
-            $priceCodes = array_diff($priceComposite->getPriceCodes(), array(BasePrice::PRICE_TYPE_BASE_PRICE, FinalPrice::PRICE_TYPE_FINAL, MsrpPrice::PRICE_TYPE_MSRP));
-            foreach ($priceCodes as $priceCode) {
-                $price = $this->salableItem->getPriceInfo()->getPrice($priceCode);
-                if ($price instanceof OriginPrice && $price->getValue() !== false) {
-                    if (false === $this->value) {
-                        $this->value = $price->getValue();
-                    } else {
-                        $this->value = min($price->getValue(), $this->value);
-                    }
+        foreach ($this->getPriceTypes() as $priceCode) {
+            $price = $this->getPriceInfo()->getPrice($priceCode);
+            if ($price instanceof OriginPrice && false !== $price->getValue()) {
+                if (null === $this->baseAmount) {
+                    $this->baseAmount = $price->getValue();
+                } else {
+                    $this->baseAmount = min($price->getValue(), $this->baseAmount);
                 }
             }
         }
-        return $this->value;
+        return $this->baseAmount;
+    }
+
+    /**
+     * Get array of price types
+     *
+     * @return array
+     */
+    protected function getPriceTypes()
+    {
+        $priceComposite = $this->getPriceInfo()->getPriceComposite();
+        return array_diff($priceComposite->getPriceCodes(), [$this->priceType]);
+    }
+
+    /**
+     * Get PriceInfo Object
+     *
+     * @return \Magento\Pricing\PriceInfoInterface
+     */
+    protected function getPriceInfo()
+    {
+        return $this->salableItem->getPriceInfo();
     }
 
     /**
