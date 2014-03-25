@@ -56,7 +56,10 @@ class Factory implements \Magento\ObjectManager\Factory
     }
 
     /**
+     * Set object manager
+     *
      * @param \Magento\ObjectManager $objectManager
+     * @return void
      */
     public function setObjectManager(\Magento\ObjectManager $objectManager)
     {
@@ -123,6 +126,12 @@ class Factory implements \Magento\ObjectManager\Factory
         return $resolvedArguments;
     }
 
+    /**
+     * Parse array argument
+     *
+     * @param $array
+     * @return void
+     */
     protected function parseArray(&$array)
     {
         foreach ($array as $key => $item) {

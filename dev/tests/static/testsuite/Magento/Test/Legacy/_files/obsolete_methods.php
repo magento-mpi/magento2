@@ -1354,21 +1354,6 @@ return array(
     array('setArguments', 'Magento\ObjectManager\Factory\Factory', 'Magento\App\Arguments\ArgumentInterpreter'),
     array('setArguments', 'Magento\Interception\FactoryDecorator', 'Magento\App\Arguments\ArgumentInterpreter'),
     array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\ObjectManager\Factory\Factory',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
-        'setObjectManager',
-        'Magento\Interception\FactoryDecorator',
-        'Magento\ObjectManager\Config\Argument\ObjectFactory::setObjectManager'
-    ),
-    array(
         '_processArrayNode',
         'Magento\ObjectManager\Config\Mapper\Dom',
         'Magento\Data\Argument\Interpreter\ArrayType'

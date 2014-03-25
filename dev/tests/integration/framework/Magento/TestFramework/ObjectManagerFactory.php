@@ -103,7 +103,9 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      * @return array
      */
     protected function _loadPrimaryConfig(
-        \Magento\App\Filesystem\DirectoryList $directoryList, $argumentMapper, $appMode
+        \Magento\App\Filesystem\DirectoryList $directoryList,
+        $argumentMapper,
+        $appMode
     ) {
         if (null === $this->_primaryConfigData) {
             $this->_primaryConfigData = array_replace(
@@ -122,7 +124,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
             );
             $this->_primaryConfigData['preferences'] = array_replace(
                 $this->_primaryConfigData['preferences'],
-                array(
+                [
                     'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
                     'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
                     'Magento\App\Request\Http' => 'Magento\TestFramework\Request',
@@ -131,7 +133,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                     'Magento\Interception\PluginList' => 'Magento\TestFramework\Interception\PluginList',
                     'Magento\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
                     'Magento\View\LayoutInterface' => 'Magento\TestFramework\View\Layout'
-                )
+                ]
             );
         }
         return $this->_primaryConfigData;

@@ -23,19 +23,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     private $config;
 
     /**
-     * @var ObjectFactory
-     */
-    private $objectFactory;
-
-    /**
      * @var ObjectManager
      */
     private $objectManager;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $interpreterMock;
 
     protected function setUp()
     {

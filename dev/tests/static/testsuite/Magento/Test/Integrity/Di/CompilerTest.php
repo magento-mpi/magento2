@@ -88,7 +88,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         );
         // Add interpreters that reference the composite
         $argumentInterpreter->addInterpreter(
-            'array', new \Magento\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
+            'array',
+            new \Magento\Data\Argument\Interpreter\ArrayType($argumentInterpreter)
         );
 
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(

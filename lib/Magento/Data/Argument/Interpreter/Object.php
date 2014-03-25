@@ -42,4 +42,4 @@ class Object implements InterpreterInterface
         }
         return $result;
     }
-} 
+}
