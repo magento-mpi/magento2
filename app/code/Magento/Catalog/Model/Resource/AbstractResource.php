@@ -323,13 +323,15 @@ abstract class AbstractResource extends \Magento\Eav\Model\Entity\AbstractEntity
             $row = $this->_getReadAdapter()->fetchOne($select);
 
             if (!$row) {
-                $data  = new \Magento\Object(array(
-                    'entity_type_id'    => $attribute->getEntityTypeId(),
-                    'attribute_id'      => $attribute->getAttributeId(),
-                    'store_id'          => $this->getDefaultStoreId(),
-                    'entity_id'         => $object->getEntityId(),
-                    'value'             => $this->_prepareValueForSave($value, $attribute)
-                ));
+                $data  = new \Magento\Object(
+                    array(
+                        'entity_type_id'    => $attribute->getEntityTypeId(),
+                        'attribute_id'      => $attribute->getAttributeId(),
+                        'store_id'          => $this->getDefaultStoreId(),
+                        'entity_id'         => $object->getEntityId(),
+                        'value'             => $this->_prepareValueForSave($value, $attribute)
+                    )
+                );
                 $bind  = $this->_prepareDataForTable($data, $table);
                 $this->_getWriteAdapter()->insertOnDuplicate($table, $bind, array('value'));
             }

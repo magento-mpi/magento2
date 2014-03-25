@@ -71,11 +71,14 @@ class FinalPriceBox extends PriceBox
 
         $price = $this->getPriceType('minimal_price');
         $id = $this->getPriceId() ? $this->getPriceId() : 'product-minimal-price-' . $this->getSaleableItem()->getId();
-        return $this->renderAmount($price, [
-            'display_label'     => __('As low as:'),
-            'price_id'          => $id,
-            'include_container' => false
-        ]);
+        return $this->renderAmount(
+            $price,
+            [
+                'display_label'     => __('As low as:'),
+                'price_id'          => $id,
+                'include_container' => false
+            ]
+        );
     }
 
     public function showSpecialPrice()

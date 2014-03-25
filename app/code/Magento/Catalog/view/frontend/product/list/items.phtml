@@ -192,10 +192,9 @@ switch($type = $this->getType()) {
                         <strong class="product name"><a title="<?php echo $this->escapeHtml($_item->getName()) ?>" href="<?php echo $this->getProductUrl($_item) ?>">
                             <?php echo $this->escapeHtml($_item->getName()) ?></a>
                         </strong>
-                            <?php
-                                $renderBlock = $this->getLayout()->getBlock('product.price.render.default');
-                                echo $renderBlock ? $renderBlock->render('final_price', $_item) : null;
-                            ?>
+
+                            <?php echo $this->getLayout()->getBlock('product.price.render.default')
+                                ->render('final_price', $_item) ?>
 
                             <?php if ($_item->getRatingSummary() && $rating): ?>
                                 <?php echo $this->getReviewsSummaryHtml($_item,$rating) ?>

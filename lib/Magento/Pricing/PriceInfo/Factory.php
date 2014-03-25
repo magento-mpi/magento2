@@ -62,6 +62,9 @@ class Factory
         $className = isset($this->types[$type]) ? $this->types[$type] : self::DEFAULT_PRICE_INFO_CLASS;
 
         $arguments['product'] = $product;
+        if ($product->getQty()) {
+            $arguments['quantity'] = $product->getQty();
+        }
         $priceInfo = $this->objectManager->create($className, $arguments);
 
         if (!$priceInfo instanceof \Magento\Pricing\PriceInfoInterface) {

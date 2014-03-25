@@ -24,11 +24,15 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array|null $groupPrice
+     * @param int $customerGroup
+     * @param int $expected
+     *
      * @dataProvider groupPriceDataProvider
      */
-    public function testGroupPrice($groupPrice, $salableItemPrice, $customerGroup, $expected)
+    public function testGroupPrice($groupPrice, $customerGroup, $expected)
     {
-        $salableItemMock = $this->prepareSalableItem($groupPrice, $salableItemPrice);
+        $salableItemMock = $this->prepareSalableItem($groupPrice);
         $sessionMock = $this->prepareSession($salableItemMock, $customerGroup);
         $groupPriceMock = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\GroupPrice',
@@ -63,15 +67,14 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
      * @dataProvider groupPriceNonExistDataProvider
      *
      * @param array|null $groupPrice
-     * @param int $salableItemPrice
      * @param int $expected
      */
-    public function testGroupPriceNonExist($groupPrice, $salableItemPrice, $expected)
+    public function testGroupPriceNonExist($groupPrice, $expected)
     {
         $groupPriceMock = $this->objectManager->getObject(
             'Magento\Catalog\Pricing\Price\GroupPrice',
             [
-                'salableItem'     => $this->prepareSalableItem($groupPrice, $salableItemPrice),
+                'salableItem'     => $this->prepareSalableItem($groupPrice),
                 'customerSession' => $this->getMock('Magento\Customer\Model\Session', [], [], '', false)
             ]
         );
@@ -81,10 +84,9 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array|null $groupPrice
-     * @param \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product $salableItemPrice
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function prepareSalableItem($groupPrice, $salableItemPrice)
+    protected function prepareSalableItem($groupPrice)
     {
         $salableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
@@ -94,17 +96,13 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $salableItemMock->expects($this->at(4))
+        $salableItemMock->expects($this->at(3))
             ->method('getData')
             ->will($this->returnValue(null));
 
-        $salableItemMock->expects($this->at(5))
+        $salableItemMock->expects($this->at(4))
             ->method('getData')
             ->will($this->returnValue($groupPrice));
-
-        $salableItemMock->expects($this->any())
-            ->method('getPrice')
-            ->will($this->returnValue($salableItemPrice));
 
         $salableItemMock->expects($this->any())
             ->method('getResource')
@@ -178,7 +176,6 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                         'website_price' => 70
                     ]
                 ],
-                'salableItemPrice' => 100,
                 'customer_group'   => 1,
                 'expected'         => 90
             ],
@@ -193,7 +190,6 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                         'website_price' => 20
                     ],
                 ],
-                'salableItemPrice' => 100,
                 'customer_group'   => 1,
                 'expected'         => 20
             ],
@@ -204,9 +200,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                         'website_price' => 90
                     ],
                 ],
-                'salableItemPrice' => 30,
-                'customer_group'   => 1,
-                'expected'         => 30
+                'customer_group'   => 2,
+                'expected'         => false
             ]
         ];
     }
@@ -219,8 +214,7 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'groupPrice'       => null,
-                'salableItemPrice' => 90,
-                'expected'         => 90
+                'expected'         => false
             ]
         ];
     }

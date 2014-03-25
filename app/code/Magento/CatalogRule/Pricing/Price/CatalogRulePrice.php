@@ -18,12 +18,12 @@ class CatalogRulePrice extends \Magento\Catalog\Pricing\Price\Price
     /**
      * Price type identifier string
      */
-    const PRICE_CATALOG_RULE = 'catalog_rule_price';
+    const PRICE_TYPE = 'catalog_rule_price';
 
     /**
      * @var string
      */
-    protected $priceType = self::PRICE_CATALOG_RULE;
+    protected $priceType = self::PRICE_TYPE;
 
     /**
      * @var \Magento\Stdlib\DateTime\TimezoneInterface
@@ -78,12 +78,12 @@ class CatalogRulePrice extends \Magento\Catalog\Pricing\Price\Price
         if (!$this->baseAmount) {
             $this->baseAmount = $this->resourceRuleFactory->create()
                 ->getRulePrice(
-                    $this->dateTime->scopeTimeStamp($this->storeManager->getCurrentStore()->getId()),
-                    $this->storeManager->getCurrentStore()->getWebsiteId(),
+                    $this->dateTime->scopeTimeStamp($this->storeManager->getStore()->getId()),
+                    $this->storeManager->getStore()->getWebsiteId(),
                     $this->customerSession->getCustomerGroupId(),
                     $this->salableItem->getId()
                 );
         }
-        return is_null($this->baseAmount) ? null : floatval($this->baseAmount);
+        return !($this->baseAmount) ? false : floatval($this->baseAmount);
     }
 }

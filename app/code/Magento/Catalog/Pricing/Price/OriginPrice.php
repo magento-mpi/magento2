@@ -11,12 +11,9 @@
 namespace Magento\Catalog\Pricing\Price;
 
 /**
- * Base price model
+ * Interface OriginPrice
  */
-class Price extends AbstractPrice implements \Magento\Catalog\Pricing\Price\OriginPrice
+interface OriginPrice
 {
-    /**
-     * @var string
-     */
-    protected $priceType = 'price';
+    public function getValue();
 }

@@ -17,7 +17,7 @@ use Magento\Customer\Model\Session;
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice implements TierPriceInterface
+class TierPrice extends AbstractPrice implements TierPriceInterface, \Magento\Catalog\Pricing\Price\OriginPrice
 {
     /**
      * @var string
@@ -46,10 +46,10 @@ class TierPrice extends AbstractPrice implements TierPriceInterface
 
     /**
      * @param SaleableInterface $salableItem
-     * @param $quantity
      * @param Session $customerSession
+     * @param $quantity
      */
-    public function __construct(SaleableInterface $salableItem, $quantity, Session $customerSession)
+    public function __construct(SaleableInterface $salableItem, Session $customerSession, $quantity)
     {
         $this->customerSession = $customerSession;
         if ($salableItem->getCustomerGroupId()) {

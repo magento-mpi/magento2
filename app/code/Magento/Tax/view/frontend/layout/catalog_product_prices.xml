@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Core/etc/layout_single.xsd">
     <referenceBlock name="price.render.adjustments">
         <block class="Magento\Tax\Pricing\Render\Adjustment" name="price.adjustment.tax" as="tax"
                template="Magento_Tax::pricing/adjustment.phtml" />

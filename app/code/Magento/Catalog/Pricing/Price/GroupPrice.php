@@ -16,7 +16,7 @@ use Magento\Customer\Model\Session;
 /**
  * Group price model
  */
-class GroupPrice extends Price
+class GroupPrice extends Price implements \Magento\Catalog\Pricing\Price\OriginPrice
 {
     /**
      * @var string
@@ -33,23 +33,21 @@ class GroupPrice extends Price
      * @param Session $customerSession
      * @param int $quantity
      */
-    public function __construct(
-        SaleableInterface $salableItem,
-        Session $customerSession,
-        $quantity = 1
-    ) {
+    public function __construct(SaleableInterface $salableItem, Session $customerSession, $quantity)
+    {
         $this->customerSession = $customerSession;
         parent::__construct($salableItem, $quantity);
     }
 
     /**
-     * @return float|mixed
+     * @return float|bool|mixed
      */
     public function getValue()
     {
         $groupPrices = $this->salableItem->getData('group_price');
+        $matchedPrice = false;
 
-        if (is_null($groupPrices)) {
+        if (null === $groupPrices) {
             $attribute = $this->salableItem->getResource()->getAttribute('group_price');
             if ($attribute) {
                 $attribute->getBackend()->afterLoad($this->salableItem);
@@ -57,14 +55,14 @@ class GroupPrice extends Price
             }
         }
 
-        if (is_null($groupPrices) || !is_array($groupPrices)) {
-            return $this->salableItem->getPrice();
+        if (null === $groupPrices || !is_array($groupPrices)) {
+            return $matchedPrice;
         }
 
         $customerGroup = $this->getCustomerGroupId();
-        $matchedPrice = $this->salableItem->getPrice();
+
         foreach ($groupPrices as $groupPrice) {
-            if ($groupPrice['cust_group'] == $customerGroup && $groupPrice['website_price'] < $matchedPrice) {
+            if ($groupPrice['cust_group'] == $customerGroup) {
                 $matchedPrice = $groupPrice['website_price'];
                 break;
             }
@@ -78,8 +76,8 @@ class GroupPrice extends Price
     protected function getCustomerGroupId()
     {
         if ($this->salableItem->getCustomerGroupId()) {
-            return $this->salableItem->getCustomerGroupId();
+            return (int) $this->salableItem->getCustomerGroupId();
         }
-        return $this->customerSession->getCustomerGroupId();
+        return (int) $this->customerSession->getCustomerGroupId();
     }
 }

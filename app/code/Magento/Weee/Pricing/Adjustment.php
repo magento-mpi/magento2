@@ -14,9 +14,13 @@ use Magento\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Pricing\Object\SaleableInterface;
 use \Magento\Weee\Helper\Data as WeeeHelper;
 
-
+/**
+ * Weee pricing adjustment
+ */
 class Adjustment implements AdjustmentInterface
 {
+    const CODE = 'weee';
+
     /**
      * @var WeeeHelper
      */
@@ -42,7 +46,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return 'weee';
+        return self::CODE;
     }
 
     /**
@@ -56,11 +60,14 @@ class Adjustment implements AdjustmentInterface
     public function isIncludedInDisplayPrice(SaleableInterface $object)
     {
         $type = $this->weeeHelper->typeOfDisplay($object);
-        return in_array($type, [
-            \Magento\Weee\Model\Tax::DISPLAY_INCL,
-            \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
-            4
-        ]);
+        return in_array(
+            $type,
+            [
+                \Magento\Weee\Model\Tax::DISPLAY_INCL,
+                \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+                4
+            ]
+        );
     }
 
     /**

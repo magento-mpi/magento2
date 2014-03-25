@@ -310,6 +310,7 @@
                 <item name="group_price" xsi:type="string">Magento\Catalog\Pricing\Price\GroupPrice</item>
                 <item name="special_price" xsi:type="string">Magento\Catalog\Pricing\Price\SpecialPrice</item>
                 <item name="msrp" xsi:type="string">Magento\Catalog\Pricing\Price\MsrpPrice</item>
+                <item name="base_price" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
             </argument>
         </arguments>
     </type>

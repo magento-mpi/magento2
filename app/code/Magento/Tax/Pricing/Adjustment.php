@@ -19,6 +19,8 @@ use Magento\Tax\Helper\Data as TaxHelper;
  */
 class Adjustment implements AdjustmentInterface
 {
+    const CODE = 'tax';
+
     /**
      * @var TaxHelper
      */
@@ -44,7 +46,7 @@ class Adjustment implements AdjustmentInterface
      */
     public function getAdjustmentCode()
     {
-        return 'tax';
+        return self::CODE;
     }
 
     /**
