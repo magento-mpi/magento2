@@ -46,24 +46,31 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider isIncludedInDisplayPriceDataProvider
      */
-    public function testIsIncludedInDisplayPrice($typeOfDisplay, $expectedResult)
+    public function testIsIncludedInDisplayPrice($expectedResult)
     {
         // Instantiate/mock objects
         /** @var WeeeHelper|\PHPUnit_Framework_MockObject_MockObject $weeeHelper */
         $weeeHelper = $this->getMockBuilder('Magento\Weee\Helper\Data')->disableOriginalConstructor()
             ->setMethods(array('typeOfDisplay'))
             ->getMock();
-        /** @var SaleableInterface|\PHPUnit_Framework_MockObject_MockObject $taxHelper */
-        $object = $this->getMockBuilder('Magento\Pricing\Object\SaleableInterface')->getMock();
         $model = new Adjustment($weeeHelper);
 
         // Avoid execution of irrelevant functionality
         $weeeHelper->expects($this->any())
             ->method('typeOfDisplay')
-            ->will($this->returnValue($typeOfDisplay));
+            ->with(
+                $this->equalTo(
+                    [
+                        \Magento\Weee\Model\Tax::DISPLAY_INCL,
+                        \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
+                        4
+                    ]
+                )
+            )
+            ->will($this->returnValue($expectedResult));
 
         // Run tested method
-        $result = $model->isIncludedInDisplayPrice($object);
+        $result = $model->isIncludedInDisplayPrice();
 
         // Check expectations
         $this->assertInternalType('bool', $result);
@@ -72,13 +79,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
 
     public function isIncludedInDisplayPriceDataProvider()
     {
-        return [
-            [\Magento\Weee\Model\Tax::DISPLAY_INCL, true],
-            [\Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR, true],
-            [\Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL, false],
-            [\Magento\Weee\Model\Tax::DISPLAY_EXCL, false],
-            [4, true],
-        ];
+        return [[false], [true]];
     }
 
     /**

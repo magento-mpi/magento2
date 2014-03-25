@@ -85,7 +85,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($displayBothPrices));
 
         // Run tested method
-        $result = $model->isIncludedInDisplayPrice($object);
+        $result = $model->isIncludedInDisplayPrice();
 
         // Check expectations
         $this->assertInternalType('bool', $result);

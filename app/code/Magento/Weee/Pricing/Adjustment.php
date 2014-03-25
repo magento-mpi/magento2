@@ -19,6 +19,9 @@ use \Magento\Weee\Helper\Data as WeeeHelper;
  */
 class Adjustment implements AdjustmentInterface
 {
+    /**
+     * Adjustment code weee
+     */
     const CODE = 'weee';
 
     /**
@@ -70,14 +73,11 @@ class Adjustment implements AdjustmentInterface
     /**
      * Define if adjustment is included in display price
      *
-     * @param SaleableInterface $object
      * @return bool
      */
-    public function isIncludedInDisplayPrice(SaleableInterface $object)
+    public function isIncludedInDisplayPrice()
     {
-        $type = $this->weeeHelper->typeOfDisplay($object);
-        return in_array(
-            $type,
+        return $this->weeeHelper->typeOfDisplay(
             [
                 \Magento\Weee\Model\Tax::DISPLAY_INCL,
                 \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
@@ -90,35 +90,35 @@ class Adjustment implements AdjustmentInterface
      * Extract adjustment
      *
      * @param float $amount
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @return float
      */
-    public function extractAdjustment($amount, SaleableInterface $object)
+    public function extractAdjustment($amount, SaleableInterface $saleableItem)
     {
-        return $this->getAmount($object);
+        return $this->getAmount($saleableItem);
     }
 
     /**
      * Apply adjustment
      *
      * @param float $amount
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @return float
      */
-    public function applyAdjustment($amount, SaleableInterface $object)
+    public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
-        return $amount + $this->getAmount($object);
+        return $amount + $this->getAmount($saleableItem);
     }
 
     /**
      * Obtain amount
      *
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @return float
      */
-    protected function getAmount($object)
+    protected function getAmount($saleableItem)
     {
-        return $this->weeeHelper->getAmount($object);
+        return $this->weeeHelper->getAmount($saleableItem);
     }
 
     /**

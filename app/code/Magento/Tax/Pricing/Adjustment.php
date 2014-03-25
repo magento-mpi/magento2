@@ -19,6 +19,9 @@ use Magento\Tax\Helper\Data as TaxHelper;
  */
 class Adjustment implements AdjustmentInterface
 {
+    /**
+     * Adjustment code tax
+     */
     const CODE = 'tax';
 
     /**
@@ -60,7 +63,7 @@ class Adjustment implements AdjustmentInterface
     /**
      * {@inheritdoc}
      */
-    public function isIncludedInDisplayPrice(SaleableInterface $object)
+    public function isIncludedInDisplayPrice()
     {
         return $this->taxHelper->displayPriceIncludingTax() || $this->taxHelper->displayBothPrices();
     }
@@ -68,13 +71,13 @@ class Adjustment implements AdjustmentInterface
     /**
      * {@inheritdoc}
      */
-    public function extractAdjustment($amount, SaleableInterface $object)
+    public function extractAdjustment($amount, SaleableInterface $saleableItem)
     {
         if ($this->taxHelper->priceIncludesTax()) {
-            $adjustedAmount = $this->taxHelper->getPrice($object, $amount);
+            $adjustedAmount = $this->taxHelper->getPrice($saleableItem, $amount);
             $result = $amount - $adjustedAmount;
         } else {
-            $result = 0.00;
+            $result = 0.;
         }
         return $result;
     }
@@ -82,10 +85,10 @@ class Adjustment implements AdjustmentInterface
     /**
      * {@inheritdoc}
      */
-    public function applyAdjustment($amount, SaleableInterface $object)
+    public function applyAdjustment($amount, SaleableInterface $saleableItem)
     {
         $includingTax = !$this->taxHelper->priceIncludesTax();
-        $amount = $this->taxHelper->getPrice($object, $amount, $includingTax);
+        $amount = $this->taxHelper->getPrice($saleableItem, $amount, $includingTax);
         return $amount;
     }
 

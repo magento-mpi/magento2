@@ -28,24 +28,23 @@ interface AdjustmentInterface
     public function isIncludedInBasePrice();
 
     /**
-     * @param SaleableInterface $object
      * @return bool
      */
-    public function isIncludedInDisplayPrice(SaleableInterface $object);
+    public function isIncludedInDisplayPrice();
 
     /**
      * @param float $amount
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @return float
      */
-    public function extractAdjustment($amount, SaleableInterface $object);
+    public function extractAdjustment($amount, SaleableInterface $saleableItem);
 
     /**
      * @param float $amount
-     * @param SaleableInterface $object
+     * @param SaleableInterface $saleableItem
      * @return float
      */
-    public function applyAdjustment($amount, SaleableInterface $object);
+    public function applyAdjustment($amount, SaleableInterface $saleableItem);
 
     /**
      * @param string $adjustmentCode

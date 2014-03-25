@@ -122,7 +122,7 @@ class AbstractPrice implements PriceInterface
             if ($excludedCode && $adjustment->isExcludedWith($excludedCode)) {
                 $exclude = true;
             }
-            if ($adjustment->isIncludedInDisplayPrice($this->salableItem) && !$exclude) {
+            if ($adjustment->isIncludedInDisplayPrice() && !$exclude) {
                 if (isset($this->adjustedAmounts[$code])) {
                     $amount = $amount + $this->adjustedAmounts[$code];
                 } else {

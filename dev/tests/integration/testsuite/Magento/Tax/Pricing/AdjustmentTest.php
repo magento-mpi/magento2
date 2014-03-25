@@ -83,7 +83,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->setConfig(\Magento\Tax\Model\Config::CONFIG_XML_PATH_PRICE_DISPLAY_TYPE, $configValue);
 
         // Run tested method
-        $result = $model->isIncludedInDisplayPrice($object);
+        $result = $model->isIncludedInDisplayPrice();
 
         // Check expectations
         $this->assertInternalType('bool', $result);
