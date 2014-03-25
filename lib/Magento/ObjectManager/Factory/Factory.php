@@ -170,7 +170,11 @@ class Factory implements \Magento\ObjectManager\Factory
         if ($parameters == null) {
             return new $type();
         }
-        $this->_assertNoCircularDependency($requestedType);
+        if (isset($this->creationStack[$requestedType])) {
+            $lastFound = end($this->creationStack);
+            $this->creationStack = array();
+            throw new \LogicException("Circular dependency: {$requestedType} depends on {$lastFound} and vice versa.");
+        }
         $this->creationStack[$requestedType] = $requestedType;
         try {
             $args = $this->_resolveArguments($requestedType, $parameters, $arguments);
@@ -203,18 +207,12 @@ class Factory implements \Magento\ObjectManager\Factory
     }
 
     /**
-     * Prevent circular dependencies using creation stack
+     * Set global arguments
      *
-     * @param string $type
-     * @throws \LogicException
-     * @return void
+     * @param array $arguments
      */
-    private function _assertNoCircularDependency($type)
+    public function setArguments($arguments)
     {
-        if (isset($this->creationStack[$type])) {
-            $lastFound = end($this->creationStack);
-            $this->creationStack = array();
-            throw new \LogicException("Circular dependency: {$type} depends on {$lastFound} and vice versa.");
-        }
+        $this->globalArguments = $arguments;
     }
 }

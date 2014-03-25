@@ -34,6 +34,13 @@ class ObjectManagerFactory
     protected $_configClassName = 'Magento\Interception\ObjectManager\Config';
 
     /**
+     * Factory
+     *
+     * @var \Magento\ObjectManager\Factory
+     */
+    protected $factory;
+
+    /**
      * Create object manager
      *
      * @param string $rootDir
@@ -79,7 +86,12 @@ class ObjectManagerFactory
             $diConfig->extend($configData);
         }
 
-        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, null, $definitions, $appArguments->get());
+        $this->factory = new \Magento\ObjectManager\Factory\Factory(
+            $diConfig,
+            null,
+            $definitions,
+            $appArguments->get()
+        );
 
         $className = $this->_locatorClassName;
 
@@ -97,9 +109,9 @@ class ObjectManagerFactory
         ];
 
         /** @var \Magento\ObjectManager $objectManager */
-        $objectManager = new $className($factory, $diConfig, $sharedInstances);
+        $objectManager = new $className($this->factory, $diConfig, $sharedInstances);
 
-        $factory->setObjectManager($objectManager);
+        $this->factory->setObjectManager($objectManager);
         ObjectManager::setInstance($objectManager);
 
         /** @var \Magento\App\Filesystem\DirectoryList\Verification $verification */

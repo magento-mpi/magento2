@@ -7,8 +7,6 @@
  */
 namespace Magento\TestFramework;
 
-use Magento\TestFramework\App\Filesystem\DirectoryList;
-
 /**
  * Class ObjectManagerFactory
  *
@@ -86,6 +84,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 
         $appArguments = parent::createAppArguments($directoryList, $arguments);
         $this->appArgumentsProxy->setSubject($appArguments);
+        $this->factory->setArguments($appArguments->get());
         $objectManager->addSharedInstance($appArguments, 'Magento\App\Arguments');
 
         $objectManager->get('Magento\Interception\PluginList')->reset();
