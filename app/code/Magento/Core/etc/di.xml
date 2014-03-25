@@ -284,7 +284,7 @@
         <arguments>
             <argument name="handlerClassesList" xsi:type="array">
                 <item name="default" xsi:type="array">
-                    <item name="instance" xsi:type="string">Magento\Core\App\Router\NoRouteHandler</item>
+                    <item name="class" xsi:type="string">Magento\Core\App\Router\NoRouteHandler</item>
                     <item name="sortOrder" xsi:type="string">100</item>
                 </item>
             </argument>

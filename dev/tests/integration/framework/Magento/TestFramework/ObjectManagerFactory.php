@@ -7,6 +7,8 @@
  */
 namespace Magento\TestFramework;
 
+use Magento\TestFramework\App\Filesystem\DirectoryList;
+
 /**
  * Class ObjectManagerFactory
  *
@@ -93,18 +95,19 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     }
 
     /**
-     * Load primary config data
+     * Load primary config
      *
-     * @param string $configDirectoryPath
+     * @param \Magento\App\Filesystem\DirectoryList $directoryList
+     * @param mixed $argumentMapper
      * @param string $appMode
      * @return array
-     * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig($configDirectoryPath, $appMode)
-    {
+    protected function _loadPrimaryConfig(
+        \Magento\App\Filesystem\DirectoryList $directoryList, $argumentMapper, $appMode
+    ) {
         if (null === $this->_primaryConfigData) {
             $this->_primaryConfigData = array_replace(
-                parent::_loadPrimaryConfig($configDirectoryPath, $appMode),
+                parent::_loadPrimaryConfig($directoryList, $argumentMapper, $appMode),
                 array(
                     'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
                         'arguments' => array(

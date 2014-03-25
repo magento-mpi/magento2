@@ -104,13 +104,11 @@ class ObjectManagerFactory
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
      * @param \Magento\Stdlib\BooleanUtils $booleanUtils
-     * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $objFactory
      * @param \Magento\App\Arguments $appArguments
      * @return \Magento\Data\Argument\InterpreterInterface
      */
     protected function createArgumentInterpreter(
         \Magento\Stdlib\BooleanUtils $booleanUtils,
-        \Magento\ObjectManager\Config\Argument\ObjectFactory $objFactory,
         \Magento\App\Arguments $appArguments
     ) {
         $constInterpreter = new \Magento\Data\Argument\Interpreter\Constant();
@@ -121,7 +119,7 @@ class ObjectManagerFactory
                 'number' => new \Magento\Data\Argument\Interpreter\Number(),
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => $constInterpreter,
-                'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($booleanUtils, $objFactory),
+                'object' => new \Magento\Data\Argument\Interpreter\Object($booleanUtils),
                 'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments, $constInterpreter),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
