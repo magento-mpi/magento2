@@ -64,13 +64,6 @@ class CmsIndex extends Page
     protected $linksBlock = '.header .links';
 
     /**
-     * Page Top Customer menu block
-     *
-     * @var string
-     */
-    protected $customerBlock = '.header .links';
-
-    /**
      * Store switcher block path
      */
     private $storeSwitcherBlock = '//*[@data-ui-id="language-switcher"]';
@@ -140,18 +133,6 @@ class CmsIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoThemeLinks(
             $this->_browser->find($this->linksBlock, Locator::SELECTOR_CSS)
-        );
-    }
-
-    /**
-     * Get customer menu block
-     *
-     * @return \Magento\Customer\Test\Block\Account\Customer
-     */
-    public function getCustomerMenuBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
-            $this->_browser->find($this->customerBlock, Locator::SELECTOR_CSS)
         );
     }
 
