@@ -51,7 +51,6 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
      * Product view action
      *
      * @return void
-     * @throws \Magento\Core\Exception
      */
     public function viewAction()
     {
@@ -64,7 +63,7 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
             if ($specifyOptions) {
                 $product = $this->_initProduct();
                 if (!$product) {
-                    throw new \Magento\Core\Exception(__('Product is not loaded'));
+                $this->noProductRedirect();
                 }
                 $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
                 $this->messageManager->addNotice($notice);
@@ -86,11 +85,7 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
             $viewHelper->prepareAndRender($productId, $this, $params);
         } catch (\Exception $e) {
             if ($e->getCode() == $viewHelper->ERR_NO_PRODUCT_LOADED) {
-                if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
-                    $this->_redirect('');
-                } elseif (!$this->getResponse()->isRedirect()) {
-                    $this->_forward('noroute');
-                }
+                $this->noProductRedirect();
             } else {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_forward('noroute');
@@ -115,5 +110,19 @@ class Product extends \Magento\App\Action\Action implements \Magento\Catalog\Con
         }
         $this->_view->loadLayout();
         $this->_view->renderLayout();
+    }
+
+    /**
+     * Redirect if product failed to load
+     *
+     * @return void
+     */
+    protected function noProductRedirect()
+    {
+        if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
+            $this->_redirect('');
+        } elseif (!$this->getResponse()->isRedirect()) {
+            $this->_forward('noroute');
+        }
     }
 }

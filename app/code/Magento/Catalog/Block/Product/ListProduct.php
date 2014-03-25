@@ -370,7 +370,6 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
             'product' => $product->getEntityId(),
             \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
         ];
-        $postData = $this->_postDataHelper->getPostData($url, $data);
-        return $postData;
+        return $this->_postDataHelper->getPostData($url, $data);
     }
 }
