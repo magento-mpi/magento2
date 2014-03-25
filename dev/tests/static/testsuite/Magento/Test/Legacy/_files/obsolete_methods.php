@@ -1577,5 +1577,7 @@ return array(
     array('getLimitUrl', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
-    array('addCustomerData', 'Magento\Log\Model\Visitor')
+    array('addCustomerData', 'Magento\Log\Model\Visitor'),
+    array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
+    array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist')
 );
