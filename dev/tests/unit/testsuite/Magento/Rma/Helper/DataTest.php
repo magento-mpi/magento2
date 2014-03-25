@@ -20,8 +20,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $storeConfigMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $storeConfigMock->expects($this->atLeastOnce())
             ->method('isSetFlag')
-            ->with(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $mockConfig['store_id'])
+            ->with(
+                \Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $mockConfig['store_id']
+            )
             ->will($this->returnValue($useStoreAddress));
 
         $storeConfigMock->expects($this->atLeastOnce())
@@ -29,21 +32,31 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($storeConfigData));
 
         $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
-        $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
+        $context->expects($this->any())
+            ->method('getApp')
+            ->will($this->returnValue($this->_getAppMock($mockConfig)));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Rma\Helper\Data $model */
         $model = $objectManager->getObject(
             'Magento\Rma\Helper\Data',
             array(
-                'context'        => $context,
-                'storeConfig'    => $storeConfigMock,
+                'context' => $context,
+                'storeConfig' => $storeConfigMock,
                 'countryFactory' => $this->_getCountryFactoryMock($mockConfig),
-                'regionFactory'  => $this->_getRegionFactoryMock($mockConfig),
-                'itemFactory'    => $this->getMock('Magento\Rma\Model\Resource\ItemFactory', array(), array(), '',
+                'regionFactory' => $this->_getRegionFactoryMock($mockConfig),
+                'itemFactory' => $this->getMock(
+                    'Magento\Rma\Model\Resource\ItemFactory',
+                    array(),
+                    array(),
+                    '',
                     false
                 ),
-                'addressFactory' => $this->getMock('Magento\Sales\Model\Quote\AddressFactory', array(), array(), '',
+                'addressFactory' => $this->getMock(
+                    'Magento\Sales\Model\Quote\AddressFactory',
+                    array(),
+                    array(),
+                    '',
                     false
                 ),
             )
@@ -82,9 +95,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue($mockConfig['country_name']));
         $countryFactoryMock = $this->getMock(
-            'Magento\Directory\Model\CountryFactory', array('create'), array(), '', false
+            'Magento\Directory\Model\CountryFactory',
+            array('create'),
+            array(),
+            '',
+            false
         );
-        $countryFactoryMock->expects($this->any())->method('create')->will($this->returnValue($countryMock));
+        $countryFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($countryMock));
 
         return $countryFactoryMock;
     }
@@ -114,29 +133,59 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue($mockConfig['region_name']));
         $regionFactoryMock = $this->getMock('Magento\Directory\Model\RegionFactory', array(), array(), '', false);
-        $regionFactoryMock->expects($this->any())->method('create')->will($this->returnValue($regionMock));
+        $regionFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($regionMock));
 
         return $regionFactoryMock;
     }
 
+    /**
+     * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function getReturnAddressDataProvider()
     {
         return array(
             array(
                 true,
                 array(
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Kabul'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'AF'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, '912232'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Kabul'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Test Street 2'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Test Street 1'),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Kabul'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'AF'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        '912232'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Kabul'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Test Street 2'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Test Street 1'
+                    ),
                 ),
                 array(
                     'store_id' => 1,
@@ -160,18 +209,42 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(
                 false,
                 array(
-                    array(\Magento\Rma\Model\Shipping::XML_PATH_CITY,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Kabul'),
-                    array(\Magento\Rma\Model\Shipping::XML_PATH_COUNTRY_ID,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'AF'),
-                    array(\Magento\Rma\Model\Shipping::XML_PATH_ZIP,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, '912232'),
-                    array(\Magento\Rma\Model\Shipping::XML_PATH_REGION_ID,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Kabul'),
-                    array(\Magento\Rma\Model\Shipping::XML_PATH_ADDRESS2,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Test Street 2'),
-                    array(\Magento\Rma\Model\Shipping::XML_PATH_ADDRESS1,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Test Street 1'),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_CITY,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Kabul'
+                    ),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_COUNTRY_ID,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'AF'
+                    ),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_ZIP,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        '912232'
+                    ),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_REGION_ID,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Kabul'
+                    ),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_ADDRESS2,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Test Street 2'
+                    ),
+                    array(
+                        \Magento\Rma\Model\Shipping::XML_PATH_ADDRESS1,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Test Street 1'
+                    ),
                 ),
                 array(
                     'store_id' => 1,
@@ -196,18 +269,42 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array(
                 true,
                 array(
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Kabul'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, null),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, '912232'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Kabul'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Test Street 2'),
-                    array(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
-                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 1, 'Test Street 1'),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Kabul'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        null
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        '912232'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Kabul'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Test Street 2'
+                    ),
+                    array(
+                        \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        1,
+                        'Test Street 1'
+                    ),
                 ),
                 array(
                     'store_id' => 1,
