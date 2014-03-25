@@ -106,8 +106,8 @@ class Layer extends View
         if (!$_isLNAllowedByEngine) {
             return false;
         }
-        $availableResCount = (int)$this->_storeManager->getStore()
-            ->getConfig(ModelLayer::XML_PATH_DISPLAY_LAYER_COUNT);
+        $availableResCount = (int)$this->_storeConfig
+            ->getValue(ModelLayer::XML_PATH_DISPLAY_LAYER_COUNT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         if (!$availableResCount
             || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())

@@ -127,6 +127,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\App\Config\ScopeConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -139,6 +140,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
             $sidResolver,
             $routeParamsResolver,
             $queryParamsResolver,
+            $scopeConfig,
             $data
         );
         $this->_config = $config;

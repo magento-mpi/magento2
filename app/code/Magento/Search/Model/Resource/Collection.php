@@ -404,9 +404,14 @@ class Collection
     protected function _prepareBaseParams()
     {
         $store  = $this->_storeManager->getStore();
+        $localeCode = $this->_storeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig($this->_localeResolver->getDefaultLocalePath()),
+            'locale_code'   => $localeCode,
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;

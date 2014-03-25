@@ -31,6 +31,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_store;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_config;
+
+    /**
      * @var \Magento\Directory\Helper\Data
      */
     protected $_object;
@@ -68,6 +73,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $currencyFactory = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
 
+        $this->_config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+
         $arguments = array(
             'context' => $context,
             'configCacheType' => $configCacheType,
@@ -76,7 +83,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'coreHelper' => $this->_coreHelper,
             'storeManager' => $storeManager,
             'currencyFactory' => $currencyFactory,
-            'config' => $this->getMock('Magento\App\Config\ScopeConfigInterface'),
+            'config' => $this->_config,
         );
         $this->_object = $objectManager->getObject('Magento\Directory\Helper\Data', $arguments);
     }
@@ -154,8 +161,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountriesWithStatesRequired($configValue, $expected)
     {
-        $this->_store->expects($this->once())
-            ->method('getConfig')
+        $this->_config->expects($this->once())
+            ->method('getValue')
             ->with('general/region/state_required')
             ->will($this->returnValue($configValue));
 
@@ -170,8 +177,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCountriesWithOptionalZip($configValue, $expected)
     {
-        $this->_store->expects($this->once())
-            ->method('getConfig')
+        $this->_config->expects($this->once())
+            ->method('getValue')
             ->with('general/country/optional_zip_countries')
             ->will($this->returnValue($configValue));
 

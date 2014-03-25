@@ -80,6 +80,7 @@ class StorageFactory
      * @param \Magento\App\State $appState
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\App\Http\Context $httpContext
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $defaultStorageClassName
      * @param string $installedStoreClassName
      * @param string $writerModel
@@ -92,6 +93,7 @@ class StorageFactory
         \Magento\App\State $appState,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\Http\Context $httpContext,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         $defaultStorageClassName = 'Magento\Store\Model\Storage\DefaultStorage',
         $installedStoreClassName = 'Magento\Store\Model\Storage\Db',
         $writerModel = ''
@@ -106,6 +108,7 @@ class StorageFactory
         $this->_writerModel = $writerModel;
         $this->_cookie = $cookie;
         $this->_httpContext = $httpContext;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -133,20 +136,38 @@ class StorageFactory
             $this->_cache[$className] = $storage;
             if ($className === $this->_installedStoreClassName) {
                 $this->_reinitStores($storage, $arguments);
-                $useSid = $storage->getStore()
-                    ->getConfig(\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID);
+                $useSid = $this->_scopeConfig->isSetFlag(
+                    \Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $storage->getStore()
+                );
                 $this->_sidResolver->setUseSessionInUrl($useSid);
 
                 $this->_eventManager->dispatch('core_app_init_current_store_after');
 
                 $store = $storage->getStore(true);
-                if ($store->getConfig('dev/log/active') || $this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
+                $logActive = $this->_scopeConfig->isSetFlag(
+                    'dev/log/active',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                );
+                if ($logActive || $this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
+                    $logFile = $this->_scopeConfig->getValue(
+                        'dev/log/file',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $store
+                    );
+                    $logExceptionFile = $this->_scopeConfig->getValue(
+                        'dev/log/exception_file',
+                        \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                        $store
+                    );
                     $this->_log->unsetLoggers();
                     $this->_log->addStreamLog(
-                        \Magento\Logger::LOGGER_SYSTEM, $store->getConfig('dev/log/file'), $this->_writerModel);
+                        \Magento\Logger::LOGGER_SYSTEM, $logFile, $this->_writerModel);
                     $this->_log->addStreamLog(
                         \Magento\Logger::LOGGER_EXCEPTION,
-                        $store->getConfig('dev/log/exception_file'),
+                        $logExceptionFile,
                         $this->_writerModel
                     );
                 }

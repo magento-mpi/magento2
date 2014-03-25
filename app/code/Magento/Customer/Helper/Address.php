@@ -159,7 +159,9 @@ class Address extends \Magento\App\Helper\AbstractHelper
         $store = $this->_storeManager->getStore($store);
         $websiteId = $store->getWebsiteId();
         if (!isset($this->_config[$websiteId])) {
-            $this->_config[$websiteId] = $store->getConfig('customer/address', $store);
+            $this->_config[$websiteId] = $this->_storeConfig->getValue(
+                'customer/address', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+            );
         }
         return isset($this->_config[$websiteId][$key]) ? (string)$this->_config[$websiteId][$key] : null;
     }

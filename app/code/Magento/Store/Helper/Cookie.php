@@ -39,8 +39,14 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     protected $_website;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      *
      * @throws \InvalidArgumentException
@@ -48,9 +54,11 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         parent::__construct($context);
+        $this->_scopeConfig = $scopeConfig;
         $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : $storeManager->getStore();
 
         if (!$this->_currentStore instanceof \Magento\Store\Model\Store) {
@@ -73,8 +81,11 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     public function isUserNotAllowSaveCookie()
     {
         $acceptedSaveCookiesWebsites = $this->_getAcceptedSaveCookiesWebsites();
-        return $this->_currentStore->getConfig(self::XML_PATH_COOKIE_RESTRICTION)
-            && empty($acceptedSaveCookiesWebsites[$this->_website->getId()]);
+        return $this->_scopeConfig->getValue(
+            self::XML_PATH_COOKIE_RESTRICTION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_currentStore
+        ) && empty($acceptedSaveCookiesWebsites[$this->_website->getId()]);
     }
 
     /**
@@ -108,6 +119,10 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
      */
     public function getCookieRestrictionLifetime()
     {
-        return (int) $this->_currentStore->getConfig(self::XML_PATH_COOKIE_RESTRICTION_LIFETIME);
+        return (int) $this->_scopeConfig->getValue(
+            self::XML_PATH_COOKIE_RESTRICTION_LIFETIME,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_currentStore
+        );
     }
 }

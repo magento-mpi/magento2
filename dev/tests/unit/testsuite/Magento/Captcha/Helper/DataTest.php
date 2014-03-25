@@ -48,8 +48,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetCaptcha()
     {
         $store = $this->_getStoreStub();
-        $store->expects($this->once())
-            ->method('getConfig')
+        $config = $this->_getConfigStub();
+        $config->expects($this->once())
+            ->method('getValue')
             ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
 
@@ -64,7 +65,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'user_create'
             )));
 
-        $config = $this->_getConfigStub();
         $helper = $this->_getHelper($store, $config, $factoryMock);
         $this->assertInstanceOf('Magento\Captcha\Model\DefaultModel', $helper->getCaptcha('user_create'));
     }
@@ -75,13 +75,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigNode()
     {
         $store = $this->_getStoreStub();
-        $store->expects($this->once())
-            ->method('getConfig')
-            ->with('customer/captcha/enable')
+        $config = $this->_getConfigStub();
+        $config->expects($this->once())
+            ->method('getValue')
+            ->with('customer/captcha/enable', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue('1'));
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
-        $object = $this->_getHelper($store, $this->_getConfigStub(), $factoryMock);
+        $object = $this->_getHelper($store, $config, $factoryMock);
         $object->getConfig('enable');
     }
 
@@ -93,7 +94,21 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
-        $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
+
+        $config = $this->_getConfigStub();
+        $configData = array(
+            'font_code' => array(
+                'label' => 'Label',
+                'path'  => 'path/to/fixture.ttf',
+            )
+        );
+
+        $config->expects($this->any())
+            ->method('getValue')
+            ->with('captcha/fonts', 'default')
+            ->will($this->returnValue($configData));
+
+        $object = $this->_getHelper($this->_getStoreStub(), $config, $factoryMock);
         $fonts = $object->getFonts();
         $this->assertArrayHasKey('font_code', $fonts); // fixture
         $this->assertArrayHasKey('label', $fonts['font_code']);
@@ -150,18 +165,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function _getConfigStub()
     {
         $config = $this->getMock('Magento\App\Config\ScopeConfigInterface');
-
-        $configData = array(
-            'font_code' => array(
-                'label' => 'Label',
-                'path'  => 'path/to/fixture.ttf',
-            )
-        );
-
-        $config->expects($this->any())
-            ->method('getValue')
-            ->with('captcha/fonts', 'default')
-            ->will($this->returnValue($configData));
         return $config;
     }
 

@@ -129,7 +129,9 @@ class Value extends \Magento\Core\Model\Resource\Db\AbstractDb
             }
         }
 
-        $scope = (int)$this->_storeManager->getStore()->getConfig(\Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE);
+        $scope = (int)$this->_config->getValue(
+            \Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
 
         if ($object->getStoreId() != '0' && $scope == \Magento\Store\Model\Store::PRICE_SCOPE_WEBSITE) {
 

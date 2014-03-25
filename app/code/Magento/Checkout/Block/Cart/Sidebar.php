@@ -267,7 +267,9 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart  implements \Mag
      */
     public function getIsNeedToDisplaySideBar()
     {
-        return (bool) $this->_storeManager->getStore()->getConfig('checkout/sidebar/display');
+        return (bool) $this->_storeConfig->getValue(
+            'checkout/sidebar/display', \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

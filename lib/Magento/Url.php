@@ -141,6 +141,11 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_queryParamsResolver;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
@@ -149,6 +154,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -160,6 +166,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_request = $request;
@@ -170,6 +177,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $this->_sidResolver = $sidResolver;
         $this->_routeParamsResolver = $routeParamsResolver->create();
         $this->_queryParamsResolver = $queryParamsResolver;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($data);
     }
 
@@ -309,7 +317,11 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     protected function _getConfig($path)
     {
-        return $this->_getScope()->getConfig($path);
+        return $this->_scopeConfig->getValue(
+            $path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_getScope()
+        );
     }
 
     /**

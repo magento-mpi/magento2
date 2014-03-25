@@ -16,16 +16,17 @@ class StockDataFilter
     const MAX_QTY_VALUE = 99999999.9999;
 
     /**
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $storeManager;
+    protected $scopeConfig;
 
     /**
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
-    {
-        $this->storeManager = $storeManager;
+    public function __construct(
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
+    ) {
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -41,8 +42,10 @@ class StockDataFilter
         }
 
         if ($stockData['use_config_manage_stock'] == 1 && !isset($stockData['manage_stock'])) {
-            $stockData['manage_stock'] = $this->storeManager->getStore()
-                ->getConfig(\Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK);
+            $stockData['manage_stock'] = $this->scopeConfig->getValue(
+                \Magento\CatalogInventory\Model\Stock\Item::XML_PATH_MANAGE_STOCK,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         if (isset($stockData['qty']) && (float)$stockData['qty'] > self::MAX_QTY_VALUE) {
             $stockData['qty'] = self::MAX_QTY_VALUE;

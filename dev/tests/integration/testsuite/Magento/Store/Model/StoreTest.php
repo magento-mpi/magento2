@@ -81,45 +81,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetGetConfig()
-    {
-        /* config operations require store to be loaded */
-        $this->_model->load('default');
-        $value = $this->_model->getConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
-                'test',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-        $this->assertEquals('test', $this->_model->getConfig(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
-                $value,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-
-        /* Call set before get */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
-                1,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-        $this->assertEquals(1, $this->_model->getConfig(\Magento\Store\Model\Store::XML_PATH_USE_REWRITES));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\App\Config\MutableScopeConfigInterface')
-            ->setValue(
-                \Magento\Store\Model\Store::XML_PATH_USE_REWRITES,
-                0,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-    }
-
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());

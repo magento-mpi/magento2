@@ -22,7 +22,10 @@ class Base extends \Magento\Backend\Block\System\Config\Form\Field
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
     {
         if ($this->getRequest()->getParam('website') != '') {
-            $priceScope = $this->_storeManager->getStore()->getConfig(\Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE);
+            $priceScope = $this->_storeConfig->getValue(
+                \Magento\Store\Model\Store::XML_PATH_PRICE_SCOPE,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             if ($priceScope == \Magento\Store\Model\Store::PRICE_SCOPE_GLOBAL) {
                 return '';
             }

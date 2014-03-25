@@ -72,6 +72,11 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $_storage;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_scopeConfig;
+
     protected function setUp()
     {
         $this->_arguments = array('test' => 'argument', 'scopeCode' => '', 'scopeType' => '');
@@ -84,6 +89,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_storage = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->_cookie = $this->getMock('Magento\Stdlib\Cookie', [], [], '', false);
         $this->_httpContext = $this->getMock('Magento\App\Http\Context', [], [], '', false);
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         $this->_model = new \Magento\Store\Model\StorageFactory(
             $this->_objectManagerMock,
@@ -93,6 +99,7 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             $this->_appStateMock,
             $this->_cookie,
             $this->_httpContext,
+            $this->_scopeConfig,
             $this->_defaultStorage,
             $this->_dbStorage
         );
@@ -130,14 +137,20 @@ class StorageFactoryTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $store->expects($this->at(0))
-            ->method('getConfig')
-            ->with($this->equalTo(\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID))
+        $this->_scopeConfig->expects($this->at(0))
+            ->method('isSetFlag')
+            ->with(
+                \Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
             ->will($this->returnValue(true));
 
-        $store->expects($this->at(1))
-            ->method('getConfig')
-            ->with($this->equalTo('dev/log/active'))
+        $this->_scopeConfig->expects($this->at(1))
+            ->method('isSetFlag')
+            ->with(
+                'dev/log/active',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
             ->will($this->returnValue(true));
 
         $this->_objectManagerMock

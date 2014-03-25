@@ -36,6 +36,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->_object = new \Magento\Store\Helper\Cookie(
             $context,
             $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
+            $this->_getConfigStub(),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'website' => $this->_getWebsiteStub(),
@@ -59,14 +60,16 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             array(), '', false, false);
         $this->_context = $this->getMock('Magento\App\Helper\Context', array('getRequest'), array(), '', false, false);
         $this->_context->expects($this->once())->method('getRequest')->will($this->returnValue($this->_request));
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
         $storeStub = $this->_getStoreStub();
-        $storeStub->expects($this->once())
-            ->method('getConfig')
+        $scopeConfig->expects($this->once())
+            ->method('getValue')
             ->will($this->returnCallback(array($this, 'getConfigMethodStub')))
             ->with($this->equalTo('web/cookie/cookie_restriction_lifetime'));
         $this->_object = new \Magento\Store\Helper\Cookie(
             $this->_context,
             $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
+            $scopeConfig,
             array(
                 'current_store' => $storeStub,
                 'website' => $this->_getWebsiteStub()
@@ -84,6 +87,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->_object = new \Magento\Store\Helper\Cookie(
             $this->_context,
             $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false, false),
+            $this->_getConfigStub(),
             array(
                 'current_store' => $this->_getStoreStub(),
                 'website' => $this->_getWebsiteStub(),
@@ -99,12 +103,22 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     protected function _getStoreStub()
     {
         $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        return $store;
+    }
 
-        $store->expects($this->any())
-            ->method('getConfig')
+    /**
+     * Create config stub
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getConfigStub()
+    {
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+        $scopeConfig->expects($this->any())
+            ->method('getValue')
             ->will($this->returnCallback(array($this, 'getConfigMethodStub')));
 
-        return $store;
+        return $scopeConfig;
     }
 
     /**

@@ -388,8 +388,10 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
     {
         $result = array();
 
-        $localeCode = $this->_storeManager->getStore()
-            ->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $localeCode = $this->_storeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $languageSuffix = $this->_getLanguageSuffix($localeCode);
 
         /**
@@ -460,8 +462,11 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      */
     public function getAdvancedTextFieldName($filed, $suffix = '', $storeId = null)
     {
-        $localeCode     = $this->_storeManager->getStore($storeId)
-            ->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $localeCode = $this->_storeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
 
         if ($suffix) {
@@ -523,8 +528,11 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         }
 
         if ($fieldType == 'text') {
-            $localeCode     = $this->_storeManager->getStore($attribute->getStoreId())
-                ->getConfig($this->_localeResolver->getDefaultLocalePath());
+            $localeCode = $this->_storeConfig->getValue(
+                $this->_localeResolver->getDefaultLocalePath(),
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $attribute->getStoreId()
+            );
             $languageSuffix = $this->_clientHelper->getLanguageSuffix($localeCode);
             $fieldName      = $fieldPrefix . $attributeCode . $languageSuffix;
         } else {

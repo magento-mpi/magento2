@@ -344,8 +344,10 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
             return false;
         }
 
-        $locale = $this->_storeManager->getStore()
-            ->getConfig($this->_localeResolver->getDefaultLocalePath());
+        $locale = $this->_storeConfig->getValue(
+            $this->_localeResolver->getDefaultLocalePath(),
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();

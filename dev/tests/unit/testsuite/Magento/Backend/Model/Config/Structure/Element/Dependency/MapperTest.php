@@ -88,8 +88,11 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_scopeConfigMock = $this->getMockBuilder('\Magento\App\Config\ScopeConfigInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper(
-            $this->_storeManagerMock, $this->_configStructureMock, $this->_fieldFactoryMock);
+            $this->_storeManagerMock, $this->_configStructureMock, $this->_fieldFactoryMock, $this->_scopeConfigMock);
     }
 
     protected function tearDown()
@@ -107,14 +110,6 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDependenciesWhenDependentIsInvisible($isValueSatisfy)
     {
-        $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_storeManagerMock->expects($this->exactly(count($this->_testData)))
-            ->method('getStore')
-            ->with(self::STORE_CODE)
-            ->will($this->returnValue($storeMock));
-
         $expected = array();
         $rowData = array_values($this->_testData);
         for ($i = 0; $i < count($this->_testData); ++$i) {
@@ -132,9 +127,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
                 ->method('create')
                 ->with(array('fieldData' => $data, 'fieldPrefix' => self::FIELD_PREFIX))
                 ->will($this->returnValue($dependencyField));
-            $storeMock->expects($this->at($i))
-                ->method('getConfig')
-                ->with($dependentPath)
+            $this->_scopeConfigMock->expects($this->at($i))
+                ->method('getValue')
+                ->with($dependentPath, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, self::STORE_CODE)
                 ->will($this->returnValue(self::VALUE_IN_STORE));
             if (!$isValueSatisfy) {
                 $expected[$data['id']] = $dependencyField;

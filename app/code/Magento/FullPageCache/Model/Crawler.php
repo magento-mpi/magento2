@@ -73,6 +73,11 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
@@ -80,6 +85,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -88,6 +94,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -96,6 +103,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
         $this->_cacheState = $cacheState;
         $this->_websiteRestricData = $websiteRestricData;
         $this->_storeManager = $storeManager;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -144,8 +152,13 @@ class Crawler extends \Magento\Core\Model\AbstractModel
                 'base_url' => $baseUrl,
                 'cookie'   => $cookie,
             );
-            if ($store->getConfig(self::XML_PATH_CRAWL_MULTICURRENCY)
-                && $store->getConfig(\Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_MULTICURRENCY)) {
+            ;
+            if ($this->_scopeConfig->getValue(
+                    self::XML_PATH_CRAWL_MULTICURRENCY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+                ) && $this->_scopeConfig->getValue(
+                    \Magento\FullPageCache\Model\Processor::XML_PATH_CACHE_MULTICURRENCY,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+                )) {
                 $currencies = $store->getAvailableCurrencyCodes(true);
                 foreach ($currencies as $currencyCode) {
                     if ($currencyCode != $defaultCurrency) {
@@ -179,11 +192,15 @@ class Crawler extends \Magento\Core\Model\AbstractModel
             $storeId = $info['store_id'];
             $this->_visitedUrls = array();
 
-            if (!$this->_storeManager->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_ENABLED)) {
+
+            if ($this->_scopeConfig->getValue(
+                self::XML_PATH_CRAWLER_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+            )) {
                 continue;
             }
-
-            $threads = (int)$this->_storeManager->getStore($storeId)->getConfig(self::XML_PATH_CRAWLER_THREADS);
+            $threads = (int)$this->_scopeConfig->getValue(
+                self::XML_PATH_CRAWLER_THREADS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId
+            );
             if (!$threads) {
                 $threads = 1;
             }

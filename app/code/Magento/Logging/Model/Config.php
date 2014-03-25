@@ -39,20 +39,20 @@ class Config
     protected $_systemConfigValues = null;
 
     /**
-     * @var \Magento\Store\Model\Store
+     * @var \Magento\App\Config\ScopeConfigInterface
      */
-    protected $_store;
+    protected $_scopeConfig;
 
     /**
      * @param \Magento\Logging\Model\Config\Data $dataStorage
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Magento\Logging\Model\Config\Data $dataStorage,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
-        $this->_store = $storeManager->getStore();
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -167,7 +167,9 @@ class Config
      */
     protected function _initSystemConfigValues()
     {
-        $this->_systemConfigValues = $this->_store->getConfig('admin/magento_logging/actions');
+        $this->_systemConfigValues = $this->_scopeConfig->getValue(
+            'admin/magento_logging/actions', \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (null === $this->_systemConfigValues) {
             $this->_systemConfigValues = array();
             foreach (array_keys($this->getLabels()) as $key) {

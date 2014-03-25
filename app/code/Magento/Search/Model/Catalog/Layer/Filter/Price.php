@@ -58,6 +58,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -70,6 +71,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Registry $coreRegistry,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
@@ -82,6 +84,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $customerSession,
             $priceAlgorithm,
             $coreRegistry,
+            $scopeConfig,
             $data
         );
     }
@@ -119,8 +122,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             return array();
         }
 
-        $isAuto = ($this->_storeManager->getStore()
-            ->getConfig(self::XML_PATH_RANGE_CALCULATION) == self::RANGE_CALCULATION_IMPROVED);
+        $isAuto = ($this->_scopeConfig->getValue(
+            self::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == self::RANGE_CALCULATION_IMPROVED);
         if (!$isAuto && $this->getInterval()) {
             return array();
         }
@@ -393,7 +398,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      */
     public function addFacetCondition()
     {
-        $range = $this->_storeManager->getStore()->getConfig(self::XML_PATH_RANGE_CALCULATION);
+        $range = $this->_scopeConfig->getValue(
+            self::XML_PATH_RANGE_CALCULATION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (self::RANGE_CALCULATION_IMPROVED == $range) {
             return $this->_addCalculatedFacetCondition();
         }

@@ -167,6 +167,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerGroupService;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Registry $coreRegistry
@@ -183,6 +188,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      */
     public function __construct(
@@ -202,6 +208,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Data $customerHelper,
         CustomerGroupServiceInterface $customerGroupService,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -220,6 +227,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_customerBuilder = $customerBuilder;
         $this->_customerHelper = $customerHelper;
         $this->_customerGroupService = $customerGroupService;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($data);
     }
 
@@ -1784,7 +1792,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
-            $host = $this->getSession()->getStore()->getConfig(self::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+
+            $host = $this->_scopeConfig->getValue(
+                self::XML_PATH_DEFAULT_EMAIL_DOMAIN,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
             $account = time();
             $email = $account.'@'. $host;
             $account = $this->getData('account');

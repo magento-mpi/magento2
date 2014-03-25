@@ -115,7 +115,10 @@ class Category extends AbstractHelper
             return array();
         }
 
-        $recursionLevel  = max(0, (int) $this->_storeManager->getStore()->getConfig('catalog/navigation/max_depth'));
+        $recursionLevel  = max(0, (int) $this->_storeConfig->getValue(
+            'catalog/navigation/max_depth',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ));
         $storeCategories = $category->getCategories($parent, $recursionLevel, $sorted, $asCollection, $toLoad);
 
         $this->_storeCategories[$cacheKey] = $storeCategories;

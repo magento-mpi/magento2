@@ -86,11 +86,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
 
-        $storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-
-        $storeManagerMock->expects($this->atLeastOnce())->method('getStore')->will($this->returnValue($storeMock));
+        $scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface', array(), array(), '', false);
 
         $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 
@@ -106,7 +102,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_cacheInstanceMock,
             $this->_eventManagerMock,
             $this->_logger,
-            $storeManagerMock,
+            $scopeConfig,
             $appState
         );
     }

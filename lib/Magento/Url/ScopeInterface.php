@@ -20,14 +20,6 @@ interface ScopeInterface extends \Magento\App\ScopeInterface
     public function getBaseUrl($type = '', $secure = null);
 
     /**
-     * Retrieve scope configuration data
-     *
-     * @param   string $path
-     * @return  string|null
-     */
-    public function getConfig($path);
-
-    /**
      * Check is URL should be secure
      *
      * @return boolean

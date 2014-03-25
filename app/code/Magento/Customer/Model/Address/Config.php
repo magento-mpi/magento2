@@ -55,10 +55,16 @@ class Config extends \Magento\Config\Data
     protected $_addressHelper;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\Customer\Model\Address\Config\Reader $reader
      * @param \Magento\Config\CacheInterface $cache
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param string $cacheId
      */
     public function __construct(
@@ -66,11 +72,13 @@ class Config extends \Magento\Config\Data
         \Magento\Config\CacheInterface $cache,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         $cacheId = 'address_format'
     ) {
         parent::__construct($reader, $cache, $cacheId);
         $this->_storeManager = $storeManager;
         $this->_addressHelper = $addressHelper;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -122,7 +130,9 @@ class Config extends \Magento\Config\Data
 
                 $type->setCode($typeCode)
                     ->setTitle((string)$typeConfig['title'])
-                    ->setDefaultFormat($store->getConfig($path))
+                    ->setDefaultFormat($this->_scopeConfig->getValue(
+                        $path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store
+                    ))
                     ->setEscapeHtml($escapeHtml);
 
                 $renderer = isset($typeConfig['renderer']) ? (string)$typeConfig['renderer'] : null;

@@ -118,6 +118,11 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Invitation\Helper\Data $invitationData
@@ -129,6 +134,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -144,6 +150,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -156,6 +163,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->_transportBuilder = $transportBuilder;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
+        $this->_scopeConfig = $scopeConfig;
     }
 
     /**
@@ -273,8 +281,19 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->makeSureCanBeSent();
         $store = $this->_storeManager->getStore($this->getStoreId());
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
         $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_EMAIL_TEMPLATE))
+            ->setTemplateIdentifier($templateIdentifier)
             ->setTemplateOptions(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $this->getStoreId(),
@@ -286,7 +305,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
                 'store_name' => $store->getGroup()->getName(),
                 'inviter_name' => ($this->getInviter() ? $this->getInviter()->getName() : null)
             ))
-            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
+            ->setFrom($from)
             ->addTo($this->getEmail());
         $transport = $this->_transportBuilder->getTransport();
         try {

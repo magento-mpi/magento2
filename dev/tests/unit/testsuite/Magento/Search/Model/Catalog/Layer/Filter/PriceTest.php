@@ -76,6 +76,11 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected $_productCollection;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_scopeConfig;
+
+    /**
      * @var \Magento\Search\Model\Catalog\Layer\Filter\Price
      */
     protected $_model;
@@ -140,6 +145,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->_cache = $this->getMock('\Magento\App\CacheInterface', array(), array(), '', false);
 
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+
         $this->_model = new \Magento\Search\Model\Catalog\Layer\Filter\Price(
             $this->_filterItemFactory,
             $this->_storeManager,
@@ -149,7 +156,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $this->_algorithm,
             $this->_registry,
             $this->_resourceEngine,
-            $this->_cache
+            $this->_cache,
+            $this->_scopeConfig
         );
     }
 
@@ -170,9 +178,12 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFacetConditionImprovedAndCached()
     {
-        $this->_store->expects($this->once())
-            ->method('getConfig')
-            ->with(\Magento\Search\Model\Catalog\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION)
+        $this->_scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->with(
+                \Magento\Search\Model\Catalog\Layer\Filter\Price::XML_PATH_RANGE_CALCULATION,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
             ->will($this->returnValue(\Magento\Search\Model\Catalog\Layer\Filter\Price::RANGE_CALCULATION_IMPROVED));
 
         $separators = '*-9,9-19';

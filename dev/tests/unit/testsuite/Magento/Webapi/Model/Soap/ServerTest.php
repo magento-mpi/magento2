@@ -35,6 +35,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_typeProcessor;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_scopeConfig;
+
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
@@ -70,6 +73,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             false
         );
 
+        $this->_scopeConfig = $this->getMock('Magento\App\Config\ScopeConfigInterface');
+
         /** Init SUT. */
         $this->_soapServer = new \Magento\Webapi\Model\Soap\Server(
             $areaListMock,
@@ -78,7 +83,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
             $this->_soapServerFactory,
-            $this->_typeProcessor
+            $this->_typeProcessor,
+            $this->_scopeConfig
         );
 
         parent::setUp();
@@ -100,7 +106,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetApiCharset()
     {
-        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue('Windows-1251'));
+        $this->_scopeConfig->expects($this->once())->method('getValue')->will($this->returnValue('Windows-1251'));
         $this->assertEquals(
             'Windows-1251',
             $this->_soapServer->getApiCharset(),
@@ -113,7 +119,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetApiCharsetDefaultEncoding()
     {
-        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(null));
+        $this->_scopeConfig->expects($this->once())->method('getValue')->will($this->returnValue(null));
         $this->assertEquals(
             \Magento\Webapi\Model\Soap\Server::SOAP_DEFAULT_ENCODING,
             $this->_soapServer->getApiCharset(),

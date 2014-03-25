@@ -185,6 +185,11 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
+     * @var \Magento\App\Config\ScopeConfigInterface
+     */
+    protected $_scopeConfig;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
@@ -207,6 +212,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
      * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
@@ -234,6 +240,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\App\RequestInterface $request,
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom,
+        \Magento\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\GiftRegistry\Model\Resource\Entity $resource = null,
         \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection = null,
         array $data = array()
@@ -259,6 +266,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         $this->storeManager = $storeManager;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
+        $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -425,9 +433,18 @@ class Entity extends \Magento\Core\Model\AbstractModel
         if (is_array($sender)) {
             $identity = $sender;
         } else {
-            $identity = $store->getConfig(self::XML_PATH_SHARE_EMAIL_IDENTITY);
+            $identity = $this->_scopeConfig->getValue(
+                self::XML_PATH_SHARE_EMAIL_IDENTITY,
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $store
+            );
         }
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_SHARE_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         $templateVars = array(
             'store' => $store,
             'entity' => $this,
@@ -437,7 +454,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         );
 
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE))
+            ->setTemplateIdentifier($templateIdentifier)
             ->setTemplateOptions(array(
                 'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $store->getId()
@@ -551,14 +568,25 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'entity' => $this
         );
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_UPDATE_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_UPDATE_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE))
+            ->setTemplateIdentifier($templateIdentifier)
             ->setTemplateOptions(array(
                 'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $store->getId()
             ))
             ->setTemplateVars($templateVars)
-            ->setFrom($store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY))
+            ->setFrom($from)
             ->addTo($owner->getEmail(), $owner->getName())
             ->getTransport();
 
@@ -596,14 +624,24 @@ class Entity extends \Magento\Core\Model\AbstractModel
             'url' => $this->_giftRegistryData->getRegistryLink($this)
         );
 
+        $templateIdentifier = $this->_scopeConfig->getValue(
+            self::XML_PATH_OWNER_EMAIL_TEMPLATE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        $from = $this->_scopeConfig->getValue(
+            self::XML_PATH_OWNER_EMAIL_IDENTITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
         $transport = $this->_transportBuilder
-            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE))
+            ->setTemplateIdentifier($templateIdentifier)
             ->setTemplateOptions(array(
                 'area'  => \Magento\Core\Model\App\Area::AREA_FRONTEND,
                 'store' => $store->getId()
             ))
             ->setTemplateVars($templateVars)
-            ->setFrom($store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY))
+            ->setFrom($from)
             ->addTo($owner->getEmail(), $owner->getName())
             ->getTransport();
 
