@@ -23,12 +23,11 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
-     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Paypal/_files/quote_payment_express_with_customer.php
+     * @magentoAppIsolation enabled
      */
     public function testPrepareCustomerQuote()
     {
-        $this->markTestIncomplete('Enable after refactoring of place() method');
         /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
         $addressService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
         /** @var Quote $quote */
@@ -49,12 +48,18 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $quote->getCustomerId());
         $addressService->getAddresses($quote->getCustomerId());
         $this->assertEquals(2, count($addressService->getAddresses($quote->getCustomerId())));
-        $this->assertTrue($quote->getBillingAddress()->getCustomerAddress()->getIsDefaultBilling());
-        $this->assertTrue($quote->getShippingAddress()->getCustomerAddress()->getIsDefaultShipping());
+
+        $this->assertEquals(1, $quote->getBillingAddress()->getCustomerAddressId());
+        $this->assertEquals(2, $quote->getShippingAddress()->getCustomerAddressId());
+
+        $order = $checkout->getOrder();
+        $this->assertEquals(1, $order->getBillingAddress()->getCustomerAddressId());
+        $this->assertEquals(2, $order->getShippingAddress()->getCustomerAddressId());
     }
 
     /**
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
+     * @magentoAppIsolation enabled
      */
     public function testPrepareNewCustomerQuote()
     {
