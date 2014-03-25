@@ -26,11 +26,6 @@ class BasePrice extends Price
     protected $priceType = self::PRICE_TYPE_BASE_PRICE;
 
     /**
-     * @var float
-     */
-    protected $baseAmount;
-
-    /**
      * {@inheritdoc}
      */
     public function getValue()

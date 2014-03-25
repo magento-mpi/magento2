@@ -43,12 +43,12 @@ class AbstractPrice implements PriceInterface
     /**
      * @var float
      */
-    protected $baseAmount = 0.00;
+    protected $baseAmount;
 
     /**
      * @var float
      */
-    protected $adjustedAmount = 0.00;
+    protected $adjustedAmount;
 
     /**
      * @var float[]
