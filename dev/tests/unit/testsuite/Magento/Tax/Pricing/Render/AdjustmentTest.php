@@ -71,7 +71,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Also tests \Magento\Tax\Pricing\Render\Adjustment::render() method
+     * Also tests:
+     *  \Magento\Pricing\Render\AbstractAdjustment::render()
+     *  \Magento\Pricing\Render\AbstractAdjustment::convertAndFormatCurrency()
      */
     public function testGetDisplayAmountExclTax()
     {
@@ -134,7 +136,9 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Also tests \Magento\Tax\Pricing\Render\Adjustment::render() method
+     * Also tests:
+     *  \Magento\Pricing\Render\AbstractAdjustment::render()
+     *  \Magento\Pricing\Render\AbstractAdjustment::convertAndFormatCurrency()
      *
      * @param bool $includeContainer
      * @dataProvider getDisplayAmountDataProvider
@@ -208,6 +212,8 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Also tests \Magento\Pricing\Render\AbstractAdjustment::render() method
+     *
      * @param string $prefix
      * @param mixed $saleableId
      * @param mixed $suffix
@@ -228,13 +234,11 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\PriceCurrency $priceCurrency */
         $priceCurrency = $this->getMockBuilder('Magento\Catalog\Model\PriceCurrency')
             ->disableOriginalConstructor()
-            //->setMethods(['convertAndFormat'])
             ->getMock();
 
         /** @var \Magento\Catalog\Helper\Product\Price $helper */
         $helper = $this->getMockBuilder('Magento\Catalog\Helper\Product\Price')
             ->disableOriginalConstructor()
-            //->setMethods(['displayBothPrices'])
             ->getMock();
 
         /** @var \Magento\Pricing\Render\Amount $amountRender */

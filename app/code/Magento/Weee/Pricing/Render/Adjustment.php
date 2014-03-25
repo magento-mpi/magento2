@@ -60,7 +60,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function showInclDescr()
     {
-        return $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
+        return $this->isDisplayFpt() && $this->getAmount() && $this->typeOfDisplay(Tax::DISPLAY_INCL_DESCR);
     }
 
     /**
@@ -70,7 +70,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function showExclDescrIncl()
     {
-        return $this->getWeeeTaxAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
+        return $this->isDisplayFpt() && $this->getAmount() && $this->typeOfDisplay(Tax::DISPLAY_EXCL_DESCR_INCL);
     }
 
     /**
@@ -131,6 +131,8 @@ class Adjustment extends AbstractAdjustment
 
     /**
      * Get Weee tax amount
+     *
+     * @TODO Seems not used
      *
      * @return float|null
      */
