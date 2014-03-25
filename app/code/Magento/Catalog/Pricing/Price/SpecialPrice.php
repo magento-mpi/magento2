@@ -31,13 +31,10 @@ class SpecialPrice extends Price implements SpecialPriceInterface, \Magento\Cata
     /**
      * @param SaleableInterface $salableItem
      * @param TimezoneInterface $localeDate
-     * @param int $quantity
+     * @param float $quantity
      */
-    public function __construct(
-        SaleableInterface $salableItem,
-        TimezoneInterface $localeDate,
-        $quantity = 1
-    ) {
+    public function __construct(SaleableInterface $salableItem, TimezoneInterface $localeDate, $quantity)
+    {
         $this->localeDate = $localeDate;
         parent::__construct($salableItem, $quantity);
     }

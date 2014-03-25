@@ -31,7 +31,7 @@
                 <argument name="amount_render" xsi:type="string">Magento\Pricing\Render\Amount</argument>
                 <argument name="amount_render_template" xsi:type="string">Magento_Catalog::product/price/amount/default.phtml</argument>
             </arguments>
-       </block>
+        </block>
     </block>
 
     <block class="Magento\View\Element\RendererList" name="price.render.adjustments" />
