@@ -64,7 +64,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->object = new MsrpPrice($this->product, $this->helper, Base::PRODUCT_QUANTITY_DEFAULT);
+        $this->object = new MsrpPrice($this->product, Base::PRODUCT_QUANTITY_DEFAULT, $this->helper);
     }
 
     public function testIsShowPriceOnGestureTrue()
