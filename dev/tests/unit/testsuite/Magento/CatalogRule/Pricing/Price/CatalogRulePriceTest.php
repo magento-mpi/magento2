@@ -16,9 +16,10 @@ namespace Magento\CatalogRule\Pricing\Price;
 class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var
+     * @var \Magento\CatalogRule\Pricing\Price\CatalogRulePrice
      */
-    protected $catalogRulePrice;
+    protected $object;
+
     /**
      * @var \Magento\Pricing\Object\SaleableInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -40,7 +41,7 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
     protected $customerSessionMock;
 
     /**
-     * @var \Magento\Pricing\PriceInfo
+     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $priceInfoMock;
 
@@ -65,71 +66,9 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
     protected $coreStoreMock;
 
     /**
-     * @var float
-     */
-    protected $baseAmountMock = 100;
-
-    /**
      * Set up
      */
     public function setUp()
-    {
-        $this->initMocks();
-
-        $this->priceInfoMock->expects($this->any())
-            ->method('getAdjustments')
-            ->will($this->returnValue([]));
-        $this->salableItemMock->expects($this->any())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($this->priceInfoMock));
-
-        $coreStoreId = 1;
-        $coreWebsiteId = 1;
-        $productId = 1;
-        $customerGroupId = 1;
-        $dateTime = time();
-
-        $this->salableItemMock->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue($productId));
-
-        $this->catalogRuleResourceFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($this->catalogRuleResourceMock));
-
-        $this->storeManagerMock->expects($this->exactly(2))
-            ->method('getCurrentStore')
-            ->will($this->returnValue($this->coreStoreMock));
-        $this->coreStoreMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($coreStoreId));
-        $this->coreStoreMock->expects($this->once())
-            ->method('getWebsiteId')
-            ->will($this->returnValue($coreWebsiteId));
-        $this->dataTimeMock->expects($this->once())
-            ->method('scopeTimeStamp')
-            ->with($this->equalTo($coreStoreId))
-            ->will($this->returnValue($dateTime));
-        $this->customerSessionMock->expects($this->once())
-            ->method('getCustomerGroupId')
-            ->will($this->returnValue($customerGroupId));
-        $this->catalogRuleResourceMock->expects($this->once())
-            ->method('getRulePrice')
-            ->will($this->returnValue($this->baseAmountMock));
-
-        $this->catalogRulePrice = new \Magento\CatalogRule\Pricing\Price\CatalogRulePrice(
-            $this->salableItemMock,
-            $this->dataTimeMock,
-            $this->storeManagerMock,
-            $this->customerSessionMock,
-            $this->catalogRuleResourceFactoryMock
-        );
-    }
-
-    /**
-     * init mocks for setUp function
-     */
-    protected function initMocks()
     {
         $this->salableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
@@ -147,20 +86,14 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             true,
             []
         );
-        $this->storeManagerMock = $this->getMock(
-            'Magento\Core\Model\StoreManager',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $this->customerSessionMock = $this->getMock(
-            'Magento\Customer\Model\Session',
-            [],
-            [],
-            '',
-            false
-        );
+
+        $this->coreStoreMock = $this->getMock('\Magento\Core\Model\Store', [], [], '', false);
+        $this->storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', [], [], '', false);
+        $this->storeManagerMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->coreStoreMock));
+
+        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->priceInfoMock = $this->getMock(
             '\Magento\Pricing\PriceInfo',
             ['getAdjustments'],
@@ -182,19 +115,32 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->coreStoreMock = $this->getMock(
-            '\Magento\Core\Model\Store',
-            [],
-            [],
-            '',
-            false
-        );
+
         $this->coreWebsiteMock = $this->getMock(
             '\Magento\Core\Model\Website',
             [],
             [],
             '',
             false
+        );
+
+        $this->priceInfoMock->expects($this->any())
+            ->method('getAdjustments')
+            ->will($this->returnValue([]));
+        $this->salableItemMock->expects($this->any())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfoMock));
+
+        $this->catalogRuleResourceFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->catalogRuleResourceMock));
+
+        $this->object = new CatalogRulePrice(
+            $this->salableItemMock,
+            $this->dataTimeMock,
+            $this->storeManagerMock,
+            $this->customerSessionMock,
+            $this->catalogRuleResourceFactoryMock
         );
     }
 
@@ -203,8 +149,44 @@ class CatalogRulePriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue()
     {
-        $this->catalogRuleResourceFactoryMock->expects($this->never())
-            ->method('create');
-        $this->assertEquals($this->baseAmountMock, $this->catalogRulePrice->getValue());
+        $coreStoreId = 1;
+        $coreWebsiteId = 1;
+        $productId = 1;
+        $customerGroupId = 1;
+        $dateTime = time();
+
+        $expectedValue = 55.12;
+
+        $this->coreStoreMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue($coreStoreId));
+        $this->coreStoreMock->expects($this->once())
+            ->method('getWebsiteId')
+            ->will($this->returnValue($coreWebsiteId));
+        $this->dataTimeMock->expects($this->once())
+            ->method('scopeTimeStamp')
+            ->with($this->equalTo($coreStoreId))
+            ->will($this->returnValue($dateTime));
+        $this->customerSessionMock->expects($this->once())
+            ->method('getCustomerGroupId')
+            ->will($this->returnValue($customerGroupId));
+        $this->catalogRuleResourceMock->expects($this->once())
+            ->method('getRulePrice')
+            ->will($this->returnValue($expectedValue));
+        $this->salableItemMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue($productId));
+
+        $this->assertEquals($expectedValue, $this->object->getValue());
+    }
+
+    public function testGetAmountNoBaseAmount()
+    {
+        $this->catalogRuleResourceMock->expects($this->once())
+            ->method('getRulePrice')
+            ->will($this->returnValue(false));
+
+        $result = $this->object->getValue();
+        $this->assertFalse($result);
     }
 }

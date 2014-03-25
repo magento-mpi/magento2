@@ -10,10 +10,18 @@
 
 namespace Magento\CatalogRule\Pricing\Price;
 
+use Magento\Catalog\Pricing\Price\Price;
+use Magento\Pricing\Object\SaleableInterface;
+use Magento\Pricing\PriceInfo\Base;
+use Magento\Stdlib\DateTime\TimezoneInterface;
+use Magento\Core\Model\StoreManager;
+use Magento\Customer\Model\Session;
+use Magento\CatalogRule\Model\Resource\RuleFactory;
+
 /**
  * Class CatalogRulePrice
  */
-class CatalogRulePrice extends \Magento\Catalog\Pricing\Price\Price
+class CatalogRulePrice extends Price
 {
     /**
      * Price type identifier string
@@ -46,20 +54,20 @@ class CatalogRulePrice extends \Magento\Catalog\Pricing\Price\Price
     protected $resourceRuleFactory;
 
     /**
-     * @param \Magento\Pricing\Object\SaleableInterface $salableItem
-     * @param \Magento\Stdlib\DateTime\TimezoneInterface $dateTime
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param SaleableInterface $salableItem
+     * @param TimezoneInterface $dateTime
+     * @param StoreManager $storeManager
+     * @param Session $customerSession
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleResourceFactory
      * @param int $quantity
      */
     public function __construct(
-        \Magento\Pricing\Object\SaleableInterface $salableItem,
-        \Magento\Stdlib\DateTime\TimezoneInterface $dateTime,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleResourceFactory,
-        $quantity = 1
+        SaleableInterface $salableItem,
+        TimezoneInterface $dateTime,
+        StoreManager $storeManager,
+        Session $customerSession,
+        RuleFactory $catalogRuleResourceFactory,
+        $quantity = Base::PRODUCT_QUANTITY_DEFAULT
     ) {
         $this->dateTime = $dateTime;
         $this->storeManager = $storeManager;
@@ -71,7 +79,7 @@ class CatalogRulePrice extends \Magento\Catalog\Pricing\Price\Price
     /**
      * Returns catalog rule value
      *
-     * @return float|null
+     * @return float|boolean
      */
     public function getValue()
     {
@@ -84,6 +92,6 @@ class CatalogRulePrice extends \Magento\Catalog\Pricing\Price\Price
                     $this->salableItem->getId()
                 );
         }
-        return !($this->baseAmount) ? false : floatval($this->baseAmount);
+        return $this->baseAmount ? floatval($this->baseAmount) : false;
     }
 }
