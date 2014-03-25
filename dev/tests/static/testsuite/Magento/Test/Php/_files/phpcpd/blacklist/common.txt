@@ -46,6 +46,7 @@ Magento/Cms/Block/Adminhtml/Page/Edit
 Magento/Core/Model/Design/Backend
 Magento/Core/Model/Layout/File/Source/Override
 Magento/Core/Model/Store
+Magento/Store/Model
 Magento/Cron/Model/Config/Backend/Product
 Magento/Customer/Block/Account/Dashboard
 Magento/Customer/Model/Config/Backend/Show

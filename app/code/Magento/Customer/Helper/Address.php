@@ -23,15 +23,20 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * VAT Validation parameters XML paths
      */
     const XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT = 'customer/create_account/viv_disable_auto_group_assign_default';
-    const XML_PATH_VIV_ON_EACH_TRANSACTION         = 'customer/create_account/viv_on_each_transaction';
-    const XML_PATH_VAT_VALIDATION_ENABLED          = 'customer/create_account/auto_group_assign';
+
+    const XML_PATH_VIV_ON_EACH_TRANSACTION = 'customer/create_account/viv_on_each_transaction';
+
+    const XML_PATH_VAT_VALIDATION_ENABLED = 'customer/create_account/auto_group_assign';
+
     const XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE = 'customer/create_account/tax_calculation_address_type';
+
     const XML_PATH_VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
 
     /**
      * Possible customer address types
      */
-    const TYPE_BILLING  = 'billing';
+    const TYPE_BILLING = 'billing';
+
     const TYPE_SHIPPING = 'shipping';
 
     /**
@@ -46,19 +51,19 @@ class Address extends \Magento\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_config          = array();
+    protected $_config = array();
 
     /**
      * Customer Number of Lines in a Street Address per website
      *
      * @var array
      */
-    protected $_streetLines     = array();
+    protected $_streetLines = array();
 
     /**
      * @var array
      */
-    protected $_formatTemplate  = array();
+    protected $_formatTemplate = array();
 
     /** @var \Magento\View\Element\BlockFactory */
     protected $_blockFactory;
@@ -80,7 +85,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $customerMetadataService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      */
     public function __construct(
@@ -106,7 +111,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getBookUrl()
     {
-
     }
 
     /**
@@ -114,7 +118,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getEditUrl()
     {
-
     }
 
     /**
@@ -122,7 +125,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getDeleteUrl()
     {
-
     }
 
     /**
@@ -130,7 +132,6 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getCreateUrl()
     {
-
     }
 
     /**
@@ -232,18 +233,22 @@ class Address extends \Magento\App\Helper\AbstractHelper
     public function getAttributeValidationClass($attributeCode)
     {
         /** @var $attribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
-        $attribute = isset($this->_attributes[$attributeCode]) ? $this->_attributes[$attributeCode]
-            : $this->_customerMetadataService->getAttributeMetadata('customer_address', $attributeCode);
+        $attribute = isset(
+            $this->_attributes[$attributeCode]
+        ) ? $this->_attributes[$attributeCode] : $this->_customerMetadataService->getAttributeMetadata(
+            'customer_address',
+            $attributeCode
+        );
         $class = $attribute ? $attribute->getFrontendClass() : '';
         if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
             if ($class && !$attribute->isVisible()) {
-                $class = ''; // address attribute is not visible thus its validation rules are not applied
+                $class = '';
             }
 
             /** @var $customerAttribute \Magento\Customer\Service\V1\Data\Eav\AttributeMetadata */
             $customerAttribute = $this->_customerMetadataService->getAttributeMetadata('customer', $attributeCode);
-            $class .= $customerAttribute && $customerAttribute->isVisible()
-                ? $customerAttribute->getFrontendClass() : '';
+            $class .= $customerAttribute &&
+                $customerAttribute->isVisible() ? $customerAttribute->getFrontendClass() : '';
             $class = implode(' ', array_unique(array_filter(explode(' ', $class))));
         }
 
@@ -269,7 +274,7 @@ class Address extends \Magento\App\Helper\AbstractHelper
     {
         $lines = array();
         if (!empty($origStreets) && $toCount > 0) {
-            $countArgs = (int)floor(count($origStreets)/$toCount);
+            $countArgs = (int)floor(count($origStreets) / $toCount);
             $modulo = count($origStreets) % $toCount;
             $offset = 0;
             $neededLinesCount = 0;
@@ -298,7 +303,11 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isVatValidationEnabled($store = null)
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_VAT_VALIDATION_ENABLED, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (bool)$this->_storeConfig->getValue(
+            self::XML_PATH_VAT_VALIDATION_ENABLED,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -308,7 +317,10 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isDisableAutoGroupAssignDefaultValue()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$this->_storeConfig->getValue(
+            self::XML_PATH_VIV_DISABLE_AUTO_ASSIGN_DEFAULT,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -319,7 +331,11 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function hasValidateOnEachTransaction($store = null)
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_VIV_ON_EACH_TRANSACTION, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (bool)$this->_storeConfig->getValue(
+            self::XML_PATH_VIV_ON_EACH_TRANSACTION,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -330,7 +346,11 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function getTaxCalculationAddressType($store = null)
     {
-        return (string)$this->_storeConfig->getValue(self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $store);
+        return (string)$this->_storeConfig->getValue(
+            self::XML_PATH_VIV_TAX_CALCULATION_ADDRESS_TYPE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     /**
@@ -340,6 +360,9 @@ class Address extends \Magento\App\Helper\AbstractHelper
      */
     public function isVatAttributeVisible()
     {
-        return (bool)$this->_storeConfig->getValue(self::XML_PATH_VAT_FRONTEND_VISIBILITY, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return (bool)$this->_storeConfig->getValue(
+            self::XML_PATH_VAT_FRONTEND_VISIBILITY,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Email\Model\Template;
 
 /**
@@ -36,7 +35,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @var array
      */
-    protected $_modifiers = array('nl2br'  => '');
+    protected $_modifiers = array('nl2br' => '');
 
     /**
      * Store id
@@ -254,7 +253,7 @@ class Filter extends \Magento\Filter\Template
         if (!isset($method) || !is_string($method) || !method_exists($block, $method)) {
             $method = 'toHtml';
         }
-        return $block->$method();
+        return $block->{$method}();
     }
 
     /**
@@ -290,8 +289,7 @@ class Filter extends \Magento\Filter\Template
 
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $this->_layoutFactory->create();
-        $layout->getUpdate()->addHandle($this->_directiveParams['handle'])
-            ->load();
+        $layout->getUpdate()->addHandle($this->_directiveParams['handle'])->load();
 
         $layout->generateXml();
         $layout->generateElements();
@@ -318,7 +316,8 @@ class Filter extends \Magento\Filter\Template
         }
 
         $result = $layout->getOutput();
-        $layout->__destruct(); // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
+        $layout->__destruct();
+        // To overcome bug with SimpleXML memory leak (https://bugs.php.net/bug.php?id=62468)
         return $result;
     }
 
@@ -358,8 +357,7 @@ class Filter extends \Magento\Filter\Template
     public function mediaDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        return $this->_storeManager->getStore()
-            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $params['url'];
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $params['url'];
     }
 
     /**
@@ -430,7 +428,7 @@ class Filter extends \Magento\Filter\Template
      */
     public function varDirective($construction)
     {
-        if (count($this->_templateVars)==0) {
+        if (count($this->_templateVars) == 0) {
             // If template preprocessing
             return $construction[0];
         }
@@ -458,7 +456,7 @@ class Filter extends \Magento\Filter\Template
             if (empty($part)) {
                 continue;
             }
-            $params   = explode(':', $part);
+            $params = explode(':', $part);
             $modifier = array_shift($params);
             if (isset($this->_modifiers[$modifier])) {
                 $callback = $this->_modifiers[$modifier];
@@ -544,7 +542,11 @@ class Filter extends \Magento\Filter\Template
         $params = $this->_getIncludeParameters($construction[2]);
         $storeId = $this->getStoreId();
         if (isset($params['path'])) {
-            $configValue = $this->_storeConfig->getValue($params['path'], \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+            $configValue = $this->_storeConfig->getValue(
+                $params['path'],
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $storeId
+            );
         }
         return $configValue;
     }
@@ -560,12 +562,12 @@ class Filter extends \Magento\Filter\Template
         $customVarValue = '';
         $params = $this->_getIncludeParameters($construction[2]);
         if (isset($params['code'])) {
-            $variable = $this->_variableFactory->create()
-                ->setStoreId($this->getStoreId())
-                ->loadByCode($params['code']);
-            $mode = $this->_plainTemplateMode
-                ? \Magento\Core\Model\Variable::TYPE_TEXT
-                : \Magento\Core\Model\Variable::TYPE_HTML;
+            $variable = $this->_variableFactory->create()->setStoreId(
+                $this->getStoreId()
+            )->loadByCode(
+                $params['code']
+            );
+            $mode = $this->_plainTemplateMode ? \Magento\Core\Model\Variable::TYPE_TEXT : \Magento\Core\Model\Variable::TYPE_HTML;
             $value = $variable->getValue($mode);
             if ($value) {
                 $customVarValue = $value;

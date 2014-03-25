@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -54,7 +53,10 @@ class Header extends \Magento\View\Element\Template
      */
     public function isHomePage()
     {
-        return $this->getUrl('', array('_current' => true)) == $this->getUrl(
+        return $this->getUrl(
+            '',
+            array('_current' => true)
+        ) == $this->getUrl(
             '*/*/*',
             array('_current' => true, '_use_rewrite' => true)
         );
@@ -81,7 +83,10 @@ class Header extends \Magento\View\Element\Template
     public function getLogoAlt()
     {
         if (empty($this->_data['logo_alt'])) {
-            $this->_data['logo_alt'] = $this->_storeConfig->getValue('design/header/logo_alt', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $this->_data['logo_alt'] = $this->_storeConfig->getValue(
+                'design/header/logo_alt',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_data['logo_alt'];
     }
@@ -95,10 +100,15 @@ class Header extends \Magento\View\Element\Template
     {
         if (empty($this->_data['welcome'])) {
             if ($this->_appState->isInstalled() && $this->_customerSession->isLoggedIn()) {
-                $this->_data['welcome'] = __('Welcome, %1!',
-                    $this->escapeHtml($this->_customerSession->getCustomer()->getName()));
+                $this->_data['welcome'] = __(
+                    'Welcome, %1!',
+                    $this->escapeHtml($this->_customerSession->getCustomer()->getName())
+                );
             } else {
-                $this->_data['welcome'] = $this->_storeConfig->getValue('design/header/welcome', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                $this->_data['welcome'] = $this->_storeConfig->getValue(
+                    'design/header/welcome',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                );
             }
         }
         return $this->_data['welcome'];
@@ -112,7 +122,10 @@ class Header extends \Magento\View\Element\Template
     protected function _getLogoUrl()
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Logo::UPLOAD_DIR;
-        $storeLogoPath = $this->_storeConfig->getValue('design/header/logo_src', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $storeLogoPath = $this->_storeConfig->getValue(
+            'design/header/logo_src',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         $path = $folderName . '/' . $storeLogoPath;
         $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_MEDIA)) . $path;
 

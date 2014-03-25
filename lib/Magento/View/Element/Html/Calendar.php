@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\View\Element\Html;
 
 /**
@@ -67,17 +66,23 @@ class Calendar extends \Magento\View\Element\Template
 
         // get days names
         $days = \Zend_Locale_Data::getList($localeCode, 'days');
-        $this->assign('days', array(
-            'wide'        => $this->encoder->encode(array_values($days['format']['wide'])),
-            'abbreviated' => $this->encoder->encode(array_values($days['format']['abbreviated']))
-        ));
+        $this->assign(
+            'days',
+            array(
+                'wide' => $this->encoder->encode(array_values($days['format']['wide'])),
+                'abbreviated' => $this->encoder->encode(array_values($days['format']['abbreviated']))
+            )
+        );
 
         // get months names
         $months = \Zend_Locale_Data::getList($localeCode, 'months');
-        $this->assign('months', array(
-            'wide'        => $this->encoder->encode(array_values($months['format']['wide'])),
-            'abbreviated' => $this->encoder->encode(array_values($months['format']['abbreviated']))
-        ));
+        $this->assign(
+            'months',
+            array(
+                'wide' => $this->encoder->encode(array_values($months['format']['wide'])),
+                'abbreviated' => $this->encoder->encode(array_values($months['format']['abbreviated']))
+            )
+        );
 
         // get "today" and "week" words
         $this->assign('today', $this->encoder->encode(\Zend_Locale_Data::getContent($localeCode, 'relative', 0)));
@@ -88,10 +93,22 @@ class Calendar extends \Magento\View\Element\Template
         $this->assign('pm', $this->encoder->encode(\Zend_Locale_Data::getContent($localeCode, 'pm')));
 
         // get first day of week and weekend days
-        $this->assign('firstDay', (int)$this->_storeConfig->getValue('general/locale/firstday', \Magento\Store\Model\ScopeInterface::SCOPE_STORE));
-        $this->assign('weekendDays', $this->encoder->encode(
-            (string)$this->_storeConfig->getValue('general/locale/weekend', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-        ));
+        $this->assign(
+            'firstDay',
+            (int)$this->_storeConfig->getValue(
+                'general/locale/firstday',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            )
+        );
+        $this->assign(
+            'weekendDays',
+            $this->encoder->encode(
+                (string)$this->_storeConfig->getValue(
+                    'general/locale/weekend',
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                )
+            )
+        );
 
         // define default format and tooltip format
         $this->assign(
@@ -102,9 +119,9 @@ class Calendar extends \Magento\View\Element\Template
         );
         $this->assign(
             'toolTipFormat',
-            $this->encoder->encode($this->_localeDate->getDateFormat(
-                \Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG
-            ))
+            $this->encoder->encode(
+                $this->_localeDate->getDateFormat(\Magento\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG)
+            )
         );
 
         // get days and months for en_US locale - calendar will parse exactly in this locale

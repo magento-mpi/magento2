@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Email\Model\Template;
 
 class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
@@ -22,9 +21,8 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
     /**
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      */
-    public function __construct(
-        \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
-    ) {
+    public function __construct(\Magento\App\Config\ScopeConfigInterface $coreStoreConfig)
+    {
         $this->_storeConfig = $coreStoreConfig;
     }
 
@@ -36,8 +34,16 @@ class SenderResolver implements \Magento\Mail\Template\SenderResolverInterface
         $result = array();
 
         if (!is_array($sender)) {
-            $result['name'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/name', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $scopeId);
-            $result['email'] = $this->_storeConfig->getValue('trans_email/ident_' . $sender . '/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $scopeId);
+            $result['name'] = $this->_storeConfig->getValue(
+                'trans_email/ident_' . $sender . '/name',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $scopeId
+            );
+            $result['email'] = $this->_storeConfig->getValue(
+                'trans_email/ident_' . $sender . '/email',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $scopeId
+            );
         } else {
             $result = $sender;
         }

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model;
 
 /**
@@ -25,8 +24,9 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Layer'
+        );
         $this->_model->setCurrentCategory(4);
     }
 
@@ -57,32 +57,31 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
     public function testApply()
     {
-        $this->_model->getState()
-            ->addFilter(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                    'Magento\Catalog\Model\Layer\Filter\Item',
-                    array(
-                        'data' => array(
-                            'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                                ->create('Magento\Catalog\Model\Layer\Filter\Category'),
-                            'value'  => 'expected-value-string',
-                        )
+        $this->_model->getState()->addFilter(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Catalog\Model\Layer\Filter\Item',
+                array(
+                    'data' => array(
+                        'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                            'Magento\Catalog\Model\Layer\Filter\Category'
+                        ),
+                        'value' => 'expected-value-string'
                     )
                 )
             )
-            ->addFilter(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                    'Magento\Catalog\Model\Layer\Filter\Item',
-                    array(
-                        'data' => array(
-                            'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                                ->create('Magento\Catalog\Model\Layer\Filter\Decimal'),
-                            'value'  => 1234,
-                        )
+        )->addFilter(
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Catalog\Model\Layer\Filter\Item',
+                array(
+                    'data' => array(
+                        'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                            'Magento\Catalog\Model\Layer\Filter\Decimal'
+                        ),
+                        'value' => 1234
                     )
                 )
             )
-        ;
+        );
 
         $this->_model->apply();
         $this->assertEquals(
@@ -99,20 +98,19 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetCurrentCategory()
     {
-        $existingCategory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $existingCategory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $existingCategory->load(5);
 
         /* Category object */
         /** @var $model \Magento\Catalog\Model\Layer */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory($existingCategory);
         $this->assertSame($existingCategory, $model->getCurrentCategory());
 
         /* Category id */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Layer');
         $model->setCurrentCategory(3);
         $actualCategory = $model->getCurrentCategory();
         $this->assertInstanceOf('Magento\Catalog\Model\Category', $actualCategory);
@@ -124,8 +122,9 @@ class LayerTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_category', $existingCategory);
         try {
-            $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Catalog\Model\Layer'
+            );
             $this->assertSame($existingCategory, $model->getCurrentCategory());
             $objectManager->get('Magento\Registry')->unregister('current_category');
             $this->assertSame($existingCategory, $model->getCurrentCategory());
@@ -136,18 +135,21 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
 
         try {
-            $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
+            $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Catalog\Model\Layer'
+            );
             $model->setCurrentCategory(new \Magento\Object());
             $this->fail('Assign category of invalid class.');
         } catch (\Magento\Core\Exception $e) {
         }
 
         try {
-            $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer');
-            $model->setCurrentCategory(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category'));
+            $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Catalog\Model\Layer'
+            );
+            $model->setCurrentCategory(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Category')
+            );
             $this->fail('Assign category with invalid id.');
         } catch (\Magento\Core\Exception $e) {
         }
@@ -156,8 +158,9 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     public function testGetCurrentStore()
     {
         $this->assertSame(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore(),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getStore(),
             $this->_model->getCurrentStore()
         );
     }
@@ -174,8 +177,6 @@ class LayerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Magento\Catalog\Model\Resource\Eav\Attribute', $collection->getFirstItem());
         $this->assertEquals('price', $collection->getFirstItem()->getAttributeCode());
-
-        //$this->assertNotSame($collection, $this->_model->getFilterableAttributes());
     }
 
     public function testGetState()
@@ -184,9 +185,11 @@ class LayerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Catalog\Model\Layer\State', $state);
         $this->assertSame($state, $this->_model->getState());
 
-        $state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Layer\State');
-        $this->_model->setState($state); // $this->_model->setData('state', state);
+        $state = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Layer\State'
+        );
+        $this->_model->setState($state);
+        // $this->_model->setData('state', state);
         $this->assertSame($state, $this->_model->getState());
     }
 }

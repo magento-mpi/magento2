@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Scope\Processor;
+namespace Magento\Store\Model\Config\Processor;
 
 class PlaceholderTest extends \PHPUnit_Framework_TestCase
 {

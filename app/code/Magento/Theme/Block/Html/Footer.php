@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -46,13 +45,12 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
      */
     protected function _construct()
     {
-        $this->addData(array(
-            'cache_lifetime'=> false,
-            'cache_tags' => array(
-                \Magento\Store\Model\Store::CACHE_TAG,
-                \Magento\Cms\Model\Block::CACHE_TAG,
+        $this->addData(
+            array(
+                'cache_lifetime' => false,
+                'cache_tags' => array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
             )
-        ));
+        );
     }
 
     /**
@@ -67,7 +65,7 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
             $this->_storeManager->getStore()->getId(),
             (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->isLoggedIn(),
+            $this->_customerSession->isLoggedIn()
         );
     }
 
@@ -79,7 +77,10 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     public function getCopyright()
     {
         if (!$this->_copyright) {
-            $this->_copyright = $this->_storeConfig->getValue('design/footer/copyright', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $this->_copyright = $this->_storeConfig->getValue(
+                'design/footer/copyright',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
         }
         return $this->_copyright;
     }
@@ -93,5 +94,4 @@ class Footer extends \Magento\View\Element\Template implements \Magento\View\Blo
     {
         return array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
     }
-
 }

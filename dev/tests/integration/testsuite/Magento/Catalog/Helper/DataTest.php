@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
 
 class DataTest extends \PHPUnit_Framework_TestCase
@@ -20,8 +19,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Helper\Data');
+        $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Catalog\Helper\Data'
+        );
     }
 
     /**
@@ -29,8 +29,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBreadcrumbPath()
     {
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         $category->load(5);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -51,8 +52,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCategory()
     {
-        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Category'
+        );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_category', $category);
@@ -67,8 +69,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProduct()
     {
-        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+            'Magento\Catalog\Model\Product'
+        );
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Registry')->register('current_product', $product);
@@ -156,8 +159,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
         $this->_helper->setStoreId(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore()->getId()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getStore()->getId()
         );
         $this->assertTrue($this->_helper->isUsingStaticUrlsAllowed());
     }
@@ -176,8 +180,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
         $this->_helper->setStoreId(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore()->getId()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getStore()->getId()
         );
         $this->assertFalse($this->_helper->isUrlDirectivesParsingAllowed());
     }

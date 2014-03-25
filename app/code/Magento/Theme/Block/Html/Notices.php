@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Block\Html;
 
 /**
@@ -17,10 +16,8 @@ class Notices extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        array $data = array()
-    ) {
+    public function __construct(\Magento\View\Element\Template\Context $context, array $data = array())
+    {
         parent::__construct($context, $data);
     }
 
@@ -31,7 +28,10 @@ class Notices extends \Magento\View\Element\Template
      */
     public function displayNoscriptNotice()
     {
-        return $this->_storeConfig->getValue('web/browser_capabilities/javascript', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->getValue(
+            'web/browser_capabilities/javascript',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -41,7 +41,10 @@ class Notices extends \Magento\View\Element\Template
      */
     public function displayDemoNotice()
     {
-        return $this->_storeConfig->getValue('design/head/demonotice', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->_storeConfig->getValue(
+            'design/head/demonotice',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**

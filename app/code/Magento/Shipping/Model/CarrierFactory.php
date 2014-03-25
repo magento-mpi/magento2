@@ -43,7 +43,10 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function get($carrierCode)
     {
-        $className = $this->_storeConfig->getValue('carriers/' . $carrierCode . '/model', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $className = $this->_storeConfig->getValue(
+            'carriers/' . $carrierCode . '/model',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
         if (!$className) {
             return false;
         }
@@ -61,7 +64,11 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function create($carrierCode, $storeId = null)
     {
-        $className = $this->_storeConfig->getValue('carriers/' . $carrierCode . '/model', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
+        $className = $this->_storeConfig->getValue(
+            'carriers/' . $carrierCode . '/model',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         if (!$className) {
             return false;
         }
@@ -81,9 +88,12 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function getIfActive($carrierCode)
     {
-        return $this->_storeConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ? $this->get($carrierCode)
-            : false;
+        return $this->_storeConfig->isSetFlag(
+            'carriers/' . $carrierCode . '/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) ? $this->get(
+            $carrierCode
+        ) : false;
     }
 
     /**
@@ -95,8 +105,12 @@ class CarrierFactory implements CarrierFactoryInterface
      */
     public function createIfActive($carrierCode, $storeId = null)
     {
-        return $this->_storeConfig->isSetFlag('carriers/' . $carrierCode . '/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
-            ? $this->create($carrierCode, $storeId)
-            : false;
+        return $this->_storeConfig->isSetFlag(
+            'carriers/' . $carrierCode . '/active',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) ? $this->create(
+            $carrierCode,
+            $storeId
+        ) : false;
     }
 }

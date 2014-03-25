@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GroupedProduct\Block\Cart\Item\Renderer;
 
 use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
@@ -73,8 +72,11 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer implements \Mag
          * Show grouped product thumbnail if it must be always shown according to the related setting in system config
          * or if child product thumbnail is not available
          */
-        if ($this->_storeConfig->getValue(self::CONFIG_THUMBNAIL_SOURCE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) == ThumbnailSource::OPTION_USE_PARENT_IMAGE
-            || !($this->getProduct()->getThumbnail() && $this->getProduct()->getThumbnail() != 'no_selection')
+        if ($this->_storeConfig->getValue(
+            self::CONFIG_THUMBNAIL_SOURCE,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        ) == ThumbnailSource::OPTION_USE_PARENT_IMAGE ||
+            !($this->getProduct()->getThumbnail() && $this->getProduct()->getThumbnail() != 'no_selection')
         ) {
             $product = $this->getGroupedProduct();
         } else {

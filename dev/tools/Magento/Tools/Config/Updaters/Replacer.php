@@ -5,7 +5,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
 namespace Magento\Tools\Config\Updaters;
 
 class Replacer
@@ -30,6 +29,9 @@ class Replacer
         $this->output = $output;
     }
 
+    /**
+     * @return void
+     */
     public function process()
     {
         foreach ($this->files as $file) {
@@ -58,7 +60,11 @@ class Replacer
      */
     protected function updateInterface($content)
     {
-        $content = str_replace('Magento\Core\Model\Store\ConfigInterface', 'Magento\App\Config\ScopeConfigInterface', $content);
+        $content = str_replace(
+            'Magento\Core\Model\Store\ConfigInterface',
+            'Magento\App\Config\ScopeConfigInterface',
+            $content
+        );
         $content = str_replace('Magento\Core\Model\Store\Config', 'Magento\App\Config\ScopeConfigInterface', $content);
         return $content;
     }
@@ -69,21 +75,23 @@ class Replacer
      */
     protected function changeSignature($content)
     {
-        $properties = [
+        $properties = array(
             '->_storeConfig',
             '->_storeConfig',
             '->coreStoreConfig',
             '->storeConfig',
-            '->_scopeConfig',
-        ];
+            '->_scopeConfig'
+        );
         $properties = implode('|', $properties);
-        $regExp = '/(?<start>(' . $properties . ')(\n*\s*)->((getConfig|getConfigFlag)\(\n*\s*))(?<first>([^,)]+\)?))/iS';
+        $regExp = '/(?<start>(' .
+            $properties .
+            ')(\n*\s*)->((getConfig|getConfigFlag)\(\n*\s*))(?<first>([^,)]+\)?))/iS';
         $content = preg_replace_callback(
             $regExp,
             function ($matches) {
-                $subject = $matches['start']
-                    . $matches['first']
-                    . ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE';
+                $subject = $matches['start'] .
+                    $matches['first'] .
+                    ', \Magento\Store\Model\ScopeInterface::SCOPE_STORE';
                 $subject = str_replace('getConfigFlag', 'isSetFlag', $subject);
                 $subject = str_replace('getConfig', 'getValue', $subject);
                 return $subject;
@@ -133,6 +141,7 @@ class Replacer
     /**
      * @param string $file
      * @param string $content
+     * @return void
      */
     protected function output($file, $content)
     {

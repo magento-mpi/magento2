@@ -57,9 +57,13 @@ class Cart extends \Magento\Backend\App\Action
         $quoteItemId = (int)$this->getRequest()->getParam('id');
         $websiteId = (int)$this->getRequest()->getParam('website_id');
 
-        $this->_quote = $this->_objectManager->create('Magento\Sales\Model\Quote')
-            ->setWebsite($this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId))
-            ->loadByCustomer($this->_customerId);
+        $this->_quote = $this->_objectManager->create(
+            'Magento\Sales\Model\Quote'
+        )->setWebsite(
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
+        )->loadByCustomer(
+            $this->_customerId
+        );
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);
         if (!$this->_quoteItem) {
@@ -82,9 +86,11 @@ class Cart extends \Magento\Backend\App\Action
 
             $quoteItem = $this->_quoteItem;
 
-            $optionCollection = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')
-                ->getCollection()
-                ->addItemFilter($quoteItem);
+            $optionCollection = $this->_objectManager->create(
+                'Magento\Sales\Model\Quote\Item\Option'
+            )->getCollection()->addItemFilter(
+                $quoteItem
+            );
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 
             $configureResult->setOk(true);
@@ -97,8 +103,11 @@ class Cart extends \Magento\Backend\App\Action
             $configureResult->setMessage($e->getMessage());
         }
 
-        $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($configureResult);
+        $this->_objectManager->get(
+            'Magento\Catalog\Helper\Product\Composite'
+        )->renderConfigureResult(
+            $configureResult
+        );
     }
 
     /**
@@ -114,8 +123,7 @@ class Cart extends \Magento\Backend\App\Action
 
             $buyRequest = new \Magento\Object($this->getRequest()->getParams());
             $this->_quote->updateItem($this->_quoteItem->getId(), $buyRequest);
-            $this->_quote->collectTotals()
-                ->save();
+            $this->_quote->collectTotals()->save();
 
             $updateResult->setOk(true);
         } catch (\Exception $e) {

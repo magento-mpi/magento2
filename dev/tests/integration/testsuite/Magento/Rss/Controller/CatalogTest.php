@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rss\Controller;
 
 class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
@@ -63,7 +62,8 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
         // to improve accuracy of the test, implement a fixture of a shopping cart price rule with a coupon
         $this->assertContains(
-            '<link>http://localhost/index.php/rss/catalog/salesrule/</link>', $this->getResponse()->getBody()
+            '<link>http://localhost/index.php/rss/catalog/salesrule/</link>',
+            $this->getResponse()->getBody()
         );
     }
 
@@ -73,8 +73,9 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testAuthorizationFailed($action)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
-            ->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\UrlInterface'
+        )->turnOffSecretKey();
         $this->dispatch("backend/rss/catalog/{$action}");
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
@@ -84,10 +85,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function authorizationFailedDataProvider()
     {
-        return array(
-            array('notifystock'),
-            array('review')
-        );
+        return array(array('notifystock'), array('review'));
     }
 
     /**
@@ -98,9 +96,9 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testNotifyStockAction()
     {
         // workaround: trigger updating "low stock date", because RSS collection requires it to be not null
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\CatalogInventory\Model\Resource\Stock')
-            ->updateLowStockDate();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\CatalogInventory\Model\Resource\Stock'
+        )->updateLowStockDate();
         $this->_loginAdmin();
         $this->dispatch('backend/rss/catalog/notifystock');
 
@@ -108,9 +106,11 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
 
         // assert that among 2 products in fixture, there is only one with 50 qty
         $body = $this->getResponse()->getBody();
-        $this->assertNotContains('<![CDATA[Simple Product]]>', $body); // this one was supposed to have qty 100 ( > 75)
-        $this->assertContains('<![CDATA[Simple Product2]]>', $body); // 50 < 75
-        $this->assertNotContains('<![CDATA[Simple Product 3]]>', $body);// this one was supposed to have qty 140 ( > 75)
+        $this->assertNotContains('<![CDATA[Simple Product]]>', $body);
+        // this one was supposed to have qty 100 ( > 75)
+        $this->assertContains('<![CDATA[Simple Product2]]>', $body);
+        // 50 < 75
+        $this->assertNotContains('<![CDATA[Simple Product 3]]>', $body);
     }
 
     /**
@@ -133,8 +133,9 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->getRequest()->setParam(
             'cid',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')
-                ->getStore()->getRootCategoryId()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+                'Magento\Store\Model\StoreManagerInterface'
+            )->getStore()->getRootCategoryId()
         );
         $this->dispatch('rss/catalog/category');
         $this->assertStringMatchesFormat(
@@ -148,15 +149,22 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected function _loginAdmin()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setDefaultDesignTheme();
-        $this->getRequest()->setServer(array(
-            'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-        ));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
-            ->turnOffSecretKey();
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\App'
+        )->loadArea(
+            \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\View\DesignInterface'
+        )->setDefaultDesignTheme();
+        $this->getRequest()->setServer(
+            array(
+                'PHP_AUTH_USER' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+                'PHP_AUTH_PW' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+            )
+        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Backend\Model\UrlInterface'
+        )->turnOffSecretKey();
     }
 }
