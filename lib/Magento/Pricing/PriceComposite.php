@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pricing
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,6 +12,9 @@ use Magento\Pricing\Object\SaleableInterface;
 use Magento\Pricing\Price\Factory as PriceFactory;
 use Magento\Pricing\Price\PriceInterface;
 
+/**
+ * Composite price model
+ */
 class PriceComposite
 {
     /**

@@ -18,8 +18,6 @@ use Magento\View\Element\Template;
  * Default price box renderer
  *
  * @method bool hasListClass()
- * @method bool getShowDetailedPrice()
- * @method int getPriceId()
  * @method string getListClass()
  */
 class PriceBox extends Template implements PriceBoxRenderInterface
@@ -154,18 +152,5 @@ class PriceBox extends Template implements PriceBoxRenderInterface
             );
         }
         return $this->amountRender;
-    }
-
-    //@TODO move this method to TierPrice block
-    public function showSavePercent(\Magento\Catalog\Pricing\Price\TierPrice $tierPriceModel)
-    {
-        $regularPrice = $this->getPriceType('price')->getValue();
-        $finalPrice = $this->getPriceType('final_price')->getValue();
-
-        return ($this->getShowDetailedPrice() !== false)
-        && (
-            ($regularPrice == $finalPrice && $regularPrice > $tierPriceModel->getValue())
-            || ($regularPrice != $finalPrice &&  $finalPrice > $tierPriceModel->getValue())
-        );
     }
 }

@@ -16,6 +16,8 @@ use Magento\View\Element\Template;
 use Magento\View\Element\AbstractBlock;
 
 /**
+ * Base price render
+ *
  * @method string getPriceRenderHandle()
  */
 class Render extends AbstractBlock

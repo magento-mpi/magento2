@@ -13,6 +13,9 @@ namespace Magento\Pricing;
 use Magento\Pricing\Adjustment\AdjustmentInterface;
 use Magento\Pricing\Price\PriceInterface;
 
+/**
+ * Price info model interface
+ */
 interface PriceInfoInterface
 {
     /**

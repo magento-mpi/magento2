@@ -13,6 +13,9 @@ namespace Magento\Pricing\Render;
 use Magento\Pricing\Price\PriceInterface;
 use Magento\Pricing\Object\SaleableInterface;
 
+/**
+ * Price box render interface
+ */
 interface PriceBoxRenderInterface
 {
     /**

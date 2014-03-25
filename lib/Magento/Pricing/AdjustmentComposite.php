@@ -14,7 +14,7 @@ use Magento\Pricing\Adjustment\Factory as AdjustmentFactory;
 use Magento\Pricing\Adjustment\AdjustmentInterface;
 
 /**
- * Class AdjustmentComposite
+ * Adjustment composite model
  */
 class AdjustmentComposite
 {

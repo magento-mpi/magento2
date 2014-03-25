@@ -14,13 +14,9 @@
 $tierPriceModel = $this->getPrice();
 $tierPrices = $tierPriceModel->getApplicableTierPrices();
 
-/** @var \Magento\Catalog\Pricing\Price\Price $priceModel */
-$priceModel = $this->getPriceType('price');
-$regularPrice = $priceModel->getValue();
+/** @var BasePrice $minPrice is a minimal available price */
+$minPrice = $this->getPriceType(\Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE)->getValue();
 
-/** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
-$finalPriceModel = $this->getPriceType('final_price');
-$finalPrice = $finalPriceModel->getValue();
 ?>
 
 <?php if (count($tierPrices)) : ?>
@@ -43,10 +39,10 @@ $finalPrice = $finalPriceModel->getValue();
                     )
                 );
             ?>&nbsp;<?php echo __('each') ?>
-            <?php if($this->showSavePercent($tierPriceModel)): ?>
+            <?php if ($this->getShowDetailedPrice() !== false && $minPrice > $tierPriceModel->getValue()): ?>
                 <?php echo __('and') ?>&nbsp;<strong class="benefit">
                     <?php echo __('save')?>
-                    <span class="percent tier-<?php echo $this->getPriceId() ?>"><?php echo $price['savePercent']?></span>%
+                    <span class="percent hel tier-<?php echo $index ?>"><?php echo $price['savePercent']?></span>%
                 </strong>
             <?php endif ?>
         </li>
