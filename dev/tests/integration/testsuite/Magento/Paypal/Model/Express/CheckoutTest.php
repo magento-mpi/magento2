@@ -28,6 +28,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express_with_customer.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testPrepareCustomerQuote()
     {
@@ -65,6 +66,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testPrepareNewCustomerQuote()
     {
@@ -87,11 +89,11 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Verify that an order placed with a new customer with confirmation required, still alerts the user that they must
-     * confirm their account.
+     * Verify that an order placed with a new unconfirmed customer alerts the user that they must confirm the account.
      *
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testPrepareNewCustomerQuoteConfirmationRequired()
     {
@@ -135,6 +137,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Paypal/_files/quote_payment_express.php
      * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
      */
     public function testPlaceGuestQuote()
     {
