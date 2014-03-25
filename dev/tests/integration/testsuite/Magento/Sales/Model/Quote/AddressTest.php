@@ -262,8 +262,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($customerAddressId, $this->_address->getCustomerAddressId(),
             "Precondition failed: Customer address ID was not set.");
 
-        /** @var \Magento\Customer\Model\Address $customerAddress */
-        $customerAddress = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
         /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
         $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\AddressBuilder');
         $customerAddressData = $addressBuilder->setId($customerAddressId)->create();
