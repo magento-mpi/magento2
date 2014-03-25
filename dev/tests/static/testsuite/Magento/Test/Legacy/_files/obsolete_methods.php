@@ -546,7 +546,9 @@ return array(
     array('_getQueryParams', 'Magento\Url'),
     array('_setRouteFrontName', 'Magento\Url'),
     array('setType', 'Magento\Url'),
-    array('purgeQueryParams', 'Magento\Url'),
+    array('purgeQueryParams', 'Magento\Url', 'Use setQueryParams([]) instead'),
+    array('purgeQueryParams', 'Magento\Url\QueryParamsResolver', 'Use setQueryParams([]) instead'),
+    array('purgeQueryParams', 'Magento\Url\QueryParamsResolverInterface', 'Use setQueryParams([]) instead'),
     array('_getDefaultActionName', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_ACTION_NAME'),
     array('_getDefaultControllerName', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_CONTROLLER_NAME'),
     array('_getDefaultUrlType', 'Magento\Url', 'Magento\UrlInterface::DEFAULT_URL_TYPE'),
@@ -1587,4 +1589,5 @@ return array(
     array('_getAvailableLimit', 'Magento\Catalog\Block\Product\ProductList\Toolbar'),
     array('getCacheIdTags', 'Magento\Core\Model\AbstractModel'),
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
+    ['_sessionVarCallback', 'Magento\Url', 'Replaced with inlined closure'],
 );

@@ -46,7 +46,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->routeParamsResolverMock = $this->getMock('Magento\Core\Model\Url\RouteParamsResolver',
-            ['getType', 'hasData', 'getData'], [], '', false);
+            ['getType', 'hasData', 'getData', 'getRouteParams'], [], '', false);
         $this->scopeResolverMock = $this->getMock('Magento\Url\ScopeResolverInterface');
         $this->scopeMock = $this->getMock('Magento\Url\ScopeInterface');
         $this->queryParamsResolverMock = $this->getMock('Magento\Url\QueryParamsResolverInterface', [], [], '', false);
@@ -168,6 +168,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->scopeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue($baseUrl));
         $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
         $this->routeParamsResolverMock->expects($this->any())->method('getType')->will($this->returnValue($urlType));
+        $this->routeParamsResolverMock->expects($this->any())->method('getRouteParams')
+            ->will($this->returnValue(['id' => 100]));
         $requestMock->expects($this->once())->method('isDirectAccessFrontendName')->will($this->returnValue(true));
         $routeConfigMock->expects($this->once())->method('getRouteFrontName')->will($this->returnValue('catalog'));
         $this->queryParamsResolverMock->expects($this->once())->method('getQuery')
@@ -181,6 +183,65 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             'id' => 100
         ]);
         $this->assertEquals($returnUri, $url);
+    }
+
+    public function testGetUrlIdempotentSetRoutePath()
+    {
+        $model = $this->getUrlModel([
+            'scopeResolver' => $this->scopeResolverMock,
+            'routeParamsResolver' => $this->getRouteParamsResolver(),
+        ]);
+        $model->setData('route_path', 'catalog/product/view');
+
+        $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
+
+        $this->assertEquals('catalog/product/view', $model->getUrl('catalog/product/view'));
+    }
+
+    public function testGetUrlIdempotentSetRouteName()
+    {
+        $model = $this->getUrlModel([
+            'scopeResolver' => $this->scopeResolverMock,
+            'routeParamsResolver' => $this->getRouteParamsResolver(),
+            'request' => $this->getRequestMock(['isDirectAccessFrontendName', 'getAlias']),
+        ]);
+        $model->setData('route_name', 'catalog');
+
+        $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
+
+        $this->assertEquals('/product/view/', $model->getUrl('catalog/product/view'));
+    }
+
+    public function testGetUrlRouteHasParams()
+    {
+        $this->routeParamsResolverMock->expects($this->any())->method('getRouteParams')
+            ->will($this->returnValue(['foo' => 'bar', 'true' => false]));
+        $model = $this->getUrlModel([
+            'scopeResolver' => $this->scopeResolverMock,
+            'routeParamsResolver' => $this->getRouteParamsResolver(),
+            'request' => $this->getRequestMock(['isDirectAccessFrontendName', 'getAlias']),
+        ]);
+
+        $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
+
+        $this->assertEquals('/index/index/foo/bar/', $model->getUrl('catalog'));
+    }
+
+    public function testGetUrlRouteUseRewrite()
+    {
+        $this->routeParamsResolverMock->expects($this->any())->method('getRouteParams')
+            ->will($this->returnValue(['foo' => 'bar']));
+        $request = $this->getRequestMock(['isDirectAccessFrontendName', 'getAlias']);
+        $request->expects($this->once())->method('getAlias')->will($this->returnValue('/catalog/product/view/'));
+        $model = $this->getUrlModel([
+            'scopeResolver' => $this->scopeResolverMock,
+            'routeParamsResolver' => $this->getRouteParamsResolver(),
+            'request' => $request,
+        ]);
+
+        $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
+
+        $this->assertEquals('/catalog/product/view/', $model->getUrl('catalog', ['_use_rewrite' => 1]));
     }
 
     public function getUrlDataProvider()
@@ -218,6 +279,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->scopeMock->expects($this->once())->method('getBaseUrl')->will($this->returnValue($baseUrl));
         $this->scopeResolverMock->expects($this->any())->method('getScope')->will($this->returnValue($this->scopeMock));
         $this->routeParamsResolverMock->expects($this->any())->method('getType')->will($this->returnValue($urlType));
+        $this->routeParamsResolverMock->expects($this->any())->method('getRouteParams')
+            ->will($this->returnValue(['key' => 'value']));
         $requestMock->expects($this->once())->method('isDirectAccessFrontendName')->will($this->returnValue(true));
 
         $requestMock->expects($this->once())->method('getRequestedRouteName')->will($this->returnValue('catalog'));

@@ -94,12 +94,12 @@ interface UrlInterface
     public function addSessionParam();
 
     /**
-     * Set query Params as array
+     * Add query parameters
      *
      * @param array $data
      * @return \Magento\UrlInterface
      */
-    public function setQueryParams(array $data);
+    public function addQueryParams(array $data);
 
     /**
      * Set query param

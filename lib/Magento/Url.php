@@ -500,9 +500,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
                     $routePath .= $key . '/' . $value . '/';
                 }
             }
-            if ($routePath != '' && substr($routePath, -1, 1) !== '/') {
-                $routePath .= '/';
-            }
             $this->setData('route_path', $routePath);
         }
         return $this->_getData('route_path');
@@ -706,14 +703,14 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     }
 
     /**
-     * Set query Params as array
+     * Add query Params as array
      *
      * @param array $data
      * @return \Magento\UrlInterface
      */
-    public function setQueryParams(array $data)
+    public function addQueryParams(array $data)
     {
-        $this->_queryParamsResolver->setQueryParams($data);
+        $this->_queryParamsResolver->addQueryParams($data);
         return $this;
     }
 
@@ -772,7 +769,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
 
         $query = null;
         if (isset($routeParams['_query'])) {
-            $this->_queryParamsResolver->purgeQueryParams();
+            $this->_queryParamsResolver->setQueryParams([]);
             $query = $routeParams['_query'];
             unset($routeParams['_query']);
         }
@@ -790,10 +787,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             if (is_string($query)) {
                 $this->_setQuery($query);
             } elseif (is_array($query)) {
-                $this->setQueryParams($query, !empty($routeParams['_current']));
+                $this->addQueryParams($query, !empty($routeParams['_current']));
             }
             if ($query === false) {
-                $this->setQueryParams(array());
+                $this->addQueryParams(array());
             }
         }
 
@@ -907,7 +904,28 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         return preg_replace_callback(
             '#(\?|&amp;|&)___SID=([SU])(&amp;|&)?#',
-            array($this, "_sessionVarCallback"),
+            // @codingStandardsIgnoreStart
+            /**
+             * Callback function for session replace
+             *
+             * @param array $match
+             * @return string
+             */
+            // @codingStandardsIgnoreEnd
+            function ($match) {
+                if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
+                    return $match[1]
+                        . $this->_sidResolver->getSessionIdQueryParam($this->_session)
+                        . '=' . $this->_session->getSessionId()
+                        . (isset($match[3]) ? $match[3] : '');
+                } else {
+                    if ($match[1] == '?') {
+                        return isset($match[3]) ? '?' : '';
+                    } elseif ($match[1] == '&amp;' || $match[1] == '&') {
+                        return isset($match[3]) ? $match[3] : '';
+                    }
+                }
+            },
             $html
         );
     }
@@ -935,34 +953,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             }
         }
         return $this->getData($key);
-    }
-
-    /**
-     * Callback function for session replace
-     *
-     * @param array $match
-     * @return string
-     */
-    protected function _sessionVarCallback($match)
-    {
-        if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
-            return $match[1] . $this->_sidResolver->getSessionIdQueryParam(
-                $this->_session
-            ) . '=' . $this->_session->getSessionId() . (isset(
-                $match[3]
-            ) ? $match[3] : '');
-        } else {
-            if ($match[1] == '?' && isset($match[3])) {
-                return '?';
-            } elseif ($match[1] == '?' && !isset($match[3])) {
-                return '';
-            } elseif (($match[1] == '&amp;' || $match[1] == '&') && !isset($match[3])) {
-                return '';
-            } elseif (($match[1] == '&amp;' || $match[1] == '&') && isset($match[3])) {
-                return $match[3];
-            }
-        }
-        return '';
     }
 
     /**
