@@ -65,6 +65,8 @@ class CatalogRulePrice extends Price
      * @param Session $customerSession
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $catalogRuleResourceFactory
      * @param float $quantity
+     * @param RuleFactory $catalogRuleResourceFactory
+     * @param float $quantity
      */
     public function __construct(
         SaleableInterface $salableItem,
