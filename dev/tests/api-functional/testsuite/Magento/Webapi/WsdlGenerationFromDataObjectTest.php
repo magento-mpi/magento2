@@ -258,7 +258,7 @@ RESPONSE_TYPE;
                 </xsd:appinfo>
             </xsd:annotation>
         </xsd:element>
-        <xsd:element name="isEnabled" minOccurs="1" maxOccurs="1" type="xsd:boolean">
+        <xsd:element name="enabled" minOccurs="1" maxOccurs="1" type="xsd:boolean">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
