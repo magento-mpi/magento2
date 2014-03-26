@@ -168,7 +168,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                             ->setCustomerLastName($customer->getLastName());
                     }
                 } catch (NoSuchEntityException $e) {
-                    return;
+                    // do nothing if customer is not found by id
                 }
             }
         }
