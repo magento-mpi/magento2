@@ -56,7 +56,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
      *
      * @param string $requestParam
      * @return \Magento\GiftWrapping\Model\Wrapping
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initModel($requestParam = 'id')
     {
@@ -71,7 +71,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
         if ($wrappingId) {
             $model->load($wrappingId);
             if (!$model->getId()) {
-                throw new \Magento\Core\Exception(__('Please request the correct gift wrapping.'));
+                throw new \Magento\Model\Exception(__('Please request the correct gift wrapping.'));
             }
         }
         $this->_coreRegistry->register('current_giftwrapping_model', $model);
@@ -142,7 +142,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     try {
                         $model->attachUploadedImage('image_name');
                     } catch (\Exception $e) {
-                        throw new \Magento\Core\Exception(__('You have not uploaded the image.'));
+                        throw new \Magento\Model\Exception(__('You have not uploaded the image.'));
                     }
                 }
 
@@ -157,7 +157,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     );
                     return;
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
@@ -184,9 +184,9 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 try {
                     $model->attachUploadedImage('image_name', true);
                 } catch (\Exception $e) {
-                    throw new \Magento\Core\Exception(__('You have not updated the image.'));
+                    throw new \Magento\Model\Exception(__('You have not updated the image.'));
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
@@ -223,7 +223,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
             }
             $wrappingCollection->save();
             $this->messageManager->addSuccess(__('You updated a total of %1 records.', count($wrappingIds)));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Something went wrong while updating the wrapping(s) status.'));

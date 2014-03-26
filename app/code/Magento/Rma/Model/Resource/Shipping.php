@@ -16,7 +16,7 @@ use Magento\Rma\Model\Rma as ModelRma;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Shipping extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Shipping extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

@@ -16,7 +16,7 @@ namespace Magento\CatalogEvent\Model\Resource\Event;
  * @package     Magento_CatalogEvent
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Whether category data was added to collection
@@ -50,7 +50,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param mixed $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -60,7 +60,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);

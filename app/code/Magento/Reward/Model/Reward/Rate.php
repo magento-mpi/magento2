@@ -25,7 +25,7 @@ namespace Magento\Reward\Model\Reward;
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Rate extends \Magento\Core\Model\AbstractModel
+class Rate extends \Magento\Model\AbstractModel
 {
     const RATE_EXCHANGE_DIRECTION_TO_CURRENCY = 1;
 

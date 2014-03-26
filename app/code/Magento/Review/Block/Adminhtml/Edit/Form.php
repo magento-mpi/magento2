@@ -84,7 +84,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'data' => array(
                     'id' => 'edit_form',
                     'action' => $this->getUrl(
-                        'catalog/*/save',
+                        'review/*/save',
                         array(
                             'id' => $this->getRequest()->getParam('id'),
                             'ret' => $this->_coreRegistry->registry('ret')

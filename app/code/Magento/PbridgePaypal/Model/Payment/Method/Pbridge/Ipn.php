@@ -225,7 +225,7 @@ class Ipn
      * Validate incoming request data, as PayPal recommends
      *
      * @param Order $order
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     protected function _verifyOrder(Order $order)
@@ -238,7 +238,7 @@ class Ipn
                 $receiverEmail = $this->getIpnFormData('receiver_email');
             }
             if ($merchantEmail != $receiverEmail) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     __('Requested %1 and configured %2 merchant emails do not match.', $receiverEmail, $merchantEmail)
                 );
             }
@@ -314,7 +314,7 @@ class Ipn
                         $this->_registerPaymentVoid(__('The merchant voided the authorization.'));
                         break;
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $history = $this->_createIpnComment(__('Note: %1', $e->getMessage()))->save();
                 $this->_notifyAdmin($history->getComment(), $e);
             }
@@ -334,7 +334,7 @@ class Ipn
      * Everything after saving order is not critical, thus done outside the transaction.
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _registerPaymentCapture()
     {
@@ -419,7 +419,7 @@ class Ipn
      * Register payment pending
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      *
      * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      */
@@ -447,7 +447,7 @@ class Ipn
                 );
                 break;
             case 'order':
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     '"Order" authorizations are not implemented. Please use "simple" authorization.'
                 );
             case 'authorization':

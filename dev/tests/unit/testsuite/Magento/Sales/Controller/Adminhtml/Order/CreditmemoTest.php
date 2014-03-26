@@ -210,7 +210,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set expectations in case of \Magento\Core\Exception for saveAction method
+     * Set expectations in case of \Magento\Model\Exception for saveAction method
      *
      * @param array $data
      * @param string $errorMessage

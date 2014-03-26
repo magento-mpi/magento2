@@ -125,13 +125,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_logger;
 
     /**
-     * Application
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * Escaper
      *
      * @var \Magento\Escaper

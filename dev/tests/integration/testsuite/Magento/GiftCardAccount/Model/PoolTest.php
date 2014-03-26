@@ -33,7 +33,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage No codes left in the pool
      */
     public function testShiftNoCodeLeft()

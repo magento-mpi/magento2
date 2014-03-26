@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\App\ResponseInterface;
 
 /**
@@ -125,7 +125,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $invoice->getOrder()->setIsInProcess(true);
         $this->_objectManager->create(
-            'Magento\Core\Model\Resource\Transaction'
+            'Magento\DB\Transaction'
         )->addObject(
             $invoice
         )->addObject(
@@ -295,7 +295,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 $invoice->getOrder()->setIsInProcess(true);
 
                 $transactionSave = $this->_objectManager->create(
-                    'Magento\Core\Model\Resource\Transaction'
+                    'Magento\DB\Transaction'
                 )->addObject(
                     $invoice
                 )->addObject(

@@ -45,8 +45,8 @@ abstract class AbstractPlugin
     }
 
     /**
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      * @return bool
      */
-    abstract protected function validate(\Magento\Core\Model\AbstractModel $model);
+    abstract protected function validate(\Magento\Model\AbstractModel $model);
 }

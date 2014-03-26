@@ -9,7 +9,7 @@
  */
 namespace Magento\Wishlist\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\Customer\Model\Customer;
 use Magento\Wishlist\Model\Resource\Item\CollectionFactory;
 use Magento\Wishlist\Model\Resource\Wishlist as ResourceWishlist;
@@ -27,7 +27,7 @@ use Magento\Wishlist\Model\Resource\Wishlist\Collection;
  * @method string getUpdatedAt()
  * @method \Magento\Wishlist\Model\Wishlist setUpdatedAt(string $value)
  */
-class Wishlist extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Wishlist extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Cache tag

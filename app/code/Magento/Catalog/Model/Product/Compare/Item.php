@@ -26,7 +26,7 @@ use Magento\Catalog\Model\Product;
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Core\Model\AbstractModel implements \Magento\Object\IdentityInterface
+class Item extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
     /**
      * Model cache tag
@@ -84,7 +84,7 @@ class Item extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -95,7 +95,7 @@ class Item extends \Magento\Core\Model\AbstractModel implements \Magento\Object\
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

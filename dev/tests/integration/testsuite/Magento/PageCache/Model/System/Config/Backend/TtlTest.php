@@ -57,7 +57,7 @@ class TtlTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSaveWithException($value, $path)
     {
-        $this->setExpectedException('\Magento\Core\Exception');
+        $this->setExpectedException('\Magento\Model\Exception');
         $this->_prepareData($value, $path);
     }
 

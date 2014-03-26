@@ -172,14 +172,14 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Retrieve Catalog Product List identifier
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return int
      */
     public function getType()
     {
         $type = $this->getData('type');
         if (is_null($type)) {
-            throw new \Magento\Core\Exception(__('Undefined Catalog Product List Type'));
+            throw new \Magento\Model\Exception(__('Undefined Catalog Product List Type'));
         }
         return $type;
     }
@@ -274,13 +274,13 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Retrieve Product data object
      *
      * @return \Magento\Object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getProduct()
     {
         $product = $this->getData('product');
         if (!$product instanceof \Magento\Object) {
-            throw new \Magento\Core\Exception(__('Please define a product data object.'));
+            throw new \Magento\Model\Exception(__('Please define a product data object.'));
         }
         return $product;
     }

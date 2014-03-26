@@ -86,7 +86,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -100,7 +100,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Log\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

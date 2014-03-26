@@ -30,22 +30,14 @@ class Rss extends \Magento\Rss\Block\Wishlist
     protected $_customerAccountService;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Checkout\Helper\Cart $cartHelper
-     * @param \Magento\MultipleWishlist\Helper\Rss $wishlistHelper
-     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
-     * @param \Magento\Theme\Helper\Layout $layoutHelper
-     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\App\Http\Context $httpContext
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
+     * @param \Magento\Catalog\Helper\Output $outputHelper
+     * @param \Magento\MultipleWishlist\Helper\Rss $wishlistHelper
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
@@ -55,23 +47,14 @@ class Rss extends \Magento\Rss\Block\Wishlist
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Checkout\Helper\Cart $cartHelper,
-        \Magento\MultipleWishlist\Helper\Rss $wishlistHelper,
-        \Magento\Catalog\Helper\Product\Compare $compareProduct,
-        \Magento\Theme\Helper\Layout $layoutHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Catalog\Block\Product\Context $context,
         \Magento\App\Http\Context $httpContext,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
+        \Magento\MultipleWishlist\Helper\Rss $wishlistHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         array $data = array(),
@@ -79,20 +62,11 @@ class Rss extends \Magento\Rss\Block\Wishlist
     ) {
         $this->_customerViewHelper = $customerViewHelper;
         $this->_customerAccountService = $customerAccountService;
+        $this->_wishlistHelper = $wishlistHelper;
 
         /* TODO this constructor must be eliminated after elimination of \Magento\MultipleWishlist\Helper\Rss */
         parent::__construct(
             $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $cartHelper,
-            $wishlistHelper,
-            $compareProduct,
-            $layoutHelper,
-            $imageHelper,
             $httpContext,
             $productFactory,
             $coreData,
