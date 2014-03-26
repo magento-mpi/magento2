@@ -18,4 +18,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\GiftRegistry\Model\Resource\Helper">
+        <arguments>
+            <argument name="modulePrefix" xsi:type="string">giftregistry</argument>
+        </arguments>
+    </type>
 </config>

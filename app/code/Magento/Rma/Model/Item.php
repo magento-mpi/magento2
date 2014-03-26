@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Item model
  */
-class Item extends \Magento\Core\Model\AbstractModel
+class Item extends \Magento\Model\AbstractModel
 {
     /**
      * Entity code.
@@ -96,7 +96,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $formFactory
      * @param \Magento\App\RequestFactory $requestFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -108,7 +108,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $formFactory,
         \Magento\App\RequestFactory $requestFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

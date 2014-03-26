@@ -47,7 +47,7 @@ interface ListInterface
      *
      * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
      * @return \Magento\Core\Model\Website
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getWebsite($websiteId = null);
 
@@ -79,7 +79,7 @@ interface ListInterface
      *
      * @param null|\Magento\Core\Model\Store\Group|string $groupId
      * @return \Magento\Core\Model\Store\Group
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getGroup($groupId = null);
 

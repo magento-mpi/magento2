@@ -18,7 +18,7 @@ use Magento\Eav\Model\Entity\Type;
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Add attribute set info flag
@@ -363,7 +363,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Ad information about attribute sets to collection result data
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _afterLoadData()
     {

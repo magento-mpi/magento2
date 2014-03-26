@@ -27,7 +27,7 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderPlaceholder($text, array $arguments, $result)
     {
-        $this->assertEquals($result, $this->_renderer->render($text, $arguments));
+        $this->assertEquals($result, $this->_renderer->render([$text], $arguments));
     }
 
     /**

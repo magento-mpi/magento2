@@ -128,7 +128,7 @@ class RecurringPayment extends \Magento\App\Action\Action
                     break;
             }
             $this->messageManager->addSuccess(__('The payment state has been updated.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
@@ -158,7 +158,7 @@ class RecurringPayment extends \Magento\App\Action\Action
             } else {
                 $this->messageManager->addNotice(__('The payment has no changes.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
@@ -186,7 +186,7 @@ class RecurringPayment extends \Magento\App\Action\Action
             $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -198,7 +198,7 @@ class RecurringPayment extends \Magento\App\Action\Action
      * Instantiate current payment and put it into registry
      *
      * @return \Magento\RecurringPayment\Model\Payment
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initPayment()
     {
@@ -208,7 +208,7 @@ class RecurringPayment extends \Magento\App\Action\Action
             $this->getRequest()->getParam('payment')
         );
         if (!$payment->getId()) {
-            throw new \Magento\Core\Exception(__('We can\'t find the payment you specified.'));
+            throw new \Magento\Model\Exception(__('We can\'t find the payment you specified.'));
         }
         $this->_coreRegistry->register('current_recurring_payment', $payment);
         return $payment;

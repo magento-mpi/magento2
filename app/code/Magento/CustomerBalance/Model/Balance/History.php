@@ -9,7 +9,7 @@
  */
 namespace Magento\CustomerBalance\Model\Balance;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Customerbalance history model
@@ -35,7 +35,7 @@ use Magento\Core\Exception;
  * @package     Magento_CustomerBalance
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     const ACTION_UPDATED = 1;
 
@@ -78,7 +78,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -89,7 +89,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

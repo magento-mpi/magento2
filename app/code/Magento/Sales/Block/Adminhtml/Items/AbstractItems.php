@@ -199,7 +199,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
     /**
      * Retrieve available order
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return Order
      */
     public function getOrder()
@@ -223,7 +223,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
             return $this->getItem()->getOrder();
         }
 
-        throw new \Magento\Core\Exception(__('We cannot get the order instance.'));
+        throw new \Magento\Model\Exception(__('We cannot get the order instance.'));
     }
 
     /**

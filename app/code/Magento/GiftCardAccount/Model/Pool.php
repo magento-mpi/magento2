@@ -57,7 +57,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $giftCardCodeParams
      * @param array $data
@@ -66,7 +66,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $giftCardCodeParams = array(),
         array $data = array()
@@ -88,7 +88,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
      * Generate Pool
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function generatePool()
     {
@@ -101,7 +101,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
             $attempt = 0;
             do {
                 if ($attempt >= self::CODE_GENERATION_ATTEMPTS) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('We were unable to create full code pool size. Please check settings and try again.')
                     );
                 }

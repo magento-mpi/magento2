@@ -126,7 +126,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper
      * @param LockValidatorInterface $lockValidator
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -146,7 +146,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productFlatIndexerHelper,
         LockValidatorInterface $lockValidator,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -183,8 +183,8 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Model\AbstractModel
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -196,8 +196,8 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             if ($this->_data['is_global'] != $this->_origData['is_global']) {
                 try {
                     $this->attrLockValidator->validate($this);
-                } catch (\Magento\Core\Exception $exception) {
-                    throw new \Magento\Core\Exception(__('Do not change the scope. ' . $exception->getMessage()));
+                } catch (\Magento\Model\Exception $exception) {
+                    throw new \Magento\Model\Exception(__('Do not change the scope. ' . $exception->getMessage()));
                 }
             }
         }
@@ -217,7 +217,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Processing object after save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return \Magento\Model\AbstractModel
      */
     protected function _afterSave()
     {
@@ -257,7 +257,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * Register indexing event before delete catalog eav attribute
      *
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeDelete()
     {

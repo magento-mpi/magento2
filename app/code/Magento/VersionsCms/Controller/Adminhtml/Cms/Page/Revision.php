@@ -299,7 +299,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
      */
     public function dropAction()
     {
-        $this->_objectManager->get('Magento\Translate\InlineInterface')->disable();
+        $this->_objectManager->get('Magento\Translate\Inline\StateInterface')->suspend();
         $this->_objectManager->get(
             'Magento\App\State'
         )->emulateAreaCode(
@@ -416,7 +416,7 @@ class Revision extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                     array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
                 );
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 $error = true;

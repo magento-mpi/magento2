@@ -16,7 +16,7 @@ namespace Magento\VersionsCms\Model\Resource;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Increment extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -31,13 +31,13 @@ class Increment extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load increment counter by passed node and level
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @param int $type
      * @param int $node
      * @param int $level
      * @return bool
      */
-    public function loadByTypeNodeLevel(\Magento\Core\Model\AbstractModel $object, $type, $node, $level)
+    public function loadByTypeNodeLevel(\Magento\Model\AbstractModel $object, $type, $node, $level)
     {
         $read = $this->_getReadAdapter();
 

@@ -5,6 +5,22 @@
   * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
   * Fixed problem with update failed registration message & provide resend confirmation email button for registrations failing to complete (MAGETWO-22021)
   * Fixed problem with Magento Catalog module resource Setup Upgrade logic is broken (MAGETWO-22414)
+* Modularity improvements:
+  * Moved abstract Core models and related logic into Magento/Model library (MAGETWO-21588)
+  * Moved abstract DB logic and Core resource helpers into Magento/DB library (MAGETWO-21588)
+  * Eliminated Core\Model\App class (MAGETWO-21593)
+  * Moved Magento Flag functionality to the library (MAGETWO-21605)
+  * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
+  * Moved indexers related logic from Core Module to Indexer Module (MAGETWO-21597)
+  * Moved Inline translation and user intended translate functionality from Magento\Core module into a separate Magento\Translation module (MAGETWO-21596)
+* Framework Improvements:
+  * Covered Magento library components with unit tests:
+     * Magento/Config
+     * Magento/Convert
+     * Magento/Controller
+     * Magento/Data/Collection/Db
+     * Magento/Mview
+  * LauncherInterface renamed to AppInterface (MAGETWO-21593)
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:

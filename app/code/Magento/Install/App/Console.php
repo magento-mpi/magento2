@@ -11,7 +11,7 @@ namespace Magento\Install\App;
 
 use Magento\App\Console\Response;
 
-class Console implements \Magento\LauncherInterface
+class Console implements \Magento\AppInterface
 {
     /**
      * @var  \Magento\Install\Model\Installer\ConsoleFactory

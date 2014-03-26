@@ -498,7 +498,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function setEntity($entity)
     {
-        if ($this->isEnabledFlat() && $entity instanceof \Magento\Core\Model\Resource\Db\AbstractDb) {
+        if ($this->isEnabledFlat() && $entity instanceof \Magento\Model\Resource\Db\AbstractDb) {
             $this->_entity = $entity;
             return $this;
         }

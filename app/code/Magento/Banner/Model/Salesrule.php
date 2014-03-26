@@ -23,7 +23,7 @@ namespace Magento\Banner\Model;
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Salesrule extends \Magento\Core\Model\AbstractModel
+class Salesrule extends \Magento\Model\AbstractModel
 {
     /**
      * Initialize promo shopping cart price rule model

@@ -8,19 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Core\Model\App'
-)->loadAreaPart(
-    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
-    \Magento\Core\Model\App\Area::PART_CONFIG
-);
-\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
-    array(
-        \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-            \Magento\App\Filesystem::THEMES_DIR => array('path' => realpath(__DIR__))
-        )
-    )
-);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+    ->getArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+    ->load(\Magento\Core\Model\App\Area::PART_CONFIG);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+    \Magento\App\Filesystem::PARAM_APP_DIRS => array(
+        \Magento\App\Filesystem::THEMES_DIR => array('path' => realpath(__DIR__)),
+    ),
+));
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(
     array('preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'))
 );

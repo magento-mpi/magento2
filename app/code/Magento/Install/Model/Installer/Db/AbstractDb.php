@@ -22,7 +22,7 @@ abstract class AbstractDb
     /**
      * Resource connection adapter factory
      *
-     * @var \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory
+     * @var \Magento\Model\Resource\Type\Db\Pdo\MysqlFactory
      */
     protected $_adapterFactory;
 
@@ -62,12 +62,12 @@ abstract class AbstractDb
     protected $_arguments;
 
     /**
-     * @param \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
+     * @param \Magento\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory
      * @param \Magento\App\Arguments $arguments
      * @param array $dbExtensions
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory,
+        \Magento\Model\Resource\Type\Db\Pdo\MysqlFactory $adapterFactory,
         \Magento\App\Arguments $arguments,
         array $dbExtensions = array()
     ) {
