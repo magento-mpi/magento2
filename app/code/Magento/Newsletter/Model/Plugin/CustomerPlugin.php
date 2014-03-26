@@ -40,7 +40,7 @@ class CustomerPlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterCreateAccount($subject, Customer $customer)
+    public function afterCreateAccount(CustomerAccountServiceInterface $subject, Customer $customer)
     {
         $this->subscriberFactory->create()->subscribeCustomerById($customer->getId());
 
@@ -57,7 +57,7 @@ class CustomerPlugin
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDeleteCustomer($subject, $deleteCustomer, $customerId)
+    public function aroundDeleteCustomer(CustomerAccountServiceInterface $subject, $deleteCustomer, $customerId)
     {
         $customer = $subject->getCustomer($customerId);
 
