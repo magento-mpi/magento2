@@ -131,6 +131,8 @@ class Subscriber extends \Magento\Model\AbstractModel
      * @param \Magento\Model\Resource\AbstractResource  $resource
      * @param \Magento\Data\Collection\Db               $resourceCollection
      * @param array                                     $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Model\Context $context,
