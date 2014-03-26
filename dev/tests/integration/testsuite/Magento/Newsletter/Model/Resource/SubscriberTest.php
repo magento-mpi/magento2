@@ -8,6 +8,8 @@
 
 namespace Magento\Newsletter\Model\Resource;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class SubscriberTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -17,7 +19,7 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_resourceModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $this->_resourceModel = Bootstrap::getObjectManager()
             ->create('Magento\Newsletter\Model\Resource\Subscriber');
     }
 
@@ -27,7 +29,7 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
     public function testLoadByCustomerDataWithCustomerId()
     {
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $customerAccountService = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $customerData = $customerAccountService->getCustomerDetails(1)->getCustomer();
         $result = $this->_resourceModel->loadByCustomerData($customerData);
@@ -38,11 +40,12 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
+     * @magentoDataFixture Magento/Customer/_files/two_customers.php
      */
     public function testLoadByCustomerDataWithoutCustomerId()
     {
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $customerAccountService = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $customerData = $customerAccountService->getCustomerDetails(2)->getCustomer();
         $result = $this->_resourceModel->loadByCustomerData($customerData);

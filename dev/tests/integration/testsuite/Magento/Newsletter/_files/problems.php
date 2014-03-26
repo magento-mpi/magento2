@@ -6,11 +6,12 @@
  * @license     {license_link}
  */
 
-require "queue.php";
+require __DIR__ . '/queue.php';
 
 $problem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Newsletter\Model\problem');
-$problem->setSubscriberId($subscriber->getSubscriberId())
+// $firstSubscriberId comes from subscribers.php
+$problem->setSubscriberId($firstSubscriberId)
     ->setQueueId($queue->getQueueId())
     ->setProblemErrorCode(11)
     ->setProblemErrorText('error text')

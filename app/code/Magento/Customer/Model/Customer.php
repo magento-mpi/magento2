@@ -13,6 +13,7 @@ use Magento\Customer\Model\Config\Share;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Service\V1\Data\CustomerBuilder;
+use Magento\Customer\Service\V1\Data\Customer as CustomerData;
 
 /**
  * Customer model
@@ -336,9 +337,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterSave()
     {
-        $dataObject = $this->_getServiceDataObject();
+        $customerData = (array)$this->getData();
+        $customerData[CustomerData::ID] = $this->getId();
+        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
         $customerOrigData = (array)$this->getOrigData();
-        $customerOrigData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $customerOrigData[CustomerData::ID] = $this->getId();
         $origDataObject = $this->_customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
@@ -1288,12 +1291,12 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Get service data object
      *
-     * @return \Magento\Customer\Service\V1\Data\Customer
+     * @return CustomerData
      */
     protected function _getServiceDataObject()
     {
         $customerData = (array)$this->getData();
-        $customerData[\Magento\Customer\Service\V1\Data\Customer::ID] = $this->getId();
+        $customerData[CustomerData::ID] = $this->getId();
         $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
         return $dataObject;
     }
