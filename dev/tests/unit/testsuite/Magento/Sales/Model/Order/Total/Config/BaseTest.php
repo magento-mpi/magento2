@@ -66,7 +66,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento\Core\Exception
+     * @expectedException Magento\Model\Exception
      * @expectedExceptionMessage The total model should be extended from \Magento\Sales\Model\Order\Total\AbstractTotal.
      */
     public function testGetTotalModelsInvalidTotalModel()
