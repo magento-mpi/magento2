@@ -96,11 +96,11 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $salableItemMock->expects($this->at(3))
+        $salableItemMock->expects($this->at(0))
             ->method('getData')
             ->will($this->returnValue(null));
 
-        $salableItemMock->expects($this->at(4))
+        $salableItemMock->expects($this->at(1))
             ->method('getData')
             ->will($this->returnValue($groupPrice));
 

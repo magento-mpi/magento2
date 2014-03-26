@@ -29,6 +29,11 @@ class SpecialPrice extends Price implements SpecialPriceInterface, OriginPrice
     protected $localeDate;
 
     /**
+     * @var float|bool|null
+     */
+    protected $value;
+
+    /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
      * @param TimezoneInterface $localeDate
@@ -44,17 +49,18 @@ class SpecialPrice extends Price implements SpecialPriceInterface, OriginPrice
      */
     public function getValue()
     {
-        $specialPrice = $this->getSpecialPrice();
-        if (!is_null($specialPrice) && $specialPrice != false) {
-            if ($this->localeDate->isScopeDateInInterval(
-                $this->salableItem->getStore(),
-                $this->getSpecialFromDate(),
-                $this->getSpecialToDate()
-            )) {
-                return $specialPrice;
+        if (null === $this->value) {
+            $this->value = false;
+
+            $specialPrice = $this->getSpecialPrice();
+            if (!is_null($specialPrice) && $specialPrice != false) {
+                if ($this->isScopeDateInInterval()) {
+                    $this->value = $specialPrice;
+                }
             }
         }
-        return false;
+
+        return $this->value;
     }
 
     /**
@@ -85,5 +91,17 @@ class SpecialPrice extends Price implements SpecialPriceInterface, OriginPrice
     public function getSpecialToDate()
     {
         return $this->salableItem->getSpecialToDate();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isScopeDateInInterval()
+    {
+        return $this->localeDate->isScopeDateInInterval(
+            $this->salableItem->getStore(),
+            $this->getSpecialFromDate(),
+            $this->getSpecialToDate()
+        );
     }
 }

@@ -40,4 +40,9 @@ interface SpecialPriceInterface
      * @return mixed
      */
     public function getSpecialToDate();
+
+    /**
+     * @return bool
+     */
+    public function isScopeDateInInterval();
 }
