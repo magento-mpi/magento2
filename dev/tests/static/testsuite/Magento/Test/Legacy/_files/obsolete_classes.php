@@ -785,6 +785,7 @@ return array(
     array('Magento\Core\Model\Email\Template\Mailer', 'Magento\Mail\Template\TransportBuilder'),
     array('Magento\Core\Model\Resource\AbstractResource', 'Magento\Model\Resource\AbstractResource'),
     array('Magento\Core\Model\Resource\Db\AbstractDb', 'Magento\Model\Resource\Db\AbstractDb'),
+    array('Magento\Core\Model\Resource\Cache', 'Magento\App\Cache\State\Options'),
     array('Magento\Core\Model\Resource\Db\Profiler', 'Magento\Model\Resource\Db\Profiler'),
     array('Magento\Core\Model\Resource\Entity\AbstractEntity', 'Magento\Model\Resource\Entity\AbstractEntity'),
     array('Magento\Core\Model\Resource\Entity\Table', 'Magento\Model\Resource\Entity\Table'),

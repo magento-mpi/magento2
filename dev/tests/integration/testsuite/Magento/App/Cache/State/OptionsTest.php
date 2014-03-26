@@ -2,20 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\App\Cache\State;
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class OptionsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Cache
+     * @var \Magento\App\Cache\State\Options
      */
-    protected $_model;
+    protected $_model;  
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -25,7 +23,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Resource\Cache'
+            'Magento\App\Cache\State\Options'
         );
     }
 
@@ -37,7 +35,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Model\Resource\Cache',
+            'Magento\App\Cache\State\Options',
             array('resource' => $this->_resourceMock)
         );
         $this->assertEquals('prefix_core_cache_option', $this->_model->getTable('core_cache_option'));

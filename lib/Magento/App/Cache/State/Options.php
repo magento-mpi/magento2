@@ -1,22 +1,15 @@
 <?php
 /**
+ * Cache state options provider
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\App\Cache\State;
 
-/**
- * Core Cache resource model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Cache extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\App\Cache\State\OptionsInterface
+class Options extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\App\Cache\State\OptionsInterface
 {
     /**
      * Define main table
