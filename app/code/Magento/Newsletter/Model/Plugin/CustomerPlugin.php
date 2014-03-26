@@ -4,7 +4,7 @@
  *
  * @copyright   {copyright}
  * @license     {license_link}
- */ 
+ */
 namespace Magento\Newsletter\Model\Plugin;
 
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;

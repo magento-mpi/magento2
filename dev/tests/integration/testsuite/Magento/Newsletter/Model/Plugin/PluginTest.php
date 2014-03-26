@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Newsletter\Model;
+namespace Magento\Newsletter\Model\Plugin;
 
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -61,27 +61,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
      */
     public function testCustomerDeletedAdminArea()
-    {
-        $objectManager = Bootstrap::getObjectManager();
-
-        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $objectManager->create('Magento\Newsletter\Model\Subscriber');
-        $subscriber->loadByEmail('customer@example.com');
-        $this->assertTrue($subscriber->isSubscribed());
-
-        $this->accountService->deleteCustomer(1);
-
-        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $objectManager->create('Magento\Newsletter\Model\Subscriber');
-        $subscriber->loadByEmail('customer@example.com');
-        $this->assertEquals(0, (int)$subscriber->getId());
-    }
-
-    /**
-     * @magentoAppArea frontend
-     * @magentoDataFixture Magento/Newsletter/_files/subscribers.php
-     */
-    public function testCustomerDeletedFrontendArea()
     {
         $objectManager = Bootstrap::getObjectManager();
 
