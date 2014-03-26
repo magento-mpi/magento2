@@ -10,7 +10,7 @@ namespace Magento\Data\Argument\Interpreter;
 class StringTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Number
+     * @var \Magento\Data\Argument\Interpreter\String
      */
     protected $_model;
 
@@ -34,7 +34,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $translateRenderer->expects($this->any())->method('render')->will(
             $this->returnCallback(
                 function ($input) {
-                    return $input . ' (translated)';
+                    return end($input) . ' (translated)';
                 }
             )
         );

@@ -66,15 +66,15 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_translateInline;
 
     /**
-     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $registry
-     * @param \Magento\Translate\InlineInterface $translateInline,
+     * @param \Magento\Translate\InlineInterface $translateInline
      * @param array $data
      */
     public function __construct(

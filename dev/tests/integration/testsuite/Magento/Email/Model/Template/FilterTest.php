@@ -51,10 +51,12 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertStringMatchesFormat('http://example.com/%sarbitrary_url/', $url);
 
-        $url = $this->_model->storeDirective(
-            array('{{store url="core/ajax/translate"}}', 'store', ' url="core/ajax/translate"')
-        );
-        $this->assertStringMatchesFormat('http://example.com/%score/ajax/translate/', $url);
+        $url = $this->_model->storeDirective(array(
+            '{{store url="translation/ajax/index"}}',
+            'store',
+            ' url="translation/ajax/index"',
+        ));
+        $this->assertStringMatchesFormat('http://example.com/%stranslation/ajax/index/', $url);
     }
 
     public function testEscapehtmlDirective()

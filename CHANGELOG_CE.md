@@ -18,6 +18,16 @@
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
   * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
   * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
+* Modularity improvements:
+  * Moved indexers related logic from Core Module to Indexer Module (MAGETWO-21597)
+  * Moved Inline translation and user intended translate functionality from Magento\Core module into a separate Magento\Translation module (MAGETWO-21596)
+* Framework Improvements:
+  * Covered Magento library components with unit tests:
+     * Magento/Config
+     * Magento/Convert
+     * Magento/Controller
+     * Magento/Data/Collection/Db
+     * Magento/Mview
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
 * GitHub requests:

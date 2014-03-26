@@ -82,6 +82,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
@@ -119,6 +120,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
@@ -165,6 +167,7 @@ class Context extends \Magento\View\Element\Template\Context
             $escaper,
             $filterManager,
             $localeDate,
+            $inlineTranslation,
             $filesystem,
             $viewFileSystem,
             $enginePool,
