@@ -26,7 +26,7 @@
  */
 namespace Magento\Core\Model\Translate;
 
-class String extends \Magento\Core\Model\AbstractModel
+class String extends \Magento\Model\AbstractModel
 {
     /**
      * @return void

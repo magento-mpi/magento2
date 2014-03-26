@@ -9,11 +9,8 @@
  * @license     {license_link}
  */
 
-\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Core\Model\App'
-)->loadArea(
-    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
-);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()
+    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -120,13 +117,10 @@ foreach ($creditmemo->getAllItems() as $creditmemoItem) {
 $creditmemo->register();
 $creditmemo->save();
 
-$transactionSave = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    'Magento\Core\Model\Resource\Transaction'
-)->addObject(
-    $creditmemo
-)->addObject(
-    $creditmemo->getOrder()
-);
+$transactionSave = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\DB\Transaction')
+    ->addObject($creditmemo)
+    ->addObject($creditmemo->getOrder());
 if ($creditmemo->getInvoice()) {
     $transactionSave->addObject($creditmemo->getInvoice());
 }

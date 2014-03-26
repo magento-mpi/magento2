@@ -14,7 +14,7 @@ namespace Magento\Rma\Model\Resource\Rma\Status;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class History extends \Magento\Core\Model\Resource\Db\AbstractDb
+class History extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Internal constructor

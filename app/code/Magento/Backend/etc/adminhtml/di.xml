@@ -23,6 +23,7 @@
     <preference for="Magento\Core\Model\Resource\Translate" type="Magento\Backend\Model\Resource\Translate" />
     <preference for="Magento\App\Response\Http\FileFactory" type="Magento\Backend\App\Response\Http\FileFactory" />
     <preference for="Magento\App\View" type="Magento\Backend\Model\View" />
+    <preference for="Magento\Model\ActionValidator\RemoveAction" type="Magento\Model\ActionValidator\RemoveAction\Allowed" />
     <type name="Magento\Backend\Model\Translate\Inline">
         <arguments>
             <argument name="url" xsi:type="object">Magento\Backend\Model\UrlInterface</argument>

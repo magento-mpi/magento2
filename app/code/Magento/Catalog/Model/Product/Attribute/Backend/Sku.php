@@ -49,7 +49,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Validate SKU
      *
      * @param Product $object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return bool
      */
     public function validate($object)
@@ -61,7 +61,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         }
 
         if ($this->string->strlen($object->getSku()) > self::SKU_MAX_LENGTH) {
-            throw new \Magento\Core\Exception(__('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH));
+            throw new \Magento\Model\Exception(__('SKU length should be %1 characters maximum.', self::SKU_MAX_LENGTH));
         }
         return true;
     }

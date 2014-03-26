@@ -80,7 +80,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 'previous',
                 array(
                     'label' => __('Previous'),
-                    'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', array('id' => $prevId)) . '\')'
+                    'onclick' => 'setLocation(\'' . $this->getUrl('review/*/*', array('id' => $prevId)) . '\')'
                 ),
                 3,
                 10
@@ -129,7 +129,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                 'next',
                 array(
                     'label' => __('Next'),
-                    'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', array('id' => $nextId)) . '\')'
+                    'onclick' => 'setLocation(\'' . $this->getUrl('review/*/*', array('id' => $nextId)) . '\')'
                 ),
                 3,
                 105
@@ -193,7 +193,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
                             "rating_detail",
                             "' .
             $this->getUrl(
-                'catalog/*/ratingItems',
+                'review/*/ratingItems',
                 array('_current' => true)
             ) .
             '",

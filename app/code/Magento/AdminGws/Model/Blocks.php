@@ -436,7 +436,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     private function _removeButtons($observer, $registryKey, $buttons = array())
     {
-        /* @var $model \Magento\Core\Model\AbstractModel */
+        /* @var $model \Magento\Model\AbstractModel */
         $model = $this->_coreRegistry->registry($registryKey);
         if ($model) {
             $storeIds = $model->getStoreId();

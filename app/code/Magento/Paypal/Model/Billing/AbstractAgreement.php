@@ -10,7 +10,7 @@ namespace Magento\Paypal\Model\Billing;
 /**
  * Billing Agreement abstaract class
  */
-abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
+abstract class AbstractAgreement extends \Magento\Model\AbstractModel
 {
     /**
      * Payment method instance
@@ -65,7 +65,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -73,7 +73,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -117,8 +117,8 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     /**
      * Before save, it's overridden just to make data validation on before save event
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\AbstractModel
+     * @throws \Magento\Model\Exception
+     * @return \Magento\Model\AbstractModel
      */
     protected function _beforeSave()
     {
@@ -126,6 +126,6 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
             return parent::_beforeSave();
         }
         array_unshift($this->_errors, __('Unable to save Billing Agreement:'));
-        throw new \Magento\Core\Exception(implode(' ', $this->_errors));
+        throw new \Magento\Model\Exception(implode(' ', $this->_errors));
     }
 }

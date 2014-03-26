@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Advanced;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Collection Advanced

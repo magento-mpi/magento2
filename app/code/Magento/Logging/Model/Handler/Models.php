@@ -11,7 +11,7 @@
  */
 namespace Magento\Logging\Model\Handler;
 
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 use Magento\Logging\Model\Event\Changes;
 use Magento\Logging\Model\Processor;
 

@@ -179,17 +179,17 @@
                 <expected_model class="Magento\Review\Model\Review" />
             </expected_models>
             <events>
-                <event controller_action="catalog_product_review_edit"
+                <event controller_action="review_product_edit"
                        action_alias="view" />
-                <event controller_action="catalog_product_review_save"
+                <event controller_action="review_product_save"
                        action_alias="save" />
-                <event controller_action="catalog_product_review_post"
+                <event controller_action="review_product_post"
                        action_alias="save" />
-                <event controller_action="catalog_product_review_delete"
+                <event controller_action="review_product_delete"
                        action_alias="delete" />
-                <event controller_action="catalog_product_review_massUpdateStatus"
+                <event controller_action="review_product_massUpdateStatus"
                        action_alias="massUpdate" />
-                <event controller_action="catalog_product_review_massDelete"
+                <event controller_action="review_product_massDelete"
                        action_alias="massDelete" />
             </events>
         </group>

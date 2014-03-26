@@ -1,32 +1,44 @@
+* Modularity Improvements:
+  * Moved abstract Core models and related logic into Magento/Model library (MAGETWO-21588)
+  * Moved abstract DB logic and Core resource helpers into Magento/DB library (MAGETWO-21588)
+  * Eliminated Core\Model\App class (MAGETWO-21593)
+  * Moved Magento Flag functionality to the library (MAGETWO-21605)
+  * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
+* Framework Improvements:
+  * LauncherInterface renamed to AppInterface (MAGETWO-21593)
 * Fixed bugs:
-  * Fixed schedule information to be displayed in the shopping cart for product with recurring profile (MAGETWO-18482)
-  * Fixed display of tax class name in "Customer Groups" grid (MAGETWO-21826)
-  * Fixed ability to check Solr connection (MAGETWO-19110)
-  * Fixed ability to use of custom module front name (MAGETWO-16160)
-  * Fixed ability to use USPS and DHL on production (MAGETWO-22592)
   * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
   * Fixed an issue with the essential cookies that are not created in GC: CUSTOMER, CART etc (MAGETWO-22038)
   * Fixed problem with placing order with customer which is assigned to VAT group (MAGETWO-21975)
-* Modularity improvements:
-  * Consolidated all logic related to Layered Navigation in one separate module (MAGETWO-21231)
 * Improvements in code coverage calculation:
   * Updated whitelist filter with library code for integration tests code coverage calculation
-* Framework Improvements:
-  * Covered Magento library components with unit tests: (MAGETWO-21137)
-    * Magento/Interception
-    * Magento/ObjectManager
-    * Magento/Message
-    * Magento/Module
-    * Magento/Mail
-    * Magento/Object
-    * Magento/Math
-* Updated XML files to include relative path reference to schema file (MAGETWO-15527)
-* Updated code to be PSR-2 compliant
 * GitHub requests:
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
   * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
+
+2.0.0.0-dev70
+=============
+* Fixed bugs:
+  * Fixed an issue where the schedule of recurring payments was not displayed in the shopping cart
+  * Fixed an issue with displaying tax class names in the Customer Groups grid
+  * Fixed an issue with testing Solr connection
+  * Fixed an issue with using custom module front name
+  * Fixed an issue with USPS and DHL usage in the production mode
+* Modularity improvements:
+  * Consolidated all logic related to Layered Navigation in one separate module
+* Framework Improvements:
+  * Covered Magento library components with unit tests:
+     * Magento/Interception
+     * Magento/ObjectManager
+     * Magento/Message
+     * Magento/Module
+     * Magento/Mail
+     * Magento/Object
+     * Magento/Math
+* Updated XML files to include a reference to the schema file in a form of a relative path
+* Updated code to be PSR-2 compliant
 
 2.0.0.0-dev69
 =============

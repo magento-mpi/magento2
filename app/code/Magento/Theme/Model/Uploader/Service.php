@@ -84,7 +84,7 @@ class Service
      *
      * @param string $file - Key in the $_FILES array
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function uploadCssFile($file)
     {
@@ -96,7 +96,7 @@ class Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getCssUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('The CSS file must be less than %1M.', $this->getCssUploadMaxSizeInMb())
             );
         }
@@ -110,7 +110,7 @@ class Service
      *
      * @param string $file - Key in the $_FILES array
      * @return array
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function uploadJsFile($file)
     {
@@ -122,7 +122,7 @@ class Service
 
         $isValidFileSize = $this->_validateFileSize($fileUploader->getFileSize(), $this->getJsUploadMaxSize());
         if (!$isValidFileSize) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('The JS file must be less than %1M.', $this->getJsUploadMaxSizeInMb())
             );
         }

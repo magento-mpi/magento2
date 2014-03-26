@@ -49,7 +49,7 @@ class Index extends Action
      * @param string $requestParam
      * @param bool $requireValidId
      * @return \Magento\CustomerSegment\Model\Segment
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _initSegment($requestParam = 'id', $requireValidId = false)
     {
@@ -58,7 +58,7 @@ class Index extends Action
         if ($segmentId || $requireValidId) {
             $segment->load($segmentId);
             if (!$segment->getId()) {
-                throw new \Magento\Core\Exception(__('You requested the wrong customer segment.'));
+                throw new \Magento\Model\Exception(__('You requested the wrong customer segment.'));
             }
         }
         $this->_coreRegistry->register('current_customer_segment', $segment);
@@ -101,7 +101,7 @@ class Index extends Action
 
         try {
             $model = $this->_initSegment();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
@@ -151,7 +151,7 @@ class Index extends Action
             if ($model->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                 $model->matchCustomers();
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
@@ -267,7 +267,7 @@ class Index extends Action
                     $this->_redirect('customersegment/*/edit', array('id' => $model->getId(), '_current' => true));
                     return;
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_session->setPageData($data);
                 $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
@@ -291,7 +291,7 @@ class Index extends Action
             $model = $this->_initSegment('id', true);
             $model->delete();
             $this->messageManager->addSuccess(__('You deleted the segment.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;

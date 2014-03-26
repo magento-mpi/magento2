@@ -123,11 +123,11 @@ class Observer
             try {
                 $this->_logDirectory->create($logPath);
             } catch (FilesystemException $e) {
-                throw new \Magento\Core\Exception(__("We couldn't create directory " . '"%1"', $logPath));
+                throw new \Magento\Model\Exception(__("We couldn't create directory " . '"%1"', $logPath));
             }
 
             if (!$this->_logDirectory->isWritable($logPath)) {
-                throw new \Magento\Core\Exception(__('The directory "%1" is not writable.', $logPath));
+                throw new \Magento\Model\Exception(__('The directory "%1" is not writable.', $logPath));
             }
             $saveTime = (int)$this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
             $dateCompass = new \DateTime('-' . $saveTime . ' days');
@@ -141,7 +141,7 @@ class Observer
                     try {
                         $this->_logDirectory->delete($directory);
                     } catch (FilesystemException $e) {
-                        throw new \Magento\Core\Exception(
+                        throw new \Magento\Model\Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
                         );
                     }
