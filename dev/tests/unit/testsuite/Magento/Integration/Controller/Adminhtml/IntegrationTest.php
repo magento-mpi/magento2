@@ -28,7 +28,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
 
-    /** @var \Magento\Core\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Backend\Model\Layout\Filter\Acl|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutFilterMock;
 
     /** @var \Magento\App\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -105,7 +105,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'Magento\Event\ManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->_layoutFilterMock = $this->getMockBuilder(
-            'Magento\Core\Model\Layout\Filter\Acl'
+            'Magento\Backend\Model\Layout\Filter\Acl'
         )->disableOriginalConstructor()->getMock();
         $this->_backendSessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session'
@@ -868,7 +868,7 @@ HANDLE;
     {
         $map = array(
             array('Magento\App\ConfigInterface', $this->_configMock),
-            array('Magento\Core\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
+            array('Magento\Backend\Model\Layout\Filter\Acl', $this->_layoutFilterMock),
             array('Magento\Backend\Model\Session', $this->_backendSessionMock),
             array('Magento\TranslateInterface', $this->_translateModelMock),
             array('Magento\Config\ScopeInterface', $this->_configScopeMock)
