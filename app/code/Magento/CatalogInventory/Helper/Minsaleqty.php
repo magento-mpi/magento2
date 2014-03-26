@@ -14,6 +14,7 @@
 namespace Magento\CatalogInventory\Helper;
 
 use Magento\Core\Model\Store;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface as CustomerGroupService;
 
 class Minsaleqty
 {
@@ -68,8 +69,8 @@ class Minsaleqty
                     $data[$groupId] = $this->_fixQty($qty);
                 }
             }
-            if (count($data) == 1 && array_key_exists(\Magento\Customer\Model\Group::CUST_GROUP_ALL, $data)) {
-                return (string)$data[\Magento\Customer\Model\Group::CUST_GROUP_ALL];
+            if (count($data) == 1 && array_key_exists(CustomerGroupService::CUST_GROUP_ALL, $data)) {
+                return (string)$data[CustomerGroupService::CUST_GROUP_ALL];
             }
             return serialize($data);
         } else {
@@ -86,7 +87,7 @@ class Minsaleqty
     protected function _unserializeValue($value)
     {
         if (is_numeric($value)) {
-            return array(\Magento\Customer\Model\Group::CUST_GROUP_ALL => $this->_fixQty($value));
+            return array(CustomerGroupService::CUST_GROUP_ALL => $this->_fixQty($value));
         } elseif (is_string($value) && !empty($value)) {
             return unserialize($value);
         } else {
@@ -191,7 +192,7 @@ class Minsaleqty
             if ($groupId == $customerGroupId) {
                 $result = $qty;
                 break;
-            } else if ($groupId == \Magento\Customer\Model\Group::CUST_GROUP_ALL) {
+            } else if ($groupId == CustomerGroupService::CUST_GROUP_ALL) {
                 $result = $qty;
             }
         }
