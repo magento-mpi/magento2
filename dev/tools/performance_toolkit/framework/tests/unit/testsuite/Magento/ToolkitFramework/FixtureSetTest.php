@@ -10,11 +10,11 @@
  */
 namespace Magento\ToolkitFramework;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class FixtureSetTest extends \PHPUnit_Framework_TestCase
 {
     public function testUnaccessibleConfig()
     {
-        $this->setExpectedException('Exception', 'Profile configuration file `))` is not readable or does not exists.');
-        \Magento\ToolkitFramework\Config::getInstance()->loadConfig('))');
+        $this->setExpectedException('Exception', 'Fixtures set file `))` is not readable or does not exists.');
+        new \Magento\ToolkitFramework\FixtureSet('))');
     }
 }

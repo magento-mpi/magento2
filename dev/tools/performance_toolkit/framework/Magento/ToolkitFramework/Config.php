@@ -26,18 +26,18 @@ class Config
     {
         static $instance;
         if (!$instance instanceof static) {
-            $instance = new static(\Magento\ToolkitFramework\Helper\Cli::getOption('profile'));
+            $instance = new static;
         }
         return $instance;
     }
 
     /**
-     * Constructor
+     * Load config from file
      *
-     * @param string $filename
+     * @param $filename
      * @throws \Exception
      */
-    public function __construct($filename)
+    public function loadConfig($filename)
     {
         if (!is_readable($filename)) {
             throw new \Exception("Profile configuration file `{$filename}` is not readable or does not exists.");

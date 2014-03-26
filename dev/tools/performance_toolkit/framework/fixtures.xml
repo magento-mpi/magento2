@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     performance_toolkit
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<fixtures>
+    <stores>stores.php</stores>
+    <categories>categories.php</categories>
+    <simple_products>simple_products.php</simple_products>
+    <eav_variations>eav_variations.php</eav_variations>
+    <configurable_products>configurable_products.php</configurable_products>
+    <customers>customers.php</customers>
+    <cart_price_rules>cart_price_rules.php</cart_price_rules>
+    <catalog_price_rules>catalog_price_rules.php</catalog_price_rules>
+    <tax_rates>tax_rates.php</tax_rates>
+    <disable_form_key_usage>disable_form_key_usage.php</disable_form_key_usage>
+    <shipping_flatrate_enabled>shipping_flatrate_enabled.php</shipping_flatrate_enabled>
+    <catalog_target_rules>catalog_target_rules.php</catalog_target_rules>
+</fixtures>
