@@ -12,8 +12,8 @@
   * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
 * Customer Service usage:
-  * Refactored the Catalog module to use Customer service layer
-  * Refactored the Downloadable module to use Customer service layer
+  * Refactored the Catalog module to use Customer service layer (MAGETWO-20460, MAGETWO-20461)
+  * Refactored the Downloadable module to use Customer service layer (MAGETWO-20473)
 
 2.0.0.0-dev70
 =============
