@@ -14,6 +14,7 @@
 * Customer Service usage:
   * Refactored the Catalog module to use Customer service layer (MAGETWO-20460, MAGETWO-20461)
   * Refactored the Downloadable module to use Customer service layer (MAGETWO-20473)
+  * Refactored the Newsletter module to use Customer service layer (MAGETWO-20476)
 
 2.0.0.0-dev70
 =============
