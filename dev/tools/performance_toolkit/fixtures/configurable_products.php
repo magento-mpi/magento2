@@ -866,4 +866,4 @@ $source = new \Magento\ToolkitFramework\ImportExport\Fixture\Complex\Generator($
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($source);
 // this converts import queue into actual entities
-@$import->importSource();
+$import->importSource();
