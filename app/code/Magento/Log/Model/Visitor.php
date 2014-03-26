@@ -324,11 +324,12 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function bindCustomerLogin($observer)
     {
-        if (!$this->getCustomerId() && ($customer = $observer->getEvent()->getCustomer())) {
+        /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
+        $customer = $observer->getEvent()->getCustomer();
+        if (!$this->getCustomerId()) {
             $this->setDoCustomerLogin(true);
             $this->setCustomerId($customer->getId());
         }
-        return $this;
     }
 
     /**
@@ -341,11 +342,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     public function bindCustomerLogout($observer)
     {
-        $customer = $observer->getEvent()->getCustomer();
-        if ($this->getCustomerId() && $customer) {
+        if ($this->getCustomerId()) {
             $this->setDoCustomerLogout(true);
         }
-        return $this;
     }
 
     /**
