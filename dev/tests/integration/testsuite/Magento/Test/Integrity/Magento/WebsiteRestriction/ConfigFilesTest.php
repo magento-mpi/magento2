@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Modular;
+namespace Magento\Test\Integrity\Magento\WebsiteRestriction;
 
-class WebsiteRestrictionConfigFilesTest extends \PHPUnit_Framework_TestCase
+class ConfigFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\WebsiteRestriction\Model\Config\Reader

@@ -7,15 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Test\Integrity\Magento\GiftRegistry;
 
 /**
  * Test for validation check of the giftregistry.xml and xsd for this file
- *
- * Class \Magento\Test\Integrity\Modular\GiftRegistryConfigFileTest
  */
-namespace Magento\Test\Integrity\Modular;
-
-class GiftRegistryConfigFileTest extends \PHPUnit_Framework_TestCase
+class ConfigFileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Schema for gift registry
