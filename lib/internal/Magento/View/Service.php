@@ -183,7 +183,7 @@ class Service implements Asset\SourceFileInterface, Asset\PublishInterface
      */
     public function publish(Asset\LocalInterface $asset)
     {
-        if ($this->appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
+        if ($this->isPublishingDisallowed()) {
             return false;
         }
         $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::STATIC_VIEW_DIR);
