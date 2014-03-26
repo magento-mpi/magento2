@@ -2,23 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group;
+
+use Magento\Backend\Block\Widget;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
+use Magento\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Adminhtml group price item abstract renderer
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group;
-
-abstract class AbstractGroup extends \Magento\Backend\Block\Widget implements
-    \Magento\Data\Form\Element\Renderer\RendererInterface
+abstract class AbstractGroup extends Widget implements RendererInterface
 {
     /**
      * Form element instance
@@ -61,13 +57,13 @@ abstract class AbstractGroup extends \Magento\Backend\Block\Widget implements
     protected $_directoryHelper;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var CustomerGroupServiceInterface
      */
-    protected $_groupFactory;
+    protected $_groupService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param CustomerGroupServiceInterface $groupService
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Registry $registry
@@ -75,13 +71,13 @@ abstract class AbstractGroup extends \Magento\Backend\Block\Widget implements
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        CustomerGroupServiceInterface $groupService,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Registry $registry,
         array $data = array()
     ) {
-        $this->_groupFactory = $groupFactory;
+        $this->_groupService = $groupService;
         $this->_directoryHelper = $directoryHelper;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
@@ -178,12 +174,11 @@ abstract class AbstractGroup extends \Magento\Backend\Block\Widget implements
             if (!$this->_catalogData->isModuleEnabled('Magento_Customer')) {
                 return array();
             }
-            $collection = $this->_groupFactory->create()->getCollection();
+            $groups = $this->_groupService->getGroups();
             $this->_customerGroups = $this->_getInitialCustomerGroups();
 
-            foreach ($collection as $item) {
-                /** @var $item \Magento\Customer\Model\Group */
-                $this->_customerGroups[$item->getId()] = $item->getCustomerGroupCode();
+            foreach ($groups as $group) {
+                $this->_customerGroups[$group->getId()] = $group->getCode();
             }
         }
 
@@ -272,7 +267,7 @@ abstract class AbstractGroup extends \Magento\Backend\Block\Widget implements
      */
     public function getDefaultCustomerGroup()
     {
-        return \Magento\Customer\Model\Group::CUST_GROUP_ALL;
+        return CustomerGroupServiceInterface::CUST_GROUP_ALL;
     }
 
     /**

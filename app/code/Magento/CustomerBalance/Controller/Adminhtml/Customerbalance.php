@@ -123,6 +123,8 @@ class Customerbalance extends \Magento\Backend\App\Action
             throw new \Magento\Model\Exception(__('Failed to initialize customer'));
         }
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
+
     }
 
     /**

@@ -21,10 +21,6 @@ use Magento\Catalog\Model\Product;
  * @method \Magento\Catalog\Model\Product\Compare\Item setProductId(int $value)
  * @method int getStoreId()
  * @method \Magento\Catalog\Model\Product\Compare\Item setStoreId(int $value)
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Model\AbstractModel implements \Magento\Object\IdentityInterface
 {
@@ -138,18 +134,6 @@ class Item extends \Magento\Model\AbstractModel implements \Magento\Object\Ident
             $this->setStoreId($this->_storeManager->getStore()->getId());
         }
 
-        return $this;
-    }
-
-    /**
-     * Add customer data from customer object
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return $this
-     */
-    public function addCustomerData(\Magento\Customer\Model\Customer $customer)
-    {
-        $this->setCustomerId($customer->getId());
         return $this;
     }
 
