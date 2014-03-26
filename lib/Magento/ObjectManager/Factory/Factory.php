@@ -129,7 +129,7 @@ class Factory implements \Magento\ObjectManager\Factory
     /**
      * Parse array argument
      *
-     * @param $array
+     * @param array $array
      * @return void
      */
     protected function parseArray(&$array)
@@ -210,6 +210,7 @@ class Factory implements \Magento\ObjectManager\Factory
      * Set global arguments
      *
      * @param array $arguments
+     * @return void
      */
     public function setArguments($arguments)
     {
