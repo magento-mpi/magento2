@@ -12,6 +12,7 @@
 namespace Magento\RecurringPayment\Controller;
 
 use Magento\App\RequestInterface;
+use Magento\Customer\Controller\RegistryConstants;
 
 class RecurringPayment extends \Magento\App\Action\Action
 {
@@ -63,7 +64,8 @@ class RecurringPayment extends \Magento\App\Action\Action
         if (!$this->_session->authenticate($this)) {
             $this->_actionFlag->set('', 'no-dispatch', true);
         }
-        $this->_coreRegistry->register('current_customer', $this->_session->getCustomer());
+        /** TODO: Test should be added in scope of MAGETWO-22862 */
+        $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $this->_session->getCustomerId());
         return parent::dispatch($request);
     }
 
