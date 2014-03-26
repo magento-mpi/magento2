@@ -13,7 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Base price model
  */
-class Price extends AbstractPrice implements OriginPrice
+class Price extends AbstractPrice implements OriginPriceInterface
 {
     /**
      * Default price type

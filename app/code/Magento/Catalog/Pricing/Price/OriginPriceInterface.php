@@ -13,7 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Interface OriginPrice
  */
-interface OriginPrice
+interface OriginPriceInterface
 {
     /**
      * @return float|bool

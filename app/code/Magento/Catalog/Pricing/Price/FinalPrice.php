@@ -21,7 +21,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
     protected $priceType = self::PRICE_TYPE_FINAL;
 
     /**
-     * @var
+     * @var BasePrice
      */
     protected $basePrice;
 

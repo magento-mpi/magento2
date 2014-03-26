@@ -16,7 +16,7 @@ use Magento\Customer\Model\Session;
 /**
  * Group price model
  */
-class GroupPrice extends Price implements GroupPriceInterface, OriginPrice
+class GroupPrice extends Price implements GroupPriceInterface, OriginPriceInterface
 {
     /**
      * @var string

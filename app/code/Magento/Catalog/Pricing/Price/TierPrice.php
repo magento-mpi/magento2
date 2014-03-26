@@ -15,7 +15,7 @@ use Magento\Customer\Model\Session;
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
+class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPriceInterface
 {
     /**
      * @var string

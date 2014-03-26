@@ -29,12 +29,12 @@ class BasePrice extends Price
     protected $priceType = self::PRICE_TYPE_BASE_PRICE;
 
     /**
-     * @var bool|float
+     * @var bool|float|null
      */
     protected $value;
 
     /**
-     * @var bool|float
+     * @var bool|float|null
      */
     protected $maxValue;
 
@@ -52,12 +52,11 @@ class BasePrice extends Price
     /**
      * Get Base Price Value
      *
-     * @return float
+     * @return float|bool
      */
     public function getValue()
     {
         if (is_null($this->value)) {
-            $this->value = false;
             $this->value = $this->getBaseValue('min');
         }
         return $this->value;
@@ -77,8 +76,6 @@ class BasePrice extends Price
         );
     }
 
-
-
     /**
      * Get Max Value
      *
@@ -87,7 +84,6 @@ class BasePrice extends Price
     public function getMaxValue()
     {
         if (is_null($this->maxValue)) {
-            $this->maxValue = false;
             $this->maxValue = $this->getBaseValue('max');
         }
         return $this->maxValue;
@@ -95,16 +91,16 @@ class BasePrice extends Price
 
     /**
      * @param string $func = min|max
-     * @return bool|float|null
+     * @return bool|float
      */
-    protected function getBaseValue( $func)
+    protected function getBaseValue($func)
     {
-        $value = null;
+        $value = false;
         foreach ($this->getPriceTypes() as $priceCode) {
             $price = $this->getPriceInfo()->getPrice($priceCode);
-            if ($price instanceof OriginPrice && $price->getValue() !== false) {
-                if (is_null($value)) {
-                    $value = $price->getValue();
+            if ($price instanceof OriginPriceInterface && $price->getValue() !== false) {
+                if (false === $value) {
+                    $value = false === $value ? $price->getValue() : $func($price->getValue(), $value);
                 } else {
                     $value = $func($price->getValue(), $value);
                 }
