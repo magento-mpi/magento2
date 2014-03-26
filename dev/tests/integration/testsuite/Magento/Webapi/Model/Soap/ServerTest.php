@@ -39,6 +39,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
+    /** @var \Magento\Store\Model\Store|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_configMock;
+
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManager')
@@ -63,6 +66,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->_configMock = $this->getMock('Magento\App\Config\ScopeConfigInterface');
 
         parent::setUp();
     }
@@ -74,7 +78,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testConstructEnableWsdlCache()
     {
         /** Mock getConfig method to return true. */
-        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(true));
+        $this->_configMock->expects($this->once())->method('isSetFlag')->will($this->returnValue(true));
         /** Create SOAP server object. */
         $server = new \Magento\Webapi\Model\Soap\Server(
             $this->_areaListMock,
@@ -83,7 +87,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
             $this->_soapServerFactory,
-            $this->_typeProcessor
+            $this->_typeProcessor,
+            $this->_configMock
         );
         /** Assert that SOAP WSDL caching option was enabled after SOAP server initialization. */
         $this->assertTrue((bool)ini_get('soap.wsdl_cache_enabled'), 'WSDL caching was not enabled.');
@@ -96,7 +101,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testConstructDisableWsdlCache()
     {
         /** Mock getConfig method to return false. */
-        $this->_storeMock->expects($this->once())->method('getConfig')->will($this->returnValue(false));
+        $this->_configMock->expects($this->once())->method('isSetFlag')->will($this->returnValue(false));
         /** Create SOAP server object. */
         $server = new \Magento\Webapi\Model\Soap\Server(
             $this->_areaListMock,
@@ -105,7 +110,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
             $this->_soapServerFactory,
-            $this->_typeProcessor
+            $this->_typeProcessor,
+            $this->_configMock
         );
         /** Assert that SOAP WSDL caching option was disabled after SOAP server initialization. */
         $this->assertFalse((bool)ini_get('soap.wsdl_cache_enabled'), 'WSDL caching was not disabled.');

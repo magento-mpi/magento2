@@ -359,6 +359,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $disableStoreInUrl, $expectedResult)
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $configMock = $this->getMock(
+            'Magento\App\Config\ReinitableConfigInterface'
+        );
         $appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false, false);
         $appStateMock->expects($this->any())
             ->method('isInstalled')
@@ -368,11 +372,11 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Model\Context', array('appState' => $appStateMock));
 
-        $model = $this->getMock('Magento\Store\Model\Store', array('getConfig'), $params);
-
-        $model->expects($this->any())->method('getConfig')
+        $configMock->expects($this->any())->method('getValue')
             ->with($this->stringContains(\Magento\Store\Model\Store::XML_PATH_STORE_IN_URL))
             ->will($this->returnValue($storeInUrl));
+        $params['config'] = $configMock;
+        $model = $objectManager->create('Magento\Store\Model\Store', $params);
         $model->setDisableStoreInUrl($disableStoreInUrl);
         $this->assertEquals($expectedResult, $model->isUseStoreInUrl());
     }
