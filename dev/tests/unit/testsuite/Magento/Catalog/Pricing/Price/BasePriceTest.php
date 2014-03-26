@@ -38,9 +38,9 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for BasePrice::getValue method
+     * Prepare getBaseValue
      */
-    public function testGetValue()
+    protected function getBaseValue()
     {
         $this->salableItemMock = $this->getMock(
             'Magento\Catalog\Model\Product',
@@ -103,9 +103,6 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
             ->method('getAdjustments')
             ->will($this->returnValue([]));
 
-        $finalPriceMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue('54'));
         $groupPriceMock->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue('43'));
@@ -129,7 +126,23 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
                 'priceType' => \Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE
             ]
         );
+    }
 
+    /**
+     * Test case for BasePrice::getValue method
+     */
+    public function testGetValue()
+    {
+        $this->getBaseValue();
         $this->assertEquals(34, $this->basePrice->getValue());
+    }
+
+    /**
+     * Test case for BasePrice::getMaxValue method
+     */
+    public function testGetMaxValue()
+    {
+        $this->getBaseValue();
+        $this->assertEquals(43, $this->basePrice->getMaxValue());
     }
 }

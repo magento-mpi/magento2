@@ -46,7 +46,6 @@ class BasePrice extends Price
         SaleableInterface $salableItem,
         $quantity = Base::PRODUCT_QUANTITY_DEFAULT
     ) {
-        $this->salableItem = $salableItem;
         parent::__construct($salableItem, $quantity);
     }
 
@@ -59,16 +58,7 @@ class BasePrice extends Price
     {
         if (is_null($this->value)) {
             $this->value = false;
-            foreach ($this->getPriceTypes() as $priceCode) {
-                $price = $this->getPriceInfo()->getPrice($priceCode);
-                if ($price instanceof OriginPrice && $price->getValue() !== false) {
-                    if (is_null($this->value)) {
-                        $this->value = $price->getValue();
-                    } else {
-                        $this->value = min($price->getValue(), $this->value);
-                    }
-                }
-            }
+            $this->value = $this->getBaseValue('min');
         }
         return $this->value;
     }
@@ -87,15 +77,7 @@ class BasePrice extends Price
         );
     }
 
-    /**
-     * Get PriceInfo Object
-     *
-     * @return \Magento\Pricing\PriceInfoInterface
-     */
-    protected function getPriceInfo()
-    {
-        return $this->salableItem->getPriceInfo();
-    }
+
 
     /**
      * Get Max Value
@@ -106,17 +88,28 @@ class BasePrice extends Price
     {
         if (is_null($this->maxValue)) {
             $this->maxValue = false;
-            foreach ($this->getPriceTypes() as $priceCode) {
-                $price = $this->getPriceInfo()->getPrice($priceCode);
-                if ($price instanceof OriginPrice && $price->getValue() !== false) {
-                    if (is_null($this->maxValue)) {
-                        $this->maxValue = $price->getValue();
-                    } else {
-                        $this->maxValue = max($price->getValue(), $this->maxValue);
-                    }
+            $this->maxValue = $this->getBaseValue('max');
+        }
+        return $this->maxValue;
+    }
+
+    /**
+     * @param string $func = min|max
+     * @return bool|float|null
+     */
+    protected function getBaseValue( $func)
+    {
+        $value = null;
+        foreach ($this->getPriceTypes() as $priceCode) {
+            $price = $this->getPriceInfo()->getPrice($priceCode);
+            if ($price instanceof OriginPrice && $price->getValue() !== false) {
+                if (is_null($value)) {
+                    $value = $price->getValue();
+                } else {
+                    $value = $func($price->getValue(), $value);
                 }
             }
         }
-        return $this->maxValue;
+        return $value;
     }
 }
