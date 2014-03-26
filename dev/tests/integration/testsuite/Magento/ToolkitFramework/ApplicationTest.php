@@ -8,12 +8,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento;
+namespace Magento\ToolkitFramework;
 /**
- * Class GeneratorTest
+ * Class Application test
  * @package Magento Performance Toolkit
  */
-class PerformanceToolkitGeneratorTest extends \Magento\TestFramework\Indexer\TestCase
+class ApplicationTest extends \Magento\TestFramework\Indexer\TestCase
 {
     /**
      * Profile generator working directory
@@ -30,7 +30,7 @@ class PerformanceToolkitGeneratorTest extends \Magento\TestFramework\Indexer\Tes
     public static function setUpBeforeClass()
     {
 
-        self::$_generatorWorkingDir = realpath(__DIR__ . '/../../../../tools/performance_toolkit');
+        self::$_generatorWorkingDir = realpath(__DIR__ . '/../../../../../tools/performance_toolkit');
         \Magento\Autoload\IncludePath::addIncludePath(array(self::$_generatorWorkingDir . '/framework'));
         copy(
             self::$_generatorWorkingDir . '/fixtures/tax_rates.csv',
@@ -50,7 +50,7 @@ class PerformanceToolkitGeneratorTest extends \Magento\TestFramework\Indexer\Tes
         $config->loadConfig(self::$_generatorWorkingDir . '/profiles/small.xml');
 
         foreach ($fixturesArray as $fixture) {
-            $this->applyFixture(self::$_generatorWorkingDir . '/fixtures/' . $fixture);
+            $this->applyFixture(self::$_generatorWorkingDir . '/fixtures/' . $fixture['file']);
         }
     }
 
