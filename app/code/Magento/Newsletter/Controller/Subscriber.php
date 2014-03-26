@@ -168,7 +168,7 @@ class Subscriber extends \Magento\App\Action\Action
      * Validates that the email address isn't being used by a different account.
      *
      * @param string $email
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     protected function validateEmailAvailable($email)
@@ -177,14 +177,14 @@ class Subscriber extends \Magento\App\Action\Action
         if ($this->_customerSession->getCustomerDataObject()->getEmail() !== $email
             && !$this->_customerService->isEmailAvailable($email, $websiteId)
         ) {
-            throw new \Magento\Core\Exception(__('This email address is already assigned to another user.'));
+            throw new \Magento\Model\Exception(__('This email address is already assigned to another user.'));
         }
     }
 
     /**
      * Validates that if the current user is a guest, that they can subscribe to a newsletter.
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     protected function validateGuestSubscription()
@@ -193,7 +193,7 @@ class Subscriber extends \Magento\App\Action\Action
                 ->getConfig(\Magento\Newsletter\Model\Subscriber::XML_PATH_ALLOW_GUEST_SUBSCRIBE_FLAG) != 1
             && !$this->_customerSession->isLoggedIn()
         ) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __(
                     'Sorry, but the administrator denied subscription for guests. '
                     . 'Please <a href="%1">register</a>.',
@@ -207,13 +207,13 @@ class Subscriber extends \Magento\App\Action\Action
      * Validates the format of the email address
      *
      * @param string $email
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     protected function validateEmailFormat($email)
     {
         if (!\Zend_Validate::is($email, 'EmailAddress')) {
-            throw new \Magento\Core\Exception(__('Please enter a valid email address.'));
+            throw new \Magento\Model\Exception(__('Please enter a valid email address.'));
         }
     }
 }
