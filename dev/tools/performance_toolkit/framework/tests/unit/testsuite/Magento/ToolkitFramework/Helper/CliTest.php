@@ -59,7 +59,7 @@ class CliTest extends \PHPUnit_Framework_TestCase
     /**
      * Tear down after test
      *
-     * @retrun void
+     * @return void
      */
     public function tearDown()
     {
@@ -70,7 +70,7 @@ class CliTest extends \PHPUnit_Framework_TestCase
     /**
      * Test CLI helper
      *
-     * @retrun void
+     * @return void
      */
     public function testCli()
     {

@@ -76,7 +76,7 @@ class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
     /**
      * Get row index for template
      *
-     * @param $key
+     * @param int $key
      *
      * @return float
      */

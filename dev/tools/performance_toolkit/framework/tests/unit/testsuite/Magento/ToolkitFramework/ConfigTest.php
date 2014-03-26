@@ -13,7 +13,7 @@ namespace Magento\ToolkitFramework;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @retrun void
+     * @return void
      */
     public function testUnaccessibleConfig()
     {

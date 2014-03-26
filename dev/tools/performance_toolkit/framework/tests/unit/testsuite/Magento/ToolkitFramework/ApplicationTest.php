@@ -66,7 +66,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * @param array $expected
      * @dataProvider applyFixturesDataProvider
      *
-     * @retrun void
+     * @return void
      */
     public function testApplyFixtures($fixtures, $expected)
     {

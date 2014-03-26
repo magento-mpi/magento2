@@ -16,7 +16,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @retrun void
+     * @return void
      */
     public function testIteratorInterface()
     {
