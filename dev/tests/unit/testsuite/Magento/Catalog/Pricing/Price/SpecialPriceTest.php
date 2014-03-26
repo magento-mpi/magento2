@@ -22,8 +22,8 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param bool $isValidInterval
-     * @param int $specialPrice
-     * @param int|bool $expected
+     * @param float $specialPrice
+     * @param float|bool $expected
      *
      * @dataProvider specialPriceDataProvider
      */
@@ -41,7 +41,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param int $specialPrice
+     * @param float $specialPrice
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product
      */
     protected function prepareSalebleItem($specialPrice)
@@ -98,17 +98,17 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
         return [
             'validInterval' => [
                 'is_valid_date' => true,
-                'special_price' => 50,
-                'expected'      => 50,
+                'special_price' => 50.15,
+                'expected'      => 50.15,
             ],
             'validZeroValue' => [
                 'is_valid_date' => true,
-                'special_price' => 0,
-                'expected'      => 0,
+                'special_price' => 0.,
+                'expected'      => 0.,
             ],
             'invalidInterval' => [
                 'is_valid_date' => false,
-                'special_price' => 20,
+                'special_price' => 20.,
                 'expected'      => false,
             ]
         ];
