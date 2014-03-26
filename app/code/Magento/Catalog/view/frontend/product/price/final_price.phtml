@@ -14,15 +14,15 @@
 
 $id = $this->getSaleableItem()->getId();
 
-/** @var \Magento\Catalog\Pricing\Price\Price $priceModel */
-$priceModel = $this->getPriceType('price');
+/** @var \Magento\Catalog\Pricing\Price\RegularPrice $priceModel */
+$priceModel = $this->getPriceType('regular_price');
 
 /** @var \Magento\Catalog\Pricing\Price\FinalPrice $finalPriceModel */
 $finalPriceModel = $this->getPriceType('final_price');
 ?>
 <?php
 if (isset($_GET['showmeprice'])) {
-    echo 'Price :' . $this->getPriceType('price')->getDisplayValue() . "<br />";
+    echo 'Regular Price :' . $this->getPriceType('regular_price')->getDisplayValue() . "<br />";
     echo 'Special Price :' . $this->getPriceType('special_price')->getDisplayValue(). "<br />";
     echo 'Group Price :' . $this->getPriceType('group_price')->getDisplayValue(). "<br />";
     echo 'Catalog Rule Price :' . $this->getPriceType('catalog_rule_price')->getDisplayValue(). "<br />";

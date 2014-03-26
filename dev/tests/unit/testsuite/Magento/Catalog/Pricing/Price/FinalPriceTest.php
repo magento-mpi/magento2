@@ -12,13 +12,19 @@ namespace Magento\Catalog\Pricing\Price;
  */
 class FinalPriceTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Catalog\Pricing\Price\FinalPrice  */
+    /**
+     * @var \Magento\Catalog\Pricing\Price\FinalPrice
+     */
     protected $model;
 
-    /** @var \Magento\Pricing\PriceInfoInterface  */
+    /**
+     * @var \Magento\Pricing\PriceInfoInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $priceInfoMock;
 
-    /** @var \Magento\Catalog\Pricing\Price\BasePrice */
+    /**
+     * @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject
+     */
     protected $basePriceMock;
 
     /**
@@ -43,7 +49,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
             ->method('getPrice')
             ->with('base_price')
             ->will($this->returnValue($this->basePriceMock));
-        $this->model = new \Magento\Catalog\Pricing\Price\FinalPrice($saleableMock);
+        $this->model = new \Magento\Catalog\Pricing\Price\FinalPrice($saleableMock, 1);
     }
 
     /**

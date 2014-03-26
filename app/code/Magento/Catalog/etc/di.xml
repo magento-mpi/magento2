@@ -303,14 +303,35 @@
     </type>
     <type name="Magento\Pricing\PriceComposite">
         <arguments>
-            <argument name="prices" xsi:type="array">
-                <item name="price" xsi:type="string">Magento\Catalog\Pricing\Price\Price</item>
-                <item name="final_price" xsi:type="string">Magento\Catalog\Pricing\Price\FinalPrice</item>
-                <item name="tier_price" xsi:type="string">Magento\Catalog\Pricing\Price\TierPrice</item>
-                <item name="group_price" xsi:type="string">Magento\Catalog\Pricing\Price\GroupPrice</item>
-                <item name="special_price" xsi:type="string">Magento\Catalog\Pricing\Price\SpecialPrice</item>
-                <item name="msrp" xsi:type="string">Magento\Catalog\Pricing\Price\MsrpPrice</item>
-                <item name="base_price" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
+            <argument name="metadata" xsi:type="array">
+                <item name="regular_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\RegularPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">true</item>
+                </item>
+                <item name="final_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\FinalPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">false</item>
+                </item>
+                <item name="tier_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\TierPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">true</item>
+                </item>
+                <item name="group_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\GroupPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">true</item>
+                </item>
+                <item name="special_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\SpecialPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">true</item>
+                </item>
+                <item name="msrp_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\MsrpPrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">false</item>
+                </item>
+                <item name="base_price" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\Catalog\Pricing\Price\BasePrice</item>
+                    <item name="include_in_base_price" xsi:type="boolean">false</item>
+                </item>
             </argument>
         </arguments>
     </type>

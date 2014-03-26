@@ -57,7 +57,14 @@ class BaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPrices()
     {
-        $this->prices->expects($this->once())->method('getPriceCodes')->will($this->returnValue(['test1', 'test2']));
+        $this->prices->expects($this->once())
+            ->method('getPriceCodes')
+            ->will($this->returnValue(
+                [
+                    'test1' => ['class' => 'class1', 'include_in_base_price' => false],
+                    'test2' => ['class' => 'class2', 'include_in_base_price' => true]
+                ]
+            ));
         $this->prices->expects($this->at(1))->method('createPriceObject')
             ->with($this->product, 'test1', $this->quantity)->will($this->returnValue('1'));
         $this->prices->expects($this->at(2))->method('createPriceObject')

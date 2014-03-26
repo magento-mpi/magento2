@@ -246,6 +246,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     protected $_productPriceIndexerProcessor;
 
     /**
+     * @var \Magento\Pricing\PriceInfo\Base
+     */
+    protected $_priceInfo;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -723,6 +728,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
 
         $this->_indexIndexer->processEntityAction($this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE);
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
+        $this->_priceInfo = null;
         return $result;
     }
 
@@ -823,12 +829,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
     /**
      * Get product Price Info object
      *
-     * @return \Magento\Pricing\PriceInfoInterface
+     * @return \Magento\Pricing\PriceInfo\Base
      */
     public function getPriceInfo()
     {
-        // @todo pricing: how to cache the object instance to avoid multiple instantiations?
-        return $this->_catalogProductType->getPriceInfo($this);
+        if (!$this->_priceInfo) {
+            $this->_priceInfo = $this->_catalogProductType->getPriceInfo($this);
+        }
+        return $this->_priceInfo;
     }
 
     /**

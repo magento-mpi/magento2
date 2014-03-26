@@ -10,7 +10,7 @@
 
 namespace Magento\CatalogRule\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price\Price;
+use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Core\Model\StoreManager;
@@ -20,7 +20,7 @@ use Magento\CatalogRule\Model\Resource\RuleFactory;
 /**
  * Class CatalogRulePrice
  */
-class CatalogRulePrice extends Price
+class CatalogRulePrice extends RegularPrice
 {
     /**
      * Price type identifier string

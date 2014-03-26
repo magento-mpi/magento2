@@ -172,10 +172,8 @@ class Amount extends Template implements AmountRenderInterface
         if (!$this->getSkipAdjustments()) {
             foreach ($this->getAdjustmentRenders() as $adjustmentRender) {
                 $adjustmentCode = $adjustmentRender->getAdjustmentCode();
-                //if ($this->price->hasAdjustment($adjustmentCode)) {
                     $cssClass = 'adj-' . $adjustmentCode;
                     $adjustmentRenders[$cssClass] = $adjustmentRender;
-                //}
             }
         }
 

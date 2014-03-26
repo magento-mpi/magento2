@@ -16,7 +16,7 @@ use Magento\Pricing\PriceInfoInterface;
 /**
  * Tire prices model
  */
-class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPriceInterface
+class TierPrice extends RegularPrice implements TierPriceInterface
 {
     /**
      * @var string

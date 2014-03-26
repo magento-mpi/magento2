@@ -13,11 +13,6 @@ namespace Magento\Catalog\Pricing\Price;
 class BasePriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
      * @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $basePrice;
@@ -32,117 +27,76 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
      */
     protected $salableItemMock;
 
-    public function setUp()
-    {
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-    }
+    /**
+     * @var \Magento\Catalog\Pricing\Price\RegularPrice|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $regularPriceMock;
 
     /**
-     * Prepare getBaseValue
+     * @var \Magento\Catalog\Pricing\Price\GroupPrice|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function getBaseValue()
+    protected $groupPriceMock;
+
+    /**
+     * @var \Magento\Catalog\Pricing\Price\SpecialPrice|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $specialPriceMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject[]
+     */
+    protected $prices;
+
+    /**
+     * Set up
+     */
+    public function setUp()
     {
-        $this->salableItemMock = $this->getMock(
-            'Magento\Catalog\Model\Product',
-            ['getPriceInfo', '__wakeup'],
-            [],
-            '',
-            false
-        );
-        $this->priceInfoMock = $this->getMock(
-            '\Magento\Pricing\PriceInfo',
-            ['getPriceComposite', 'getPrice', 'getAdjustments'],
-            [],
-            '',
-            false
-        );
+        $this->salableItemMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->priceInfoMock = $this->getMock('Magento\Pricing\PriceInfo\Base', [], [], '', false);
+        $this->regularPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
+        $this->groupPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\GroupPrice', [], [], '', false);
+        $this->specialPriceMock= $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
 
-        $finalPriceMock = $this->getMock(
-            'Magento\Catalog\Pricing\Price\FinalPrice',
-            ['getValue'],
-            [],
-            '',
-            false,
-            false
-        );
-        $groupPriceMock = $this->getMock(
-            'Magento\Catalog\Pricing\Price\GroupPrice',
-            ['getValue'],
-            [],
-            '',
-            false,
-            false
-        );
-        $specialPriceMock = $this->getMock(
-            'Magento\Catalog\Pricing\Price\SpecialPrice',
-            ['getValue'],
-            [],
-            '',
-            false,
-            false
-        );
-
-        $priceCodes = [
-            'group' => 'group_price',
-            'final' => 'final_price',
-            'special' => 'special_price',
-        ];
-        $priceCompositeMock = $this->getMock('Magento\Pricing\PriceComposite', ['getPriceCodes'], [], '', false, false);
-        $priceCompositeMock->expects($this->any())
-            ->method('getPriceCodes')
-            ->will($this->returnValue($priceCodes));
-
-        $this->salableItemMock->expects($this->any())
-            ->method('getPriceInfo')
-            ->will($this->returnValue($this->priceInfoMock));
-
-        $this->priceInfoMock->expects($this->any())
-            ->method('getPriceComposite')
-            ->will($this->returnValue($priceCompositeMock));
-        $this->priceInfoMock->expects($this->any())
+        $this->priceInfoMock->expects($this->once())
             ->method('getAdjustments')
             ->will($this->returnValue([]));
 
-        $groupPriceMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue('43'));
-        $specialPriceMock->expects($this->any())
-            ->method('getValue')
-            ->will($this->returnValue('34'));
+        $this->salableItemMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->will($this->returnValue($this->priceInfoMock));
 
-        $priceValueMap = [
-            [$priceCodes['group'], $groupPriceMock],
-            [$priceCodes['final'], $finalPriceMock],
-            [$priceCodes['special'], $specialPriceMock]
+        $this->prices = [
+            'regular_price' => $this->regularPriceMock,
+            'group_price' => $this->groupPriceMock,
+            'special_price' => $this->specialPriceMock
         ];
-        $this->priceInfoMock->expects($this->any())
-            ->method('getPrice')
-            ->will($this->returnValueMap($priceValueMap));
+        $this->priceInfoMock->expects($this->exactly(2))
+            ->method('getPricesIncludedInBase')
+            ->will($this->returnValue($this->prices));
 
-        $this->basePrice = $this->objectManager->getObject(
-            'Magento\Catalog\Pricing\Price\BasePrice',
-            [
-                'salableItem' => $this->salableItemMock,
-                'priceType' => \Magento\Catalog\Pricing\Price\BasePrice::PRICE_TYPE_BASE_PRICE
-            ]
-        );
+        $this->regularPriceMock->expects($this->exactly(4))
+            ->method('getValue')
+            ->will($this->returnValue(100));
+
+        $this->groupPriceMock->expects($this->exactly(2))
+            ->method('getValue')
+            ->will($this->returnValue(99));
+
+        $this->specialPriceMock->expects($this->exactly(2))
+            ->method('getValue')
+            ->will($this->returnValue(77));
+
+        $this->basePrice = new \Magento\Catalog\Pricing\Price\BasePrice($this->salableItemMock, 1);
     }
 
-    /**
-     * Test case for BasePrice::getValue method
-     */
-    public function testGetValue()
-    {
-        $this->getBaseValue();
-        $this->assertEquals(34, $this->basePrice->getValue());
-    }
 
     /**
-     * Test case for BasePrice::getMaxValue method
+     * Test method getValue
      */
-    public function testGetMaxValue()
+    public function testGetMinMaxValue()
     {
-        $this->getBaseValue();
-        $this->assertEquals(43, $this->basePrice->getMaxValue());
+        $this->assertEquals(77, $this->basePrice->getValue());
+        $this->assertEquals(100, $this->basePrice->getMaxValue());
     }
 }

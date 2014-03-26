@@ -10,12 +10,10 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Pricing\Object\SaleableInterface;
-
 /**
  * Class BasePrice
  */
-class BasePrice extends Price
+class BasePrice extends RegularPrice
 {
     /**
      * Price type identifier string
@@ -38,15 +36,6 @@ class BasePrice extends Price
     protected $maxValue;
 
     /**
-     * @param SaleableInterface $salableItem
-     * @param float $quantity
-     */
-    public function __construct(SaleableInterface $salableItem, $quantity)
-    {
-        parent::__construct($salableItem, $quantity);
-    }
-
-    /**
      * Get Base Price Value
      *
      * @return float|bool
@@ -54,23 +43,11 @@ class BasePrice extends Price
     public function getValue()
     {
         if (is_null($this->value)) {
-            $this->value = $this->getBaseValue('min');
+            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
+                $this->value = min($price->getValue(), $this->value ?: $price->getValue());
+            }
         }
         return $this->value;
-    }
-
-    /**
-     * Get array of price types
-     *
-     * @return array
-     */
-    protected function getPriceTypes()
-    {
-        $priceComposite = $this->getPriceInfo()->getPriceComposite();
-        return array_diff(
-            $priceComposite->getPriceCodes(),
-            [self::PRICE_TYPE_BASE_PRICE, FinalPrice::PRICE_TYPE_FINAL, MsrpPrice::PRICE_TYPE_MSRP]
-        );
     }
 
     /**
@@ -81,28 +58,10 @@ class BasePrice extends Price
     public function getMaxValue()
     {
         if (is_null($this->maxValue)) {
-            $this->maxValue = $this->getBaseValue('max');
-        }
-        return $this->maxValue;
-    }
-
-    /**
-     * @param string $func = min|max
-     * @return bool|float
-     */
-    protected function getBaseValue($func)
-    {
-        $value = false;
-        foreach ($this->getPriceTypes() as $priceCode) {
-            $price = $this->getPriceInfo()->getPrice($priceCode);
-            if ($price instanceof OriginPriceInterface && $price->getValue() !== false) {
-                if (false === $value) {
-                    $value = false === $value ? $price->getValue() : $func($price->getValue(), $value);
-                } else {
-                    $value = $func($price->getValue(), $value);
-                }
+            foreach ($this->priceInfo->getPricesIncludedInBase() as $price) {
+                $this->maxValue = max($price->getValue(), $this->maxValue ?: $price->getValue());
             }
         }
-        return $value;
+        return $this->maxValue;
     }
 }

@@ -16,7 +16,7 @@ use Magento\Stdlib\DateTime\TimezoneInterface;
 /**
  * Special price model
  */
-class SpecialPrice extends Price implements SpecialPriceInterface, OriginPriceInterface
+class SpecialPrice extends RegularPrice implements SpecialPriceInterface
 {
     /**
      * @var string

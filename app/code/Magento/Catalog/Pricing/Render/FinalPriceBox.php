@@ -93,7 +93,7 @@ class FinalPriceBox extends PriceBox
      */
     public function showSpecialPrice()
     {
-        $displayRegularPrice = $this->getPriceType('price')->getDisplayValue();
+        $displayRegularPrice = $this->getPriceType('regular_price')->getDisplayValue();
         $displayFinalPrice = $this->getPriceType('final_price')->getDisplayValue();
 
         return $displayFinalPrice < $displayRegularPrice;

@@ -37,6 +37,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected $_productTypeMock;
 
+    /**
+     * @var \Magento\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_priceInfoMock;
+
     public function setUp()
     {
         $this->categoryIndexerMock = $this->getMockForAbstractClass(
@@ -56,6 +61,15 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+
+        $this->_priceInfoMock = $this->getMock(
+            'Magento\Pricing\PriceInfo\Base',
+            array(),
+            array(),
+            '',
+            false
+        );
+
         $this->_productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
 
         $this->_productPriceProcessor = $this->getMock(
@@ -213,5 +227,17 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 true
             ),
         );
+    }
+
+    /**
+     * Test retrieving price Info
+     */
+    public function testGetPriceInfo()
+    {
+        $this->_productTypeMock->expects($this->once())
+            ->method('getPriceInfo')
+            ->with($this->equalTo($this->_model))
+            ->will($this->returnValue($this->_priceInfoMock));
+        $this->assertEquals($this->_model->getPriceInfo(), $this->_priceInfoMock);
     }
 }

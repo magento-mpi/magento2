@@ -30,31 +30,46 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
      */
     protected $product;
 
+    /**
+     * @var \Magento\Catalog\Pricing\Price\BasePrice|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $price;
+    /**
+     * @var \Magento\Pricing\PriceInfo\Base|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceInfo;
+
     protected function setUp()
     {
         $this->product = $this->getMock(
-            '\Magento\Catalog\Model\Product',
+            'Magento\Catalog\Model\Product',
             ['getPriceInfo', '__wakeup'],
             [],
             '',
             false
         );
 
-        $priceInfo = $this->getMock(
-            '\Magento\Pricing\PriceInfo',
-            ['getAdjustments'],
+        $this->priceInfo = $this->getMock(
+            'Magento\Pricing\PriceInfo\Base',
+            [],
             [],
             '',
             false
         );
+        $this->price = $this->getMock('Magento\Catalog\Pricing\Price\BasePrice', [], [], '', false);
 
-        $priceInfo->expects($this->any())
+        $this->priceInfo->expects($this->any())
             ->method('getAdjustments')
             ->will($this->returnValue([]));
 
         $this->product->expects($this->any())
             ->method('getPriceInfo')
-            ->will($this->returnValue($priceInfo));
+            ->will($this->returnValue($this->priceInfo));
+
+        $this->priceInfo->expects($this->any())
+            ->method('getPrice')
+            ->with($this->equalTo('base_price'))
+            ->will($this->returnValue($this->price));
 
         $this->helper = $this->getMock(
             '\Magento\Catalog\Helper\Data',

@@ -20,7 +20,7 @@ interface MsrpPriceInterface
     /**
      * Price type MSRP
      */
-    const PRICE_TYPE_MSRP = 'msrp';
+    const PRICE_TYPE_MSRP = 'msrp_price';
 
     /**
      * Check is product need gesture to show price

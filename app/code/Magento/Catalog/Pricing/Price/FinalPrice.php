@@ -13,7 +13,7 @@ namespace Magento\Catalog\Pricing\Price;
 /**
  * Final price model
  */
-class FinalPrice extends AbstractPrice implements FinalPriceInterface
+class FinalPrice extends RegularPrice implements FinalPriceInterface
 {
     /**
      * @var string
@@ -43,7 +43,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMaxValue()
     {
-        return $this->basePrice->getDisplayValue($this->basePrice->getMaxValue());
+        return $this->getDisplayValue($this->basePrice->getMaxValue());
     }
 
     /**

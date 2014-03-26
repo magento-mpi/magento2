@@ -47,7 +47,7 @@ interface PriceInfoInterface
     public function getAdjustment($adjustmentCode);
 
     /**
-     * @return PriceComposite
+     * @return PriceInterface[]
      */
-    public function getPriceComposite();
+    public function getPricesIncludedInBase();
 }

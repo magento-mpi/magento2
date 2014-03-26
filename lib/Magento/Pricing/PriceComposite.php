@@ -25,16 +25,16 @@ class PriceComposite
     /**
      * @var array
      */
-    protected $prices;
+    protected $metadata;
 
     /**
      * @param PriceFactory $priceFactory
-     * @param array $prices
+     * @param array $metadata
      */
-    public function __construct(PriceFactory $priceFactory, array $prices = [])
+    public function __construct(PriceFactory $priceFactory, array $metadata = [])
     {
         $this->priceFactory = $priceFactory;
-        $this->prices = $prices;
+        $this->metadata = $metadata;
     }
 
     /**
@@ -42,7 +42,17 @@ class PriceComposite
      */
     public function getPriceCodes()
     {
-        return array_keys($this->prices);
+        return array_keys($this->metadata);
+    }
+
+    /**
+     * Returns metadata for prices
+     *
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 
     /**
@@ -54,10 +64,10 @@ class PriceComposite
      */
     public function createPriceObject(SaleableInterface $salableItem, $priceCode, $quantity)
     {
-        if (!isset($this->prices[$priceCode])) {
+        if (!isset($this->metadata[$priceCode])) {
             throw new \InvalidArgumentException($priceCode . ' is not registered in prices list');
         }
-        $className = $this->prices[$priceCode];
+        $className = $this->metadata[$priceCode]['class'];
         return $this->priceFactory->create($salableItem, $className, $quantity);
     }
 }

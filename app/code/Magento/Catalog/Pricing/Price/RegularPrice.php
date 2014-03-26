@@ -16,17 +16,22 @@ use Magento\Pricing\PriceInfoInterface;
 use Magento\Pricing\Object\SaleableInterface;
 
 /**
- * Abstract catalog price model
+ * Class RegularPrice
  */
-class AbstractPrice implements PriceInterface
+class RegularPrice implements PriceInterface
 {
+    /**
+     * Default price type
+     */
+    const PRICE_TYPE_PRICE_DEFAULT = 'regular_price';
+
     /**
      * @var string
      */
-    protected $priceType;
+    protected $priceType = self::PRICE_TYPE_PRICE_DEFAULT;
 
     /**
-     * @var SaleableInterface
+     * @var SaleableInterface|\Magento\Catalog\Model\Product
      */
     protected $salableItem;
 
@@ -87,37 +92,11 @@ class AbstractPrice implements PriceInterface
     }
 
     /**
-     * Get PriceInfo Object
-     *
-     * @return \Magento\Pricing\PriceInfoInterface
-     */
-    protected function getPriceInfo()
-    {
-        return $this->salableItem->getPriceInfo();
-    }
-
-    /**
-     * @return float
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPriceType()
-    {
-        return $this->priceType;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getValue()
     {
-        return $this->salableItem->getDataUsingMethod($this->priceType);
+        return $this->salableItem->getPrice();
     }
 
     /**
@@ -141,53 +120,5 @@ class AbstractPrice implements PriceInterface
             }
         }
         return $amount;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        return (string) $this->getDisplayValue();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBaseAmount()
-    {
-        return $this->baseAmount;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTotalAdjustmentAmount()
-    {
-        return $this->adjustedAmount;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAdjustments()
-    {
-        return $this->adjustments;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAdjustment($adjustmentCode)
-    {
-        return isset($this->adjustments[$adjustmentCode]) ? $this->adjustments[$adjustmentCode] : false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasAdjustment($adjustmentCode)
-    {
-        return array_key_exists($adjustmentCode, $this->adjustments);
     }
 }
