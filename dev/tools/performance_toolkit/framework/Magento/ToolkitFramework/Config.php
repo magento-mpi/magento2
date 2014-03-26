@@ -15,7 +15,14 @@ class Config
      *
      * @var array
      */
-    protected $_config = [];
+    protected $_config = array();
+
+    /**
+     * Labels for config values
+     *
+     * @var array
+     */
+    protected $_labels = array();
 
     /**
      * Get config instance
@@ -45,6 +52,32 @@ class Config
             throw new \Exception("Profile configuration file `{$filename}` is not readable or does not exists.");
         }
         $this->_config = (new \Magento\Xml\Parser())->load($filename)->xmlToArray();
+    }
+
+    /**
+     * Load labels
+     *
+     * @param string $filename
+     * @throws \Exception
+     *
+     * @return void
+     */
+    public function loadLabels($filename)
+    {
+        if (!is_readable($filename)) {
+            throw new \Exception("Labels file `{$filename}` is not readable or does not exists.");
+        }
+        $this->_labels = (new \Magento\Xml\Parser())->load($filename)->xmlToArray();
+    }
+
+    /**
+     * Get labels array
+     *
+     * @return array
+     */
+    public function getLabels()
+    {
+        return isset($this->_labels['config']['labels']) ? $this->_labels['config']['labels'] : array();
     }
 
     /**

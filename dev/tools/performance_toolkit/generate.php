@@ -27,6 +27,15 @@ if (empty($args)) {
 
 $config = \Magento\ToolkitFramework\Config::getInstance();
 $config->loadConfig(\Magento\ToolkitFramework\Helper\Cli::getOption('profile'));
+$config->loadLabels(__DIR__ . '/framework/labels.xml');
+
+$labels = $config->getLabels();
+
+echo 'Generating profile with following params:' . PHP_EOL;
+foreach ($labels as $configKey => $label) {
+    echo ' |- ' . $label . ': ' . $config->getValue($configKey) . PHP_EOL;
+}
+
 $files = \Magento\ToolkitFramework\FixtureSet::getInstance()->getFixtures();
 
 $logWriter = new \Zend_Log_Writer_Stream('php://output');
@@ -39,9 +48,9 @@ $application = new \Magento\ToolkitFramework\Application($applicationBaseDir, $s
 $application->bootstrap();
 
 foreach ($files as $fixture) {
-    echo 'Applying fixture ' . $fixture . '...';
+    echo $fixture['action'] . '... ';
     $startTime = microtime(true);
-    $application->applyFixture(__DIR__ . '/fixtures/' . $fixture);
+    $application->applyFixture(__DIR__ . '/fixtures/' . $fixture['file']);
     $endTime = microtime(true);
     $resultTime = $endTime - $startTime;
     echo ' done in ' . gmdate('H:i:s', $resultTime) . PHP_EOL;
