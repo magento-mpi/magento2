@@ -45,7 +45,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
-        $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
+        $translate = $this->getMock('Magento\Translate\Inline\StateInterface', array(), array(), '', false);
 
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder(
@@ -126,31 +126,32 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $escaper = $this->getMock('Magento\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
+
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context,
-            $coreRegistry,
-            $giftRegistryData,
+            $context, 
+            $coreRegistry, 
+            $giftRegistryData, 
             $this->_storeManagerMock,
-            $translate,
-            $this->_transportBuilderMock,
-            $type,
-            $attributeConfig,
-            $item,
-            $inventoryStockItem,
+            $this->_transportBuilderMock, 
+            $type, 
+            $attributeConfig, 
+            $item, 
+            $inventoryStockItem, 
             $session,
-            $quoteFactory,
-            $customerFactory,
-            $personFactory,
-            $itemFactory,
-            $addressFactory,
+            $quoteFactory, 
+            $customerFactory, 
+            $personFactory, 
+            $itemFactory, 
+            $addressFactory, 
             $productFactory,
-            $dateFactory,
-            $loggingEventFactory,
-            $request,
-            $escaper,
-            $mathRandom,
-            $resource,
-            null,
+            $dateFactory, 
+            $loggingEventFactory, 
+            $request, 
+            $escaper, 
+            $mathRandom, 
+            $translate, 
+            $resource, 
+            null, 
             array()
         );
     }

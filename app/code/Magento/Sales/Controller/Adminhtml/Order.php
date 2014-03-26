@@ -388,12 +388,13 @@ class Order extends \Magento\Backend\App\Action
     public function commentsHistoryAction()
     {
         $this->_initOrder();
+
         $html = $this->_view->getLayout()->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\View\Tab\History'
         )->toHtml();
-        if ($this->_translateInline->isAllowed()) {
-            $this->_translateInline->processResponseBody($html);
-        }
+
+        $this->_translateInline->processResponseBody($html);
+
         $this->getResponse()->setBody($html);
     }
 
