@@ -112,10 +112,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                 array(
                     'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
                         'arguments' => array(
-                            'canSaveMap' => array(
-                                \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE => 'boolean',
-                                'value' => false
-                            )
+                            'canSaveMap' => false
                         )
                     ),
                     'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
