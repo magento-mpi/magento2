@@ -8,7 +8,7 @@
 
 namespace Magento\View;
 
-class ServiceTes extends \PHPUnit_Framework_TestCase
+class ServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\App\State|\PHPUnit_Framework_MockObject_MockObject
