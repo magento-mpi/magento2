@@ -118,19 +118,19 @@ class Subscriber extends \Magento\Model\AbstractModel
 
     /**
      * Construct
-     * 
-     * @param \Magento\Model\Context $context
-     * @param \Magento\Registry $registry
-     * @param \Magento\Newsletter\Helper\Data $newsletterData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     *
+     * @param \Magento\Model\Context                    $context
+     * @param \Magento\Registry                         $registry
+     * @param \Magento\Newsletter\Helper\Data           $newsletterData
+     * @param \Magento\Core\Model\Store\Config          $coreStoreConfig
+     * @param \Magento\Mail\Template\TransportBuilder   $transportBuilder
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Model\Resource\AbstractResource $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $data
+     * @param \Magento\Customer\Model\Session           $customerSession
+     * @param CustomerAccountServiceInterface           $customerAccountService
+     * @param \Magento\Translate\Inline\StateInterface  $inlineTranslation
+     * @param \Magento\Model\Resource\AbstractResource  $resource
+     * @param \Magento\Data\Collection\Db               $resourceCollection
+     * @param array                                     $data
      */
     public function __construct(
         \Magento\Model\Context $context,
