@@ -9,7 +9,7 @@
  */
 namespace Magento\Sendfriend\Model;
 
-use Magento\Core\Exception as CoreException;
+use Magento\Model\Exception as CoreException;
 
 /**
  * SendFriend Log
@@ -25,7 +25,7 @@ use Magento\Core\Exception as CoreException;
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Sendfriend extends \Magento\Core\Model\AbstractModel
+class Sendfriend extends \Magento\Model\AbstractModel
 {
     /**
      * Recipient Names
@@ -107,7 +107,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -120,7 +120,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -150,7 +150,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     public function send()
     {
         if ($this->isExceedLimit()) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('You\'ve met your limit of %1 sends in an hour.', $this->getMaxSendsToFriend())
             );
         }
@@ -261,14 +261,14 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Cookie instance
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Stdlib\Cookie
      */
     public function getCookie()
     {
         $cookie = $this->_getData('_cookie');
         if (!$cookie instanceof \Magento\Stdlib\Cookie) {
-            throw new \Magento\Core\Exception(__('Please define a correct Cookie instance.'));
+            throw new \Magento\Model\Exception(__('Please define a correct Cookie instance.'));
         }
         return $cookie;
     }
@@ -386,14 +386,14 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Product instance
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
         $product = $this->_getData('_product');
         if (!$product instanceof \Magento\Catalog\Model\Product) {
-            throw new \Magento\Core\Exception(__('Please define a correct Product instance.'));
+            throw new \Magento\Model\Exception(__('Please define a correct Product instance.'));
         }
         return $product;
     }
@@ -416,14 +416,14 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Sender Information Object
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return \Magento\Object
      */
     public function getSender()
     {
         $sender = $this->_getData('_sender');
         if (!$sender instanceof \Magento\Object) {
-            throw new \Magento\Core\Exception(__('Please define the correct Sender information.'));
+            throw new \Magento\Model\Exception(__('Please define the correct Sender information.'));
         }
         return $sender;
     }
@@ -574,8 +574,8 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      */
     public function register()
     {
-        if (!$this->_coreRegistry->registry('send_to_friend_model')) {
-            $this->_coreRegistry->register('send_to_friend_model', $this);
+        if (!$this->_registry->registry('send_to_friend_model')) {
+            $this->_registry->register('send_to_friend_model', $this);
         }
         return $this;
     }

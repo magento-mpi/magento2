@@ -18,7 +18,7 @@ return array(
     array('CACHE_TAG', 'Magento\AppInterface'),
     array(
         'CACHE_TAG',
-        'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
+        'Magento\Model\Resource\Db\Collection\AbstractCollection',
         'Magento_Core_Model_Cache_Type_Collection::CACHE_TAG'
     ),
     array('CACHE_TAG', 'Magento\Translate', 'Magento_Core_Model_Cache_Type_Translate::CACHE_TAG'),
@@ -54,7 +54,6 @@ return array(
         'Magento_Core_Model_Config_Resource::DEFAULT_WRITE_CONNECTION'
     ),
     array('DEFAULT_CURRENCY', 'Magento\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_CURRENCY'),
-    array('DEFAULT_ERROR_HANDLER', 'Magento\Core\Model\App'),
     array('DEFAULT_READ_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_WRITE_CONNECTION', 'Magento\App\Resource\Config'),
     array('DEFAULT_ERROR_HANDLER', 'Mage'),

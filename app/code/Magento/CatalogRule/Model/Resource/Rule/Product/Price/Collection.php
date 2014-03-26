@@ -9,7 +9,7 @@
  */
 namespace Magento\CatalogRule\Model\Resource\Rule\Product\Price;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @return void

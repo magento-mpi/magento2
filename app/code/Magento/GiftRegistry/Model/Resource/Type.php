@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Type extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Info table name
@@ -48,10 +48,10 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Add store date to registry type data
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
 

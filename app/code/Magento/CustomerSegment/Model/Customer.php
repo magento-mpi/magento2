@@ -28,7 +28,7 @@ use \Magento\CustomerSegment\Helper\Data;
  * @method int getWebsiteId()
  * @method \Magento\CustomerSegment\Model\Customer setWebsiteId(int $value)
  */
-class Customer extends \Magento\Core\Model\AbstractModel
+class Customer extends \Magento\Model\AbstractModel
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -91,7 +91,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\Http\Context $httpContext
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -105,7 +105,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\App\Http\Context $httpContext,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -391,7 +391,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $customerSession = $this->_customerSession;
         $result = array();
         /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_coreRegistry->registry('segment_customer');
+        $customer = $this->_registry->registry('segment_customer');
         if (!$customer) {
             $customer = $customerSession->getCustomer();
         }

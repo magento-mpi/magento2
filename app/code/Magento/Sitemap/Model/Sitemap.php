@@ -25,7 +25,7 @@ namespace Magento\Sitemap\Model;
  * @method int getStoreId()
  * @method \Magento\Sitemap\Model\Sitemap setStoreId(int $value)
  */
-class Sitemap extends \Magento\Core\Model\AbstractModel
+class Sitemap extends \Magento\Model\AbstractModel
 {
     const OPEN_TAG_KEY = 'start';
 
@@ -156,7 +156,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -173,7 +173,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -204,14 +204,14 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * Get file handler
      *
      * @return \Magento\Filesystem\File\WriteInterface
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _getStream()
     {
         if ($this->_stream) {
             return $this->_stream;
         } else {
-            throw new \Magento\Core\Exception(__('File handler unreachable'));
+            throw new \Magento\Model\Exception(__('File handler unreachable'));
         }
     }
 
@@ -273,8 +273,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     /**
      * Check sitemap file location and permissions
      *
-     * @return \Magento\Core\Model\AbstractModel
-     * @throws \Magento\Core\Exception
+     * @return \Magento\Model\AbstractModel
+     * @throws \Magento\Model\Exception
      */
     protected function _beforeSave()
     {
@@ -284,13 +284,13 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
          * Check path is allow
          */
         if ($path && preg_match('#\.\.[\\\/]#', $path)) {
-            throw new \Magento\Core\Exception(__('Please define a correct path.'));
+            throw new \Magento\Model\Exception(__('Please define a correct path.'));
         }
         /**
          * Check exists and writable path
          */
         if (!$this->_directory->isExist($path)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __(
                     'Please create the specified folder "%1" before saving the sitemap.',
                     $this->_escaper->escapeHtml($this->getSitemapPath())
@@ -299,7 +299,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         }
 
         if (!$this->_directory->isWritable($path)) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Please make sure that "%1" is writable by the web-server.', $this->getSitemapPath())
             );
         }
@@ -307,7 +307,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
          * Check allow filename
          */
         if (!preg_match('#^[a-zA-Z0-9_\.]+$#', $this->getSitemapFilename())) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __(
                     'Please use only letters (a-z or A-Z), numbers (0-9) or underscores (_) in the filename. No spaces or other characters are allowed.'
                 )
@@ -507,7 +507,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param null|string $fileName
      * @param string $type
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _createSitemap($fileName = null, $type = self::TYPE_URL)
     {

@@ -56,7 +56,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     /**
      * Test getHistoryFilePath() method in case when file info is not set
      *
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testGetHistoryFilePathException()
     {

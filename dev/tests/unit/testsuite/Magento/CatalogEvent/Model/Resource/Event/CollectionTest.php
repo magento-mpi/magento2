@@ -123,8 +123,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 function ($text, $value) {
                     return str_replace('?', $value, $text);
                 }
-            )
-        );
+            ));
+        $adapter->expects($this->exactly(1))
+            ->method('getCheckSql')
+            ->will($this->returnCallback(array($this, 'verifyGetCheckSql')));
+
         $adapter->expects(
             $this->exactly(1)
         )->method(
@@ -134,7 +137,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
 
         $resource = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Model\Resource\Db\AbstractDb',
             array(),
             '',
             false,
