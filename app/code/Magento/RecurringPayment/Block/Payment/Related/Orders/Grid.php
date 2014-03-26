@@ -7,6 +7,8 @@
  */
 namespace Magento\RecurringPayment\Block\Payment\Related\Orders;
 
+use Magento\Customer\Controller\RegistryConstants;
+
 /**
  * Recurring payment related orders grid
  */
@@ -71,7 +73,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
                 $fieldsToSelect
             )->addFieldToFilter(
                 'customer_id',
-                $this->_registry->registry('current_customer')->getId()
+                $this->_registry->registry(RegistryConstants::CURRENT_CUSTOMER_ID)
             )->setOrder(
                 'entity_id',
                 'desc'
