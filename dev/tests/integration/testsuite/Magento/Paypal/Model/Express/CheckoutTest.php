@@ -80,6 +80,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerEmail('user@example.com');
         $quote->setCustomerFirstname('Firstname');
         $quote->setCustomerLastname('Lastname');
+        $quote->setCustomerIsGuest(false);
         $checkout = $this->_getCheckout($quote);
         $checkout->place('token');
         $customer = $customerService->getCustomer($quote->getCustomerId());
@@ -107,6 +108,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
         $quote->setCustomerEmail('user@example.com');
         $quote->setCustomerFirstname('Firstname');
         $quote->setCustomerLastname('Lastname');
+        $quote->setCustomerIsGuest(false);
 
         /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
         $storeManager = $this->_objectManager->get('\Magento\Core\Model\StoreManagerInterface');

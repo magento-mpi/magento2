@@ -227,9 +227,9 @@ class Checkout
     protected $_customerAccountService;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\AddressBuilder
+     * @var \Magento\Customer\Service\V1\Data\AddressBuilderFactory
      */
-    protected $_addressBuilder;
+    protected $_addressBuilderFactory;
 
     /**
      * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
@@ -273,7 +273,7 @@ class Checkout
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
@@ -301,7 +301,7 @@ class Checkout
         \Magento\Object\Copy $objectCopyService,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Data\AddressBuilderFactory $addressBuilder,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor,
@@ -327,7 +327,7 @@ class Checkout
         $this->_objectCopyService = $objectCopyService;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerAccountService = $customerAccountService;
-        $this->_addressBuilder = $addressBuilder;
+        $this->_addressBuilderFactory = $addressBuilder;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_encryptor = $encryptor;
@@ -1062,12 +1062,15 @@ class Checkout
         $billing    = $quote->getBillingAddress();
         $shipping   = $quote->isVirtual() ? null : $quote->getShippingAddress();
 
-        $customerBilling = $this->_addressBuilder
+        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $billingAddressBuilder */
+        $billingAddressBuilder = $this->_addressBuilderFactory->create();
+        $customerBilling = $billingAddressBuilder
             ->populate($billing->exportCustomerAddressData())
             ->setDefaultBilling(true);
-
         if ($shipping && !$shipping->getSameAsBilling()) {
-            $customerShipping = $this->_addressBuilder
+            /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $shippingAddressBuilder */
+            $shippingAddressBuilder = $this->_addressBuilderFactory->create();
+            $customerShipping = $shippingAddressBuilder
                 ->populate($shipping->exportCustomerAddressData())
                 ->setDefaultShipping(true)
                 ->create();
@@ -1107,17 +1110,11 @@ class Checkout
         $customer->setLastname($quote->getCustomerLastname());
         $customer->setSuffix($quote->getCustomerSuffix());
 
-        $customerDetails = $this->_customerDetailsBuilder->setCustomer($customer->create())->setAddresses(
-            isset($customerShipping) ? [$customerBilling, $customerShipping] : [$customerBilling]
-        )->create();
+        $quote->setCustomerData($customer->create())->addCustomerAddressData($customerBilling);
 
-        $customer = $this->_customerAccountService->createAccount(
-            $customerDetails,
-            null,
-            $quote->getPasswordHash()
-        );
-
-        $quote->setCustomerData($customer);
+        if (isset($customerShipping)) {
+            $quote->addCustomerAddressData($customerShipping);
+        }
     }
 
     /**
@@ -1151,7 +1148,9 @@ class Checkout
         }
 
         if ($shipping && isset($shippingAddress) && !$customer->getDefaultShipping()) {
-            $shippingAddress = $this->_addressBuilder->populate($shippingAddress)
+            /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $shippingAddressBuilder */
+            $shippingAddressBuilder = $this->_addressBuilderFactory->create();
+            $shippingAddress = $shippingAddressBuilder->populate($shippingAddress)
                 ->setDefaultBilling(false)
                 ->setDefaultShipping(true)
                 ->create();
@@ -1161,7 +1160,9 @@ class Checkout
         }
 
         if (isset($billingAddress)) {
-            $billingAddress = $this->_addressBuilder
+            /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $billingAddressBuilder */
+            $billingAddressBuilder = $this->_addressBuilderFactory->create();
+            $billingAddress = $billingAddressBuilder
                 ->populate($billingAddress)
                 ->setDefaultBilling($isBillingAddressDefaultBilling)
                 ->setDefaultShipping($isBillingAddressDefaultShipping)
