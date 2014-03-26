@@ -6,6 +6,13 @@
   * Resolved dependency of Catalog and related modules on Review module (MAGETWO-21480)
 * Framework Improvements:
   * LauncherInterface renamed to AppInterface (MAGETWO-21593)
+  * Covered Magento library components with unit tests: (MAGETWO-21135)
+    * Magento/Url folder and Magento/Url.php
+  * Covered Magento application components with unit tests: (MAGETWO-21135)
+    * Magento/Checkout/Model/Config
+    * Magento/Checkout/Model/Observer
+    * Magento/Checkout/Model/Type
+    * Magento/Sales/Model/Config
 * Fixed bugs:
   * Fixed displaying product on frontend when product flat indexer is enabled (MAGETWO-22153)
   * Fixed applying catalog price rule on category level (MAGETWO-22143)
