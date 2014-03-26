@@ -9,7 +9,7 @@
  */
 namespace Magento\GiftCard\Model;
 
-class Observer extends \Magento\Core\Model\AbstractModel
+class Observer extends \Magento\Model\AbstractModel
 {
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
@@ -90,8 +90,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
-     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
+     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection
      * @param array $data
      *
      * @throws \InvalidArgumentException
@@ -109,8 +109,8 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\Db\Collection\AbstractCollection $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
@@ -261,7 +261,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             );
                             $codes[] = $code->getCode();
                             $goodCodes++;
-                        } catch (\Magento\Core\Exception $e) {
+                        } catch (\Magento\Model\Exception $e) {
                             $hasFailedCodes = true;
                             $codes[] = null;
                         }

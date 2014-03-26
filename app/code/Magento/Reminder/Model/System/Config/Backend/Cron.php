@@ -9,8 +9,8 @@
  */
 namespace Magento\Reminder\Model\System\Config\Backend;
 
-use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\Exception;
+use Magento\Model\AbstractModel;
 
 /**
  * Reminder Cron Backend Model
@@ -39,7 +39,7 @@ class Cron extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $valueFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param string $runModelPath
      * @param array $data
@@ -50,7 +50,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $valueFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
         array $data = array()

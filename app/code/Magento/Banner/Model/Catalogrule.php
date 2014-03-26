@@ -23,7 +23,7 @@ namespace Magento\Banner\Model;
  * @package     Magento_Banner
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Catalogrule extends \Magento\Core\Model\AbstractModel
+class Catalogrule extends \Magento\Model\AbstractModel
 {
     /**
      * Initialize promo catalog price rule model

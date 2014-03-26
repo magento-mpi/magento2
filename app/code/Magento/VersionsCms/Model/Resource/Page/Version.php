@@ -16,7 +16,7 @@ namespace Magento\VersionsCms\Model\Resource\Page;
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Version extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
@@ -31,10 +31,10 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checking if version id not last public for its page
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionLastPublic(\Magento\Core\Model\AbstractModel $object)
+    public function isVersionLastPublic(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(
@@ -59,10 +59,10 @@ class Version extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Checking if Version does not contain published revision
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return bool
      */
-    public function isVersionHasPublishedRevision(\Magento\Core\Model\AbstractModel $object)
+    public function isVersionHasPublishedRevision(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(
