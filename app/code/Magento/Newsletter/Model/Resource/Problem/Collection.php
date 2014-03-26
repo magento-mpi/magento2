@@ -55,11 +55,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_customerView;
 
     /**
-     * checks if the customer data is set on problems
+     * checks if customer data is loaded
      *
      * @var boolean
      */
-    protected $_checkCustomersData = false;
+    protected $_loadCustomersDataFlag = false;
 
 
     /**
@@ -97,6 +97,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         $this->_init('Magento\Newsletter\Model\Problem', 'Magento\Newsletter\Model\Resource\Problem');
     }
 
+    /**
+     * Set customer loaded status
+     *
+     * @param bool $flag
+     * @return $this
+     */
+    protected function _setIsLoaded($flag = true)
+    {
+        if (!$flag) {
+            $this->_loadCustomersDataFlag = false;
+        }
+        return parent::_setIsLoaded($flag);
+    }
     /**
      * Adds subscribers info
      *
@@ -141,24 +154,25 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _addCustomersData()
     {
-        if (!$this->_checkCustomersData) {
-            try {
-                $this->_checkCustomersData = true;
-                foreach ($this->getItems() as $item) {
-                    if ($item->getCustomerId()) {
-                        $customerId = $item->getCustomerId();
-                        $customer = $this->_customerAccountService->getCustomer($customerId);
-                        $problems = $this->getItemsByColumnValue('customer_id', $customerId);
-                        $customerName = $this->_customerView->getCustomerName($customer);
-                        foreach ($problems as $problem) {
-                            $problem->setCustomerName($customerName)
-                                ->setCustomerFirstName($customer->getFirstName())
-                                ->setCustomerLastName($customer->getLastName());
-                        }
+        if ($this->_loadCustomersDataFlag) {
+            return;
+        }
+        $this->_loadCustomersDataFlag = true;
+        foreach ($this->getItems() as $item) {
+            if ($item->getCustomerId()) {
+                $customerId = $item->getCustomerId();
+                try {
+                    $customer = $this->_customerAccountService->getCustomer($customerId);
+                    $problems = $this->getItemsByColumnValue('customer_id', $customerId);
+                    $customerName = $this->_customerView->getCustomerName($customer);
+                    foreach ($problems as $problem) {
+                        $problem->setCustomerName($customerName)
+                            ->setCustomerFirstName($customer->getFirstName())
+                            ->setCustomerLastName($customer->getLastName());
                     }
+                } catch (NoSuchEntityException $e) {
+                    return;
                 }
-            } catch (NoSuchEntityException $e) {
-                return;
             }
         }
     }
