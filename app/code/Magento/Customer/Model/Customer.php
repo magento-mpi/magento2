@@ -1286,17 +1286,4 @@ class Customer extends \Magento\Model\AbstractModel
     {
         return $this->_attributeFactory->create();
     }
-
-    /**
-     * Get service data object
-     *
-     * @return CustomerData
-     */
-    protected function _getServiceDataObject()
-    {
-        $customerData = (array)$this->getData();
-        $customerData[CustomerData::ID] = $this->getId();
-        $dataObject = $this->_customerDataBuilder->populateWithArray($customerData)->create();
-        return $dataObject;
-    }
 }
