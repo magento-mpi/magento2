@@ -27,44 +27,14 @@ class Observer
     protected $_queueCollectionFactory;
 
     /**
-     * Subscriber factory
-     *
-     * @var \Magento\Newsletter\Model\SubscriberFactory
-     */
-    protected $_subscriberFactory;
-
-    /**
      * Construct
      *
-     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $queueCollectionFactory
      */
     public function __construct(
-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Newsletter\Model\Resource\Queue\CollectionFactory $queueCollectionFactory
     ) {
-        $this->_subscriberFactory = $subscriberFactory;
         $this->_queueCollectionFactory = $queueCollectionFactory;
-    }
-
-    /**
-     * Customer delete handler
-     *
-     * @param \Magento\Object $observer
-     * @return $this
-     */
-    public function customerDeleted($observer)
-    {
-        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
-        $subscriber = $this->_subscriberFactory->create();
-        $customerServiceDataObject = $observer->getEvent()->getCustomerServiceDataObject();
-        if (!empty($customerServiceDataObject)) {
-            $subscriber->loadByEmail($customerServiceDataObject->getEmail());
-            if ($subscriber->getId()) {
-                $subscriber->delete();
-            }
-        }
-        return $this;
     }
 
     /**

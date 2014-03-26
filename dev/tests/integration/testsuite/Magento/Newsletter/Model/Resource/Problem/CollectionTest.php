@@ -8,6 +8,8 @@
 
 namespace Magento\Newsletter\Model\Resource\Problem;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -17,7 +19,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $this->_collection = Bootstrap::getObjectManager()
             ->create('Magento\Newsletter\Model\Resource\Problem\Collection');
     }
 
@@ -27,24 +29,25 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddCustomersData()
     {
         /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $customerAccountService = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerData = $customerAccountService->getCustomerDetails(2)->getCustomer();
-        /** @var \Magento\Newsletter\Model\Subscriber $subScriber */
-        $subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Newsletter\Model\Subscriber')->loadByEmail($customerData->getEmail());
-        /** @var \Magento\Newsletter\Model\problem $problem */
-        $problem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Newsletter\Model\problem')->addSubscriberData($subscriber);
-        /** @var Array $result */
-        $result = $this->_collection->addSubscriberInfo()->load()->getFirstItem();
+        $customer = $customerAccountService->getCustomerDetails(1)->getCustomer();
+        /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+        $subscriber = Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Subscriber')->loadByEmail($customer->getEmail());
+        /** @var \Magento\Newsletter\Model\Problem $problem */
+        $problem = Bootstrap::getObjectManager()
+            ->create('Magento\Newsletter\Model\Problem')->addSubscriberData($subscriber);
 
-        $this->assertEquals($problem->getProblemErrorCode(), $result['error_code']);
-        $this->assertEquals($problem->getProblemErrorText(), $result['error_text']);
-        $this->assertEquals($problem->getSubscriberId(), $result['subscriber_id']);
-        $this->assertEquals($customerData->getEmail(), $result['subscriber_email']);
+        $item = $this->_collection->addSubscriberInfo()->load()->getFirstItem();
 
+        $this->assertEquals($problem->getProblemErrorCode(), $item->getErrorCode());
+        $this->assertEquals($problem->getProblemErrorText(), $item->getErrorText());
+        $this->assertEquals($problem->getSubscriberId(), $item->getSubscriberId());
+        $this->assertEquals($customer->getEmail(), $item->getSubscriberEmail());
+        $this->assertEquals($customer->getFirstname(), $item->getCustomerFirstName());
+        $this->assertEquals($customer->getLastname(), $item->getCustomerLastName());
+        $this->assertContains($customer->getFirstname(), $item->getCustomerName());
     }
 
 }
