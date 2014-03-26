@@ -12,7 +12,6 @@ namespace Magento\CatalogRule\Pricing\Price;
 
 use Magento\Catalog\Pricing\Price\Price;
 use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\PriceInfo\Base;
 use Magento\Stdlib\DateTime\TimezoneInterface;
 use Magento\Core\Model\StoreManager;
 use Magento\Customer\Model\Session;
@@ -74,7 +73,7 @@ class CatalogRulePrice extends Price
         StoreManager $storeManager,
         Session $customerSession,
         RuleFactory $catalogRuleResourceFactory,
-        $quantity = Base::PRODUCT_QUANTITY_DEFAULT
+        $quantity
     ) {
         $this->dateTime = $dateTime;
         $this->storeManager = $storeManager;

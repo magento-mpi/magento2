@@ -19,6 +19,11 @@ use Magento\Pricing\Price\PriceInterface;
 interface PriceInfoInterface
 {
     /**
+     * Default product quantity
+     */
+    const PRODUCT_QUANTITY_DEFAULT = 1.;
+
+    /**
      * @return PriceInterface[]
      */
     public function getPrices();

@@ -11,6 +11,7 @@ namespace Magento\Catalog\Pricing\Price;
 use Magento\Pricing\Object\SaleableInterface;
 use Magento\Customer\Model\Group;
 use Magento\Customer\Model\Session;
+use Magento\Pricing\PriceInfoInterface;
 
 /**
  * Tire prices model
@@ -73,17 +74,16 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, OriginPrice
     public function getValue()
     {
         if (null === $this->value) {
-            $tierPrice = false;
             $prices = $this->getStoredTierPrices();
-            $prevQty = 1.;
-            $prevPrice = $this->salableItem->getPriceInfo()->getPrice('price', $prevQty)->getValue();
+            $prevQty = PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT;
+            $prevPrice = $tierPrice = false;
             $priceGroup = Group::CUST_GROUP_ALL;
 
             foreach ($prices as $price) {
                 if (!$this->canApplyTierPrice($price, $priceGroup, $prevQty)) {
                     continue;
                 }
-                if ($price['website_price'] < $prevPrice) {
+                if (false === $prevPrice || $price['website_price'] < $prevPrice) {
                     $tierPrice = $prevPrice = $price['website_price'];
                     $prevQty = $price['price_qty'];
                     $priceGroup = $price['cust_group'];

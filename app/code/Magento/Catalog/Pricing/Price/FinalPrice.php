@@ -29,10 +29,8 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      * @param \Magento\Pricing\Object\SaleableInterface $salableItem
      * @param float $quantity
      */
-    public function __construct(
-        \Magento\Pricing\Object\SaleableInterface $salableItem,
-        $quantity = AbstractPrice::PRODUCT_QUANTITY_DEFAULT
-    ) {
+    public function __construct(\Magento\Pricing\Object\SaleableInterface $salableItem, $quantity)
+    {
         $this->salableItem = $salableItem;
         $this->quantity = $quantity;
         $this->priceInfo = $salableItem->getPriceInfo();

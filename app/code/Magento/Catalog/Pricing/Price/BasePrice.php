@@ -11,7 +11,6 @@
 namespace Magento\Catalog\Pricing\Price;
 
 use Magento\Pricing\Object\SaleableInterface;
-use Magento\Pricing\PriceInfo\Base;
 
 /**
  * Class BasePrice
@@ -42,10 +41,8 @@ class BasePrice extends Price
      * @param SaleableInterface $salableItem
      * @param float $quantity
      */
-    public function __construct(
-        SaleableInterface $salableItem,
-        $quantity = Base::PRODUCT_QUANTITY_DEFAULT
-    ) {
+    public function __construct(SaleableInterface $salableItem, $quantity)
+    {
         parent::__construct($salableItem, $quantity);
     }
 

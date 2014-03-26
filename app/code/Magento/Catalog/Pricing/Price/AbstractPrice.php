@@ -21,11 +21,6 @@ use Magento\Pricing\Object\SaleableInterface;
 class AbstractPrice implements PriceInterface
 {
     /**
-     * Default product quantity
-     */
-    const PRODUCT_QUANTITY_DEFAULT = 1.;
-
-    /**
      * @var string
      */
     protected $priceType;
@@ -46,14 +41,14 @@ class AbstractPrice implements PriceInterface
     protected $adjustments;
 
     /**
-     * @var float
+     * @var float|null
      */
-    protected $baseAmount = 0.00;
+    protected $baseAmount;
 
     /**
-     * @var float
+     * @var float|null
      */
-    protected $adjustedAmount = 0.00;
+    protected $adjustedAmount;
 
     /**
      * @var float[]

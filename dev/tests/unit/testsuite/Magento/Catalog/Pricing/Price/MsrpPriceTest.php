@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use \Magento\Pricing\PriceInfo\Base;
+use \Magento\Pricing\PriceInfoInterface;
 
 /**
  * Class MsrpPriceTest
@@ -64,7 +64,7 @@ class MsrpPriceTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->object = new MsrpPrice($this->product, Base::PRODUCT_QUANTITY_DEFAULT, $this->helper);
+        $this->object = new MsrpPrice($this->product, PriceInfoInterface::PRODUCT_QUANTITY_DEFAULT, $this->helper);
     }
 
     public function testIsShowPriceOnGestureTrue()

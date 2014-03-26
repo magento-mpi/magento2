@@ -23,11 +23,6 @@ use Magento\Pricing\Object\SaleableInterface;
 class Base implements PriceInfoInterface
 {
     /**
-     * Default product quantity
-     */
-    const PRODUCT_QUANTITY_DEFAULT = 1.;
-
-    /**
      * @var SaleableInterface
      */
     protected $product;
@@ -103,7 +98,7 @@ class Base implements PriceInfoInterface
      */
     public function getPrice($priceCode, $quantity = null)
     {
-         if (!isset($this->priceInstances[$priceCode]) && $quantity === null) {
+        if (!isset($this->priceInstances[$priceCode]) && $quantity === null) {
             $this->priceInstances[$priceCode] = $this->prices->createPriceObject(
                 $this->product,
                 $priceCode,
@@ -113,11 +108,7 @@ class Base implements PriceInfoInterface
         } elseif (isset($this->priceInstances[$priceCode]) && $quantity === null) {
             return $this->priceInstances[$priceCode];
         } else {
-            return $this->prices->createPriceObject(
-                $this->product,
-                $priceCode,
-                $quantity
-            );
+            return $this->prices->createPriceObject($this->product, $priceCode, $quantity);
         }
     }
 
