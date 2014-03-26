@@ -32,7 +32,7 @@ use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CyclomaticComplexity)
  */
-class Subscriber extends \Magento\Core\Model\AbstractModel
+class Subscriber extends \Magento\Model\AbstractModel
 {
     const STATUS_SUBSCRIBED = 1;
     const STATUS_NOT_ACTIVE = 2;
@@ -93,13 +93,6 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * Translate
-     *
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -119,22 +112,25 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * Construct
-     *
-     * @param \Magento\Model\Context                                       $context
-     * @param \Magento\Registry                                            $registry
-     * @param \Magento\Newsletter\Helper\Data                              $newsletterData
-     * @param \Magento\Core\Model\Store\Config                             $coreStoreConfig
-     * @param \Magento\Mail\Template\TransportBuilder                      $transportBuilder
-     * @param \Magento\Core\Model\StoreManagerInterface                    $storeManager
-     * @param \Magento\TranslateInterface                                  $translate
-     * @param \Magento\Customer\Model\Session                              $customerSession
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
-     * @param \Magento\Core\Model\Resource\AbstractResource                $resource
-     * @param \Magento\Data\Collection\Db                                  $resourceCollection
-     * @param array                                                        $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * 
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
+     * @param \Magento\Newsletter\Helper\Data $newsletterData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
@@ -143,21 +139,21 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\Session $customerSession,
         CustomerAccountServiceInterface $customerAccountService,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_newsletterData = $newsletterData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_transportBuilder = $transportBuilder;
         $this->_storeManager = $storeManager;
-        $this->_translate = $translate;
         $this->_customerSession = $customerSession;
         $this->_customerAccountService = $customerAccountService;
+        $this->inlineTranslation = $inlineTranslation;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -452,13 +448,13 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Unsubscribes loaded subscription
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            throw new \Magento\Core\Exception(__('This is an invalid subscription confirmation code.'));
+            throw new \Magento\Model\Exception(__('This is an invalid subscription confirmation code.'));
         }
 
         if ($this->getSubscriberStatus() != self::STATUS_UNSUBSCRIBED) {
@@ -609,8 +605,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $translate = $this->_translate->getTranslateInline();
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $this->_transportBuilder
             ->setTemplateIdentifier(
@@ -633,7 +628,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
-        $this->_translate->setTranslateInline($translate);
+        $this->inlineTranslation->resume();
+
         return $this;
     }
 
@@ -650,8 +646,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $translate = $this->_translate->getTranslateInline();
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $this->_transportBuilder
             ->setTemplateIdentifier(
@@ -669,7 +664,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
-        $this->_translate->setTranslateInline($translate);
+        $this->inlineTranslation->resume();
+
         return $this;
     }
 
@@ -686,8 +682,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $translate = $this->_translate->getTranslateInline();
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $this->_transportBuilder
             ->setTemplateIdentifier(
@@ -707,7 +702,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $transport = $this->_transportBuilder->getTransport();
         $transport->sendMessage();
 
-        $this->_translate->setTranslateInline($translate);
+        $this->inlineTranslation->resume();
+
         return $this;
     }
 

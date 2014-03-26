@@ -6,10 +6,11 @@
  * @license     {license_link}
  */
 return array(
-    'inputXML' => '<?xml version="1.0" encoding="UTF-8"?><config>' .
-    '<view id="view_one" class="Ogogo\Class\One" group="some_view_group">' .
-    '<subscriptions><table name="some_entity" entity_column="entity_id" />' .
-    '<table name="some_product_relation" entity_column="product_id" /></subscriptions></view></config>',
+    'inputXML' => '<?xml version="1.0" encoding="UTF-8"?><config>'
+        . '<view id="view_one" class="Ogogo\Class\One" group="some_view_group"><!--comment-->'
+        . '<subscriptions><table name="some_entity" entity_column="entity_id" />'
+        . '<table name="some_product_relation" entity_column="product_id" /><nottable/>'
+        . '<!--comment--></subscriptions></view></config>',
     'expected' => array(
         'view_one' => array(
             'view_id' => 'view_one',

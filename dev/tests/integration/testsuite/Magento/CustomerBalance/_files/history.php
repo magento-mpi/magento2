@@ -9,11 +9,8 @@
  * @license     {license_link}
  */
 
-$balance = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Core\Model\App'
-)->loadArea(
-    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
-);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()
+    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
 /** @var $balance \Magento\CustomerBalance\Model\Balance */

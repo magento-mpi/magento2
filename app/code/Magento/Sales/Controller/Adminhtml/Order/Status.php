@@ -144,7 +144,7 @@ class Status extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You have saved the order status.'));
                 $this->_redirect('sales/*/');
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException(
@@ -195,7 +195,7 @@ class Status extends \Magento\Backend\App\Action
                     $this->messageManager->addSuccess(__('You have assigned the order status.'));
                     $this->_redirect('sales/*/');
                     return;
-                } catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Model\Exception $e) {
                     $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $this->messageManager->addException(
@@ -223,7 +223,7 @@ class Status extends \Magento\Backend\App\Action
             try {
                 $status->unassignState($state);
                 $this->messageManager->addSuccess(__('You have unassigned the order status.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException(

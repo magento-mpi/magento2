@@ -16,7 +16,7 @@ use Magento\Sales\Model\Order\Address;
 /**
  * RMA model
  */
-class Rma extends \Magento\Core\Model\AbstractModel
+class Rma extends \Magento\Model\AbstractModel
 {
     /**
      * XML configuration paths
@@ -87,11 +87,6 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Mail\Template\TransportBuilder
      */
     protected $_transportBuilder;
-
-    /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
 
     /**
      * Core store manager interface
@@ -234,12 +229,16 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $messageManager;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\Config $rmaConfig
@@ -262,8 +261,11 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Model\Context $context,
@@ -271,7 +273,6 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Session $session,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\TranslateInterface $translate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Config $rmaConfig,
@@ -294,13 +295,13 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_session = $session;
         $this->_transportBuilder = $transportBuilder;
-        $this->_translate = $translate;
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
         $this->_rmaConfig = $rmaConfig;
@@ -322,6 +323,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $this->_escaper = $escaper;
         $this->_localeDate = $localeDate;
         $this->messageManager = $messageManager;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -553,7 +555,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
+
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
 
@@ -608,7 +611,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         $this->setEmailSent(true);
-        $this->_translate->setTranslateInline(true);
+
+        $this->inlineTranslation->resume();
 
         return $this;
     }

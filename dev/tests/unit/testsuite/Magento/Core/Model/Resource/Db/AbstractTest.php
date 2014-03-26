@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Resource\Db\AbstractDb.
+ * Test class for \Magento\Model\Resource\Db\AbstractDb.
  */
 namespace Magento\Core\Model\Resource\Db;
 
 class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Resource\Db\AbstractDb|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\Resource\Db\AbstractDb|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -30,7 +30,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_resource = $this->getMock('Magento\App\Resource', array('getConnection'), array(), '', false, false);
         $this->_model = $this->getMock(
-            'Magento\Core\Model\Resource\Db\AbstractDb',
+            'Magento\Model\Resource\Db\AbstractDb',
             array('_construct', '_getWriteAdapter'),
             array($this->_resource)
         );

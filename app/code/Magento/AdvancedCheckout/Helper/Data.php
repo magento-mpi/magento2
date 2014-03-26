@@ -511,10 +511,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $importModel->uploadFile();
             $rows = $importModel->getRows();
             if (empty($rows)) {
-                throw new \Magento\Core\Exception(__('The file is empty.'));
+                throw new \Magento\Model\Exception(__('The file is empty.'));
             }
             return $rows;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addException($e, $this->getFileGeneralErrorText());

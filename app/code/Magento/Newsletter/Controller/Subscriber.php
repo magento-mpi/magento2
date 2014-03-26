@@ -84,7 +84,7 @@ class Subscriber extends \Magento\App\Action\Action
     /**
      * New subscription action
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return void
      */
     public function newAction()
@@ -103,7 +103,7 @@ class Subscriber extends \Magento\App\Action\Action
                 } else {
                     $this->messageManager->addSuccess(__('Thank you for your subscription.'));
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addException(
                     $e,
                     __('There was a problem with the subscription: %1', $e->getMessage())
@@ -155,7 +155,7 @@ class Subscriber extends \Magento\App\Action\Action
             try {
                 $this->_subscriberFactory->create()->load($id)->setCheckCode($code)->unsubscribe();
                 $this->messageManager->addSuccess(__('You have been unsubscribed.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addException($e, $e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong with the un-subscription.'));

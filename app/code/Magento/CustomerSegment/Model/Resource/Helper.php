@@ -18,13 +18,13 @@
  */
 namespace Magento\CustomerSegment\Model\Resource;
 
-class Helper extends \Magento\Core\Model\Resource\Helper
+class Helper extends \Magento\DB\Helper
 {
     /**
      * Get comparison condition for rule condition operator which will be used in SQL query
      *
      * @param string $operator
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return string
      */
     public function getSqlOperator($operator)
@@ -62,7 +62,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
             case '<=':
                 return $operator;
             default:
-                throw new \Magento\Core\Exception(__('Unknown operator specified.'));
+                throw new \Magento\Model\Exception(__('Unknown operator specified.'));
         }
     }
 }

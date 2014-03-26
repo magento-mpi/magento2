@@ -45,12 +45,6 @@ class EnterpriseConfigurator implements ConfiguratorInterface
             $enablerPath . 'enterprise/module.xml'
         );
 
-        //set edition constant
-        $appFile = $this->_basePath . '/app/code/Magento/Core/Model/App.php';
-        $content = $this->_filesystemDriver->fileGetContents($appFile);
-        $content = str_replace('self::EDITION_COMMUNITY', 'self::EDITION_ENTERPRISE', $content);
-        $this->_filesystemDriver->filePutContents($appFile, $content);
-
         //set downloader chanel
         $configFile = $this->_basePath . '/downloader/config.ini';
         $content = $this->_filesystemDriver->fileGetContents($configFile);

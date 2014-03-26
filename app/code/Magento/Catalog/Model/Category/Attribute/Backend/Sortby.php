@@ -42,7 +42,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      *
      * @param \Magento\Object $object
      * @return bool
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function validate($object)
     {
@@ -70,7 +70,7 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         if ($this->getAttribute()->getIsUnique()) {
             if (!$this->getAttribute()->getEntity()->checkAttributeUniqueValue($this->getAttribute(), $object)) {
                 $label = $this->getAttribute()->getFrontend()->getLabel();
-                throw new \Magento\Core\Exception(__('The value of attribute "%1" must be unique.', $label));
+                throw new \Magento\Model\Exception(__('The value of attribute "%1" must be unique.', $label));
             }
         }
 
@@ -88,13 +88,13 @@ class Sortby extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                     "catalog/frontend/default_sort_by"
                 );
                 if (!in_array($data, $available)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }
             } else {
                 if (!in_array('available_sort_by', $postDataConfig)) {
-                    throw new \Magento\Core\Exception(
+                    throw new \Magento\Model\Exception(
                         __('Default Product Listing Sort by does not exist in Available Product Listing Sort By.')
                     );
                 }

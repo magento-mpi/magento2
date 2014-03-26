@@ -18,7 +18,7 @@
  */
 namespace Magento\Log\Model;
 
-class Cron extends \Magento\Core\Model\AbstractModel
+class Cron extends \Magento\Model\AbstractModel
 {
     const XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE = 'system/log/error_email_template';
 
@@ -43,11 +43,6 @@ class Cron extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $_translate;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -63,14 +58,19 @@ class Cron extends \Magento\Core\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Log\Model\Log $log
+     * @param Log $log
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -80,17 +80,17 @@ class Cron extends \Magento\Core\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Log\Model\Log $log,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\TranslateInterface $translate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_transportBuilder = $transportBuilder;
         $this->_log = $log;
         $this->_storeManager = $storeManager;
-        $this->_translate = $translate;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -108,7 +108,7 @@ class Cron extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_LOG_CLEAN_TEMPLATE)
@@ -127,7 +127,8 @@ class Cron extends \Magento\Core\Model\AbstractModel
 
         $transport->sendMessage();
 
-        $this->_translate->setTranslateInline(true);
+        $this->inlineTranslation->resume();
+
         return $this;
     }
 

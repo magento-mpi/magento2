@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 
-/** @var \Magento\Core\Model\App $app */
-$app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
-$app->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
+\Magento\TestFramework\Helper\Bootstrap::getInstance()
+    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
 $addressData = include __DIR__ . '/address_data.php';
 

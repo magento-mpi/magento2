@@ -56,6 +56,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
@@ -66,7 +67,6 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Code\NameBuilder $nameBuilder
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -88,6 +88,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
@@ -97,8 +98,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
         \Magento\Data\Form\FormKey $formKey,
-        \Magento\Code\NameBuilder $nameBuilder,
-        array $data = array()
+        \Magento\Code\NameBuilder $nameBuilder
     ) {
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
@@ -123,12 +123,12 @@ class Context extends \Magento\View\Element\Template\Context
             $escaper,
             $filterManager,
             $localeDate,
+            $inlineTranslation,
             $filesystem,
             $viewFileSystem,
             $enginePool,
             $appState,
-            $storeManager,
-            $data
+            $storeManager
         );
     }
 

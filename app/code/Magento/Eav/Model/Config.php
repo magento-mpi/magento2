@@ -88,9 +88,9 @@ class Config
     protected $_collectionAttributes = array();
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\CacheInterface
      */
-    protected $_app;
+    protected $_cache;
 
     /**
      * @var \Magento\Eav\Model\Entity\TypeFactory
@@ -103,18 +103,18 @@ class Config
     protected $_universalFactory;
 
     /**
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
+     * @param \Magento\App\CacheInterface $cache
+     * @param Entity\TypeFactory $entityTypeFactory
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Validator\UniversalFactory $universalFactory
      */
     public function __construct(
-        \Magento\Core\Model\App $app,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Validator\UniversalFactory $universalFactory
     ) {
-        $this->_app = $app;
+        $this->_cache = $cache;
         $this->_entityTypeFactory = $entityTypeFactory;
         $this->_cacheState = $cacheState;
         $this->_universalFactory = $universalFactory;
@@ -265,8 +265,7 @@ class Config
         /**
          * try load information about entity types from cache
          */
-        if ($this->_isCacheEnabled() && ($cache = $this->_app->loadCache(self::ENTITIES_CACHE_ID))) {
-
+        if ($this->_isCacheEnabled() && ($cache = $this->_cache->load(self::ENTITIES_CACHE_ID))) {
             $this->_entityData = unserialize($cache);
             foreach ($this->_entityData as $typeCode => $data) {
                 $typeId = $data['entity_type_id'];
@@ -297,10 +296,13 @@ class Config
         $this->_entityData = $types;
 
         if ($this->_isCacheEnabled()) {
-            $this->_app->saveCache(
+            $this->_cache->save(
                 serialize($this->_entityData),
                 self::ENTITIES_CACHE_ID,
-                array(\Magento\Eav\Model\Cache\Type::CACHE_TAG, \Magento\Eav\Model\Entity\Attribute::CACHE_TAG)
+                array(
+                    \Magento\Eav\Model\Cache\Type::CACHE_TAG,
+                    \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
+                )
             );
         }
         \Magento\Profiler::stop('EAV: ' . __METHOD__);
@@ -312,7 +314,7 @@ class Config
      *
      * @param int|string $code
      * @return Type
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function getEntityType($code)
     {
@@ -347,7 +349,7 @@ class Config
             }
 
             if (!$entityType->getId()) {
-                throw new \Magento\Core\Exception(__('Invalid entity_type specified: %1', $code));
+                throw new \Magento\Model\Exception(__('Invalid entity_type specified: %1', $code));
             }
         }
         $this->_addEntityTypeReference($entityType->getId(), $entityType->getEntityTypeCode());

@@ -81,7 +81,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
      * Filter post data
      *
      * @param array $data
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return array
      */
     public function filterPostData($data)
@@ -92,7 +92,7 @@ class Customer extends \Magento\CustomAttributeManagement\Helper\Data
         if (isset($data['frontend_input'])) {
             $this->_inputValidator->setHaystack(array_keys($this->_dataHelper->getAttributeInputTypes()));
             if (!$this->_inputValidator->isValid($data['frontend_input'])) {
-                throw new \Magento\Core\Exception(
+                throw new \Magento\Model\Exception(
                     $this->filterManager->stripTags(implode(' ', $this->_inputValidator->getMessages()))
                 );
             }

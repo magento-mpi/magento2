@@ -322,9 +322,9 @@ class Returns extends \Magento\App\Action\Action
                     $result->setStoreId($this->_coreRegistry->registry('current_rma')->getStoreId());
                     $result->sendCustomerCommentEmail();
                 } else {
-                    throw new \Magento\Core\Exception(__('Please enter a valid message.'));
+                    throw new \Magento\Model\Exception(__('Please enter a valid message.'));
                 }
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('Cannot add message.'));
@@ -350,7 +350,7 @@ class Returns extends \Magento\App\Action\Action
                 $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    throw new \Magento\Core\Exception(__('Shipping Labels are not allowed.'));
+                    throw new \Magento\Model\Exception(__('Shipping Labels are not allowed.'));
                 }
 
                 $response = false;
@@ -364,11 +364,11 @@ class Returns extends \Magento\App\Action\Action
                 );
 
                 if (!isset($carriers[$carrier])) {
-                    throw new \Magento\Core\Exception(__('Please select a valid carrier.'));
+                    throw new \Magento\Model\Exception(__('Please select a valid carrier.'));
                 }
 
                 if (empty($number)) {
-                    throw new \Magento\Core\Exception(__('Please enter a valid tracking number.'));
+                    throw new \Magento\Model\Exception(__('Please enter a valid tracking number.'));
                 }
 
                 /** @var $rmaShipping \Magento\Rma\Model\Shipping */
@@ -382,7 +382,7 @@ class Returns extends \Magento\App\Action\Action
                 )->setCarrierTitle(
                     $carriers[$carrier]
                 )->save();
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot add a label.'));
@@ -412,23 +412,23 @@ class Returns extends \Magento\App\Action\Action
                 $rma = $this->_coreRegistry->registry('current_rma');
 
                 if (!$rma->isAvailableForPrintLabel()) {
-                    throw new \Magento\Core\Exception(__('Shipping Labels are not allowed.'));
+                    throw new \Magento\Model\Exception(__('Shipping Labels are not allowed.'));
                 }
 
                 $response = false;
                 $number = intval($this->getRequest()->getPost('number'));
 
                 if (empty($number)) {
-                    throw new \Magento\Core\Exception(__('Please enter a valid tracking number.'));
+                    throw new \Magento\Model\Exception(__('Please enter a valid tracking number.'));
                 }
 
                 /** @var $trackingNumber \Magento\Rma\Model\Shipping */
                 $trackingNumber = $this->_objectManager->create('Magento\Rma\Model\Shipping')->load($number);
                 if ($trackingNumber->getRmaEntityId() !== $rma->getId()) {
-                    throw new \Magento\Core\Exception(__('The wrong RMA was selected.'));
+                    throw new \Magento\Model\Exception(__('The wrong RMA was selected.'));
                 }
                 $trackingNumber->delete();
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot delete the label.'));

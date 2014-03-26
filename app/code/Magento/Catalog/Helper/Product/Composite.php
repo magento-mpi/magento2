@@ -159,7 +159,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     {
         try {
             if (!$configureResult->getOk()) {
-                throw new \Magento\Core\Exception($configureResult->getMessage());
+                throw new \Magento\Model\Exception($configureResult->getMessage());
             }
 
             $currentStoreId = (int)$configureResult->getCurrentStoreId();
@@ -173,7 +173,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
                 $configureResult->getProductId()
             );
             if (!$product->getId()) {
-                throw new \Magento\Core\Exception(__('The product is not loaded.'));
+                throw new \Magento\Model\Exception(__('The product is not loaded.'));
             }
             $this->_coreRegistry->register('current_product', $product);
             $this->_coreRegistry->register('product', $product);

@@ -14,7 +14,7 @@ namespace Magento\Rma\Model\Resource;
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Grid extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Grid extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Primary key auto increment flag

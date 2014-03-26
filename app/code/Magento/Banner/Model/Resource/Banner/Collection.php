@@ -18,7 +18,7 @@
  */
 namespace Magento\Banner\Model\Resource\Banner;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize banner resource model

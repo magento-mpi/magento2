@@ -199,7 +199,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel->setWebsiteId($this->_storeManager->getStore()->getWebsiteId());
         try {
             $customerModel->authenticate($username, $password);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             switch ($e->getCode()) {
                 case CustomerModel::EXCEPTION_EMAIL_NOT_CONFIRMED:
                     $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
