@@ -1551,7 +1551,6 @@ return array(
     array('addCustomerData', 'Magento\Log\Model\Visitor'),
     array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
     array('loadByCustomer', 'Magento\Wishlist\Model\Wishlist'),
-    array('quoteSubmitAfter', 'Magento\Customer\Model\Observer'),
     array(
         'reviewsAction',
         'Magento\Catalog\Controller\Adminhtml\Product',
