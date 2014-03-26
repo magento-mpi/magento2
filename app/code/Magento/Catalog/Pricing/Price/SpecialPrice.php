@@ -53,7 +53,7 @@ class SpecialPrice extends Price implements SpecialPriceInterface, OriginPriceIn
             $this->value = false;
 
             $specialPrice = $this->getSpecialPrice();
-            if (!is_null($specialPrice) && $specialPrice != false && $this->isScopeDateInInterval()) {
+            if (!is_null($specialPrice) && $specialPrice !== false && $this->isScopeDateInInterval()) {
                 $this->value = $specialPrice;
             }
         }

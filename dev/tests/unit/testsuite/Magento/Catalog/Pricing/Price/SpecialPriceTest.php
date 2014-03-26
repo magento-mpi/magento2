@@ -37,7 +37,7 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertEquals($expected, $specialPriceMock->getValue());
+        $this->assertSame($expected, $specialPriceMock->getValue());
     }
 
     /**
@@ -100,6 +100,11 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
                 'is_valid_date' => true,
                 'special_price' => 50,
                 'expected'      => 50,
+            ],
+            'validZeroValue' => [
+                'is_valid_date' => true,
+                'special_price' => 0,
+                'expected'      => 0,
             ],
             'invalidInterval' => [
                 'is_valid_date' => false,
