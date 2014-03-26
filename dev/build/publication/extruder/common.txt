@@ -18,6 +18,3 @@ dev/tests/performance/regenerate_profile.php
 dev/tests/performance/benchmark_logs_merge.php
 
 dev/tools/Magento/Tools/Translate
-dev/tools/performance_toolkit
-dev/tests/integration/testsuite/Magento/_files/tax_rates.csv
-dev/tests/integration/testsuite/Magento/PerformanceToolkitFixturesTest.php

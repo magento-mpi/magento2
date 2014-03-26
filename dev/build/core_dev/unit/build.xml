@@ -60,12 +60,12 @@
             <target name="_unit_tests_performance_framework"/>
             <target name="_unit_tests_static_framework"/>
             <target name="_unit_tests_unit_framework"/>
-            <target name="_unit_tests_performance_toolkit_framework"/>
         </antcall>
     </target>
 
     <target name="unit_tests_ee" depends="_server_info,_enterprise_edition" description="Unit tests for EE">
         <antcall target="_unit_tests_all"/>
+        <antcall target="_unit_tests_performance_toolkit_framework"/>
     </target>
 
     <target name="unit_tests_ce" depends="_server_info,_community_edition" description="Unit tests for CE">
