@@ -9,10 +9,11 @@
  */
 
 $applicationBaseDir = require_once __DIR__ . '/framework/bootstrap.php';
+$totalStartTime = microtime(true);
 
 $shell = new Zend_Console_Getopt(
     array(
-        'profile-s'                         => 'Profile configuration file',
+        'profile-s' => 'Profile configuration file',
     )
 );
 
@@ -38,8 +39,16 @@ $application = new \Magento\ToolkitFramework\Application($applicationBaseDir, $s
 $application->bootstrap();
 
 foreach ($files as $fixture) {
-    echo 'Applying fixture ' . $fixture . PHP_EOL;
+    echo 'Applying fixture ' . $fixture . '...';
+    $startTime = microtime(true);
     $application->applyFixture(__DIR__ . '/fixtures/' . $fixture);
+    $endTime = microtime(true);
+    $resultTime = $endTime - $startTime;
+    echo ' done in ' . gmdate('H:i:s', $resultTime) . PHP_EOL;
 }
 
 $application->reindex();
+$totalEndTime = microtime(true);
+$totalResultTime = $totalEndTime - $totalStartTime;
+
+echo 'Total execution time: ' . gmdate('H:i:s', $totalResultTime) . PHP_EOL;
