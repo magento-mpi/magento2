@@ -94,11 +94,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_currentStore = null;
 
     /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerData = null;
-
-    /**
      * @var \Magento\AdvancedCheckout\Helper\Data
      */
     protected $_checkoutData = null;
@@ -186,12 +181,16 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $productConfiguration;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $customerSession;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Catalog\Model\Product\OptionFactory $optionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -203,6 +202,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param string $itemFailedStatus
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
@@ -211,7 +211,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Message\Factory $messageFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -223,6 +222,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -230,7 +230,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->messageFactory = $messageFactory;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
-        $this->_customerData = $customerData;
         $this->_optionFactory = $optionFactory;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_wishlistFactory = $wishlistFactory;
@@ -242,6 +241,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->messageManager = $messageManager;
         $this->productTypeConfig = $productTypeConfig;
         $this->productConfiguration = $productConfiguration;
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -333,7 +333,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function getActualQuote()
     {
         if (!$this->getCustomer()) {
-            $customer = $this->_customerData->getCustomer();
+            $customer = $this->customerSession->getCustomer();
             if ($customer) {
                 $this->setCustomer($customer);
             }

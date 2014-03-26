@@ -193,7 +193,10 @@ class Quote
                 $customerDetails =
                     $this->_customerDetailsBuilder->setCustomer($customerData)->setAddresses($addresses)->create();
                 $customerData = $this->_customerAccountService->createAccount(
-                    $customerDetails);
+                    $customerDetails,
+                    null,
+                    $quote->getPasswordHash()
+                );
                 $addresses = $this->_customerAddressService->getAddresses(
                     $customerData->getId()
                 );

@@ -131,7 +131,6 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
 
     }
 
-
     /**
      * Verify that after placing the order, addresses are associated with the order and the quote is a guest quote.
      *

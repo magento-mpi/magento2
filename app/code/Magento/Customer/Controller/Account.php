@@ -422,7 +422,7 @@ class Account extends \Magento\App\Action\Action
             $redirectUrl = $this->_getSession()->getBeforeAuthUrl();
             $customerDetails =
                 $this->_customerDetailsBuilder->setCustomer($customer)->setAddresses($addresses)->create();
-            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, $redirectUrl);
+            $customer = $this->_customerAccountService->createAccount($customerDetails, $password, null, $redirectUrl);
 
             if ($this->getRequest()->getParam('is_subscribed', false)) {
                 $this->_subscriberFactory->create()->updateSubscription($customer->getId(), true);

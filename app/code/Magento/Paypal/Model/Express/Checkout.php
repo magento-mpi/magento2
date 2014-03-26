@@ -232,11 +232,6 @@ class Checkout
     protected $_addressBuilder;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    protected $_customerConverter;
-
-    /**
      * @var \Magento\Customer\Service\V1\Data\CustomerBuilder
      */
     protected $_customerBuilder;
@@ -279,7 +274,6 @@ class Checkout
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Model\Converter $customerConverter
      * @param \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder
      * @param \Magento\Encryption\EncryptorInterface $encryptor
@@ -308,7 +302,6 @@ class Checkout
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder,
-        \Magento\Customer\Model\Converter $customerConverter,
         \Magento\Customer\Service\V1\Data\CustomerBuilder $customerBuilder,
         \Magento\Customer\Service\V1\Data\CustomerDetailsBuilder $customerDetailsBuilder,
         \Magento\Encryption\EncryptorInterface $encryptor,
@@ -335,7 +328,6 @@ class Checkout
         $this->_checkoutSession = $checkoutSession;
         $this->_customerAccountService = $customerAccountService;
         $this->_addressBuilder = $addressBuilder;
-        $this->_customerConverter = $customerConverter;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerDetailsBuilder = $customerDetailsBuilder;
         $this->_encryptor = $encryptor;
@@ -1121,7 +1113,8 @@ class Checkout
 
         $customer = $this->_customerAccountService->createAccount(
             $customerDetails,
-            $this->_encryptor->decrypt($quote->getPasswordHash())
+            null,
+            $quote->getPasswordHash()
         );
 
         $quote->setCustomerData($customer);

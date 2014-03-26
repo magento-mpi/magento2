@@ -511,12 +511,14 @@ class Onepage
         if ($quote->getCheckoutMethod() == self::METHOD_REGISTER) {
             // We always have $customerRequest here, otherwise we would have been kicked off the function several
             // lines above
-            if ($customerRequest->getParam('customer_password') != $customerRequest->getParam('confirm_password')) {
+            $password = $customerRequest->getParam('customer_password');
+            if ($password != $customerRequest->getParam('confirm_password')) {
                 return array(
                     'error'   => -1,
                     'message' => __('Password and password confirmation are not equal.')
                 );
             }
+            $quote->setPasswordHash($this->_customerAccountService->getPasswordHash($password));
         } else {
             // set NOT LOGGED IN group id explicitly,
             // otherwise copyFieldsetToTarget('customer_account', 'to_quote') will fill it with default group id value

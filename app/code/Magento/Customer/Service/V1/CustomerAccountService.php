@@ -20,6 +20,8 @@ use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\StateException;
 use Magento\Math\Random;
 use Magento\UrlInterface;
+use Magento\Encryption\EncryptorInterface as Encryptor;
+use Magento\Customer\Model\Config\Share as ConfigShare;
 
 /**
  * Handle various customer account actions
@@ -85,6 +87,16 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_url;
 
     /**
+     * @var Encryptor
+     */
+    private $_encryptor;
+
+    /**
+     * @var ConfigShare
+     */
+    private $_configShare;
+
+    /**
      * Constructor
      *
      * @param CustomerFactory $customerFactory
@@ -95,11 +107,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param Validator $validator
      * @param Data\CustomerBuilder $customerBuilder
      * @param Data\CustomerDetailsBuilder $customerDetailsBuilder
-     * @param Data\SearchResultsBuilder $searchResultsBuilder,
+     * @param Data\SearchResultsBuilder $searchResultsBuilder ,
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param CustomerMetadataServiceInterface $customerMetadataService
      * @param UrlInterface $url
-     *
+     * @param Encryptor $encryptor
+     * @param ConfigShare $configShare
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -114,7 +127,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         Data\SearchResultsBuilder $searchResultsBuilder,
         CustomerAddressServiceInterface $customerAddressService,
         CustomerMetadataServiceInterface $customerMetadataService,
-        UrlInterface $url
+        UrlInterface $url,
+        Encryptor $encryptor,
+        ConfigShare $configShare
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_eventManager = $eventManager;
@@ -128,6 +143,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_customerAddressService = $customerAddressService;
         $this->_customerMetadataService = $customerMetadataService;
         $this->_url = $url;
+        $this->_encryptor = $encryptor;
+        $this->_configShare = $configShare;
     }
 
     /**
@@ -254,7 +271,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->_validateResetPasswordToken($customerId, $resetToken);
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
-        $customerModel->setPassword($newPassword);
+        $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
     }
 
@@ -276,16 +293,26 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function createAccount(Data\CustomerDetails $customerDetails, $password = null, $redirectUrl = '')
-    {
+    public function createAccount(
+        Data\CustomerDetails $customerDetails,
+        $password = null,
+        $hash = null,
+        $redirectUrl = ''
+    ) {
         $customer = $customerDetails->getCustomer();
 
         // This logic allows an existing customer to be added to a different store.  No new account is created.
         // The plan is to move this logic into a new method called something like 'registerAccountWithStore'
         if ($customer->getId()) {
-            $customerModel = $this->_converter->getCustomerModel($customer->getId());
-            if ($customerModel->isInStore($customer->getStoreId())) {
+            $websiteId = $this->_converter->getCustomerModel($customer->getId())->getWebsiteId();
+
+            if ($this->isCustomerInStore($websiteId, $customer->getStoreId())) {
                 throw new InputException(__('Customer already exists in this store.'));
+            }
+
+            if (empty($password) && empty($hash)) {
+                // Reuse existing password
+                $hash = $this->_converter->getCustomerModel($customer->getId())->getPasswordHash();
             }
         }
         // Make sure we have a storeId to associate this customer with.
@@ -301,7 +328,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         try {
-            $customerId = $this->saveCustomer($customer, $password);
+            $customerId = $this->saveCustomer($customer, $password, $hash);
         } catch (\Magento\Customer\Exception $e) {
             if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
                 throw new StateException(
@@ -343,7 +370,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $customerDetails->getCustomer();
         // Making this call first will ensure the customer already exists.
         $this->getCustomer($customer->getId());
-        $this->saveCustomer($customer);
+
+        $this->saveCustomer(
+            $customer,
+            null,
+            $this->_converter->getCustomerModel($customer->getId())->getPasswordHash()
+        );
 
         $addresses = $customerDetails->getAddresses();
         // If $address is null, no changes must made to the list of addresses
@@ -477,19 +509,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function saveCustomer(Data\Customer $customer, $password = null)
+    public function saveCustomer(Data\Customer $customer, $password = null, $hash = null)
     {
         $customerModel = $this->_converter->createCustomerModel($customer);
 
-        if ($password) {
-            $customerModel->setPassword($password);
-        } elseif (!$customerModel->getId()) {
-            $customerModel->setPassword($customerModel->generatePassword());
-        }
-
+        // Priority: hash, password, auto generated password
+        $passwordHash = $hash ?: $this->getPasswordHash($password ?: $customerModel->generatePassword());
+        $customerModel->setPasswordHash($passwordHash);
         // Shouldn't we be calling validateCustomerData/Details here?
         $this->_validate($customerModel);
-
         $customerModel->save();
 
         return $customerModel->getId();
@@ -518,10 +546,18 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
         $customerModel->setRpToken(null);
         $customerModel->setRpTokenCreatedAt(null);
-        $customerModel->setPassword($newPassword);
+        $customerModel->setPasswordHash($this->getPasswordHash($newPassword));
         $customerModel->save();
         // FIXME: Are we using the proper template here?
         $customerModel->sendPasswordResetNotificationEmail();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPasswordHash($password)
+    {
+        return $this->_encryptor->getHash($password, true);
     }
 
     /**
@@ -701,5 +737,22 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (NoSuchEntityException $e) {
             return true;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isCustomerInStore($customerWebsiteId, $storeId)
+    {
+        $ids = [];
+        if ((bool)$this->_configShare->isWebsiteScope()) {
+            $ids = $this->_storeManager->getWebsite($customerWebsiteId)->getStoreIds();
+        } else {
+            foreach ($this->_storeManager->getStores() as $store) {
+                $ids[] = $store->getId();
+            }
+        }
+
+        return in_array($storeId, $ids);
     }
 }

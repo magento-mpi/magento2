@@ -38,7 +38,8 @@ interface CustomerAccountServiceInterface
      * Create Customer Account
      *
      * @param \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails
-     * @param string $password If null then a random password will be assigned
+     * @param string $password If null then a random password will be assigned. Disregard if $hash is not empty.
+     * @param string $hash Password hash that we can save directly
      * @param string $redirectUrl URL fed to welcome email templates. Can be used by templates to, for example, direct
      *                            the customer to a product they were looking at after pressing confirmation link.
      * @return \Magento\Customer\Service\V1\Data\Customer
@@ -49,6 +50,7 @@ interface CustomerAccountServiceInterface
     public function createAccount(
         \Magento\Customer\Service\V1\Data\CustomerDetails $customerDetails,
         $password = null,
+        $hash = null,
         $redirectUrl = ''
     );
 
@@ -66,13 +68,14 @@ interface CustomerAccountServiceInterface
      * Create or update customer information
      *
      * @param \Magento\Customer\Service\V1\Data\Customer $customer
-     * @param string $password
+     * @param string $password Plain text password
+     * @param string $hash Hashed password ready to be saved
      * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws \Magento\Exception\InputException If bad input is provided
      * @return int customer ID
      * @deprecated use createAccount or updateCustomer instead
      */
-    public function saveCustomer(\Magento\Customer\Service\V1\Data\Customer $customer, $password = null);
+    public function saveCustomer(\Magento\Customer\Service\V1\Data\Customer $customer, $password = null, $hash = null);
 
     /**
      * Retrieve Customer
@@ -126,6 +129,16 @@ interface CustomerAccountServiceInterface
      * @throws \Magento\Exception\AuthenticationException If invalid currentPassword is supplied
      */
     public function changePassword($customerId, $currentPassword, $newPassword);
+
+    /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     * @todo this method has to be removed when the checkout process refactored in the way it won't require to pass
+     *       a password through requests
+     */
+    public function getPasswordHash($password);
 
     /**
      * Check if password reset token is valid
@@ -243,4 +256,13 @@ interface CustomerAccountServiceInterface
      * @return bool true if the email is not associated with a customer account in given website
      */
     public function isEmailAvailable($customerEmail, $websiteId);
+
+    /**
+     * Check store availability for customer given the customerId
+     *
+     * @param int $customerWebsiteId
+     * @param int $storeId
+     * @return bool
+     */
+    public function isCustomerInStore($customerWebsiteId, $storeId);
 }
