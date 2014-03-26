@@ -20,10 +20,10 @@ $model = $this->getObjectManager()->get('Magento\SalesRule\Model\Rule');
 //Get all websites
 $categories_array = array();
 $websites = $storeManager->getWebsites();
-foreach($websites as $website) {
+foreach ($websites as $website) {
     //Get all groups
     $website_groups = $website->getGroups();
-    foreach($website_groups as $website_group) {
+    foreach ($website_groups as $website_group) {
         $website_group_root_category = $website_group->getRootCategoryId();
         $category->load($website_group_root_category);
         $categoryResource = $category->getResource();
@@ -145,7 +145,7 @@ for ($i = 0; $i < $cartPriceRulesCount; $i++) {
     if (isset($data['simple_action']) && $data['simple_action'] == 'by_percent'
         && isset($data['discount_amount'])
     ) {
-        $data['discount_amount'] = min(100,$data['discount_amount']);
+        $data['discount_amount'] = min(100, $data['discount_amount']);
     }
     if (isset($data['rule']['conditions'])) {
         $data['conditions'] = $data['rule']['conditions'];

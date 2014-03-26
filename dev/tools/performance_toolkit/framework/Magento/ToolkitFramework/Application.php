@@ -61,6 +61,8 @@ class Application
 
     /**
      * Update permissions for `var` directory
+     *
+     * @return void
      */
     protected function _updateFilesystemPermissions()
     {
@@ -118,6 +120,8 @@ class Application
      * excessive fixtures has been applied before.
      *
      * @param array $fixtures
+     *
+     * @return void
      */
     public function applyFixtures(array $fixtures)
     {
@@ -141,6 +145,8 @@ class Application
      * Apply fixture file
      *
      * @param string $fixtureFilename
+     *
+     * @return void
      */
     public function applyFixture($fixtureFilename)
     {

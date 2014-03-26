@@ -17,11 +17,11 @@ $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 $result = array();
 //Get all websites
 $websites = $storeManager->getWebsites();
-foreach($websites as $website) {
+foreach ($websites as $website) {
     $website_code = $website->getCode();
     //Get all groups
     $website_groups = $website->getGroups();
-    foreach($website_groups as $website_group) {
+    foreach ($website_groups as $website_group) {
         $website_group_root_category = $website_group->getRootCategoryId();
         $category->load($website_group_root_category);
         $categoryResource = $category->getResource();

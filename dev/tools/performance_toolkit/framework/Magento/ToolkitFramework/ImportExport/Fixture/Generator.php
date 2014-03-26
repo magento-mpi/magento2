@@ -60,6 +60,13 @@ class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
         return $this->_key + 1 <= $this->_limit;
     }
 
+    /**
+     * Render next row
+     *
+     * Return array or false on error
+     *
+     * @return array|false
+     */
     protected function _getNextRow()
     {
         $row = $this->_pattern;

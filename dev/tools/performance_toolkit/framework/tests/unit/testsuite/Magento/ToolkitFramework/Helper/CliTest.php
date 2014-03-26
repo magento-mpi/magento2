@@ -33,6 +33,8 @@ class CliTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Set up before test
+     *
+     * @return void
      */
     public function setUp()
     {
@@ -42,18 +44,22 @@ class CliTest extends \PHPUnit_Framework_TestCase
             array('getOption'),
             array(array())
         );
-        $this->_getOpt->expects($this->any())->method('getOption')->will($this->returnValueMap(
-            array(
-                array(self::TEST_OPTION_NAME, self::TEST_OPTION_VALUE),
-                array('xxx', null),
+        $this->_getOpt->expects($this->any())->method('getOption')->will(
+            $this->returnValueMap(
+                array(
+                    array(self::TEST_OPTION_NAME, self::TEST_OPTION_VALUE),
+                    array('xxx', null),
+                )
             )
-        ));
+        );
 
         \Magento\ToolkitFramework\Helper\Cli::setOpt($this->_getOpt);
     }
 
     /**
-     * Tesr down after test
+     * Tear down after test
+     *
+     * @retrun void
      */
     public function tearDown()
     {
@@ -63,6 +69,8 @@ class CliTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test CLI helper
+     *
+     * @retrun void
      */
     public function testCli()
     {

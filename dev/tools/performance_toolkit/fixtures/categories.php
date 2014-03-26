@@ -58,5 +58,3 @@ while ($categoryIndex <= $categoriesNumber) {
         $group_number = 0;
     }
 }
-
-

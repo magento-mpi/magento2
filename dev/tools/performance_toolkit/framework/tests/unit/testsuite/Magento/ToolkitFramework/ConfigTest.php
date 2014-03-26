@@ -12,6 +12,9 @@ namespace Magento\ToolkitFramework;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @retrun void
+     */
     public function testUnaccessibleConfig()
     {
         $this->setExpectedException('Exception', 'Profile configuration file `))` is not readable or does not exists.');

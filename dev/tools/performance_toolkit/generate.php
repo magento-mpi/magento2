@@ -10,9 +10,11 @@
 
 $applicationBaseDir = require_once __DIR__ . '/framework/bootstrap.php';
 
-$shell = new Zend_Console_Getopt(array(
-    'profile-s'                         => 'Profile configuration file',
-));
+$shell = new Zend_Console_Getopt(
+    array(
+        'profile-s'                         => 'Profile configuration file',
+    )
+);
 
 \Magento\ToolkitFramework\Helper\Cli::setOpt($shell);
 

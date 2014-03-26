@@ -26,6 +26,8 @@ class Cli
      * Set GetOpt object
      *
      * @param \Zend_Console_Getopt $getopt
+     *
+     * @return void
      */
     public static function setOpt(\Zend_Console_Getopt $getopt)
     {

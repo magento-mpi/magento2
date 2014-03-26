@@ -17,7 +17,7 @@ $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 $result = array();
 //Get all websites
 $websites = $storeManager->getWebsites();
-foreach($websites as $website) {
+foreach ($websites as $website) {
     $result[] = $website->getCode();
 }
 $result = array_values($result);
@@ -30,7 +30,7 @@ $pattern = array(
     'email'                       => 'user_%s@example.com',
     '_website'                    => $productWebsite,
     '_store'                      => '',
-    'confirmation'                => NULL,
+    'confirmation'                => null,
     'created_at'                  => '30-08-2012 17:43',
     'created_in'                  => 'Default',
     'default_billing'             => '1',
@@ -43,12 +43,12 @@ $pattern = array(
     'lastname'                    => 'Lastname',
     'middlename'                  => '',
     'password_hash'               => '',
-    'prefix'                      => NULL,
-    'rp_token'                    => NULL,
-    'rp_token_created_at'         => NULL,
+    'prefix'                      => null,
+    'rp_token'                    => null,
+    'rp_token_created_at'         => null,
     'store_id'                    => '0',
-    'suffix'                      => NULL,
-    'taxvat'                      => NULL,
+    'suffix'                      => null,
+    'taxvat'                      => null,
     'website_id'                  => '1',
     'password'                    => '123123q',
     '_address_city'               => 'Fayetteville',

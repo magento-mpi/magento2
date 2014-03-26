@@ -13,6 +13,11 @@ namespace Magento\ToolkitFramework\ImportExport\Fixture;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @test
+     *
+     * @retrun void
+     */
     public function testIteratorInterface()
     {
         $pattern = array(
@@ -32,9 +37,12 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         foreach ($model as $row) {
             $rows[] = $row;
         }
-        $this->assertEquals(array(
-            array('id' => '1', 'name' => 'Static', 'calculated' => 10),
-            array('id' => '2', 'name' => 'Static', 'calculated' => 20),
-        ), $rows);
+        $this->assertEquals(
+            array(
+                array('id' => '1', 'name' => 'Static', 'calculated' => 10),
+                array('id' => '2', 'name' => 'Static', 'calculated' => 20),
+            ),
+            $rows
+        );
     }
 }

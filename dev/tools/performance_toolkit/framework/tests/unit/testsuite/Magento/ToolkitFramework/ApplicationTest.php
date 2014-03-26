@@ -35,6 +35,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Set Up before test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -48,6 +50,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tear down after test
+     *
+     * @return void
      */
     protected function tearDown()
     {
@@ -61,6 +65,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * @param array $fixtures
      * @param array $expected
      * @dataProvider applyFixturesDataProvider
+     *
+     * @retrun void
      */
     public function testApplyFixtures($fixtures, $expected)
     {
@@ -94,6 +100,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * @param array $subsequentFixtures
      * @param array $subsequentExpected
      * @dataProvider applyFixturesSeveralTimesDataProvider
+     *
+     * @return void
      */
     public function testApplyFixturesSeveralTimes($initialFixtures, $subsequentFixtures, $subsequentExpected)
     {
@@ -130,9 +138,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Adds file paths to fixture in a list
+     * Get fixture files
      *
-     * @param array $fixture
+     * @param array $fixtures
      *
      * @return array
      */
@@ -144,5 +152,4 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         }
         return $result;
     }
-
 }

@@ -62,6 +62,8 @@ class ComplexGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Test complex generator iterator interface
+     *
+     * @return void
      */
     public function testIteratorInterface()
     {
@@ -70,18 +72,23 @@ class ComplexGeneratorTest extends \PHPUnit_Framework_TestCase
         foreach ($model as $row) {
             $rows[] = $row;
         }
-        $this->assertEquals(array(
-            array('id' => '1', 'name' => 'Static', 'calculated' => 10),
-            array('id' => '',  'name' => 'xxx 1',  'calculated' => ''),
-            array('id' => '',  'name' => 'yyy 1',  'calculated' => ''),
-            array('id' => '2', 'name' => 'Static', 'calculated' => 20),
-            array('id' => '',  'name' => 'xxx 2',  'calculated' => ''),
-            array('id' => '',  'name' => 'yyy 2',  'calculated' => ''),
-        ), $rows);
+        $this->assertEquals(
+            array(
+                array('id' => '1', 'name' => 'Static', 'calculated' => 10),
+                array('id' => '',  'name' => 'xxx 1',  'calculated' => ''),
+                array('id' => '',  'name' => 'yyy 1',  'calculated' => ''),
+                array('id' => '2', 'name' => 'Static', 'calculated' => 20),
+                array('id' => '',  'name' => 'xxx 2',  'calculated' => ''),
+                array('id' => '',  'name' => 'yyy 2',  'calculated' => ''),
+            ),
+            $rows
+        );
     }
 
     /**
      * Test generator getIndex
+     *
+     * @return void
      */
     public function testGetIndex()
     {

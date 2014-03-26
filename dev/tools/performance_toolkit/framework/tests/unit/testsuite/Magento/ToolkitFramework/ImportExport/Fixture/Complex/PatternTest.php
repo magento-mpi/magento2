@@ -21,7 +21,7 @@ class PatternTest extends \PHPUnit_Framework_TestCase
     /**
      * Get pattern object
      *
-     * @param $patternData
+     * @param array $patternData
      *
      * @return \Magento\ToolkitFramework\ImportExport\Fixture\Complex\Pattern
      */
@@ -95,6 +95,8 @@ class PatternTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider patternDataPrivider
      * @test
+     *
+     * @return void
      */
     public function testPattern($patternData, $expectedRowsCount, $expectedRowsResult)
     {

@@ -41,11 +41,13 @@ for ($i = 0; $i < $websitesCount; $i++) {
     $website = clone $defaultWebsite;
     $websiteCode = sprintf('website_%d', $i+1);
     $websiteName = sprintf('Website %d', $i+1);
-    $website->addData(array(
-        'website_id' => $website_id,
-        'code'     => $websiteCode,
-        'name'     => $websiteName
-    ));
+    $website->addData(
+        array(
+            'website_id' => $website_id,
+            'code'     => $websiteCode,
+            'name'     => $websiteName
+        )
+    );
     $website->save();
     $websites_id[$i] = $website->getId();
     usleep(20);
@@ -77,12 +79,14 @@ for ($i = 0; $i < $storeGroupsCount; $i++) {
         ->save();
 
     $storeGroup = clone $defaultStoreGroup;
-    $storeGroup->addData(array(
-        'group_id'          => $group_id,
-        'website_id'        => $website_id,
-        'name'              => $storeGroupName,
-        'root_category_id'  => $category->getId()
-    ));
+    $storeGroup->addData(
+        array(
+            'group_id'          => $group_id,
+            'website_id'        => $website_id,
+            'name'              => $storeGroupName,
+            'root_category_id'  => $category->getId()
+        )
+    );
     $storeGroup->save();
     $groups_id[$website_id][] = $storeGroup->getId();
 
@@ -106,13 +110,15 @@ for ($i = 0; $i < $storesCount; $i++) {
     $store = clone $defaultStoreView;
     $storeCode = sprintf('store_view_%d_w_%d_g_%d', $i+1, $website_id, $group_id);
     $storeName = sprintf('Store view %d - website_id_%d - group_id_%d', $i+1, $website_id, $group_id);
-    $store->addData(array(
-        'store_id'      => $store_id,
-        'code'          => $storeCode,
-        'name'          => $storeName,
-        'website_id'    => $website_id,
-        'group_id'      => $group_id
-    ));
+    $store->addData(
+        array(
+            'store_id'      => $store_id,
+            'code'          => $storeCode,
+            'name'          => $storeName,
+            'website_id'    => $website_id,
+            'group_id'      => $group_id
+        )
+    );
     $store->save();
 
     $group_number++;

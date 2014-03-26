@@ -34,8 +34,10 @@ class Config
     /**
      * Load config from file
      *
-     * @param $filename
+     * @param string $filename
      * @throws \Exception
+     *
+     * @return void
      */
     public function loadConfig($filename)
     {
