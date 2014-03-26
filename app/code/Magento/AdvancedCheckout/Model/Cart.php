@@ -201,8 +201,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
-     * @param string $itemFailedStatus
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param string $itemFailedStatus
      * @param array $data
      */
     public function __construct(
@@ -221,8 +221,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
-        $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         \Magento\Customer\Model\Session $customerSession,
+        $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
         $this->_cart = $cart;
