@@ -92,6 +92,16 @@ class AbstractPrice implements PriceInterface
     }
 
     /**
+     * Get PriceInfo Object
+     *
+     * @return \Magento\Pricing\PriceInfoInterface
+     */
+    protected function getPriceInfo()
+    {
+        return $this->salableItem->getPriceInfo();
+    }
+
+    /**
      * @return float
      */
     public function getQuantity()
