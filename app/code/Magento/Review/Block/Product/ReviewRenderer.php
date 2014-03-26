@@ -59,6 +59,16 @@ class ReviewRenderer extends \Magento\View\Element\Template implements ReviewRen
         $templateType = self::DEFAULT_REVIEW,
         $displayIfNoReviews = false
     ) {
+
+        //moved from doubled method calls ($product->getRatingSummary() and $this->getReviewsSummaryHtml())
+        //covered not all cases
+        // 1. app/code/Magento/Catalog/view/frontend/product/compare/list.phtml
+        // 2. app/code/Magento/Review/view/frontend/view.phtml
+        // 3. /app/code/Magento/Review/view/frontend/customer/view.phtml
+
+        if (!$product->getRatingSummary() && !$displayIfNoReviews) {
+            return '';
+        }
         // pick template among available
         if (empty($this->_availableTemplates[$templateType])) {
             $templateType = self::DEFAULT_REVIEW;

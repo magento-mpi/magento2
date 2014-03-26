@@ -195,8 +195,8 @@ switch($type = $this->getType()) {
 
                             <?php echo $this->getPriceHtml($_item, true, '-' . $type) ?>
 
-                            <?php if ($_item->getRatingSummary() && $rating): ?>
-                                <?php echo $this->getReviewsSummaryHtml($_item,$rating) ?>
+                            <?php if ($rating): ?>
+                                <?php echo $this->getReviewsSummaryHtml($_item, $rating) ?>
                             <?php endif; ?>
 
                             <?php if(!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>

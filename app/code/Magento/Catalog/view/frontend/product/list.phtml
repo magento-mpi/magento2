@@ -47,6 +47,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
     <div class="products wrapper <?php echo $viewMode; ?>">
         <?php $iterator = 1; ?>
         <ol class="products list items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
                 <?php echo ($iterator++==1) ? '<li class="item product">' : '</li><li class="item product">' ?>
                 <div class="product">
@@ -61,9 +62,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                                 <?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
                             </a>
                         </strong>
-                        <?php if ($_product->getRatingSummary()): ?>
-                            <?php echo $this->getReviewsSummaryHtml($_product,$rating) ?>
-                        <?php endif; ?>
+                        <?php echo $this->getReviewsSummaryHtml($_product, $rating); ?>
                         <?php echo $this->getPriceHtml($_product, true) ?>
                         <div class="product actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
                             <div class="primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position: ''; ?>>
