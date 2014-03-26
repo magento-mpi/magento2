@@ -30,7 +30,7 @@ namespace Magento\GiftRegistry\Model;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Person extends \Magento\Core\Model\AbstractModel
+class Person extends \Magento\Model\AbstractModel
 {
     /**
      * @var Entity

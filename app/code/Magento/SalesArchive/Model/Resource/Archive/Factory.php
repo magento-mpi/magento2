@@ -31,7 +31,7 @@ class Factory
 
     /**
      * @param string $className
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      * @throws \InvalidArgumentException
      */
     public function get($className)

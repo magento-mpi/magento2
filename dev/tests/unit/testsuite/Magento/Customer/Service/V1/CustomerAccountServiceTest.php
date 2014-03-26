@@ -437,7 +437,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'authenticate'
         )->will(
-            $this->throwException(new \Magento\Core\Exception('exception message'))
+            $this->throwException(new \Magento\Model\Exception('exception message'))
         );
 
         $this->_customerFactoryMock->expects(
@@ -673,7 +673,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage Invalid transactional email code: 0
      */
     public function testSendPasswordResetLinkSendException()
@@ -700,7 +700,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'sendPasswordResetConfirmationEmail'
         )->will(
-            $this->throwException(new \Magento\Core\Exception(__('Invalid transactional email code: %1', 0)))
+            $this->throwException(new \Magento\Model\Exception(__('Invalid transactional email code: %1', 0)))
         );
 
         $customerService = $this->_createService();

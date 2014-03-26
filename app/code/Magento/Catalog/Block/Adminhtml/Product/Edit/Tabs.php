@@ -248,22 +248,6 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 $this->getChildBlock('product-alerts')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
             }
 
-            if ($this->getRequest()->getParam('id')) {
-                if ($this->_catalogData->isModuleEnabled('Magento_Review')) {
-                    if ($this->_authorization->isAllowed('Magento_Review::reviews_all')) {
-                        $this->addTab(
-                            'product-reviews',
-                            array(
-                                'label' => __('Product Reviews'),
-                                'url' => $this->getUrl('catalog/*/reviews', array('_current' => true)),
-                                'class' => 'ajax',
-                                'group_code' => self::ADVANCED_TAB_GROUP_CODE
-                            )
-                        );
-                    }
-                }
-            }
-
             if (isset($advancedGroups['autosettings'])) {
                 $this->addTab('autosettings', $advancedGroups['autosettings']);
                 unset($advancedGroups['autosettings']);

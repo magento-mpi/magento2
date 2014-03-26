@@ -19,6 +19,7 @@
     <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
     <preference for="Magento\App\Response\Http\FileFactory" type="Magento\Backend\App\Response\Http\FileFactory" />
     <preference for="Magento\App\View" type="Magento\Backend\Model\View" />
+    <preference for="Magento\Model\ActionValidator\RemoveAction" type="Magento\Model\ActionValidator\RemoveAction\Allowed" />
     <type name="Magento\Backend\App\Action\Context">
         <arguments>
             <argument name="helper" xsi:type="object">Magento\Backend\Helper\Data</argument>

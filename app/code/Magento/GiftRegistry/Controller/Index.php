@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Controller;
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 use Magento\App\ResponseInterface;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Gift registry frontend controller

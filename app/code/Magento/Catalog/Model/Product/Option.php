@@ -11,8 +11,8 @@ namespace Magento\Catalog\Model\Product;
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Resource\Product\Option\Value\Collection;
-use Magento\Core\Exception;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\Exception;
+use Magento\Model\AbstractModel;
 
 /**
  * Catalog product option model
@@ -111,7 +111,7 @@ class Option extends AbstractModel
      * @param Option\Value $productOptionValue
      * @param \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -121,7 +121,7 @@ class Option extends AbstractModel
         Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -134,7 +134,7 @@ class Option extends AbstractModel
     /**
      * Get resource instance
      *
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * @return \Magento\Model\Resource\Db\AbstractDb
      */
     protected function _getResource()
     {

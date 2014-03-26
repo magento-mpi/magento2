@@ -23,7 +23,7 @@ namespace Magento\User\Model;
  * @method string getPermission()
  * @method \Magento\User\Model\Rules setPermission(string $value)
  */
-class Rules extends \Magento\Core\Model\AbstractModel
+class Rules extends \Magento\Model\AbstractModel
 {
     /**
      * Class constructor

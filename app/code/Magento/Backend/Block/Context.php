@@ -41,7 +41,6 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -64,8 +63,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\AuthorizationInterface $authorization,
-        array $data = array()
+        \Magento\AuthorizationInterface $authorization
     ) {
         $this->_authorization = $authorization;
         parent::__construct(
@@ -86,8 +84,7 @@ class Context extends \Magento\View\Element\Context
             $escaper,
             $filterManager,
             $localeDate,
-            $inlineTranslation,
-            $data
+            $inlineTranslation
         );
     }
 

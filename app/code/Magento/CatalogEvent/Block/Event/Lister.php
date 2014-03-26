@@ -109,7 +109,7 @@ class Lister extends AbstractEvent
             $this->_events = array();
             $categories = $this->_categoryHelper->getStoreCategories('position', true, false);
             if ($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection ||
-                $categories instanceof \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+                $categories instanceof \Magento\Model\Resource\Db\Collection\AbstractCollection
             ) {
                 $allIds = $categories->getAllIds();
             } else {

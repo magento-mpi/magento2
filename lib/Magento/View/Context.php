@@ -14,8 +14,8 @@ use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
-use Magento\Core\Model\App;
 use Magento\App\State as AppState;
+use Magento\View\LayoutInterface;
 use Magento\Session\SessionManager;
 use Magento\App\CacheInterface as Cache;
 use Magento\App\Cache\StateInterface as CacheState;
@@ -131,13 +131,6 @@ class Context
     protected $logger;
 
     /**
-     * Application
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $app;
-
-    /**
      * Application state
      *
      * @var \Magento\App\State
@@ -160,8 +153,8 @@ class Context
      * @param ViewConfig $viewConfig
      * @param CacheState $cacheState
      * @param Logger $logger
-     * @param App $app
      * @param AppState $appState
+     * @param LayoutInterface $layout
      *
      * @todo reduce parameter number
      *
@@ -181,8 +174,8 @@ class Context
         ViewConfig $viewConfig,
         CacheState $cacheState,
         Logger $logger,
-        App $app,
-        AppState $appState
+        AppState $appState,
+        LayoutInterface $layout
     ) {
         $this->request = $request;
         $this->eventManager = $eventManager;
@@ -193,12 +186,12 @@ class Context
         $this->session = $session;
         $this->storeConfig = $storeConfig;
         $this->frontController = $frontController;
-        $this->viewUrl = $viewUrl;
-        $this->viewConfig = $viewConfig;
-        $this->cacheState = $cacheState;
-        $this->logger = $logger;
-        $this->app = $app;
-        $this->appState = $appState;
+        $this->viewUrl         = $viewUrl;
+        $this->viewConfig      = $viewConfig;
+        $this->cacheState      = $cacheState;
+        $this->logger          = $logger;
+        $this->appState        = $appState;
+        $this->layout          = $layout;
     }
 
     /**
@@ -342,23 +335,13 @@ class Context
     }
 
     /**
-     * Retrieve application
-     *
-     * @return \Magento\Core\Model\App
-     */
-    public function getApp()
-    {
-        return $this->app;
-    }
-
-    /**
      * Retrieve layout area
      *
      * @return string
      */
     public function getArea()
     {
-        return $this->app->getLayout()->getArea();
+        return $this->layout->getArea();
     }
 
     /**

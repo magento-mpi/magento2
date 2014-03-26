@@ -12,7 +12,7 @@ namespace Magento\GiftRegistry\Model\Attribute;
 /**
  * Gift registry custom attribute processor model
  */
-class Processor extends \Magento\Core\Model\AbstractModel
+class Processor extends \Magento\Model\AbstractModel
 {
     const XML_PROTOTYPE_NODE = 'prototype';
 

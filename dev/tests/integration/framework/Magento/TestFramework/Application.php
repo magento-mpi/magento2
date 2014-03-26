@@ -215,8 +215,7 @@ class Application
         $objectManager->configure(
             array(
                 'preferences' => array(
-                    'Magento\App\State' => 'Magento\TestFramework\App\State',
-                    'Magento\Core\Model\App' => 'Magento\TestFramework\App'
+                    'Magento\App\State' => 'Magento\TestFramework\App\State'
                 )
             )
         );
@@ -330,12 +329,8 @@ class Application
         /* Initialize an application in non-installed mode */
         $this->initialize();
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
-        )->loadAreaPart(
-            'install',
-            \Magento\Core\Model\App\Area::PART_CONFIG
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList')
+            ->getArea('install')->load(\Magento\Core\Model\App\Area::PART_CONFIG);
 
         /* Run all install and data-install scripts */
         /** @var $updater \Magento\Module\Updater */
@@ -502,11 +497,11 @@ class Application
                 $areaCode
             )
         );
-        $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App');
+        $app = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\AreaList');
         if ($areaCode == \Magento\TestFramework\Application::DEFAULT_APP_AREA) {
-            $app->loadAreaPart($areaCode, \Magento\Core\Model\App\Area::PART_CONFIG);
+            $app->getArea($areaCode)->load(\Magento\Core\Model\App\Area::PART_CONFIG);
         } else {
-            $app->loadArea($areaCode);
+            \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($areaCode);
         }
     }
 }

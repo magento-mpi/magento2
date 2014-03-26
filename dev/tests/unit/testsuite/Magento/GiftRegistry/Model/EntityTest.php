@@ -86,21 +86,20 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
 
         $appState = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $context = new \Magento\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
-        $giftRegistryData = $this->getMock(
-            'Magento\GiftRegistry\Helper\Data',
-            array('getRegistryLink'),
-            array(),
-            '',
-            false,
-            false
+        $actionValidatorMock = $this->getMock(
+            '\Magento\Model\ActionValidator\RemoveAction', array(), array(), '', false
         );
-        $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
+        $context = new \Magento\Model\Context(
+            $logger, $eventDispatcher, $cacheManager, $appState, $actionValidatorMock
+        );
+        $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
+            array(), '', false, false);
+        $giftRegistryData->expects($this->any())
+            ->method('getRegistryLink')
+            ->will($this->returnArgument(0));
         $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);

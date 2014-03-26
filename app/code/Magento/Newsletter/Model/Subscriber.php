@@ -27,7 +27,7 @@ namespace Magento\Newsletter\Model;
  * @method int getSubscriberId()
  * @method Subscriber setSubscriberId(int $value)
  */
-class Subscriber extends \Magento\Core\Model\AbstractModel
+class Subscriber extends \Magento\Model\AbstractModel
 {
     const STATUS_SUBSCRIBED = 1;
 
@@ -131,7 +131,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -145,11 +145,10 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_newsletterData = $newsletterData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_transportBuilder = $transportBuilder;
@@ -157,6 +156,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->inlineTranslation = $inlineTranslation;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -447,13 +447,13 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Unsubscribes loaded subscription
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     public function unsubscribe()
     {
         if ($this->hasCheckCode() && $this->getCode() != $this->getCheckCode()) {
-            throw new \Magento\Core\Exception(__('This is an invalid subscription confirmation code.'));
+            throw new \Magento\Model\Exception(__('This is an invalid subscription confirmation code.'));
         }
 
         $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)->save();

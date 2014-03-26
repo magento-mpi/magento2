@@ -82,7 +82,6 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -109,8 +108,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        array $data = array()
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct(
             $request,
@@ -130,8 +128,7 @@ class Context extends \Magento\View\Element\Context
             $escaper,
             $filterManager,
             $localeDate,
-            $inlineTranslation,
-            $data
+            $inlineTranslation
         );
 
         $this->_storeManager = $storeManager;

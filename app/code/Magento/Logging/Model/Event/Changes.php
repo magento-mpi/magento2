@@ -29,7 +29,7 @@ namespace Magento\Logging\Model\Event;
  * @package     Magento_Logging
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Changes extends \Magento\Core\Model\AbstractModel
+class Changes extends \Magento\Model\AbstractModel
 {
     /**
      * Set of fields that should not be logged for all models
@@ -55,7 +55,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $skipFields
      * @param array $data
@@ -63,7 +63,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $skipFields = array(),
         array $data = array()

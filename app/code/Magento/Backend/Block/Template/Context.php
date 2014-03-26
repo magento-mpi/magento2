@@ -67,7 +67,6 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Code\NameBuilder $nameBuilder
-     * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -99,8 +98,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Math\Random $mathRandom,
         \Magento\Data\Form\FormKey $formKey,
-        \Magento\Code\NameBuilder $nameBuilder,
-        array $data = array()
+        \Magento\Code\NameBuilder $nameBuilder
     ) {
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
@@ -130,8 +128,7 @@ class Context extends \Magento\View\Element\Template\Context
             $viewFileSystem,
             $enginePool,
             $appState,
-            $storeManager,
-            $data
+            $storeManager
         );
     }
 

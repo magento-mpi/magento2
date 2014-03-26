@@ -15,19 +15,13 @@
  */
 namespace Magento\Core\Model\App;
 
-class Area
+class Area implements \Magento\App\AreaInterface
 {
     const AREA_GLOBAL = 'global';
 
     const AREA_FRONTEND = 'frontend';
-
-    const AREA_ADMIN = 'admin';
-
-    const PART_CONFIG = 'config';
-
-    const PART_TRANSLATE = 'translate';
-
-    const PART_DESIGN = 'design';
+    
+    const AREA_ADMIN    = 'admin';
 
     /**
      * Area parameter.

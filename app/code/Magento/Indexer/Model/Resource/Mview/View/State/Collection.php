@@ -7,7 +7,7 @@
  */
 namespace Magento\Indexer\Model\Resource\Mview\View\State;
 
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection implements
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection implements
     \Magento\Mview\View\State\CollectionInterface
 {
     /**

@@ -12,7 +12,7 @@ namespace Magento\Rma\Model\Rma\Status;
 /**
  * RMA model
  */
-class History extends \Magento\Core\Model\AbstractModel
+class History extends \Magento\Model\AbstractModel
 {
     /**
      * Core store manager interface
@@ -60,10 +60,10 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder ,
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Stdlib\DateTime\DateTime $date
      * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -76,7 +76,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Stdlib\DateTime\DateTime $date,
         \Magento\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

@@ -177,7 +177,7 @@ class Order extends \Magento\Backend\App\Action
                     $historyItem->save();
                 }
                 $this->messageManager->addSuccess(__('You sent the order email.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We couldn\'t send the email order.'));
@@ -199,7 +199,7 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $order->cancel()->save();
                 $this->messageManager->addSuccess(__('You canceled the order.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not canceled the item.'));
@@ -221,7 +221,7 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $order->hold()->save();
                 $this->messageManager->addSuccess(__('You put the order on hold.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not put the order on hold.'));
@@ -242,7 +242,7 @@ class Order extends \Magento\Backend\App\Action
             try {
                 $order->unhold()->save();
                 $this->messageManager->addSuccess(__('You released the order from holding status.'));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('The order was not on hold.'));
@@ -287,7 +287,7 @@ class Order extends \Magento\Backend\App\Action
             }
             $order->save();
             $this->messageManager->addSuccess($message);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
@@ -309,7 +309,7 @@ class Order extends \Magento\Backend\App\Action
                 $response = false;
                 $data = $this->getRequest()->getPost('history');
                 if (empty($data['comment']) && $data['status'] == $order->getDataByKey('status')) {
-                    throw new \Magento\Core\Exception(__('Comment text cannot be empty.'));
+                    throw new \Magento\Model\Exception(__('Comment text cannot be empty.'));
                 }
 
                 $notify = isset($data['is_customer_notified']) ? $data['is_customer_notified'] : false;
@@ -327,7 +327,7 @@ class Order extends \Magento\Backend\App\Action
 
                 $this->_view->loadLayout('empty');
                 $this->_view->renderLayout();
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $response = array('error' => true, 'message' => $e->getMessage());
             } catch (\Exception $e) {
                 $response = array('error' => true, 'message' => __('We cannot add order history.'));
@@ -791,7 +791,7 @@ class Order extends \Magento\Backend\App\Action
             $order->getPayment()->void(new \Magento\Object()); // workaround for backwards compatibility
             $order->save();
             $this->messageManager->addSuccess(__('The payment has been voided.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We couldn\'t void the payment.'));
@@ -929,7 +929,7 @@ class Order extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You updated the order address.'));
                 $this->_redirect('sales/*/view', array('order_id' => $address->getParentId()));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong updating the order address.'));

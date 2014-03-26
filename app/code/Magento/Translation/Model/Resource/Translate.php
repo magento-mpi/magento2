@@ -7,7 +7,7 @@
  */
 namespace Magento\Translation\Model\Resource;
 
-class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
+class Translate extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
 {
     /**
      * @var \Magento\App\State
@@ -36,10 +36,10 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
         \Magento\BaseScopeResolverInterface $scopeResolver,
         $scope = null
     ) {
-        parent::__construct($resource);
         $this->_appState = $appState;
         $this->scopeResolver = $scopeResolver;
         $this->scope = $scope;
+        parent::__construct($resource);
     }
 
     /**
