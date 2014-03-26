@@ -45,7 +45,7 @@ class FinalPrice extends AbstractPrice implements FinalPriceInterface
      */
     public function getMaxValue()
     {
-        return $this->basePrice->getDisplayValue($this->getMaxValue());
+        return $this->basePrice->getDisplayValue($this->basePrice->getMaxValue());
     }
 
     /**
