@@ -17,6 +17,10 @@
   * [#512] (https://github.com/magento/magento2/issues/512) -- Theme Thumbnails not showing
   * [#520] (https://github.com/magento/magento2/pull/502) -- Corrected Search Engine Optimization i18n
   * [#519] (https://github.com/magento/magento2/issues/519) -- New Theme Activation
+* Customer Service usage:
+  * Refactored Log Module to use Customer Service (MAGETWO-20475)
+  * Refactored RSS module to use Customer Service (MAGETWO-20495)
+  * Refactored Review module to use Customer Service (MAGETWO-20485)
 
 2.0.0.0-dev70
 =============
