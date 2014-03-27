@@ -5,12 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Model;
 
 use Magento\Exception\NoSuchEntityException;
+use Magento\Customer\Model\AddressFactory;
 
 /**
- * Class AddressRegistry
+ * Registry for Address models
  */
 class AddressRegistry
 {
@@ -20,14 +22,14 @@ class AddressRegistry
     protected $registry = [];
 
     /**
-     * @var \Magento\Customer\Model\AddressFactory
+     * @var AddressFactory
      */
     protected $addressFactory;
 
     /**
      * @param AddressFactory $addressFactory
      */
-    public function __construct(\Magento\Customer\Model\AddressFactory $addressFactory)
+    public function __construct(AddressFactory $addressFactory)
     {
         $this->addressFactory = $addressFactory;
     }
@@ -37,7 +39,7 @@ class AddressRegistry
      *
      * @param int $addressId
      * @return Address
-     * @throws \Magento\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     public function retrieve($addressId)
     {
@@ -47,7 +49,7 @@ class AddressRegistry
         $address = $this->addressFactory->create();
         $address->load($addressId);
         if (!$address->getId()) {
-            throw new \Magento\Exception\NoSuchEntityException('addressId', $addressId);
+            throw new NoSuchEntityException('addressId', $addressId);
         }
         $this->registry[$addressId] = $address;
         return $address;
