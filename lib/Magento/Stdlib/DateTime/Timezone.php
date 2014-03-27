@@ -157,7 +157,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         if ($useTimezone) {
             $timezone = $this->_scopeConfig->getValue(
                 $this->getDefaultTimezonePath(),
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                $this->_scopeType
             );
             if ($timezone) {
                 $date->setTimezone($timezone);
@@ -174,7 +174,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     {
         $timezone = $this->_scopeConfig->getValue(
             $this->getDefaultTimezonePath(),
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_scopeType,
             $scope
         );
         $date = $this->_dateFactory->create(array(
@@ -267,7 +267,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
     {
         $timezone = $this->_scopeConfig->getValue(
             $this->getDefaultTimezonePath(),
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $this->_scopeType,
             $scope
         );
         $currentTimezone = @date_default_timezone_get();
