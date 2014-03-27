@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model;
+namespace Magento\Directory\Model;
+
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Logger;
 
 /**
  * Class PriceCurrency model for convert and format price value
@@ -13,29 +16,29 @@ namespace Magento\Catalog\Model;
 class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @var \Magento\Directory\Model\CurrencyFactory
+     * @var CurrencyFactory
      */
     protected $currencyFactory;
 
     /**
-     * @var \Magento\Logger
+     * @var Logger
      */
     protected $logger;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Logger $logger
+     * @param StoreManagerInterface $storeManager
+     * @param CurrencyFactory $currencyFactory
+     * @param Logger $logger
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Logger $logger
+        StoreManagerInterface $storeManager,
+        CurrencyFactory $currencyFactory,
+        Logger $logger
     ) {
         $this->storeManager = $storeManager;
         $this->currencyFactory = $currencyFactory;
@@ -47,7 +50,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      *
      * @param float $amount
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
+     * @param Currency|string|null $currency
      * @return float
      */
     public function convert($amount, $store = null, $currency = null)
@@ -63,7 +66,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * @param bool $includeContainer
      * @param int $precision
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
+     * @param Currency|string|null $currency
      * @return float
      */
     public function format(
@@ -83,7 +86,7 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * @param bool $includeContainer
      * @param int $precision
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
+     * @param Currency|string|null $currency
      * @return string
      */
     public function convertAndFormat(
@@ -101,12 +104,12 @@ class PriceCurrency implements \Magento\Pricing\PriceCurrencyInterface
      * Get currency model
      *
      * @param null|string|bool|int|\Magento\Core\Model\Store $store
-     * @param \Magento\Directory\Model\Currency|string|null $currency
-     * @return \Magento\Directory\Model\Currency
+     * @param Currency|string|null $currency
+     * @return Currency
      */
     protected function getCurrency($store = null, $currency = null)
     {
-        if ($currency instanceof \Magento\Directory\Model\Currency) {
+        if ($currency instanceof Currency) {
             $currentCurrency = $currency;
         } elseif (is_string($currency)) {
             $currency = $this->currencyFactory->create()->load($currency);

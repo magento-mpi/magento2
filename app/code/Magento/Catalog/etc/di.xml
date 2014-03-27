@@ -15,7 +15,7 @@
     <preference for="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface" type="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapper" />
     <preference for="Magento\Catalog\Block\Product\ReviewRendererInterface" type="Magento\Catalog\Block\Product\ReviewRenderer\DefaultProvider" />
     <preference for="Magento\Pricing\PriceInfoInterface" type="Magento\Pricing\PriceInfo\Base" />
-    <preference for="Magento\Pricing\PriceCurrencyInterface" type="Magento\Catalog\Model\PriceCurrency" />
+    <preference for="Magento\Pricing\PriceCurrencyInterface" type="Magento\Directory\Model\PriceCurrency" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
