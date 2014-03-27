@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\Email\Model;
 
 /**
  * Template model class
@@ -16,7 +16,7 @@ namespace Magento\Core\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Template extends \Magento\Model\AbstractModel implements \Magento\App\TemplateTypesInterface
+abstract class AbstractTemplate extends \Magento\Model\AbstractModel implements \Magento\App\TemplateTypesInterface
 {
     /**
      * Default design area for emulation

@@ -10,16 +10,16 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Template.
+ * Test class for \Magento\Email\Model\AbstractTemplate.
  */
-namespace Magento\Core\Model;
+namespace Magento\Email\Model;
 
-class TemplateTest extends \PHPUnit_Framework_TestCase
+class AbstractTemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Template mock
      *
-     * @var \Magento\Core\Model\Template
+     * @var AbstractTemplate
      */
     protected $_model;
 
@@ -27,9 +27,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Template',
+            'Magento\Email\Model\AbstractTemplate',
             $helper->getConstructArguments(
-                'Magento\Core\Model\Template',
+                'Magento\Email\Model\AbstractTemplate',
                 array(
                     'design' => $this->getMock('Magento\View\DesignInterface'),
                     'data' => array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => 1)

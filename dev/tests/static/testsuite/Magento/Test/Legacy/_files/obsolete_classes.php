@@ -2128,5 +2128,6 @@ return array(
     array(
         'Magento\LauncherInterface',
         'Magento\AppInterface',
-    )
+    ),
+    array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
 );
