@@ -1561,6 +1561,8 @@ return array(
         'Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Review\Controller\Adminhtml\Product\Reviews::gridAction'
     ),
+    array('getScript', 'Magento\Core\Helper\Js', 'Magento\View\Helper\Js'),
+    array('includeScript', 'Magento\Core\Helper\Js'),
     ['_insertInlineScriptsHtml', 'Magento\DesignEditor\Model\Translate\Inline', 'addInlineScript'],
     ['initializeTranslation', 'Magento\Backend\Model\Observer'],
     ['getTranslateJson', 'Magento\Core\Helper\Js'],

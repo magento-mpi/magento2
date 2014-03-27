@@ -30,13 +30,16 @@ class Js extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Helper\Js $js
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\View\Url $viewUrl
+        \Magento\View\Url $viewUrl,
+        \Magento\View\Helper\Js $js
     ) {
         parent::__construct($context);
         $this->_viewUrl = $viewUrl;
+        $this->_js = $js;
     }
 
     /**
@@ -49,29 +52,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
         $script = '(function($) {$.mage.translate.add('
             . $this->encode($this->getTranslateData())
             . ')})(jQuery);';
-        return $this->getScript($script);
-    }
-
-    /**
-     * Retrieve framed javascript
-     *
-     * @param   string $script
-     * @return  string
-     */
-    public function getScript($script)
-    {
-        return '<script type="text/javascript">//<![CDATA[' . "\n{$script}\n" . '//]]></script>';
-    }
-
-    /**
-     * Retrieve javascript include code
-     *
-     * @param   string $file
-     * @return  string
-     */
-    public function includeScript($file)
-    {
-        return '<script type="text/javascript" src="' . $this->_viewUrl->getViewFileUrl($file) . '"></script>' . "\n";
+        return $this->_js->getScript($script);
     }
 
     /**
