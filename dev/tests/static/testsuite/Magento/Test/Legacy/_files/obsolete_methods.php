@@ -1340,4 +1340,11 @@ return array(
     ['getFileGroups', 'Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css'],
     ['_convertFileData', 'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Css'],
     ['notifyViewFileLocationChanged', 'Magento\View\FileSystem'],
+    ['createSimilar', 'Magento\Tools\View\Generator\Asset', 'createRelative'],
+    ['createSimilar', 'Magento\View\Asset\FileId', 'createRelative'],
+    [
+        'convertModuleNotationToPath',
+        'Magento\View\Asset\PreProcessor\ModuleNotation',
+        'Magento\View\Asset\PreProcessor\ModuleNotation\Resolver::convertModuleNotationToPath'
+    ],
 );

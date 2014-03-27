@@ -2161,4 +2161,5 @@ return array(
     ['Magento\View\FileResolver', 'Magento\View\Service'],
     ['Magento\View\FilesManagerInterface', 'Magento\View\Asset\SourceFileInterface'],
     ['Magento\View\Publisher', 'Magento\View\Service'],
+    ['Magento\Css\PreProcessor\Composite\UrlResolver'],
 );
