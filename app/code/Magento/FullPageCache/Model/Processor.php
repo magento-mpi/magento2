@@ -141,7 +141,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_coreSession;
 
@@ -182,7 +182,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param \Magento\App\Config\ScopeConfigInterface $coreStoreConfig
      * @param Cookie $fpcCookie
-     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Session\Generic $coreSession
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param ObserverFactory $fpcObserverFactory
      * @param array $allowedCache
@@ -204,7 +204,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\App\Config\ScopeConfigInterface $coreStoreConfig,
         Cookie $fpcCookie,
-        \Magento\Core\Model\Session $coreSession,
+        \Magento\Session\Generic $coreSession,
         \Magento\FullPageCache\Helper\Url $urlHelper,
         ObserverFactory $fpcObserverFactory,
         array $allowedCache = array()

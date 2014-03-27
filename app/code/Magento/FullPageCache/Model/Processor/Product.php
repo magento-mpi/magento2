@@ -50,7 +50,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
 
     /**
      * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
-     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Session\Generic $coreSession
      * @param \Magento\App\State $appState
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
@@ -60,7 +60,7 @@ class Product extends \Magento\FullPageCache\Model\Processor\DefaultProcessor
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
-        \Magento\Core\Model\Session $coreSession,
+        \Magento\Session\Generic $coreSession,
         \Magento\App\State $appState,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory,

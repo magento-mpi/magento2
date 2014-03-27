@@ -30,7 +30,7 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
     protected $_fpcProcessor;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_coreSession;
 
@@ -51,14 +51,14 @@ class DefaultProcessor implements \Magento\FullPageCache\Model\Cache\SubProcesso
 
     /**
      * @param \Magento\FullPageCache\Model\Processor $fpcProcessor
-     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Session\Generic $coreSession
      * @param \Magento\App\State $appState
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory
      * @param \Magento\FullPageCache\Model\ContainerFactory $containerFactory
      */
     public function __construct(
         \Magento\FullPageCache\Model\Processor $fpcProcessor,
-        \Magento\Core\Model\Session $coreSession,
+        \Magento\Session\Generic $coreSession,
         \Magento\App\State $appState,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
         \Magento\FullPageCache\Model\ContainerFactory $containerFactory

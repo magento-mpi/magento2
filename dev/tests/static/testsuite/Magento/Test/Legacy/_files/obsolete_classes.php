@@ -2238,4 +2238,5 @@ return array(
     array('Magento\App\Locale\ScopeConfigInterface', 'Magento\App\Config\ScopeConfigInterface'),
     array('Magento\BaseScopeInterface', 'Magento\App\Config\ScopeInterface'),
     array('Magento\BaseScopeResolverInterface', 'Magento\App\ScopeResolverInterface'),
+    array('Magento\Core\Model\Session', 'Magento\Session\Generic'),
 );

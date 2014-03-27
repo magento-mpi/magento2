@@ -14,7 +14,7 @@
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
-    <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
+    <preference for="Magento\Session\SessionManagerInterface" type="Magento\Session\Generic" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\App\Config\ScopeConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\Config\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
@@ -392,7 +392,7 @@
             <argument name="namespace" xsi:type="string">core</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Core\Model\Session">
+    <type name="Magento\Session\Generic">
         <arguments>
             <argument name="storage" xsi:type="object">Magento\Core\Model\Session\Storage</argument>
         </arguments>

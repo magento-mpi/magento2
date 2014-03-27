@@ -20,7 +20,7 @@ class Url
     protected $_urlHelper;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_coreSession;
 
@@ -31,12 +31,12 @@ class Url
 
     /**
      * @param \Magento\Core\Helper\Url $urlHelper
-     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Session\Generic $coreSession
      * @param \Magento\Session\SidResolverInterface $sidResolver
      */
     public function __construct(
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Core\Model\Session $coreSession,
+        \Magento\Session\Generic $coreSession,
         \Magento\Session\SidResolverInterface $sidResolver
     ) {
         $this->_urlHelper = $urlHelper;

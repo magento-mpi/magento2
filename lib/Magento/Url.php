@@ -114,7 +114,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_urlSecurityInfo;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 

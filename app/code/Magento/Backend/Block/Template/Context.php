@@ -47,7 +47,7 @@ class Context extends \Magento\View\Element\Template\Context
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\App\Config\ScopeConfigInterface $storeConfig
      * @param \Magento\View\Url $viewUrl
@@ -79,7 +79,7 @@ class Context extends \Magento\View\Element\Template\Context
         \Magento\TranslateInterface $translator,
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\App\Config\ScopeConfigInterface $storeConfig,
         \Magento\View\Url $viewUrl,

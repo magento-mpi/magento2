@@ -19,7 +19,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $session;
 
@@ -52,8 +52,8 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Core\Model\Session _model */
-        $this->session = $objectManager->get('Magento\Core\Model\Session');
+        /** @var \Magento\Session\Generic _model */
+        $this->session = $objectManager->get('Magento\Session\Generic');
 
         $this->coreStoreConfig = $this->getMockBuilder('Magento\App\Config\ScopeConfigInterface')
             ->setMethods(array('getValue'))

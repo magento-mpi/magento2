@@ -14,8 +14,8 @@ namespace Magento\Core\Model;
  * Core session model
  *
  * @method null|bool getCookieShouldBeReceived()
- * @method \Magento\Core\Model\Session setCookieShouldBeReceived(bool $flag)
- * @method \Magento\Core\Model\Session unsCookieShouldBeReceived()
+ * @method \Magento\Session\Generic setCookieShouldBeReceived(bool $flag)
+ * @method \Magento\Session\Generic unsCookieShouldBeReceived()
  */
 class Session extends \Magento\Session\Generic
 {

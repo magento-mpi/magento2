@@ -75,7 +75,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Core session model
      *
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -235,7 +235,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
@@ -267,7 +267,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,

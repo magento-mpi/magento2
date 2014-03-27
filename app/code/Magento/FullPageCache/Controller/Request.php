@@ -71,8 +71,8 @@ class Request extends \Magento\App\Action\Action
             $sessionInfo = array();
         }
 
-        /** @var $session \Magento\Core\Model\Session */
-        $session = $this->_objectManager->get('Magento\Core\Model\Session');
+        /** @var $session \Magento\Session\Generic */
+        $session = $this->_objectManager->get('Magento\Session\Generic');
         /** @var \Magento\Session\Config\ConfigInterface $sessionConfig */
         $sessionConfig = $this->_objectManager->get('Magento\Session\Config\ConfigInterface');
         $cookieName = $session->getName();
