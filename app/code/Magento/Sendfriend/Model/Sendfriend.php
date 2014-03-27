@@ -99,14 +99,19 @@ class Sendfriend extends \Magento\Model\AbstractModel
     protected $_escaper;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -116,20 +121,20 @@ class Sendfriend extends \Magento\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\TranslateInterface $translate,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Escaper $escaper,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_transportBuilder = $transportBuilder;
-        $this->_translate = $translate;
         $this->_catalogImage = $catalogImage;
         $this->_sendfriendData = $sendfriendData;
         $this->_escaper = $escaper;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -155,8 +160,7 @@ class Sendfriend extends \Magento\Model\AbstractModel
             );
         }
 
-        $translate = $this->_translate->getTranslateInline();
-        $this->_translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
         $sender = array(
@@ -193,7 +197,9 @@ class Sendfriend extends \Magento\Model\AbstractModel
             $transport = $this->_transportBuilder->getTransport();
             $transport->sendMessage();
         }
-        $this->_translate->setTranslateInline($translate);
+
+        $this->inlineTranslation->resume();
+
         $this->_incrementSentCount();
 
         return $this;

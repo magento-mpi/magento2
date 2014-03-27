@@ -68,11 +68,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $collectionFactory;
 
     /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $translate;
-
-    /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
@@ -103,13 +98,17 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_transportBuilder;
 
     /**
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
@@ -118,6 +117,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Reminder\Helper\Data $reminderData
      * @param \Magento\Reminder\Model\Resource\Rule $resource
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -128,7 +128,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
@@ -137,12 +136,12 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Reminder\Helper\Data $reminderData,
         \Magento\Reminder\Model\Resource\Rule $resource,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->rootFactory = $rootFactory;
         $this->collectionFactory = $collectionFactory;
-        $this->translate = $translate;
         $this->customerFactory = $customerFactory;
         $this->storeManager = $storeManager;
         $this->couponFactory = $couponFactory;
@@ -150,6 +149,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->salesRule = $salesRule;
         $this->_reminderData = $reminderData;
         $this->_transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
         parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
 
@@ -230,7 +230,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function sendReminderEmails()
     {
-        $this->translate->setTranslateInline(false);
+        $this->inlineTranslation->suspend();
 
         $identity = $this->_reminderData->getEmailIdentity();
 
@@ -287,7 +287,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
                 $this->_getResource()->updateFailedEmailsCounter($recipient['rule_id'], $customer->getId());
             }
         }
-        $this->translate->setTranslateInline(true);
+
+        $this->inlineTranslation->resume();
 
         return $this;
     }

@@ -53,12 +53,12 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\TranslateInterface $translate
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -71,12 +71,12 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\TranslateInterface $translate,
         \Magento\App\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -92,12 +92,12 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $paymentData,
             $string,
             $coreStoreConfig,
-            $translate,
             $filesystem,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
             $localeDate,
+            $inlineTranslation,
             $data
         );
     }
