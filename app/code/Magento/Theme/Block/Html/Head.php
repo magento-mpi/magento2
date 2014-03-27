@@ -414,4 +414,14 @@ class Head extends \Magento\View\Element\Template
     {
         return substr($this->_localeResolver->getLocaleCode(), 0, 2);
     }
+
+    /**
+     * Get translation js script
+     *
+     * @return string
+     */
+    public function getTranslatorScript()
+    {
+        return $this->getLayout()->createBlock('Magento\Translation\Block\Js')->toHtml();
+    }
 }
