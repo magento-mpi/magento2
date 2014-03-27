@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 /**
  * Reward model
@@ -26,7 +26,7 @@ use Magento\Core\Exception;
  * @method \Magento\Reward\Model\Reward setAction() setAction(int $value)
  * @method \Magento\Reward\Model\Reward setComment() setComment(string $value)
  */
-class Reward extends \Magento\Core\Model\AbstractModel
+class Reward extends \Magento\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
 
@@ -158,7 +158,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
      * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -174,7 +174,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
         \Magento\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -275,13 +275,13 @@ class Reward extends \Magento\Core\Model\AbstractModel
                 return null;
             }
         }
-        $instance = $this->_coreRegistry->registry('_reward_actions' . $action);
+        $instance = $this->_registry->registry('_reward_actions' . $action);
         if (!$instance && array_key_exists($action, self::$_actionModelClasses)) {
             $instance = $this->_actionFactory->create(self::$_actionModelClasses[$action]);
             // setup invariant properties once
             $instance->setAction($action);
             $instance->setReward($this);
-            $this->_coreRegistry->register('_reward_actions' . $action, $instance);
+            $this->_registry->register('_reward_actions' . $action, $instance);
         }
         if (!$instance) {
             return null;

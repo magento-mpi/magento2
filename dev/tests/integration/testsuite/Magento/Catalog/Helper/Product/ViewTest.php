@@ -116,7 +116,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @magentoAppIsolation enabled
      */
     public function testPrepareAndRenderWrongController()
@@ -128,7 +128,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      */
     public function testPrepareAndRenderWrongProduct()
     {

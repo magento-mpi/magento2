@@ -229,7 +229,7 @@ class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                     }
                 }
                 $this->messageManager->addSuccess(__('A total of %1 record(s) have been deleted.', count($ids)));
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -258,7 +258,7 @@ class Version extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
                 $this->messageManager->addSuccess(__('You have deleted the version.'));
                 $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 $error = true;

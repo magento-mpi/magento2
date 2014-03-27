@@ -94,21 +94,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanCache()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Core\Model\App'
-        )->saveCache(
-            'test',
-            'catalog_product_999',
-            array('catalog_product_999')
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
+            ->save('test', 'catalog_product_999', array('catalog_product_999'));
         // potential bug: it cleans by cache tags, generated from its ID, which doesn't make much sense
         $this->_model->setId(999)->cleanCache();
         $this->assertFalse(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Core\Model\App'
-            )->loadCache(
-                'catalog_product_999'
-            )
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\CacheInterface')
+                ->load('catalog_product_999')
         );
     }
 
@@ -200,7 +192,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Delete model
      *
-     * @param \Magento\Core\Model\AbstractModel $duplicate
+     * @param \Magento\Model\AbstractModel $duplicate
      */
     protected function _undo($duplicate)
     {
@@ -383,7 +375,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * Check is model empty or not
      *
-     * @param \Magento\Core\Model\AbstractModel $model
+     * @param \Magento\Model\AbstractModel $model
      */
     protected function _assertEmpty($model)
     {

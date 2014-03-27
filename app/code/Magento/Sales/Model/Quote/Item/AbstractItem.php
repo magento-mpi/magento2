@@ -38,7 +38,7 @@ use Magento\Sales\Model\Quote\Item;
  * @method int[] getAppliedRuleIds()
  * @method \Magento\Sales\Model\Quote\Item\AbstractItem setAppliedRuleIds(array $ruleIds)
  */
-abstract class AbstractItem extends \Magento\Core\Model\AbstractModel implements
+abstract class AbstractItem extends \Magento\Model\AbstractModel implements
     \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
 {
     /**
@@ -72,7 +72,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel implements
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -80,7 +80,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel implements
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -302,7 +302,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel implements
 
         try {
             $this->setQty($qty);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->setHasError(true);
             $this->setMessage($e->getMessage());
         } catch (\Exception $e) {
@@ -312,7 +312,7 @@ abstract class AbstractItem extends \Magento\Core\Model\AbstractModel implements
 
         try {
             $this->getProduct()->getTypeInstance()->checkProductBuyState($this->getProduct());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->setHasError(true)->setMessage($e->getMessage());
             $this->getQuote()->setHasError(
                 true

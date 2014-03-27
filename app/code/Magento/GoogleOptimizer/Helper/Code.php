@@ -17,7 +17,7 @@ class Code
     protected $_codeModel;
 
     /**
-     * @var \Magento\Core\Model\AbstractModel
+     * @var \Magento\Model\AbstractModel
      */
     protected $_entity;
 
@@ -32,10 +32,10 @@ class Code
     /**
      * Get loaded Code object by Entity
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Model\AbstractModel $entity
      * @return \Magento\GoogleOptimizer\Model\Code
      */
-    public function getCodeObjectByEntity(\Magento\Core\Model\AbstractModel $entity)
+    public function getCodeObjectByEntity(\Magento\Model\AbstractModel $entity)
     {
         $this->_entity = $entity;
 

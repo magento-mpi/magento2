@@ -16,7 +16,7 @@ namespace Magento\GiftRegistry\Model\Resource\Entity;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * @var \Magento\GiftRegistry\Model\Attribute\Config
@@ -29,15 +29,20 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $storeManager;
 
     /**
+     * @var \Magento\GiftRegistry\Model\Resource\Helper
+     */
+    protected $resourceHelper;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory
+     * @param \Magento\GiftRegistry\Model\Resource\Helper $resourceHelper
      * @param \Zend_Db_Adapter_Abstract $connection
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param \Magento\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -46,14 +51,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory,
+        \Magento\GiftRegistry\Model\Resource\Helper $resourceHelper,
         $connection = null,
-        \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
+        \Magento\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->attributeConfig = $attributeConfig;
         $this->storeManager = $storeManager;
-        $this->helperFactory = $helperFactory;
+        $this->resourceHelper = $resourceHelper;
     }
 
     /**
@@ -160,9 +165,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             'entity_id'
         );
 
-        /** @var \Magento\Core\Model\Resource\Helper $helper */
-        $helper = $this->helperFactory->create();
-        $helper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
+        $this->resourceHelper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
 
         $this->getSelect()->joinLeft(
             array('person' => new \Zend_Db_Expr(sprintf('(%s)', $select))),

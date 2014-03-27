@@ -53,7 +53,7 @@ class Onepage extends Action
      * @param CustomerAccountService $customerAccountService
      * @param CustomerMetadataService $customerMetadataService
      * @param \Magento\Registry $coreRegistry
-     * @param \Magento\Translate\InlineInterface $translateInline,
+     * @param \Magento\Translate\InlineInterface $translateInline
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
@@ -489,7 +489,7 @@ class Onepage extends Action
                 $result['fields'] = $e->getFields();
             }
             $result['error'] = $e->getMessage();
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $result['error'] = $e->getMessage();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -601,7 +601,7 @@ class Onepage extends Action
             }
             $result['goto_section'] = 'payment';
             $result['update_section'] = array('name' => 'payment-method', 'html' => $this->_getPaymentMethodsHtml());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Model\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_objectManager->get(
                 'Magento\Checkout\Helper\Data'

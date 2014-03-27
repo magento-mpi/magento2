@@ -12,10 +12,10 @@ class Group extends AbstractPlugin
     /**
      * Validate changes for invalidating indexer
      *
-     * @param \Magento\Core\Model\AbstractModel $group
+     * @param \Magento\Model\AbstractModel $group
      * @return bool
      */
-    protected function validate(\Magento\Core\Model\AbstractModel $group)
+    protected function validate(\Magento\Model\AbstractModel $group)
     {
         return ($group->dataHasChangedFor(
             'website_id'
@@ -29,7 +29,7 @@ class Group extends AbstractPlugin
      *
      * @param \Magento\Core\Model\Resource\Store\Group $subject
      * @param callable $proceed
-     * @param \Magento\Core\Model\AbstractModel $store
+     * @param \Magento\Model\AbstractModel $store
      *
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -37,7 +37,7 @@ class Group extends AbstractPlugin
     public function aroundSave(
         \Magento\Core\Model\Resource\Store\Group $subject,
         \Closure $proceed,
-        \Magento\Core\Model\AbstractModel $store
+        \Magento\Model\AbstractModel $store
     ) {
         $needInvalidating = $this->validate($store);
         $objectResource = $proceed($store);

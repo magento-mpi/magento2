@@ -13,7 +13,7 @@ namespace Magento\Test;
 class EntityTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Model\AbstractModel|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -63,7 +63,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException($expectedException);
 
         $this->_model = $this->getMock(
-            'Magento\Core\Model\AbstractModel',
+            'Magento\Model\AbstractModel',
             array('load', 'save', 'delete', 'getIdFieldName', '__wakeup'),
             array(),
             '',

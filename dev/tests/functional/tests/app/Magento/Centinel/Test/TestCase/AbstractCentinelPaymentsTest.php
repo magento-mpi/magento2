@@ -184,8 +184,6 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
 
         //Log Out
-        $customerMenu = $homePage->getCustomerMenuBlock();
-        $customerMenu->toggle();
-        $customerMenu->openLink('Log Out');
+        $homePage->getLinksBlock()->openLink('Log Out');
     }
 }

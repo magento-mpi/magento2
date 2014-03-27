@@ -23,7 +23,7 @@ use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission\Index;
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Data\Tree\Node;
