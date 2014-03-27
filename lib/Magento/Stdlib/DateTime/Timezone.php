@@ -73,6 +73,7 @@ class Timezone implements \Magento\Stdlib\DateTime\TimezoneInterface
         $this->_dateFactory = $dateFactory;
         $this->_defaultTimezonePath = $defaultTimezonePath;
         $this->_scopeConfig = $scopeConfig;
+        $this->_scopeType = $scopeType;
     }
 
     /**
