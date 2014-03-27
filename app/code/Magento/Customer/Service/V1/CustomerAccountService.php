@@ -340,12 +340,24 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         $this->_customerAddressService->saveAddresses($customerId, $customerDetails->getAddresses());
-
         $customerModel = $this->_converter->getCustomerModel($customerId);
-
         $newLinkToken = $this->_mathRandom->getUniqueHash();
         $customerModel->changeResetPasswordLinkToken($newLinkToken);
+        $this->_sendEmailConfirmation($customerModel, $customer, $redirectUrl);
 
+        return $this->_converter->createCustomerFromModel($customerModel);
+    }
+
+    /**
+     * Send either confirmation or welcome email after an account creation
+     *
+     * @param CustomerModel $customerModel
+     * @param Data\Customer $customer
+     * @param string        $redirectUrl
+     * @return void
+     */
+    protected function _sendEmailConfirmation(CustomerModel $customerModel, Data\Customer $customer, $redirectUrl)
+    {
         if ($customerModel->isConfirmationRequired()) {
             $customerModel->sendNewAccountEmail(
                 self::NEW_ACCOUNT_EMAIL_CONFIRMATION,
@@ -359,7 +371,6 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                 $customer->getStoreId()
             );
         }
-        return $this->_converter->createCustomerFromModel($customerModel);
     }
 
     /**
