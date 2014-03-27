@@ -73,16 +73,6 @@ class Observer
     }
 
     /**
-     * Backend will always use base class for translation.
-     *
-     * @return $this
-     */
-    public function initializeTranslation()
-    {
-        return $this;
-    }
-
-    /**
      * Set url class name for store 'admin'
      *
      * @param \Magento\Event\Observer $observer
