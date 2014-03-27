@@ -36,11 +36,11 @@ class Messages extends Block
     protected $errorMessage = '[data-ui-id$=message-error]';
 
     /**
-     * Notice message
+     * Notice message selector
      *
      * @var string
      */
-    protected $noticeMessageSelector = '//*[contains(@data-ui-id, "message-notice")]';
+    protected $noticeMessage = '[data-ui-id$=message-notice]';
 
     /**
      * Check for success message
@@ -88,10 +88,10 @@ class Messages extends Block
     /**
      * Check for notice message
      *
-     * @return mixed
+     * @return bool
      */
     public function assertNoticeMessage()
     {
-        return $this->waitForElementVisible($this->noticeMessageSelector, Locator::SELECTOR_XPATH);
+        return $this->waitForElementVisible($this->noticeMessage, Locator::SELECTOR_CSS);
     }
 }
