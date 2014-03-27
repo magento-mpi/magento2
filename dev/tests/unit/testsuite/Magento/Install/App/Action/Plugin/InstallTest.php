@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\Action\Plugin;
+namespace Magento\Install\App\Action\Plugin;
 
 class InstallTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\App\Action\Plugin\Install
+     * @var \Magento\Install\App\Action\Plugin\Install
      */
     protected $_plugin;
 
@@ -54,7 +54,7 @@ class InstallTest extends \PHPUnit_Framework_TestCase
         };
         $this->subjectMock = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\RequestInterface');
-        $this->_plugin = new \Magento\Core\App\Action\Plugin\Install(
+        $this->_plugin = new \Magento\Install\App\Action\Plugin\Install(
             $this->_appStateMock,
             $this->_response,
             $this->_urlMock,

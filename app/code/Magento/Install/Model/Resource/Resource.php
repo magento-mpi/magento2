@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Resource;
+namespace Magento\Install\Model\Resource;
 
 /**
- * Core Resource Resource Model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Resource Resource Model
  */
-class Resource extends \Magento\Model\Resource\Db\AbstractDb
+class Resource extends \Magento\Model\Resource\Db\AbstractDb implements \Magento\Module\ResourceInterface
 {
     /**
      * Database versions
@@ -79,10 +73,7 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Get Module version from DB
-     *
-     * @param string $resName
-     * @return false|string
+     * {@inheritdoc}
      */
     public function getDbVersion($resName)
     {
@@ -94,11 +85,7 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Set module version into DB
-     *
-     * @param string $resName
-     * @param string $version
-     * @return int
+     * {@inheritdoc}
      */
     public function setDbVersion($resName, $version)
     {
@@ -118,10 +105,7 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Get resource data version
-     *
-     * @param string $resName
-     * @return string|false
+     * {@inheritdoc}
      */
     public function getDataVersion($resName)
     {
@@ -135,11 +119,7 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Specify resource data version
-     *
-     * @param string $resName
-     * @param string $version
-     * @return $this
+     * {@inheritdoc}
      */
     public function setDataVersion($resName, $version)
     {

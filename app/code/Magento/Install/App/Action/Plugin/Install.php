@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\Action\Plugin;
+namespace Magento\Install\App\Action\Plugin;
 
 class Install
 {

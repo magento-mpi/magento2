@@ -12,6 +12,7 @@
     <preference for="Magento\App\AreaInterface" type="Magento\Core\Model\App\Area" />
     <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
     <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
+    <preference for="Magento\Module\ResourceInterface" type="Magento\Install\Model\Resource\Resource" />
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
     <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
     <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
@@ -463,7 +464,7 @@
         <plugin name="messageBox" type="Magento\Core\App\FrontController\Plugin\MessageBox" sortOrder="0"/>
     </type>
     <type name="Magento\App\Action\Action">
-        <plugin name="installInitializer" type="Magento\Core\App\Action\Plugin\Install" sortOrder="5"/>
+        <plugin name="installInitializer" type="Magento\Install\App\Action\Plugin\Install" sortOrder="5"/>
         <plugin name="storeCheck" type="Magento\Core\App\Action\Plugin\StoreCheck" sortOrder="10"/>
         <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="30"/>
     </type>
