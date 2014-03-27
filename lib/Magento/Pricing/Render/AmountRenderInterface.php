@@ -19,6 +19,8 @@ use Magento\Pricing\Object\SaleableInterface;
 interface AmountRenderInterface
 {
     /**
+     * Retrieve amount html for given price, item and arguments
+     *
      * @param PriceInterface $price
      * @param SaleableInterface $saleableItem
      * @param array $arguments
