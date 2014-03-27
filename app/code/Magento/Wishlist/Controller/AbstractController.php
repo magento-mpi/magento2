@@ -29,12 +29,22 @@ abstract class AbstractController extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Customer\Model\Session $customerSession
      */
-    public function __construct(Context $context, \Magento\Core\App\Action\FormKeyValidator $formKeyValidator)
-    {
+    public function __construct(
+        Context $context,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Customer\Model\Session $customerSession
+    ) {
         $this->_formKeyValidator = $formKeyValidator;
+        $this->_customerSession = $customerSession;
         parent::__construct($context);
     }
 
