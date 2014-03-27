@@ -132,6 +132,5 @@ class Resource extends \Magento\Model\Resource\Db\AbstractDb implements \Magento
             self::$_dataVersions[$resName] = $version;
             $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
         }
-        return $this;
     }
 }

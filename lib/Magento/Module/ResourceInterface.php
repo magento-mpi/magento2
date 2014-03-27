@@ -39,6 +39,7 @@ interface ResourceInterface
      *
      * @param string $resName
      * @param string $version
+     * @return null
      */
     public function setDataVersion($resName, $version);
 }
