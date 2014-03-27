@@ -59,9 +59,7 @@ class AddressRegistryTest extends \PHPUnit_Framework_TestCase
     public function testRetrieveException()
     {
         $addressId = 1;
-        $address = $this->_model->retrieve($addressId);
-        $this->assertInstanceOf('\Magento\Customer\Model\Address', $address);
-        $this->assertEquals($addressId, $address->getId());
+        $this->_model->retrieve($addressId);
     }
 
     /**
