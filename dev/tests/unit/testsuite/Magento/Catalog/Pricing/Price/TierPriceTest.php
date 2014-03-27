@@ -1,0 +1,231 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Catalog\Pricing\Price;
+
+use Magento\Customer\Model\Group;
+
+/**
+ * Test for \Magento\Catalog\Pricing\Price\TierPrice
+ */
+class TierPriceTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @var TierPrice
+     */
+    protected $object;
+
+    /**
+     * @var array
+     */
+    protected $adjustments = [];
+
+    /**
+     * Test customer group
+     *
+     * @var int
+     */
+    protected $customerGroup = Group::NOT_LOGGED_IN_ID;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $priceInfo;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $product;
+
+    /**
+     * @var float
+     */
+    protected $quantity = 3.;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $session;
+
+    /**
+     * Initialize base dependencies
+     */
+    protected function setUp()
+    {
+        $this->priceInfo = $this->getMock('Magento\Pricing\PriceInfoInterface', [], [], '', false);
+        $this->priceInfo->expects($this->any())->method('getAdjustments')->will($this->returnCallback(function () {
+            return $this->adjustments;
+        }));
+
+        $this->product = $this->getMock('Magento\Catalog\Model\Product',
+            ['getPriceInfo', 'getCustomerGroupId', '__wakeup'], [], '', false);
+        $this->product->expects($this->any())->method('getPriceInfo')->will($this->returnValue($this->priceInfo));
+
+        $this->session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
+        $this->session->expects($this->any())->method('getCustomerGroupId')
+            ->will($this->returnValue($this->customerGroup));
+    }
+
+    /**
+     * Reset adjustment mock list
+     */
+    protected function tearDown()
+    {
+        $this->adjustments = [];
+    }
+
+    /**
+     * Test base initialization of tier price
+     *
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::__construct
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getValue
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getStoredTierPrices
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::canApplyTierPrice
+     * @dataProvider providerForBaseInitialization
+     */
+    public function testBaseInitialization($tierPrices, $expectedValue)
+    {
+        $this->product->setData(TierPrice::PRICE_TYPE_TIER, $tierPrices);
+
+        $tierPrice = new TierPrice($this->product, $this->quantity, $this->session);
+        $this->assertEquals($expectedValue, $tierPrice->getValue());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerForBaseInitialization()
+    {
+        return [
+            'case for getValue' => [
+                'tierPrices' => [
+                    ['website_price' => '20.', 'price_qty' => '1.', 'cust_group' => Group::CUST_GROUP_ALL],
+                    ['website_price' => '10.', 'price_qty' => '1.', 'cust_group' => Group::CUST_GROUP_ALL],
+                ],
+                'expectedValue' => 10.
+            ],
+            'case for canApplyTierPrice' => [
+                'tierPrices' => [
+                    // tier not for current customer group
+                    ['website_price' => '10.', 'price_qty' => '1.', 'cust_group' => $this->customerGroup + 1],
+                    // tier is higher than product qty
+                    ['website_price' => '10.', 'price_qty' => '10.', 'cust_group' => Group::CUST_GROUP_ALL],
+                    // higher tier qty already found
+                    ['website_price' => '10.', 'price_qty' => '0.5', 'cust_group' => Group::CUST_GROUP_ALL],
+                    // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
+                    ['website_price' => '5.', 'price_qty' => '1.', 'cust_group' => $this->customerGroup],
+                    ['website_price' => '1.', 'price_qty' => '1.', 'cust_group' => Group::CUST_GROUP_ALL],
+                ],
+                'expectedValue' => 5.
+            ],
+        ];
+    }
+
+    /**
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::__construct
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getTierPriceList
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::getStoredTierPrices
+     * @covers \Magento\Catalog\Pricing\Price\TierPrice::applyAdjustment
+     * @dataProvider providerForGetterTierPriceList
+     */
+    public function testGetterTierPriceList($tierPrices, $basePrice, $adjustments, $expectedResult)
+    {
+        foreach ($adjustments as $adjustment) {
+            $adjustmentMock = $this->getMock('Magento\Pricing\Adjustment\AdjustmentInterface', [], [], '', false);
+            $adjustmentMock->expects($this->any())->method('isIncludedInBasePrice')->will($this->returnValue(true));
+            $adjustmentMock->expects($this->any())->method('extractAdjustment')->will($this->returnValue($adjustment));
+            $this->adjustments[] = $adjustmentMock;
+        }
+
+        $this->product->setData(TierPrice::PRICE_TYPE_TIER, $tierPrices);
+        $this->product->expects($this->any())->method('getCustomerGroupId')
+            ->will($this->returnValue($this->customerGroup));
+
+        $price = $this->getMock('Magento\Pricing\Price\PriceInterface', [], [], '', false);
+        $price->expects($this->any())->method('getValue')->will($this->returnValue($basePrice));
+
+        $this->priceInfo->expects($this->atLeastOnce())->method('getPrice')->will($this->returnValue($price));
+
+        $tierPrice = new TierPrice($this->product, $this->quantity, $this->session);
+        $this->assertEquals($expectedResult, $tierPrice->getTierPriceList());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerForGetterTierPriceList()
+    {
+        return [
+            'base case' => [
+                'tierPrices' => [
+                    // will be ignored due to customer group
+                    [
+                        'price'         => '1.3',
+                        'website_price' => '1.3',
+                        'price_qty'     => '1.3',
+                        'cust_group'    => $this->customerGroup + 1
+                    ],
+                    // will be ignored due to bigger price
+                    [
+                        'price'         => '50.3',
+                        'website_price' => '50.3',
+                        'price_qty'     => '10.3',
+                        'cust_group'    => Group::CUST_GROUP_ALL
+                    ],
+                    [
+                        'price'         => '25.4',
+                        'website_price' => '25.4',
+                        'price_qty'     => '5.',
+                        'cust_group'    => Group::CUST_GROUP_ALL
+                    ],
+                    // cases to calculate save percent
+                    [
+                        'price'         => '15.1',
+                        'website_price' => '15.1',
+                        'price_qty'     => '5.',
+                        'cust_group'    => Group::CUST_GROUP_ALL
+                    ],
+                    [
+                        'price'         => '30.2',
+                        'website_price' => '30.2',
+                        'price_qty'     => '5.',
+                        'cust_group'    => Group::CUST_GROUP_ALL
+                    ],
+                    [
+                        'price'         => '8.3',
+                        'website_price' => '8.3',
+                        'price_qty'     => '2.',
+                        'cust_group'    => Group::CUST_GROUP_ALL
+                    ],
+                ],
+                'basePrice' => 20.,
+                'adjustments' => [
+                    'firstFixedAmount' => 2., 'secondFixedAmount' => 3.,
+                ],
+                'expectedResult' => [
+                    [
+                        'price'          => '15.1',
+                        'website_price'  => '10.1',
+                        'price_qty'      => '5.',
+                        'cust_group'     => Group::CUST_GROUP_ALL,
+                        'savePercent'    => 25.,
+                        'adjustedAmount' => 2.
+                    ],
+                    [
+                        'price'         => '8.3',
+                        'website_price' => '3.3',
+                        'price_qty'     => '2.',
+                        'cust_group'    => Group::CUST_GROUP_ALL,
+                        'savePercent'    => 59.,
+                        'adjustedAmount' => 2.
+                    ],
+                ]
+            ]
+        ];
+    }
+}

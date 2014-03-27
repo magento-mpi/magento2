@@ -159,30 +159,35 @@ class TierPrice extends RegularPrice implements TierPriceInterface
     }
 
     /**
-     * @param array $price
-     * @param int $currentPriceGroup
-     * @param float|string $currentQty
+     * Can apply tier price
+     *
+     * @param array $currentTierPrice
+     * @param int $prevPriceGroup
+     * @param float|string $prevQty
      * @return bool
      */
-    protected function canApplyTierPrice(array $price, $currentPriceGroup, $currentQty)
+    protected function canApplyTierPrice(array $currentTierPrice, $prevPriceGroup, $prevQty)
     {
-        if ($price['cust_group'] !== $this->customerGroup && $price['cust_group'] !== Group::CUST_GROUP_ALL) {
-            // tier not for current customer group nor is for all groups
-            return false;
-        }
-        if ($this->quantity < $price['price_qty']) {
-            // tier is higher than product qty
-            return false;
-        }
-        if ($price['price_qty'] < $currentQty) {
-            // higher tier qty already found
-            return false;
-        }
-        if ($price['price_qty'] == $currentQty
-            && $currentPriceGroup !== Group::CUST_GROUP_ALL
-            && $price['cust_group'] === Group::CUST_GROUP_ALL
+        // Tier price can be applied, if:
+        // tier price is for current customer group or is for all groups
+        if ($currentTierPrice['cust_group'] !== $this->customerGroup
+            && $currentTierPrice['cust_group'] !== Group::CUST_GROUP_ALL
         ) {
-            // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
+            return false;
+        }
+        // and tier qty is lower than product qty
+        if ($this->quantity < $currentTierPrice['price_qty']) {
+            return false;
+        }
+        // and tier qty is bigger than previous qty
+        if ($currentTierPrice['price_qty'] < $prevQty) {
+            return false;
+        }
+        // and found tier qty is same as previous tier qty, but current tier group isn't ALL_GROUPS
+        if ($currentTierPrice['price_qty'] == $prevQty
+            && $prevPriceGroup !== Group::CUST_GROUP_ALL
+            && $currentTierPrice['cust_group'] === Group::CUST_GROUP_ALL
+        ) {
             return false;
         }
         return true;
