@@ -2151,4 +2151,36 @@ return array(
     array('Magento\Core\Model\Template', 'Magento\Email\Model\AbstractTemplate'),
     array('Magento\Core\Helper\Js'),
     array('Magento\Backend\Helper\Media\Js'),
+    array(
+        'Magento\Core\Model\Resource\Url\Rewrite\Collection',
+        'Magento\UrlRewrite\Model\Resource\UrlRewrite\Collection'
+    ),
+    array(
+        'Magento\Core\Model\Resource\Url\Rewrite',
+        'Magento\UrlRewrite\Model\Resource\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\Model\Url\Rewrite',
+        'Magento\UrlRewrite\Model\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\Model\Source\Urlrewrite\Options',
+        'Magento\UrlRewrite\Model\UrlRewrite\OptionProvider'
+    ),
+    array(
+        'Magento\Core\Model\Source\Urlrewrite\Types',
+        'Magento\UrlRewrite\Model\UrlRewrite\TypeProvider'
+    ),
+    array(
+        'Magento\Core\Helper\Url\Rewrite',
+        'Magento\UrlRewrite\Helper\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\App\FrontController\Plugin\UrlRewrite',
+        'Magento\UrlRewrite\App\FrontController\Plugin\UrlRewrite'
+    ),
+    array(
+        'Magento\Core\App\Request\RewriteService',
+        'Magento\UrlRewrite\App\Request\RewriteService'
+    ),
 );
