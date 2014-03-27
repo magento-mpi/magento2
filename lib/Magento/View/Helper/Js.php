@@ -16,19 +16,6 @@ namespace Magento\View\Helper;
 class Js
 {
     /**
-     * @var \Magento\View\Url
-     */
-    protected $_viewUrl;
-
-    /**
-     * @param \Magento\View\Url $viewUrl
-     */
-    public function __construct(\Magento\View\Url $viewUrl)
-    {
-        $this->_viewUrl = $viewUrl;
-    }
-
-    /**
      * Retrieve framed javascript
      *
      * @param   string $script
