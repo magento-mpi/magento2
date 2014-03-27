@@ -324,4 +324,20 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct impleme
         }
         return array_merge($this->getLayer()->getCurrentCategory()->getIdentities(), $identities);
     }
+
+    /**
+     * Get post parameters
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    public function getAddToCartPostParams(\Magento\Catalog\Model\Product $product)
+    {
+        $url = $this->getAddToCartUrl($product);
+        $data = [
+            'product' => $product->getEntityId(),
+            \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
+        ];
+        return $this->_postDataHelper->getPostData($url, $data);
+    }
 }
