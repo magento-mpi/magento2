@@ -571,4 +571,48 @@ class ObsoleteCodeTest extends \PHPUnit_Framework_TestCase
         $files = array_diff($files, $ignored);
         return \Magento\TestFramework\Utility\Files::composeDataSets($files);
     }
+
+    public function testHeadJs()
+    {
+        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker(
+            function ($filename) {
+                $this->_assertNotRegexp(
+                    '/^\s*head\.js/m',
+                    file_get_contents($filename),
+                    "HeadJS usage found in file {$filename}:\n"
+                );
+            },
+            $this->HeadJsDataProvider()
+        );
+    }
+
+    public function HeadJsDataProvider()
+    {
+        $root = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
+        $recursiveIterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS)
+        );
+
+        $rootFolderName = substr(strrchr($root, '/'), 1);
+        $extension = 'phtml';
+        $paths = array(
+            $rootFolderName . '/app/.+\.' . $extension,
+            $rootFolderName . '/dev/.+\.' . $extension,
+            $rootFolderName . '/downloader/.+\.' . $extension,
+            $rootFolderName . '/lib/Magento/.+\.' . $extension,
+            $rootFolderName . '/pub/.+\.' . $extension
+        );
+        $regexIterator = new \RegexIterator($recursiveIterator, '#(' . implode(' | ', $paths) . ')$#x');
+
+        $result = array();
+        foreach ($regexIterator as $fileInfo) {
+            $filename = (string)$fileInfo;
+            if (!file_exists($filename) || !is_readable($filename)) {
+                continue;
+            }
+            $result[] = array($filename);
+        }
+        return $result;
+    }
 }
