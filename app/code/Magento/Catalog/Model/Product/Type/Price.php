@@ -172,6 +172,7 @@ class Price
      *
      * @param Product $product
      * @return float
+     * @deprecated see \Magento\Catalog\Pricing\Price\GroupPrice
      */
     public function getGroupPrice($product)
     {

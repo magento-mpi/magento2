@@ -949,6 +949,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Returns special price
      *
      * @return float
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialPrice()
     {
@@ -959,6 +960,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Returns starting date of the special price
      *
      * @return mixed
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialFromDate()
     {
@@ -969,6 +971,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements IdentityIn
      * Returns end date of the special price
      *
      * @return mixed
+     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialToDate()
     {

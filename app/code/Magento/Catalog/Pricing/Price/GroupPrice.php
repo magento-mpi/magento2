@@ -34,6 +34,11 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
     protected $value;
 
     /**
+     * @var array|null
+     */
+    protected $storedGroupPrice;
+
+    /**
      * @param SaleableInterface $salableItem
      * @param float $quantity
      * @param Session $customerSession
@@ -80,18 +85,22 @@ class GroupPrice extends RegularPrice implements GroupPriceInterface
      */
     public function getStoredGroupPrice()
     {
-        $groupPrices = $this->salableItem->getData('group_price');
+        if (null !== $this->storedGroupPrice) {
+            return $this->storedGroupPrice;
+        }
 
-        if (null === $groupPrices) {
+        $this->storedGroupPrice = $this->salableItem->getData('group_price');
+
+        if (null === $this->storedGroupPrice) {
             $attribute = $this->salableItem->getResource()->getAttribute('group_price');
             if ($attribute) {
                 $attribute->getBackend()->afterLoad($this->salableItem);
-                $groupPrices = $this->salableItem->getData('group_price');
+                $this->storedGroupPrice = $this->salableItem->getData('group_price');
             }
         }
-        if (null === $groupPrices || !is_array($groupPrices)) {
-            $groupPrices = [];
+        if (null === $this->storedGroupPrice || !is_array($this->storedGroupPrice)) {
+            $this->storedGroupPrice = [];
         }
-        return $groupPrices;
+        return $this->storedGroupPrice;
     }
 }
