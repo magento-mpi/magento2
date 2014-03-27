@@ -22,7 +22,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $contextMock = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false, false);
+        $contextMock = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false, false);
         $this->layout = $this->getMock('Magento\Core\Model\Layout', [], [], '', false);
 
         $contextMock->expects($this->once())
