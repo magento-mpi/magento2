@@ -136,8 +136,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_localeDate;
 
     /**
-     * Constructor
-     *
+     * @var \Magento\Translate\Inline\StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -155,10 +158,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param array $data
+     * @param \Magento\Translate\Inline\StateInterface $inlineTranslation
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -178,7 +180,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\DateTime\TimezoneInterface $localeDate,
-        array $data = array()
+        \Magento\Translate\Inline\StateInterface $inlineTranslation
     ) {
         $this->_request = $request;
         $this->_layout = $layout;
@@ -197,6 +199,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_escaper = $escaper;
         $this->_filterManager = $filterManager;
         $this->_localeDate = $localeDate;
+        $this->inlineTranslation = $inlineTranslation;
     }
 
     /**
@@ -287,6 +290,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getTranslator()
     {
         return $this->_translator;
+    }
+
+    /**
+     * Get inline translation status object
+     *
+     * @return \Magento\Translate\Inline\StateInterface
+     */
+    public function getInlineTranslation()
+    {
+        return $this->inlineTranslation;
     }
 
     /**

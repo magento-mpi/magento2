@@ -20,7 +20,7 @@ interface InlineInterface
     public function getAdditionalHtmlAttribute($tagName = null);
 
     /**
-     * Is enabled and allowed Inline Translates
+     * Check if inline translates is allowed
      *
      * @return bool
      */
@@ -34,4 +34,11 @@ interface InlineInterface
      * @return \Magento\Translate\InlineInterface
      */
     public function processResponseBody(&$body, $isJson = false);
+
+    /**
+     * Retrieve Inline Parser instance
+     *
+     * @return Inline\ParserInterface
+     */
+    public function getParser();
 }

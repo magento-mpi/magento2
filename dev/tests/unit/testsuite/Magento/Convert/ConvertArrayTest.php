@@ -9,8 +9,6 @@
  */
 namespace Magento\Convert;
 
-use Magento\Convert\ConvertArray;
-
 class ConvertArrayTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -34,6 +32,21 @@ class ConvertArrayTest extends \PHPUnit_Framework_TestCase
 XML;
         $this->assertInstanceOf('SimpleXMLElement', $result);
         $this->assertEquals($expectedResult, $result->asXML());
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Associative and numeric keys must not be mixed at one level.
+     */
+    public function testAssocToXmlExceptionByKey()
+    {
+        $data = array(
+            'one' => array(
+                100,
+                'two' => 'three',
+            ),
+        );
+        $this->_model->assocToXml($data);
     }
 
     /**

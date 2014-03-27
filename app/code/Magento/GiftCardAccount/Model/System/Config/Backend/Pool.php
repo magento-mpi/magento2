@@ -24,7 +24,7 @@ class Pool extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -34,7 +34,7 @@ class Pool extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\GiftCardAccount\Model\Pool $giftCardAccountPool,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -48,8 +48,8 @@ class Pool extends \Magento\Core\Model\Config\Value
     protected function _beforeSave()
     {
         if ($this->isValueChanged()) {
-            if (!$this->_coreRegistry->registry('giftcardaccount_code_length_check')) {
-                $this->_coreRegistry->register('giftcardaccount_code_length_check', 1);
+            if (!$this->_registry->registry('giftcardaccount_code_length_check')) {
+                $this->_registry->register('giftcardaccount_code_length_check', 1);
                 $this->_checkMaxLength();
             }
         }
@@ -71,7 +71,7 @@ class Pool extends \Magento\Core\Model\Config\Value
      * Check Max Length
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     protected function _checkMaxLength()
     {
@@ -101,7 +101,7 @@ class Pool extends \Magento\Core\Model\Config\Value
         }
 
         if ($len > 255) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __('Maximum generated code length is 255. Please correct your settings.')
             );
         }

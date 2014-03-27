@@ -16,7 +16,7 @@ namespace Magento\Sales\Model\Resource;
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
+abstract class AbstractResource extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Data converter object
@@ -43,10 +43,10 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Prepare data for save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return array
      */
-    protected function _prepareDataForSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _prepareDataForSave(\Magento\Model\AbstractModel $object)
     {
         $currentTime = $this->dateTime->now();
         if ((!$object->getId() || $object->isObjectNew()) && !$object->getCreatedAt()) {
@@ -70,10 +70,10 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         parent::_beforeSave($object);
 
@@ -88,10 +88,10 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Perform actions after object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(\Magento\Model\AbstractModel $object)
     {
         if (true == $this->_shouldBeConverted()) {
             foreach ($object->getData() as $fieldName => $fieldValue) {
@@ -104,10 +104,10 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Perform actions after object load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(\Magento\Model\AbstractModel $object)
     {
         if (true == $this->_shouldBeConverted()) {
             foreach ($object->getData() as $fieldName => $fieldValue) {

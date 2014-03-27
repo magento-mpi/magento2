@@ -41,7 +41,7 @@ class Customer extends \Magento\App\Action\Action
             $code = $data['giftcard_code'];
             try {
                 if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
-                    throw new \Magento\Core\Exception(__("You can't redeem a gift card now."));
+                    throw new \Magento\Model\Exception(__("You can't redeem a gift card now."));
                 }
                 $this->_objectManager->create(
                     'Magento\GiftCardAccount\Model\Giftcardaccount'
@@ -56,7 +56,7 @@ class Customer extends \Magento\App\Action\Action
                         $this->_objectManager->get('Magento\Escaper')->escapeHtml($code)
                     )
                 );
-            } catch (\Magento\Core\Exception $e) {
+            } catch (\Magento\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('We cannot redeem this gift card.'));

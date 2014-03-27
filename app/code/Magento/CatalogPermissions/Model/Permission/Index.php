@@ -36,7 +36,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Resource\Category\Collection as CategoryCollection;
 use Magento\Catalog\Model\Resource\Category\Flat\Collection as FlatCollection;
 use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
-use Magento\Core\Model\AbstractModel;
+use Magento\Model\AbstractModel;
 
 class Index extends AbstractModel
 {

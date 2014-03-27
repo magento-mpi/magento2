@@ -86,7 +86,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Prepare page layout.
      * Set form object to container.
      *
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      * @return $this
      */
     protected function _prepareLayout()
@@ -99,7 +99,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($formBlock) {
             $this->setChild('form', $formBlock);
         } else {
-            throw new \Magento\Core\Exception(__('Please correct the scheduled operation type.'));
+            throw new \Magento\Model\Exception(__('Please correct the scheduled operation type.'));
         }
 
         $this->_updateButton(

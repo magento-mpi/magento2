@@ -15,7 +15,7 @@
  */
 namespace Magento\Wishlist\Model;
 
-class Observer extends \Magento\Core\Model\AbstractModel
+class Observer extends \Magento\Model\AbstractModel
 {
     /**
      * Wishlist data
@@ -52,7 +52,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Session $customerSession
      * @param WishlistFactory $wishlistFactory
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -64,7 +64,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Session $customerSession,
         WishlistFactory $wishlistFactory,
         \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

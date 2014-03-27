@@ -9,7 +9,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-use Magento\Core\Exception;
+use Magento\Model\Exception;
 
 class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {

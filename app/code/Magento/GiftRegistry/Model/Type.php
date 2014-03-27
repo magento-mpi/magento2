@@ -25,7 +25,7 @@ use Magento\Core\Model\Store;
  * @package     Magento_GiftRegistry
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Type extends \Magento\Core\Model\AbstractModel
+class Type extends \Magento\Model\AbstractModel
 {
     /**
      * @var Store
@@ -74,7 +74,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -85,7 +85,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {

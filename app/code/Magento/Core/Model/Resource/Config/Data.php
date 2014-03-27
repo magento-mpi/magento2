@@ -18,7 +18,7 @@ use Magento\Core\Model\Website;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Data extends \Magento\Model\Resource\Db\AbstractDb
 {
     /**
      * Define main table
@@ -33,10 +33,10 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Convert array to comma separated value
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(\Magento\Model\AbstractModel $object)
     {
         if (!$object->getId()) {
             $this->_checkUnique($object);
@@ -52,10 +52,10 @@ class Data extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Validate unique configuration data before save
      * Set id to object if exists configuration instead of throw exception
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Model\AbstractModel $object
      * @return $this
      */
-    protected function _checkUnique(\Magento\Core\Model\AbstractModel $object)
+    protected function _checkUnique(\Magento\Model\AbstractModel $object)
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),

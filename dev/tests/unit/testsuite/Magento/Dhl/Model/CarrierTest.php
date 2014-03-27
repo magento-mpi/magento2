@@ -101,17 +101,18 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
         )->getMock();
 
         $httpClient = $this->getMockBuilder(
-            '\Zend_Http_Client'
+            '\Magento\HTTP\ZendClient'
         )->disableOriginalConstructor()->setMethods(
             array('request')
         )->getMock();
         $httpClient->expects($this->any())->method('request')->will($this->returnValue($this->_httpResponse));
 
         $httpClientFactory = $this->getMockBuilder(
-            '\Zend_Http_ClientFactory'
+            '\Magento\HTTP\ZendClientFactory'
         )->disableOriginalConstructor()->setMethods(
             array('create')
         )->getMock();
+
         $httpClientFactory->expects($this->any())->method('create')->will($this->returnValue($httpClient));
         $modulesDirectory = $this->getMockBuilder(
             '\Magento\Filesystem\Directory\Read'
@@ -192,7 +193,7 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider prepareShippingLabelContentExceptionDataProvider
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Model\Exception
      * @expectedExceptionMessage Unable to retrieve shipping label
      */
     public function testPrepareShippingLabelContentException(\SimpleXMLElement $xml)

@@ -17,11 +17,20 @@ class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
     protected $_helper;
 
     /**
-     * @param \Magento\Backend\Helper\Data $helper
+     * @var \Magento\App\Route\ConfigInterface
      */
-    public function __construct(\Magento\Backend\Helper\Data $helper)
-    {
+    protected $_routeConfig;
+
+    /**
+     * @param \Magento\Backend\Helper\Data $helper
+     * @param \Magento\App\Route\ConfigInterface $routeConfig
+     */
+    public function __construct(
+        \Magento\Backend\Helper\Data $helper,
+        \Magento\App\Route\ConfigInterface $routeConfig
+    ) {
         $this->_helper = $helper;
+        $this->_routeConfig = $routeConfig;
     }
 
     /**
@@ -37,7 +46,7 @@ class NoRouteHandler implements \Magento\App\Router\NoRouteHandlerInterface
 
         if ($areaFrontName == $this->_helper->getAreaFrontName()) {
 
-            $moduleName = 'admin';
+            $moduleName = $this->_routeConfig->getRouteFrontName('adminhtml');
             $controllerName = 'noroute';
             $actionName = 'index';
 

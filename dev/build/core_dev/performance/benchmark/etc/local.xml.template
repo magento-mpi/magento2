@@ -24,7 +24,7 @@
         <dbName>{{db_name}}</dbName>
         <initStatements>{{db_init_statements}}</initStatements>
         <model>{{db_model}}</model>
-        <adapter>Magento\Core\Model\Resource\Type\Db\Pdo\Mysql</adapter>
+        <adapter>Magento\Model\Resource\Type\Db\Pdo\Mysql</adapter>
         <active>1</active>
     </connection>
     <cache>

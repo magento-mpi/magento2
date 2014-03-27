@@ -12,7 +12,7 @@ namespace Magento\Rma\Model;
 /**
  * RMA Shipping Model
  */
-class Shipping extends \Magento\Core\Model\AbstractModel
+class Shipping extends \Magento\Model\AbstractModel
 {
     /**
      * Store address
@@ -188,7 +188,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * Prepare and do return of shipment
      *
      * @return \Magento\Object
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Model\Exception
      */
     public function requestToShipment()
     {
@@ -206,7 +206,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
 
         if (!$shipmentCarrier) {
-            throw new \Magento\Core\Exception(__('Invalid carrier: %1', $carrierCode));
+            throw new \Magento\Model\Exception(__('Invalid carrier: %1', $carrierCode));
         }
         $shipperRegionCode = $this->_regionFactory->create()->load($shipperAddress->getRegionId())->getCode();
         $recipientRegionCode = $recipientAddress->getRegionId();
@@ -222,7 +222,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
             !$recipientAddress->getPostcode() ||
             !$recipientAddress->getCountryId()
         ) {
-            throw new \Magento\Core\Exception(
+            throw new \Magento\Model\Exception(
                 __(
                     'We need more information to create your shipping label(s). Please verify your store information and shipping settings.'
                 )

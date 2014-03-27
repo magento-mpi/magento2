@@ -18,7 +18,7 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paybox;
 
-use Magento\Core\Exception as CoreException;
+use Magento\Model\Exception as CoreException;
 
 class Direct extends \Magento\Pbridge\Model\Payment\Method
 {
