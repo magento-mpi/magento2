@@ -25,9 +25,22 @@ class Import implements PreProcessorInterface
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
+     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver
+     */
+    private $notationResolver;
+
+    /**
      * @var array
      */
     protected $relatedFiles = array();
+
+    /**
+     * @param ModuleNotation\Resolver $notationResolver
+     */
+    public function __construct(ModuleNotation\Resolver $notationResolver)
+    {
+        $this->notationResolver = $notationResolver;
+    }
 
     /**
      * {@inheritdoc}
@@ -81,9 +94,9 @@ class Import implements PreProcessorInterface
     {
         $matchedFileId = $this->fixFileExtension($matchedContent['path']);
         $this->recordRelatedFile($matchedFileId, $asset);
-        $resolvedPath = ModuleNotation::convertModuleNotationToPath($asset, $matchedFileId);
+        $resolvedPath = $this->notationResolver->convertModuleNotationToPath($asset, $matchedFileId);
         $typeString = empty($matchedContent['type']) ? '' : '(' . $matchedContent['type'] . ') ';
-        $mediaString = empty($matchedContent['media']) ? '' : ' ' . $matchedContent['media'];
+        $mediaString = empty($matchedContent['media']) ? '' : ' ' . trim($matchedContent['media']);
         return "@import {$typeString}'{$resolvedPath}'{$mediaString};";
     }
 

@@ -50,6 +50,11 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     protected $path;
 
+    /**
+     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $notationResolver;
+
     protected function setUp()
     {
         $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
@@ -74,6 +79,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->versionGenerator = $this->getMock('Magento\App\View\Deployment\Version\GeneratorInterface');
 
         $this->path = new \Magento\View\Asset\PathGenerator(\Magento\App\State::MODE_PRODUCTION);
+        $this->notationResolver = $this->getMock('Magento\View\Asset\PreProcessor\ModuleNotation\Resolver', null);
     }
 
     protected function tearDown()
@@ -95,6 +101,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->versionStorage,
             $this->versionGenerator,
             $this->path,
+            $this->notationResolver,
             $this->_tmpDir,
             $permitted,
             $forbidden
@@ -139,6 +146,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->versionStorage,
             $this->versionGenerator,
             $this->path,
+            $this->notationResolver,
             $this->_tmpDir,
             $permitted,
             $forbidden
@@ -206,6 +214,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->versionStorage,
             $this->versionGenerator,
             $this->path,
+            $this->notationResolver,
             $this->_tmpDir,
             $permitted,
             $forbidden,
@@ -232,6 +241,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->versionStorage,
             $this->versionGenerator,
             $this->path,
+            $this->notationResolver,
             $this->_tmpDir,
             $permitted,
             $forbidden,
@@ -249,6 +259,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             $this->versionStorage,
             $this->versionGenerator,
             $this->path,
+            $this->notationResolver,
             $this->_tmpDir,
             $permitted
         );

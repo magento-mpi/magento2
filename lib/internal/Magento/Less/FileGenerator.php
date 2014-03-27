@@ -23,6 +23,11 @@ class FileGenerator
     protected $tmpDirectory;
 
     /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $rootDirectory;
+
+    /**
      * @var \Magento\View\Service
      */
     private $viewService;
@@ -50,6 +55,7 @@ class FileGenerator
         \Magento\Less\PreProcessor\Instruction\Import $importProcessor
     ) {
         $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->viewService = $viewService;
         $this->magentoImportProcessor = $magentoImportProcessor;
         $this->importProcessor = $importProcessor;
@@ -99,7 +105,7 @@ class FileGenerator
     {
         $relatedAsset = $asset->createRelative($relatedFileId);
         $resolvedPath = $this->viewService->getSourceFile($relatedAsset); // indirect recursion
-        $contents = file_get_contents($resolvedPath);
+        $contents = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($resolvedPath));
         $this->createFile($relatedAsset->getRelativePath(), $contents);
     }
 

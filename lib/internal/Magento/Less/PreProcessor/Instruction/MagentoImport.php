@@ -42,18 +42,26 @@ class MagentoImport implements PreProcessorInterface
     protected $errorHandler;
 
     /**
+     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver
+     */
+    protected $notationResolver;
+
+    /**
      * @param DesignInterface $design
      * @param CollectorInterface $fileSource
      * @param ErrorHandlerInterface $errorHandler
+     * @param \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver $notationResolver
      */
     public function __construct(
         DesignInterface $design,
         CollectorInterface $fileSource,
-        ErrorHandlerInterface $errorHandler
+        ErrorHandlerInterface $errorHandler,
+        \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver $notationResolver
     ) {
         $this->design = $design;
         $this->fileSource = $fileSource;
         $this->errorHandler = $errorHandler;
+        $this->notationResolver = $notationResolver;
     }
 
     /**
@@ -80,7 +88,7 @@ class MagentoImport implements PreProcessorInterface
         $importsContent = '';
         try {
             $matchedFileId = $matchedContent['path'];
-            $resolvedPath = ModuleNotation::convertModuleNotationToPath($asset, $matchedFileId);
+            $resolvedPath = $this->notationResolver->convertModuleNotationToPath($asset, $matchedFileId);
             $importFiles = $this->fileSource->getFiles($this->design->getDesignTheme(), $resolvedPath);
             /** @var $importFile \Magento\View\File */
             foreach ($importFiles as $importFile) {

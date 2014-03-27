@@ -66,12 +66,18 @@ class ThemeDeployment
     private $_path;
 
     /**
+     * @var \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver
+     */
+    private $_notationResolver;
+
+    /**
      * Constructor
      *
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\App\View\Deployment\Version\StorageInterface $versionStorage
      * @param \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator
      * @param \Magento\View\Asset\PathGenerator $path
+     * @param \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver $notationResolver
      * @param string $destinationHomeDir
      * @param string $configPermitted
      * @param string|null $configForbidden
@@ -83,6 +89,7 @@ class ThemeDeployment
         \Magento\App\View\Deployment\Version\StorageInterface $versionStorage,
         \Magento\App\View\Deployment\Version\GeneratorInterface $versionGenerator,
         \Magento\View\Asset\PathGenerator $path,
+        \Magento\View\Asset\PreProcessor\ModuleNotation\Resolver $notationResolver,
         $destinationHomeDir,
         $configPermitted,
         $configForbidden = null,
@@ -94,6 +101,7 @@ class ThemeDeployment
         $this->_destinationHomeDir = $destinationHomeDir;
         $this->_isDryRun = $isDryRun;
         $this->_path = $path;
+        $this->_notationResolver = $notationResolver;
         $this->_permitted = $this->_loadConfig($configPermitted);
         if ($configForbidden) {
             $this->_forbidden = $this->_loadConfig($configForbidden);
@@ -223,7 +231,7 @@ class ThemeDeployment
                 $context['destinationContext']['themePath']
             );
             $callback = function ($path) use ($thisAsset) {
-                return \Magento\View\Asset\PreProcessor\ModuleNotation::convertModuleNotationToPath($thisAsset, $path);
+                return $this->_notationResolver->convertModuleNotationToPath($thisAsset, $path);
             };
             // Replace relative urls and write the modified content (if not dry run)
             $content = file_get_contents($fileSource);
